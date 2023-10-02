@@ -6,13 +6,22 @@ hero:
   name: "常識經濟學"
   text: "Econ-Sense.com"
   tagline: 無痛無腦理財、腳踏實地賺錢
-  # actions:
-  #   - theme: brand
-  #     text: Markdown Examples
-  #     link: /markdown-examples
-  #   - theme: alt
-  #     text: API Examples
-  #     link: /api-examples
+  actions:
+    - theme: brand
+      text: 經典課程
+      link: /markdown-examples
+    - theme: brand
+      text: 好書推薦
+      link: /finance
+    # - theme: sponsor
+    #   text: 好書推薦
+    #   link: /api-examples
+    # - theme: big
+    #   text: 好書推薦
+    #   link: /api-examples
+    # - theme: medium
+    #   text: 好書推薦
+    #   link: /api-examples
 
 features:
   - title: JS工程師

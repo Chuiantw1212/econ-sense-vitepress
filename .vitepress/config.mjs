@@ -5,18 +5,36 @@ export default defineConfig({
   title: "常識經濟學",
   description: "A VitePress Site",
   themeConfig: {
+    logo: '/常-透明.svg',
     // https://vitepress.dev/reference/default-theme-config
-    nav: [
-      { text: '首頁', link: '/' },
-      { text: '好書推薦', link: '/books' }
-    ],
+    // nav: [
+    //   { text: '首頁', link: '/' },
+    //   { text: '好書推薦', link: '/books' }
+    // ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: '經典課程',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: '理財框架', link: '/framework' },
+          { text: '勞工退休規劃', link: '/retirement' },
+          { text: '投資進階班', link: '/investment' }
+        ]
+      },
+      {
+        text: '好書推薦',
+        items: [
+          { text: '金融理財', link: '/finance' },
+          { text: '創業', link: '/startup' },
+          { text: '房地產', link: '/estate' },
+        ]
+      },
+      {
+        text: '關於',
+        items: [
+          {
+            text: '朱老師', link: '/about'
+          }
         ]
       }
     ],
