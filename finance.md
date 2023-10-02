@@ -6,7 +6,7 @@ outline: deep
 
 ## 小學生也可看
 
-![An image](./babylonComic.jpg)
+![An image](./public/finance/babylon.png)
 
 巴比倫致富聖經：用10%薪水，賺到100%的人生【經典新譯．漫畫版】
 
@@ -14,7 +14,7 @@ outline: deep
 
 ## 價值觀精煉
 
-![An image](./finance/lessons_efficiency.jpg)
+![An image](./public/finance/lessons_efficiency.jpg)
 
 一生幸福的人生企畫書：從事業、財富、家庭、心靈到退休，8個面向，理性效率規畫你的一輩子
 
@@ -22,7 +22,7 @@ outline: deep
 
 ## 保險，這本就夠
 
-![An image](./lessons_insurance.jpg)
+![An image](./public/lessons_insurance.jpg)
 
 巴比倫致富聖經：用10%薪水，賺到100%的人生【經典新譯．漫畫版】
 
@@ -30,7 +30,7 @@ outline: deep
 
 ## 退休安老無死角
 
-![An image](./retirement.jpg)
+![An image](./public/retirement.jpg)
 
 當爸媽過了65歲：你一定要知道的醫療、長照、財務、法律知識
 
@@ -38,7 +38,7 @@ outline: deep
 
 ## 理財習慣養成
 
-![An image](./finance/daily.jpg)
+![An image](./public/finance/daily.jpg)
 
 行動支付時代的金錢整理術
 
@@ -46,7 +46,7 @@ outline: deep
 
 ## 加入ETF神教
 
-![An image](./finance/lessons_greenhorn.jpg)
+![An image](./public/finance/lessons_greenhorn.jpg)
 
 綠角的基金8堂課（2016補課增修版）
 

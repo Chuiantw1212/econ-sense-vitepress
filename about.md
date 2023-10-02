@@ -4,7 +4,7 @@ outline: deep
 
 # 朱老師
 ## 職涯里程碑
-![Job Pair](./about/img1.webp)
+![Job Pair](./public/about/img1.webp)
 
 [Job Pair 求職媒合平台](https://[www.taaze.tw/apredir.html?154858690/https://www.taaze.tw/usedList.html?oid=11100939211](https://job-pair.com/))
 
@@ -16,10 +16,10 @@ outline: deep
 
 ## 金融證照
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="./certificate/AFPI2300016_U121652155-1.png">
-    <img style="width:50%" src="./certificate/081510_1.jpg">
-    <img style="width:50%" src="./certificate/161340_1.jpg">
-    <img style="width:50%" src="./certificate/201447_1.jpg">
-    <img style="width:50%" src="./certificate/232309_1.jpg">
-    <img style="width:50%" src="./certificate/311350_1.jpg">
+    <img style="width:100%" src="./public/certificate/AFPI2300016_U121652155-1.png">
+    <img style="width:50%" src="./public/certificate/081510_1.jpg">
+    <img style="width:50%" src="./public/certificate/161340_1.jpg">
+    <img style="width:50%" src="./public/certificate/201447_1.jpg">
+    <img style="width:50%" src="./public/certificate/232309_1.jpg">
+    <img style="width:50%" src="./public/certificate/311350_1.jpg">
 </div>
