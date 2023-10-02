@@ -1,0 +1,26 @@
+{
+  "name": "econ-sense-vite-press",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chuiantw1212/econ-sense-vite-press.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chuiantw1212/econ-sense-vite-press/issues"
+  },
+  "homepage": "https://github.com/Chuiantw1212/econ-sense-vite-press#readme",
+  "devDependencies": {
+    "vitepress": "^1.0.0-rc.20"
+  }
+}
