@@ -5,7 +5,7 @@ export default defineConfig({
   title: "常識經濟學",
   description: "A VitePress Site",
   themeConfig: {
-    logo: '/常-透明.svg',
+    logo: '/logo/常-透明.svg',
     // https://vitepress.dev/reference/default-theme-config
     // nav: [
     //   { text: '首頁', link: '/' },
