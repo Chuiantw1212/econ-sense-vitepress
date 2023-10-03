@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "常識經濟學",
   description: "A VitePress Site",
+  head: [['link', { rel: 'icon', href: '/logo/常-透明.png' }]],
   themeConfig: {
     logo: '/logo/常-透明.svg',
     // https://vitepress.dev/reference/default-theme-config
