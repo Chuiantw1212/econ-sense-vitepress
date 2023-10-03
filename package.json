@@ -8,7 +8,9 @@
     "docs:dev": "vitepress dev",
     "dev": "vitepress dev",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "build": "vitepress build",
+    "docs:preview": "vitepress preview",
+    "deploy": "firebase deploy"
   },
   "repository": {
     "type": "git",
