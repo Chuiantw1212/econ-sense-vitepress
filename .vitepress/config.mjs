@@ -3,10 +3,10 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "常識經濟學",
-  description: "A VitePress Site",
-  head: [['link', { rel: 'icon', href: '/logo/常-透明.png' }]],
+  description: "econ-sense.com",
+  head: [['link', { rel: 'icon', href: '/logo/white-transparent.png' }]],
   themeConfig: {
-    logo: '/logo/常-透明.svg',
+    logo: '/logo/white-transparent.png',
     // https://vitepress.dev/reference/default-theme-config
     // nav: [
     //   { text: '首頁', link: '/' },

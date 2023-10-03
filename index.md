@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "常識經濟學"
-  text: "Econ-Sense.com"
+  text: "econ-sense.com"
   tagline: 無痛無腦理財、腳踏實地賺錢
   actions:
     - theme: brand

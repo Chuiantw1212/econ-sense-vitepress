@@ -10,7 +10,7 @@
     "docs:build": "vitepress build",
     "build": "vitepress build",
     "docs:preview": "vitepress preview",
-    "deploy": "firebase deploy"
+    "deploy": "vitepress build&&firebase deploy"
   },
   "repository": {
     "type": "git",
