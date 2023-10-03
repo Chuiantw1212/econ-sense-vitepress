@@ -41,7 +41,9 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/Chuiantw1212' },
+      { icon: 'instagram', link: 'https://www.instagram.com/econ.sense' },
+      // { icon: 'facebook', link: 'https://www.facebook.com/econ.sense.tw' },
     ]
   }
 })
