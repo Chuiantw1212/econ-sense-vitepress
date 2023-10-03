@@ -17,6 +17,7 @@ export default defineConfig({
       {
         text: '經典課程',
         items: [
+          { text: '全部回饋', link: '/feedback' },
           { text: '理財框架', link: '/framework' },
           { text: '勞工退休規劃', link: '/retirement' },
           { text: '投資進階班', link: '/investment' }

@@ -22,7 +22,7 @@ outline: deep
 
 ## 保險，這本就夠
 
-![An image](/lessons_insurance.jpg)
+![An image](/finance/lessons_insurance.jpg)
 
 巴比倫致富聖經：用10%薪水，賺到100%的人生【經典新譯．漫畫版】
 
@@ -30,7 +30,7 @@ outline: deep
 
 ## 退休安老無死角
 
-![An image](/retirement.jpg)
+![An image](/finance/retirement.jpg)
 
 當爸媽過了65歲：你一定要知道的醫療、長照、財務、法律知識
 

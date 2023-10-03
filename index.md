@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: 經典課程
-      link: /framework
+      link: /feedback
     - theme: brand
       text: 好書推薦
       link: /finance
