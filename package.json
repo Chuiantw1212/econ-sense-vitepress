@@ -10,7 +10,7 @@
     "docs:build": "vitepress build",
     "build": "vitepress build",
     "docs:preview": "vitepress preview",
-    "deploy": "vitepress build&&firebase deploy"
+    "deploy": "firebase login:use chuiantw1212@gmail.com&&firebase deploy"
   },
   "repository": {
     "type": "git",
