@@ -13,15 +13,9 @@ hero:
     - theme: brand
       text: 好書推薦
       link: /finance
-    # - theme: sponsor
-    #   text: 好書推薦
-    #   link: /api-examples
-    # - theme: big
-    #   text: 好書推薦
-    #   link: /api-examples
-    # - theme: medium
-    #   text: 好書推薦
-    #   link: /api-examples
+    - theme: brand
+      text: 友站連結
+      link: /affiliate
 
 features:
   - title: JS工程師
@@ -30,7 +24,5 @@ features:
     details: Job Pair共同創辦人/CTO<br>前後端開發<br>還有其他
   - title: 金融
     details: AFP理財規劃顧問<br>學校學不到的事-理財講師<br>累積講座人次破千
-  - title: 房地產
-    details: 準備買人生的第一套投資房
 ---
 

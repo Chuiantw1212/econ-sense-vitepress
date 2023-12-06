@@ -4,11 +4,11 @@ outline: deep
 
 # 朱老師
 
-## 職涯里程碑
+## JS全端開發 - Job Pair 人力銀行
 
-![Job Pair](/about/Top1.webp)
-
-[Job Pair 求職媒合平台](https://[www.taaze.tw/apredir.html?154858690/https://www.taaze.tw/usedList.html?oid=11100939211](https://job-pair.com/))
+<a href="https://job-pair.com" target="_blank">
+    <img src="/about/Top1.webp">
+</a>
 
 使用技術
 

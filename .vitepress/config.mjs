@@ -32,12 +32,12 @@ export default defineConfig({
         ]
       },
       {
+        text: '友站連結',
+        link: '/affiliate'
+      },
+      {
         text: '關於',
-        items: [
-          {
-            text: '朱老師', link: '/about'
-          }
-        ]
+        link: '/about'
       }
     ],
 
