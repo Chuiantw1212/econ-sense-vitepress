@@ -8,14 +8,11 @@ hero:
   tagline: 無痛無腦理財、腳踏實地賺錢
   actions:
     - theme: brand
-      text: 經典課程
+      text: 金融理財
       link: /feedback
     - theme: brand
-      text: 好書推薦
-      link: /finance
-    - theme: brand
-      text: 友站連結
-      link: /affiliate
+      text: 軟體專案
+      link: /software
 
 features:
   - title: JS工程師

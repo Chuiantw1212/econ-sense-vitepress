@@ -15,12 +15,18 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: '經典課程',
+        text: '無痛無腦理財',
         items: [
           { text: '全部回饋', link: '/feedback' },
           { text: '理財框架', link: '/framework' },
           { text: '勞工退休規劃', link: '/retirement' },
           { text: '投資進階班', link: '/investment' }
+        ]
+      },
+      {
+        text: '腳踏實地賺錢',
+        items: [
+          { text: '軟體專案理想與實務', link: '/software' },
         ]
       },
       {
