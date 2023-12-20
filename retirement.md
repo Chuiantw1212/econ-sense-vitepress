@@ -105,7 +105,7 @@ webkitallowfullscreen="true"></iframe>
         </tr>
         <tr>
             <th>
-                <a href="https://www.facebook.com/help/991335594313139?helpref=hc_fnav" target="_blank">
+                <a href="https://www.facebook.com/help/99133559431313?helpref=hc_fnav" target="_blank">
                    Facebook紀念帳號設定
                 </a>
             </th>
