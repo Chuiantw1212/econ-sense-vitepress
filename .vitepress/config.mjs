@@ -24,6 +24,14 @@ export default defineConfig({
     outline: {
       label: '大綱'
     },
+    search: {
+      provider: 'local'
+    },
+    lastUpdated: true,
+    // footer: {
+    //   message: 'Released under the MIT License.',
+    //   copyright: 'Copyright © 2019-present Evan You'
+    // },
     logo: '/logo/white-transparent.png',
     // https://vitepress.dev/reference/default-theme-config
     // nav: [
@@ -91,7 +99,7 @@ export default defineConfig({
      </svg>` }
       },
       { icon: 'instagram', link: 'https://www.instagram.com/econ.sense' },
-      { icon: 'github', link: 'https://github.com/Chuiantw1212' },
+      { icon: 'github', link: 'https://github.com/Chuiantw1212/econ-sense-vite-press' },
     ]
   },
   sitemap: {

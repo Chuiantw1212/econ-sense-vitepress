@@ -19,6 +19,8 @@ outline: deep
 3. 雲服務：GCP、Firebase
 4. 其他：Google Workspace、綠界金流、演算法
 
+<VPTeamMembers size="small" :members="members" />
+
 ## 金融證照
 
 <div style="display:flex;flex-wrap:wrap;">
@@ -31,13 +33,42 @@ outline: deep
 </div>
 
 ## 專案管理
+
 <div style="display:flex;flex-wrap:wrap;">
     <img style="width:100%" src="/certificate/pmp.jpg">
 </div>
-
 
 ## 其他證書
 
 <div style="display:flex;flex-wrap:wrap;">
     <img style="width:100%" src="/certificate/Certificate.jpg">
 </div>
+
+<script setup>
+import { VPTeamMembers } from 'vitepress/theme'
+
+const members = [
+  {
+    avatar: `/about/sandy.jpg`,
+    name: 'Sandy',
+    title: 'CEO',
+    links: [
+      { icon: 'facebook', link: 'https://www.facebook.com/sandyylchiu/' },
+    ]
+  },
+  {
+    avatar: `/about/chu.jpg`,
+    name: '朱奕安',
+    title: '全端工程師',
+    links: [
+      { icon: 'facebook', link: 'https://www.facebook.com/profile.php?id=100069740545113' },
+        { icon: 'github', link: 'https://github.com/Chuiantw1212' },
+    ]
+  },
+  {
+    avatar: `/about/jun.png`,
+    name: '陸盈君',
+    title: 'UIUX Designer',
+  },
+]
+</script>
