@@ -1,0 +1,4 @@
+User-agent: *
+Allow: *
+
+Sitemap: https://econ-sense.com/sitemap.xml

@@ -28,6 +28,7 @@
     "vitepress": "^1.0.0-rc.20"
   },
   "dependencies": {
+    "@vercel/og": "^0.6.1",
     "firebase": "^10.7.1"
   }
 }
