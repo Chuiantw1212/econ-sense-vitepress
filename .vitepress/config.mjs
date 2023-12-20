@@ -20,28 +20,63 @@ export default defineConfig({
       gtag('config', 'G-19NFT8GVCZ');`
     ]
   ],
+  lang: 'zh',
   themeConfig: {
+    lastUpdated: {
+      text: '上次更新',
+      formatOptions: {
+        forceLocale: true,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      }
+    },
+    darkModeSwitchLabel: '深色模式',
+    sidebarMenuLabel: '網站選單',
     outline: {
-      label: '大綱'
+      label: '頁面大綱'
     },
     search: {
-      provider: 'local'
+      provider: 'local',
+      options: {
+        translations: {
+          button: {
+            buttonText: '搜尋',
+          },
+          modal: {
+            displayDetails: 'Display detailed list',
+            resetButtonTitle: 'Reset search',
+            backButtonTitle: 'Close search',
+            noResultsText: 'No results for',
+            footer: {
+              selectText: '選取',
+              selectKeyAriaLabel: 'enter',
+              navigateText: '切換',
+              navigateUpKeyAriaLabel: 'up arrow',
+              navigateDownKeyAriaLabel: 'down arrow',
+              closeText: '關閉',
+              closeKeyAriaLabel: 'escape'
+            }
+          }
+        },
+      }
     },
-    lastUpdated: true,
     // footer: {
     //   message: 'Released under the MIT License.',
     //   copyright: 'Copyright © 2019-present Evan You'
     // },
     logo: '/logo/white-transparent.png',
     // https://vitepress.dev/reference/default-theme-config
-    // nav: [
-    //   { text: '首頁', link: '/' },
-    //   { text: '好書推薦', link: '/books' }
-    // ],
-
+    nav: [
+      { text: '金融理財', link: '/finance/events' },
+      { text: '職涯發展', link: '/job/software' }
+    ],
     sidebar: [
       {
-        text: '無痛無腦理財',
+        text: '金融理財',
         link: '/finance/events',
         items: [
           { text: '理財框架', link: '/finance/framework' },
@@ -50,7 +85,8 @@ export default defineConfig({
         ]
       },
       {
-        text: '腳踏實地賺錢',
+        text: '職涯發展',
+        link: '/job/events',
         items: [
           { text: '軟體專案理想與實務', link: '/job/software' },
         ]
@@ -72,6 +108,28 @@ export default defineConfig({
         link: '/about'
       }
     ],
+    // sidebar: {
+    //   // '/finance/': [
+    //   //   {
+    //   //     text: '金融理財',
+    //   //     link: '/finance/events',
+    //   //     items: [
+    //   //       { text: '理財框架', link: '/finance/framework' },
+    //   //       { text: '勞工退休規劃', link: '/finance/retirement' },
+    //   //       { text: '投資進階班', link: '/finance/investment' }
+    //   //     ]
+    //   //   },
+    //   // ],
+    //   // '/job/': [
+    //   //   {
+    //   //     text: '職涯發展',
+    //   //     link: '/job/events',
+    //   //     items: [
+    //   //       { text: '軟體專案理想與實務', link: '/job/software' },
+    //   //     ]
+    //   //   }
+    //   // ]
+    // },
 
     socialLinks: [
       {

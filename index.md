@@ -14,7 +14,7 @@ hero:
       text: 金融理財
       link: /finance/events
     - theme: brand
-      text: 軟體專案
+      text: 職涯發展
       link: /job/software
     - theme: alt
       text: 網站源碼
