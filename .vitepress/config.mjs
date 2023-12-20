@@ -31,25 +31,25 @@ export default defineConfig({
     sidebar: [
       {
         text: '無痛無腦理財',
+        link: '/finance/events',
         items: [
-          { text: '全部回饋', link: '/feedback' },
-          { text: '理財框架', link: '/framework' },
-          { text: '勞工退休規劃', link: '/retirement' },
-          { text: '投資進階班', link: '/investment' }
+          { text: '理財框架', link: '/finance/framework' },
+          { text: '勞工退休規劃', link: '/finance/retirement' },
+          { text: '投資進階班', link: '/finance/investment' }
         ]
       },
       {
         text: '腳踏實地賺錢',
         items: [
-          { text: '軟體專案理想與實務', link: '/software' },
+          { text: '軟體專案理想與實務', link: '/job/software' },
         ]
       },
       {
         text: '好書推薦',
         items: [
-          { text: '金融理財', link: '/finance' },
-          { text: '創業', link: '/startup' },
-          { text: '房地產', link: '/estate' },
+          { text: '金融理財', link: '/books/finance' },
+          { text: '創業', link: '/books/startup' },
+          { text: '房地產', link: '/books/estate' },
         ]
       },
       {

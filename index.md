@@ -8,18 +8,23 @@ hero:
   text: "econ-sense.com"
   tagline: 無痛無腦理財、腳踏實地賺錢
   actions:
-    - theme: brand
+    # alt  
+    # sponsor
+    - theme: brand 
       text: 金融理財
-      link: /feedback
+      link: /finance/events
     - theme: brand
       text: 軟體專案
-      link: /software
+      link: /job/software
+    - theme: alt
+      text: 網站源碼
+      link: https://github.com/Chuiantw1212/econ-sense-vite-press
 
 features:
-  - title: JS工程師
+  - title: 工程師
     details: 2017進入職場，精通Vue<br>Javascript統一前後端<br>積極的社群貢獻者
-  - title: 創業
-    details: Job Pair共同創辦人/CTO<br>前後端開發<br>還有其他
-  - title: 金融
-    details: AFP理財規劃顧問<br>學校學不到的事-理財講師<br>累積講座人次破千
+  - title: 創業菜鳥
+    details: Job Pair共同創辦人<br>Javascript全端開發<br>還有其他
+  - title: 斜槓講師
+    details: AFP理財規劃顧問<br>學校學不到的事-理財講師<br>累積講座人次破千/NPS60+
 ---
