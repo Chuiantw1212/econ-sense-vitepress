@@ -6,7 +6,6 @@ outline: deep
 
 ## 投影片
 
-<hr>
 <iframe
 src="https://docs.google.com/presentation/d/e/2PACX-1vR3dFAEAcS7-utuE-RIRKm-nz5kUWdM4VJc2njEos01vLX4kqCXrXWMqoLTaBfzqXLoUG3ov5cfdrcA/embed?start=false&loop=false&delayms=3000"
 width="100%" height="569" allowfullscreen="true" mozallowfullscreen="true"
