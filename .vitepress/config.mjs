@@ -21,6 +21,9 @@ export default defineConfig({
     ]
   ],
   themeConfig: {
+    outline: {
+      label: '大綱'
+    },
     logo: '/logo/white-transparent.png',
     // https://vitepress.dev/reference/default-theme-config
     // nav: [
