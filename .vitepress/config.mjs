@@ -20,55 +20,7 @@ export default defineConfig({
       gtag('config', 'G-19NFT8GVCZ');`
     ]
   ],
-  lang: 'zh',
   themeConfig: {
-    lastUpdated: {
-      text: '上次更新',
-      formatOptions: {
-        forceLocale: true,
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      }
-    },
-    darkModeSwitchLabel: '深色模式',
-    sidebarMenuLabel: '網站選單',
-    outline: {
-      label: '頁面大綱'
-    },
-    search: {
-      provider: 'local',
-      options: {
-        translations: {
-          button: {
-            buttonText: '搜尋',
-          },
-          modal: {
-            displayDetails: 'Display detailed list',
-            resetButtonTitle: 'Reset search',
-            backButtonTitle: 'Close search',
-            noResultsText: 'No results for',
-            footer: {
-              selectText: '選取',
-              selectKeyAriaLabel: 'enter',
-              navigateText: '切換',
-              navigateUpKeyAriaLabel: 'up arrow',
-              navigateDownKeyAriaLabel: 'down arrow',
-              closeText: '關閉',
-              closeKeyAriaLabel: 'escape'
-            }
-          }
-        },
-      }
-    },
-    // footer: {
-    //   message: 'Released under the MIT License.',
-    //   copyright: 'Copyright © 2019-present Evan You'
-    // },
-    logo: '/logo/white-transparent.png',
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '金融理財', link: '/finance/events' },
@@ -108,29 +60,6 @@ export default defineConfig({
         link: '/about'
       }
     ],
-    // sidebar: {
-    //   // '/finance/': [
-    //   //   {
-    //   //     text: '金融理財',
-    //   //     link: '/finance/events',
-    //   //     items: [
-    //   //       { text: '理財框架', link: '/finance/framework' },
-    //   //       { text: '勞工退休規劃', link: '/finance/retirement' },
-    //   //       { text: '投資進階班', link: '/finance/investment' }
-    //   //     ]
-    //   //   },
-    //   // ],
-    //   // '/job/': [
-    //   //   {
-    //   //     text: '職涯發展',
-    //   //     link: '/job/events',
-    //   //     items: [
-    //   //       { text: '軟體專案理想與實務', link: '/job/software' },
-    //   //     ]
-    //   //   }
-    //   // ]
-    // },
-
     socialLinks: [
       {
         link: 'https://line.me/ti/g2/w2xjp79QxMO76vVw_aQuEqeH2ahdcn7uY7lQAg', icon: {
@@ -158,8 +87,58 @@ export default defineConfig({
       },
       { icon: 'instagram', link: 'https://www.instagram.com/econ.sense' },
       { icon: 'github', link: 'https://github.com/Chuiantw1212/econ-sense-vite-press' },
-    ]
+    ],
+    // i18n
+    lastUpdated: {
+      text: '上次更新',
+      formatOptions: {
+        forceLocale: true,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      }
+    },
+    darkModeSwitchLabel: '深色模式',
+    sidebarMenuLabel: '網站選單',
+    returnToTopLabel: '回到頂端',
+    outline: {
+      label: '頁面大綱'
+    },
+    search: {
+      provider: 'local',
+      options: {
+        translations: {
+          button: {
+            buttonText: '搜尋',
+          },
+          modal: {
+            displayDetails: 'Display detailed list',
+            resetButtonTitle: 'Reset search',
+            backButtonTitle: 'Close search',
+            noResultsText: 'No results for',
+            footer: {
+              selectText: '選取',
+              selectKeyAriaLabel: 'enter',
+              navigateText: '切換',
+              navigateUpKeyAriaLabel: 'up arrow',
+              navigateDownKeyAriaLabel: 'down arrow',
+              closeText: '關閉',
+              closeKeyAriaLabel: 'escape'
+            }
+          }
+        },
+      }
+    },
+    // footer: {
+    //   message: 'Released under the MIT License.',
+    //   copyright: 'Copyright © 2019-present Evan You'
+    // },
+    logo: '/logo/white-transparent.png',
   },
+  lang: 'zh',
   sitemap: {
     hostname: 'https://econ-sense.com'
   }
