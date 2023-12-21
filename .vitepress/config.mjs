@@ -44,14 +44,6 @@ export default defineConfig({
         ]
       },
       {
-        text: '好書推薦',
-        items: [
-          { text: '金融理財', link: '/books/finance' },
-          { text: '創業', link: '/books/startup' },
-          { text: '房地產', link: '/books/estate' },
-        ]
-      },
-      {
         text: '友站連結',
         link: '/affiliate'
       },
