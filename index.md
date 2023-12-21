@@ -21,10 +21,12 @@ hero:
       link: https://github.com/Chuiantw1212/econ-sense-vite-press
 
 features:
-  - title: 工程師
-    details: 2017進入職場，精通Vue<br>Javascript統一前後端<br>積極的社群貢獻者
-  - title: 創業菜鳥
-    details: Job Pair共同創辦人<br>Javascript全端開發<br>還有其他
-  - title: 斜槓講師
-    details: AFP理財規劃顧問<br>學校學不到的事-理財講師<br>累積講座人次破千/NPS60+
+  - title: 本業為主
+    details: 省心省力、免於看盤，找回失去的時間精力用來投資自己、陪伴家人。
+  - title: 投資為輔
+    details: 買進忘記，主打ETF、被動收入、自動化理財，能無腦就無腦。
+  - title: 免於匱乏
+    details: 不只關注錢，心理、法務、醫療，培養更全面的長線思維。
+  - title: 實用至上
+    details: 流程、表格、SOP，即使聽不懂，照著做也會有成效。
 ---
