@@ -128,3 +128,24 @@ webkitallowfullscreen="true"></iframe>
         </tr>
     </tbody>
 </table>
+
+## 延伸閱讀
+
+<Books :modelValue="bookGroup"></Books>
+
+<script setup>
+
+import Books from '../components/books.vue'
+const bookGroup = [
+    {
+        id: '11100764608',
+        name: '當爸媽過了65歲：你一定要知道的醫療、長照、財務、法律知識',
+        desc: `<p>一本寫給上班族的知老實用手冊</p>
+<p>照顧父母，也為未來的自己做準備</p>
+<p>關於「老」，我們知道的太少，準備的也太少。</p>
+<p>不管是父母的，或是你自己的。</p>
+<p>面對「老之將至」，你要倉皇的摸索，還是優雅的預習？</p>
+`,
+    },
+]
+</script>

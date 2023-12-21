@@ -106,7 +106,7 @@ function getImageLink(item) {
         }
 
         .book__link {
-            flex-basis: 25%;
+            flex-basis: 20%;
 
             .link__image {
                 // width: 140px;
@@ -122,7 +122,7 @@ function getImageLink(item) {
         }
 
         .book__textGroup {
-            flex-basis: 75%;
+            flex-basis: 80%;
             // max-width: 480px;
         }
     }
