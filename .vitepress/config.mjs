@@ -5,7 +5,7 @@ export default defineConfig({
   title: "常識經濟學",
   description: "常識經濟學為您帶來無痛無腦的理財智慧，讓您輕鬆踏入金融世界。我們致力於降低理財與投資的門檻，提供易懂且實用的金融知識，包括投資技巧、退休規劃策略、ETF入門等內容。無論您是初學者或有一定金融基礎，常識經濟學都是您提升財務素養的理想平台。立即探索我們的內容，開啟您的腳踏實地賺錢之旅！",
   head: [
-    ['link', { rel: 'icon', href: '/logo/white-transparent.png' }],
+    ['link', { rel: 'icon', href: '/logo/常-白底.png' }],
     [
       'script',
       { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-19NFT8GVCZ' }
@@ -128,7 +128,7 @@ export default defineConfig({
     //   message: 'Released under the MIT License.',
     //   copyright: 'Copyright © 2019-present Evan You'
     // },
-    logo: '/logo/white-transparent.png',
+    logo: '/logo/常-白底.png',
   },
   lang: 'zh',
   sitemap: {
