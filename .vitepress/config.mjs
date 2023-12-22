@@ -93,6 +93,10 @@ export default defineConfig({
         second: "numeric",
       }
     },
+    docFooter: {
+      prev: '上一頁',
+      next: '下一頁',
+    },
     darkModeSwitchLabel: '深色模式',
     sidebarMenuLabel: '網站選單',
     returnToTopLabel: '回到頂端',
