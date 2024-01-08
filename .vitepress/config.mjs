@@ -33,7 +33,9 @@ export default defineConfig({
         items: [
           { text: '理財框架', link: '/finance/framework' },
           { text: '勞工退休規劃', link: '/finance/retirement' },
-          { text: '投資進階班', link: '/finance/investment' }
+          { text: '投資進階班', link: '/finance/investment' },
+          { text: '匱乏心理學', link: '/finance/scarcity' },
+          { text: '斷捨離', link: '/finance/danshari' },
         ]
       },
       {
@@ -41,6 +43,7 @@ export default defineConfig({
         link: '/job/events',
         items: [
           { text: '軟體專案理想與實務', link: '/job/software' },
+          { text: '國中生的職涯課', link: '/job/education' },
         ]
       },
       {
