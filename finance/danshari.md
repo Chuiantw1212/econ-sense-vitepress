@@ -24,13 +24,13 @@ outline: deep
             </th>
             <th>賣二手書首選</th>
         </tr>
-        <tr>
+        <!-- <tr>
             <th>
                 <a href="https://www.sunshine.org.tw/join_us/book/about/15" target="_blank">
                    陽光社會福利基金會
                 </a>
             </th>
             <th>如果讀冊生活滿了的備案，也請務必注意書況。</th>
-        </tr>
+        </tr> -->
     </tbody>
 </table>
