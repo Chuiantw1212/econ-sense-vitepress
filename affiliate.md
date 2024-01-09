@@ -97,6 +97,9 @@ const socialSchoolMembers = [
     org: '學校學不到的事',
     orgLink: 'https://www.facebook.com/groups/304681766894402',
     links: [
+      {
+        icon: { svg: lineSvg }, link: "https://reurl.cc/V4qLjn",
+      },
       { icon: 'facebook', link: 'https://www.facebook.com/profile.php?id=100000116381657' },
     ]
   },
@@ -106,8 +109,8 @@ const socialSchoolMembers = [
     title: '健身教練.講師',
     desc:'用聽的懂健康,用大腦練肌肉!',
     links: [
-      { icon: 'facebook', link: 'https://www.facebook.com/SC.SportConsultant' },
       { icon: { svg: lineSvg }, link: 'https://reurl.cc/L6kyVx'},
+      { icon: 'facebook', link: 'https://www.facebook.com/SC.SportConsultant' },
     ]
   },
    {
