@@ -23,13 +23,13 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: '金融理財', link: '/finance/events' },
-      { text: '職涯發展', link: '/job/software' }
+      { text: '金融理財', link: '/finance/outline' },
+      { text: '職涯發展', link: '/job/outline' }
     ],
     sidebar: [
       {
         text: '金融理財',
-        link: '/finance/events',
+        link: '/finance/outline',
         items: [
           { text: '理財框架', link: '/finance/framework' },
           { text: '勞工退休規劃', link: '/finance/retirement' },
@@ -40,7 +40,7 @@ export default defineConfig({
       },
       {
         text: '職涯發展',
-        link: '/job/events',
+        link: '/job/outline',
         items: [
           { text: '軟體專案理想與實務', link: '/job/software' },
           { text: '國中生的職涯課', link: '/job/education' },

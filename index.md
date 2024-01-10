@@ -12,7 +12,7 @@ hero:
     # sponsor
     - theme: brand 
       text: 金融理財
-      link: /finance/events
+      link: /finance/outline
     - theme: brand
       text: 職涯發展
       link: /job/software
