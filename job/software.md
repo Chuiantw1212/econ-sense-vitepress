@@ -8,7 +8,7 @@ outline: deep
 ## 投影片
 <iframe
  src="https://docs.google.com/presentation/d/e/2PACX-1vSqT9z3iCbJo3qiO4UcEnwaLhrTXh49Ea4odLtx9hqwK_upOO3kvFvwM0_l6nLf-2pKFqkXMpFxcM9y/embed?start=false&loop=false&delayms=3000"
-width="100%" height="569" allowfullscreen="true" mozallowfullscreen="true"
+width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
 webkitallowfullscreen="true"></iframe>
 
 ## 外部資源

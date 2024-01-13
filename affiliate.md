@@ -72,7 +72,7 @@ const jobPairMembers = [
     ]
   },
   {
-    avatar: `/affiliate/chu.png`,
+    avatar: `/affiliate/1700901417115.jpg`,
     name: '朱奕安',
     title: '全端工程師',
     desc: '我禿了，也變強了',
@@ -114,7 +114,7 @@ const socialSchoolMembers = [
     ]
   },
    {
-    avatar: `/affiliate/chu.png`,
+    avatar: `/affiliate/1700901417115.jpg`,
     name: '朱奕安',
     title: '理財講師',
     desc: '我禿了，也變強了',
