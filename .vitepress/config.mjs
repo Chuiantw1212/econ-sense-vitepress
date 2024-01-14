@@ -20,6 +20,13 @@ export default defineConfig({
       gtag('config', 'G-19NFT8GVCZ');`
     ]
   ],
+  // https://vitepress.dev/guide/markdown#image-lazy-loading
+  markdown: {
+    image: {
+      // image lazy loading is disabled by default
+      lazyLoading: true
+    }
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

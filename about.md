@@ -2,9 +2,38 @@
 outline: deep
 ---
 
-# 朱奕安
+# 關於
 
-## JS全端開發
+<VPTeamMembers size="medium" :members="members" />
+
+<script setup>
+import {
+  VPTeamPage,
+  VPTeamPageTitle,
+  VPTeamMembers,
+  VPTeamPageSection
+} from 'vitepress/theme'
+
+const members = [
+  {
+    avatar: `/affiliate/1700901417115.jpg`,
+    name: '朱奕安',
+    title: '理財講師',
+    desc:'2023~ 學校學不到的事',
+  },
+  {
+    avatar: `/affiliate/1700901417115.jpg`,
+    name: '朱奕安',
+    title: '前端工程師',
+    desc:'2024~ 玉山銀行<br/>2020-2023 凱基人壽<br/>2017~2020 其他',
+    org: '普鴻(6590)',
+    orgLink: 'https://www.provision.com.tw/'
+  },
+]
+</script>
+
+
+## 網站全端開發
 
 ### Job Pair 人力銀行
 

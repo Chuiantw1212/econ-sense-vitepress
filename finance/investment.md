@@ -118,13 +118,21 @@ outline: deep
             </th>
             <th>查詢即時加密貨幣的抵押報酬率</th>
         </tr>
-         <tr>
+        <tr>
             <th>
                 <a href="ipns://app.aave.com" target="_blank">
                     AAVE
                 </a>
             </th>
             <th>查詢即時加密貨幣的抵押報酬率</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://line.me/R/ti/p/@290azaeq" target="_blank">
+                    區塊鏈翻譯泡芙
+                </a>
+            </th>
+            <th>正常的加密貨幣教學單位</th>
         </tr>
     </tbody>
 </table>
