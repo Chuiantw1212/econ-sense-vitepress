@@ -24,14 +24,13 @@ const members = [
   {
     avatar: `/affiliate/1700901417115.jpg`,
     name: '朱奕安',
-    title: '前端工程師',
+    title: '全端工程師',
     desc:'2024~ 玉山銀行<br/>2020-2023 凱基人壽<br/>2017~2020 其他',
     org: '普鴻(6590)',
     orgLink: 'https://www.provision.com.tw/'
   },
 ]
 </script>
-
 
 ## 網站全端開發
 
