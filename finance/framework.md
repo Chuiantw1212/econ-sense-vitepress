@@ -3,10 +3,12 @@ outline: deep
 ---
 
 # 理財框架
+
 深入探索全面的理財框架，內容涵蓋開源、節流、投資和風險控制。專為剛出社會的新鮮人、希望全面掌握理財觀念的人，以及覺得理財有困難的個人而設計。透過實用策略和方法，幫助您建立穩固的財務基礎，讓理財變得更易理解與應用。讓我們一同探索，開啟個人財務成功之路。
 
-## 回饋
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSfYJ_r3Q_nFdIOvTH_6qRx1_tdL-Ko59k9Ru3cq62aLclc1OYu1pQ-OhDla6Xen4vciiI4p4B3TDbx/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
+## 講座回饋
+
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSfYJ_r3Q_nFdIOvTH_6qRx1_tdL-Ko59k9Ru3cq62aLclc1OYu1pQ-OhDla6Xen4vciiI4p4B3TDbx/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 ## 投影片
 
@@ -173,7 +175,7 @@ webkitallowfullscreen="true"></iframe>
 <Books :modelValue="bookGroup"></Books>
 
 <script setup>
-    
+
 import Books from '../components/books.vue'
 const bookGroup = [
     {

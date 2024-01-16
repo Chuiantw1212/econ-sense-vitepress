@@ -4,14 +4,17 @@ outline: deep
 
 # 匱乏心理學
 
-深入探索匱乏心理學，內容包括腦迴路視圖、認知匱乏、匱乏陷阱以及打造寬鬆的主題。這份分享特別適合那些玩過財富流卻想深入了解精力的人，對於窮人為何不應該借貸感到好奇的人，以及對基本心理學有興趣的人。透過深入研究這些主題，我們將探索匱乏心理的本質，並提供實用方法打破匱乏陷阱，讓您打造更為寬鬆的生活。讓我們一同探索，理解心理學如何影響我們的生活和決策。
+深入研究匱乏心理學，涵蓋腦迴路視圖、認知匱乏、匱乏循環以及打造寬鬆的主題。這份分享特別適合那些玩過財富流卻想更深入了解精力的人，對於窮人為何不該借貸感到好奇的人，以及對基本心理學有興趣的人。透過深刻的研究，我們將揭示匱乏心理的本質，並提供實用方法打破匱乏循環，助您打造更為寬鬆的生活。讓我們一同深入，了解心理學如何影響我們的生活和決策。
+
+## 講座回饋
+
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRvifrIVGU8_0nr3dP5cK9quVEOb2FoBMHAQhnxra1gJIu_Mo1fZ8eDI0UzpWCxvQLdv9hiH4Z_2OGN/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
 
 ## 投影片
 
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQOMxzKsjo0S-18dohhv0YykyG3Y3Cxn03MgJOomFNZWOAqwZF5wFnyR9e8e3t5xpKnlMNovViS4mC1/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
 webkitallowfullscreen="true"
 ></iframe>
-
 
 ## 延伸閱讀
 
