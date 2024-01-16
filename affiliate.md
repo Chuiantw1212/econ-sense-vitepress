@@ -4,6 +4,16 @@ outline: deep
 
 # 友站連結
 
+## Patreon贊助
+
+<a href="https://patreon.com/user?u=113925482&utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=creatorshare_creator&utm_content=join_link" target="_blank">
+    <img src="/affiliate/patreon-preview.png">
+</a>
+
+### 贊助者名單
+
+<VPTeamMembers size="small" :members="patreonMembers" />
+
 ## Job Pair
 
 <a href="https://job-pair.com" target="_blank">
@@ -58,6 +68,23 @@ const lineSvg = `<svg fill="#000000" height="800px" width="800px" version="1.1" 
   h-21.562v12.847h27.645c3.866,0,7,3.134,7,7S237.177,159.269,233.311,159.269z"/>
 </g>
 </svg>`
+
+const patreonMembers = [
+  {
+    avatar: `/affiliate/logo.png`,
+    name: '名稱',
+    title: '職稱',
+    desc: '個人化描述',
+    org: '組織與組織連結',
+    orgLink: 'https://patreon.com/user?u=113925482&utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=creatorshare_creator&utm_content=join_link',
+    links: [
+      { icon: { svg: lineSvg }, link: 'https://line.me/ti/g2/w2xjp79QxMO76vVw_aQuEqeH2ahdcn7uY7lQAg'},
+      { icon: 'instagram', link: 'https://www.instagram.com/econ.sense/' },
+      { icon: 'facebook', link: 'https://www.facebook.com/profile.php?id=100069740545113' },
+      { icon: 'github', link: 'https://github.com/Chuiantw1212' },
+    ]
+  },
+]
 
 const jobPairMembers = [
   {
@@ -124,4 +151,6 @@ const socialSchoolMembers = [
     ]
   },
 ]
+
+// You've been invited to join "常識經濟學". Visit the link below to join the OpenChat. https://line.me/ti/g2/w2xjp79QxMO76vVw_aQuEqeH2ahdcn7uY7lQAg?utm_source=invitation&utm_medium=link_copy&utm_campaign=default
 </script>

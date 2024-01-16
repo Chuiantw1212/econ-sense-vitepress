@@ -47,25 +47,32 @@ const members = [
 3. 雲服務：GCP、Firebase
 4. 其他：Google Workspace、綠界金流、演算法
 
-## 金融證照
+## 證照與證明
+
+### 金融證照
 
 <div style="display:flex;flex-wrap:wrap;">
     <img style="width:100%" src="/certificate/AFPI2300016_U121652155-1.png">
-    <img style="width:50%" src="/certificate/161340_1.jpg">
-    <img style="width:50%" src="/certificate/201447_1.jpg">
-    <img style="width:50%" src="/certificate/232309_1.jpg">
-    <img style="width:50%" src="/certificate/311350_1.jpg">
-    <img style="width:50%" src="/certificate/081510_1.jpg">
 </div>
 
-## 專案管理
+### 專案管理
 
 <div style="display:flex;flex-wrap:wrap;">
     <img style="width:100%" src="/certificate/pmp.jpg">
 </div>
 
-## 其他證書
+### 最高學歷
 
 <div style="display:flex;flex-wrap:wrap;">
     <img style="width:100%" src="/certificate/Certificate.jpg">
+</div>
+
+### 其他證書
+
+<div style="display:flex;flex-wrap:wrap;">
+    <img style="width:50%" src="/certificate/161340_1.jpg">
+    <img style="width:50%" src="/certificate/201447_1.jpg">
+    <img style="width:50%" src="/certificate/232309_1.jpg">
+    <img style="width:50%" src="/certificate/311350_1.jpg">
+    <img style="width:50%" src="/certificate/081510_1.jpg">
 </div>
