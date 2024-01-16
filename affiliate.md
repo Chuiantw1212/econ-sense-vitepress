@@ -19,7 +19,7 @@ outline: deep
 
 ## 學校學不到的事
 
-<a href="https://www.facebook.com/groups/304681766894402" target="_blank">
+<a href="https://reurl.cc/V4qLjn" target="_blank">
     <img src="/affiliate/373705383_7289266461088207_4973358589488189134_n.jpg">
 </a>
 
@@ -95,7 +95,7 @@ const socialSchoolMembers = [
     name: '.38陳宇凱',
     title: '創辦人、房地產講師',
     org: '學校學不到的事',
-    orgLink: 'https://www.facebook.com/groups/304681766894402',
+    orgLink: 'https://reurl.cc/V4qLjn',
     links: [
       {
         icon: { svg: lineSvg }, link: "https://reurl.cc/V4qLjn",

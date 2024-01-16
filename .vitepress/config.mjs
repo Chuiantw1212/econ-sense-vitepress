@@ -49,7 +49,7 @@ export default defineConfig({
         text: '職涯發展',
         link: '/job/outline',
         items: [
-          { text: '軟體專案理想與實務', link: '/job/software' },
+          { text: '軟體專案實務', link: '/job/software' },
           { text: '國中生的職涯課', link: '/job/education' },
         ]
       },

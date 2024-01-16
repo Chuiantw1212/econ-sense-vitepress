@@ -6,7 +6,7 @@ outline: deep
 
 深入探索全面的理財框架，內容涵蓋開源、節流、投資和風險控制。專為剛出社會的新鮮人、希望全面掌握理財觀念的人，以及覺得理財有困難的個人而設計。透過實用策略和方法，幫助您建立穩固的財務基礎，讓理財變得更易理解與應用。讓我們一同探索，開啟個人財務成功之路。
 
-## 講座回饋
+## 講座評價
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSfYJ_r3Q_nFdIOvTH_6qRx1_tdL-Ko59k9Ru3cq62aLclc1OYu1pQ-OhDla6Xen4vciiI4p4B3TDbx/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
@@ -18,6 +18,10 @@ width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
 webkitallowfullscreen="true"></iframe>
 
 ## 外部資源
+
+### 開源
+
+從認知開源，請參考匱乏心理學
 
 ### 節流
 
