@@ -16,7 +16,7 @@ hero:
     - theme: brand
       text: 職涯發展
       link: /job/software
-    - theme: brand
+    - theme: alt
       text: 網站源碼
       link: https://github.com/Chuiantw1212/econ-sense-vite-press
 
