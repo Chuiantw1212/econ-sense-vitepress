@@ -12,10 +12,10 @@
                 <div class="book__textGroup">
                     <div v-if="item.desc" v-html="item.desc">
                     </div>
-                    <div class="book__footer">
-                        <VPButton :href="getApredir(item)" text="讀冊生活"></VPButton>
-                    </div>
                 </div>
+            </div>
+            <div class="book__footer">
+                <VPButton :href="getApredir(item)" text="讀冊生活"></VPButton>
             </div>
             <br>
             <hr>
