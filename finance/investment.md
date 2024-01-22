@@ -81,6 +81,47 @@ outline: deep
     </tbody>
 </table>
 
+### 太陽能板
+
+<table>
+    <thead>
+        <tr>
+            <th>名稱</th>
+            <th>說明</th>
+        </tr>
+    </thead>
+    <tbody>
+     <tr>
+            <th>
+                <a href="https://www.hellosolarman.com?share_code=mxPrGsrm&openExternalBrowser=1" target="_blank">
+                   經濟部太陽能光電
+                </a>
+            </th>
+            <th>
+                官方的太陽能推廣網站
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://www.hellosolarman.com?share_code=mxPrGsrm&openExternalBrowser=1" target="_blank">
+                   太陽人全民電廠
+                </a>
+            </th>
+            <th>
+                小資認購太陽能面板
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://www.sunnyfounder.com" target="_blank">
+                   陽光伏特家
+                </a>
+            </th>
+            <th>小資認購太陽能面板</th>
+        </tr>
+    </tbody>
+</table>
+
 ### 加密貨幣
 
 <table>
@@ -138,37 +179,6 @@ outline: deep
                 </a>
             </th>
             <th>正常的加密貨幣教學單位</th>
-        </tr>
-    </tbody>
-</table>
-
-### 太陽能板
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th>
-                <a href="https://www.hellosolarman.com?share_code=mxPrGsrm&openExternalBrowser=1" target="_blank">
-                   太陽人全民電廠
-                </a>
-            </th>
-            <th>
-                認購太陽能面板
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <a href="https://www.sunnyfounder.com" target="_blank">
-                   陽光伏特家
-                </a>
-            </th>
-            <th>認購太陽能面板</th>
         </tr>
     </tbody>
 </table>
@@ -244,11 +254,18 @@ const bookGroup = [
     {
         id: '11100855440',
         name: '均富革命：財富管理達人李紹鋒教你用FinTech小錢致富',
-        desc: `<p>資訊的落差就是財富的落差，</p>
-<p>大數據時代等於均富時代，</p>
-<p>利用FinTech，小錢致富，翻轉人生！</p>
-<p>支付＋保險＋存貸＋籌資＋投資管理＋市場資訊供給，</p>
-<p>全部一指搞定！</p>`,
+        desc: `<p>資訊的落差就是財富的落差，
+大數據時代等於均富時代，
+利用FinTech，小錢致富，翻轉人生！</p>
+
+<p>支付＋保險＋存貸＋籌資＋投資管理＋市場資訊供給，
+全部一指搞定！</p>
+
+
+<p>當大家已經在用手機支付了，
+你還在比較哪一家銀行的跨行提款手續費比較低？
+運用科技讓你賺更多，
+讓我們一起擁抱FinTech提升投資報酬！</p>`,
     },
     {
         id: '11100983066',
@@ -261,11 +278,11 @@ const bookGroup = [
     {
         id: '11100887409',
         name: '天使歷險記：拿十萬走進一級市場，矽谷新創投資大師的千倍收成策略',
-        desc: `<p>★★矽谷最成功投資人之一，發掘Uber等百家企業，收益超過1,500倍★★</p>
-<p>誰說你的投資不可能顛覆世界？全球財經讀者熱血推薦</p>
-<p>「所有投資人、企業主、創業家都必須一看卡拉卡尼斯的獨到見解。」</p>
-<p>「就算手上只有三千美元，卡拉卡尼斯也教你把夢想兌現──你的名字將出現在資本結構表上。」</p>
-<p>「我沒興趣當天使投資人，但我相當著迷卡拉卡尼斯精采的觀念與故事。」</p>
+        desc: `<p>★★★矽谷最成功投資人之一，發掘Uber等百家企業，收益超過1,500倍★★
+誰說你的投資不可能顛覆世界？全球財經讀者熱血推薦
+「所有投資人、企業主、創業家都必須一看卡拉卡尼斯的獨到見解。」
+「就算手上只有三千美元，卡拉卡尼斯也教你把夢想兌現──你的名字將出現在資本結構表上。」
+「我沒興趣當天使投資人，但我相當著迷卡拉卡尼斯精采的觀念與故事。」</p>
 `,
     },
 ]

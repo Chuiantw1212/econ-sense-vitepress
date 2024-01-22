@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# 關於
+# 關於 EN / 朱老師
 
 <VPTeamMembers size="medium" :members="members" />
 
@@ -17,13 +17,11 @@ import {
 const members = [
   {
     avatar: `/affiliate/1700901417115.jpg`,
-    name: '朱奕安',
     title: '理財講師',
     desc:'2023~ 學校學不到的事',
   },
   {
     avatar: `/affiliate/1700901417115.jpg`,
-    name: '朱奕安',
     title: '全端工程師',
     desc:'2024~ 玉山銀行<br/>2020-2023 凱基人壽<br/>2017~2020 其他',
     org: '普鴻(6590)',
@@ -49,13 +47,13 @@ const members = [
 
 ## 證照與證明
 
-### 金融證照
+### AFP理財規劃顧問
 
 <div style="display:flex;flex-wrap:wrap;">
     <img style="width:100%" src="/certificate/AFPI2300016_U121652155-1.png">
 </div>
 
-### 專案管理
+### PMP國際專案管理師
 
 <div style="display:flex;flex-wrap:wrap;">
     <img style="width:100%" src="/certificate/pmp.jpg">
