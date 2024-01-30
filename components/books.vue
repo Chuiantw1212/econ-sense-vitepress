@@ -26,12 +26,6 @@
 import {
     VPButton,
 } from 'vitepress/theme'
-const actions = [
-    {
-        text: '讀冊生活',
-        link: 'https://vitepress.dev/',
-    }
-]
 const props = defineProps({
     modelValue: {
         type: Array,
@@ -67,11 +61,9 @@ function getImageLink(item) {
 }
 
 .book {
-    /* text-align: center; */
     display: flex;
     flex-direction: column;
 
-    /* align-items: center; */
     .book__header {
         text-align: center;
     }
@@ -105,13 +97,6 @@ function getImageLink(item) {
             text-align: left;
         }
 
-        .book__link {
-            flex-basis: 20%;
-
-            .link__image {
-                // width: 140px;
-            }
-        }
 
         .book__body {
             display: flex;
@@ -121,9 +106,12 @@ function getImageLink(item) {
             align-items: center;
         }
 
+        .book__link {
+            flex-basis: 20%;
+        }
+
         .book__textGroup {
             flex-basis: 80%;
-            // max-width: 480px;
         }
     }
 

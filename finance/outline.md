@@ -84,3 +84,28 @@ outline: deep
         </tr>
     </tbody>
 </table>
+
+## 外部優質課程連結
+
+<Courses :modelValue="items"></Courses>
+
+<script setup>
+
+import Courses from '../components/courses.vue'
+const items = [
+    {
+        image: '/finance/111S203.webp',
+        description: `本課程改編自介惠基金會「偏鄉婦女財務幸福計畫」教材，共有 6 堂課。
+        <ul>
+            <li>第1堂 課介紹理財規劃流程及家庭財務報表編制。</li>
+            <li>第2堂 課介紹我國退休金制度以及金錢詐騙剝削預防。</li>
+            <li>第3堂 課說明職涯規劃與借貸評</li>
+            <li>第4堂 投資報酬與風險</li>
+            <li>第5堂 人生風險與保險</li>
+        </ul>`,
+        name: '臺大開放式課程 - 財務幸福自我養成計畫',
+        url: 'https://ocw.aca.ntu.edu.tw/ntu-ocw/ocw/cou/111S203/3',
+    },
+]
+
+</script>
