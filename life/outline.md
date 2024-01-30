@@ -41,6 +41,7 @@ outline: deep
                 電腦DIY
             </th>
             <th>
+                主要元件、次要元件<br>其他周邊、組裝
             </th>
             <th>
                <ul>
