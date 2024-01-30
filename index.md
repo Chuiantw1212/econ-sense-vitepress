@@ -13,12 +13,15 @@ hero:
     - theme: brand 
       text: 金融理財
       link: /finance/outline
-    - theme: brand
-      text: 職涯發展
-      link: /job/software
     - theme: alt
-      text: 網站源碼
-      link: https://github.com/Chuiantw1212/econ-sense-vite-press
+      text: 職涯發展
+      link: /job/outline
+    - theme: alt
+      text: 好好生活
+      link: /life/outline
+    # - theme: alt
+    #   text: 網站源碼
+    #   link: https://github.com/Chuiantw1212/econ-sense-vite-press
 
 features:
   - title: 本業為主
