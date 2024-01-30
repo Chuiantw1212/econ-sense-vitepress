@@ -6,7 +6,7 @@
                 {{ item.name }}
             </h3>
             <div class="course__body">
-                <a class="course__link" :href="item.link" target="_blank">
+                <a class="course__link" :href="item.url" target="_blank">
                     <img class="link__image" :src="item.image">
                 </a>
                 <div class="course__textGroup">
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="course__footer">
-                <VPButton :href="item.link" text="前往學習">前往學習</VPButton>
+                <VPButton :href="item.url" text="前往學習">前往學習</VPButton>
             </div>
             <br>
             <hr>
