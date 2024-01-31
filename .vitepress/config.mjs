@@ -38,6 +38,7 @@ export default defineConfig({
       {
         text: '金融理財',
         link: '/finance/outline',
+        collapsed: false,
         items: [
           { text: '理財框架', link: '/finance/framework' },
           { text: '勞工退休規劃', link: '/finance/retirement' },
@@ -47,6 +48,7 @@ export default defineConfig({
       {
         text: '職涯發展',
         link: '/job/outline',
+        collapsed: false,
         items: [
           { text: '軟體專案實務', link: '/job/software' },
           { text: '國中生的職涯課', link: '/job/education' },
@@ -55,6 +57,7 @@ export default defineConfig({
       {
         text: '好好生活',
         link: '/life/outline',
+        collapsed: false,
         items: [
           { text: '匱乏心理學', link: '/life/scarcity' },
           { text: '斷捨離', link: '/life/danshari' },

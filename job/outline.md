@@ -23,7 +23,8 @@ outline: deep
     <tbody>
         <tr>
             <th>
-                軟體專案實務
+                <a href="./software">
+                軟體專案實務</a>
             </th>
             <th>
                 網站專有名詞、從PMP到敏捷<br>理想敏捷與實務、專案角色盲點
