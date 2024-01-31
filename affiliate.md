@@ -92,8 +92,6 @@ const jobPairMembers = [
     name: 'Sandy',
     title: 'CEO',
     desc: 'Live like you mean it！',
-    org: '生涯設計工作坊',
-    orgLink: 'https://www.lifedesigners.org',
     links: [
       { icon: 'facebook', link: 'https://www.facebook.com/sandyylchiu/' },
     ]
@@ -101,7 +99,7 @@ const jobPairMembers = [
   {
     avatar: `/affiliate/1700901417115.jpg`,
     name: '朱奕安',
-    title: '全端工程師',
+    title: 'Co-Founder',
     desc: '我禿了，也變強了',
     links: [
       { icon: 'facebook', link: 'https://www.facebook.com/profile.php?id=100069740545113' },
