@@ -1,6 +1,18 @@
 {
     "hosting": {
         "public": ".vitepress/dist",
-        "ignore": []
+        "ignore": [],
+        "redirects": [
+            {
+                "source": "/classic",
+                "destination": "/finance/outline.html",
+                "type": 301
+            },
+            {
+                "source": "/pension",
+                "destination": "/finance/retirement.html",
+                "type": 301
+            }
+        ]
     }
 }

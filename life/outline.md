@@ -23,7 +23,8 @@ outline: deep
     <tbody>
         <tr>
             <th>
-                匱乏心理學
+                <a href="./scarcity">
+                匱乏心理學</a>
             </th>
             <th>
                 新文明病、認知匱乏<br>匱乏循環、打造寬鬆
@@ -38,7 +39,8 @@ outline: deep
         </tr>
         <tr>
             <th>
-                電腦DIY
+                <a href="./computer">
+                電腦DIY</a>
             </th>
             <th>
                 主要元件、次要元件<br>其他周邊、組裝
