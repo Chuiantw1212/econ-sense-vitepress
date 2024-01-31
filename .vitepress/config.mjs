@@ -18,6 +18,10 @@ export default defineConfig({
       gtag('js', new Date());
     
       gtag('config', 'G-19NFT8GVCZ');`
+    ],
+    [
+      'script',
+      { async: '', src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6322593540825146', crossorigin: 'anonymous' }
     ]
   ],
   // https://vitepress.dev/guide/markdown#image-lazy-loading
