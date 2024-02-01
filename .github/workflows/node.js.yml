@@ -38,6 +38,7 @@ jobs:
       id: upload-artifact
       uses: actions/upload-artifact@v4
       with:
+        name: github-pages
         path: .vitepress/dist/
         if-no-files-found: error
 
