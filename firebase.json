@@ -4,6 +4,16 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/job/education.html",
+                "destination": "/career/education.html",
+                "type": 301
+            },
+            {
+                "source": "/job/outline.html",
+                "destination": "/career/outline.html",
+                "type": 301
+            },
+            {
                 "source": "/finance/scarcity.html",
                 "destination": "/life/scarcity.html",
                 "type": 301

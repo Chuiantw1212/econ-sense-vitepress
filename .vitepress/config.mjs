@@ -41,7 +41,7 @@ export default defineConfig({
     sidebar: [
       {
         text: '目錄&行事曆',
-        link: '/toc',
+        link: '/readme',
       },
       {
         text: '金融理財',
