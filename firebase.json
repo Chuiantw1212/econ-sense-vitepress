@@ -4,6 +4,26 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/finance/scarcity.html",
+                "destination": "/life/scarcity.html",
+                "type": 301
+            },
+            {
+                "source": "/feedback.html",
+                "destination": "/finance/outline.html",
+                "type": 301
+            },
+            {
+                "source": "/job/events.html",
+                "destination": "/career/outline.html",
+                "type": 301
+            },
+            {
+                "source": "/job/software.html",
+                "destination": "/career/software.html",
+                "type": 301
+            },
+            {
                 "source": "/classic",
                 "destination": "/finance/outline.html",
                 "type": 301
