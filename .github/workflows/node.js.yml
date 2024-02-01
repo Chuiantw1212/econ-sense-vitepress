@@ -34,7 +34,7 @@ jobs:
       id: upload-artifact
       uses: actions/upload-artifact@v4
       with:
-        path: ./vitepress/dist
+        path: .vitepress/dist/
         if-no-files-found: error
 
   # Deployment job
