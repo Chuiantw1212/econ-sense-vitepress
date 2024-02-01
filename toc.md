@@ -14,7 +14,7 @@
     <tbody>
         <tr>
             <th>
-                <a href="./finance/outline">
+                <a style="white-space: nowrap;" href="./finance/outline">
                 金融理財</a>
             </th>
             <th>
@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <th>
-                <a href="./career/outline">
+                <a style="white-space: nowrap;" href="./career/outline">
                 職涯發展</a>
             </th>
             <th>
@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <th>
-                <a href="./life/outline">
+                <a style="white-space: nowrap;" href="./life/outline">
                 好好生活</a>
             </th>
             <th>
