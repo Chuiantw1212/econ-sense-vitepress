@@ -3,6 +3,10 @@
 
 name: Node.js CI
 
+# https://github.com/actions/toolkit/issues/952
+permissions:
+  id-token: write
+
 on:
   push:
     branches: [ "econ-sense-vite-press" ]
