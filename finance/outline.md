@@ -18,7 +18,7 @@ outline: deep
     <tbody>
         <tr>
             <th>
-                <a href="./framework">
+                <a style="white-space: nowrap;" href="./framework">
                 理財框架</a>
             </th>
             <th>
@@ -34,7 +34,7 @@ outline: deep
         </tr>
         <tr>
             <th>
-                <a href="./retirement">
+                <a style="white-space: nowrap;" href="./retirement">
                 勞工退休規劃</a>
             </th>
             <th>
@@ -50,7 +50,7 @@ outline: deep
         </tr>
         <tr>
             <th>
-                <a href="./investment">
+                <a style="white-space: nowrap;" href="./investment">
                 投資進階管道</a>
             </th>
             <th>
