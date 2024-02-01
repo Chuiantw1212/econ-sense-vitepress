@@ -10,13 +10,14 @@ on:
     branches: [ "econ-sense-vite-press" ]
 
 jobs:
+  # Build job
   build:
-
+    
     runs-on: ubuntu-latest
-
+    
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -29,3 +30,22 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    
+    - name: Upload artifact
+      id: upload-artifact
+      uses: actions/upload-artifact@v4
+      with:
+        path: ./vitepress/dist
+        if-no-files-found: error
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
