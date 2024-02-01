@@ -12,12 +12,11 @@ outline: deep
     src="https://docs.google.com/presentation/d/e/2PACX-1vTtOL7UuOgTF5wqOp821KLauHVfGha2IQ8rFNPj1VukMNJ-nI5pAIL3bZ_JS9FhDrLK0VTHhPaQ_fUf/embed?start=false&loop=false&delayms=3000"
     width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
     webkitallowfullscreen="true">
+</iframe>
 
 ## 講座評價
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTpZzYjhGds8yfMaX2PFEHC7ZRE1ZOVHhvfEzrCan73umPjfCbdXUuHF70OOBpK-N1c-VuyZjAbdmif/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
-
-</iframe>
 
 ## 外部資源
 
