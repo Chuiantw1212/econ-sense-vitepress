@@ -6,16 +6,17 @@ outline: deep
 
 探索軟體專案實務，對象包括職場小白/轉職者、對軟體開發實務充滿好奇心的人，以及那些希望與工程師溝通更為順暢的人。本分享涵蓋網站開發技術名詞、從PMP到敏捷、理想敏捷與實務以及專案角色盲點等關鍵主題，旨在幫助受眾更深入了解軟體開發中的關鍵概念。無論您是對專案管理感興趣、已持有PMI相關持證，或是希望加強與工程師之間的溝通與理解，這份資訊將為您提供實用且實務導向的知識。讓我們一同探索，深入了解軟體專案實務的核心內容與溝通要點。
 
-## 講座評價
-
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSxLBco_B9XCPn9zKnGb9aoOSYP8IRkyqoU2lJhpJdRAAR0WLPs6nEtq0igY65NzlvqcRIMqaegIcPG/pubhtml?widget=true&amp;headers=false" width="100%" height="420" ></iframe>
-
 ## 投影片
 
 <iframe
  src="https://docs.google.com/presentation/d/e/2PACX-1vSqT9z3iCbJo3qiO4UcEnwaLhrTXh49Ea4odLtx9hqwK_upOO3kvFvwM0_l6nLf-2pKFqkXMpFxcM9y/embed?start=false&loop=false&delayms=3000"
 width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
 webkitallowfullscreen="true"></iframe>
+
+## 講座評價
+
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSxLBco_B9XCPn9zKnGb9aoOSYP8IRkyqoU2lJhpJdRAAR0WLPs6nEtq0igY65NzlvqcRIMqaegIcPG/pubhtml?widget=true&amp;headers=false" width="100%" height="420" ></iframe>
+
 
 ## 外部資源
 

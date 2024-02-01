@@ -40,6 +40,10 @@ export default defineConfig({
     ],
     sidebar: [
       {
+        text: '目錄&行事曆',
+        link: '/toc',
+      },
+      {
         text: '金融理財',
         link: '/finance/outline',
         collapsed: false,

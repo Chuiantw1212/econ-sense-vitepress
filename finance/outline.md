@@ -5,12 +5,6 @@ outline: deep
 
 探索深入的金融理財世界。這裡涵蓋了理財框架、勞工退休規劃以及投資進階管道等多樣化主題，為您提供專業的資訊和實用建議。無論您是金融新手或有一定經驗，這些內容都能夠幫助您理解金融領域中的重要概念和方法。讓我們一同探索，有效管理財富，為未來做好準備。
 
-## 講座行事曆
-
-<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%23ffffff&ctz=Asia%2FTaipei&showPrint=0&showDate=1&showTabs=0&showCalendars=0&showTz=0&showTitle=0&hl=zh_TW&src=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=emgtdHcudGFpd2FuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23E4C441&color=%234285F4" style="border-width:0" width="100%" height="420" frameborder="0" scrolling="no"></iframe>
-
-<a href="https://calendar.google.com/calendar/u/0?cid=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank">點此訂閱講座行事曆。</a>
-
 ## 內容目錄
 
 <table>
@@ -72,6 +66,12 @@ outline: deep
         </tr>
     </tbody>
 </table>
+
+## 講座行事曆
+
+<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%23ffffff&ctz=Asia%2FTaipei&showPrint=0&showDate=1&showTabs=0&showCalendars=0&showTz=0&showTitle=0&hl=zh_TW&src=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=emgtdHcudGFpd2FuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23E4C441&color=%234285F4" style="border-width:0" width="100%" height="420" frameborder="0" scrolling="no"></iframe>
+
+<a href="https://calendar.google.com/calendar/u/0?cid=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank">點此訂閱講座行事曆。</a>
 
 ## 外部優質課程連結
 

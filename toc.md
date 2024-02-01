@@ -1,50 +1,42 @@
----
-outline: deep
----
+# 目錄&行事曆
 
-# 好好生活
+歡迎來到常識經濟學。探索多元的內容，包括金融理財、職涯發展和好好生活三大主題。從專業的財經建議到職場智慧，再到提升生活品質的實用資訊。立即瀏覽目錄，看看裡面有哪些內容吧。
 
-## 內容目錄
+## 目錄
 
 <table>
     <thead>
         <tr>
             <th>名稱</th>
-            <th>內容</th>
-            <th>誰適合參與</th>
+            <th>目前內容關鍵字</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <th>
-                <a href="./scarcity">
-                匱乏心理學</a>
+                <a :style="{'white-space':'nowrap',}" href="./finance/outline">
+                金融理財</a>
             </th>
             <th>
-                新文明病、認知匱乏<br>匱乏循環、打造寬鬆
-            </th>
-            <th>
-                <ul>
-                    <li>玩過財富流想多了解精力的人</li>
-                    <li>想知道為何缺錢時不該借貸或主動投資的人</li>
-                    <li>對基本的心理學感興趣的人</li>
-                </ul>
+                投資、理財、股票、基金、財務規劃、退休計劃、稅務策略、保險、負債管理、財富增值、金融規劃、預算管理、財務目標、貨幣交易、資產配置
             </th>
         </tr>
         <tr>
             <th>
-                <a href="./computer">
-                電腦DIY</a>
+                <a :style="{'white-space':'nowrap',}" href="./career/outline">
+                職涯發展</a>
             </th>
             <th>
-                主要元件、次要元件<br>其他周邊、組裝
+                軟體、專案、網頁
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <a :style="{'white-space':'nowrap',}" href="./life/outline">
+                好好生活</a>
             </th>
             <th>
-               <ul>
-                    <li>價格敏感型消費者</li>
-                    <li>想自己組裝/修繕電腦的人</li>
-                    <li>好奇自己的電腦跟工程師的電腦差在哪的人</li>
-                </ul>
+                斷捨離、電腦DIY
             </th>
         </tr>
     </tbody>
