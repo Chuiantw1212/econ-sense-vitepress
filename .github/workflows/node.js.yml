@@ -6,6 +6,7 @@ name: Node.js CI
 # https://github.com/actions/toolkit/issues/952
 permissions:
   id-token: write
+  pages: write
 
 on:
   push:
