@@ -14,7 +14,7 @@
     <tbody>
         <tr>
             <th>
-                <a :style="{'white-space':'nowrap',}" href="./finance/outline">
+                <a href="./finance/outline">
                 金融理財</a>
             </th>
             <th>
@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <th>
-                <a :style="{'white-space':'nowrap',}" href="./career/outline">
+                <a href="./career/outline">
                 職涯發展</a>
             </th>
             <th>
@@ -32,11 +32,11 @@
         </tr>
         <tr>
             <th>
-                <a :style="{'white-space':'nowrap',}" href="./life/outline">
+                <a href="./life/outline">
                 好好生活</a>
             </th>
             <th>
-                斷捨離、電腦DIY
+                心理學、斷捨離、電腦DIY
             </th>
         </tr>
     </tbody>

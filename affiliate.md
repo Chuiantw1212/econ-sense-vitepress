@@ -7,7 +7,7 @@ outline: deep
 ## Patreon贊助
 
 <a href="https://patreon.com/user?u=113925482&utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=creatorshare_creator&utm_content=join_link" target="_blank">
-    <img src="/affiliate/patreon-preview.png">
+    <img src="/affiliate/patreon-preview.png" alt=patreon>
 </a>
 
 ### 贊助者名單
@@ -17,7 +17,7 @@ outline: deep
 ## Job Pair
 
 <a href="https://job-pair.com" target="_blank">
-    <img src="/affiliate/Top1.webp">
+    <img src="/affiliate/Top1.webp" alt=job-pair>
 </a>
 
 多元職涯時代，你擁有多種可能性，不論是正職、兼職或接案，這裡都能滿足所需。
@@ -30,7 +30,7 @@ outline: deep
 ## 學校學不到的事
 
 <a href="https://reurl.cc/V4qLjn" target="_blank">
-    <img src="/affiliate/373705383_7289266461088207_4973358589488189134_n.jpg">
+    <img src="/affiliate/373705383_7289266461088207_4973358589488189134_n.jpg" alt=notSchool>
 </a>
 
 此社團為知識分享平台，讓更多人能夠學習接觸不同的知識，有機會找到適合自己的人生方向。

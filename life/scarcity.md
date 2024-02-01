@@ -6,15 +6,15 @@ outline: deep
 
 深入研究匱乏心理學，探討新文明病、認知匱乏、匱乏循環以及打造寬鬆等核心主題。這份分享特別適合那些曾玩過財富流卻渴望更深入了解精力的人，對於缺錢時為何不應該借貸感到好奇的人，以及對基本心理學有興趣的人。透過深入研究，我們將討論新文明病的現象，揭示認知匱乏的本質，並提供實用方法打破匱乏循環，助您創造更自由、寬鬆的生活。讓我們一同深入，了解心理學如何影響我們的生活和決策。
 
-## 講座評價
-
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRvifrIVGU8_0nr3dP5cK9quVEOb2FoBMHAQhnxra1gJIu_Mo1fZ8eDI0UzpWCxvQLdv9hiH4Z_2OGN/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
-
 ## 投影片
 
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQOMxzKsjo0S-18dohhv0YykyG3Y3Cxn03MgJOomFNZWOAqwZF5wFnyR9e8e3t5xpKnlMNovViS4mC1/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
 webkitallowfullscreen="true"
 ></iframe>
+
+## 講座評價
+
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRvifrIVGU8_0nr3dP5cK9quVEOb2FoBMHAQhnxra1gJIu_Mo1fZ8eDI0UzpWCxvQLdv9hiH4Z_2OGN/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
 
 ## 延伸閱讀
 

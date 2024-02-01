@@ -50,27 +50,27 @@ const members = [
 ### AFP理財規劃顧問
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/certificate/AFPI2300016_U121652155-1.png">
+    <img style="width:100%" src="/certificate/AFPI2300016_U121652155-1.png" alt=certificat>
 </div>
 
 ### PMP國際專案管理師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/certificate/pmp.jpg">
+    <img style="width:100%" src="/certificate/pmp.jpg" alt=certificat>
 </div>
 
 ### 最高學歷
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/certificate/Certificate.jpg">
+    <img style="width:100%" src="/certificate/Certificate.jpg" alt=certificat>
 </div>
 
 ### 其他證書
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:50%" src="/certificate/161340_1.jpg">
-    <img style="width:50%" src="/certificate/201447_1.jpg">
-    <img style="width:50%" src="/certificate/232309_1.jpg">
-    <img style="width:50%" src="/certificate/311350_1.jpg">
-    <img style="width:50%" src="/certificate/081510_1.jpg">
+    <img style="width:50%" src="/certificate/161340_1.jpg" alt=certificate>
+    <img style="width:50%" src="/certificate/201447_1.jpg" alt=certificate>
+    <img style="width:50%" src="/certificate/232309_1.jpg" alt=certificate>
+    <img style="width:50%" src="/certificate/311350_1.jpg" alt=certificate>
+    <img style="width:50%" src="/certificate/081510_1.jpg" alt=certificate>
 </div>
