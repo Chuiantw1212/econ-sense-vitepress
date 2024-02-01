@@ -15,7 +15,7 @@ hero:
       link: /finance/outline
     - theme: alt
       text: 職涯發展
-      link: /job/outline
+      link: /career/outline
     - theme: alt
       text: 好好生活
       link: /life/outline

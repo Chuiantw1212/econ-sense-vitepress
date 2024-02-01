@@ -35,7 +35,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '金融理財', link: '/finance/outline' },
-      { text: '職涯發展', link: '/job/outline' },
+      { text: '職涯發展', link: '/career/outline' },
       { text: '好好生活', link: '/life/outline' }
     ],
     sidebar: [
@@ -51,11 +51,11 @@ export default defineConfig({
       },
       {
         text: '職涯發展',
-        link: '/job/outline',
+        link: '/career/outline',
         collapsed: false,
         items: [
-          { text: '軟體專案實務', link: '/job/software' },
-          { text: '國中生的職涯課', link: '/job/education' },
+          { text: '軟體專案實務', link: '/career/software' },
+          { text: '國中生的職涯課', link: '/career/education' },
         ]
       },
       {
