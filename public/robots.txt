@@ -1,4 +1,5 @@
 User-agent: *
 Allow: *
+Disallow: /readme.html
 
 Sitemap: https://econ-sense.com/sitemap.xml

@@ -17,7 +17,7 @@ outline: deep
     <tbody>
         <tr>
             <th>
-                <a href="./scarcity">
+                <a style="white-space: nowrap;" href="./scarcity">
                 匱乏心理學</a>
             </th>
             <th>
@@ -33,7 +33,7 @@ outline: deep
         </tr>
         <tr>
             <th>
-                <a href="./computer">
+                <a style="white-space: nowrap;" href="./computer">
                 電腦DIY</a>
             </th>
             <th>

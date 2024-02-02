@@ -4,7 +4,32 @@
         "ignore": [],
         "redirects": [
             {
-                "source": "/job/software",
+                "source": "/job/education.html",
+                "destination": "/career/education.html",
+                "type": 301
+            },
+            {
+                "source": "/job/outline.html",
+                "destination": "/career/outline.html",
+                "type": 301
+            },
+            {
+                "source": "/finance/scarcity.html",
+                "destination": "/life/scarcity.html",
+                "type": 301
+            },
+            {
+                "source": "/feedback.html",
+                "destination": "/finance/outline.html",
+                "type": 301
+            },
+            {
+                "source": "/job/events.html",
+                "destination": "/career/outline.html",
+                "type": 301
+            },
+            {
+                "source": "/job/software.html",
                 "destination": "/career/software.html",
                 "type": 301
             },
