@@ -59,8 +59,8 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '軟體專案實務', link: '/career/software' },
-          { text: '打造知識飛輪', link: '/career/flywheel' },
-          { text: '國中生的職涯課', link: '/career/education' },
+          { text: '打造知識飛輪(未完成)', link: '/career/flywheel' },
+          // { text: '國中生的職涯課(未完成)', link: '/career/education' },
         ]
       },
       {
@@ -69,8 +69,8 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '匱乏心理學', link: '/life/scarcity' },
-          { text: '斷捨離', link: '/life/danshari' },
           { text: '電腦DIY', link: '/life/computer' },
+          { text: '斷捨離(未完成)', link: '/life/danshari' },
         ]
       },
       {
