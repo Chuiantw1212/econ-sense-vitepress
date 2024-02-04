@@ -59,6 +59,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '軟體專案實務', link: '/career/software' },
+          { text: '打造知識飛輪', link: '/career/flywheel' },
           { text: '國中生的職涯課', link: '/career/education' },
         ]
       },
