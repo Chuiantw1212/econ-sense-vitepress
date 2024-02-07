@@ -50,4 +50,3 @@ const bookGroup = [
     },
 ]
 </script>
-Ｆ
