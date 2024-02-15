@@ -4,6 +4,11 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/life/computer.html",
+                "destination": "/career/computer.html",
+                "type": 301
+            },
+            {
                 "source": "/job/education.html",
                 "destination": "/career/education.html",
                 "type": 301

@@ -49,7 +49,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '理財框架', link: '/finance/framework' },
-          { text: '勞工退休規劃', link: '/finance/retirement' },
+          { text: '勞工退休規劃(工事中)', link: '/finance/retirement' },
           { text: '投資進階管道', link: '/finance/investment' },
         ]
       },
@@ -60,7 +60,7 @@ export default defineConfig({
         items: [
           { text: '軟體專案實務', link: '/career/software' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
-          // { text: '國中生的職涯課(未完成)', link: '/career/education' },
+          { text: '電腦DIY', link: '/career/computer' },
         ]
       },
       {
@@ -69,8 +69,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '匱乏心理學', link: '/life/scarcity' },
-          { text: '電腦DIY', link: '/life/computer' },
-          { text: '斷捨離(未完成)', link: '/life/danshari' },
+          { text: '我是照顧者(未完成)', link: '/life/carer' },
         ]
       },
       {
