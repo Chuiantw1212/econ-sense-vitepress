@@ -31,22 +31,6 @@ outline: deep
                 </ul>
             </th>
         </tr>
-        <tr>
-            <th>
-                <a style="white-space: nowrap;" href="./computer">
-                電腦DIY</a>
-            </th>
-            <th>
-                主要元件、次要元件<br>其他周邊、組裝
-            </th>
-            <th>
-               <ul>
-                    <li>價格敏感型消費者</li>
-                    <li>想自己組裝/修繕電腦的人</li>
-                    <li>好奇自己的電腦跟工程師的電腦差在哪的人</li>
-                </ul>
-            </th>
-        </tr>
     </tbody>
 </table>
 
