@@ -24,22 +24,28 @@ outline: deep
     <tbody>
         <tr>
             <th>
-                <a href="https://www.coolpc.com.tw/evaluate.php" target="_blank">原價屋</a>
+                <a href="https://www.familycares.com.tw/try.php" target="_blank">長照自付額計算機</a>
             </th>
-            <th>組裝電腦的好地方，大本營在八德路上</th>
+            <th>中華民國家庭照顧者關懷總會提供</th>
         </tr>
-          <tr>
+        <tr>
             <th>
-                <a href="https://pcpartpicker.com/" target="_blank">PC Part Picker</a>
+                <a href="https://ltcpap.mohw.gov.tw/public/index.html" target="_blank">長照資源地圖</a>
             </th>
-            <th>檢查自己的組裝沒問題的好網站</th>
+            <th>衛生福利部提供</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=L0070059" target="_blank">長期照顧申請及給付辦法</a>
+            </th>
+            <th>全國法規資料庫，包含部分負擔比率表</th>
         </tr>
     </tbody>
 </table>
 
-## 延伸閱讀
+<!-- ## 延伸閱讀 -->
 
-<Books :modelValue="bookGroup"></Books>
+<!-- <Books :modelValue="bookGroup"></Books> -->
 
 <script setup>
 

@@ -6,6 +6,27 @@ outline: deep
 
 學習中......
 
+## 外部資源
+
+<table>
+    <thead>
+        <tr>
+            <th>名稱</th>
+            <th>說明</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+                <a href="https://www.yory.school/holland/quiz" target="_blank">
+                   YORI的何綸碼測驗
+                </a>
+            </th>
+            <th>Holland 興趣測驗將人與環境分成六大類型：R-實作型、I-研究型、A-藝術型、S-社會型、E-企業型及C-事務型。你可以輸入興趣何倫碼前兩碼，來查詢適合你的職涯發展領域與相關職務。</th>
+        </tr>
+    </tbody>
+</table>
+
 ## 延伸閱讀
 
 <Books :modelValue="bookGroup"></Books>
