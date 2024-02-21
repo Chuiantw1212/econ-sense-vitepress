@@ -12,7 +12,15 @@ outline: deep
 
 <!-- <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ4RgwEbm8mpZj2WjBHdBYYrNTzSfqWi64Qhc3FTB_l7ol9YO4Vf-E0IA88hD02mcp15GI5M-aBlhLS/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe> -->
 
+## 銀髮宅改造全指南
+
+<a href="https://www.crew.com.tw/" target="_blank">「老伴兒」</a>由擅長內容行銷的數位行銷團隊知行者創藝術行銷創建(已歇業)，目的在為全球超高齡化趨勢下產生的社會現象動態提前做出準備，幫助更多台灣民眾認識當人年老時會遇見的情況藉以提醒銀髮族生活需要我們盡早行動。
+
+<iframe src="/carer/銀髮宅改造全指南.pdf" width="100%" height="420"></iframe>
+
 ## 外部資源
+
+### 延遲老化
 
 <table>
     <thead>
@@ -22,6 +30,37 @@ outline: deep
         </tr>
     </thead>
     <tbody>
+        <tr>
+            <th>
+                <a href="https://www.crew.com.tw/topics/senior-friendly-home-modification-guide/" target="_blank">台北市銀髮族學習及活動地圖</a>
+            </th>
+            <th>台北市政府社會局所建置</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://www.crew.com.tw/topics/senior-friendly-home-modification-guide/" target="_blank">樂齡學習網</a>
+            </th>
+            <th>屬於教育部體制的樂齡學習網</th>
+        </tr>
+    </tbody>
+</table>
+
+### 社政
+
+<table>
+    <thead>
+        <tr>
+            <th>名稱</th>
+            <th>說明</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+                <a href="https://www.crew.com.tw/topics/senior-friendly-home-modification-guide/" target="_blank">全齡宅改造指南</a>
+            </th>
+            <th>老伴兒提供的住宅改造指南</th>
+        </tr>
         <tr>
             <th>
                 <a href="https://www.familycares.com.tw/try.php" target="_blank">長照自付額計算機</a>
@@ -34,11 +73,24 @@ outline: deep
             </th>
             <th>衛生福利部提供</th>
         </tr>
+    </tbody>
+</table>
+
+### 衛政
+
+<table>
+    <thead>
+        <tr>
+            <th>名稱</th>
+            <th>說明</th>
+        </tr>
+    </thead>
+    <tbody>
         <tr>
             <th>
-                <a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=L0070059" target="_blank">長期照顧申請及給付辦法</a>
+                <a href="https://www.hospice.org.tw/resource" target="_blank">安寧資源地圖</a>
             </th>
-            <th>全國法規資料庫，包含部分負擔比率表</th>
+            <th>台灣安寧照顧基金會</th>
         </tr>
     </tbody>
 </table>
