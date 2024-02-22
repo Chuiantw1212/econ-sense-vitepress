@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# 關於 EN 老師
+# 關於 EN老師
 
 <VPTeamMembers size="medium" :members="members" />
 

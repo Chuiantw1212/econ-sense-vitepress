@@ -49,7 +49,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '理財框架', link: '/finance/framework' },
-          { text: '勞工退休規劃(工事中)', link: '/finance/retirement' },
+          { text: '勞工退休規劃', link: '/finance/retirement' },
           { text: '投資進階管道', link: '/finance/investment' },
         ]
       },

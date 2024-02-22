@@ -10,13 +10,13 @@ outline: deep
 
 ## 講座評價
 
-<!-- <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ4RgwEbm8mpZj2WjBHdBYYrNTzSfqWi64Qhc3FTB_l7ol9YO4Vf-E0IA88hD02mcp15GI5M-aBlhLS/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe> -->
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqIwBpXMcvWHTQy80NGRVuI3_lGx4UtVjhedci_cQDcx7iB3rO9qwn1LNQJSpmPpy0YOeykE_1wKmR/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 ## 銀髮宅改造全指南
 
 <a href="https://www.crew.com.tw/" target="_blank">「老伴兒」</a>由擅長內容行銷的數位行銷團隊知行者創藝術行銷創建(已歇業)，目的在為全球超高齡化趨勢下產生的社會現象動態提前做出準備，幫助更多台灣民眾認識當人年老時會遇見的情況藉以提醒銀髮族生活需要我們盡早行動。
 
-<iframe src="/carer/銀髮宅改造全指南.pdf" width="100%" height="420"></iframe>
+<iframe src="https://storage.googleapis.com/econ-sense-9a250.appspot.com/%E9%8A%80%E9%AB%AE%E5%AE%85%E6%94%B9%E9%80%A0%E5%85%A8%E6%8C%87%E5%8D%97.pdf" width="100%" height="420"></iframe>
 
 ## 外部資源
 
@@ -45,7 +45,7 @@ outline: deep
     </tbody>
 </table>
 
-### 社政
+### 照顧資源
 
 <table>
     <thead>
@@ -55,17 +55,11 @@ outline: deep
         </tr>
     </thead>
     <tbody>
-        <tr>
+         <tr>
             <th>
-                <a href="https://www.crew.com.tw/topics/senior-friendly-home-modification-guide/" target="_blank">全齡宅改造指南</a>
+                <a href="https://ltc-learning.org/mooc/index.php" target="_blank">長期照顧專業人員數位學習平台</a>
             </th>
-            <th>老伴兒提供的住宅改造指南</th>
-        </tr>
-        <tr>
-            <th>
-                <a href="https://www.familycares.com.tw/try.php" target="_blank">長照自付額計算機</a>
-            </th>
-            <th>中華民國家庭照顧者關懷總會提供</th>
+            <th>衛生福利部提供</th>
         </tr>
         <tr>
             <th>
@@ -73,10 +67,16 @@ outline: deep
             </th>
             <th>衛生福利部提供</th>
         </tr>
+        <tr>
+            <th>
+                <a href="https://www.familycares.com.tw/try.php" target="_blank">長照自付額計算機</a>
+            </th>
+            <th>中華民國家庭照顧者關懷總會提供</th>
+        </tr>
     </tbody>
 </table>
 
-### 衛政
+### 醫療資源
 
 <table>
     <thead>
