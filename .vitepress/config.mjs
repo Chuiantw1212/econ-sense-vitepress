@@ -70,7 +70,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '匱乏心理學', link: '/life/scarcity' },
-          { text: '我是照顧者(未完成)', link: '/life/carer' },
+          { text: '我是照顧者', link: '/life/carer' },
           { text: '斷捨離(未完成)', link: '/life/danshari' },
         ]
       },
