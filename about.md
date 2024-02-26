@@ -17,7 +17,7 @@ import {
 const members = [
   {
     avatar: `/affiliate/1700901417115.jpg`,
-    title: '理財講師',
+    title: '不專業講師',
     desc:'--常常在講--<br/>學校學不到的事<br/><hr>--曾經開講--<br/>群益期貨、普鴻資訊、誠遠國際',
   },
   {
