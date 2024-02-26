@@ -27,7 +27,23 @@ outline: deep
                 <ul>
                     <li>玩過財富流想多了解精力的人</li>
                     <li>想知道為何缺錢時不該借貸或主動投資的人</li>
-                    <li>對基本的心理學感興趣的人</li>
+                    <li>對基本的認知心理學感興趣的人</li>
+                </ul>
+            </th>
+        </tr>
+         <tr>
+            <th>
+                <a style="white-space: nowrap;" href="./scarcity">
+                我是照顧者</a>
+            </th>
+            <th>
+                延遲老化、照顧資源<br>醫療資源、跨領域整合
+            </th>
+            <th>
+                <ul>
+                    <li>想為了照顧父母做準備的人</li>
+                    <li>想減輕家人負擔的長輩</li>
+                    <li>被各種長照術語搞得很亂的人</li>
                 </ul>
             </th>
         </tr>
