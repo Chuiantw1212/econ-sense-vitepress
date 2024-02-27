@@ -66,8 +66,20 @@ outline: deep
     </tbody>
 </table>
 
-## 講座行事曆
+## 外部優質課程連結
 
-<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%23ffffff&ctz=Asia%2FTaipei&showPrint=0&showDate=1&showTabs=0&showCalendars=0&showTz=0&showTitle=0&hl=zh_TW&src=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=emgtdHcudGFpd2FuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23E4C441&color=%234285F4" style="border-width:0" width="100%" height="420" frameborder="0" scrolling="no"></iframe>
+<Courses :modelValue="items"></Courses>
 
-<a href="https://calendar.google.com/calendar/u/0?cid=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank">點此訂閱講座行事曆。</a>
+<script setup>
+
+import Courses from '../components/courses.vue'
+const items = [
+    {
+        image: '/life/04___logo_promote.jpg',
+        description: `只要有網路，無論是開車、走路、做菜、帶小孩，隨時都可以在線學習。讓我們用聲音陪你往前走，留給你一雙眼睛，抬頭看見自己和世界的變化。`,
+        name: '啟點線上學苑',
+        url: 'https://www.youtube.com/@koob',
+    },
+]
+
+</script>
