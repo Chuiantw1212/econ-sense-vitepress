@@ -41,12 +41,12 @@ outline: deep
 
 ## 延伸閱讀
 
-<Books :modelValue="bookGroup"></Books>
+<Books :modelValue="bookItems"></Books>
 
 <script setup>
 
 import Books from '../components/books.vue'
-const bookGroup = [
+const bookItems = [
     {
         id: '11100992522',
         name: '電腦選購、組裝與維護自己來（超值附贈346分鐘影音講解）',

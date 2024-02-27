@@ -22,14 +22,7 @@ outline: deep
 
 ## 自立支援的台灣實踐
 
-生活自立支援服務的概念與模式興起，逐漸在歐
-洲、美國、日本等國擴散與發展，這種顛
-覆以往的照護模式指的是「藉由回復其自
-主性，重新獲得與常人生活無異的自由」，
-此一照顧的理念和範圍，讓照顧的面向不
-只侷限身體層面，開始更廣義的涵蓋社會
-層面及文化層面，更著重尊重其主體與意
-願的支援，促進精神層面的滿足感
+生活自立支援服務的概念與模式興起，逐漸在歐洲、美國、日本等國擴散與發展，這種顛覆以往的照護模式指的是「藉由回復其自主性，重新獲得與常人生活無異的由」，此一照顧的理念和範圍，讓照顧的面向不只侷限身體層面，開始更廣義的涵蓋社會層面及文化層面，更著重尊重其主體與意願的支援，促進精神層面的滿足感。
 
 <iframe src="https://storage.googleapis.com/public.econ-sense.com/%E5%90%8C%E9%AB%94%E5%85%B1%E5%AD%98%E7%9A%84%E9%95%B7%E6%9C%9F%E7%85%A7%E9%A1%A7.pdf" width="100%" height="420"></iframe>
 
@@ -191,12 +184,12 @@ outline: deep
 
 ## 延伸閱讀
 
-<Books :modelValue="bookGroup"></Books>
+<Books :modelValue="bookItems"></Books>
 
 <script setup>
 
 import Books from '../components/books.vue'
-const bookGroup = [
+const bookItems = [
     {
         id: '11100858406',
         name: '陪爸媽安心到老︰醫療決策、長照資源、陪伴技巧，一本完解不慌亂',

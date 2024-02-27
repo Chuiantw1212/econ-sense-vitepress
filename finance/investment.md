@@ -238,12 +238,12 @@ outline: deep
 
 ## 延伸閱讀
 
-<Books :modelValue="bookGroup"></Books>
+<Books :modelValue="bookItems"></Books>
 
 <script setup>
 
 import Books from '../components/books.vue'
-const bookGroup = [
+const bookItems = [
     {
         id: '11101027080',
         name: '贏在特別股︰發行公司及投資人的必備心法',

@@ -14,18 +14,13 @@ outline: deep
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRAMDpIOyh9dkYnqfsxI8sIlgDRH7fDNRqloJkAlD9sF9CDMcP7ajRBVXAZmru8KaBf8Vs8fCFDSHFw/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
-<!-- ## 目標管理模板
-
-<iframe src="https://docs.google.com/document/d/e/2PACX-1vRmK0OWte4elKv_YbtZ9Fxe6l7BaO4iLdUVk13PHULaJjFAX3b8pR8mNLCVbkblvmwuTP5qHXftVmwB/pub?embedded=true" width="100%" height="420"></iframe> -->
-
 ## 延伸閱讀
 
-<Books :modelValue="bookGroup"></Books>
+<Books :modelValue="bookItems"></Books>
 
 <script setup>
-
 import Books from '../components/books.vue'
-const bookGroup = [
+const bookItems = [
     {
         id: '11101026471',
         name: '打造理想人生的Action行動力子彈筆記：從時間管理到目標實踐，只要認真使用，改變就會發生',

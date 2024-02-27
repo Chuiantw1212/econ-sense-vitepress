@@ -176,12 +176,12 @@ webkitallowfullscreen="true"></iframe>
 
 ## 延伸閱讀
 
-<Books :modelValue="bookGroup"></Books>
+<Books :modelValue="bookItems"></Books>
 
 <script setup>
 
 import Books from '../components/books.vue'
-const bookGroup = [
+const bookItems = [
     {
         id: '11100786472',
         name: '一生幸福的人生企畫書：從事業、財富、家庭、心靈到退休，8個面向，理性效率規畫你的一輩子',

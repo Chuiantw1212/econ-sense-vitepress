@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# 關於 EN老師
+# 關於 EN
 
 <VPTeamMembers size="medium" :members="members" />
 
@@ -35,7 +35,7 @@ const members = [
 ### Job Pair 人力銀行
 
 <a href="https://job-pair.com" target="_blank">
-    <img src="/about/Top1.webp">
+    <img src="/about/Top1.webp" alt=job-pair>
 </a>
 
 使用技術

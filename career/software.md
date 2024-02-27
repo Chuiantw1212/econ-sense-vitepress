@@ -49,12 +49,12 @@ webkitallowfullscreen="true"></iframe>
 
 ## 延伸閱讀
 
-<Books :modelValue="bookGroup"></Books>
+<Books :modelValue="bookItems"></Books>
 
 <script setup>
 
 import Books from '../components/books.vue'
-const bookGroup = [
+const bookItems = [
     {
         id: '11100157020',
         name: '人月神話：軟體專案管理之道',

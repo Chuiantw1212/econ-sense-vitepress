@@ -140,12 +140,12 @@ webkitallowfullscreen="true"></iframe>
 
 ## 延伸閱讀
 
-<Books :modelValue="bookGroup"></Books>
+<Books :modelValue="bookItems"></Books>
 
 <script setup>
 
 import Books from '../components/books.vue'
-const bookGroup = [
+const bookItems = [
     {
         id: '11100764608',
         name: '當爸媽過了65歲：你一定要知道的醫療、長照、財務、法律知識',

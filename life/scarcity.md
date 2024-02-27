@@ -18,12 +18,12 @@ webkitallowfullscreen="true"
 
 ## 延伸閱讀
 
-<Books :modelValue="bookGroup"></Books>
+<Books :modelValue="bookItems"></Books>
 
 <script setup>
 
 import Books from '../components/books.vue'
-const bookGroup = [
+const bookItems = [
     {
         id: '11100905774',
         name: '匱乏經濟學：為什麼擁有的老是比想要的少？面對匱乏感最強烈的時刻，你該如何做聰明抉擇？',

@@ -29,12 +29,12 @@ outline: deep
 
 ## 延伸閱讀
 
-<Books :modelValue="bookGroup"></Books>
+<Books :modelValue="bookItems"></Books>
 
 <script setup>
 
 import Books from '../components/books.vue'
-const bookGroup = [
+const bookItems = [
     {
         id: '11100874320',
         name: '黑馬思維：哈佛最推崇的人生計畫，教你成就更好的自己',
