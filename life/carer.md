@@ -14,12 +14,6 @@ outline: deep
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqIwBpXMcvWHTQy80NGRVuI3_lGx4UtVjhedci_cQDcx7iB3rO9qwn1LNQJSpmPpy0YOeykE_1wKmR/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
-## 銀髮宅改造全指南
-
-<a href="https://www.crew.com.tw/" target="_blank">「老伴兒」</a>由擅長內容行銷的數位行銷團隊知行者創藝術行銷創建(EN註：已歇業)，目的在為全球超高齡化趨勢下產生的社會現象動態提前做出準備，幫助更多台灣民眾認識當人年老時會遇見的情況藉以提醒銀髮族生活需要我們盡早行動。
-
-<iframe src="https://storage.googleapis.com/econ-sense-9a250.appspot.com/%E9%8A%80%E9%AB%AE%E5%AE%85%E6%94%B9%E9%80%A0%E5%85%A8%E6%8C%87%E5%8D%97.pdf" width="100%" height="420"></iframe>
-
 ## 自立支援的台灣實踐
 
 生活自立支援服務的概念與模式興起，逐漸在歐洲、美國、日本等國擴散與發展，這種顛覆以往的照護模式指的是「藉由回復其自主性，重新獲得與常人生活無異的由」，此一照顧的理念和範圍，讓照顧的面向不只侷限身體層面，開始更廣義的涵蓋社會層面及文化層面，更著重尊重其主體與意願的支援，促進精神層面的滿足感。
