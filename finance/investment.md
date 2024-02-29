@@ -174,7 +174,7 @@ outline: deep
         </tr>
         <tr>
             <th>
-                <a href="https://line.me/R/ti/p/@290azaeq" target="_blank">
+                <a href="https://www.gotrade.com.tw/yuubuke/daodao-opp/" target="_blank">
                     區塊鏈翻譯泡芙
                 </a>
             </th>
