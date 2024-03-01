@@ -61,6 +61,7 @@ export default defineConfig({
           { text: '軟體專案實務', link: '/career/software' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
           { text: '電腦DIY', link: '/career/computer' },
+          { text: 'VitePress無本部落格(未完成)', link: '/career/blog' },
           { text: '國中生的職涯課(未完成)', link: '/career/education' },
         ]
       },

@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# VitePress部落格架設
+# VitePress無本部落格
 
 ## 投影片
 
