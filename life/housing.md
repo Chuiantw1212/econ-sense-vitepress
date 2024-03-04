@@ -4,11 +4,21 @@ outline: deep
 
 # 極簡全齡宅
 
-## 銀髮宅改造全指南
+## 投影片
 
-<a href="https://www.crew.com.tw/" target="_blank">「老伴兒」</a>由擅長內容行銷的數位行銷團隊知行者創藝術行銷創建 (EN註：已歇業)，目的在為全球超高齡化趨勢下產生的社會現象動態提前做出準備，幫助更多台灣民眾認識當人年老時會遇見的情況藉以提醒銀髮族生活需要我們盡早行動。
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTKO7pmQ1WaS-ldQUskuFS6gxUsnBxrZ2S0XEuvgCCXFQXlVLcraaRXOII2eHtrLK6KZqsJ58vIpI26/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
-<iframe src="https://storage.googleapis.com/public.econ-sense.com/%E9%8A%80%E9%AB%AE%E5%AE%85%E6%94%B9%E9%80%A0%E5%85%A8%E6%8C%87%E5%8D%97.pdf" width="100%" height="420"></iframe>
+## 高齡友善住宅居住空間無障礙設計原則
+
+來自<a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=277791#:~:text=%E4%B8%AD%E6%96%87%E6%91%98%E8%A6%81%EF%BC%9A,%E8%80%85%EF%BC%8C%E5%88%A4%E6%96%B7%E5%85%B6%E6%94%B9%E5%96%84%E9%9C%80%E6%B1%82%E3%80%82" target="_blank">內政部建築研究所</a>。
+
+<iframe src="https://storage.googleapis.com/public.econ-sense.com/%E9%AB%98%E9%BD%A1%E5%8F%8B%E5%96%84%E4%BD%8F%E5%AE%85%E5%B1%85%E4%BD%8F%E7%A9%BA%E9%96%93%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E8%A8%88%E5%8E%9F%E5%89%87.pdf" width="100%" height="420"></iframe>
+
+## 高齡者於公寓住宅空間改善需求評估系統
+
+來自<a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=277791#:~:text=%E4%B8%AD%E6%96%87%E6%91%98%E8%A6%81%EF%BC%9A,%E8%80%85%EF%BC%8C%E5%88%A4%E6%96%B7%E5%85%B6%E6%94%B9%E5%96%84%E9%9C%80%E6%B1%82%E3%80%82" target="_blank">內政部建築研究所</a>。
+
+<iframe src="https://storage.googleapis.com/public.econ-sense.com/%E9%AB%98%E9%BD%A1%E8%80%85%E6%96%BC%E5%85%AC%E5%AF%93%E4%BD%8F%E5%AE%85%E7%A9%BA%E9%96%93%E6%94%B9%E5%96%84%E9%9C%80%E6%B1%82%E8%A9%95%E4%BC%B0%E7%B3%BB%E7%B5%B1.pdf" width="100%" height="420"></iframe>
 
 ## 居家安全環境檢核表
 
@@ -18,6 +28,8 @@ outline: deep
 
 ## 外部資源
 
+### 斷捨離
+
 <table>
     <thead>
         <tr>
@@ -26,6 +38,14 @@ outline: deep
         </tr>
     </thead>
     <tbody>
+        <tr>
+            <th>
+                <a href="https://recycle.moenv.gov.tw/utmap/" target="_blank">
+                   全國不用品藏寶地圖
+                </a>
+            </th>
+            <th>舊衣回收、循環概念店、二手物市集</th>
+        </tr>
         <tr>
             <th>
                 <a href="https://www.taaze.tw/index.html" target="_blank">
