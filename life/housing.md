@@ -8,23 +8,33 @@ outline: deep
 
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTKO7pmQ1WaS-ldQUskuFS6gxUsnBxrZ2S0XEuvgCCXFQXlVLcraaRXOII2eHtrLK6KZqsJ58vIpI26/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
-## 高齡友善住宅居住空間無障礙設計原則
+## 講座評價
+
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRnLHSZVXvwpjykg2J6Oe6cnvciEFuk49LCSzSCvQl2C9Q428pxEsMK2b3Onxo5cxK0DPdgRYPKaZ6u/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+
+<!-- ## 通用化住宅規劃基本檢核表
+
+來自<a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=38869" target="_blank">內政部建築研究所</a>。
+
+<iframe src="https://storage.googleapis.com/public.econ-sense.com/%E9%80%9A%E7%94%A8%E5%8C%96%E4%BD%8F%E5%AE%85%E8%A6%8F%E5%8A%83%E5%9F%BA%E6%9C%AC%E6%AA%A2%E6%A0%B8%E8%A1%A8.pdf" width="100%" height="420"></iframe> -->
+
+## 高齡者既有住宅空間改善需求研究
 
 來自<a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=277791#:~:text=%E4%B8%AD%E6%96%87%E6%91%98%E8%A6%81%EF%BC%9A,%E8%80%85%EF%BC%8C%E5%88%A4%E6%96%B7%E5%85%B6%E6%94%B9%E5%96%84%E9%9C%80%E6%B1%82%E3%80%82" target="_blank">內政部建築研究所</a>。
+
+### 高齡友善住宅居住空間無障礙設計原則
 
 <iframe src="https://storage.googleapis.com/public.econ-sense.com/%E9%AB%98%E9%BD%A1%E5%8F%8B%E5%96%84%E4%BD%8F%E5%AE%85%E5%B1%85%E4%BD%8F%E7%A9%BA%E9%96%93%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E8%A8%88%E5%8E%9F%E5%89%87.pdf" width="100%" height="420"></iframe>
 
-## 高齡者於公寓住宅空間改善需求評估系統
-
-來自<a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=277791#:~:text=%E4%B8%AD%E6%96%87%E6%91%98%E8%A6%81%EF%BC%9A,%E8%80%85%EF%BC%8C%E5%88%A4%E6%96%B7%E5%85%B6%E6%94%B9%E5%96%84%E9%9C%80%E6%B1%82%E3%80%82" target="_blank">內政部建築研究所</a>。
+### 高齡者於公寓住宅空間改善需求評估系統
 
 <iframe src="https://storage.googleapis.com/public.econ-sense.com/%E9%AB%98%E9%BD%A1%E8%80%85%E6%96%BC%E5%85%AC%E5%AF%93%E4%BD%8F%E5%AE%85%E7%A9%BA%E9%96%93%E6%94%B9%E5%96%84%E9%9C%80%E6%B1%82%E8%A9%95%E4%BC%B0%E7%B3%BB%E7%B5%B1.pdf" width="100%" height="420"></iframe>
 
-## 居家安全環境檢核表
+<!-- ## 居家安全環境檢核表
 
 來自<a href="https://www.hpa.gov.tw/Pages/TopicList.aspx?idx=0&nodeid=876" target="_blank">衛生福利部國民健康署</a>。
 
-<iframe src="https://storage.googleapis.com/public.econ-sense.com/%E5%B1%85%E5%AE%B6%E5%AE%89%E5%85%A8%E7%92%B0%E5%A2%83%E6%AA%A2%E6%A0%B8%E8%A1%A8%EF%BC%88105%E5%B9%B4%E4%BD%BF%E7%94%A8%EF%BC%89.pdf" width="100%" height="420"></iframe>
+<iframe src="https://storage.googleapis.com/public.econ-sense.com/%E5%B1%85%E5%AE%B6%E5%AE%89%E5%85%A8%E7%92%B0%E5%A2%83%E6%AA%A2%E6%A0%B8%E8%A1%A8%EF%BC%88105%E5%B9%B4%E4%BD%BF%E7%94%A8%EF%BC%89.pdf" width="100%" height="420"></iframe> -->
 
 ## 外部資源
 
@@ -56,6 +66,8 @@ outline: deep
         </tr>
     </tbody>
 </table>
+
+### 全齡宅規範
 
 ## 延伸閱讀
 
