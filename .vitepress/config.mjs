@@ -76,6 +76,15 @@ export default defineConfig({
         ]
       },
       {
+        text: '職涯發展 - 工程師專區',
+        link: '/career/outline',
+        collapsed: false,
+        items: [
+          { text: '工程師的自我修養(未完成)', link: '/career/roadmap' },
+          { text: '派遣軍團(未完成)', link: '/career/contractor' },
+        ]
+      },
+      {
         text: '友站連結',
         link: '/affiliate'
       },
