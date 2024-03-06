@@ -6,6 +6,21 @@ outline: deep
 
 學習中......
 
+## 投影片
+
+<!-- ## Holland興趣碼速查
+
+<select name="pets" id="pet-select">
+  <option value="">--Please choose an option--</option>
+  <option v-for="(item,index) in hollandItems" :key="index" :value="item.value">{{item.text}}</option>
+</select>
+
+你的Holland維度是 I:17 E:14 ...... -->
+
+## 外部優質課程連結
+
+<Courses :modelValue="courseItems"></Courses>
+
 ## 外部資源
 
 <table>
@@ -32,8 +47,19 @@ outline: deep
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
-
 import Books from '../components/books.vue'
+import Courses from '../components/courses.vue'
+
+const courseItems = [
+    {
+        image: '/career/education.png',
+        description: `人生設計心理諮商專業團隊成立於2010年，總部亞洲職業生涯發展中心位於香港，於北京、上海與成都設有分中心，由海內外一流心理、教育與商業諮詢碩博士組成。
+結合臨床實務經驗與數據分析技術, 提供中英文專業心理諮商、情感與伴侶諮詢、職業生涯諮詢、企業內部訓練、線上/線下課程、學校生涯輔導、專業人員訓練…等服務，為來談者找理想的人生方向。`,
+        name: '人生設計心理諮商所',
+        url: 'https://www.accupass.com/organizer/detail/2003200357258690657700',
+    },
+]
+
 const bookItems = [
     {
         id: '11100874320',
@@ -60,6 +86,49 @@ const bookItems = [
 在職涯中找到最準確的角色，
 真正享受每個階段的工作與人生。</p>
 `,
+    },
+]
+
+const hollandItems = [
+    {
+        text: '市場研究數據分析師',
+        value: 'ICE',
+    },
+    {
+        text: '資訊/網路工程師',
+        value: 'IRC',
+    },
+    {
+        text: '測試/系統工程師',
+        value: 'CIR',
+    },
+    {
+        text: '會計師',
+        value: 'CIE',
+    },
+    {
+        text: '金融交易員/分析師',
+        value: 'CES',
+    },
+    {
+        text: '商業諮詢/企業管理顧問',
+        value: 'ECI',
+    },
+    {
+        text: '創業家/企業家/商人',
+        value: 'EIS',
+    },
+    {
+        text: '建築師/設計師/美術動畫',
+        value: 'ARE',
+    },
+    {
+        text: '家教/學校老師/補教老師',
+        value: 'SIE',
+    },
+    {
+        text: '講師/企業培訓師',
+        value: 'SIE',
     },
 ]
 </script>

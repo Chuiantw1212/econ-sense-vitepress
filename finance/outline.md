@@ -69,12 +69,11 @@ outline: deep
 
 ## 外部優質課程連結
 
-<Courses :modelValue="items"></Courses>
+<Courses :modelValue="courseItems"></Courses>
 
 <script setup>
-
 import Courses from '../components/courses.vue'
-const items = [
+const courseItems = [
     {
         image: '/finance/111S203.webp',
         description: `本課程改編自介惠基金會「偏鄉婦女財務幸福計畫」教材，共有 6 堂課。
@@ -95,5 +94,4 @@ const items = [
         url:'https://labor-elearning.mol.gov.tw/co_course.php?tag=1&view=1&cgp=10000004'
     },
 ]
-
 </script>
