@@ -4,6 +4,16 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/career/software.html",
+                "destination": "/career/project.html",
+                "type": 301
+            },
+            {
+                "source": "/career/computer.html",
+                "destination": "/engineer/computer.html",
+                "type": 301
+            },
+            {
                 "source": "/life/computer.html",
                 "destination": "/career/computer.html",
                 "type": 301

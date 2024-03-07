@@ -4,7 +4,7 @@ outline: deep
 
 # 軟體專案實務
 
-探索軟體專案實務，對象包括職場小白/轉職者、對軟體開發實務充滿好奇心的人，以及那些希望與工程師溝通更為順暢的人。本分享涵蓋網站開發技術名詞、從PMP到敏捷、理想敏捷與實務以及專案角色盲點等關鍵主題，旨在幫助受眾更深入了解軟體開發中的關鍵概念。無論您是對專案管理感興趣、已持有PMI相關持證，或是希望加強與工程師之間的溝通與理解，這份資訊將為您提供實用且實務導向的知識。讓我們一同探索，深入了解軟體專案實務的核心內容與溝通要點。
+探索「軟體專案實務」，深入從PMP到敏捷、理想敏捷、實務敏捷，以及專案中可能存在的角色盲點。這門課程特別適合三類受眾：首先，對軟體開發實務感到好奇的職場小白或轉職者；其次，希望理解專案中角色個別困境的人；最後，對專案管理有興趣並擁有PMI相關持證的人。透過這裡的分享，我們將一同深入專案管理實務，探索各種角色的挑戰，讓您更全面地理解軟體專案的運作。
 
 ## 投影片
 
@@ -16,7 +16,6 @@ webkitallowfullscreen="true"></iframe>
 ## 講座評價
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSxLBco_B9XCPn9zKnGb9aoOSYP8IRkyqoU2lJhpJdRAAR0WLPs6nEtq0igY65NzlvqcRIMqaegIcPG/pubhtml?widget=true&amp;headers=false" width="100%" height="420" ></iframe>
-
 
 ## 外部資源
 
@@ -52,8 +51,8 @@ webkitallowfullscreen="true"></iframe>
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
-
 import Books from '../components/books.vue'
+
 const bookItems = [
     {
         id: '11100157020',

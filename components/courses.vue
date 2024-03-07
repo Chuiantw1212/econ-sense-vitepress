@@ -18,7 +18,7 @@
                 <VPButton :href="item.url" text="前往學習">前往學習</VPButton>
             </div>
             <br>
-            <hr>
+            <hr v-if="index!==modelValue.length-1">
         </div>
     </div>
 </template>

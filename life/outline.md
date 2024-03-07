@@ -62,7 +62,7 @@ outline: deep
     </tbody>
 </table>
 
-## 外部優質課程連結
+## 外部優質課程
 
 <Courses :modelValue="items"></Courses>
 

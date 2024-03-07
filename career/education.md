@@ -17,7 +17,7 @@ outline: deep
 
 你的Holland維度是 I:17 E:14 ...... -->
 
-## 外部優質課程連結
+## 外部優質課程
 
 <Courses :modelValue="courseItems"></Courses>
 

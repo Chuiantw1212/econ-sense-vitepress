@@ -35,8 +35,8 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '金融理財', link: '/finance/outline' },
+      { text: '好好生活', link: '/life/outline' },
       { text: '職涯發展', link: '/career/outline' },
-      { text: '好好生活', link: '/life/outline' }
     ],
     sidebar: [
       {
@@ -54,18 +54,6 @@ export default defineConfig({
         ]
       },
       {
-        text: '職涯發展',
-        link: '/career/outline',
-        collapsed: false,
-        items: [
-          { text: '軟體專案實務', link: '/career/software' },
-          { text: '打造知識飛輪', link: '/career/flywheel' },
-          { text: '電腦DIY', link: '/career/computer' },
-          { text: 'VitePress無本部落格(未完成)', link: '/career/blog' },
-          { text: '國中必修課(未完成)', link: '/career/education' },
-        ]
-      },
-      {
         text: '好好生活',
         link: '/life/outline',
         collapsed: false,
@@ -76,12 +64,25 @@ export default defineConfig({
         ]
       },
       {
-        text: '職涯發展 - 工程師專區',
+        text: '職涯發展',
         link: '/career/outline',
         collapsed: false,
         items: [
-          { text: '工程師的自我修養(未完成)', link: '/career/roadmap' },
-          { text: '派遣軍團(未完成)', link: '/career/contractor' },
+          { text: '軟體專案實務', link: '/career/project' },
+          { text: '打造知識飛輪', link: '/career/flywheel' },
+          { text: 'VitePress無本部落格(未完成)', link: '/career/blog' },
+          { text: '國中必修課(未完成)', link: '/career/education' },
+        ]
+      },
+      {
+        text: '職涯發展 - 工程師專區',
+        link: '/engineer/outline',
+        collapsed: false,
+        items: [
+          { text: '網站技術架構', link: '/engineer/web' },
+          { text: '電腦DIY', link: '/engineer/computer' },
+          { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
+          { text: '派遣軍團(未完成)', link: '/engineer/contractor' },
         ]
       },
       {

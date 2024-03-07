@@ -4,7 +4,7 @@ outline: deep
 
 # 職涯發展
 
-歡迎來到我的職涯發展分享，這裡是我個人工作經驗的統整。在「職涯發展」中，您將發現「軟體專案實務」和「打造知識飛輪」兩門內容。無論您是職場新手或尋求新學習機會的專業人士，都期待您的探索與參與！
+歡迎來到我的職涯發展分享，這裡是我個人工作經驗的統整。
 
 ## 內容目錄
 
@@ -23,12 +23,12 @@ outline: deep
                 軟體專案實務</a>
             </th>
             <th>
-                網站專有名詞、從PMP到敏捷<br>理想敏捷與實務、專案角色盲點
+                從PMP到敏捷、理想敏捷<br>實務敏捷、角色盲點
             </th>
             <th>
                <ul>
                     <li>職場小白/轉職者，對軟體開發實務感到好奇的人</li>
-                    <li>想學著跟工程師溝通的人</li>
+                    <li>希望了解專案中角色個別困境的人</li>
                     <li>對專案管理有興趣的人與PMI相關持證人</li>
                 </ul>
             </th>
@@ -49,21 +49,22 @@ outline: deep
                 </ul>
             </th>
         </tr>
-                <tr>
-            <th>
-                <a style="white-space: nowrap;" href="./computer">
-                電腦DIY</a>
-            </th>
-            <th>
-                主要元件、次要元件<br>其他周邊、組裝
-            </th>
-            <th>
-               <ul>
-                    <li>價格敏感型消費者</li>
-                    <li>想自己組裝/修繕電腦的人</li>
-                    <li>總感覺自己被店家宰羊的人</li>
-                </ul>
-            </th>
-        </tr>
     </tbody>
 </table>
+
+## 外部優質課程
+
+<Courses :modelValue="courseItems"></Courses>
+
+<script setup>
+import Courses from '../components/courses.vue'
+
+const courseItems = [
+    {
+        image: '/career/daren.png',
+        description: `「這裡是《大人學》課程報名網站。您可以在這裡參與我們優質的實體與線上課程，註冊學員也能下載豐富的學習資源。讓我們一同往成熟大人之路邁進！」`,
+        name: '大人學',
+        url: 'https://shop.darencademy.com/index/search/tag/PDU',
+    },
+]
+</script>
