@@ -40,8 +40,8 @@ export default defineConfig({
     ],
     sidebar: [
       {
-        text: '目錄&行事曆',
-        link: '/toc',
+        text: '行事曆',
+        link: '/calendar',
       },
       {
         text: '金融理財',
@@ -90,9 +90,9 @@ export default defineConfig({
         link: '/affiliate'
       },
       {
-        text: '關於',
+        text: '關於EN',
         link: '/about'
-      }
+      },
     ],
     socialLinks: [
       {

@@ -4,6 +4,11 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/career/toc.html",
+                "destination": "/calendar.html",
+                "type": 301
+            },
+            {
                 "source": "/career/software.html",
                 "destination": "/career/project.html",
                 "type": 301

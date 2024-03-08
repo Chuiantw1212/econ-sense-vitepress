@@ -4,15 +4,7 @@ outline: deep
 
 # 友站連結
 
-## Patreon贊助
-
-<a href="https://patreon.com/user?u=113925482&utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=creatorshare_creator&utm_content=join_link" target="_blank">
-    <img src="/affiliate/patreon-preview.png" alt=patreon>
-</a>
-
-### 贊助者名單
-
-<VPTeamMembers size="small" :members="patreonMembers" />
+那些讓EN變得更好的人與社群。
 
 ## Job Pair
 
@@ -99,7 +91,7 @@ const jobPairMembers = [
   {
     avatar: `/affiliate/1700901417115.jpg`,
     name: '朱奕安',
-    title: 'Co-Founder',
+    title: '全端工程師',
     desc: '我禿了，也變強了',
     links: [
       { icon: 'facebook', link: 'https://www.facebook.com/profile.php?id=100069740545113' },
