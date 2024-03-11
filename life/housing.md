@@ -22,8 +22,6 @@ outline: deep
 
 來自<a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=277791#:~:text=%E4%B8%AD%E6%96%87%E6%91%98%E8%A6%81%EF%BC%9A,%E8%80%85%EF%BC%8C%E5%88%A4%E6%96%B7%E5%85%B6%E6%94%B9%E5%96%84%E9%9C%80%E6%B1%82%E3%80%82" target="_blank">內政部建築研究所</a>。
 
-<iframe src="https://storage.googleapis.com/public.econ-sense.com/%E9%AB%98%E9%BD%A1%E5%8F%8B%E5%96%84%E4%BD%8F%E5%AE%85%E5%B1%85%E4%BD%8F%E7%A9%BA%E9%96%93%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E8%A8%88%E5%8E%9F%E5%89%87.pdf" width="100%" height="420"></iframe>
-
 <iframe src="https://storage.googleapis.com/public.econ-sense.com/%E9%AB%98%E9%BD%A1%E8%80%85%E6%96%BC%E5%85%AC%E5%AF%93%E4%BD%8F%E5%AE%85%E7%A9%BA%E9%96%93%E6%94%B9%E5%96%84%E9%9C%80%E6%B1%82%E8%A9%95%E4%BC%B0%E7%B3%BB%E7%B5%B1.pdf" width="100%" height="420"></iframe>
 
 <!-- ## 居家安全環境檢核表
@@ -64,6 +62,25 @@ outline: deep
 </table>
 
 ### 全齡宅規範
+
+<table>
+    <thead>
+        <tr>
+            <th>名稱</th>
+            <th>說明</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+                <a href="https://glrs.moi.gov.tw/LawContent.aspx?id=GL000734" target="_blank">
+                   建築物無障礙設施設計規範
+                </a>
+            </th>
+            <th>內政部規範，最詳盡的裝修規範。內容無裝潢規範。</th>
+        </tr>
+    </tbody>
+</table>
 
 ## 延伸閱讀
 
