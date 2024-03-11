@@ -22,11 +22,7 @@ outline: deep
 
 來自<a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=277791#:~:text=%E4%B8%AD%E6%96%87%E6%91%98%E8%A6%81%EF%BC%9A,%E8%80%85%EF%BC%8C%E5%88%A4%E6%96%B7%E5%85%B6%E6%94%B9%E5%96%84%E9%9C%80%E6%B1%82%E3%80%82" target="_blank">內政部建築研究所</a>。
 
-### 高齡友善住宅居住空間無障礙設計原則
-
 <iframe src="https://storage.googleapis.com/public.econ-sense.com/%E9%AB%98%E9%BD%A1%E5%8F%8B%E5%96%84%E4%BD%8F%E5%AE%85%E5%B1%85%E4%BD%8F%E7%A9%BA%E9%96%93%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E8%A8%88%E5%8E%9F%E5%89%87.pdf" width="100%" height="420"></iframe>
-
-### 高齡者於公寓住宅空間改善需求評估系統
 
 <iframe src="https://storage.googleapis.com/public.econ-sense.com/%E9%AB%98%E9%BD%A1%E8%80%85%E6%96%BC%E5%85%AC%E5%AF%93%E4%BD%8F%E5%AE%85%E7%A9%BA%E9%96%93%E6%94%B9%E5%96%84%E9%9C%80%E6%B1%82%E8%A9%95%E4%BC%B0%E7%B3%BB%E7%B5%B1.pdf" width="100%" height="420"></iframe>
 
@@ -77,6 +73,24 @@ outline: deep
 
 import Books from '../components/books.vue'
 const bookItems = [
+    {
+        id: '11100918482',
+        name: '新．斷捨離【10週年全新增訂版】：斷絕不需要的東西，捨棄多餘的廢物，脫離對物品的執著，改變650萬人的史上最強人生整理術再進化！',
+        desc: `<p>扔掉一件無用之物，就多出一點空間。</p>
+<p>扔掉一件多餘之物，就免去一樣負擔。</p>
+<p>扔掉一件無益之物，就恢復一絲清爽。</p>
+<p>然後，你的人生將煥然一新！</p>`,
+    },
+    {
+        id: '11100892979',
+        name: '零雜物裝修術',
+        desc: `<p>徹底擊退！打造簡約舒適好宅的兩大敵人：預算少、雜物多。
+輕鬆享受！少揹一些房貸、少花一些裝修費、少做一些惱人的家事，過更輕盈自在的生活。</p>
+
+<p>想以真正省錢的方式打造好宅，不是在工法或材質上錙銖必較！
+本書從源頭抓起，讓你節省購屋預算和裝修費用，
+還告訴你如何使用房子才能久住不亂，否則花再多錢裝修都是枉然……</p>`,
+    },
     {
         id: '11100859478',
         name: '後半輩子最想住的家：先做先贏！40歲開始規畫、50歲開心打造，好房子讓你笑著住到老',
