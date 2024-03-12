@@ -4,6 +4,8 @@ outline: deep
 
 # 極簡全齡宅
 
+探索「極簡全齡宅」，我們將深入斷捨離、全齡宅設計、裝修注意事項和家的新陳代謝的方方面面。這個分享尤其適合三類受眾：首先，是那些想看斷捨離如何實踐的人；其次，是自己或身邊有囤積傾向的人，希望過簡約生活；最後，是想為自己和家人打造宜居空間的人。透過這次的分享，我們將一同探索如何透過極簡主義的理念打造更舒適、更宜居的家。
+
 ## 投影片
 
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTKO7pmQ1WaS-ldQUskuFS6gxUsnBxrZ2S0XEuvgCCXFQXlVLcraaRXOII2eHtrLK6KZqsJ58vIpI26/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
@@ -73,11 +75,19 @@ outline: deep
     <tbody>
         <tr>
             <th>
+                <a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=213842#:~:text=%E4%B8%A6%E9%85%8D%E5%90%88%E5%85%A7%E6%94%BF%E9%83%A8%E5%BB%BA,%E4%B8%89%E5%80%8B%E9%83%A8%E5%88%86%E6%89%80%E6%A7%8B%E6%88%90%E3%80%82" target="_blank">
+                   銀髮友善住宅設計原則之研究
+                </a>
+            </th>
+            <th>內政部建築研究所。</th>
+        </tr>
+        <tr>
+            <th>
                 <a href="https://glrs.moi.gov.tw/LawContent.aspx?id=GL000734" target="_blank">
                    建築物無障礙設施設計規範
                 </a>
             </th>
-            <th>內政部規範，最詳盡的裝修規範。內容無裝潢規範。</th>
+            <th>內政部規範。</th>
         </tr>
     </tbody>
 </table>
