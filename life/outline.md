@@ -47,15 +47,19 @@ outline: deep
                 </ul>
             </th>
         </tr>
-         <tr>
+        <tr>
             <th>
                 <a style="white-space: nowrap;" href="./housing">
                 極簡全齡宅</a>
             </th>
             <th>
+                斷捨離、全齡設計<br>裝修注意事項、家的新陳代謝
             </th>
             <th>
                 <ul>
+                    <li>想看斷捨離如何實踐的人</li>
+                    <li>自己或身邊有囤積傾向者</li>
+                    <li>想準備宜居的房子給自己與家人者</li>
                 </ul>
             </th>
         </tr>
