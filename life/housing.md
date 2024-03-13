@@ -75,6 +75,22 @@ outline: deep
     <tbody>
         <tr>
             <th>
+                <a href="https://ws.moi.gov.tw/Download.ashx?u=LzAwMS9VcGxvYWQvT2xkRmlsZV9BYnJpX0dvdi9yZXNlYXJjaC8yNDk2LzE0NTMzNTY1MjMwLnBkZg%3D%3D&n=6auY6b2h5aSx5pm66ICF56m66ZaT5oSf55%2Bl6IiH6Kit6KiI5rqW5YmHLnBkZg%3D%3D" target="_blank">
+                   高齡失智者空間感知與設計準則
+                </a>
+            </th>
+            <th>內政部建築研究所。裡面有較詳盡的設計規範。</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://www.airitilibrary.com/Article/Detail/10163212-201209-201211050057-201211050057-25-50" target="_blank">
+                   建築材料之單一色彩對失智老人造成視覺幻覺之研究
+                </a>
+            </th>
+            <th>內政部建築研究所。</th>
+        </tr>
+        <tr>
+            <th>
                 <a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=213842#:~:text=%E4%B8%A6%E9%85%8D%E5%90%88%E5%85%A7%E6%94%BF%E9%83%A8%E5%BB%BA,%E4%B8%89%E5%80%8B%E9%83%A8%E5%88%86%E6%89%80%E6%A7%8B%E6%88%90%E3%80%82" target="_blank">
                    銀髮友善住宅設計原則之研究
                 </a>
