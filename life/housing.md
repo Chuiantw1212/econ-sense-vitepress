@@ -108,13 +108,27 @@ outline: deep
     </tbody>
 </table>
 
+## 外部優質課程
+
+<Courses :modelValue="courseItems"></Courses>
+
 ## 延伸閱讀
 
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
-
+import Courses from '../components/courses.vue'
 import Books from '../components/books.vue'
+
+const courseItems = [
+    {
+        image: '/life/housing.jpeg',
+        description: `由亞洲首位取得美國專業整理師協會（NAPO®）認證的整理師Phyllis所打造的無痛居家整理學，結合管理、心理學理論與先減法再加法的概念，培養大家整理的底層邏輯，以簡化、組織物品與空間。此外，課程也蘊含老師擔任室內設計師的思維，提供風格與軟裝知識，以綜合性的方式引導大家達成不復亂又有質感的居家空間。`,
+        name: '無痛居家整理學｜破除復亂困境，營造質感空間',
+        url: 'https://sat.cool/course/77',
+    },
+]
+
 const bookItems = [
     {
         id: '11100918482',
