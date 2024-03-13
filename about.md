@@ -43,7 +43,7 @@ const members = [
 1. 前端：Nuxt3、Bootstrap
 2. 後端：Fastify.js
 3. 雲服務：GCP、Firebase
-4. 其他：Google Workspace、綠界金流、演算法
+4. 其他：SEO、Google Workspace、綠界金流、演算法
 
 ## 證照與證明
 

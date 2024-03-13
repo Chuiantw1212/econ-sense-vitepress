@@ -18,7 +18,7 @@
                 <VPButton :href="item.url" text="前往學習">前往學習</VPButton>
             </div>
             <br>
-            <hr v-if="index!==modelValue.length-1">
+            <hr v-if="index !== modelValue.length - 1">
         </div>
     </div>
 </template>
@@ -43,7 +43,7 @@ const props = defineProps({
         }
     },
 })
-</script> 
+</script>
 <style lang="scss" scoped>
 .courses {
     display: flex;

@@ -1,7 +1,6 @@
 <template>
     <div class="books">
         <div v-for="(item, index) in modelValue" class="book" :key="index">
-            <!-- <hr> -->
             <h3 class="book__header" v-if="item.name">
                 {{ item.name }}
             </h3>
