@@ -63,7 +63,7 @@ outline: deep
     </tbody>
 </table>
 
-### 全齡宅規範
+### 全齡宅
 
 <table>
     <thead>
