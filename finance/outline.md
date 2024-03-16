@@ -10,17 +10,18 @@ outline: deep
 <table>
     <thead>
         <tr>
-            <th>名稱</th>
-            <th>內容</th>
+            <th colspan="2">
+                <a style="white-space: nowrap;" href="./framework">
+                理財框架</a>
+            </th>
+        </tr>
+        <tr>
+            <th>大綱</th>
             <th>誰適合參與</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <th>
-                <a style="white-space: nowrap;" href="./framework">
-                理財框架</a>
-            </th>
             <th>
                 開源、節流<br>投資、風險控制
             </th>
@@ -32,7 +33,9 @@ outline: deep
                 </ul>
             </th>
         </tr>
-        <tr>
+        </tbody>
+</table>
+        <!-- <tr>
             <th>
                 <a style="white-space: nowrap;" href="./retirement">
                 勞工退休規劃</a>
@@ -63,9 +66,7 @@ outline: deep
                     <li>怕被騙或是歸零的人</li>
                 </ul>
             </th>
-        </tr>
-    </tbody>
-</table>
+        </tr> -->
 
 ## 外部優質課程
 
