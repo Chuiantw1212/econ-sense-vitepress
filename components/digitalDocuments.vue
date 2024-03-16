@@ -1,29 +1,32 @@
 <template>
-    <table v-for="(item, index) in props.modelValue">
+    <table v-for="(item, index) in props.items" :key="index">
         <thead>
             <tr>
-                <th colspan="2">
+                <th colspan="2" class="d-md-none">
                     <a :href="item.url">
-                        理財框架</a>
+                        {{ item.name }}</a>
                 </th>
             </tr>
             <tr>
+                <th class="d-none d-md-table-cell">名稱</th>
                 <th>大綱</th>
                 <th>誰適合參與</th>
             </tr>
         </thead>
         <tbody>
             <tr>
+                <th class="d-none d-md-table-cell">
+                    <a style="white-space: nowrap;" href="./computer">
+                        {{ item.name }}</a>
+                </th>
                 <th>
                     <ol>
-                        <li v-for="(keyword, index) in item.keywords" :key="index">{{ keyword }}</li>
+                        <li v-for="(keyword, keywordIndex) in item.keywords" :key="keywordIndex">{{ keyword }}</li>
                     </ol>
                 </th>
                 <th>
                     <ul>
-                        <li>剛出社會的新鮮人</li>
-                        <li>想掌握理財觀念全貌的人</li>
-                        <li>總覺得理財很難的人</li>
+                        <li v-for="(audience, audienceIndex) in item.audience" :key="audienceIndex">{{ audience }}</li>
                     </ul>
                 </th>
             </tr>
@@ -31,9 +34,9 @@
     </table>
 </template>
 <script setup>
-// https://schema.org/Course
+// https://schema.org/DigitalDocument
 const props = defineProps({
-    modelValue: {
+    items: {
         type: Array,
         required: true,
         default: () => [

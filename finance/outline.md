@@ -7,68 +7,7 @@ outline: deep
 
 ## 內容目錄
 
-<DigitalDocuments></DigitalDocuments>
-
-<table>
-    <thead>
-        <tr>
-            <th colspan="2">
-                <a style="white-space: nowrap;" href="./framework">
-                理財框架</a>
-            </th>
-        </tr>
-        <tr>
-            <th>大綱</th>
-            <th>誰適合參與</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th>
-                開源、節流<br>投資、風險控制
-            </th>
-            <th>
-               <ul>
-                    <li>剛出社會的新鮮人</li>
-                    <li>想掌握理財觀念全貌的人</li>
-                    <li>總覺得理財很難的人</li>
-                </ul>
-            </th>
-        </tr>
-        </tbody>
-</table>
-        <!-- <tr>
-            <th>
-                <a style="white-space: nowrap;" href="./retirement">
-                勞工退休規劃</a>
-            </th>
-            <th>
-                勞保勞退、老後變現<br>老前整理、移轉節稅
-            </th>
-            <th>
-                <ul>
-                    <li>家中有退休/屆退休長輩的孝順子女</li>
-                    <li>想儘早規劃未來的遠見人</li>
-                    <li>擔心退休金不夠用的社會大眾</li>
-                </ul>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <a style="white-space: nowrap;" href="./investment">
-                投資進階管道</a>
-            </th>
-            <th>
-                證券、太陽能<br>加密貨｀、天使投資
-            </th>
-            <th>
-                <ul>
-                    <li>對純被動收入好奇的人</li>
-                    <li>想遠離看盤或沒時間看盤的人</li>
-                    <li>怕被騙或是歸零的人</li>
-                </ul>
-            </th>
-        </tr> -->
+<DigitalDocuments :items="digitalDocumentItems"></DigitalDocuments>
 
 ## 外部優質課程
 
@@ -77,6 +16,26 @@ outline: deep
 <script setup>
 import DigitalDocuments from '../components/digitalDocuments.vue'
 import Courses from '../components/courses.vue'
+const digitalDocumentItems = [
+    {
+        url: './framework',
+        name: '理財框架',
+        keywords: ['開源', '節流', '投資', '風險控制'],
+        audience: ['剛出社會的新鮮人', '想掌握理財觀念全貌的人', '總覺得理財很難的人'],
+    },
+    {
+        url: './retirement',
+        name: '勞工退休規劃',
+        keywords: ['勞保勞退', '老後變現', '老前整理', '移轉節稅'],
+        audience: ['家中有退休/屆退休長輩的孝順子女', '想儘早規劃未來的遠見人', '擔心退休金不夠用的社會大眾'],
+    },
+    {
+        url: './investment',
+        name: '投資進階管道',
+        keywords: ['證券', '太陽能', '加密貨幣', '天使投資'],
+        audience: ['對純被動收入好奇的人', '想遠離看盤或沒時間看盤的人', '怕被騙或是歸零的人'],
+    }
+]
 const courseItems = [
     {
         image: '/finance/111S203.webp',
