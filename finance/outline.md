@@ -7,6 +7,8 @@ outline: deep
 
 ## 內容目錄
 
+<DigitalDocuments></DigitalDocuments>
+
 <table>
     <thead>
         <tr>
@@ -73,6 +75,7 @@ outline: deep
 <Courses :modelValue="courseItems"></Courses>
 
 <script setup>
+import DigitalDocuments from '../components/digitalDocuments.vue'
 import Courses from '../components/courses.vue'
 const courseItems = [
     {
