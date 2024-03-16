@@ -8,40 +8,25 @@ outline: deep
 
 ## 內容目錄
 
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>內容</th>
-            <th>誰適合參與</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th>
-                <a style="white-space: nowrap;" href="./computer">
-                電腦DIY</a>
-            </th>
-            <th>
-                主要元件、次要元件<br>其他周邊、組裝
-            </th>
-            <th>
-               <ul>
-                    <li>價格敏感型消費者</li>
-                    <li>想自己組裝/修繕電腦的人</li>
-                    <li>總感覺自己被店家宰羊的人</li>
-                </ul>
-            </th>
-        </tr>
-    </tbody>
-</table>
+<DigitalDocuments :items="digitalDocumentItems"></DigitalDocuments>
 
 ## 外部優質課程
 
 <Courses :modelValue="courseItems"></Courses>
 
 <script setup>
+import DigitalDocuments from '../components/digitalDocuments.vue'
 import Courses from '../components/courses.vue'
+
+const digitalDocumentItems = [
+    {
+        url: './computer',
+        name: '電腦DIY',
+        keywords: ['主要元件', '次要元件', '其他周邊', '組裝'],
+        audience: ['價格敏感型消費者', '想自己裝修電腦的人', '總感覺自己被店家宰羊的人'],
+        rating: 3
+    },
+]
 
 const courseItems = [
     {

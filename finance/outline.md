@@ -22,18 +22,21 @@ const digitalDocumentItems = [
         name: '理財框架',
         keywords: ['開源', '節流', '投資', '風險控制'],
         audience: ['剛出社會的新鮮人', '想掌握理財觀念全貌的人', '總覺得理財很難的人'],
+        rating: 3
     },
     {
         url: './retirement',
         name: '勞工退休規劃',
         keywords: ['勞保勞退', '老後變現', '老前整理', '移轉節稅'],
         audience: ['家中有退休/屆退休長輩的孝順子女', '想儘早規劃未來的遠見人', '擔心退休金不夠用的社會大眾'],
+        rating: 2
     },
     {
         url: './investment',
         name: '投資進階管道',
         keywords: ['證券', '太陽能', '加密貨幣', '天使投資'],
         audience: ['對純被動收入好奇的人', '想遠離看盤或沒時間看盤的人', '怕被騙或是歸零的人'],
+        rating: 3
     }
 ]
 const courseItems = [
