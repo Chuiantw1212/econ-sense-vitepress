@@ -6,7 +6,7 @@
                     <a :href="item.url">
                         {{ item.name }}</a>
                 </th>
-                <th class="d-md-none" :style="`width:10em;text-align:center;`">
+                <th class="d-md-none" :style="`width:11em;text-align:center;`">
                     實踐度：
                     <template v-for="number in item.rating" :key="number">
                         ★
@@ -33,7 +33,7 @@
                 </th>
             </tr>
             <tr>
-                <th class="d-none d-md-table-cell" :style="`width:14em;`">
+                <th class="d-none d-md-table-cell" :style="`width:16em;`">
                     <p>大綱</p>
                     <ol>
                         <li v-for="(keyword, keywordIndex) in item.keywords" :key="keywordIndex">{{ keyword }}</li>
@@ -48,7 +48,7 @@
             </tr>
         </tbody>
     </table>
-    <p>★ 純粹學習整理或計畫、★★ 部分實踐、★★★ 完全實踐</p>
+    <p>★★★ 完全實踐、★★ 部分實踐、★ 純粹學習整理或計畫</p>
 </template>
 <script setup>
 // https://schema.org/DigitalDocument
