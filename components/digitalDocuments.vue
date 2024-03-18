@@ -48,7 +48,7 @@
             </tr>
         </tbody>
     </table>
-    <p>★★★ 完全實踐、★★ 部分實踐、★ 純粹學習整理或計畫</p>
+    <p>★★★ 完全實踐、★★ 部分實踐、★ 學習整理或計畫</p>
 </template>
 <script setup>
 // https://schema.org/DigitalDocument
