@@ -4,7 +4,7 @@
         "ignore": [],
         "redirects": [
             {
-                "source": "/career/toc.html",
+                "source": "/toc.html",
                 "destination": "/calendar.html",
                 "type": 301
             },
