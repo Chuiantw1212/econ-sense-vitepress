@@ -24,7 +24,7 @@ webkitallowfullscreen="true"></iframe>
 
 ## 外部資源
 
-### 退休金與財產清冊
+### 退休金流
 
 <table>
     <thead>
@@ -60,6 +60,35 @@ webkitallowfullscreen="true"></iframe>
         </tr>
         <tr>
             <th>
+                <a href="https://www.houseplus.com.tw/" target="_blank">
+                   好實價
+                </a>
+            </th>
+            <th>實價登錄網站，試算房地產買賣價格使用</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://pip.moi.gov.tw/V3/B/SCRB0504.aspx" target="_blank">
+                   社會住宅包租代管
+                </a>
+            </th>
+            <th>內政部提供</th>
+        </tr>
+    </tbody>
+</table>
+
+### 財產管理
+
+<table>
+    <thead>
+        <tr>
+            <th>名稱</th>
+            <th>說明</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
                 <a href="https://www.etax.nat.gov.tw/etwmain/etw108w" target="_blank">
                    財政部電子稅務文件
                 </a>
@@ -89,6 +118,14 @@ webkitallowfullscreen="true"></iframe>
                 </a>
             </th>
             <th>一站查詢金融遺產</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-secret/bBo2mMx" target="_blank">
+                   嫁妝免稅有限額免課贈與稅
+                </a>
+            </th>
+            <th>財政部提供</th>
         </tr>
     </tbody>
 </table>
