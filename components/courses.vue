@@ -9,9 +9,8 @@
                 <a class="course__link" :href="item.url" target="_blank">
                     <img class="link__image" :src="item.image">
                 </a>
-                <div class="course__textGroup">
-                    <div v-if="item.description" v-html="item.description">
-                    </div>
+                <div class="course__textGroup" v-if="item.description" v-html="item.description">
+
                 </div>
             </div>
             <div class="course__footer">
@@ -55,7 +54,11 @@ const props = defineProps({
         flex-direction: column;
 
         .course__header {
-            text-align: center;
+            text-align: left;
+        }
+
+        .course__textGroup {
+            margin-top: 8px;
         }
 
         .course__body {
@@ -71,6 +74,7 @@ const props = defineProps({
         .course__footer {
             display: flex;
             justify-content: center;
+            margin-top: 8px;
         }
     }
 }
