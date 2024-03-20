@@ -26,6 +26,12 @@ outline: deep
     <tbody>
         <tr>
             <th>
+                <a href="https://pages.github.com/" target="_blank">Github Pages</a>
+            </th>
+            <th>可以免費託管VitePress部落格的服務</th>
+        </tr>
+        <tr>
+            <th>
                 <a href="https://vitepress.dev/" target="_blank">VitePress官方網站</a>
             </th>
             <th>VitePress官方網站</th>

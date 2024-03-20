@@ -70,7 +70,6 @@ export default defineConfig({
         items: [
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
-          { text: 'VitePress無本部落格(未完成)', link: '/career/blog' },
           { text: '國中必修課(未完成)', link: '/career/education' },
         ]
       },
@@ -81,6 +80,7 @@ export default defineConfig({
         items: [
           { text: '電腦DIY', link: '/engineer/computer' },
           { text: '網站技術架構(未完成)', link: '/engineer/web' },
+          { text: 'VitePress無本部落格(未完成)', link: '/engineer/blog' },
           { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
           { text: '派遣軍團(未完成)', link: '/engineer/contractor' },
         ]
