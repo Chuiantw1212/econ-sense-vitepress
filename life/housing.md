@@ -50,6 +50,14 @@ outline: deep
             </th>
             <th>台北市環保局提供，內有捐書的辦法與據點。</th>
         </tr>
+        <tr>
+            <th>
+                <a href="https://tw.carousell.com/" target="_blank">
+                   Carousell旋轉拍賣
+                </a>
+            </th>
+            <th>線上二手物交易平台</th>
+        </tr>
     </tbody>
 </table>
 
