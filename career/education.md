@@ -33,6 +33,14 @@ outline: deep
     <tbody>
         <tr>
             <th>
+                <a href="https://www.16personalities.com/tw/%E6%80%A7%E6%A0%BC%E6%B8%AC%E8%A9%A6" target="_blank">
+                   MBTI人格評量
+                </a>
+            </th>
+            <th>邁爾斯-布里格斯類型指標（英語：Myers-Briggs Type Indicator，简称MBTI，或譯麥布二氏心理類型量表）是人格類型學中一種內省的自我報告問卷，它表明人們天生在感知和決策的方式上存在不同心理偏好。</th>
+        </tr>
+        <tr>
+            <th>
                 <a href="https://www.yory.school/holland/quiz" target="_blank">
                    YORI的何綸碼測驗
                 </a>
@@ -47,8 +55,8 @@ outline: deep
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
-import Books from '../components/books.vue'
 import Courses from '../components/courses.vue'
+import Books from '../components/books.vue'
 
 const courseItems = [
     {
