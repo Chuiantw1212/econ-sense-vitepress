@@ -22,11 +22,11 @@
   },
   "homepage": "https://github.com/Chuiantw1212/econ-sense-vite-press#readme",
   "devDependencies": {
-    "sass": "^1.70.0",
-    "vitepress": "^1.0.0-rc.44"
+    "sass": "^1.72.0",
+    "vitepress": "^1.0.1"
   },
   "dependencies": {
     "@vercel/og": "^0.6.2",
-    "firebase": "^10.7.2"
+    "firebase": "^10.9.0"
   }
 }
