@@ -1,3 +1,4 @@
+import { SearchPlugin } from "vitepress-plugin-search";
 import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
@@ -28,7 +29,7 @@ export default defineConfig({
       `window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      
+
       gtag('config', 'G-19NFT8GVCZ');`
     ],
     [
@@ -191,5 +192,15 @@ export default defineConfig({
   lang: 'zh',
   sitemap: {
     hostname: 'https://econ-sense.com'
+  },
+  vite: {
+    plugins: [
+      SearchPlugin({
+        encode: false,
+        tokenize: "full",
+        buttonLabel: "搜尋",
+        placeholder: "搜尋關鍵字"
+      })
+    ]
   }
 })
