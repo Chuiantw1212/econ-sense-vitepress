@@ -158,35 +158,10 @@ export default defineConfig({
     outline: {
       label: '頁面大綱'
     },
-    // search: {
-    //   provider: 'local',
-    //   options: {
-    //     translations: {
-    //       button: {
-    //         buttonText: '搜尋',
-    //       },
-    //       modal: {
-    //         displayDetails: 'Display detailed list',
-    //         resetButtonTitle: 'Reset search',
-    //         backButtonTitle: 'Close search',
-    //         noResultsText: 'No results for',
-    //         footer: {
-    //           selectText: '選取',
-    //           selectKeyAriaLabel: 'enter',
-    //           navigateText: '切換',
-    //           navigateUpKeyAriaLabel: 'up arrow',
-    //           navigateDownKeyAriaLabel: 'down arrow',
-    //           closeText: '關閉',
-    //           closeKeyAriaLabel: 'escape'
-    //         }
-    //       }
-    //     },
-    //   }
-    // },
-    // footer: {
-    //   message: 'Released under the MIT License.',
-    //   copyright: 'Copyright © 2019-present Evan You'
-    // },
+    footer: {
+      message: 'Powered by <a href="https://vitepress.dev/" target="_blank">Vitepress</a>',
+      copyright: 'Copyright © 2023-present EN'
+    },
     logo: '/logo/常-白底.png',
   },
   lang: 'zh',
