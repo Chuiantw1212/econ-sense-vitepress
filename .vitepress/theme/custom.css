@@ -2,6 +2,13 @@
  * Customize default theme styling by overriding CSS variables:
  * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
  */
+body {
+    font-family: "Noto Sans TC", sans-serif;
+    font-optical-sizing: auto;
+    /* font-weight: <weight>; */
+    font-style: normal;
+}
+
 .vp-doc table {
     display: table;
     width: 100%;

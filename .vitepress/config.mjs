@@ -7,6 +7,18 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', href: '/logo/常-白底.png' }],
     [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' }
+    ],
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+    ],
+    [
+      'link',
+      { href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap', rel: 'stylesheet' }
+    ],
+    [
       'script',
       { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-19NFT8GVCZ' }
     ],
@@ -16,7 +28,7 @@ export default defineConfig({
       `window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
+      
       gtag('config', 'G-19NFT8GVCZ');`
     ],
     [
