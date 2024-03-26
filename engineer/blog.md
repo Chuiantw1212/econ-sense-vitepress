@@ -1,4 +1,5 @@
 ---
+description: Vitepress無本部落格，適合前端初學者、文字工作者學習，自由掌握內容，免費託管，建立屬於自己的線上空間。
 outline: deep
 ---
 

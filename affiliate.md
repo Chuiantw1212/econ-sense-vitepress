@@ -1,4 +1,5 @@
 ---
+description: 那些讓EN變得更好的人與社群。
 outline: deep
 ---
 
