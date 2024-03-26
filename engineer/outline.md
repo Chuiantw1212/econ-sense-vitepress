@@ -26,6 +26,13 @@ const digitalDocumentItems = [
         audience: ['價格敏感型消費者', '想自己裝修電腦的人', '總感覺自己被店家宰羊的人'],
         rating: 3
     },
+    {
+        url: './blog',
+        name: 'Vitepress無本部落格',
+        keywords: ['環境建置', '本機運行', '發布', '修改'],
+        audience: ['想學習前端的初學者','想脫離隨著平台倒閉到處搬家的文字工作者', '不想付託管費用的文字工作者'],
+        rating: 3
+    },
 ]
 
 const courseItems = [
