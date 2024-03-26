@@ -4,7 +4,7 @@ outline: deep
 
 # VitePress無本部落格
 
-未完成
+探索Vitepress無本部落格，透過環境建置、本機運行、發布和修改的步驟，提供了適合前端初學者的完整指南。無論您是想學習前端開發，還是希望脫離平台限制、自由掌握內容的文字工作者，甚至是不想負擔託管費用的使用者，這裡都有實用的資訊和技巧。讓我們一同探索如何利用Vitepress打造自己的無本部落格，建立屬於自己的線上空間。
 
 ## 投影片
 
@@ -26,15 +26,33 @@ outline: deep
     <tbody>
         <tr>
             <th>
-                <a href="https://pages.github.com/" target="_blank">Github Pages</a>
+                <a href="https://nodejs.org/" target="_blank">Node.js</a>
             </th>
-            <th>可以免費託管VitePress部落格的服務</th>
+            <th>任何會寫Javascript的人都需要的網站</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a>
+            </th>
+            <th>我最偏好的程式編輯器</th>
         </tr>
         <tr>
             <th>
                 <a href="https://vitepress.dev/" target="_blank">VitePress官方網站</a>
             </th>
             <th>VitePress官方網站</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://pages.github.com/" target="_blank">Github Pages</a>
+            </th>
+            <th>可以免費託管VitePress部落格的服務</th>
+        </tr>
+         <tr>
+            <th>
+                <a href="https://desktop.github.com/" target="_blank">Github Desktop</a>
+            </th>
+            <th>Github所屬的Git GUI的官方網站</th>
         </tr>
     </tbody>
 </table>

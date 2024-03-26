@@ -30,7 +30,7 @@ const digitalDocumentItems = [
         url: './blog',
         name: 'Vitepress無本部落格',
         keywords: ['環境建置', '本機運行', '發布', '修改'],
-        audience: ['想學習前端的初學者','想脫離隨著平台倒閉到處搬家的文字工作者', '不想付託管費用的文字工作者'],
+        audience: ['想學習前端的初學者','想脫離隨著部落格平台倒閉到處搬家使用者', '不想負擔部落格託管費用的使用者'],
         rating: 3
     },
 ]
