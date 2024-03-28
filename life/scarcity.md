@@ -17,13 +17,27 @@ webkitallowfullscreen="true"
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRvifrIVGU8_0nr3dP5cK9quVEOb2FoBMHAQhnxra1gJIu_Mo1fZ8eDI0UzpWCxvQLdv9hiH4Z_2OGN/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
 
+## 外部優質課程
+
+<Courses :modelValue="courseItems"></Courses>
+
 ## 延伸閱讀
 
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
-
+import Courses from '../components/courses.vue'
 import Books from '../components/books.vue'
+
+const courseItems = [
+    {
+        image: '/life/springTime.png',
+        description: `探索潛意識，聆聽內心的回聲，擁抱真實，成為你心靈的騎象人。`,
+        name: '韶光心理學苑',
+        url: 'https://springtimenlp.com/',
+    },
+]
+
 const bookItems = [
     {
         id: '11100905774',
@@ -39,14 +53,5 @@ const bookItems = [
 本書30個章節當中所提出的各種效應與現象，幾乎都是現代人常常會犯的認知偏誤。
 認知偏誤本身並不可怕，可怕的是大家不知道自己具有認知偏誤。</p>`,
     },
-    // {
-    //     id: '11101019425',
-    //     name: '你不可不知的關於金錢的那些事：顛覆常識的金錢心理學',
-    //     desc: `<p>你知道｢數過鈔票的手比較不怕燙」「收到髒錢讓人容易做壞事」嗎？
-    //             這不是生活雜學，而是全球一流媒體爭相報導的實驗結論！
-    //             讓備受國際推崇的心理學家告訴你，金錢不只是交易工具，
-    //             更會牽動我們的情緒、人際關係、行為和決策……
-    //             你怎樣看待錢，就會得到怎樣的人生。</p>`,
-    // },
 ]
 </script>

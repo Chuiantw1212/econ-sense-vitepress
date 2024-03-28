@@ -44,7 +44,7 @@ const digitalDocumentItems = [
 
 const courseItems = [
     {
-        image: '/life/04___logo_promote.jpg',
+        image: '/life/turnKey.jpg',
         description: `只要有網路，無論是開車、走路、做菜、帶小孩，隨時都可以在線學習。讓我們用聲音陪你往前走，留給你一雙眼睛，抬頭看見自己和世界的變化。`,
         name: '啟點線上學苑',
         url: 'https://www.youtube.com/@koob',
