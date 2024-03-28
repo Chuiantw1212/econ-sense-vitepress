@@ -64,6 +64,7 @@ export default defineConfig({
           { text: '理財框架', link: '/finance/framework' },
           { text: '勞工退休規劃', link: '/finance/retirement' },
           { text: '投資進階管道', link: '/finance/investment' },
+          { text: '下班創業(未完成)', link: '/finance/startup' },
         ]
       },
       {
@@ -83,7 +84,7 @@ export default defineConfig({
         items: [
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
-          { text: '國中必修課(未完成)', link: '/career/education' },
+          // { text: '國中必修課(未完成)', link: '/career/education' },
         ]
       },
       {
@@ -94,8 +95,8 @@ export default defineConfig({
           { text: '電腦DIY', link: '/engineer/computer' },
           { text: 'VitePress無本部落格(未完成)', link: '/engineer/blog' },
           { text: '網站技術架構(未完成)', link: '/engineer/web' },
-          { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
-          { text: '派遣軍團(未完成)', link: '/engineer/contractor' },
+          // { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
+          // { text: '派遣軍團(未完成)', link: '/engineer/contractor' },
         ]
       },
       {
@@ -132,7 +133,7 @@ export default defineConfig({
      </g>
      </svg>` }
       },
-      { icon: 'instagram', link: 'https://www.instagram.com/econ.sense' },
+      // { icon: 'instagram', link: 'https://www.instagram.com/econ.sense' },
       { icon: 'github', link: 'https://github.com/Chuiantw1212/econ-sense-vite-press' },
     ],
     // i18n
