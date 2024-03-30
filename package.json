@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@vercel/og": "^0.6.2",
-    "firebase": "^10.9.0",
+    "firebase": "^10.10.0",
     "vitepress-plugin-search": "^1.0.4-alpha.22"
   }
 }
