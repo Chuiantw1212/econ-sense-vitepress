@@ -11,17 +11,14 @@ hero:
     # alt  
     # sponsor
     - theme: brand 
-      text: 金融理財
-      link: /finance/outline
+      text: 講座月曆
+      link: /calendar
+    - theme: brand
+      text: Line社群
+      link: https://line.me/ti/g2/w2xjp79QxMO76vVw_aQuEqeH2ahdcn7uY7lQAg
     - theme: alt
-      text: 好好生活
-      link: /life/outline
-    - theme: alt
-      text: 職涯發展
-      link: /career/outline
-    # - theme: alt
-    #   text: 網站源碼
-    #   link: https://github.com/Chuiantw1212/econ-sense-vite-press
+      text: 網站源碼
+      link: https://github.com/Chuiantw1212/econ-sense-vite-press
 
 features:
   - title: 本業為主
