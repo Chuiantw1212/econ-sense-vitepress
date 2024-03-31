@@ -6,7 +6,7 @@ layout: home
 hero:
   name: "常識經濟學"
   text: "econ-sense.com"
-  tagline: 無痛無腦理財、腳踏實地賺錢
+  tagline: 無痛理財、專注本業、好好生活
   actions:
     # alt  
     # sponsor
