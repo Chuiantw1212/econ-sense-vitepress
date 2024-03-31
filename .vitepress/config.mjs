@@ -154,7 +154,7 @@ export default defineConfig({
       next: '下一頁',
     },
     darkModeSwitchLabel: '深色模式',
-    sidebarMenuLabel: '網站選單',
+    sidebarMenuLabel: '選單',
     returnToTopLabel: '回到頂端',
     outline: {
       label: '頁面大綱'
