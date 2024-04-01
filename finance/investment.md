@@ -71,6 +71,14 @@ outline: deep
             </th>
             <th>非常強大，匯集全世界證券投資參考資料的網站</th>
         </tr>
+         <tr>
+            <th>
+                <a href="https://www.findbillion.com/twstock/preferred_stock/detail" target="_blank">
+                   FindBillion特別股列表
+                </a>
+            </th>
+            <th>特別股有優先於普通股配息之特性，如果你想找出穩定配息、適合存股的特別股，你可以在這裡輕鬆找到。</th>
+        </tr>
         <tr>
             <th>
                 <a href="https://goodinfo.tw/tw/StockList.asp?MARKET_CAT=%E5%85%A8%E9%83%A8&STOCK_ID=2887C" target="_blank">
