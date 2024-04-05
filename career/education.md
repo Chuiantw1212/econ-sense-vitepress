@@ -2,11 +2,13 @@
 outline: deep
 ---
 
-# 國中必修課
+# 為什麼要讀書
 
 學習中......
 
 ## 投影片
+
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQWH3GKheIdw9NNrkzBMdjdM-TaN0EqQlEiny6Kc449bDkWhoQZD02QM7BVDMjlp6NouRonkWvRu3xQ/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
 <!-- ## Holland興趣碼速查
 
@@ -31,6 +33,14 @@ outline: deep
         </tr>
     </thead>
     <tbody>
+         <tr>
+            <th>
+                <a href="https://www.ntbna.gov.tw/singlehtml/5f5746a30ef04963823b2302b9146208?cntId=b1eb3b3cb1914390ab6a4be61cd9fc65#gsc.tab=0" target="_blank">
+                   各業擴大書審純益率、所得額及同業利潤標準
+                </a>
+            </th>
+            <th>產業好不好賺的一個依據。</th>
+        </tr>
         <tr>
             <th>
                 <a href="https://www.16personalities.com/tw/%E6%80%A7%E6%A0%BC%E6%B8%AC%E8%A9%A6" target="_blank">
@@ -70,6 +80,16 @@ const courseItems = [
 
 const bookItems = [
     {
+        id: '11100993068',
+        name: '我們為什麼要讀書？為什麼要工作？【自我探索平裝版】：為了得到幸福，希望你能好好思考這些事',
+        desc: `<p>★★ 日本暢銷突破50萬冊 ★★
+一生至少要讀一次！震撼日本校園與教育界，史無前例的生涯教育書！
+讀書的意義、工作的意義、AI時代的工作模式、
+如何找出熱愛的事物、如何活得無怨無悔……
+認識世界和自己，啟動未來無限可能！</p>
+`,
+    },
+    {
         id: '11100874320',
         name: '黑馬思維：哈佛最推崇的人生計畫，教你成就更好的自己',
         desc: `<p>一個從小罹患過動症，高中中輟，
@@ -95,7 +115,7 @@ const bookItems = [
 真正享受每個階段的工作與人生。</p>
 `,
     },
-     {
+    {
         id: '11101023916',
         name: '【牛津通識課16】智力：測量人類思維及能力的有效方式',
         desc: `<p>為什麼有的人就是比較聰明？
