@@ -84,7 +84,7 @@ export default defineConfig({
         items: [
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
-          // { text: '國中必修課(未完成)', link: '/career/education' },
+          { text: '學校教育必修課(未完成)', link: '/career/education' },
         ]
       },
       {
