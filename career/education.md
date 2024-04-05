@@ -33,6 +33,14 @@ outline: deep
         </tr>
     </thead>
     <tbody>
+        <tr>
+            <th>
+                <a href="https://www.jatoro.tw/" target="_blank">
+                上市櫃公司非主管職全時員工(年) 薪資中位數(千元)
+                </a>
+            </th>
+            <th>摩根鮪魚::用薪水養鮪魚肚</th>
+        </tr>
          <tr>
             <th>
                 <a href="https://www.ntbna.gov.tw/singlehtml/5f5746a30ef04963823b2302b9146208?cntId=b1eb3b3cb1914390ab6a4be61cd9fc65#gsc.tab=0" target="_blank">
