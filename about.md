@@ -60,13 +60,7 @@ const members = [
     <img style="width:100%" src="/certificate/pmp.jpg" alt=certificat>
 </div>
 
-### 最高學歷
-
-<div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/certificate/Certificate.jpg" alt=certificat>
-</div>
-
-### 其他證書
+### 其他金融證書
 
 <div style="display:flex;flex-wrap:wrap;">
     <img style="width:50%" src="/certificate/161340_1.jpg" alt=certificate>
@@ -74,4 +68,16 @@ const members = [
     <img style="width:50%" src="/certificate/232309_1.jpg" alt=certificate>
     <img style="width:50%" src="/certificate/311350_1.jpg" alt=certificate>
     <img style="width:50%" src="/certificate/081510_1.jpg" alt=certificate>
+</div>
+
+### Master in Informatics
+
+<div style="display:flex;flex-wrap:wrap;">
+    <img style="width:100%" src="/certificate/northeastern.jpg" alt=certificat>
+</div>
+
+### Cafe Startups 認證講師
+
+<div style="display:flex;flex-wrap:wrap;">
+    <img style="width:100%" src="/certificate/Cafe.jpg" alt=certificat>
 </div>
