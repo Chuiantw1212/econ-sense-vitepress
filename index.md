@@ -13,12 +13,12 @@ hero:
     - theme: brand 
       text: 講座月曆
       link: /calendar
-    - theme: brand
+    - theme: alt
       text: Line社群
       link: https://line.me/ti/g2/w2xjp79QxMO76vVw_aQuEqeH2ahdcn7uY7lQAg
     - theme: alt
-      text: 網站源碼
-      link: https://github.com/Chuiantw1212/econ-sense-vite-press
+      text: 關於EN
+      link: /about
 
 features:
   - title: 本業為主

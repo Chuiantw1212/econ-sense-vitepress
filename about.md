@@ -31,7 +31,7 @@ const members = [
 ]
 </script>
 
-## 網頁全端開發
+## 工作經歷
 
 ### Job Pair Co-Founder
 
@@ -46,7 +46,15 @@ const members = [
 3. 雲服務：GCP、Firebase
 4. 其他：SEO、Google Workspace、綠界金流、演算法
 
-## 資格認證
+## 教育背景
+
+### Master in Informatics
+
+<div style="display:flex;flex-wrap:wrap;">
+    <img style="width:100%" src="/about/northeastern.jpg" alt=certificat>
+</div>
+
+## 專業認證
 
 ### AFP理財規劃顧問
 
@@ -67,8 +75,10 @@ const members = [
     <img style="width:50%" src="/about/201447_1.webp" alt=certificate>
     <img style="width:50%" src="/about/232309_1.webp" alt=certificate>
     <img style="width:50%" src="/about/311350_1.webp" alt=certificate>
-    <img style="width:50%" src="/about/081510_1.webp" alt=certificate>
+    <img style="width:50%" src="/about/082258_1.webp" alt=certificate>
 </div>
+
+## 興趣認證
 
 ### Cafe Startups 認證講師
 
@@ -76,10 +86,9 @@ const members = [
     <img style="width:100%" src="/about/Cafe.jpg" alt=certificat>
 </div>
 
-## 教育背景
-
-### Master in Informatics
+### 新天鵝堡桌遊教師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/about/northeastern.jpg" alt=certificat>
+    <img style="width:50%" src="/about/082258_2.webp" alt=certificat>
+    <img style="width:50%" src="/about/082258_3.webp" alt=certificat>
 </div>
