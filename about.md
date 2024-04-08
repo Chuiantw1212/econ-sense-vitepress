@@ -31,12 +31,12 @@ const members = [
 ]
 </script>
 
-## 網站全端開發
+## 網頁全端開發
 
-### Job Pair 人力銀行
+### Job Pair Co-Founder
 
 <a href="https://job-pair.com" target="_blank">
-    <img src="/about/Top1.webp" alt=job-pair>
+    <img src="/about/job-pair.com_.webp" alt=job-pair>
 </a>
 
 使用技術
@@ -46,38 +46,40 @@ const members = [
 3. 雲服務：GCP、Firebase
 4. 其他：SEO、Google Workspace、綠界金流、演算法
 
-## 證照與證明
+## 資格認證
 
 ### AFP理財規劃顧問
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/certificate/AFPI2300016_U121652155-1.png" alt=certificat>
+    <img style="width:100%" src="/about/AFPI2300016_U121652155-1.png" alt=certificat>
 </div>
 
 ### PMP國際專案管理師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/certificate/pmp.jpg" alt=certificat>
+    <img style="width:100%" src="/about/pmp.jpg" alt=certificat>
 </div>
 
-### 其他金融證書
+### 其他金融證明書
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:50%" src="/certificate/161340_1.jpg" alt=certificate>
-    <img style="width:50%" src="/certificate/201447_1.jpg" alt=certificate>
-    <img style="width:50%" src="/certificate/232309_1.jpg" alt=certificate>
-    <img style="width:50%" src="/certificate/311350_1.jpg" alt=certificate>
-    <img style="width:50%" src="/certificate/081510_1.jpg" alt=certificate>
-</div>
-
-### Master in Informatics
-
-<div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/certificate/northeastern.jpg" alt=certificat>
+    <img style="width:50%" src="/about/161340_1.webp" alt=certificate>
+    <img style="width:50%" src="/about/201447_1.webp" alt=certificate>
+    <img style="width:50%" src="/about/232309_1.webp" alt=certificate>
+    <img style="width:50%" src="/about/311350_1.webp" alt=certificate>
+    <img style="width:50%" src="/about/081510_1.webp" alt=certificate>
 </div>
 
 ### Cafe Startups 認證講師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/certificate/Cafe.jpg" alt=certificat>
+    <img style="width:100%" src="/about/Cafe.jpg" alt=certificat>
+</div>
+
+## 教育背景
+
+### Master in Informatics
+
+<div style="display:flex;flex-wrap:wrap;">
+    <img style="width:100%" src="/about/northeastern.jpg" alt=certificat>
 </div>
