@@ -22,7 +22,7 @@ const members = [
     desc:'--常常在講--<br/>學校學不到的事<br/><hr/>--曾經開講--<br/>群益期貨、普鴻資訊、誠遠國際、LearnWeb',
   },
   {
-    avatar: `/affiliate/1700901417115.jpg`,
+    avatar: `/about/javascript.svg`,
     title: '全端工程師',
     desc:'Job Pair 共同創辦人<br/><hr/>--普鴻(6590)--<br/>2024 玉山銀行<br/>2020-2023 凱基人壽<br/>--其他經驗--<br/>2017-2020 前端工程師',
     org: '普鴻(6590)',
