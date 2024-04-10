@@ -23,7 +23,7 @@ const members = [
   },
   {
     avatar: `/about/javascript.svg`,
-    title: '全端工程師',
+    title: 'JS全端工程師',
     desc:'Job Pair 共同創辦人<br/><hr/>--普鴻(6590)--<br/>2024 玉山銀行<br/>2020-2023 凱基人壽<br/>--其他經驗--<br/>2017-2020 前端工程師',
     org: '普鴻(6590)',
     orgLink: 'https://www.provision.com.tw/'
