@@ -51,7 +51,7 @@ const members = [
 ### Master in Informatics
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/about/northeastern.jpg" alt=certificat>
+    <img style="width:100%" src="/about/northeastern.jpg" alt=Northeastern>
 </div>
 
 ## 專業認證
@@ -59,23 +59,23 @@ const members = [
 ### AFP理財規劃顧問
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/about/AFPI2300016_U121652155-1.png" alt=certificat>
+    <img style="width:100%" src="/about/AFPI2300016_U121652155-1.png" alt=AFP理財規劃顧問>
 </div>
 
 ### PMP國際專案管理師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/about/pmp.jpg" alt=certificat>
+    <img style="width:100%" src="/about/pmp.jpg" alt=PMP國際專案管理師>
 </div>
 
 ### 其他金融證明書
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:50%" src="/about/161340_1.webp" alt=certificate>
-    <img style="width:50%" src="/about/201447_1.webp" alt=certificate>
-    <img style="width:50%" src="/about/232309_1.webp" alt=certificate>
-    <img style="width:50%" src="/about/311350_1.webp" alt=certificate>
-    <img style="width:50%" src="/about/082258_1.webp" alt=certificate>
+    <img style="width:50%" src="/about/161340_1.webp" alt=金融市場常識與職業道德>
+    <img style="width:50%" src="/about/201447_1.webp" alt=投信投顧相關法規(含自律規範)>
+    <img style="width:50%" src="/about/232309_1.webp" alt=信託業務專業>
+    <img style="width:50%" src="/about/311350_1.webp" alt=金融科技力>
+    <img style="width:50%" src="/about/082258_1.webp" alt=理財規劃人員>
 </div>
 
 ## 興趣認證
@@ -83,12 +83,12 @@ const members = [
 ### Cafe Startups 認證講師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/about/Cafe.jpg" alt=certificat>
+    <img style="width:100%" src="/about/Cafe.jpg" alt=精實創業咖啡館認證講師>
 </div>
 
 ### 新天鵝堡桌遊教師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:50%" src="/about/082258_2.webp" alt=certificat>
-    <img style="width:50%" src="/about/082258_3.webp" alt=certificat>
+    <img style="width:50%" src="/about/082258_2.webp" alt=新天鵝堡進階桌遊師>
+    <img style="width:50%" src="/about/082258_3.webp" alt=新天鵝堡初階桌遊師>
 </div>
