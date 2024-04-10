@@ -64,7 +64,7 @@ export default defineConfig({
           { text: '理財框架', link: '/finance/framework' },
           { text: '勞工退休規劃', link: '/finance/retirement' },
           { text: '投資進階管道', link: '/finance/investment' },
-          { text: '下班創業(未完成)', link: '/finance/startup' },
+          { text: 'ESBI實踐(整理中)', link: '/finance/esbi' },
         ]
       },
       {
