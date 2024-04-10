@@ -2,11 +2,13 @@
 outline: deep
 ---
 
-# 下班創業
+# ESBI實踐
 
 整理中
 
 ## 投影片
+
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTFV24HJWU-IEJKTd2tJZfrZiuDqv20JsvNbZjaiqJJX1yF5uQzHm9zwrrgzoLpUYJqZJCKc2Rn7pHe/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
 ## 講座評價
 
@@ -60,6 +62,18 @@ const bookItems = [
 <p>用功讀書、取得高學歷，不再是領高薪、進熱門產業的優先門票。</p>
 <p>你要的是人生職能重新抓周！</p>
 <p>快速建立三種新時代的新職能思維和能力，迎接未來的世界！</p>
+`,
+    },
+    {
+        id: '11100998677',
+        name: '富爸爸，有錢有理【25週年紀念版】：掌握現金流象限，才能通往財富自由',
+        desc: `<p>你位於象限的哪一邊，決定了你是否能擁有財務自由</p>
+        <ul>
+            <li>E：雇員（上班族）。</li>
+            <li>S：自由工作者、專家（例如醫生或律師等），或者中小企業老闆。</li>
+            <li>B：大型企業的老闆（公司員工數超過500人及以上）。</li>
+            <li>I：投資者。</p></li>
+        </ul>
 `,
     },
 ]
