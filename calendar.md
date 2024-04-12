@@ -8,6 +8,43 @@
 
 <a href="https://calendar.google.com/calendar/u/0?cid=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank">點此訂閱講座行事曆。</a>
 
+## 講座流程
+
+<table>
+    <thead>
+        <tr>
+            <th>時間</th>
+            <th>內容</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+                19:30 - 20:30
+            </th>
+            <th>主題分享</th>
+        </tr>
+        <tr>
+            <th>
+                20:30 - 21:00
+            </th>
+            <th>QA & 問卷回饋</th>
+        </tr>
+        <tr>
+            <th>
+                21:00
+            </th>
+            <th>聊天室關閉</th>
+        </tr>
+    </tbody>
+</table>
+
+<!-- <ul>
+    <li>19:30：開始</li>
+    <li>20:30：預計結束</li>
+    <li>21:00：預計結束</li>
+</ul> -->
+
 <!-- ## 學校學不到的事 Notion Calendar
 
 因為部分功能不支援，請點擊總表看還有哪些講師有分享。
