@@ -39,20 +39,42 @@ const members = [
     <img src="/about/job-pair.com_.webp" alt=job-pair>
 </a>
 
-使用技術
-
-1. 前端：Nuxt3、Bootstrap
-2. 後端：Fastify.js
-3. 雲服務：GCP、Firebase
-4. 其他：SEO、Google Workspace、綠界金流、演算法
-
-## 教育背景
-
-### Master in Informatics
-
-<div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/about/northeastern.jpg" alt=Northeastern>
-</div>
+<table>
+    <thead>
+        <tr>
+            <th>名稱</th>
+            <th>說明</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+                前端
+            </th>
+            <th>
+            <a href="https://github.com/Chuiantw1212/job-pair-nuxt3" target="_blank">開源</a>,
+            Nuxt3, Bootstrap</th>
+        </tr>
+        <tr>
+            <th>
+                後端
+            </th>
+            <th>Fastify.js, PostgreSQL, Knex</th>
+        </tr>
+        <tr>
+            <th>
+                雲端
+            </th>
+            <th>GCP, Firebase</th>
+        </tr>
+        <tr>
+            <th>
+                其他
+            </th>
+            <th>ChatGpt, SEO、Google Workspace、綠界金流、演算法</th>
+        </tr>
+    </tbody>
+</table>
 
 ## 專業認證
 
@@ -77,6 +99,23 @@ const members = [
     <img style="width:50%" src="/about/311350_1.webp" alt=金融科技力>
     <img style="width:50%" src="/about/082258_1.webp" alt=理財規劃人員>
 </div>
+
+## 教育背景
+
+### Master in Informatics
+
+<img style="width:100%" src="/about/northeastern.jpg" alt=Northeastern>
+
+### 義務役預備軍官
+
+<div style="display:flex;flex-wrap:wrap;">
+    <img style="width:50%" src="/about/military1.webp" alt=金融市場常識與職業道德>
+    <img style="width:50%" src="/about/military2.webp" alt=投信投顧相關法規(含自律規範)>
+</div>
+
+### 中興大學資訊科學學士
+
+<img style="width:100%" src="/about/bachelar.png" alt=nchu>
 
 ## 興趣認證
 
