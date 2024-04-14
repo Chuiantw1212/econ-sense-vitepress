@@ -4,6 +4,11 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/life/single.html",
+                "destination": "/finance/single.html",
+                "type": 301
+            },
+            {
                 "source": "/career/blog.html",
                 "destination": "/engineer/blog.html",
                 "type": 301
