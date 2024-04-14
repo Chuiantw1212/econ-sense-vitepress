@@ -64,6 +64,7 @@ export default defineConfig({
           { text: '理財框架', link: '/finance/framework' },
           { text: '勞工退休規劃', link: '/finance/retirement' },
           { text: '投資進階管道', link: '/finance/investment' },
+          { text: '單身狗生存手冊(未完成)', link: '/finance/single' },
           { text: 'ESBI實踐(整理中)', link: '/finance/esbi' },
         ]
       },
@@ -75,7 +76,6 @@ export default defineConfig({
           { text: '匱乏心理學', link: '/life/scarcity' },
           { text: '我是照顧者', link: '/life/carer' },
           { text: '極簡全齡宅', link: '/life/housing' },
-          { text: '單身狗生存手冊(未完成)', link: '/life/single' },
         ]
       },
       {
