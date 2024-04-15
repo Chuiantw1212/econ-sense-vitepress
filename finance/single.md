@@ -12,6 +12,16 @@ outline: deep
 
 ## 講座評價
 
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_9nCrCu57umhDM93B81VU8UnEipxdSG1YDKjIPiPPc33vOCOC4hTfwavJZxjllyD2lnbkl5wbXY_Q/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+
+## 老人安養信託定型化契約參考範本
+
+此為節錄重點版，完整版請見 <a href="https://www.trust.org.tw/tw/old-disability/trust/5" target="_blank">高齡者身心障礙者信託相關資訊</a>
+
+<iframe src="https://storage.googleapis.com/public.econ-sense.com/%E8%80%81%E4%BA%BA%E5%AE%89%E9%A4%8A%E4%BF%A1%E8%A8%97%E5%AE%9A%E5%9E%8B%E5%8C%96%E5%A5%91%E7%B4%84%E5%8F%83%E8%80%83%E7%AF%84%E6%9C%AC.pdf" width="100%" height="420"></iframe>
+
+## 外部資源
+
 <table>
     <thead>
         <tr>
@@ -22,9 +32,9 @@ outline: deep
     <tbody>
         <tr>
             <th>
-                <a href="https://map.dosw.gov.taipei/taipeiwelfare_map/all_new/elder_map.aspx" target="_blank">台北市銀髮族學習及活動地圖</a>
+                <a href="https://www.trust.org.tw/sinopac/risk-assessment/#idLinkStart" target="_blank">信託公會高齡風險評估試算表網頁版</a>
             </th>
-            <th>台北市政府社會局所建置</th>
+            <th>中華民國信託業商業同業公會製作</th>
         </tr>
     </tbody>
 </table>

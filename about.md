@@ -43,7 +43,7 @@ const members = [
     <thead>
         <tr>
             <th>名稱</th>
-            <th>說明</th>
+            <th>描述</th>
         </tr>
     </thead>
     <tbody>
