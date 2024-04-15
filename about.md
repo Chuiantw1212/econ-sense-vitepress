@@ -53,7 +53,7 @@ const members = [
             </th>
             <th>
             <a href="https://github.com/Chuiantw1212/job-pair-nuxt3" target="_blank">開源</a>,
-            Nuxt3, Bootstrap</th>
+            Nuxt3, Bootstrap, CKEditor</th>
         </tr>
         <tr>
             <th>
