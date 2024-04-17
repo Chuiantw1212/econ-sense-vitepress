@@ -23,6 +23,7 @@ outline: deep
 
 ## 外部資源
 
+### 財務準備
 <table>
     <thead>
         <tr>
@@ -31,6 +32,12 @@ outline: deep
         </tr>
     </thead>
     <tbody>
+        <tr>
+            <th>
+                <a href="https://www.trust.org.tw/tw/old-disability/trust/2?i=0" target="_blank">高齡者身心障礙者信託相關資訊</a>
+            </th>
+            <th>中華民國信託業商業同業公會製作</th>
+        </tr>
         <tr>
             <th>
                 <a href="https://www.trust.org.tw/sinopac/risk-assessment/#idLinkStart" target="_blank">信託公會高齡風險評估試算表網頁版</a>
