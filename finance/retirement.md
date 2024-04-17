@@ -160,18 +160,18 @@ webkitallowfullscreen="true"></iframe>
         <tr>
             <th>
                 <a href="https://www.moj.gov.tw/2204/2528/2529/2530/2533/12401/" target="_blank">
-                   法務部
+                   意定監護契約範本
                 </a>
             </th>
-            <th>意定監護契約範本</th>
+            <th>法務部提供</th>
         </tr>
         <tr>
             <th>
                 <a href="https://hpcod.mohw.gov.tw/HospWeb/RWD/PageType/acp/introduction.aspx" target="_blank">
-                   衛生福利部
+                   預定醫療決定推廣頁面
                 </a>
             </th>
-            <th>預定醫療決定推廣頁面</th>
+            <th>衛生福利部提供</th>
         </tr>
     </tbody>
 </table>

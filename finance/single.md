@@ -8,16 +8,16 @@ outline: deep
 
 ## 投影片
 
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTvhDGQjUl2d1PQ4SHR1PHZv3AsWxtqMwAjLfqHceVXpYQWo0QUFr6k4j38gbxlzo3PgwueSzaAFoXI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTvhDGQjUl2d1PQ4SHR1PHZv3AsWxtqMwAjLfqHceVXpYQWo0QUFr6k4j38gbxlzo3PgwueSzaAFoXI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallow｀fullscreen="true"></iframe>
 
 ## 講座評價
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_9nCrCu57umhDM93B81VU8UnEipxdSG1YDKjIPiPPc33vOCOC4hTfwavJZxjllyD2lnbkl5wbXY_Q/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
-## 老人安養信託定型化契約參考範本
+## 老人安養信託定型化契約參考範
 
 此為節錄重點版，完整版請見 <a href="https://www.trust.org.tw/tw/old-disability/trust/5" target="_blank">高齡者身心障礙者信託相關資訊</a>
-。這也是為什麼信託我是在這個主題介紹，反正最終都是要選一個可信任的人託付，有家庭成員的人選擇會比一個人終老更多。就一個一定會成立家庭的人來說，比起使用安養信託，然後選一個法人監察人，直接轉給配偶子女，讓他們來照顧我會更合理。
+。這也是為什麼信託我是在這個主題介紹，反正最終都是要選一個可信任的人託付，有家庭成員的人選擇會比一個人終老更多。就一個一定會成立家庭的人來說，比起使用安養信託，然後選一個法人監察人，直接轉給配偶子女，讓他們來照顧自己會更合理。
 
 <iframe src="https://storage.googleapis.com/public.econ-sense.com/%E8%80%81%E4%BA%BA%E5%AE%89%E9%A4%8A%E4%BF%A1%E8%A8%97%E5%AE%9A%E5%9E%8B%E5%8C%96%E5%A5%91%E7%B4%84%E5%8F%83%E8%80%83%E7%AF%84%E6%9C%AC.pdf" width="100%" height="420"></iframe>
 
