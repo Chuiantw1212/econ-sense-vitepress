@@ -8,7 +8,7 @@ outline: deep
 
 ## 投影片
 
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTvhDGQjUl2d1PQ4SHR1PHZv3AsWxtqMwAjLfqHceVXpYQWo0QUFr6k4j38gbxlzo3PgwueSzaAFoXI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallow｀fullscreen="true"></iframe>
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTvhDGQjUl2d1PQ4SHR1PHZv3AsWxtqMwAjLfqHceVXpYQWo0QUFr6k4j38gbxlzo3PgwueSzaAFoXI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallow fullscreen="true"></iframe>
 
 ## 講座評價
 
