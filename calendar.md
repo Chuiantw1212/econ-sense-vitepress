@@ -1,4 +1,4 @@
-# 講座排程
+# 講座排程&敲碗
 
 行事曆上的分享內容，在左邊的選單都可以找到對應的投影片，可以先看看內容是不是自己想要的再決定是否參與。
 
@@ -8,7 +8,7 @@
 
 <a href="https://calendar.google.com/calendar/u/0?cid=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank">點此訂閱講座行事曆。</a>
 
-## 我想聽這個主題
+## 我最想聽這個主題
 
 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSey4sIJ4NzoGZ0AcDFaqZwQob8Eg6SbVWmpEfE-PEfGAvx65Q/viewform?embedded=true"  width="100%" height="770" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
 
