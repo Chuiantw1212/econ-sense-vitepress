@@ -53,7 +53,7 @@ export default defineConfig({
     ],
     sidebar: [
       {
-        text: '講座月曆',
+        text: '講座排程',
         link: '/calendar',
       },
       {

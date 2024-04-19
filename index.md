@@ -11,7 +11,7 @@ hero:
     # alt  
     # sponsor
     - theme: brand 
-      text: 講座月曆
+      text: 講座排程
       link: /calendar
     - theme: alt
       text: Line社群
