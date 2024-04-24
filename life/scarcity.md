@@ -34,7 +34,7 @@ const courseItems = [
         image: '/life/springTime.png',
         description: `探索潛意識，聆聽內心的回聲，擁抱真實，成為你心靈的騎象人。`,
         name: '韶光心理學苑',
-        url: 'https://springtimenlp.com/',
+        url: 'https://www.accupass.com/organizer/detail/2008300219423146378210/',
     },
 ]
 
