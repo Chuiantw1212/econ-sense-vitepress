@@ -89,7 +89,7 @@ export default defineConfig({
         ]
       },
       {
-        text: '職涯發展 - 工程師專區',
+        text: '職涯發展 - 技術專區',
         link: '/engineer/outline',
         collapsed: false,
         items: [

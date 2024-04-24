@@ -38,6 +38,13 @@ const digitalDocumentItems = [
         keywords: ['證券', '太陽能', '加密貨幣', '天使投資'],
         audience: ['對純被動收入好奇的人', '想遠離看盤或沒時間看盤的人', '怕被騙或是歸零的人'],
         rating: 3
+    },
+      {
+        url: './single',
+        name: '單身狗地獄求生',
+        keywords: ['獵殺女巫', '台灣現狀', '身心靈準備', '財務準備(信託)'],
+        audience: ['選擇或是被迫單身的人', '介於兩者之間的人', '想了解低生育率成因的人'],
+        rating: 1
     }
 ]
 const courseItems = [
