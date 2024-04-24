@@ -53,8 +53,8 @@ outline: deep
 
 <ul>
     <li>EN是誰？<a href="/about">看這裡。</a></li>
-    <li>怎麼開始學理財？第零任想追沒追到的女孩子是單親媽媽，那時候薪資未滿60萬，撐不起一個家，所以開始學理財，人沒追到但錢有賺到。人生的第一堂理財課是<a href="https://www.ext.scu.edu.tw/courses1.php?cad=ec7544e3-8e3b-11ea-acb9-000c29ad6982#search" target="_blank">東吳大學進修部的如何做好個人理財規劃</a>，之後各種學習的過程中發現理財可自助助人，於是乎就不斷深化到現在</li>
-    <li>怎麼開始安排自己的？看了ElenaLin_青青的<a href="https://www.youtube.com/watch?v=hMWBfWmRSBk" target="_blank">高效度過一天的技巧</a>，從2019/07開始不斷安排自己，就一路飆到現在了。</li>
+    <li>怎麼開始學理財？第零任想追沒追到的女孩子是單親媽媽，那時候薪資未滿60萬，撐不起一個家，所以開始學理財，人沒追到但錢有賺到。人生的第一堂理財課在2018/10，是<a href="https://www.ext.scu.edu.tw/courses1.php?cad=ec7544e3-8e3b-11ea-acb9-000c29ad6982#search" target="_blank">東吳大學進修部的如何做好個人理財規劃</a>，之後各種學習的過程中發現理財可自助助人，於是乎就不斷深化並分享所學。</li>
+    <li>怎麼開始安排自己的？看了ElenaLin_青青的<a href="https://www.youtube.com/watch?v=hMWBfWmRSBk" target="_blank">高效度過一天的技巧</a>，從2019/07開始不斷安排自己，堆疊自己的生命。</li>
 </ul>
 
 ## 聯絡EN
