@@ -17,6 +17,10 @@ outline: deep
 
 ## 外部資源
 
+<a href="https://www.taaze.tw/apredir.html?ap154858690_b_1000573475?a=t" target="_blank" title="3、2、1、0.3、0.1...折？！TAAZE二手書什麼折扣都有、什麼折扣都不奇怪！">
+    <img alt="tazze" width="100%" src="https://media.taaze.tw/showBanaerImage.html?pk=1000569441"/>
+</a>
+
 ### 斷捨離
 
 <table>

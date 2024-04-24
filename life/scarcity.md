@@ -32,7 +32,7 @@ import Books from '../components/books.vue'
 const courseItems = [
     {
         image: '/life/springTime.png',
-        description: `探索潛意識，聆聽內心的回聲，擁抱真實，成為你心靈的騎象人。`,
+        description: `韶光心理學苑（Springtime Psychology Academy,簡稱SPA）由許庭韶諮商心理師所創立，集結NLP與心理學相關的專業人士，希冀能將助人NLP的觀點，搭配心理學的知識，透過淺顯易懂的活動體驗，幫助人們可以擁有更多的彈性思維與技巧方法面對人生困境！`,
         name: '韶光心理學苑',
         url: 'https://www.accupass.com/organizer/detail/2008300219423146378210/',
     },
