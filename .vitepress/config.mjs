@@ -90,13 +90,14 @@ export default defineConfig({
         ]
       },
       {
-        text: '職涯發展 - 技術專區',
+        text: '資料、分析、工程師',
         link: '/engineer/outline',
         collapsed: false,
         items: [
           { text: '電腦DIY', link: '/engineer/computer' },
-          { text: 'VitePress無本部落格(未完成)', link: '/engineer/blog' },
-          { text: '網站技術架構(未完成)', link: '/engineer/web' },
+          { text: 'VitePress無本部落格(待驗證)', link: '/engineer/blog' },
+          // { text: '網站技術架構(未完成)', link: '/engineer/web' },
+          { text: '一生財務試算(製作中)', link: '/engineer/plan' },
           // { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
           // { text: '派遣軍團(未完成)', link: '/engineer/contractor' },
         ]

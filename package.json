@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@vercel/og": "^0.6.2",
+    "axios": "^1.6.8",
     "firebase": "^10.10.0",
     "vitepress-plugin-search": "^1.0.4-alpha.22"
   }

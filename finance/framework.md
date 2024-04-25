@@ -180,7 +180,6 @@ webkitallowfullscreen="true"></iframe>
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
-
 import Books from '../components/books.vue'
 const bookItems = [
     {
