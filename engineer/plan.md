@@ -4,8 +4,9 @@ outline: deep
 
 # 一生財務試算 (WIP)
 
-1. 自己做一個開源的個人財務計算機。要的是數字有憑有據，不低估也不高估自身財務狀況。
-2. 大原則是每個卡片裡面的變數要固定數量，降低使用難度。
+1. 台灣唯一開源的線上個人財務規劃。一切數字有憑有據，不賣商品賣真相。
+2. 工程師也可藉由開源的前後端程式碼學習Javscript。
+3. 民眾也可以快速建立生涯財務觀念
 
 ## 基本資料
 <!-- {{form}} -->
@@ -23,21 +24,28 @@ outline: deep
                 v-model="form.dateOfBirth"
                 type="date"
                 placeholder="選擇出生日期"
+                @change="handleDateOfBirthChanged($event)"
             />
         </el-form-item>
-        <el-form-item label="性別" required prop="town">
-            <el-select v-model="form.town" placeholder="請選擇" :disabled="!form.county">
-                <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
+        <el-form-item label="性別" required prop="gender">
+            <el-select v-model="form.gender" placeholder="請選擇" @change="handleGenderChanged($event)">
+                <el-option v-for="item in genders":key="item.value":label="item.label" :value="item.value"/>
             </el-select>
         </el-form-item>
-        <el-form-item label="居住縣市" required prop="county">
-            <el-select v-model="form.county" placeholder="請選擇" @change="setTown($event)">
-                <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
-            </el-select>
+        <el-form-item label="預估餘命" required prop="lifeExpectancy">
+            <el-input-number v-model="form.lifeExpectancy" :min="0" :max="120" />
         </el-form-item>
     </el-form>
     <template #footer>
-        未來功能如果有註冊用戶的功能，就可以記錄試算結果。目前如果離開網頁所有項目就要重新填寫。
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                <ul>
+                    <li>
+                        預期餘命：<a href="https://data.gov.tw/dataset/39493" target="_blank">預期壽命推估</a>
+                    </li>
+                </ul>
+            </el-collapse-item>
+        </el-collapse>
     </template>
 </el-card>
 
@@ -67,6 +75,11 @@ outline: deep
         <span>買房試算</span>
       </div>
     </template>
+    <el-form-item label="居住縣市" required prop="county">
+        <el-select v-model="form.county" placeholder="請選擇" @change="setTown($event)">
+            <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
+        </el-select>
+    </el-form-item>
     <el-form-item label="行政區" required prop="town">
         <el-select v-model="form.town" placeholder="請選擇" :disabled="!form.county">
             <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
@@ -168,11 +181,43 @@ outline: deep
 </el-card>
 
 <script setup>
-import { onMounted, ref, reactive,} from 'vue'
+import { onMounted, ref, reactive, watch,} from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+// 設定檔案
+const counties = ref([])
+const townMap = reactive({})
+const buildingTypes = ref([])
+const buildingAges = ref([])
+const genders = ref([])
+onMounted(() => {
+    setSelecOptions()
+})
+async function setSelecOptions(){
+    try {
+        if(import.meta.env.MODE==='development'){
+            const res = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
+            const resJson = await res.json()
+            counties.value = resJson.counties || []
+            buildingTypes.value = resJson.buildingTypes || []
+            buildingAges.value = resJson.buildingAges || []
+            genders.value = resJson.genders || []
+            Object.assign(townMap, resJson.townMap)
+        }
+    }
+    catch (error) {
+        // https://element-plus.org/en-US/component/message-box.html#message-box
+        ElMessageBox.alert(error.message, {
+        confirmButtonText: '回講座排程',
+        callback: (action) => {
+                window.location.replace('/calendar');
+            },
+        })
+    }
+}
 // 基本資料
 const form = reactive({
     dateOfBirth: '1990-12-12',
+    gender: 'M',
     county: '',
     town: '',
     buildingType: '',
@@ -185,6 +230,30 @@ const rules = reactive({
     buildingType:  { required: true, message: '請選擇', },
     buildingAge: { required: true, message: '請選擇', },
 })
+function handleDateOfBirthChanged() {
+    calculateLifeExpectancy()
+}
+function handleGenderChanged() {
+    calculateLifeExpectancy()
+}
+async function calculateLifeExpectancy() {
+    const { dateOfBirth, gender } = form
+    if(dateOfBirth && gender){
+        const ceYear = new Date().getFullYear()
+        const yearOfBirth = dateOfBirth.slice(0,4)
+        const age = ceYear - yearOfBirth
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/lifeExpectancy`, {
+            method: 'post',
+            body: JSON.stringify({
+                ceYear,
+                age,
+                gender,
+            }),
+            headers: {'Content-Type': 'application/json'}
+        })
+        form.lifeExpectancy = await res.json()
+    }
+}
 // 需求分析
 const needs = ref(['housing', 'parenting', 'retirement'])
 const checkedNeeds = ref(['housing',])
@@ -204,57 +273,9 @@ const handleCheckedNeedsChange = (value) => {
   checkAll.value = checkedCount === needs.length
   isIndeterminate.value = checkedCount > 0 && checkedCount < needs.length
 }
-// 
-const counties = ref([])
-const townMap = reactive({})
-const buildingTypes = ref([])
-const buildingAges = ref([])
+//
 const towns = ref([])
-const tableData = [
-  {
-    name: '單人房',
-    date: '2016-05-03',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    name: '雙人房',
-    date: '2016-05-02',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    name: '衛浴',
-    date: '2016-05-04',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    name: '客廳+餐廳',
-    date: '2016-05-01',
-    reference: 'https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=H0070037',
-  },
-]
 // hooks
-onMounted(async () => {
-    let baseURL = ''
-    // try {
-    //     if(import.meta.env.MODE==='development'){
-    //         const res = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
-    //         const resJson = await res.json()
-    //         counties.value = resJson.counties || []
-    //         buildingTypes.value = resJson.buildingTypes || []
-    //         buildingAges.value = resJson.buildingAges || []
-    //         Object.assign(townMap, resJson.townMap)
-    //     }
-    // } 
-    // catch (error) {
-    //     // https://element-plus.org/en-US/component/message-box.html#message-box 
-    //     ElMessageBox.alert(error.message, {
-    //     confirmButtonText: '回講座排程',
-    //     callback: (action) => {
-    //             window.location.replace('/calendar');
-    //         },
-    //     })
-    // }
-})
 // methods
 const ruleFormRef = ref()
 async function calculateMortgage(formEl){
@@ -266,10 +287,10 @@ async function calculateMortgage(formEl){
             console.log('error submit!', fields)
         }
     })
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/jcic/contract`, {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/mortgage/contract`, {
         method: 'post',
         body: JSON.stringify(form),
-	    headers: {'Content-Type': 'application/json'}
+        headers: {'Content-Type': 'application/json'}
     })
 }
 function setTown(county){
@@ -279,3 +300,11 @@ function setTown(county){
     }
 }
 </script>
+<style scoped>
+:deep(.my-label) {
+  background: white;
+}
+:deep(.my-content) {
+  background: white;
+}
+</style>
