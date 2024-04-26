@@ -8,9 +8,7 @@ outline: deep
 2. 工程師也可藉由開源的前後端程式碼學習Javscript (Vue + Fastify + Firebase)。
 3. 民眾可以快速建立生涯財務觀念，並提共回饋意見。
 
-## 基本資料
-<!-- {{form}} -->
-<el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="auto">
+## 1. 基本資料
 
 <el-card v-if="checkedNeeds.includes('housing')">
     <template #header>
@@ -52,7 +50,7 @@ outline: deep
     </template>
 </el-card>
 
-## 需求試算
+## 2. 需求試算
 
 <!-- <el-checkbox
     v-model="checkAll"
@@ -76,53 +74,74 @@ outline: deep
         <span>買房試算</span>
       </div>
     </template>
-    <el-form-item label="居住縣市" required prop="county">
-        <el-select v-model="form.county" placeholder="請選擇" @change="setTown($event)">
-            <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
-        </el-select>
-    </el-form-item>
-    <el-form-item label="行政區" required prop="town">
-        <el-select v-model="form.town" placeholder="請選擇" :disabled="!form.county">
-            <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
-        </el-select>
-    </el-form-item>
-    <el-form-item label="建物類別" required prop="buildingType">
-        <el-select v-model="form.buildingType" placeholder="請選擇">
-            <el-option v-for="item in buildingTypes":key="item.value":label="item.label" :value="item.value"/>
-        </el-select>
-    </el-form-item>
-    <el-form-item label="屋齡[年]" required prop="buildingAge">
-        <el-select v-model="form.buildingAge" placeholder="請選擇">
-            <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
-        </el-select>
-    </el-form-item>
-    <el-form-item label="單價" prop="unitPrice">
-        <el-input-number v-model="form.unitPrice" :min="0" :disabled="true"/>
-    </el-form-item>
-    <el-form-item label="雙人房數量">
-        <el-select v-model="form.buildingAge" placeholder="請選擇">
-            <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
-        </el-select>
-    </el-form-item>
-    <el-form-item label="單人房數量">
-        <el-select v-model="form.buildingAge" placeholder="請選擇">
-            <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
-        </el-select>
-    </el-form-item>
-    <el-form-item label="衛浴數量">
-        <el-select v-model="form.buildingAge" placeholder="請選擇">
-            <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
-        </el-select>
-    </el-form-item>
-    <el-form-item label="公設比" prop=publicRatio>
-        <el-input-number v-model="form.publicRatio" :min="0"/>
-    </el-form-item>
-    <el-form-item label="預估合理權狀" prop="publicRatio">
-        <el-input-number v-model="form.publicRatio" :min="0" :disabled="true"/>
-    </el-form-item>
-    <el-form-item label="總價" prop="unitPrice">
-        <el-input-number v-model="form.unitPrice" :min="0" :disabled="true"/>
-    </el-form-item>
+    <el-form ref="ruleFormRef" :model="building" :rules="rules" label-width="auto">
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="居住縣市" required prop="county">
+                    <el-select v-model="building.county" placeholder="請選擇" @change="setTown($event)">
+                        <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
+                    </el-select>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="行政區" required prop="town">
+                    <el-select v-model="building.town" placeholder="請選擇" :disabled="!building.county">
+                        <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
+                    </el-select>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="建物類別" required prop="buildingType">
+                    <el-select v-model="building.buildingType" placeholder="請選擇">
+                        <el-option v-for="item in buildingTypes":key="item.value":label="item.label" :value="item.value"/>
+                    </el-select>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="屋齡[年]" required prop="buildingAge">
+                    <el-select v-model="building.buildingAge" placeholder="請選擇">
+                        <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
+                    </el-select>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-form-item label="單價" prop="unitPrice">
+            <el-input-number v-model="building.unitPrice" :min="0" :disabled="true"/>
+            <el-slider v-model="building.unitPrice" range :marks="marks"  :disabled="true"/>
+        </el-form-item>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="雙人房數量">
+                    <el-input-number v-model="building.doubleBedRoom" :min="0" :max="120"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="單人房數量">
+                    <el-input-number v-model="building.singleBedRoom" :min="0" :max="120"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="衛浴數量">
+                    <el-input-number v-model="building.bathroom" :min="0" :max="120"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="公設比" prop=publicRatio>
+                    <el-input-number v-model="building.publicRatio" :min="0" :max="120"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-form-item label="預估合理權狀" prop="floorSize">
+            <el-input-number v-model="building.floorSize" :min="0" :disabled="true"/>
+        </el-form-item>
+        <el-form-item label="總價" prop="unitPrice">
+            <el-input-number v-model="building.unitPrice" :min="0" :disabled="true"/>
+        </el-form-item>
+    </el-form>
     <!-- <el-checkbox
     v-model="checkAll"
     :indeterminate="isIndeterminate"
@@ -139,10 +158,77 @@ outline: deep
     </el-checkbox>
 </el-checkbox-group> -->
     <template #footer>
-        <el-button type="info" @click="calculateMortgage(ruleFormRef)">試算總價與利息</el-button>
-        <!-- 資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html">財團法人金融聯合徵信中心 OpenAPI</a> -->
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                <table class="table">
+            <tr>
+                <th>空間</th>
+                <th>參考平方公尺</th>
+                <th>參考依據</th>
+            </tr>
+            <tr>
+                <td>雙人房</td>
+                <td>19</td>
+                <td>
+                    <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=K0110021&flno=13" target="_blank">
+                        觀光旅館建築及設備標準
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>單人房</td>
+                <td>13</td>
+                <td>
+                    <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=K0110021&flno=13" target="_blank">
+                        觀光旅館建築及設備標準
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>衛浴</td>
+                <td>4</td>
+                <td>
+                    <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=D0070115&flno=295" target="_blank">
+                        建築技術規則建築設計施工編
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>其他室內空間</td>
+                <td>30</td>
+                <td>
+                    <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=H0070037&flno=10" target="_blank">
+                        幼兒園及其分班基本設施設備標準
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>陽台</td>
+                <td>10%</td>
+                <td>
+                    <a href="https://law.moj.gov.tw/LawClass/LawSingleRela.aspx?PCODE=D0070115&FLNO=162&ty=L" target="_blank">
+                        建築技術規則建築設計施工編
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>公設比</td>
+                <td>預設35%</td>
+                <td>
+                    <a href="https://www.google.com/search?q=%E5%85%AC%E8%A8%AD%E6%AF%94" target="_blank">
+                        Google搜索
+                    </a>
+                </td>
+            </tr>
+        </table>
+            </el-collapse-item>
+        </el-collapse>
     </template>
 </el-card>
+    <!-- <template #footer>
+        <el-button type="info" @click="calculateMortgage(ruleFormRef)">試算總價與利息</el-button>
+        資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html">財團法人金融聯合徵信中心 OpenAPI</a>
+    </template> -->
 
 <br v-if="checkedNeeds.includes('parenting')"/>
 <el-card v-if="checkedNeeds.includes('parenting')">
@@ -213,8 +299,6 @@ outline: deep
 
 ### 儲蓄與投資
 
-</el-form>
-
 <el-card>
     <el-form :model="form" label-width="auto">
     </el-form>
@@ -262,12 +346,19 @@ const form = reactive({
     dateOfBirth: '1990-12-12',
     gender: 'M',
     age: '',
-    // housing
+})
+
+const building = reactive({
     county: '',
     town: '',
     buildingType: '',
-    buildingAge: ''
+    buildingAge: '',
+    doubleBedRoom: 0,
+    singleBedRoom: 0,
+    bathroom: 0,
+    publicRatio: 35,
 })
+
 const rules = reactive({
     dateOfBirth:{ required: true, message: '請選擇', },
     gender: { required: true, message: '請選擇', },
@@ -348,7 +439,14 @@ function setTown(county){
     }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+.table {
+    * {
+        border-color: var(--el-border-color-light);
+        color: var(--el-text-color-regular);
+        background: white !important;
+    }
+}
 :deep(.my-label) {
   background: white;
 }
