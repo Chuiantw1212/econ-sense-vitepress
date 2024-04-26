@@ -4,9 +4,9 @@ outline: deep
 
 # 一生財務試算 (WIP)
 
-1. 台灣唯一開源的線上個人財務規劃。一切數字有憑有據，不賣商品賣真相。
-2. 工程師也可藉由開源的前後端程式碼學習Javscript。
-3. 民眾也可以快速建立生涯財務觀念
+1. 台灣唯一開源的網頁版財務規劃計算機。一切數字有憑有據，不賣商品賣事實。
+2. 工程師也可藉由開源的前後端程式碼學習Javscript (Vue + Fastify + Firebase)。
+3. 民眾可以快速建立生涯財務觀念，並提共回饋意見。
 
 ## 基本資料
 <!-- {{form}} -->
@@ -15,11 +15,11 @@ outline: deep
 <el-card v-if="checkedNeeds.includes('housing')">
     <template #header>
       <div class="card-header">
-        <span>必填寫資料</span>
+        <span>基本資料</span>
       </div>
     </template>
     <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="auto">
-        <el-form-item label="出生日期" required prop="dateOfBirth">
+        <el-form-item label="出生日期" prop="dateOfBirth">
              <el-date-picker
                 v-model="form.dateOfBirth"
                 type="date"
@@ -27,13 +27,16 @@ outline: deep
                 @change="handleDateOfBirthChanged($event)"
             />
         </el-form-item>
-        <el-form-item label="性別" required prop="gender">
+        <el-form-item label="性別" prop="gender">
             <el-select v-model="form.gender" placeholder="請選擇" @change="handleGenderChanged($event)">
                 <el-option v-for="item in genders":key="item.value":label="item.label" :value="item.value"/>
             </el-select>
         </el-form-item>
-        <el-form-item label="預估餘命" required prop="lifeExpectancy">
-            <el-input-number v-model="form.lifeExpectancy" :min="0" :max="120" />
+        <el-form-item label="試算年齡" prop="lifeExpectancy">
+            <el-input-number v-model="form.age" :min="0" :max="120" :disabled="true"/>
+        </el-form-item>
+        <el-form-item label="預估餘命" prop="lifeExpectancy">
+            <el-input-number v-model="form.lifeExpectancy" :min="0" :max="120" :disabled="true"/>
         </el-form-item>
     </el-form>
     <template #footer>
@@ -50,8 +53,6 @@ outline: deep
 </el-card>
 
 ## 需求試算
-
-目前只做到買房試算。
 
 <!-- <el-checkbox
     v-model="checkAll"
@@ -95,6 +96,48 @@ outline: deep
             <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
         </el-select>
     </el-form-item>
+    <el-form-item label="單價" prop="unitPrice">
+        <el-input-number v-model="form.unitPrice" :min="0" :disabled="true"/>
+    </el-form-item>
+    <el-form-item label="雙人房數量">
+        <el-select v-model="form.buildingAge" placeholder="請選擇">
+            <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
+        </el-select>
+    </el-form-item>
+    <el-form-item label="單人房數量">
+        <el-select v-model="form.buildingAge" placeholder="請選擇">
+            <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
+        </el-select>
+    </el-form-item>
+    <el-form-item label="衛浴數量">
+        <el-select v-model="form.buildingAge" placeholder="請選擇">
+            <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
+        </el-select>
+    </el-form-item>
+    <el-form-item label="公設比" prop=publicRatio>
+        <el-input-number v-model="form.publicRatio" :min="0"/>
+    </el-form-item>
+    <el-form-item label="預估合理權狀" prop="publicRatio">
+        <el-input-number v-model="form.publicRatio" :min="0" :disabled="true"/>
+    </el-form-item>
+    <el-form-item label="總價" prop="unitPrice">
+        <el-input-number v-model="form.unitPrice" :min="0" :disabled="true"/>
+    </el-form-item>
+    <!-- <el-checkbox
+    v-model="checkAll"
+    :indeterminate="isIndeterminate"
+    @change="handleCheckAllChange"
+  >
+    Check all
+  </el-checkbox>
+  <el-checkbox-group
+    v-model="checkedNeeds"
+    @change="handleCheckedNeedsChange"
+  >
+    <el-checkbox v-for="need in needs" :key="need" :label="need" :value="need">
+      {{ need }}
+    </el-checkbox>
+</el-checkbox-group> -->
     <template #footer>
         <el-button type="info" @click="calculateMortgage(ruleFormRef)">試算總價與利息</el-button>
         <!-- 資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html">財團法人金融聯合徵信中心 OpenAPI</a> -->
@@ -218,6 +261,8 @@ async function setSelecOptions(){
 const form = reactive({
     dateOfBirth: '1990-12-12',
     gender: 'M',
+    age: '',
+    // housing
     county: '',
     town: '',
     buildingType: '',
@@ -225,6 +270,7 @@ const form = reactive({
 })
 const rules = reactive({
     dateOfBirth:{ required: true, message: '請選擇', },
+    gender: { required: true, message: '請選擇', },
     county: { required: true, message: '請選擇', },
     town: { required: true, message: '請選擇', },
     buildingType:  { required: true, message: '請選擇', },
@@ -237,20 +283,22 @@ function handleGenderChanged() {
     calculateLifeExpectancy()
 }
 async function calculateLifeExpectancy() {
-    const { dateOfBirth, gender } = form
+    const { dateOfBirth, gender, age } = form
     if(dateOfBirth && gender){
         const ceYear = new Date().getFullYear()
         const yearOfBirth = dateOfBirth.slice(0,4)
-        const age = ceYear - yearOfBirth
+        const calculateAge = ceYear - yearOfBirth
         const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/lifeExpectancy`, {
             method: 'post',
             body: JSON.stringify({
                 ceYear,
-                age,
+                age:calculateAge,
                 gender,
             }),
             headers: {'Content-Type': 'application/json'}
         })
+
+        form.age = calculateAge
         form.lifeExpectancy = await res.json()
     }
 }
