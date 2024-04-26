@@ -111,8 +111,11 @@
     </template>
 </el-card>
 
+<!-- <el-button plain @click="open">Click to open the Message Box</el-button> -->
+
 <script setup>
-import { onMounted, ref, reactive} from 'vue'
+import { onMounted, ref, reactive,} from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 const needs = ref(['housing', 'parenting', 'retirement'])
 const checkedNeeds = ref(['housing', 'parenting', 'retirement'])
 const checkAll = ref(false)
@@ -141,13 +144,25 @@ const form = reactive({
 })
 // hooks
 onMounted(async () => {
-    // let baseURL = ''
-    // if(import.meta.env.MODE==='development'){
-    //     const res = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
-    //     const resJson = await res.json()
-    //     counties.value = resJson.counties ||[]
-    //     Object.assign(townMap, resJson.townMap)
-    // }
+    let baseURL = ''
+    try {
+        if(import.meta.env.MODE==='development'){
+            const res = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
+            const resJson = await res.json()
+            counties.value = resJson.counties ||[]
+            Object.assign(townMap, resJson.townMap)
+        }
+        throw new Error("連線失敗")
+    } 
+    catch (error) {
+        // https://element-plus.org/en-US/component/message-box.html#message-box 
+        ElMessageBox.alert(error.message, {
+        confirmButtonText: '回講座排程',
+        callback: (action) => {
+                window.location.replace('/calendar');
+            },
+        })
+    }
 })
 // methods
 function setTown(county){
