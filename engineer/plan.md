@@ -16,25 +16,25 @@ outline: deep
         <span>基本資料</span>
       </div>
     </template>
-    <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="auto">
+    <el-form ref="ruleFormRef" :model="profile" :rules="profileRules" label-width="auto">
         <el-form-item label="出生日期" prop="dateOfBirth">
              <el-date-picker
-                v-model="form.dateOfBirth"
+                v-model="profile.dateOfBirth"
                 type="date"
                 placeholder="選擇出生日期"
                 @change="handleDateOfBirthChanged($event)"
             />
         </el-form-item>
         <el-form-item label="性別" prop="gender">
-            <el-select v-model="form.gender" placeholder="請選擇" @change="handleGenderChanged($event)">
+            <el-select v-model="profile.gender" placeholder="請選擇" @change="handleGenderChanged($event)">
                 <el-option v-for="item in genders":key="item.value":label="item.label" :value="item.value"/>
             </el-select>
         </el-form-item>
         <el-form-item label="試算年齡" prop="lifeExpectancy">
-            <el-input-number v-model="form.age" :min="0" :max="120" :disabled="true"/>
+            <el-input-number v-model="profile.age" :min="0" :max="120" :disabled="true"/>
         </el-form-item>
         <el-form-item label="預估餘命" prop="lifeExpectancy">
-            <el-input-number v-model="form.lifeExpectancy" :min="0" :max="120" :disabled="true"/>
+            <el-input-number v-model="profile.lifeExpectancy" :min="0" :max="120" :disabled="true"/>
         </el-form-item>
     </el-form>
     <template #footer>
@@ -71,21 +71,21 @@ outline: deep
 <el-card v-if="checkedNeeds.includes('housing')">
     <template #header>
       <div class="card-header">
-        <span>買房試算</span>
+        <span>購屋試算</span>
       </div>
     </template>
-    <el-form ref="ruleFormRef" :model="building" :rules="rules" label-width="auto">
+    <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="building" :rules="buildingRules" label-width="auto">
         <el-row>
             <el-col :span="12">
-                <el-form-item label="居住縣市" required prop="county">
-                    <el-select v-model="building.county" placeholder="請選擇" @change="setTown($event)">
+                <el-form-item label="居住縣市" prop="county">
+                    <el-select v-model="building.county" placeholder="請選擇" @change="onCountyChanged($event)">
                         <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="行政區" required prop="town">
-                    <el-select v-model="building.town" placeholder="請選擇" :disabled="!building.county">
+                <el-form-item label="行政區" prop="town">
+                    <el-select v-model="building.town" placeholder="請選擇" :disabled="!building.county" @change="onTownChanged($event)">
                         <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
@@ -93,53 +93,74 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="建物類別" required prop="buildingType">
-                    <el-select v-model="building.buildingType" placeholder="請選擇">
+                <el-form-item label="建物類別" prop="buildingType">
+                    <el-select v-model="building.buildingType" placeholder="請選擇" @change="onBuildingTypeChanged($event)">
                         <el-option v-for="item in buildingTypes":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="屋齡[年]" required prop="buildingAge">
-                    <el-select v-model="building.buildingAge" placeholder="請選擇">
+                <el-form-item label="屋齡[年]" prop="buildingAge">
+                    <el-select v-model="building.buildingAge" placeholder="請選擇" :disabled="!building.county" @change="onBuildingAgeChanged($event)">
                         <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
+            <el-col :span="12">
+                <el-form-item label="含車位" prop="hasParking">
+                    <el-select v-model="building.hasParking" placeholder="請選擇" :disabled="!building.county" @change="onBuildingTypeChanged($event)">
+                        <el-option v-for="item in hasParkingOptions":key="item.value":label="item.label" :value="item.value"/>
+                    </el-select>
+                </el-form-item>
+            </el-col>
         </el-row>
-        <el-form-item label="單價" prop="unitPrice">
-            <el-input-number v-model="building.unitPrice" :min="0" :disabled="true"/>
-            <el-slider v-model="building.unitPrice" range :marks="marks"  :disabled="true"/>
-        </el-form-item>
+        <el-row>
+            <el-col :span="24">
+                <el-form-item label="單價" prop="unitPrice">
+                    <el-input-number v-model="building.unitPrice" :min="0" :disabled="true"/>
+                    <!-- <el-slider v-model="building.unitPrice" range :marks="marks"  :disabled="true"/> -->
+                </el-form-item>
+                {{building}}
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24">
+                <el-form-item label="單價" prop="unitPrice">
+                    <el-slider v-model="unitPriceRange" range :marks="unitPriceMarks" />
+                </el-form-item>
+            </el-col>
+        </el-row>
+    </el-form>
+    <el-form ref="ruleFormRef" :model="room" :rules="roomRules" label-width="auto">
         <el-row>
             <el-col :span="12">
                 <el-form-item label="雙人房數量">
-                    <el-input-number v-model="building.doubleBedRoom" :min="0" :max="120"/>
+                    <el-input-number v-model="room.doubleBedRoom" :min="0" :max="120"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="單人房數量">
-                    <el-input-number v-model="building.singleBedRoom" :min="0" :max="120"/>
+                    <el-input-number v-model="room.singleBedRoom" :min="0" :max="120"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="衛浴數量">
-                    <el-input-number v-model="building.bathroom" :min="0" :max="120"/>
+                    <el-input-number v-model="room.bathroom" :min="0" :max="120"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="公設比" prop=publicRatio>
-                    <el-input-number v-model="building.publicRatio" :min="0" :max="120"/>
+                    <el-input-number v-model="room.publicRatio" :min="0" :max="120"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-form-item label="預估合理權狀" prop="floorSize">
-            <el-input-number v-model="building.floorSize" :min="0" :disabled="true"/>
+            <el-input-number v-model="room.floorSize" :min="0" :disabled="true"/>
         </el-form-item>
         <el-form-item label="總價" prop="unitPrice">
-            <el-input-number v-model="building.unitPrice" :min="0" :disabled="true"/>
+            <el-input-number v-model="room.totalPrice" :min="0" :disabled="true"/>
         </el-form-item>
     </el-form>
     <!-- <el-checkbox
@@ -237,18 +258,18 @@ outline: deep
         <span>育兒試算</span>
       </div>
     </template>
-    <el-form :model="form" label-width="auto">
+    <!-- <el-form :model="form" label-width="auto">
         <el-form-item label="縣市" :span="10">
-            <el-select v-model="form.county" placeholder="請選擇" @change="setTown($event)">
+            <el-select v-model="profile.county" placeholder="請選擇" @change="onCountyChanged($event)">
                 <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
             </el-select>
         </el-form-item>
         <el-form-item label="行政區" :span="10">
-            <el-select v-model="form.town" placeholder="請選擇">
+            <el-select v-model="profile.town" placeholder="請選擇">
                 <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
             </el-select>
         </el-form-item>
-    </el-form>
+    </el-form> -->
     <template #footer>
         <ul>
             <li>資料來源：
@@ -269,18 +290,18 @@ outline: deep
         <span>退休試算</span>
       </div>
     </template>
-    <el-form :model="form" label-width="auto">
+    <!-- <el-form :model="form" label-width="auto">
         <el-form-item label="縣市" :span="10">
-            <el-select v-model="form.county" placeholder="請選擇" @change="setTown($event)">
+            <el-select v-model="profile.county" placeholder="請選擇" @change="onCountyChanged($event)">
                 <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
             </el-select>
         </el-form-item>
         <el-form-item label="行政區" :span="10">
-            <el-select v-model="form.town" placeholder="請選擇">
+            <el-select v-model="profile.town" placeholder="請選擇">
                 <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
             </el-select>
         </el-form-item>
-    </el-form>
+    </el-form> -->
     <template #footer>
         <ul>
             <li>資料來源：
@@ -300,8 +321,6 @@ outline: deep
 ### 儲蓄與投資
 
 <el-card>
-    <el-form :model="form" label-width="auto">
-    </el-form>
     <template #footer>
         資料來源：<a href="https://data.gov.tw/dataset/108265">家庭收支調查-平均每戶可支配所得及消費支出依可支配所得按戶數五等分位分及經濟戶長年齡組別分</a>
     </template>
@@ -340,32 +359,17 @@ async function setSelecOptions(){
             },
         })
     }
+    calculateLifeExpectancy()
 }
 // 基本資料
-const form = reactive({
+const profile = reactive({
     dateOfBirth: '1990-12-12',
     gender: 'M',
-    age: '',
+    age: 0,
 })
-
-const building = reactive({
-    county: '',
-    town: '',
-    buildingType: '',
-    buildingAge: '',
-    doubleBedRoom: 0,
-    singleBedRoom: 0,
-    bathroom: 0,
-    publicRatio: 35,
-})
-
-const rules = reactive({
+const profileRules = reactive({
     dateOfBirth:{ required: true, message: '請選擇', },
     gender: { required: true, message: '請選擇', },
-    county: { required: true, message: '請選擇', },
-    town: { required: true, message: '請選擇', },
-    buildingType:  { required: true, message: '請選擇', },
-    buildingAge: { required: true, message: '請選擇', },
 })
 function handleDateOfBirthChanged() {
     calculateLifeExpectancy()
@@ -374,7 +378,7 @@ function handleGenderChanged() {
     calculateLifeExpectancy()
 }
 async function calculateLifeExpectancy() {
-    const { dateOfBirth, gender, age } = form
+    const { dateOfBirth, gender, age } = profile
     if(dateOfBirth && gender){
         const ceYear = new Date().getFullYear()
         const yearOfBirth = dateOfBirth.slice(0,4)
@@ -389,8 +393,8 @@ async function calculateLifeExpectancy() {
             headers: {'Content-Type': 'application/json'}
         })
 
-        form.age = calculateAge
-        form.lifeExpectancy = await res.json()
+        profile.age = calculateAge
+        profile.lifeExpectancy = await res.json()
     }
 }
 // 需求分析
@@ -399,7 +403,7 @@ const checkedNeeds = ref(['housing',])
 const checkAll = ref(false)
 const isIndeterminate = ref(true)
 const needMap = {
-    housing: '買房',
+    housing: '購屋',
     parenting: '育兒',
     retirement: '退休',
 }
@@ -412,8 +416,94 @@ const handleCheckedNeedsChange = (value) => {
   checkAll.value = checkedCount === needs.length
   isIndeterminate.value = checkedCount > 0 && checkedCount < needs.length
 }
-//
+// 購屋分析
+const building = reactive({
+    county: '',
+    town: '',
+    buildingType: '',
+    buildingAge: '',
+    hasParking: '',
+    count: 0,
+    pr25: 0,
+    pr75: 0,
+    average: 0,
+})
+const unitPriceRange = ref([25, 75])
+const unitPriceMarks = reactive({
+    25: '',
+    75: ''
+})
+const buildingLoading = ref(false)
 const towns = ref([])
+const hasParkingOptions = ref([
+    { label: '有', value: true },
+    { label: '無', value: false},
+])
+const buildingRules = reactive({
+    county: { required: true, message: '請選擇', },
+    // town: { required: true, message: '請選擇', },
+    // buildingType:  { required: true, message: '請選擇', },
+    // buildingAge: { required: true, message: '請選擇', },
+    // hasParking: { required: true, message: '請選擇', },
+})
+function onCountyChanged(county) {
+    towns.value = []
+    if(county) {
+        towns.value = townMap[county]
+    }
+    getUnitPrice()
+}
+function onTownChanged() {
+    getUnitPrice()
+}
+function onBuildingTypeChanged() {
+    getUnitPrice()
+}
+function onBuildingAgeChanged() {
+    getUnitPrice()
+}
+async function getUnitPrice() {
+    const {county, town, buildingType, buildingAge} = building
+    if(county) {
+        try {
+            buildingLoading.value = true
+            const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/unitPrice`, {
+                method: 'post',
+                body: JSON.stringify(building),
+                headers: {'Content-Type': 'application/json'}
+            })
+            const resJson = await res.json()
+            Object.assign(building, resJson)
+            
+            const { pr25, pr75, average } = resJson
+            unitPriceRange.value = [25, 75]
+            const fraction = average - pr25
+            const deno = pr75 - pr25
+            const averagePr = 25 + Math.floor(fraction/deno)/2
+            Object.assign(unitPriceMarks, {
+                25: pr25,
+                75: pr75,
+            })
+        } catch (error) {
+            alert(error.message||error)
+        } finally {
+            buildingLoading.value = false
+        }
+    }
+}
+// 購屋分析2
+const room = reactive({
+    doubleBedRoom: 0,
+    singleBedRoom: 0,
+    bathroom: 0,
+    publicRatio: 35,
+})
+const roomRules = {
+    doubleBedRoom: { required: true, message: '請選擇', },
+    singleBedRoom: { required: true, message: '請選擇', },
+    bathroom:  { required: true, message: '請選擇', },
+    publicRatio: { required: true, message: '請選擇', },
+}
 // hooks
 // methods
 const ruleFormRef = ref()
@@ -431,12 +521,6 @@ async function calculateMortgage(formEl){
         body: JSON.stringify(form),
         headers: {'Content-Type': 'application/json'}
     })
-}
-function setTown(county){
-    towns.value = []
-    if(county) {
-        towns.value = townMap[county]
-    }
 }
 </script>
 <style lang="scss" scoped>
