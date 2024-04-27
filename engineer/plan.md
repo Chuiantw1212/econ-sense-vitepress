@@ -110,7 +110,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="含車位" prop="hasParking">
-                    <el-select v-model="building.hasParking" placeholder="請選擇" :disabled="!building.town" @change="onHasParkingChanged($event)">
+                    <el-select v-model="building.hasParking" placeholder="請選擇" @change="onHasParkingChanged($event)">
                         <el-option label="不限" value=""></el-option>
                         <el-option v-for="item in hasParkingOptions":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
@@ -135,24 +135,36 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="雙人房數量">
-                    <el-input-number v-model="room.doubleBedRoom" :min="0" :max="120" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="room.doubleBedRoom" :min="0" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="單人房數量">
-                    <el-input-number v-model="room.singleBedRoom" :min="0" :max="120" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="room.singleBedRoom" :min="0" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="衛浴數量">
-                    <el-input-number v-model="room.bathroom" :min="0" :max="120" @change="calculateFloorSize()"/>
+                <el-form-item label="餐廳+客廳">
+                    <el-input-number v-model="room.diningRoom" :min="1" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
+                <el-form-item label="衛浴數量">
+                    <el-input-number v-model="room.bathroom" :min="1" @change="calculateFloorSize()"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <!-- <el-col :span="12">
+                <el-form-item label="廚房">
+                    <el-input-number v-model="room.kitchen" :disabled="true" :min="1" @change="calculateFloorSize()"/>
+                </el-form-item>
+            </el-col> -->
+            <el-col :span="12">
                 <el-form-item label="公設比(%)" >
-                    <el-input-number v-model="room.publicRatio" :min="0" :max="120" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="room.publicRatio" :min="0" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -181,7 +193,7 @@ outline: deep
             </el-col>
         </el-row>
         <el-form-item label="總價(萬)" prop="unitPrice">
-            <el-text>{{ totalHousePrice }} 坪</el-text>
+            <el-text>{{ Number(totalHousePrice).toLocaleString() }} 坪</el-text>
         </el-form-item>
     </el-form>
     <!-- <el-checkbox
@@ -238,6 +250,24 @@ outline: deep
                 </td>
             </tr>
             <tr>
+                <td>廚房</td>
+                <td>2~4</td>
+                <td>
+                    <a href="https://www.pro360.com.tw/category/kitchen_decorating#:~:text=%E4%B8%8D%E5%90%8C%E7%9A%84%E5%BB%9A%E5%85%B7%E9%85%8D%E7%BD%AE%E5%B0%8D,%E8%BC%83%E5%A5%BD%E7%9A%84%E4%BD%BF%E7%94%A8%E9%AB%94%E9%A9%97%E3%80%82" target="_blank">
+                        廚房空間如何規劃？廚房設計4大攻略及範例圖片參考｜PRO360達人網
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>餐廳+客廳</td>
+                <td>1/人</td>
+                <td>
+                    <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0060009&flno=322" target="_blank">
+                        職業安全衛生設施規則
+                    </a>
+                </td>
+            </tr>
+            <tr>
                 <td>其他室內空間</td>
                 <td>30</td>
                 <td>
@@ -260,7 +290,7 @@ outline: deep
                 <td>24.75</td>
                 <td>
                     <a href="https://tnews.cc/ur/newscon25045.htm" target="_blank">
-                        研商「精進建物測繪登記相關業務」第 2 次會議紀錄 
+                        研商「精進建物測繪登記相關業務」第 2 次會議紀錄
                     </a>
                 </td>
             </tr>
@@ -274,6 +304,30 @@ outline: deep
                 </td>
             </tr>
         </table>
+            </el-collapse-item>
+        </el-collapse>
+    </template>
+</el-card>
+<br v-if="checkedNeeds.includes('housing')"/>
+<el-card v-if="checkedNeeds.includes('housing')">
+    <template #header>
+      <div class="card-header">
+        <span>購屋貸款試算</span>
+      </div>
+    </template>
+    <el-form :model="form" label-width="auto">
+        <el-form-item label="預估利息">
+            <el-input-number v-model="interestRate" :min="0"/>
+        </el-form-item>
+        <el-form-item label="貸款成數">
+            <el-input-number v-model="mortgage.loanPercent" :min="0"/>
+        </el-form-item>
+    </el-form>
+    <template #footer>
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                預估利息：<a href="https://www.cbc.gov.tw/tw/lp-370-1.html" target="_blank">央行貼放利率
+                </a>
             </el-collapse-item>
         </el-collapse>
     </template>
@@ -308,14 +362,6 @@ outline: deep
                 藉由夫妻與核心的支出與人口差異，粗估家庭中每個需要受照顧的人口平均每月需要多少支出。
             </li>
         </ul>
-    </template>
-</el-card>
-<br v-if="checkedNeeds.includes('housing')"/>
-<el-card v-if="checkedNeeds.includes('housing')">
-    <template #header>
-      <div class="card-header">
-        <span>購屋貸款試算</span>
-      </div>
     </template>
 </el-card>
 <br v-if="checkedNeeds.includes('retirement')"/>
@@ -370,21 +416,24 @@ const townMap = reactive({})
 const buildingTypes = ref([])
 const buildingAges = ref([])
 const genders = ref([])
+const interestRate = ref(0)
 onMounted(() => {
     setSelecOptions()
     calculateFloorSize()
 })
 async function setSelecOptions(){
     try {
-        if(import.meta.env.MODE==='development'){
-            const res = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
-            const resJson = await res.json()
-            counties.value = resJson.counties || []
-            buildingTypes.value = resJson.buildingTypes || []
-            buildingAges.value = resJson.buildingAges || []
-            genders.value = resJson.genders || []
-            Object.assign(townMap, resJson.townMap)
-        }
+        const selectRes = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
+        const selectResJson = await selectRes.json()
+        counties.value = selectResJson.counties || []
+        buildingTypes.value = selectResJson.buildingTypes || []
+        buildingAges.value = selectResJson.buildingAges || []
+        genders.value = selectResJson.genders || []
+        Object.assign(townMap, selectResJson.townMap)
+
+        const bankConfigRes = await fetch(`${import.meta.env.VITE_BASE_URL}/bank/config`)
+        const bankConfigResJson = await bankConfigRes.json()
+        interestRate.value = bankConfigResJson.interestRate
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
@@ -511,7 +560,7 @@ async function getUnitPrice() {
             })
             const resJson = await res.json()
             Object.assign(building, resJson)
-            
+
             const { pr25, pr75, average } = resJson
             if(!average) {
                 ElMessage('資料筆數過少，請調整查詢條件')
@@ -535,6 +584,7 @@ const room = reactive({
     doubleBedRoom: 1,
     singleBedRoom: 2,
     bathroom: 2,
+    diningRoom: 1,
     publicRatio: 35,
     mainBuilding: 0,
     outBuilding: 0,
@@ -549,34 +599,36 @@ const roomRules = {
     publicRatio: { required: true, message: '請選擇', },
 }
 function calculateFloorSize() {
-    const { doubleBedRoom, singleBedRoom, bathroom, publicRatio } = room
+    const { doubleBedRoom, singleBedRoom, bathroom, diningRoom, publicRatio } = room
 
     const fortmatRatio = 0.3025
     const baseInteriorSize = 30 * fortmatRatio
     const doubleRoomSize = doubleBedRoom * 19 * fortmatRatio
     const singleRoomSize = singleBedRoom * 13 * fortmatRatio
     const bathRoomSize = bathroom * 4 * fortmatRatio
+    const headCount = 2 * doubleBedRoom + singleBedRoom
+    const diningTableSize = Math.max(2, headCount) * diningRoom *  fortmatRatio
 
     // 主建物只包含室內空間
-    room.mainBuilding = Number(Number(baseInteriorSize + doubleRoomSize + singleRoomSize + bathRoomSize).toFixed(1)) 
+    room.mainBuilding = Number(Number(baseInteriorSize + doubleRoomSize + singleRoomSize + bathRoomSize + diningTableSize).toFixed(2))
 
     // 附屬建築比如陽台
     const balcanyPercent = 0.1 // 10%
-    room.outBuilding = Number(Number(room.mainBuilding * balcanyPercent).toFixed(1)) 
+    room.outBuilding = Number(Number(room.mainBuilding * balcanyPercent).toFixed(2))
 
-
+    // 公設比計算
     const publicRatioPercent = 1 + publicRatio / 100
 
     // 停車位權狀
     const parkingSize = 24.75 * fortmatRatio * publicRatioPercent
-    room.parkingSize = Number(Number(parkingSize).toFixed(1))
+    room.parkingSize = Number(Number(parkingSize).toFixed(2))
 
     // 權狀坪數
     let floorSize = (room.mainBuilding + room.outBuilding) * publicRatioPercent
     if(building.hasParking) {
         floorSize += room.parkingSize
     }
-    room.floorSize = Number(Number(floorSize).toFixed(1))
+    room.floorSize = Number(Number(floorSize).toFixed(2))
     calculateTotalPrice()
 }
 function calculateTotalPrice() {
@@ -585,6 +637,11 @@ function calculateTotalPrice() {
         totalHousePrice.value = Number(beforeFormatPrice.toFixed(2))
     }
 }
+// 房屋貸款試算
+const mortgage = reactive({
+    loanPercent: 0,
+
+})
 </script>
 <style lang="scss" scoped>
 .table {
