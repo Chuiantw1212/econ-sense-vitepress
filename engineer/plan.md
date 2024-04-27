@@ -118,14 +118,14 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="資料筆數" prop="unitPrice">
-                    <el-text class="mx-1">{{ Number(building.count).toLocaleString(undefined) }}</el-text>
+                    <el-text>{{ Number(building.count).toLocaleString(undefined) }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
-            <el-col :span="24">
+            <el-col :span="22">
                 <el-form-item label="單價(萬/坪)" prop="unitPrice">
-                    <el-slider v-model="unitPriceRange" range :marks="unitPriceMarks" :disabled="!building.average" />
+                    <el-slider v-model="buildingUnitPrice" :min="building.pr25" :max="building.pr75" :marks="unitPriceMarks" :disabled="!building.average" @change="calculateTotalPrice($event)"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -159,29 +159,29 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="預估主建實坪" prop="floorSize">
-                    <el-input-number v-model="room.mainBuilding" :min="0" :disabled="true"/>
+                    <el-text>{{ room.mainBuilding }} 坪</el-text>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="預估附屬建物" prop="floorSize">
-                    <el-input-number v-model="room.outBuilding" :min="0" :disabled="true"/>
+                    <el-text>{{ room.outBuilding }} 坪</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col v-if="building.hasParking" :span="12">
                 <el-form-item label="預估車位權狀" prop="floorSize">
-                    <el-input-number v-model="room.parkingSize" :min="0" :disabled="true"/>
+                    <el-text>{{ room.parkingSize }} 坪</el-text>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="預估權狀坪數" prop="floorSize">
-                    <el-input-number v-model="room.floorSize" :min="0" :disabled="true"/>
+                    <el-text>{{ room.floorSize }} 坪</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-form-item label="總價(萬)" prop="unitPrice">
-            <el-input-number v-model="totalHousePrice" :min="0" :disabled="true"/>
+            <el-text>{{ totalHousePrice }} 坪</el-text>
         </el-form-item>
     </el-form>
     <!-- <el-checkbox
@@ -458,13 +458,13 @@ const building = reactive({
     hasParking: '',
     count: 0,
     pr25: 0,
-    pr75: 0,
+    pr75: 100,
     average: 0,
 })
-const unitPriceRange = ref([25, 75])
+const buildingUnitPrice = ref(0)
 let unitPriceMarks = reactive({
-    25: 'PR25：？',
-    75: 'PR75：？'
+    0: 'PR25：？',
+    100: 'PR75：？'
 })
 const buildingLoading = ref(false)
 const towns = ref([])
@@ -510,19 +510,15 @@ async function getUnitPrice() {
             Object.assign(building, resJson)
             
             const { pr25, pr75, average } = resJson
-            unitPriceMarks = {
-                25: `PR25: ${pr25}`,
-                75: `PR75: ${pr75}`,
-            }
             if(!average) {
                 ElMessage('資料筆數過少，請調整查詢條件')
                 return
             }
-            const fraction = average - pr25
-            const deno = pr75 - pr25
-            const averagePr = Math.floor(25 + fraction/deno * 50)
-            const averageValueFixed2 = Number(average).toFixed(2)
-            unitPriceMarks[averagePr] = `平均：${averageValueFixed2}`
+            unitPriceMarks = {}
+            unitPriceMarks[pr25] = `PR25: ${pr25}`
+            unitPriceMarks[pr75] = `PR75: ${pr75}`
+            unitPriceMarks[average] = `平均：${average}`
+            buildingUnitPrice.value = average
             calculateTotalPrice()
         } catch (error) {
             alert(error.message||error)
@@ -581,8 +577,9 @@ function calculateFloorSize() {
     calculateTotalPrice()
 }
 function calculateTotalPrice() {
-    if(building.average && room.floorSize){
-        totalHousePrice.value = Number(Number(building.average) * Number(room.floorSize)).toFixed(2)
+    if(buildingUnitPrice.value && room.floorSize){
+        const beforeFormatPrice =  Number(buildingUnitPrice.value) * Number(room.floorSize)
+        totalHousePrice.value = Number(beforeFormatPrice.toFixed(2))
     }
 }
 </script>
