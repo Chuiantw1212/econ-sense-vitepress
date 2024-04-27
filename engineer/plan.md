@@ -71,7 +71,7 @@ outline: deep
 <el-card v-if="checkedNeeds.includes('housing')">
     <template #header>
       <div class="card-header">
-        <span>購屋試算</span>
+        <span>購屋總價試算</span>
       </div>
     </template>
     <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="building" :rules="buildingRules" label-width="auto">
@@ -278,11 +278,6 @@ outline: deep
         </el-collapse>
     </template>
 </el-card>
-    <!-- <template #footer>
-        <el-button type="info" @click="calculateMortgage(ruleFormRef)">試算總價與利息</el-button>
-        資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html">財團法人金融聯合徵信中心 OpenAPI</a>
-    </template> -->
-
 <br v-if="checkedNeeds.includes('parenting')"/>
 <el-card v-if="checkedNeeds.includes('parenting')">
     <template #header>
@@ -313,6 +308,14 @@ outline: deep
                 藉由夫妻與核心的支出與人口差異，粗估家庭中每個需要受照顧的人口平均每月需要多少支出。
             </li>
         </ul>
+    </template>
+</el-card>
+<br v-if="checkedNeeds.includes('housing')"/>
+<el-card v-if="checkedNeeds.includes('housing')">
+    <template #header>
+      <div class="card-header">
+        <span>購屋貸款試算</span>
+      </div>
     </template>
 </el-card>
 <br v-if="checkedNeeds.includes('retirement')"/>
