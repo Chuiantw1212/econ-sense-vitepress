@@ -95,6 +95,7 @@ outline: deep
             <el-col :span="12">
                 <el-form-item label="建物類別" prop="buildingType">
                     <el-select v-model="building.buildingType" placeholder="請選擇" :disabled="!building.town"  @change="onBuildingTypeChanged($event)">
+                        <el-option label="不限" value=""></el-option>
                         <el-option v-for="item in buildingTypes":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
@@ -102,15 +103,22 @@ outline: deep
             <el-col :span="12">
                 <el-form-item label="屋齡[年]" prop="buildingAge">
                     <el-select v-model="building.buildingAge" placeholder="請選擇" :disabled="!building.town" @change="onBuildingAgeChanged($event)">
+                        <el-option label="不限" value=""></el-option>
                         <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="含車位" prop="hasParking">
-                    <el-select v-model="building.hasParking" placeholder="請選擇" :disabled="!building.town" @change="onBuildingTypeChanged($event)">
+                    <el-select v-model="building.hasParking" placeholder="請選擇" :disabled="!building.town" @change="onHasParkingChanged($event)">
+                        <el-option label="不限" value=""></el-option>
                         <el-option v-for="item in hasParkingOptions":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="資料筆數" prop="unitPrice">
+                    <el-text class="mx-1">{{ Number(building.count).toLocaleString(undefined) }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -127,32 +135,53 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="雙人房數量">
-                    <el-input-number v-model="room.doubleBedRoom" :min="0" :max="120"/>
+                    <el-input-number v-model="room.doubleBedRoom" :min="0" :max="120" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="單人房數量">
-                    <el-input-number v-model="room.singleBedRoom" :min="0" :max="120"/>
+                    <el-input-number v-model="room.singleBedRoom" :min="0" :max="120" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="衛浴數量">
-                    <el-input-number v-model="room.bathroom" :min="0" :max="120"/>
+                    <el-input-number v-model="room.bathroom" :min="0" :max="120" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="公設比" prop=publicRatio>
-                    <el-input-number v-model="room.publicRatio" :min="0" :max="120"/>
+                <el-form-item label="公設比(%)" >
+                    <el-input-number v-model="room.publicRatio" :min="0" :max="120" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
         </el-row>
-        <el-form-item label="預估合理權狀" prop="floorSize">
-            <el-input-number v-model="room.floorSize" :min="0" :disabled="true"/>
-        </el-form-item>
-        <el-form-item label="總價" prop="unitPrice">
-            <el-input-number v-model="room.totalPrice" :min="0" :disabled="true"/>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="預估主建實坪" prop="floorSize">
+                    <el-input-number v-model="room.mainBuilding" :min="0" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估附屬建物" prop="floorSize">
+                    <el-input-number v-model="room.outBuilding" :min="0" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col v-if="building.hasParking" :span="12">
+                <el-form-item label="預估車位權狀" prop="floorSize">
+                    <el-input-number v-model="room.parkingSize" :min="0" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估權狀坪數" prop="floorSize">
+                    <el-input-number v-model="room.floorSize" :min="0" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-form-item label="總價(萬)" prop="unitPrice">
+            <el-input-number v-model="totalHousePrice" :min="0" :disabled="true"/>
         </el-form-item>
     </el-form>
     <!-- <el-checkbox
@@ -173,6 +202,8 @@ outline: deep
     <template #footer>
         <el-collapse>
             <el-collapse-item title="資料說明" name="1" :border="true">
+                單價資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html" target="_blank">財團法人金融聯合徵信中心 OpenAPI
+                </a>
                 <table class="table">
             <tr>
                 <th>空間</th>
@@ -221,6 +252,15 @@ outline: deep
                 <td>
                     <a href="https://law.moj.gov.tw/LawClass/LawSingleRela.aspx?PCODE=D0070115&FLNO=162&ty=L" target="_blank">
                         建築技術規則建築設計施工編
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>車位</td>
+                <td>24.75</td>
+                <td>
+                    <a href="https://tnews.cc/ur/newscon25045.htm" target="_blank">
+                        研商「精進建物測繪登記相關業務」第 2 次會議紀錄 
                     </a>
                 </td>
             </tr>
@@ -329,6 +369,7 @@ const buildingAges = ref([])
 const genders = ref([])
 onMounted(() => {
     setSelecOptions()
+    calculateFloorSize()
 })
 async function setSelecOptions(){
     try {
@@ -434,11 +475,9 @@ const hasParkingOptions = ref([
 const buildingRules = reactive({
     county: { required: true, message: '請選擇', },
     town: { required: true, message: '請選擇', },
-    // buildingType:  { required: true, message: '請選擇', },
-    // buildingAge: { required: true, message: '請選擇', },
-    // hasParking: { required: true, message: '請選擇', },
 })
 function onCountyChanged(county) {
+    building.town = ''
     towns.value = []
     if(county) {
         towns.value = townMap[county]
@@ -452,6 +491,9 @@ function onBuildingTypeChanged() {
     getUnitPrice()
 }
 function onBuildingAgeChanged() {
+    getUnitPrice()
+}
+function onHasParkingChanged(hasParkingValue) {
     getUnitPrice()
 }
 async function getUnitPrice() {
@@ -481,6 +523,7 @@ async function getUnitPrice() {
             const averagePr = Math.floor(25 + fraction/deno * 50)
             const averageValueFixed2 = Number(average).toFixed(2)
             unitPriceMarks[averagePr] = `平均：${averageValueFixed2}`
+            calculateTotalPrice()
         } catch (error) {
             alert(error.message||error)
         } finally {
@@ -490,34 +533,57 @@ async function getUnitPrice() {
 }
 // 購屋分析2
 const room = reactive({
-    doubleBedRoom: 0,
-    singleBedRoom: 0,
-    bathroom: 0,
+    doubleBedRoom: 1,
+    singleBedRoom: 2,
+    bathroom: 2,
     publicRatio: 35,
+    mainBuilding: 0,
+    outBuilding: 0,
+    floorSize: 0,
+    parkingSize: 0,
 })
+const totalHousePrice = ref(0)
 const roomRules = {
     doubleBedRoom: { required: true, message: '請選擇', },
     singleBedRoom: { required: true, message: '請選擇', },
     bathroom:  { required: true, message: '請選擇', },
     publicRatio: { required: true, message: '請選擇', },
 }
-// hooks
-// methods
-const ruleFormRef = ref()
-async function calculateMortgage(formEl){
-    if (!formEl) return
-    await formEl.validate((valid, fields) => {
-        if (valid) {
-            console.log('submit!')
-        } else {
-            console.log('error submit!', fields)
-        }
-    })
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/mortgage/contract`, {
-        method: 'post',
-        body: JSON.stringify(form),
-        headers: {'Content-Type': 'application/json'}
-    })
+function calculateFloorSize() {
+    const { doubleBedRoom, singleBedRoom, bathroom, publicRatio } = room
+
+    const fortmatRatio = 0.3025
+    const baseInteriorSize = 30 * fortmatRatio
+    const doubleRoomSize = doubleBedRoom * 19 * fortmatRatio
+    const singleRoomSize = singleBedRoom * 13 * fortmatRatio
+    const bathRoomSize = bathroom * 4 * fortmatRatio
+
+    // 主建物只包含室內空間
+    room.mainBuilding = Number(Number(baseInteriorSize + doubleRoomSize + singleRoomSize + bathRoomSize).toFixed(1)) 
+
+    // 附屬建築比如陽台
+    const balcanyPercent = 0.1 // 10%
+    room.outBuilding = Number(Number(room.mainBuilding * balcanyPercent).toFixed(1)) 
+
+
+    const publicRatioPercent = 1 + publicRatio / 100
+
+    // 停車位權狀
+    const parkingSize = 24.75 * fortmatRatio * publicRatioPercent
+    room.parkingSize = Number(Number(parkingSize).toFixed(1))
+
+    // 權狀坪數
+    let floorSize = (room.mainBuilding + room.outBuilding) * publicRatioPercent
+    if(building.hasParking) {
+        floorSize += room.parkingSize
+    }
+    room.floorSize = Number(Number(floorSize).toFixed(1))
+    calculateTotalPrice()
+}
+function calculateTotalPrice() {
+    if(building.average && room.floorSize){
+        totalHousePrice.value = Number(Number(building.average) * Number(room.floorSize)).toFixed(2)
+    }
 }
 </script>
 <style lang="scss" scoped>
