@@ -94,21 +94,21 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="建物類別" prop="buildingType">
-                    <el-select v-model="building.buildingType" placeholder="請選擇" @change="onBuildingTypeChanged($event)">
+                    <el-select v-model="building.buildingType" placeholder="請選擇" :disabled="!building.town"  @change="onBuildingTypeChanged($event)">
                         <el-option v-for="item in buildingTypes":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="屋齡[年]" prop="buildingAge">
-                    <el-select v-model="building.buildingAge" placeholder="請選擇" :disabled="!building.county" @change="onBuildingAgeChanged($event)">
+                    <el-select v-model="building.buildingAge" placeholder="請選擇" :disabled="!building.town" @change="onBuildingAgeChanged($event)">
                         <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="含車位" prop="hasParking">
-                    <el-select v-model="building.hasParking" placeholder="請選擇" :disabled="!building.county" @change="onBuildingTypeChanged($event)">
+                    <el-select v-model="building.hasParking" placeholder="請選擇" :disabled="!building.town" @change="onBuildingTypeChanged($event)">
                         <el-option v-for="item in hasParkingOptions":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
@@ -116,21 +116,13 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="24">
-                <el-form-item label="單價" prop="unitPrice">
-                    <el-input-number v-model="building.unitPrice" :min="0" :disabled="true"/>
-                    <!-- <el-slider v-model="building.unitPrice" range :marks="marks"  :disabled="true"/> -->
-                </el-form-item>
-                {{building}}
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="24">
-                <el-form-item label="單價" prop="unitPrice">
-                    <el-slider v-model="unitPriceRange" range :marks="unitPriceMarks" />
+                <el-form-item label="單價(萬/坪)" prop="unitPrice">
+                    <el-slider v-model="unitPriceRange" range :marks="unitPriceMarks" :disabled="!building.average" />
                 </el-form-item>
             </el-col>
         </el-row>
     </el-form>
+    <br/>
     <el-form ref="ruleFormRef" :model="room" :rules="roomRules" label-width="auto">
         <el-row>
             <el-col :span="12">
@@ -429,19 +421,19 @@ const building = reactive({
     average: 0,
 })
 const unitPriceRange = ref([25, 75])
-const unitPriceMarks = reactive({
-    25: '',
-    75: ''
+let unitPriceMarks = reactive({
+    25: 'PR25：？',
+    75: 'PR75：？'
 })
 const buildingLoading = ref(false)
 const towns = ref([])
 const hasParkingOptions = ref([
-    { label: '有', value: true },
-    { label: '無', value: false},
+    { label: '含', value: true },
+    { label: '不含', value: false},
 ])
 const buildingRules = reactive({
     county: { required: true, message: '請選擇', },
-    // town: { required: true, message: '請選擇', },
+    town: { required: true, message: '請選擇', },
     // buildingType:  { required: true, message: '請選擇', },
     // buildingAge: { required: true, message: '請選擇', },
     // hasParking: { required: true, message: '請選擇', },
@@ -464,7 +456,7 @@ function onBuildingAgeChanged() {
 }
 async function getUnitPrice() {
     const {county, town, buildingType, buildingAge} = building
-    if(county) {
+    if(county && town) {
         try {
             buildingLoading.value = true
             const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/unitPrice`, {
@@ -476,14 +468,19 @@ async function getUnitPrice() {
             Object.assign(building, resJson)
             
             const { pr25, pr75, average } = resJson
-            unitPriceRange.value = [25, 75]
+            unitPriceMarks = {
+                25: `PR25: ${pr25}`,
+                75: `PR75: ${pr75}`,
+            }
+            if(!average) {
+                ElMessage('資料筆數過少，請調整查詢條件')
+                return
+            }
             const fraction = average - pr25
             const deno = pr75 - pr25
-            const averagePr = 25 + Math.floor(fraction/deno)/2
-            Object.assign(unitPriceMarks, {
-                25: pr25,
-                75: pr75,
-            })
+            const averagePr = Math.floor(25 + fraction/deno * 50)
+            const averageValueFixed2 = Number(average).toFixed(2)
+            unitPriceMarks[averagePr] = `平均：${averageValueFixed2}`
         } catch (error) {
             alert(error.message||error)
         } finally {
