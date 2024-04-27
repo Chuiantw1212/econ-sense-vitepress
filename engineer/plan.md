@@ -192,8 +192,8 @@ outline: deep
                 </el-form-item>
             </el-col>
         </el-row>
-        <el-form-item label="總價(萬)" prop="unitPrice">
-            <el-text>{{ Number(totalHousePrice).toLocaleString() }} 坪</el-text>
+        <el-form-item label="總價" prop="unitPrice">
+            <el-text>{{ Number(totalHousePrice).toLocaleString() }} 萬</el-text>
         </el-form-item>
     </el-form>
     <!-- <el-checkbox
@@ -316,12 +316,32 @@ outline: deep
       </div>
     </template>
     <el-form :model="form" label-width="auto">
-        <el-form-item label="預估利息">
-            <el-input-number v-model="interestRate" :min="0"/>
-        </el-form-item>
-        <el-form-item label="貸款成數">
-            <el-input-number v-model="mortgage.loanPercent" :min="0"/>
-        </el-form-item>
+        <el-row>
+            <el-col>
+                <el-form-item label="預估利息">
+                    <el-input-number v-model="interestRate" :min="0"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col>
+                <el-form-item label="貸款成數">
+                    <el-input-number v-model="mortgage.loanPercent" :min="0" :max="100"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="預估頭期款" prop="floorSize">
+                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }}</el-text>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估貸款" prop="floorSize">
+                    <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }}</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
     </el-form>
     <template #footer>
         <el-collapse>
@@ -339,18 +359,6 @@ outline: deep
         <span>育兒試算</span>
       </div>
     </template>
-    <!-- <el-form :model="form" label-width="auto">
-        <el-form-item label="縣市" :span="10">
-            <el-select v-model="profile.county" placeholder="請選擇" @change="onCountyChanged($event)">
-                <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="行政區" :span="10">
-            <el-select v-model="profile.town" placeholder="請選擇">
-                <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
-            </el-select>
-        </el-form-item>
-    </el-form> -->
     <template #footer>
         <ul>
             <li>資料來源：
@@ -445,6 +453,8 @@ async function setSelecOptions(){
         })
     }
     calculateLifeExpectancy()
+    getUnitPrice()
+    calculateDownPayment()
 }
 // 基本資料
 const profile = reactive({
@@ -503,8 +513,8 @@ const handleCheckedNeedsChange = (value) => {
 }
 // 購屋分析
 const building = reactive({
-    county: '',
-    town: '',
+    county: 'A',
+    town: '63000110',
     buildingType: '',
     buildingAge: '',
     hasParking: '',
@@ -635,13 +645,21 @@ function calculateTotalPrice() {
     if(buildingUnitPrice.value && room.floorSize){
         const beforeFormatPrice =  Number(buildingUnitPrice.value) * Number(room.floorSize)
         totalHousePrice.value = Number(beforeFormatPrice.toFixed(2))
+        calculateDownPayment()
     }
 }
 // 房屋貸款試算
 const mortgage = reactive({
-    loanPercent: 0,
-
+    loanPercent: 70,
+    downPayment: 0,
+    loanAmount: 0,
 })
+function calculateDownPayment() {
+    if(totalHousePrice.value){
+        mortgage.loanAmount = totalHousePrice.value *　mortgage.loanPercent * 100
+        mortgage.downPayment =  totalHousePrice.value * 10000 - mortgage.loanAmount
+    }
+}
 </script>
 <style lang="scss" scoped>
 .table {
