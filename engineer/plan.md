@@ -8,10 +8,12 @@ outline: deep
 2. 工程師可藉由開源的前後端程式碼學習Javascript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
 3. 民眾可以快速建立生涯財務觀念，並提共回饋意見。
 
-按鈕可以註冊。註冊後我會看到的資料 = Email + 所有表單資料。這邊主要是我方便用的，因為每次都要重新輸入表單實在麻煩。不預期有人會想來註冊，真的來註冊我也不會刪資料就是。
-<div v-if="!user.uid" id="firebaseui-auth-container"></div>
-<el-button v-if="!user.uid">登入</el-button>
-<el-button v-else>登出</el-button>
+<el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
+<el-button v-else @click="signOut()">登出</el-button>
+<el-dialog v-model="dialogVisible" title="登入" :fullscreen="isFullScreen">
+    登入按鈕邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
+    <div v-if="!user.uid" id="firebaseui-auth-container"></div>
+</el-dialog>
 
 ## 1. 基本資料
 
@@ -572,10 +574,12 @@ outline: deep
  */
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
-import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount } from 'vue'
+import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Chart from 'chart.js/auto';
 // 設定檔案
+const dialogVisible = ref(false)
+const isFullScreen = ref(false)
 const user = reactive({
     displayName: '',
     email: '',
@@ -596,13 +600,40 @@ const porfolioLabels = reactive({
     aok: '股2債8',
 })
 const currentYear = new Date().getFullYear()
-onMounted(() => {
-    initFirebaseUI()
+onMounted(async () => {
+    initializeApp()
     getUserForm()
     setSelecOptions()
     calculateFloorSize()
+    window.addEventListener('resize', onResize)
 })
-async function setSelecOptions(){
+onBeforeUnmount(() => {
+    window.removeEventListener('resize', onResize)
+})
+function onResize() {
+    isFullScreen.value = window.innerWidth < 768
+}
+async function initializeApp () {
+    await firebase.initializeApp({
+        apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
+        authDomain: "econ-sense-9a250.firebaseapp.com",
+        projectId: "econ-sense-9a250",
+        storageBucket: "econ-sense-9a250.appspot.com",
+        messagingSenderId: "449033690264",
+        appId: "1:449033690264:web:f5e419118030eb3afe44ed",
+        measurementId: "G-19NFT8GVCZ"
+    })
+    firebase.auth().onAuthStateChanged(function(firebaseUser) {
+        if(!firebaseUser) {
+            return
+        }
+        const { displayName, email, photoURL, uid } = firebaseUser
+        user.photoURL = photoURL
+        user.uid = uid
+        dialogVisible.value = false
+    })
+}
+async function setSelecOptions() {
     try {
         const selectRes = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
         const selectResJson = await selectRes.json()
@@ -634,38 +665,36 @@ async function setSelecOptions(){
     calculateMortgate()
     createLifeFinanceChart()
 }
-async function initFirebaseUI(){
-    await firebase.initializeApp({
-        apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
-        authDomain: "econ-sense-9a250.firebaseapp.com",
-        projectId: "econ-sense-9a250",
-        storageBucket: "econ-sense-9a250.appspot.com",
-        messagingSenderId: "449033690264",
-        appId: "1:449033690264:web:f5e419118030eb3afe44ed",
-        measurementId: "G-19NFT8GVCZ"
-    })
-    const uiConfig = {
-        signInSuccessUrl: '/engineer/plan',
-        signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        ],
-    };
-
-    // https://stackoverflow.com/questions/47589209/error-in-mounted-hook-error-an-authui-instance-already-exists
-    if(firebaseui.auth.AuthUI.getInstance()) {
-        const ui = firebaseui.auth.AuthUI.getInstance()
-        ui.start('#firebaseui-auth-container', uiConfig)
-    } else {
-        const ui = new firebaseui.auth.AuthUI(firebase.auth())
-        ui.start('#firebaseui-auth-container', uiConfig)
-    }
-}
 async function getUserForm() {
-    firebase.auth().onAuthStateChanged(function(firebaseUser) {
-        const { displayName, email, photoURL, uid } = firebaseUser
-        user.photoURL = photoURL
-        user.uid = uid
+
+}
+function openSignInDialog() {
+    dialogVisible.value = true
+    nextTick(() => {
+        const uiConfig = {
+            signInOptions: [
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            ],
+            signInFlow: 'popup',
+            // Terms of service url.
+            tosUrl: 'https://storage.googleapis.com/public.econ-sense.com/Terms%20of%20Use.pdf',
+            // Privacy policy url.
+            privacyPolicyUrl: 'https://storage.googleapis.com/public.econ-sense.com/Privacy%20Policy%20for%20Econ-Sense.com.pdf'
+        };
+        // https://stackoverflow.com/questions/47589209/error-in-mounted-hook-error-an-authui-instance-already-exists
+        if(firebaseui.auth.AuthUI.getInstance()) {
+            const ui = firebaseui.auth.AuthUI.getInstance()
+            ui.start('#firebaseui-auth-container', uiConfig)
+        } else {
+            const ui = new firebaseui.auth.AuthUI(firebase.auth())
+            ui.start('#firebaseui-auth-container', uiConfig)
+        }
     })
+}
+async function signOut() {
+    const result = await firebase.auth().signOut()
+    user.uid = ''
 }
 // 基本資料
 const profile = reactive({
