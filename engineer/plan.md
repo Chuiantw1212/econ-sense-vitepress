@@ -402,7 +402,7 @@ outline: deep
         <el-row>
             <el-col>
                 <el-form-item label="股債比">
-                    <el-radio-group v-model="investment.allocation">
+                    <el-radio-group v-model="investment.allocation" @change="handleAllocationChanged($event)">
                         <el-radio :value="'aoa'">股8債2</el-radio>
                         <el-radio :value="'aor'">股6債4</el-radio>
                         <el-radio :value="'aom'">股4債6</el-radio>
@@ -412,9 +412,21 @@ outline: deep
             </el-col>
         </el-row>
         <el-row>
-            <el-col>
-                <el-form-item label="已備資產" :span="12">
+            <el-col :span="12">
+                <el-form-item label="已備資產" >
                     <el-input-number v-model="investment.assetAmount" :min="0"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="月儲蓄">
+                    <el-input-number v-model="investment.monthlySaving" :min="0"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="計畫購屋年">
+                    <el-input-number v-model="investment.buyHouseYear" :min="2024" :max="2124"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -423,6 +435,11 @@ outline: deep
                 <el-form-item label="貸款比例(%)">
                     <el-input-number v-model="mortgage.loanPercent" :min="0" :max="100"/>
                 </el-form-item>
+            </el-col>
+        </el-row>
+        <canvas id="myChart"></canvas>
+        <el-row>
+            <el-col>
             </el-col>
         </el-row>
     </el-form>
@@ -480,6 +497,7 @@ outline: deep
 <script setup>
 import { onMounted, ref, reactive, watch,} from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import Chart from 'chart.js/auto';
 // 設定檔案
 const counties = ref([])
 const townMap = reactive({})
@@ -516,9 +534,10 @@ async function setSelecOptions(){
             },
         })
     }
-    calculateLifeExpectancy()
+    await calculateLifeExpectancy()
     getUnitPrice()
     calculateDownPayment()
+    createLifeFinanceChart()
 }
 // 基本資料
 const profile = reactive({
@@ -728,7 +747,44 @@ function calculateDownPayment() {
 const investment = reactive({
     allocation: 'aoa',
     assetAmount: 1000000,
+    buyHouseYear: new Date().getFullYear(),
+    monthlySaving: 3000,
+    chartInstance: null, 
 })
+function handleAllocationChanged() {
+    createLifeFinanceChart()
+}
+function createLifeFinanceChart() {
+    let pv = investment.assetAmount
+    const irr = portfolioIRR[investment.allocation]
+    let fv = 0 // fv = pv * irr + pmt
+    let year = new Date().getFullYear()
+    let pmt = investment.monthlySaving * 12
+    const labels = []
+    const datasetData = []
+    for(let i = year;i < year + profile.lifeExpectancy; i++) {
+        labels.push(i)
+        datasetData.push(pv)
+        fv = pv * (1 + irr / 100) + pmt
+        pv = fv
+    }
+    if(investment.chartInstance) {
+        investment.chartInstance.destroy();
+    }
+    const ctx = document.getElementById('myChart')
+    investment.chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            datasets: [
+                {
+                    label: '一生資產試算',
+                    data: datasetData,
+                }
+            ],
+            labels
+        }
+    })
+}
 </script>
 <style lang="scss" scoped>
 .table {
