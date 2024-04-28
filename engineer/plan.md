@@ -398,19 +398,19 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="養到幾歲放生">
-                    <el-input-number v-model="parenting.independantAge" :min="0" @change="onIndependantAgeChanged()"/>
+                    <el-input-number v-model="parenting.independantAge" :min="18" @change="onIndependantAgeChanged()"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="第一隻出生年">
-                    <el-input-number v-model="parenting.firstBornYear" @change="onFirstBornYearChanged()"/>
+                    <el-input-number v-model="parenting.firstBornYear" :min="0" @change="onFirstBornYearChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="第二隻出生年">
-                    <el-input-number v-model="parenting.secondBornYear" @change="onSecondBornYearChanged()"/>
+                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -703,7 +703,9 @@ function openSignInDialog() {
 }
 async function signOut() {
     const result = await firebase.auth().signOut()
-    user.uid = ''
+    for(let key in user) {
+        user[key] = ''
+    }
 }
 // 基本資料
 const profile = reactive({
