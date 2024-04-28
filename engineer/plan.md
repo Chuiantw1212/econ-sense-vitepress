@@ -76,21 +76,18 @@ outline: deep
 
 ## 2. 需求試算
 
-<!-- <el-checkbox
-    v-model="checkAll"
-    :indeterminate="isIndeterminate"
-    @change="handleCheckAllChange"
-  >
-    Check all
-  </el-checkbox>
-  <el-checkbox-group
-    v-model="checkedNeeds"
-    @change="handleCheckedNeedsChange"
-  >
-    <el-checkbox v-for="need in needs" :key="need" :label="need" :value="need">
-      {{ need }}
+<el-checkbox-group v-model="checkedNeeds" @change="handleCheckedNeedsChange">
+    <el-checkbox
+        v-model="checkAll"
+        :indeterminate="isIndeterminate"
+        @change="handleCheckAllChange"
+    >
+        全選
     </el-checkbox>
-</el-checkbox-group> -->
+    <el-checkbox v-for="need in needs" :key="need" :label="need" :value="need">
+      {{ needLabelMap[need] }}
+    </el-checkbox>
+</el-checkbox-group>
 <br v-if="checkedNeeds.includes('housing')"/>
 <el-card v-if="checkedNeeds.includes('housing')">
     <template #header>
@@ -220,21 +217,6 @@ outline: deep
             <el-text>{{ Number(totalHousePrice).toLocaleString() }} 萬</el-text>
         </el-form-item>
     </el-form>
-    <!-- <el-checkbox
-    v-model="checkAll"
-    :indeterminate="isIndeterminate"
-    @change="handleCheckAllChange"
-  >
-    Check all
-  </el-checkbox>
-  <el-checkbox-group
-    v-model="checkedNeeds"
-    @change="handleCheckedNeedsChange"
-  >
-    <el-checkbox v-for="need in needs" :key="need" :label="need" :value="need">
-      {{ need }}
-    </el-checkbox>
-</el-checkbox-group> -->
     <template #footer>
         <el-collapse>
             <el-collapse-item title="資料說明" name="1" :border="true">
@@ -645,7 +627,7 @@ const needs = ref(['housing', 'parenting', 'retirement'])
 const checkedNeeds = ref(['housing',])
 const checkAll = ref(false)
 const isIndeterminate = ref(true)
-const needMap = {
+const needLabelMap = {
     housing: '購屋',
     parenting: '育兒',
     retirement: '退休',
