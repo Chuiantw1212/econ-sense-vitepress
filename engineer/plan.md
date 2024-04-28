@@ -338,19 +338,19 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="預估頭期款" prop="floorSize">
-                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }}</el-text>
+                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="預估貸款" prop="floorSize">
-                    <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }}</el-text>
+                    <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="每月還款金額" prop="floorSize">
-                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }}</el-text>
+                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
             <!-- <el-col :span="12">
@@ -432,8 +432,8 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="月儲蓄">
-                    <el-input-number v-model="investment.monthlySaving" :min="0"/>
+                <el-form-item label="月可支配所得">
+                    <el-input-number v-model="investment.disposableIncome" :min="0"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -555,7 +555,7 @@ async function setSelecOptions(){
         })
     }
     await calculateLifeExpectancy()
-    getUnitPrice()
+    await getUnitPrice()
     calculateMortgate()
     createLifeFinanceChart()
 }
@@ -787,8 +787,8 @@ function calculateMortgate() {
 const investment = reactive({
     allocation: 'aoa',
     assetAmount: 1000000,
-    buyHouseYear: new Date().getFullYear(),
-    monthlySaving: 3000,
+    buyHouseYear: new Date().getFullYear() + 10,
+    disposableIncome: 70000,
     chartInstance: null,
 })
 function handleAllocationChanged() {
@@ -798,14 +798,33 @@ function createLifeFinanceChart() {
     let pv = investment.assetAmount
     const irr = portfolioIRR[investment.allocation]
     let fv = 0 // fv = pv * irr + pmt
-    let year = new Date().getFullYear()
-    let pmt = investment.monthlySaving * 12
+    const currentYear = new Date().getFullYear()
+    const pmt = investment.disposableIncome * 12
     const labels = []
     const datasetData = []
-    for(let i = year;i < year + profile.lifeExpectancy; i++) {
-        labels.push(i)
+    const { buyHouseYear } = investment
+    for(let year = currentYear;year < currentYear + profile.lifeExpectancy; year++) {
+        labels.push(year)
         datasetData.push(pv)
-        fv = pv * (1 + irr / 100) + pmt
+        // 影響存量重大事件
+        if (year === buyHouseYear) {
+            console.log('before', pv)
+             console.log('?', mortgage.downPayment)
+            pv -= mortgage.downPayment
+            console.log('after', pv)
+        }
+        console.log({year, buyHouseYear})
+
+        // 債務利息影響每月儲蓄
+        let calculatedPmt = pmt
+        const mortgageStartYear = buyHouseYear
+        const mortgageEndYear = buyHouseYear + mortgage.loanTerm
+        if(mortgageStartYear <= year && year < mortgageEndYear) {
+            calculatedPmt -= mortgage.monthlyRepay * 12
+        }
+
+        console.log({pmt, mortgageStartYear, mortgageEndYear, calculatedPmt})
+        fv = pv * (1 + irr / 100) + calculatedPmt
         pv = fv
     }
     const chartData = {
