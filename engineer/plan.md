@@ -9,7 +9,9 @@ outline: deep
 3. 民眾可以快速建立生涯財務觀念，並提共回饋意見。
 
 按鈕可以註冊。註冊後我會看到的資料 = Email + 所有表單資料。這邊主要是我方便用的，因為每次都要重新輸入表單實在麻煩。不預期有人會想來註冊，真的來註冊我也不會刪資料就是。
-<div id="firebaseui-auth-container"></div>
+<div v-if="!user.uid" id="firebaseui-auth-container"></div>
+<el-button v-if="!user.uid">登入</el-button>
+<el-button v-else>登出</el-button>
 
 ## 1. 基本資料
 
@@ -20,6 +22,11 @@ outline: deep
       </div>
     </template>
     <el-form ref="ruleFormRef" :model="profile" :rules="profileRules" label-width="auto">
+        <el-row>
+            <el-col :span="12">
+                <el-avatar v-if="user.photoURL" :src="user.photoURL"></el-avatar>
+            </el-col>
+        </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="出生日期" prop="dateOfBirth">
@@ -569,6 +576,12 @@ import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount 
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Chart from 'chart.js/auto';
 // 設定檔案
+const user = reactive({
+    displayName: '',
+    email: '',
+    photoURL: '',
+    uid: ''
+})
 const counties = ref([])
 const townMap = reactive({})
 const buildingTypes = ref([])
@@ -584,7 +597,8 @@ const porfolioLabels = reactive({
 })
 const currentYear = new Date().getFullYear()
 onMounted(() => {
-    loginUser()
+    initFirebaseUI()
+    getUserForm()
     setSelecOptions()
     calculateFloorSize()
 })
@@ -620,7 +634,7 @@ async function setSelecOptions(){
     calculateMortgate()
     createLifeFinanceChart()
 }
-async function loginUser(){
+async function initFirebaseUI(){
     await firebase.initializeApp({
         apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
         authDomain: "econ-sense-9a250.firebaseapp.com",
@@ -630,21 +644,11 @@ async function loginUser(){
         appId: "1:449033690264:web:f5e419118030eb3afe44ed",
         measurementId: "G-19NFT8GVCZ"
     })
-
     const uiConfig = {
         signInSuccessUrl: '/engineer/plan',
         signInOptions: [
-            // Leave the lines as is for the providers you want to offer your users.
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         ],
-        // tosUrl and privacyPolicyUrl accept either url string or a callback
-        // function.
-        // Terms of service url/callback.
-        // tosUrl: '<your-tos-url>',
-        // Privacy policy url/callback.
-        privacyPolicyUrl: function() {
-            window.location.assign('<your-privacy-policy-url>');
-        }
     };
 
     // https://stackoverflow.com/questions/47589209/error-in-mounted-hook-error-an-authui-instance-already-exists
@@ -655,6 +659,13 @@ async function loginUser(){
         const ui = new firebaseui.auth.AuthUI(firebase.auth())
         ui.start('#firebaseui-auth-container', uiConfig)
     }
+}
+async function getUserForm() {
+    firebase.auth().onAuthStateChanged(function(firebaseUser) {
+        const { displayName, email, photoURL, uid } = firebaseUser
+        user.photoURL = photoURL
+        user.uid = uid
+    })
 }
 // 基本資料
 const profile = reactive({
