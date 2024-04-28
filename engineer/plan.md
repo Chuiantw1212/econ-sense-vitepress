@@ -317,16 +317,21 @@ outline: deep
     </template>
     <el-form label-width="auto">
         <el-row>
-            <el-col>
+            <el-col :span="12">
                 <el-form-item label="預估利息">
                     <el-input-number v-model="interestRate" :min="0"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
-            <el-col>
+            <el-col :span="12">
                 <el-form-item label="貸款比例(%)">
                     <el-input-number v-model="mortgage.loanPercent" :min="0" :max="100"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="貸款年期">
+                    <el-input-number v-model="mortgage.loanTerm" :min="0" @change="calculateMortgate($event)"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -341,6 +346,18 @@ outline: deep
                     <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="每月還款金額" prop="floorSize">
+                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }}</el-text>
+                </el-form-item>
+            </el-col>
+            <!-- <el-col :span="12">
+                <el-form-item label="預估貸款" prop="floorSize">
+                    <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }}</el-text>
+                </el-form-item>
+            </el-col> -->
         </el-row>
     </el-form>
     <template #footer>
@@ -539,7 +556,7 @@ async function setSelecOptions(){
     }
     await calculateLifeExpectancy()
     getUnitPrice()
-    calculateDownPayment()
+    calculateMortgate()
     createLifeFinanceChart()
 }
 // 基本資料
@@ -731,7 +748,7 @@ function calculateTotalPrice() {
     if(buildingUnitPrice.value && room.floorSize){
         const beforeFormatPrice =  Number(buildingUnitPrice.value) * Number(room.floorSize)
         totalHousePrice.value = Number(beforeFormatPrice.toFixed(2))
-        calculateDownPayment()
+        calculateMortgate()
     }
 }
 // 房屋貸款試算
@@ -739,12 +756,32 @@ const mortgage = reactive({
     loanPercent: 70,
     downPayment: 0,
     loanAmount: 0,
+    loanTerm: 30,
+    monthlyRepay: 0,
 })
-function calculateDownPayment() {
-    if(totalHousePrice.value){
-        mortgage.loanAmount = totalHousePrice.value *　mortgage.loanPercent * 100
-        mortgage.downPayment =  totalHousePrice.value * 10000 - mortgage.loanAmount
+function calculateMortgate() {
+    if(!totalHousePrice.value){
+        return
     }
+
+    const loanAmount = totalHousePrice.value *　mortgage.loanPercent * 100
+    const downPayment = totalHousePrice.value * 10000 - mortgage.loanAmount
+    mortgage.loanAmount = loanAmount
+    mortgage.downPayment = downPayment
+
+    /**
+     * 本息平均攤還
+     * https://zh.wikipedia.org/zh-tw/%E6%9C%AC%E6%81%AF%E5%B9%B3%E5%9D%87%E6%94%A4%E9%82%84
+     */
+    const monthlyInterestRate = interestRate.value / 100 / 12
+    const monthCount = mortgage.loanTerm * 12
+
+    const part = Math.pow(1 + monthlyInterestRate, monthCount)
+    const fraction = part * monthlyInterestRate
+    const deno = part - 1
+
+    const averageRepayRate = fraction /  deno
+    mortgage.monthlyRepay = loanAmount * averageRepayRate
 }
 // 投資試算
 const investment = reactive({
@@ -787,14 +824,12 @@ function createLifeFinanceChart() {
         return
     }
 
-    setTimeout(() => {
-        const ctx = document.getElementById('myChart')
-        const chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: chartData
-        })
-        investment.chartInstance = shallowRef(chartInstance)
-    },150)
+    const ctx = document.getElementById('myChart')
+    const chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: chartData
+    })
+    investment.chartInstance = shallowRef(chartInstance)
 }
 </script>
 <style lang="scss" scoped>
