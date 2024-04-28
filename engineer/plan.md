@@ -10,7 +10,7 @@ outline: deep
 
 ## 1. 基本資料
 
-<el-card v-if="checkedNeeds.includes('housing')">
+<el-card>
     <template #header>
       <div class="card-header">
         <span>基本資料</span>
@@ -84,17 +84,13 @@ outline: deep
     >
         全選
     </el-checkbox>
-    <el-checkbox v-for="need in needs" :key="need" :label="need" :value="need">
+    <el-checkbox v-for="need in needs" :key="need" :value="need">
       {{ needLabelMap[need] }}
     </el-checkbox>
 </el-checkbox-group>
 <br v-if="checkedNeeds.includes('housing')"/>
+<h2 v-if="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h2>
 <el-card v-if="checkedNeeds.includes('housing')">
-    <template #header>
-      <div class="card-header">
-        <span>購屋總價試算</span>
-      </div>
-    </template>
     <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="building" :rules="buildingRules" label-width="auto">
         <el-row>
             <el-col :span="12">
@@ -315,12 +311,8 @@ outline: deep
     </template>
 </el-card>
 <br v-if="checkedNeeds.includes('housing')"/>
+<h2 v-if="checkedNeeds.includes('housing')" id="_購屋貸款試算" tabindex="-1">購屋貸款試算</h2>
 <el-card v-if="checkedNeeds.includes('housing')">
-    <template #header>
-      <div class="card-header">
-        <span>購屋貸款試算</span>
-      </div>
-    </template>
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
@@ -376,32 +368,80 @@ outline: deep
     </template>
 </el-card>
 <br v-if="checkedNeeds.includes('parenting')"/>
+<h2 v-if="checkedNeeds.includes('parenting')" id="_育兒試算" tabindex="-1">育兒試算</h2>
 <el-card v-if="checkedNeeds.includes('parenting')">
-    <template #header>
-      <div class="card-header">
-        <span>育兒試算</span>
-      </div>
-    </template>
+    <el-form label-width="auto">
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="平均月開支(隻/每年)">
+                    <el-input-number v-model="parenting.childAnnualExpense" :min="0" @change="onChildMonthlyExpenseChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="養到幾歲放生">
+                    <el-input-number v-model="parenting.independantAge" :min="0" @change="onIndependantAgeChanged()"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="一胎年">
+                    <el-input-number v-model="parenting.firstBornYear" @change="onFirstBornYearChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="二胎年">
+                    <el-input-number v-model="parenting.secondBornYear" @change="onSecondBornYearChanged()"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+    </el-form>
     <template #footer>
-        <ul>
-            <li>資料來源：
-                <a href="https://data.gov.tw/dataset/108265">
-                    家庭收支調查-平均每戶可支配所得及消費支出依可支配所得按戶數五等分位分及經濟戶長年齡組別分
-                </a>
-            </li>
-            <li>
-                藉由夫妻與核心的支出與人口差異，粗估家庭中每個需要受照顧的人口平均每月需要多少支出。
-            </li>
-        </ul>
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                因為缺少資料集或是相關api，故此部分資料會較為粗糙。
+                <ul>
+                    <li>資料來源：
+                        <a href="https://data.gov.tw/dataset/108265">
+                            家庭收支調查-平均每戶可支配所得及消費支出依可支配所得按戶數五等分位分及經濟戶長年齡組別分
+                        </a>
+                    </li>
+                </ul>
+                <table class="table">
+                    <tr>
+                        <th>2021年家庭組織</th>
+                        <th>雙親</th>
+                        <th>核心</th>
+                    </tr>
+                    <tr>
+                        <td>平均每戶人數</td>
+                        <td>2.00</td>
+                        <td>3.62</td>
+                    </tr>
+                    <tr>
+                        <td>平均每戶就業人數</td>
+                        <td>0.70</td>
+                        <td>1.85</td>
+                    </tr>
+                    <tr>
+                        <td>消費支出</td>
+                        <td>652,023</td>
+                        <td>1,028,621</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            平均每位受扶養者帶來的支出： <br>
+                            (核心消費支出 - 雙親消費支出) / (核心每戶人數 - 核心就業人數) = 212,767
+                        </td>
+                    </tr>
+                </table>
+            </el-collapse-item>
+        </el-collapse>
     </template>
 </el-card>
 <br v-if="checkedNeeds.includes('retirement')"/>
+<h2 v-if="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h2>
 <el-card v-if="checkedNeeds.includes('retirement')">
-    <template #header>
-      <div class="card-header">
-        <span>退休試算</span>
-      </div>
-    </template>
     <template #footer>
         <ul>
             <li>資料來源：
@@ -416,9 +456,7 @@ outline: deep
     </template>
 </el-card>
 
-## 財務行為試算
-
-### 儲蓄與投資
+## 一生資產檢驗
 
 <el-card>
     <el-form label-width="auto">
@@ -537,6 +575,7 @@ const porfolioLabels = reactive({
     aom: '股4債6',
     aok: '股2債8',
 })
+const currentYear = new Date().getFullYear()
 onMounted(() => {
     setSelecOptions()
     calculateFloorSize()
@@ -624,7 +663,7 @@ async function calculateLifeExpectancy() {
 }
 // 需求分析
 const needs = ref(['housing', 'parenting', 'retirement'])
-const checkedNeeds = ref(['housing',])
+const checkedNeeds = ref(['housing', 'parenting'])
 const checkAll = ref(false)
 const isIndeterminate = ref(true)
 const needLabelMap = {
@@ -671,8 +710,8 @@ const buildingRules = reactive({
 function onCountyChanged() {
     building.town = ''
     towns.value = []
-    if(county) {
-        towns.value = townMap[county]
+    if(building.county) {
+        towns.value = townMap[building.county]
     }
     getUnitPrice()
 }
@@ -810,11 +849,30 @@ function calculateMortgate() {
     const averageRepayRate = fraction /  deno
     mortgage.monthlyRepay = loanAmount * averageRepayRate
 }
+// 育兒試算
+const parenting = reactive({
+    childAnnualExpense: 212767,
+    independantAge: 22,
+    firstBornYear: 0,
+    secondBornYear: 0,
+})
+function onChildMonthlyExpenseChanged() {
+    createLifeFinanceChart()
+}
+function onIndependantAgeChanged() {
+    createLifeFinanceChart()
+}
+function onFirstBornYearChanged() {
+    createLifeFinanceChart()
+}
+function onSecondBornYearChanged() {
+    createLifeFinanceChart()
+}
 // 投資試算
 const investment = reactive({
     allocation: 'aoa',
     assetAmount: 1000000,
-    buyHouseYear: new Date().getFullYear() + 10,
+    buyHouseYear: currentYear + 10,
     disposableIncome: 70000,
     chartInstance: null,
 })
@@ -834,7 +892,6 @@ function createLifeFinanceChart() {
     let pv = investment.assetAmount
     const irr = portfolioIRR[investment.allocation]
     let fv = 0 // fv = pv * irr + pmt
-    const currentYear = new Date().getFullYear()
     const pmt = investment.disposableIncome * 12
     const labels = []
     const datasetData = []
@@ -847,14 +904,25 @@ function createLifeFinanceChart() {
             pv -= mortgage.downPayment
         }
 
-        // 債務利息影響每月儲蓄
         let calculatedPmt = pmt
+        // 債務利息影響每月儲蓄
         const mortgageStartYear = buyHouseYear
         const mortgageEndYear = buyHouseYear + mortgage.loanTerm
         if(mortgageStartYear <= year && year < mortgageEndYear) {
             calculatedPmt -= mortgage.monthlyRepay * 12
         }
+        // 育兒開支影響每月儲蓄
+        const { firstBornYear, secondBornYear, independantAge, childAnnualExpense } = parenting
+        const firstBornEndYear = firstBornYear + independantAge
+        const secondBornEndYear = secondBornYear + independantAge
+        if(currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear) {
+            calculatedPmt -= childAnnualExpense
+        }
+        if(currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear) {
+            calculatedPmt -= childAnnualExpense
+        }
 
+        // 計算複利終值
         fv = pv * (1 + irr / 100) + calculatedPmt
         pv = fv
     }
