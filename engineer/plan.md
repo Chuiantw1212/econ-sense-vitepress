@@ -2,11 +2,13 @@
 outline: deep
 ---
 
-# 一生財務試算 (WIP)
+# 一生財務試算
 
 1. 台灣唯一開源的財務規劃計算機。一切數字有憑有據，不賣商品賣事實。
 2. 工程師可藉由開源的前後端程式碼學習Javascript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
 3. 民眾可以快速建立生涯財務觀念，並提共回饋意見。
+
+<div id="firebaseui-auth-container"></div>
 
 ## 1. 基本資料
 
@@ -76,20 +78,20 @@ outline: deep
 
 ## 2. 需求試算
 
+<el-checkbox
+    v-model="checkAll"
+    :indeterminate="isIndeterminate"
+    @change="handleCheckAllChange"
+>
+    全選
+</el-checkbox>
 <el-checkbox-group v-model="checkedNeeds" @change="handleCheckedNeedsChange">
-    <el-checkbox
-        v-model="checkAll"
-        :indeterminate="isIndeterminate"
-        @change="handleCheckAllChange"
-    >
-        全選
-    </el-checkbox>
     <el-checkbox v-for="need in needs" :key="need" :value="need">
       {{ needLabelMap[need] }}
     </el-checkbox>
 </el-checkbox-group>
 <br v-if="checkedNeeds.includes('housing')"/>
-<h2 v-if="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h2>
+<h3 v-if="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
 <el-card v-if="checkedNeeds.includes('housing')">
     <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="building" :rules="buildingRules" label-width="auto">
         <el-row>
@@ -311,7 +313,7 @@ outline: deep
     </template>
 </el-card>
 <br v-if="checkedNeeds.includes('housing')"/>
-<h2 v-if="checkedNeeds.includes('housing')" id="_購屋貸款試算" tabindex="-1">購屋貸款試算</h2>
+<h3 v-if="checkedNeeds.includes('housing')" id="_購屋貸款試算" tabindex="-1">購屋貸款試算</h3>
 <el-card v-if="checkedNeeds.includes('housing')">
     <el-form label-width="auto">
         <el-row>
@@ -368,7 +370,7 @@ outline: deep
     </template>
 </el-card>
 <br v-if="checkedNeeds.includes('parenting')"/>
-<h2 v-if="checkedNeeds.includes('parenting')" id="_育兒試算" tabindex="-1">育兒試算</h2>
+<h3 v-if="checkedNeeds.includes('parenting')" id="_育兒試算" tabindex="-1">育兒試算</h3>
 <el-card v-if="checkedNeeds.includes('parenting')">
     <el-form label-width="auto">
         <el-row>
@@ -440,7 +442,7 @@ outline: deep
     </template>
 </el-card>
 <br v-if="checkedNeeds.includes('retirement')"/>
-<h2 v-if="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h2>
+<h3 v-if="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h3>
 <el-card v-if="checkedNeeds.includes('retirement')">
     <template #footer>
         <ul>
@@ -456,7 +458,7 @@ outline: deep
     </template>
 </el-card>
 
-## 一生資產檢驗
+## 3. 一生資產檢驗
 
 <el-card>
     <el-form label-width="auto">
@@ -551,9 +553,21 @@ outline: deep
 </el-card>
 
 <script setup>
+    /**
+     * Warning: FirebaseUI is not currently compatible with the v9 modular SDK. The v9 compatibility layer (specifically, the * app-compat and auth-compat packages) permits the usage of FirebaseUI alongside v9, but without the app size reduction * and other benefits of the v9 SDK.
+     * https://firebase.google.com/docs/auth/web/firebaseui
+     * https://firebase.google.com/docs/web/modular-upgrade
+     */
 import { onMounted, ref, reactive, watch, nextTick, shallowRef } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Chart from 'chart.js/auto';
+/**
+ * FirebaseUI for Web — Auth
+ * https://firebaseopensource.com/projects/firebase/firebaseui-web/
+ */
+import firebase from 'firebase/compat/app';
+import * as firebaseui from 'firebaseui'
+import 'firebaseui/dist/firebaseui.css'
 // 設定檔案
 const counties = ref([])
 const townMap = reactive({})
@@ -572,6 +586,7 @@ const currentYear = new Date().getFullYear()
 onMounted(() => {
     setSelecOptions()
     calculateFloorSize()
+    loginUser()
 })
 async function setSelecOptions(){
     try {
@@ -604,6 +619,37 @@ async function setSelecOptions(){
     await getUnitPrice()
     calculateMortgate()
     createLifeFinanceChart()
+}
+async function loginUser(){
+    await firebase.initializeApp({
+        apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
+        authDomain: "econ-sense-9a250.firebaseapp.com",
+        projectId: "econ-sense-9a250",
+        storageBucket: "econ-sense-9a250.appspot.com",
+        messagingSenderId: "449033690264",
+        appId: "1:449033690264:web:f5e419118030eb3afe44ed",
+        measurementId: "G-19NFT8GVCZ"
+    })
+
+    const uiConfig = {
+        signInSuccessUrl: '<url-to-redirect-to-on-success>',
+        signInOptions: [
+            // Leave the lines as is for the providers you want to offer your users.
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        ],
+        // tosUrl and privacyPolicyUrl accept either url string or a callback
+        // function.
+        // Terms of service url/callback.
+        tosUrl: '<your-tos-url>',
+        // Privacy policy url/callback.
+        privacyPolicyUrl: function() {
+            window.location.assign('<your-privacy-policy-url>');
+        }
+    };
+    // Initialize the FirebaseUI Widget using Firebase.
+    const ui = new firebaseui.auth.AuthUI(firebase.auth());
+    // The start method will wait until the DOM is loaded.
+    ui.start('#firebaseui-auth-container', uiConfig);
 }
 // 基本資料
 const profile = reactive({
@@ -655,17 +701,17 @@ async function calculateLifeExpectancy() {
     }
 }
 // 需求分析
-const needs = ref(['housing', 'parenting', 'retirement'])
-const checkedNeeds = ref(['housing', 'parenting'])
 const checkAll = ref(false)
 const isIndeterminate = ref(true)
+const needs = ['housing', 'parenting', 'retirement']
+const checkedNeeds = ref(['housing', 'parenting', 'retirement'])
 const needLabelMap = {
     housing: '購屋',
     parenting: '育兒',
     retirement: '退休',
 }
 const handleCheckAllChange = (val) => {
-  checkedCities.value = val ? needs : []
+  checkedNeeds.value = val ? needs : []
   isIndeterminate.value = false
 }
 const handleCheckedNeedsChange = (value) => {
@@ -723,32 +769,27 @@ function onHasParkingChanged(hasParkingValue) {
 async function getUnitPrice() {
     const {county, town, buildingType, buildingAge} = building
     if(county && town) {
-        try {
-            buildingLoading.value = true
-            const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/unitPrice`, {
-                method: 'post',
-                body: JSON.stringify(building),
-                headers: {'Content-Type': 'application/json'}
-            })
-            const resJson = await res.json()
-            Object.assign(building, resJson)
+        buildingLoading.value = true
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/unitPrice`, {
+            method: 'post',
+            body: JSON.stringify(building),
+            headers: {'Content-Type': 'application/json'}
+        })
+        const resJson = await res.json()
+        Object.assign(building, resJson)
 
-            const { pr25, pr75, average } = resJson
-            if(!average) {
-                ElMessage('資料筆數過少，請調整查詢條件')
-                return
-            }
-            unitPriceMarks = {}
-            unitPriceMarks[pr25] = `PR25: ${pr25}`
-            unitPriceMarks[pr75] = `PR75: ${pr75}`
-            unitPriceMarks[average] = `平均：${average}`
-            buildingUnitPrice.value = average
-            calculateTotalPrice()
-        } catch (error) {
-            alert(error.message||error)
-        } finally {
-            buildingLoading.value = false
+        const { pr25, pr75, average } = resJson
+        if(!average) {
+            ElMessage('資料筆數過少，請調整查詢條件')
+            return
         }
+        unitPriceMarks = {}
+        unitPriceMarks[pr25] = `PR25: ${pr25}`
+        unitPriceMarks[pr75] = `PR75: ${pr75}`
+        unitPriceMarks[average] = `平均：${average}`
+        buildingUnitPrice.value = average
+        calculateTotalPrice()
+        buildingLoading.value = false
     }
 }
 // 購屋分析2
