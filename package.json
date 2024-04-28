@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@vercel/og": "^0.6.2",
+    "chart.js": "^4.4.2",
     "element-plus": "^2.7.1",
     "firebase": "^10.11.0",
     "vitepress-plugin-search": "^1.0.4-alpha.22"

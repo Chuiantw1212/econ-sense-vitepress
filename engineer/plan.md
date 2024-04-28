@@ -413,6 +413,13 @@ outline: deep
         </el-row>
         <el-row>
             <el-col>
+                <el-form-item label="已備資產" :span="12">
+                    <el-input-number v-model="investment.assetAmount" :min="0"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col>
                 <el-form-item label="貸款比例(%)">
                     <el-input-number v-model="mortgage.loanPercent" :min="0" :max="100"/>
                 </el-form-item>
@@ -718,9 +725,10 @@ function calculateDownPayment() {
     }
 }
 // 投資試算
-const investment = {
+const investment = reactive({
     allocation: 'aoa',
-}
+    assetAmount: 1000000,
+})
 </script>
 <style lang="scss" scoped>
 .table {
