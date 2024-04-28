@@ -8,8 +8,7 @@ outline: deep
 2. 工程師可藉由開源的前後端程式碼學習Javascript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
 3. 民眾可以快速建立生涯財務觀念，並提共回饋意見。
 
-## 登入
-
+按鈕可以註冊。註冊後我會看到的資料 = Email + 所有表單資料。這邊主要是我方便用的，因為每次都要重新輸入表單實在麻煩。不預期有人會想來註冊，真的來註冊我也不會刪資料就是。
 <div id="firebaseui-auth-container"></div>
 
 ## 1. 基本資料
@@ -560,16 +559,15 @@ outline: deep
  * https://firebase.google.com/docs/auth/web/firebaseui
  * https://firebase.google.com/docs/web/modular-upgrade
  */
-import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import Chart from 'chart.js/auto';
 /**
  * FirebaseUI for Web — Auth
  * https://firebaseopensource.com/projects/firebase/firebaseui-web/
  */
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
-import 'firebaseui/dist/firebaseui.css'
+import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import Chart from 'chart.js/auto';
 // 設定檔案
 const counties = ref([])
 const townMap = reactive({})
@@ -634,7 +632,7 @@ async function loginUser(){
     })
 
     const uiConfig = {
-        signInSuccessUrl: '<url-to-redirect-to-on-success>',
+        signInSuccessUrl: '/engineer/plan',
         signInOptions: [
             // Leave the lines as is for the providers you want to offer your users.
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -642,7 +640,7 @@ async function loginUser(){
         // tosUrl and privacyPolicyUrl accept either url string or a callback
         // function.
         // Terms of service url/callback.
-        tosUrl: '<your-tos-url>',
+        // tosUrl: '<your-tos-url>',
         // Privacy policy url/callback.
         privacyPolicyUrl: function() {
             window.location.assign('<your-privacy-policy-url>');

@@ -6,35 +6,20 @@ export default defineConfig({
   description: "歡迎來到『常識經濟學』，您的理財省心好幫手！主打主業省心省力，無需看盤，專注投資自己，陪伴家人。我們以投資為輔，強調輕鬆投資，主打ETF、被動收入、自動化理財，讓您買進忘記，輕鬆無腦。不僅關注金錢，更注重全方位發展，包括心理、法務、醫療等，培養長線思維，免於匱乏。在『常識經濟學』，實用至上，提供流程、表格、SOP等實用工具，即使聽不懂，照著做也能取得成效。讓您輕鬆追求完整不偏食的理財觀念，一同開啟更豐富的生活！",
   head: [
     ['link', { rel: 'icon', href: '/logo/常-白底.png' }],
-    [
-      'link',
-      { rel: 'preconnect', href: 'https://fonts.googleapis.com' }
-    ],
-    [
-      'link',
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
-    ],
-    [
-      'link',
-      { href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap', rel: 'stylesheet' }
-    ],
-    [
-      'script',
-      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-19NFT8GVCZ' }
-    ],
-    [
-      'script',
-      {},
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    ['link', { href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap', rel: 'stylesheet' }],
+    ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-19NFT8GVCZ' }],
+    ['script', {},
       `window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
       gtag('config', 'G-19NFT8GVCZ');`
     ],
-    [
-      'script',
-      { async: '', src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6322593540825146', crossorigin: 'anonymous' }
-    ]
+    // // Firebase https://github.com/firebase/firebaseui-web?tab=readme-ov-file#localized-widget
+    // ['script', { src: 'https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth__zh_tw.js' }],
+    // ['link', { href: 'https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.css', rel: 'stylesheet', type: 'text/css' }],
   ],
   // https://vitepress.dev/guide/markdown#image-lazy-loading
   markdown: {
