@@ -463,69 +463,67 @@ outline: deep
 <el-card v-if="checkedNeeds.includes('retirement')">
     <el-form label-width="auto">
         <el-row>
-            <el-col :span="12">
+            <el-col :span="22">
                 <el-form-item label="平均月開支">
-                    <el-input-number v-model="parenting.childAnnualExpense" :min="0" @change="onChildMonthlyExpenseChanged()"/>
+                    <el-slider v-model="retirement.monthlyExpense" :marks="expenseQuantileMarks" />
                 </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
                 <el-form-item label="預估退休餘命">
                     <el-input-number v-model="parenting.independantAge" :min="18" @change="onIndependantAgeChanged()"/>
                 </el-form-item>
-            </el-col>
+            </el-col> -->
         </el-row>
     </el-form>
     <template #footer>
-        <ul>
-            <li>資料來源：
-                <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
-                    主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
-                </a>
-            </li>
-            <li>
-                用65歲以上家戶支出除以該戶人數，藉此粗估每個長輩的平均開支。
-            </li>
-        </ul>
-        <table class="table">
-            <tr>
-                <th>按戶數五等分位組</th>
-                <th>1</th>
-                <th>2</th>
-                <th>3</th>
-                <th>4</th>
-                <th>5</th>
-            </tr>
-            <tr>
-                <td>平均每戶人數</td>
-                <td>1.62</td>
-                <td>1.98</td>
-                <td>2.22</td>
-                <td>2.64</td>
-                <td>3.07</td>
-            </tr>
-            <tr>
-                <td>消費支出</td>
-                <td>380,421</td>
-                <td>614,536</td>
-                <td>772,725</td>
-                <td>961,375</td>
-                <td>1,335,663</td>
-            </tr>
-            <tr>
-                <td>平均每人消費支出</td>
-                <td>234,827</td>
-                <td>310,371</td>
-                <td>348,074</td>
-                <td>364,157</td>
-                <td>435,069</td>
-            </tr>
-            <tr>
-                <td colspan="6">
-                    平均每位受扶養者帶來的支出： <br>
-                    (核心消費支出 - 雙親消費支出) / (核心每戶人數 - 核心就業人數) = 212,767
-                </td>
-            </tr>
-        </table>
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                <ul>
+                    <li>資料來源：
+                        <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
+                            主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
+                        </a>
+                    </li>
+                </ul>
+                <table class="table">
+                    <tr>
+                        <th>
+                            <div>65歲及以上</div>
+                            <div>按戶數五等分位組</div>
+                        </th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                    </tr>
+                    <tr>
+                        <td>平均每戶人數</td>
+                        <td>1.62</td>
+                        <td>1.98</td>
+                        <td>2.22</td>
+                        <td>2.64</td>
+                        <td>3.07</td>
+                    </tr>
+                    <tr>
+                        <td>消費支出</td>
+                        <td>380,421</td>
+                        <td>614,536</td>
+                        <td>772,725</td>
+                        <td>961,375</td>
+                        <td>1,335,663</td>
+                    </tr>
+                    <tr>
+                        <td>平均每人消費支出</td>
+                        <td>234,827</td>
+                        <td>310,371</td>
+                        <td>348,074</td>
+                        <td>364,157</td>
+                        <td>435,069</td>
+                    </tr>
+                </table>
+            </el-collapse-item>
+        </el-collapse>
     </template>
 </el-card>
 
@@ -1012,6 +1010,18 @@ function onFirstBornYearChanged() {
 function onSecondBornYearChanged() {
     createLifeFinanceChart()
 }
+// 退休試算
+const expenseQuantileMarks = reactive({
+    0: '234,827',
+    25: '310,371',
+    50: '348,074',
+    75: '364,157',
+    100: '435,069'
+})
+const retirement = reactive({
+    monthlyExpense: 0,
+})
+const value1 = ref(0)
 // 投資試算
 const investment = reactive({
     allocation: 'aoa',
@@ -1020,6 +1030,10 @@ const investment = reactive({
     disposableIncome: 70000,
     chartInstance: null,
 })
+function calculateExpenseQuantileMarks() {
+    const quantile = [234827, 310371, 348074, 364157, 435069]
+    // const gap = 
+}
 function onAllocationChanged() {
     createLifeFinanceChart()
 }
