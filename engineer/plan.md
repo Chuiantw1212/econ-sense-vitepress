@@ -217,93 +217,93 @@ outline: deep
                 單價資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html" target="_blank">財團法人金融聯合徵信中心 OpenAPI
                 </a>
                 <table class="table">
-            <tr>
-                <th>空間</th>
-                <th>參考平方公尺</th>
-                <th>參考依據</th>
-            </tr>
-            <tr>
-                <td>雙人房</td>
-                <td>19</td>
-                <td>
-                    <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=K0110021&flno=13" target="_blank">
-                        觀光旅館建築及設備標準
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>單人房</td>
-                <td>13</td>
-                <td>
-                    <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=K0110021&flno=13" target="_blank">
-                        觀光旅館建築及設備標準
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>衛浴</td>
-                <td>4</td>
-                <td>
-                    <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=D0070115&flno=295" target="_blank">
-                        建築技術規則建築設計施工編
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>廚房</td>
-                <td>2~4</td>
-                <td>
-                    <a href="https://www.pro360.com.tw/category/kitchen_decorating#:~:text=%E4%B8%8D%E5%90%8C%E7%9A%84%E5%BB%9A%E5%85%B7%E9%85%8D%E7%BD%AE%E5%B0%8D,%E8%BC%83%E5%A5%BD%E7%9A%84%E4%BD%BF%E7%94%A8%E9%AB%94%E9%A9%97%E3%80%82" target="_blank">
-                        廚房空間如何規劃？廚房設計4大攻略及範例圖片參考｜PRO360達人網
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>餐廳+客廳</td>
-                <td>1/人</td>
-                <td>
-                    <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0060009&flno=322" target="_blank">
-                        職業安全衛生設施規則
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>其他室內空間</td>
-                <td>30</td>
-                <td>
-                    <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=H0070037&flno=10" target="_blank">
-                        幼兒園及其分班基本設施設備標準
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>陽台</td>
-                <td>10%</td>
-                <td>
-                    <a href="https://law.moj.gov.tw/LawClass/LawSingleRela.aspx?PCODE=D0070115&FLNO=162&ty=L" target="_blank">
-                        建築技術規則建築設計施工編
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>車位</td>
-                <td>24.75</td>
-                <td>
-                    <a href="https://tnews.cc/ur/newscon25045.htm" target="_blank">
-                        研商「精進建物測繪登記相關業務」第 2 次會議紀錄
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>公設比</td>
-                <td>預設35%</td>
-                <td>
-                    <a href="https://www.google.com/search?q=%E5%85%AC%E8%A8%AD%E6%AF%94" target="_blank">
-                        Google搜索
-                    </a>
-                </td>
-            </tr>
-        </table>
+                    <tr>
+                        <th>空間</th>
+                        <th>參考平方公尺</th>
+                        <th>參考依據</th>
+                    </tr>
+                    <tr>
+                        <td>雙人房</td>
+                        <td>19</td>
+                        <td>
+                            <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=K0110021&flno=13" target="_blank">
+                                觀光旅館建築及設備標準
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>單人房</td>
+                        <td>13</td>
+                        <td>
+                            <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=K0110021&flno=13" target="_blank">
+                                觀光旅館建築及設備標準
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>衛浴</td>
+                        <td>4</td>
+                        <td>
+                            <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=D0070115&flno=295" target="_blank">
+                                建築技術規則建築設計施工編
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>廚房</td>
+                        <td>2~4</td>
+                        <td>
+                            <a href="https://www.pro360.com.tw/category/kitchen_decorating#:~:text=%E4%B8%8D%E5%90%8C%E7%9A%84%E5%BB%9A%E5%85%B7%E9%85%8D%E7%BD%AE%E5%B0%8D,%E8%BC%83%E5%A5%BD%E7%9A%84%E4%BD%BF%E7%94%A8%E9%AB%94%E9%A9%97%E3%80%82" target="_blank">
+                                廚房空間如何規劃？廚房設計4大攻略及範例圖片參考｜PRO360達人網
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>餐廳+客廳</td>
+                        <td>1/人</td>
+                        <td>
+                            <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0060009&flno=322" target="_blank">
+                                職業安全衛生設施規則
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>其他室內空間</td>
+                        <td>30</td>
+                        <td>
+                            <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=H0070037&flno=10" target="_blank">
+                                幼兒園及其分班基本設施設備標準
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>陽台</td>
+                        <td>10%</td>
+                        <td>
+                            <a href="https://law.moj.gov.tw/LawClass/LawSingleRela.aspx?PCODE=D0070115&FLNO=162&ty=L" target="_blank">
+                                建築技術規則建築設計施工編
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>車位</td>
+                        <td>24.75</td>
+                        <td>
+                            <a href="https://tnews.cc/ur/newscon25045.htm" target="_blank">
+                                研商「精進建物測繪登記相關業務」第 2 次會議紀錄
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>公設比</td>
+                        <td>預設35%</td>
+                        <td>
+                            <a href="https://www.google.com/search?q=%E5%85%AC%E8%A8%AD%E6%AF%94" target="_blank">
+                                Google搜索
+                            </a>
+                        </td>
+                    </tr>
+                </table>
             </el-collapse-item>
         </el-collapse>
     </template>
@@ -315,7 +315,7 @@ outline: deep
         <span>購屋貸款試算</span>
       </div>
     </template>
-    <el-form :model="form" label-width="auto">
+    <el-form label-width="auto">
         <el-row>
             <el-col>
                 <el-form-item label="預估利息">
@@ -379,18 +379,6 @@ outline: deep
         <span>退休試算</span>
       </div>
     </template>
-    <!-- <el-form :model="form" label-width="auto">
-        <el-form-item label="縣市" :span="10">
-            <el-select v-model="profile.county" placeholder="請選擇" @change="onCountyChanged($event)">
-                <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="行政區" :span="10">
-            <el-select v-model="profile.town" placeholder="請選擇">
-                <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
-            </el-select>
-        </el-form-item>
-    </el-form> -->
     <template #footer>
         <ul>
             <li>資料來源：
@@ -410,8 +398,75 @@ outline: deep
 ### 儲蓄與投資
 
 <el-card>
+    <el-form label-width="auto">
+        <el-row>
+            <el-col>
+                <el-form-item label="股債比">
+                    <el-radio-group v-model="investment.allocation">
+                        <el-radio :value="'aoa'">股8債2</el-radio>
+                        <el-radio :value="'aor'">股6債4</el-radio>
+                        <el-radio :value="'aom'">股4債6</el-radio>
+                        <el-radio :value="'aok'">股2債8</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col>
+                <el-form-item label="貸款比例(%)">
+                    <el-input-number v-model="mortgage.loanPercent" :min="0" :max="100"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+    </el-form>
     <template #footer>
-        資料來源：<a href="https://data.gov.tw/dataset/108265">家庭收支調查-平均每戶可支配所得及消費支出依可支配所得按戶數五等分位分及經濟戶長年齡組別分</a>
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                <table class="table">
+                    <tr>
+                        <th>參考標的</th>
+                        <th>股債比</th>
+                        <th>來源網址</th>
+                    </tr>
+                    <tr>
+                        <td>AOA</td>
+                        <td>股8債2</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239729/ishares-aggressive-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AOR</td>
+                        <td>股6債4</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239756/ishares-growth-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AOM</td>
+                        <td>股4債6</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239765/ishares-moderate-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AOK</td>
+                        <td>股2債8</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239733/ishares-conservative-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </el-collapse-item>
+        </el-collapse>
     </template>
 </el-card>
 
@@ -425,6 +480,7 @@ const buildingTypes = ref([])
 const buildingAges = ref([])
 const genders = ref([])
 const interestRate = ref(0)
+const portfolioIRR = reactive({})
 onMounted(() => {
     setSelecOptions()
     calculateFloorSize()
@@ -442,6 +498,7 @@ async function setSelecOptions(){
         const bankConfigRes = await fetch(`${import.meta.env.VITE_BASE_URL}/bank/config`)
         const bankConfigResJson = await bankConfigRes.json()
         interestRate.value = bankConfigResJson.interestRate
+        Object.assign(portfolioIRR, bankConfigResJson.portfolioIRR)
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
@@ -659,6 +716,10 @@ function calculateDownPayment() {
         mortgage.loanAmount = totalHousePrice.value *　mortgage.loanPercent * 100
         mortgage.downPayment =  totalHousePrice.value * 10000 - mortgage.loanAmount
     }
+}
+// 投資試算
+const investment = {
+    allocation: 'aoa',
 }
 </script>
 <style lang="scss" scoped>
