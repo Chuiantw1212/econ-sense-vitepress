@@ -8,8 +8,6 @@ outline: deep
 2. 工程師可藉由開源的前後端程式碼學習Javascript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
 3. 民眾可以快速建立生涯財務觀念，並提共回饋意見。
 
-<el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
-<el-button v-else @click="signOut()">登出</el-button>
 <el-dialog v-model="dialogVisible" title="登入" :fullscreen="isFullScreen">
     登入按鈕邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
     <div v-if="!user.uid" id="firebaseui-auth-container"></div>
@@ -19,14 +17,23 @@ outline: deep
 
 <el-card>
     <template #header>
-      <div class="card-header">
+      <div class="card-header card-header--custom">
         <span>基本資料</span>
+        <el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
+        <el-button v-else @click="signOut()">登出</el-button>
       </div>
     </template>
     <el-form ref="ruleFormRef" :model="profile" :rules="profileRules" label-width="auto">
         <el-row>
-            <el-col :span="12">
-                <el-avatar v-if="user.photoURL" :src="user.photoURL"></el-avatar>
+            <el-col v-if="user.photoURL" :span="12">
+                <el-form-item :label="user.displayName">
+                    <el-avatar :src="user.photoURL"></el-avatar>
+                </el-form-item>
+            </el-col>
+            <el-col v-if="user.email" :span="12">
+                <el-form-item label="註冊信箱">
+                    <el-text>{{ user.email }}</el-text>
+                </el-form-item>
             </el-col>
         </el-row>
         <el-row>
@@ -581,7 +588,7 @@ import Chart from 'chart.js/auto';
 const dialogVisible = ref(false)
 const isFullScreen = ref(false)
 const user = reactive({
-    displayName: '',
+    displayName: '註冊用戶',
     email: '',
     photoURL: '',
     uid: ''
@@ -627,9 +634,11 @@ async function initializeApp () {
         if(!firebaseUser) {
             return
         }
-        const { displayName, email, photoURL, uid } = firebaseUser
+        const { displayName = '註冊用戶', email, photoURL, uid } = firebaseUser
         user.photoURL = photoURL
         user.uid = uid
+        user.email = email
+        user.displayName = displayName
         dialogVisible.value = false
     })
 }
@@ -1030,6 +1039,11 @@ function createLifeFinanceChart() {
 }
 </script>
 <style lang="scss" scoped>
+.card-header--custom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .table {
     * {
         border-color: var(--el-border-color-light);
