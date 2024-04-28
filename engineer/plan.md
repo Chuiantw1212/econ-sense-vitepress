@@ -217,14 +217,14 @@ outline: deep
             </el-col>
         </el-row>
         <el-row>
-            <el-col v-if="building.hasParking" :span="12">
-                <el-form-item label="預估車位權狀" prop="floorSize">
-                    <el-text>{{ room.parkingSize }} 坪</el-text>
-                </el-form-item>
-            </el-col>
             <el-col :span="12">
                 <el-form-item label="預估權狀坪數" prop="floorSize">
                     <el-text>{{ room.floorSize }} 坪</el-text>
+                </el-form-item>
+            </el-col>
+            <el-col v-if="building.hasParking" :span="12">
+                <el-form-item label="預估車位權狀" prop="floorSize">
+                    <el-text>{{ room.parkingSize }} 坪</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -421,8 +421,8 @@ outline: deep
                 因為缺少資料集或是相關api，故此部分資料會較為粗糙。
                 <ul>
                     <li>資料來源：
-                        <a href="https://data.gov.tw/dataset/108265">
-                            家庭收支調查-平均每戶可支配所得及消費支出依可支配所得按戶數五等分位分及經濟戶長年齡組別分
+                        <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
+                            主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
                         </a>
                     </li>
                 </ul>
@@ -461,17 +461,71 @@ outline: deep
 <br v-if="checkedNeeds.includes('retirement')"/>
 <h3 v-if="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h3>
 <el-card v-if="checkedNeeds.includes('retirement')">
+    <el-form label-width="auto">
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="平均月開支">
+                    <el-input-number v-model="parenting.childAnnualExpense" :min="0" @change="onChildMonthlyExpenseChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估退休餘命">
+                    <el-input-number v-model="parenting.independantAge" :min="18" @change="onIndependantAgeChanged()"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+    </el-form>
     <template #footer>
         <ul>
             <li>資料來源：
-                <a href="https://data.gov.tw/dataset/108265">
-                    家庭收支調查-平均每戶可支配所得及消費支出依可支配所得按戶數五等分位分及經濟戶長年齡組別分
+                <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
+                    主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
                 </a>
             </li>
             <li>
                 用65歲以上家戶支出除以該戶人數，藉此粗估每個長輩的平均開支。
             </li>
         </ul>
+        <table class="table">
+            <tr>
+                <th>按戶數五等分位組</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+            </tr>
+            <tr>
+                <td>平均每戶人數</td>
+                <td>1.62</td>
+                <td>1.98</td>
+                <td>2.22</td>
+                <td>2.64</td>
+                <td>3.07</td>
+            </tr>
+            <tr>
+                <td>消費支出</td>
+                <td>380,421</td>
+                <td>614,536</td>
+                <td>772,725</td>
+                <td>961,375</td>
+                <td>1,335,663</td>
+            </tr>
+            <tr>
+                <td>平均每人消費支出</td>
+                <td>234,827</td>
+                <td>310,371</td>
+                <td>348,074</td>
+                <td>364,157</td>
+                <td>435,069</td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    平均每位受扶養者帶來的支出： <br>
+                    (核心消費支出 - 雙親消費支出) / (核心每戶人數 - 核心就業人數) = 212,767
+                </td>
+            </tr>
+        </table>
     </template>
 </el-card>
 
@@ -819,7 +873,7 @@ function onBuildingTypeChanged() {
 function onBuildingAgeChanged() {
     getUnitPrice()
 }
-function onHasParkingChanged(hasParkingValue) {
+function onHasParkingChanged() {
     getUnitPrice()
 }
 async function getUnitPrice() {
@@ -831,6 +885,7 @@ async function getUnitPrice() {
             body: JSON.stringify(building),
             headers: {'Content-Type': 'application/json'}
         })
+        buildingLoading.value = false
         const resJson = await res.json()
         Object.assign(building, resJson)
 
@@ -845,7 +900,6 @@ async function getUnitPrice() {
         unitPriceMarks[average] = `平均：${average}`
         buildingUnitPrice.value = average
         calculateTotalPrice()
-        buildingLoading.value = false
     }
 }
 // 購屋分析2
