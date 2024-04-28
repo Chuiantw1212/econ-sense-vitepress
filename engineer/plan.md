@@ -403,10 +403,7 @@ outline: deep
             <el-col>
                 <el-form-item label="股債比">
                     <el-radio-group v-model="investment.allocation" @change="handleAllocationChanged($event)">
-                        <el-radio :value="'aoa'">股8債2</el-radio>
-                        <el-radio :value="'aor'">股6債4</el-radio>
-                        <el-radio :value="'aom'">股4債6</el-radio>
-                        <el-radio :value="'aok'">股2債8</el-radio>
+                        <el-radio v-for="(label, key) in porfolioLabels" :value="key">{{label}}(IRR:{{portfolioIRR[key]}}%)</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </el-col>
@@ -495,7 +492,7 @@ outline: deep
 </el-card>
 
 <script setup>
-import { onMounted, ref, reactive, watch,} from 'vue'
+import { onMounted, ref, reactive, watch, nextTick, shallowRef } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Chart from 'chart.js/auto';
 // 設定檔案
@@ -506,6 +503,12 @@ const buildingAges = ref([])
 const genders = ref([])
 const interestRate = ref(0)
 const portfolioIRR = reactive({})
+const porfolioLabels = reactive({
+    aoa: '股8債2',
+    aor: '股6債4',
+    aom: '股4債6',
+    aok: '股2債8',
+})
 onMounted(() => {
     setSelecOptions()
     calculateFloorSize()
@@ -749,7 +752,7 @@ const investment = reactive({
     assetAmount: 1000000,
     buyHouseYear: new Date().getFullYear(),
     monthlySaving: 3000,
-    chartInstance: null, 
+    chartInstance: null,
 })
 function handleAllocationChanged() {
     createLifeFinanceChart()
@@ -768,22 +771,30 @@ function createLifeFinanceChart() {
         fv = pv * (1 + irr / 100) + pmt
         pv = fv
     }
-    if(investment.chartInstance) {
-        investment.chartInstance.destroy();
+    const chartData = {
+        datasets: [
+            {
+                label: '一生資產試算',
+                data: datasetData,
+            }
+        ],
+        labels
     }
-    const ctx = document.getElementById('myChart')
-    investment.chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            datasets: [
-                {
-                    label: '一生資產試算',
-                    data: datasetData,
-                }
-            ],
-            labels
-        }
-    })
+
+    if(investment.chartInstance) {
+        investment.chartInstance.data = chartData
+        investment.chartInstance.update()
+        return
+    }
+
+    setTimeout(() => {
+        const ctx = document.getElementById('myChart')
+        const chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: chartData
+        })
+        investment.chartInstance = shallowRef(chartInstance)
+    },150)
 }
 </script>
 <style lang="scss" scoped>
