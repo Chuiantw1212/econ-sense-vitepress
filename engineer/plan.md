@@ -24,13 +24,13 @@ outline: deep
                         v-model="profile.dateOfBirth"
                         type="date"
                         placeholder="選擇出生日期"
-                        @change="handleDateOfBirthChanged($event)"
+                        @change="handleDateOfBirthChanged()"
                     />
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="性別" prop="gender">
-                    <el-select v-model="profile.gender" placeholder="請選擇" @change="handleGenderChanged($event)">
+                    <el-select v-model="profile.gender" placeholder="請選擇" @change="handleGenderChanged()">
                         <el-option v-for="item in genders":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
@@ -38,7 +38,7 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="試算年齡" prop="lifeExpectancy" @change="onAgeChaged($event)">
+                <el-form-item label="試算年齡" prop="lifeExpectancy" @change="onAgeChaged()">
                     <el-input-number v-model="profile.age" :min="0" :max="120" :disabled="true"/>
                 </el-form-item>
             </el-col>
@@ -51,7 +51,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="預估退休年齡" prop="lifeExpectancy">
-                    <el-input-number v-model="profile.retireAge" :min="60" :max="70" @="onRetireAgeChanged($event)"/>
+                    <el-input-number v-model="profile.retireAge" :min="60" :max="70" @change="onRetireAgeChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -102,14 +102,14 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="居住縣市" prop="county">
-                    <el-select v-model="building.county" placeholder="請選擇" @change="onCountyChanged($event)">
+                    <el-select v-model="building.county" placeholder="請選擇" @change="onCountyChanged()">
                         <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="行政區" prop="town">
-                    <el-select v-model="building.town" placeholder="請選擇" :disabled="!building.county" @change="onTownChanged($event)">
+                    <el-select v-model="building.town" placeholder="請選擇" :disabled="!building.county" @change="onTownChanged()">
                         <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
@@ -118,7 +118,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="建物類別" prop="buildingType">
-                    <el-select v-model="building.buildingType" placeholder="請選擇" :disabled="!building.town"  @change="onBuildingTypeChanged($event)">
+                    <el-select v-model="building.buildingType" placeholder="請選擇" :disabled="!building.town"  @change="onBuildingTypeChanged()">
                         <el-option label="不限" value=""></el-option>
                         <el-option v-for="item in buildingTypes":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
@@ -126,7 +126,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="屋齡[年]" prop="buildingAge">
-                    <el-select v-model="building.buildingAge" placeholder="請選擇" :disabled="!building.town" @change="onBuildingAgeChanged($event)">
+                    <el-select v-model="building.buildingAge" placeholder="請選擇" :disabled="!building.town" @change="onBuildingAgeChanged()">
                         <el-option label="不限" value=""></el-option>
                         <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
@@ -134,7 +134,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="含車位" prop="hasParking">
-                    <el-select v-model="building.hasParking" placeholder="請選擇" @change="onHasParkingChanged($event)">
+                    <el-select v-model="building.hasParking" placeholder="請選擇" @change="onHasParkingChanged()">
                         <el-option label="不限" value=""></el-option>
                         <el-option v-for="item in hasParkingOptions":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
@@ -149,7 +149,7 @@ outline: deep
         <el-row>
             <el-col :span="22">
                 <el-form-item label="單價(萬/坪)" prop="unitPrice">
-                    <el-slider v-model="buildingUnitPrice" :min="building.pr25" :max="building.pr75" :marks="unitPriceMarks" :disabled="!building.average" @change="calculateTotalPrice($event)"/>
+                    <el-slider v-model="buildingUnitPrice" :min="building.pr25" :max="building.pr75" :marks="unitPriceMarks" :disabled="!building.average" @change="calculateTotalPrice()"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -355,7 +355,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="貸款年期">
-                    <el-input-number v-model="mortgage.loanTerm" :min="0" @change="calculateMortgate($event)"/>
+                    <el-input-number v-model="mortgage.loanTerm" :min="0" @change="calculateMortgate()"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -443,7 +443,7 @@ outline: deep
         <el-row>
             <el-col>
                 <el-form-item label="股債比">
-                    <el-radio-group v-model="investment.allocation" @change="onAllocationChanged($event)">
+                    <el-radio-group v-model="investment.allocation" @change="onAllocationChanged()">
                         <el-radio v-for="(label, key) in porfolioLabels" :value="key">{{label}}(IRR:{{portfolioIRR[key]}}%)</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -451,24 +451,24 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="已備資產" @change="onAssetChanged($event)">
+                <el-form-item label="已備資產" @change="onAssetChanged()">
                     <el-input-number v-model="investment.assetAmount" :min="0"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="月可支配所得" @change="onIncomeChanged($event)">
+                <el-form-item label="月可支配所得" @change="onIncomeChanged()">
                     <el-input-number v-model="investment.disposableIncome" :min="0"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="計畫購屋年" @change="onBuyHouseYearChanged($event)">
+                <el-form-item label="計畫購屋年" @change="onBuyHouseYearChanged()">
                     <el-input-number v-model="investment.buyHouseYear" :min="2024" :max="2124"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="計畫退休年" @change="onBuyHouseYearChanged($event)">
+                <el-form-item label="計畫退休年" @change="onBuyHouseYearChanged()">
                     <el-input-number v-model="investment.buyHouseYear" :min="2024" :max="2124"/>
                 </el-form-item>
             </el-col>
@@ -584,6 +584,9 @@ async function setSelecOptions(){
         })
     }
     await calculateLifeExpectancy()
+    if(building.county) {
+        towns.value = townMap[building.county]
+    }
     await getUnitPrice()
     calculateMortgate()
     createLifeFinanceChart()
@@ -683,7 +686,7 @@ const buildingRules = reactive({
     county: { required: true, message: '請選擇', },
     town: { required: true, message: '請選擇', },
 })
-function onCountyChanged(county) {
+function onCountyChanged() {
     building.town = ''
     towns.value = []
     if(county) {
@@ -859,7 +862,6 @@ function createLifeFinanceChart() {
         datasetData.push(pv)
         // 影響存量重大事件
         if (year === buyHouseYear) {
-             console.log('?', mortgage.downPayment)
             pv -= mortgage.downPayment
         }
 
