@@ -17,25 +17,49 @@ outline: deep
       </div>
     </template>
     <el-form ref="ruleFormRef" :model="profile" :rules="profileRules" label-width="auto">
-        <el-form-item label="出生日期" prop="dateOfBirth">
-             <el-date-picker
-                v-model="profile.dateOfBirth"
-                type="date"
-                placeholder="選擇出生日期"
-                @change="handleDateOfBirthChanged($event)"
-            />
-        </el-form-item>
-        <el-form-item label="性別" prop="gender">
-            <el-select v-model="profile.gender" placeholder="請選擇" @change="handleGenderChanged($event)">
-                <el-option v-for="item in genders":key="item.value":label="item.label" :value="item.value"/>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="試算年齡" prop="lifeExpectancy">
-            <el-input-number v-model="profile.age" :min="0" :max="120" :disabled="true"/>
-        </el-form-item>
-        <el-form-item label="預估餘命" prop="lifeExpectancy">
-            <el-input-number v-model="profile.lifeExpectancy" :min="0" :max="120" :disabled="true"/>
-        </el-form-item>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="出生日期" prop="dateOfBirth">
+                    <el-date-picker
+                        v-model="profile.dateOfBirth"
+                        type="date"
+                        placeholder="選擇出生日期"
+                        @change="handleDateOfBirthChanged($event)"
+                    />
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="性別" prop="gender">
+                    <el-select v-model="profile.gender" placeholder="請選擇" @change="handleGenderChanged($event)">
+                        <el-option v-for="item in genders":key="item.value":label="item.label" :value="item.value"/>
+                    </el-select>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="試算年齡" prop="lifeExpectancy" @change="onAgeChaged($event)">
+                    <el-input-number v-model="profile.age" :min="0" :max="120" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估餘命" prop="lifeExpectancy">
+                    <el-input-number v-model="profile.lifeExpectancy" :min="0" :max="120" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="預估退休年齡" prop="lifeExpectancy">
+                    <el-input-number v-model="profile.retireAge" :min="60" :max="70" @="onRetireAgeChanged($event)"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估退休餘命" prop="retireLife">
+                    <el-input-number v-model="profile.retireLife" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
     </el-form>
     <template #footer>
         <el-collapse>
@@ -443,6 +467,11 @@ outline: deep
                     <el-input-number v-model="investment.buyHouseYear" :min="2024" :max="2124"/>
                 </el-form-item>
             </el-col>
+            <el-col :span="12">
+                <el-form-item label="計畫退休年" @change="onBuyHouseYearChanged($event)">
+                    <el-input-number v-model="investment.buyHouseYear" :min="2024" :max="2124"/>
+                </el-form-item>
+            </el-col>
         </el-row>
         <el-row>
             <el-col>
@@ -564,6 +593,9 @@ const profile = reactive({
     dateOfBirth: '1990-12-12',
     gender: 'M',
     age: 0,
+    lifeExpectancy: 0,
+    retireAge: 60,
+    retireLife: 0,
 })
 const profileRules = reactive({
     dateOfBirth:{ required: true, message: '請選擇', },
@@ -574,6 +606,15 @@ function handleDateOfBirthChanged() {
 }
 function handleGenderChanged() {
     calculateLifeExpectancy()
+}
+function onAgeChaged() {
+    calculateRetireLife()
+}
+function onRetireAgeChanged() {
+    calculateRetireLife()
+}
+async function calculateRetireLife() {
+    profile.retireLife =  Number(Number(profile.age + profile.lifeExpectancy - profile.retireAge).toFixed(2))
 }
 async function calculateLifeExpectancy() {
     const { dateOfBirth, gender, age } = profile
@@ -593,6 +634,7 @@ async function calculateLifeExpectancy() {
 
         profile.age = calculateAge
         profile.lifeExpectancy = await res.json()
+        calculateRetireLife()
     }
 }
 // 需求分析
@@ -817,12 +859,9 @@ function createLifeFinanceChart() {
         datasetData.push(pv)
         // 影響存量重大事件
         if (year === buyHouseYear) {
-            console.log('before', pv)
              console.log('?', mortgage.downPayment)
             pv -= mortgage.downPayment
-            console.log('after', pv)
         }
-        console.log({year, buyHouseYear})
 
         // 債務利息影響每月儲蓄
         let calculatedPmt = pmt
@@ -832,7 +871,6 @@ function createLifeFinanceChart() {
             calculatedPmt -= mortgage.monthlyRepay * 12
         }
 
-        console.log({pmt, mortgageStartYear, mortgageEndYear, calculatedPmt})
         fv = pv * (1 + irr / 100) + calculatedPmt
         pv = fv
     }
