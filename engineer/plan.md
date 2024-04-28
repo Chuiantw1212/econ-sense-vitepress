@@ -419,7 +419,7 @@ outline: deep
         <el-row>
             <el-col>
                 <el-form-item label="股債比">
-                    <el-radio-group v-model="investment.allocation" @change="handleAllocationChanged($event)">
+                    <el-radio-group v-model="investment.allocation" @change="onAllocationChanged($event)">
                         <el-radio v-for="(label, key) in porfolioLabels" :value="key">{{label}}(IRR:{{portfolioIRR[key]}}%)</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -427,19 +427,19 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="已備資產" >
+                <el-form-item label="已備資產" @change="onAssetChanged($event)">
                     <el-input-number v-model="investment.assetAmount" :min="0"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="月可支配所得">
+                <el-form-item label="月可支配所得" @change="onIncomeChanged($event)">
                     <el-input-number v-model="investment.disposableIncome" :min="0"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="計畫購屋年">
+                <el-form-item label="計畫購屋年" @change="onBuyHouseYearChanged($event)">
                     <el-input-number v-model="investment.buyHouseYear" :min="2024" :max="2124"/>
                 </el-form-item>
             </el-col>
@@ -791,7 +791,16 @@ const investment = reactive({
     disposableIncome: 70000,
     chartInstance: null,
 })
-function handleAllocationChanged() {
+function onAllocationChanged() {
+    createLifeFinanceChart()
+}
+function onAssetChanged() {
+    createLifeFinanceChart()
+}
+function onIncomeChanged() {
+    createLifeFinanceChart()
+}
+function onBuyHouseYearChanged() {
     createLifeFinanceChart()
 }
 function createLifeFinanceChart() {
