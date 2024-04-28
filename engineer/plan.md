@@ -8,6 +8,8 @@ outline: deep
 2. 工程師可藉由開源的前後端程式碼學習Javascript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
 3. 民眾可以快速建立生涯財務觀念，並提共回饋意見。
 
+## 登入
+
 <div id="firebaseui-auth-container"></div>
 
 ## 1. 基本資料
@@ -553,12 +555,12 @@ outline: deep
 </el-card>
 
 <script setup>
-    /**
-     * Warning: FirebaseUI is not currently compatible with the v9 modular SDK. The v9 compatibility layer (specifically, the * app-compat and auth-compat packages) permits the usage of FirebaseUI alongside v9, but without the app size reduction * and other benefits of the v9 SDK.
-     * https://firebase.google.com/docs/auth/web/firebaseui
-     * https://firebase.google.com/docs/web/modular-upgrade
-     */
-import { onMounted, ref, reactive, watch, nextTick, shallowRef } from 'vue'
+/**
+ * Warning: FirebaseUI is not currently compatible with the v9 modular SDK. The v9 compatibility layer (specifically, the * app-compat and auth-compat packages) permits the usage of FirebaseUI alongside v9, but without the app size reduction * and other benefits of the v9 SDK.
+ * https://firebase.google.com/docs/auth/web/firebaseui
+ * https://firebase.google.com/docs/web/modular-upgrade
+ */
+import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Chart from 'chart.js/auto';
 /**
@@ -584,9 +586,9 @@ const porfolioLabels = reactive({
 })
 const currentYear = new Date().getFullYear()
 onMounted(() => {
+    loginUser()
     setSelecOptions()
     calculateFloorSize()
-    loginUser()
 })
 async function setSelecOptions(){
     try {
@@ -646,10 +648,15 @@ async function loginUser(){
             window.location.assign('<your-privacy-policy-url>');
         }
     };
-    // Initialize the FirebaseUI Widget using Firebase.
-    const ui = new firebaseui.auth.AuthUI(firebase.auth());
-    // The start method will wait until the DOM is loaded.
-    ui.start('#firebaseui-auth-container', uiConfig);
+
+    // https://stackoverflow.com/questions/47589209/error-in-mounted-hook-error-an-authui-instance-already-exists
+    if(firebaseui.auth.AuthUI.getInstance()) {
+        const ui = firebaseui.auth.AuthUI.getInstance()
+        ui.start('#firebaseui-auth-container', uiConfig)
+    } else {
+        const ui = new firebaseui.auth.AuthUI(firebase.auth())
+        ui.start('#firebaseui-auth-container', uiConfig)
+    }
 }
 // 基本資料
 const profile = reactive({
