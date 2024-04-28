@@ -5,7 +5,7 @@ outline: deep
 # 一生財務試算 (WIP)
 
 1. 台灣唯一開源的財務規劃計算機。一切數字有憑有據，不賣商品賣事實。
-2. 工程師可藉由開源的前後端程式碼學習Javscript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
+2. 工程師可藉由開源的前後端程式碼學習Javascript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
 3. 民眾可以快速建立生涯財務觀念，並提共回饋意見。
 
 ## 1. 基本資料
@@ -385,12 +385,12 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="一胎年">
+                <el-form-item label="第一隻出生年">
                     <el-input-number v-model="parenting.firstBornYear" @change="onFirstBornYearChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="二胎年">
+                <el-form-item label="第二隻出生年">
                     <el-input-number v-model="parenting.secondBornYear" @change="onSecondBornYearChanged()"/>
                 </el-form-item>
             </el-col>
@@ -489,14 +489,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="計畫退休年" @change="onBuyHouseYearChanged()">
-                    <el-input-number v-model="investment.buyHouseYear" :min="2024" :max="2124"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col>
-                <el-form-item label="貸款比例(%)">
-                    <el-input-number v-model="mortgage.loanPercent" :min="0" :max="100"/>
+                    <el-input-number v-model="profile.retireAge" :min="60" :max="70" @change="onRetireAgeChanged()"/>
                 </el-form-item>
             </el-col>
         </el-row>
