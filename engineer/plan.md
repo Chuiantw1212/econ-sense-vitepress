@@ -179,36 +179,43 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="勞保投保年資">
-                    <el-input-number v-model="retirement.currentSeniority" :min="0" @change="oncurrentSeniorityChanged()"/>
+                    <el-input-number v-model="retirement.insurance.currentSeniority" :min="0" @change="oncurrentSeniorityChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="預估退休年資">
-                    <el-input-number v-model="retirement.futureSeniority" :disabled="true"/>
+                    <el-input-number v-model="retirement.insurance.futureSeniority" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="勞保老年年金">
+                    <el-input-number v-model="retirement.insurance.monthlyAnnuity" :min="0" @change="oncurrentSeniorityChanged()"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="顧主提繳累計">
-                    <el-input-number v-model="retirement.employerContribution" :min="0"/>
+                    <el-input-number v-model="retirement.pension.employerContribution" :min="0"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="個人提繳累計">
-                    <el-input-number v-model="retirement.employeeContrubution" :min="0"/>
+                    <el-input-number v-model="retirement.pension.employeeContrubution" :min="0"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="顧主提繳收益">
-                    <el-input-number v-model="retirement.employerContributionIncome" :min="0"/>
+                    <el-input-number v-model="retirement.pension.employerContributionIncome" :min="0"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="個人提繳收益">
-                    <el-input-number v-model="retirement.employeeContrubutionIncome" :min="0"/>
+                    <el-input-number v-model="retirement.pension.employeeContrubutionIncome" :min="0"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -828,7 +835,9 @@ async function setSelecOptions() {
     }
     // 職業
     calculateMonthlyContributionTotal()
+    calculateMonthlyAveraging()
     // 退休
+    calculateFutureSeniority()
     calculateRetirementQuartileMarks()
     // 買房
     await getUnitPrice()
@@ -945,7 +954,8 @@ function onRateChanged() {
 }
 function calculateMonthlyContributionTotal() {
     const { monthylyContributionWages, employeeContrubutionRate } = career
-    career.monthylyContributionTotal = Math.floor(monthylyContributionWages * (6 + employeeContrubutionRate) / 100) 
+    const maxContribution = Math.min(monthylyContributionWages, 150000)
+    career.monthylyContributionTotal = Math.floor(maxContribution * (6 + employeeContrubutionRate) / 100) 
 }
 function onMonthlyEATChanged() {
     calculateMonthlyAveraging()
@@ -961,12 +971,17 @@ function calculateMonthlyAveraging() {
 const retirement = reactive({
     age: 60,
     lifeExpectancy: 0,
-    currentSeniority: 6.9,
-    futureSeniority: 0,
-    employerContribution: 250609,
-    employerContributionIncome: 45571,
-    employeeContrubution: 137264,
-    employeeContrubutionIncome: 10308,
+    insurance: {
+        currentSeniority: 6.9,
+        futureSeniority: 0,
+        monthlyAnnuity: 0,
+    },
+    pension: {
+        employerContribution: 250609,
+        employerContributionIncome: 45571,
+        employeeContrubution: 137264,
+        employeeContrubutionIncome: 10308,
+    },
     level: 3,
     percentileRank: 50,
     monthlyExpense: 50,
@@ -980,8 +995,8 @@ function oncurrentSeniorityChanged() {
     calculateFutureSeniority()
 }
 function calculateFutureSeniority() {
-    const { currentSeniority } = retirement
-    retirement.futureSeniority = Number(Number(currentSeniority + retirement.age - profile.age).toFixed(1))
+    const { currentSeniority } = retirement.insurance
+    retirement.insurance.futureSeniority = Number(Number(currentSeniority + retirement.age - profile.age).toFixed(1))
 }
 function onRetirementLevelChanged() {
     const { level } = retirement
