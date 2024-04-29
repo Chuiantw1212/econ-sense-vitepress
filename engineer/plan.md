@@ -769,7 +769,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="已備資產" @change="onAssetChanged()">
-                    <el-input-number v-model="investment.assetAmount" :min="0"/>
+                    <el-input-number v-model="investment.presentAsset" :min="0"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -976,10 +976,25 @@ async function getUserFormSync(firebaseUser) {
             Authorization: `Bearer ${idToken}`
         }
     })
-    const userForm = res.json()
-    console.log(userForm)
+    if(res) {
+        const userForm = await res.json()
+        Object.assign(profile, userForm.profile)
+        Object.assign(career, userForm.career)
+        Object.assign(retirement, userForm.retirement)
+        Object.assign(estatePrice, userForm.estatePrice)
+        Object.assign(estateSize, userForm.estateSize)
+        Object.assign(mortgage, userForm.mortgage)
+        Object.assign(parenting, userForm.parenting)
+        Object.assign(investment, userForm.investment)
+        initializeCalculator()
+    } else {
+        const userForm = await fetch(`${import.meta.env.VITE_BASE_URL}/user/new`, {
+            method: 'post',
+        })
+    }
 }
 async function initializeCalculator() {
+    // 基本資料
     await calculateLifeExpectancy()
     // 職業
     calculateInsuranceExpense()
@@ -1034,11 +1049,16 @@ async function calculateLifeExpectancy() {
             headers: {'Content-Type': 'application/json'}
         })
 
-        console.log(calculateAge)
         profile.age = calculateAge
         profile.lifeExpectancy = await res.json()
 
         onAgeChaged()
+
+        fetch(`${import.meta.env.VITE_BASE_URL}/calculate/lifeExpectancy`, {
+            method: 'post',
+            body: JSON.stringify(profile),
+            headers: {'Content-Type': 'application/json'}
+        })
     }
 }
 // 需求分析
@@ -1381,11 +1401,11 @@ function calculateTotalPrice() {
 // 房屋貸款試算
 const mortgage = reactive({
     buyHouseYear: 0,
-    interestRate: 0,
     loanPercent: 70,
+    interestRate: 0,
+    loanTerm: 30,
     downPayment: 0,
     loanAmount: 0,
-    loanTerm: 30,
     monthlyRepay: 0,
 })
 function calculateMortgate() {
@@ -1435,7 +1455,7 @@ function onSecondBornYearChanged() {
 const investment = reactive({
     allocationETF: 'aoa',
     stockPercentage: 80,
-    assetAmount: 3500000,
+    presentAsset: 3500000,
 })
 const investmentAveraging = ref(0)
 const allocationQuartileMarks = reactive({})
@@ -1476,7 +1496,7 @@ function onBuyHouseYearChanged() {
 function createLifeAssetChart() {
     let inflationModifier = 1
 
-    let pv = investment.assetAmount
+    let pv = investment.presentAsset
     const irr = portfolioIRR[investment.allocationETF]
     let fv = 0 // fv = pv * irr + pmt
     const labels = []
