@@ -111,20 +111,32 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="月提繳工資">
-                    <el-input-number v-model="career.monthylyContributionWages" :min="0" @change="onWageChanged()"/>
+                <el-form-item label="勞保提繳工資">
+                    <el-input-number v-model="career.insurance.salary" :min="0" :max="45800" @change="onInsuranceSalaryChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="勞保勞工負擔">
+                    <el-input-number v-model="career.insurance.expense" :min="0" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="勞退提繳工資">
+                    <el-input-number v-model="career.pension.salary" :min="0" :max="150000" @change="onPensionSalaryChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="勞退自提率(%)">
-                    <el-input-number v-model="career.employeeContrubutionRate" @change="onRateChanged()" :min="0" :max="6"/>
+                    <el-input-number v-model="career.pension.rate" @change="onRateChanged()" :min="0" :max="6"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="勞退月提繳">
-                    <el-input-number v-model="career.monthylyContributionTotal" :disabled="true"/>
+                    <el-input-number v-model="career.pension.total" :disabled="true"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -184,14 +196,14 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="預估退休年資">
-                    <el-input-number v-model="retirement.insurance.futureSeniority" :disabled="true"/>
+                    <el-input-number v-model="retirement.insurance.futureSeniority" :disabled="true" @change="onFutureSeniorutyChanged()"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="勞保老年年金">
-                    <el-input-number v-model="retirement.insurance.monthlyAnnuity" :min="0" @change="oncurrentSeniorityChanged()"/>
+                <el-form-item label="預估勞保年金">
+                    <el-input-number v-model="retirement.insurance.monthlyAnnuity" :min="0"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -830,16 +842,17 @@ async function setSelecOptions() {
         })
     }
     await calculateLifeExpectancy()
-    if(building.county) {
-        towns.value = townMap[building.county]
-    }
     // 職業
-    calculateMonthlyContributionTotal()
+    calculateInsuranceExpense()
+    calculateCareerPensionTotal()
     calculateMonthlyAveraging()
     // 退休
     calculateFutureSeniority()
     calculateRetirementQuartileMarks()
     // 買房
+    if(building.county) {
+        towns.value = townMap[building.county]
+    }
     await getUnitPrice()
     calculateMortgate()
     // 建立資產表
@@ -940,22 +953,37 @@ const handleCheckedNeedsChange = (value) => {
 const career = reactive({
     monthlySalary: 70000,
     foodExpense: 3000,
-    monthylyContributionWages: 76500,
-    employeeContrubutionRate: 6,
-    monthylyContributionTotal: 0,
+    insurance: {
+        salary: 45800,
+        expense: 0,
+    },
+    pension: {
+        salary: 76500,
+        rate: 6,
+        total: 0,
+    },
     monthlyEAT: 63000,
     monthlyExpense: 36000,
 })
-function onWageChanged() {
-    calculateMonthlyContributionTotal()
+function onInsuranceSalaryChanged() {
+    calculateInsuranceExpense()
+}
+function calculateInsuranceExpense() {
+    const { salary, } = career.insurance
+    const insuranceRate = 12 / 100
+    const premiumRate =  20 / 100
+    career.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate)
+}
+function onPensionSalaryChanged() {
+    calculateCareerPensionTotal()
 }
 function onRateChanged() {
-    calculateMonthlyContributionTotal()
+    calculateCareerPensionTotal()
 }
-function calculateMonthlyContributionTotal() {
-    const { monthylyContributionWages, employeeContrubutionRate } = career
-    const maxContribution = Math.min(monthylyContributionWages, 150000)
-    career.monthylyContributionTotal = Math.floor(maxContribution * (6 + employeeContrubutionRate) / 100) 
+function calculateCareerPensionTotal() {
+    const { salary, rate } = career.pension
+    const maxContribution = Math.min(salary, 150000)
+    career.pension.total = Math.floor(maxContribution * (6 + rate) / 100) 
 }
 function onMonthlyEATChanged() {
     calculateMonthlyAveraging()
@@ -997,6 +1025,24 @@ function oncurrentSeniorityChanged() {
 function calculateFutureSeniority() {
     const { currentSeniority } = retirement.insurance
     retirement.insurance.futureSeniority = Number(Number(currentSeniority + retirement.age - profile.age).toFixed(1))
+}
+function onFutureSeniorutyChanged() {
+    calculateMonthlyAnnuity()
+}
+function calculateMonthlyAnnuity() {
+    /**
+     * ※第1式：（平均月投保薪資x保險年資 x0.775%+3000元）x（1+展延比率或1-減給比率）。
+※第2式：（平均月投保薪資x保險年資 x1.55%）x（1+展延比率或1-減給比率）。
+※保險年資未滿1年者，依實際加保月數按比例計算，未滿30日者，以1個月計算。
+被保險人符合老年年金請領年齡，且保險年資合計滿15年者，得請領老年年金給付。
+展延年金：被保險人符合請領老年年金給付條件而延後請領者，於請領時應發給展延年金給付，每延後1年，依計算之給付金額增給4%，最多增給20%。
+減給年金：被保險人保險年資合計滿15年，未符合老年年金給付法定請領年齡者，得提前5年請領老年年金給付，每提前1年，依計算之給付金額減給4%。
+試算結果僅供參考，實際領取金額仍以申請時本局核定為準。
+     */
+    // const formulaOne = 
+    // if() {
+
+    // }
 }
 function onRetirementLevelChanged() {
     const { level } = retirement
