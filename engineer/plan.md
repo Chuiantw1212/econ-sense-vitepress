@@ -99,7 +99,7 @@ outline: deep
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
-                <el-form-item label="本薪" @change="onBuyHouseYearChanged()">
+                <el-form-item label="本薪">
                     <el-input-number v-model="career.monthlySalary" :min="0"/>
                 </el-form-item>
             </el-col>
@@ -111,25 +111,39 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="月提繳工資" @change="onBuyHouseYearChanged()">
-                    <el-input-number v-model="career.monthylyContributionWages" :min="0"/>
+                <el-form-item label="月提繳工資">
+                    <el-input-number v-model="career.monthylyContributionWages" :min="0" @change="onWageChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="勞退自提率" @change="onBuyHouseYearChanged()">
-                    <el-input-number v-model="career.employeeContrubutionRate" :min="0" :max="6"/>
+                <el-form-item label="勞退自提率(%)">
+                    <el-input-number v-model="career.employeeContrubutionRate" @change="onRateChanged()" :min="0" :max="6"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="月實領" @change="onBuyHouseYearChanged()">
-                    <el-input-number v-model="career.monthlyEAT" :min="0"/>
+                <el-form-item label="勞退月提繳">
+                    <el-input-number v-model="career.monthylyContributionTotal" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="月實領">
+                    <el-input-number v-model="career.monthlyEAT" :min="0" @change="onMonthlyEATChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="月支出">
-                    <el-input-number v-model="career.monthlyExpense" :min="0"/>
+                    <el-input-number v-model="career.monthlyExpense" :min="0" @change="onMonthlyExpenseChanged()"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="月實領 - 月支出">
+                    <el-input-number v-model="investment.monthlyAveraging" :min="0" :disabled="true"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -152,8 +166,25 @@ outline: deep
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
+                <el-form-item label="預估退休年齡" prop="lifeExpectancy">
+                    <el-input-number v-model="retirement.age" :min="60" :max="70" @change="onRetireAgeChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估退休餘命" prop="retireLife">
+                    <el-input-number v-model="retirement.lifeExpectancy" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
                 <el-form-item label="勞保投保年資">
-                    <el-input-number v-model="retirement.insuranceSeniority" :min="0"/>
+                    <el-input-number v-model="retirement.currentSeniority" :min="0" @change="oncurrentSeniorityChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估退休年資">
+                    <el-input-number v-model="retirement.futureSeniority" :disabled="true"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -196,18 +227,6 @@ outline: deep
             </el-col>
         </el-row>
         <br/>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="預估退休年齡" prop="lifeExpectancy">
-                    <el-input-number v-model="retirement.age" :min="60" :max="70" @change="onRetireAgeChanged()"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="預估退休餘命" prop="retireLife">
-                    <el-input-number v-model="retirement.lifeExpectancy" :disabled="true"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
     </el-form>
     <template #footer>
         <el-collapse>
@@ -643,8 +662,8 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="月可支配所得" @change="onIncomeChanged()">
-                    <el-input-number v-model="investment.disposableIncome" :min="0"/>
+                <el-form-item label="月實領 - 月支出" @change="onIncomeChanged()">
+                    <el-input-number v-model="investment.monthlyAveraging" :min="0" :disabled="true"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -807,9 +826,14 @@ async function setSelecOptions() {
     if(building.county) {
         towns.value = townMap[building.county]
     }
+    // 職業
+    calculateMonthlyContributionTotal()
+    // 退休
+    calculateRetirementQuartileMarks()
+    // 買房
     await getUnitPrice()
     calculateMortgate()
-    calculateRetirementQuartileMarks()
+    // 建立資產表
     createLifeFinanceChart()
 }
 function openSignInDialog() {
@@ -860,9 +884,7 @@ function handleGenderChanged() {
     calculateLifeExpectancy()
 }
 function onAgeChaged() {
-    calculateRetireLife()
-}
-function onRetireAgeChanged() {
+    calculateFutureSeniority()
     calculateRetireLife()
 }
 async function calculateLifeExpectancy() {
@@ -905,17 +927,42 @@ const handleCheckedNeedsChange = (value) => {
   checkAll.value = checkedCount === needs.length
   isIndeterminate.value = checkedCount > 0 && checkedCount < needs.length
 }
-// 職業與退休
-const career = {
+// 職業試算
+const career = reactive({
     monthlySalary: 70000,
     foodExpense: 3000,
-    monthlyEAT: 63000,
-    monthlyExpense: 0,
     monthylyContributionWages: 76500,
     employeeContrubutionRate: 6,
+    monthylyContributionTotal: 0,
+    monthlyEAT: 63000,
+    monthlyExpense: 36000,
+})
+function onWageChanged() {
+    calculateMonthlyContributionTotal()
 }
+function onRateChanged() {
+    calculateMonthlyContributionTotal()
+}
+function calculateMonthlyContributionTotal() {
+    const { monthylyContributionWages, employeeContrubutionRate } = career
+    career.monthylyContributionTotal = Math.floor(monthylyContributionWages * (6 + employeeContrubutionRate) / 100) 
+}
+function onMonthlyEATChanged() {
+    calculateMonthlyAveraging()
+}
+function onMonthlyExpenseChanged() {
+    calculateMonthlyAveraging()
+}
+function calculateMonthlyAveraging() {
+    const { monthlyEAT, monthlyExpense } = career
+    investment.monthlyAveraging = monthlyEAT - monthlyExpense
+}
+// 退休試算
 const retirement = reactive({
-    insuranceSeniority: 6.9,
+    age: 60,
+    lifeExpectancy: 0,
+    currentSeniority: 6.9,
+    futureSeniority: 0,
     employerContribution: 250609,
     employerContributionIncome: 45571,
     employeeContrubution: 137264,
@@ -923,10 +970,19 @@ const retirement = reactive({
     level: 3,
     percentileRank: 50,
     monthlyExpense: 50,
-    lifeExpectancy: 0,
-    age: 60,
 })
 const expenseQuartileMarks = reactive({})
+function onRetireAgeChanged() {
+    calculateRetireLife()
+    calculateFutureSeniority()
+}
+function oncurrentSeniorityChanged() {
+    calculateFutureSeniority()
+}
+function calculateFutureSeniority() {
+    const { currentSeniority } = retirement
+    retirement.futureSeniority = Number(Number(currentSeniority + retirement.age - profile.age).toFixed(1))
+}
 function onRetirementLevelChanged() {
     const { level } = retirement
     const selectedItem = retirementQuartile.value[level - 1]
@@ -1124,7 +1180,7 @@ function onSecondBornYearChanged() {
 const investment = reactive({
     allocation: 'aoa',
     assetAmount: 1000000,
-    disposableIncome: 70000,
+    monthlyAveraging: 70000,
     chartInstance: null,
 })
 function calculateRetirementQuartileMarks() {
@@ -1170,7 +1226,7 @@ function createLifeFinanceChart() {
         // 退休開支影響收入與支出
         const reitrementStartYear = birthYear + retirement.age
         if(year <= reitrementStartYear) {
-            calculatedPmt = investment.disposableIncome * 12
+            calculatedPmt = investment.monthlyAveraging * 12
         }
         // 房貸利息影響每月儲蓄
         const mortgageStartYear = buyHouseYear
