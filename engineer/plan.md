@@ -1410,7 +1410,7 @@ function calculateMortgate() {
     const deno = part - 1
 
     const averageRepayRate = fraction /  deno
-    mortgage.monthlyRepay = loanAmount * averageRepayRate
+    mortgage.monthlyRepay = Math.floor(loanAmount * averageRepayRate)
 }
 // 育兒試算
 const parenting = reactive({
