@@ -82,8 +82,7 @@ outline: deep
 </el-card>
 
 ## 2. 需求試算
-
-<el-checkbox
+<!-- <el-checkbox
     v-model="checkAll"
     :indeterminate="isIndeterminate"
     @change="handleCheckAllChange"
@@ -94,7 +93,179 @@ outline: deep
     <el-checkbox v-for="need in needs" :key="need" :value="need">
       {{ needLabelMap[need] }}
     </el-checkbox>
-</el-checkbox-group>
+</el-checkbox-group> -->
+<h3 v-if="checkedNeeds.includes('career')" id="_職業試算" tabindex="-1">職業試算</h3>
+<el-card v-if="checkedNeeds.includes('career')">
+    <el-form label-width="auto">
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="本薪" @change="onBuyHouseYearChanged()">
+                    <el-input-number v-model="career.monthlySalary" :min="0"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="伙食費">
+                    <el-input-number v-model="career.foodExpense" :min="0" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="月提繳工資" @change="onBuyHouseYearChanged()">
+                    <el-input-number v-model="career.monthylyContributionWages" :min="0"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="勞退自提率" @change="onBuyHouseYearChanged()">
+                    <el-input-number v-model="career.employeeContrubutionRate" :min="0" :max="6"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="月實領" @change="onBuyHouseYearChanged()">
+                    <el-input-number v-model="career.monthlyEAT" :min="0"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="月支出">
+                    <el-input-number v-model="career.monthlyExpense" :min="0"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+    </el-form>
+    <template #footer>
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                <ul>
+                    <li>
+                        月提繳查詢：<a href="https://www.bli.gov.tw/0013083.html" target="_blank">勞動部勞工保險局</a>
+                    </li>
+                </ul>
+            </el-collapse-item>
+        </el-collapse>
+    </template>
+</el-card>
+<br v-if="checkedNeeds.includes('retirement')"/>
+<h3 v-if="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h3>
+<el-card v-if="checkedNeeds.includes('retirement')">
+    <el-form label-width="auto">
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="勞保投保年資">
+                    <el-input-number v-model="retirement.insuranceSeniority" :min="0"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="顧主提繳累計">
+                    <el-input-number v-model="retirement.employerContribution" :min="0"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="個人提繳累計">
+                    <el-input-number v-model="retirement.employeeContrubution" :min="0"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="顧主提繳收益">
+                    <el-input-number v-model="retirement.employerContributionIncome" :min="0"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="個人提繳收益">
+                    <el-input-number v-model="retirement.employeeContrubutionIncome" :min="0"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24">
+                <el-form-item label="退休五等分位">
+                    <el-radio-group v-model="retirement.level" @change="onRetirementLevelChanged()">
+                        <el-radio v-for="(item, key) in retirementQuartile" :value="key+1">{{ item.label }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </el-col>
+            <el-col :span="23">
+                <el-form-item label="退休年支出PR">
+                    <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <br/>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="預估退休年齡" prop="lifeExpectancy">
+                    <el-input-number v-model="retirement.age" :min="60" :max="70" @change="onRetireAgeChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估退休餘命" prop="retireLife">
+                    <el-input-number v-model="retirement.lifeExpectancy" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+    </el-form>
+    <template #footer>
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                <ul>
+                    <li>
+                        勞退收益率：<a href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00" target="_blank">中華民國退休基金協會</a>
+                    </li>
+                    <li>
+                        勞保勞退查詢：<a href="https://edesk.bli.gov.tw/me/#/na/login">勞保局E化服務系統</a>
+                    </li>
+                    <li>資料來源：
+                        <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
+                            主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
+                        </a>
+                    </li>
+                </ul>
+                <table class="table">
+                    <tr>
+                        <th>
+                            <div>65歲及以上</div>
+                            <div>按戶數五等分位組</div>
+                        </th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                    </tr>
+                    <tr>
+                        <td>平均每戶人數</td>
+                        <td>1.62</td>
+                        <td>1.98</td>
+                        <td>2.22</td>
+                        <td>2.64</td>
+                        <td>3.07</td>
+                    </tr>
+                    <tr>
+                        <td>消費支出</td>
+                        <td>380,421</td>
+                        <td>614,536</td>
+                        <td>772,725</td>
+                        <td>961,375</td>
+                        <td>1,335,663</td>
+                    </tr>
+                    <tr>
+                        <td>平均每人消費支出</td>
+                        <td>234,827</td>
+                        <td>310,371</td>
+                        <td>348,074</td>
+                        <td>364,157</td>
+                        <td>435,069</td>
+                    </tr>
+                </table>
+            </el-collapse-item>
+        </el-collapse>
+    </template>
+</el-card>
 <br v-if="checkedNeeds.includes('housing')"/>
 <h3 v-if="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
 <el-card v-if="checkedNeeds.includes('housing')">
@@ -328,7 +499,7 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="預估利息">
+                <el-form-item label="預估利息(%)">
                     <el-input-number v-model="interestRate" :min="0"/>
                 </el-form-item>
             </el-col>
@@ -451,89 +622,6 @@ outline: deep
         </el-collapse>
     </template>
 </el-card>
-<br v-if="checkedNeeds.includes('retirement')"/>
-<h3 v-if="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h3>
-<el-card v-if="checkedNeeds.includes('retirement')">
-    <el-form label-width="auto">
-        <el-row>
-            <el-col :span="24">
-                <el-form-item label="退休五等分位">
-                    <el-radio-group v-model="retirement.level" @change="onRetirementLevelChanged()">
-                        <el-radio v-for="(item, key) in retirementQuartile" :value="key+1">{{ item.label }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-            </el-col>
-            <el-col :span="23">
-                <el-form-item label="退休年支出PR">
-                    <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks" :disabled="true"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <br/>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="預估退休年齡" prop="lifeExpectancy">
-                    <el-input-number v-model="retirement.age" :min="60" :max="70" @change="onRetireAgeChanged()"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="預估退休餘命" prop="retireLife">
-                    <el-input-number v-model="retirement.lifeExpectancy" :disabled="true"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
-    </el-form>
-    <template #footer>
-        <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
-                <ul>
-                    <li>資料來源：
-                        <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
-                            主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
-                        </a>
-                    </li>
-                </ul>
-                <table class="table">
-                    <tr>
-                        <th>
-                            <div>65歲及以上</div>
-                            <div>按戶數五等分位組</div>
-                        </th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
-                    </tr>
-                    <tr>
-                        <td>平均每戶人數</td>
-                        <td>1.62</td>
-                        <td>1.98</td>
-                        <td>2.22</td>
-                        <td>2.64</td>
-                        <td>3.07</td>
-                    </tr>
-                    <tr>
-                        <td>消費支出</td>
-                        <td>380,421</td>
-                        <td>614,536</td>
-                        <td>772,725</td>
-                        <td>961,375</td>
-                        <td>1,335,663</td>
-                    </tr>
-                    <tr>
-                        <td>平均每人消費支出</td>
-                        <td>234,827</td>
-                        <td>310,371</td>
-                        <td>348,074</td>
-                        <td>364,157</td>
-                        <td>435,069</td>
-                    </tr>
-                </table>
-            </el-collapse-item>
-        </el-collapse>
-    </template>
-</el-card>
 
 ## 3. 一生資產檢驗
 
@@ -557,13 +645,6 @@ outline: deep
             <el-col :span="12">
                 <el-form-item label="月可支配所得" @change="onIncomeChanged()">
                     <el-input-number v-model="investment.disposableIncome" :min="0"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="計畫退休年" @change="onBuyHouseYearChanged()">
-                    <el-input-number v-model="profile.retireAge" :min="60" :max="70" @change="onRetireAgeChanged()"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -665,7 +746,6 @@ const porfolioLabels = reactive({
 const currentYear = new Date().getFullYear()
 onMounted(async () => {
     initializeApp()
-    getUserForm()
     setSelecOptions()
     calculateFloorSize()
     window.addEventListener('resize', onResize)
@@ -731,9 +811,6 @@ async function setSelecOptions() {
     calculateMortgate()
     calculateRetirementQuartileMarks()
     createLifeFinanceChart()
-}
-async function getUserForm() {
-
 }
 function openSignInDialog() {
     dialogVisible.value = true
@@ -812,8 +889,8 @@ async function calculateLifeExpectancy() {
 // 需求分析
 const checkAll = ref(false)
 const isIndeterminate = ref(true)
-const needs = ['housing', 'parenting', 'retirement']
-const checkedNeeds = ref(['housing', 'parenting', 'retirement'])
+const needs = ['career','retirement', 'housing', 'parenting',]
+const checkedNeeds = ref(['career', 'retirement', 'housing', 'parenting',])
 const needLabelMap = {
     housing: '購屋',
     parenting: '育兒',
@@ -827,6 +904,37 @@ const handleCheckedNeedsChange = (value) => {
   const checkedCount = value.length
   checkAll.value = checkedCount === needs.length
   isIndeterminate.value = checkedCount > 0 && checkedCount < needs.length
+}
+// 職業與退休
+const career = {
+    monthlySalary: 70000,
+    foodExpense: 3000,
+    monthlyEAT: 63000,
+    monthlyExpense: 0,
+    monthylyContributionWages: 76500,
+    employeeContrubutionRate: 6,
+}
+const retirement = reactive({
+    insuranceSeniority: 6.9,
+    employerContribution: 250609,
+    employerContributionIncome: 45571,
+    employeeContrubution: 137264,
+    employeeContrubutionIncome: 10308,
+    level: 3,
+    percentileRank: 50,
+    monthlyExpense: 50,
+    lifeExpectancy: 0,
+    age: 60,
+})
+const expenseQuartileMarks = reactive({})
+function onRetirementLevelChanged() {
+    const { level } = retirement
+    const selectedItem = retirementQuartile.value[level - 1]
+    retirement.percentileRank = level * 20 - 10
+    retirement.monthlyExpense = selectedItem.value
+}
+async function calculateRetireLife() {
+    retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
 }
 // 購屋分析
 const building = reactive({
@@ -1011,24 +1119,6 @@ function onFirstBornYearChanged() {
 }
 function onSecondBornYearChanged() {
     createLifeFinanceChart()
-}
-// 退休試算
-const expenseQuartileMarks = reactive({})
-const retirement = reactive({
-    level: 3,
-    percentileRank: 50,
-    monthlyExpense: 50,
-    lifeExpectancy: 0,
-    age: 60,
-})
-function onRetirementLevelChanged() {
-    const { level } = retirement
-    const selectedItem = retirementQuartile.value[level - 1]
-    retirement.percentileRank = level * 20 - 10
-    retirement.monthlyExpense = selectedItem.value
-}
-async function calculateRetireLife() {
-    retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
 }
 // 投資試算
 const investment = reactive({
