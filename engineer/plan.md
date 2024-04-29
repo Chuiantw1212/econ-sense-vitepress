@@ -136,7 +136,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="勞退月提繳">
-                    <el-text>{{ Number(career.pension.total).toLocaleString() }}</el-text>
+                    <el-text>{{ Number(career.pension.monthlyContribution).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -203,64 +203,77 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="預估勞保年金">
-                        <el-text>{{ Number(retirement.insurance.monthlyAnnuity).toLocaleString() }}  / 月</el-text>
+                    <el-text>{{ Number(retirement.insurance.monthlyAnnuity).toLocaleString() }}  / 月</el-text>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="餘命x年金">
-                        <el-text>{{ Number(retirement.insurance.annuitySum).toLocaleString() }}</el-text>
+                    <el-text>{{ Number(retirement.insurance.annuitySum).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="顧主提繳累計">
-                    <el-input-number v-model="retirement.pension.employerContribution" :min="0"/>
+                    <el-input-number v-model="retirement.pension.employerContribution" :min="0" @change="onEmployerContributionChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="個人提繳累計">
-                    <el-input-number v-model="retirement.pension.employeeContrubution" :min="0"/>
+                    <el-input-number v-model="retirement.pension.employeeContrubution" :min="0" @change="onEmployeeContributionChanged()"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="顧主提繳收益">
-                    <el-input-number v-model="retirement.pension.employerContributionIncome" :min="0"/>
+                    <el-input-number v-model="retirement.pension.employerContributionIncome" :min="0" @change="onEmployerContributionIncomeChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="個人提繳收益">
-                    <el-input-number v-model="retirement.pension.employeeContrubutionIncome" :min="0"/>
+                    <el-input-number v-model="retirement.pension.employeeContrubutionIncome" :min="0" @change="onEmployeeContributionIncomeChanged()"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="勞退十年收益率">
+                    <el-input-number v-model="retirement.pension.tenYearsIRR" :min="0"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估勞退一次領總額">
+                    <el-text>{{ Number(retirement.pension.total).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24">
-                <el-form-item label="退休五等分位">
+                <el-form-item label="退休品質">
                     <el-radio-group v-model="retirement.level" @change="onRetirementLevelChanged()">
                         <el-radio v-for="(item, key) in retirementQuartile" :value="key+1">{{ item.label }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </el-col>
             <el-col :span="23">
-                <el-form-item label="退休年支出PR">
+                <el-form-item label="退休年支出">
                     <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks" :disabled="true"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <br/>
+        <canvas id="pensionChart"></canvas>
     </el-form>
     <template #footer>
         <el-collapse>
             <el-collapse-item title="資料說明" name="1" :border="true">
                 <ul>
                     <li>
-                        勞退收益率：<a href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00" target="_blank">中華民國退休基金協會</a>
+                        勞保勞退查詢：<a href="https://edesk.bli.gov.tw/me/#/na/login">勞保局E化服務系統</a>
                     </li>
                     <li>
-                        勞保勞退查詢：<a href="https://edesk.bli.gov.tw/me/#/na/login">勞保局E化服務系統</a>
+                        勞退收益率：<a href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00" target="_blank">中華民國退休基金協會</a>
                     </li>
                     <li>資料來源：
                         <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
@@ -691,7 +704,7 @@ outline: deep
                 </el-form-item>
             </el-col>
         </el-row>
-        <canvas id="myChart"></canvas>
+        <canvas id="assetChart"></canvas>
         <el-row>
             <el-col>
             </el-col>
@@ -861,7 +874,7 @@ async function setSelecOptions() {
     await getUnitPrice()
     calculateMortgate()
     // 建立資產表
-    createLifeFinanceChart()
+    createLifeAssetChart()
 }
 function openSignInDialog() {
     dialogVisible.value = true
@@ -911,20 +924,21 @@ function handleGenderChanged() {
     calculateLifeExpectancy()
 }
 function onAgeChaged() {
-    calculateFutureSeniority()
     calculateRetireLife()
+    calculateFutureSeniority()
+    calculateRetirementPensionTotal()
 }
 async function calculateLifeExpectancy() {
     const { dateOfBirth, gender, age } = profile
     if(dateOfBirth && gender){
         const ceYear = new Date().getFullYear()
-        const yearOfBirth = dateOfBirth.slice(0,4)
+        const yearOfBirth =  new Date(dateOfBirth).getFullYear()
         const calculateAge = ceYear - yearOfBirth
         const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/lifeExpectancy`, {
             method: 'post',
             body: JSON.stringify({
                 ceYear,
-                age:calculateAge,
+                age: calculateAge,
                 gender,
             }),
             headers: {'Content-Type': 'application/json'}
@@ -933,6 +947,7 @@ async function calculateLifeExpectancy() {
         profile.age = calculateAge
         profile.lifeExpectancy = await res.json()
         calculateRetireLife()
+        calculateRetirementPensionTotal()
     }
 }
 // 需求分析
@@ -965,7 +980,7 @@ const career = reactive({
     pension: {
         salary: 76500,
         rate: 6,
-        total: 0,
+        monthlyContribution: 0,
     },
     monthlyEAT: 63000,
     monthlyExpense: 36000,
@@ -989,7 +1004,8 @@ function onRateChanged() {
 function calculateCareerPensionTotal() {
     const { salary, rate } = career.pension
     const maxContribution = Math.min(salary, 150000)
-    career.pension.total = Math.floor(maxContribution * (6 + rate) / 100) 
+    career.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100) 
+    calculateRetirementPensionTotal()
 }
 function onMonthlyEATChanged() {
     calculateMonthlyAveraging()
@@ -1015,15 +1031,19 @@ const retirement = reactive({
         employerContributionIncome: 45571,
         employeeContrubution: 137264,
         employeeContrubutionIncome: 10308,
+        tenYearsIRR: 4.76,
+        total: 0,
     },
     level: 3,
     percentileRank: 50,
     monthlyExpense: 50,
 })
+let pensionChartInstance = ref(null)
 const expenseQuartileMarks = reactive({})
 function onRetireAgeChanged() {
     calculateRetireLife()
     calculateFutureSeniority()
+    calculateRetirementPensionTotal()
 }
 function oncurrentSeniorityChanged() {
     calculateFutureSeniority()
@@ -1042,6 +1062,61 @@ function calculateMonthlyAnnuity() {
     const formulaTwo = (salary * futureSeniority * 1.55 / 100) * ageModifier
     retirement.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
     retirement.insurance.annuitySum = Math.floor(retirement.insurance.monthlyAnnuity * 12 * lifeExpectancy)
+}
+function onEmployerContributionChanged() {
+    calculateRetirementPensionTotal()
+}
+function onEmployeeContributionChanged() {
+    calculateRetirementPensionTotal()
+}
+function onEmployerContributionIncomeChanged() {
+    calculateRetirementPensionTotal()
+}
+function onEmployeeContributionIncomeChanged() {
+    calculateRetirementPensionTotal()
+}
+function calculateRetirementPensionTotal() {
+    const { employerContribution, employeeContrubution, employerContributionIncome, employeeContrubutionIncome, tenYearsIRR } = retirement.pension
+
+    let pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
+    const n = retirement.age - profile.age
+    const irr = tenYearsIRR
+    const pmt = career.pension.monthlyContribution * 12
+    let fv = 0 // fv = pv * irr + pmt
+
+    const labels = []
+    const datasetData = []
+    for(let i = 0;i < n; i++) {
+        labels.push(currentYear + i)
+        datasetData.push(pv)
+        retirement.pension.total = fv
+
+        // 計算複利終值
+        fv = Math.floor(pv * (1 + irr / 100) + pmt)
+        pv = fv
+    }
+    const chartData = {
+        datasets: [
+            {
+                label: '退休金累積試算',
+                data: datasetData,
+            }
+        ],
+        labels
+    }
+
+    if(pensionChartInstance.value) {
+        pensionChartInstance.value.data = chartData
+        pensionChartInstance.value.update()
+        return
+    }
+
+    const ctx = document.getElementById('pensionChart')
+    const chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: chartData
+    })
+    pensionChartInstance = shallowRef(chartInstance)
 }
 function onRetirementLevelChanged() {
     const { level } = retirement
@@ -1225,24 +1300,24 @@ const parenting = reactive({
     secondBornYear: 0,
 })
 function onChildMonthlyExpenseChanged() {
-    createLifeFinanceChart()
+    createLifeAssetChart()
 }
 function onIndependantAgeChanged() {
-    createLifeFinanceChart()
+    createLifeAssetChart()
 }
 function onFirstBornYearChanged() {
-    createLifeFinanceChart()
+    createLifeAssetChart()
 }
 function onSecondBornYearChanged() {
-    createLifeFinanceChart()
+    createLifeAssetChart()
 }
 // 投資試算
 const investment = reactive({
     allocation: 'aoa',
     assetAmount: 1000000,
     monthlyAveraging: 70000,
-    chartInstance: null,
 })
+let investmentChartInstance = ref(null)
 function calculateRetirementQuartileMarks() {
     retirementQuartile.value.forEach((item, index) => {
         const { value } = item
@@ -1251,18 +1326,18 @@ function calculateRetirementQuartileMarks() {
     })
 }
 function onAllocationChanged() {
-    createLifeFinanceChart()
+    createLifeAssetChart()
 }
 function onAssetChanged() {
-    createLifeFinanceChart()
+    createLifeAssetChart()
 }
 function onIncomeChanged() {
-    createLifeFinanceChart()
+    createLifeAssetChart()
 }
 function onBuyHouseYearChanged() {
-    createLifeFinanceChart()
+    createLifeAssetChart()
 }
-function createLifeFinanceChart() {
+function createLifeAssetChart() {
     let pv = investment.assetAmount
     const irr = portfolioIRR[investment.allocation]
     let fv = 0 // fv = pv * irr + pmt
@@ -1319,18 +1394,18 @@ function createLifeFinanceChart() {
         labels
     }
 
-    if(investment.chartInstance) {
-        investment.chartInstance.data = chartData
-        investment.chartInstance.update()
+    if(investmentChartInstance.value) {
+        investmentChartInstance.value.data = chartData
+        investmentChartInstance.value.update()
         return
     }
 
-    const ctx = document.getElementById('myChart')
+    const ctx = document.getElementById('assetChart')
     const chartInstance = new Chart(ctx, {
         type: 'bar',
         data: chartData
     })
-    investment.chartInstance = shallowRef(chartInstance)
+    investmentChartInstance = shallowRef(chartInstance)
 }
 </script>
 <style lang="scss" scoped>
