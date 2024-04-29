@@ -84,6 +84,9 @@ outline: deep
                     <li>
                         預期餘命：<a href="https://data.gov.tw/dataset/39493" target="_blank">預期壽命推估</a>
                     </li>
+                    <li>
+                        通貨膨脹(消費者物價指數年增率)：<a href="https://www.stat.gov.tw/Point.aspx?sid=t.2&n=3581&sms=11480" target="_blank">中華民國統計資訊網</a>
+                    </li>
                 </ul>
             </el-collapse-item>
         </el-collapse>
@@ -1095,19 +1098,19 @@ const handleCheckedNeedsChange = (value) => {
 }
 // 職業試算
 const career = reactive({
-    monthlyBasicSalary: 70000,
+    monthlyBasicSalary: 0,
     foodExpense: 3000,
     insurance: {
-        salary: 45800,
+        salary: 0,
         expense: 0,
     },
     pension: {
-        salary: 76500,
-        rate: 6,
+        salary: 0,
+        rate: 0,
         monthlyContribution: 0,
     },
-    monthlyNetPay: 63000,
-    monthlyExpense: 36000,
+    monthlyNetPay: 0,
+    monthlyExpense: 0,
 })
 function onInsuranceSalaryChanged() {
     calculateInsuranceExpense()
