@@ -18,7 +18,7 @@ outline: deep
 <el-card>
     <template #header>
       <div class="card-header card-header--custom">
-        <span>基本資料</span>
+        <span>基本資料與參數</span>
         <el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
         <el-button v-else @click="signOut()">登出</el-button>
       </div>
@@ -48,22 +48,31 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
+                <el-form-item label="試算年齡" prop="lifeExpectancy" @change="onAgeChaged()">
+                    <el-text>{{ profile.age }}</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
                 <el-form-item label="性別" prop="gender">
                     <el-select v-model="profile.gender" placeholder="請選擇" @change="handleGenderChanged()">
                         <el-option v-for="item in genders":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估餘命">
+                    <el-text>{{ profile.lifeExpectancy }}</el-text>
+                </el-form-item>
+            </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="試算年齡" prop="lifeExpectancy" @change="onAgeChaged()">
-                    <el-input-number v-model="profile.age" :min="0" :max="120" :disabled="true"/>
-                </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="預估餘命" prop="lifeExpectancy">
-                    <el-input-number v-model="profile.lifeExpectancy" :min="0" :max="120" :disabled="true"/>
+                <el-form-item label="通貨膨脹">
+                    <el-text>2%</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -82,20 +91,26 @@ outline: deep
 </el-card>
 
 ## 2. 需求試算
-<!-- <el-checkbox
-    v-model="checkAll"
-    :indeterminate="isIndeterminate"
-    @change="handleCheckAllChange"
->
-    全選
-</el-checkbox>
-<el-checkbox-group v-model="checkedNeeds" @change="handleCheckedNeedsChange">
-    <el-checkbox v-for="need in needs" :key="need" :value="need">
-      {{ needLabelMap[need] }}
-    </el-checkbox>
-</el-checkbox-group> -->
-<h3 v-if="checkedNeeds.includes('career')" id="_職業試算" tabindex="-1">職業試算</h3>
-<el-card v-if="checkedNeeds.includes('career')">
+<el-row>
+    <el-col :span="4">
+        <el-checkbox
+            v-model="checkAll"
+            :indeterminate="isIndeterminate"
+            @change="handleCheckAllChange"
+        >
+            全部顯示
+        </el-checkbox>
+    </el-col>
+    <el-col :span="20">
+        <el-checkbox-group v-model="checkedNeeds" @change="handleCheckedNeedsChange">
+            <el-checkbox v-for="need in needs" :key="need" :value="need">
+            {{ needLabelMap[need] }}
+            </el-checkbox>
+        </el-checkbox-group>
+    </el-col>
+</el-row>
+<h3 v-show="checkedNeeds.includes('career')" id="_職業試算" tabindex="-1">職業試算</h3>
+<el-card v-show="checkedNeeds.includes('career')">
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
@@ -131,7 +146,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="勞退自提率(%)">
-                    <el-input-number v-model="career.pension.rate" @change="onRateChanged()" :min="0" :max="6"/>
+                    <el-input-number v-model="career.pension.rate" @change="onPensionContributionRateChanged()" :min="0" :max="6"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -172,9 +187,8 @@ outline: deep
         </el-collapse>
     </template>
 </el-card>
-<br v-if="checkedNeeds.includes('retirement')"/>
-<h3 v-if="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h3>
-<el-card v-if="checkedNeeds.includes('retirement')">
+<h3 v-show="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h3>
+<el-card v-show="checkedNeeds.includes('retirement')">
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
@@ -199,7 +213,7 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="勞保投保年資">
+                <el-form-item label="目前勞保投保年資">
                     <el-input-number v-model="retirement.insurance.currentSeniority" :min="0" @change="onCurrentSeniorityChanged()"/>
                 </el-form-item>
             </el-col>
@@ -211,9 +225,15 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
+            </el-col>
+            <el-col :span="12">
                 <el-form-item label="預估勞保年金">
                     <el-text>{{ Number(retirement.insurance.monthlyAnnuity).toLocaleString() }}  / 月</el-text>
                 </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
             </el-col>
             <el-col :span="12">
                 <el-form-item label="餘命x年金">
@@ -248,7 +268,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="勞退十年收益率">
-                    <el-input-number v-model="retirement.pension.tenYearsIRR" :min="0"/>
+                    <el-input-number v-model="retirement.pension.tenYearsIRR" :min="0" @change="onTenYearIrrChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -266,7 +286,7 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="23">
-                <el-form-item label="退休年支出">
+                <el-form-item label="退休月支出">
                     <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks" :disabled="true"/>
                 </el-form-item>
             </el-col>
@@ -331,9 +351,8 @@ outline: deep
         </el-collapse>
     </template>
 </el-card>
-<br v-if="checkedNeeds.includes('housing')"/>
-<h3 v-if="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
-<el-card v-if="checkedNeeds.includes('housing')">
+<h3 v-show="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
+<el-card v-show="checkedNeeds.includes('housing')">
     <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="building" :rules="buildingRules" label-width="auto">
         <el-row>
             <el-col :span="12">
@@ -553,9 +572,8 @@ outline: deep
         </el-collapse>
     </template>
 </el-card>
-<br v-if="checkedNeeds.includes('housing')"/>
-<h3 v-if="checkedNeeds.includes('housing')" id="_購屋貸款試算" tabindex="-1">購屋貸款試算</h3>
-<el-card v-if="checkedNeeds.includes('housing')">
+<h3 v-show="checkedNeeds.includes('housing')" id="_購屋貸款試算" tabindex="-1">購屋貸款試算</h3>
+<el-card v-show="checkedNeeds.includes('housing')">
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
@@ -615,9 +633,8 @@ outline: deep
         </el-collapse>
     </template>
 </el-card>
-<br v-if="checkedNeeds.includes('parenting')"/>
-<h3 v-if="checkedNeeds.includes('parenting')" id="_育兒試算" tabindex="-1">育兒試算</h3>
-<el-card v-if="checkedNeeds.includes('parenting')">
+<h3 v-show="checkedNeeds.includes('parenting')" id="_育兒試算" tabindex="-1">育兒試算</h3>
+<el-card v-show="checkedNeeds.includes('parenting')">
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
@@ -876,6 +893,7 @@ async function setSelecOptions() {
     // 退休
     calculateFutureSeniority()
     calculateRetirementQuartileMarks()
+    calculateRetirementMonthlyExpense()
     // 買房
     if(building.county) {
         towns.value = townMap[building.county]
@@ -936,7 +954,7 @@ function onAgeChaged() {
     calculateRetireLife()
     calculateIncomgingSeniority()
     calculateFutureSeniority()
-    calculateRetirementPensionTotal()
+    drawRetirementPensionChart()
 }
 async function calculateLifeExpectancy() {
     const { dateOfBirth, gender, age } = profile
@@ -966,9 +984,10 @@ const isIndeterminate = ref(true)
 const needs = ['career','retirement', 'housing', 'parenting',]
 const checkedNeeds = ref(['career', 'retirement', 'housing', 'parenting',])
 const needLabelMap = {
-    housing: '購屋',
-    parenting: '育兒',
-    retirement: '退休',
+    career: '職業試算',
+    retirement: '退休試算',
+    housing: '購屋試算',
+    parenting: '育兒試算',
 }
 const handleCheckAllChange = (val) => {
   checkedNeeds.value = val ? needs : []
@@ -1008,14 +1027,14 @@ function calculateInsuranceExpense() {
 function onPensionSalaryChanged() {
     calculateCareerPensionTotal()
 }
-function onRateChanged() {
+function onPensionContributionRateChanged() {
     calculateCareerPensionTotal()
 }
 function calculateCareerPensionTotal() {
     const { salary, rate } = career.pension
     const maxContribution = Math.min(salary, 150000)
     career.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100) 
-    calculateRetirementPensionTotal()
+    drawRetirementPensionChart()
 }
 function onMonthlyEATChanged() {
     calculateMonthlyAveraging()
@@ -1055,7 +1074,7 @@ function onRetireAgeChanged() {
     calculateRetireLife()
     calculateIncomgingSeniority()
     calculateFutureSeniority()
-    calculateRetirementPensionTotal()
+    drawRetirementPensionChart()
 }
 function onCurrentSeniorityChanged() {
     calculateFutureSeniority()
@@ -1077,43 +1096,73 @@ function calculateMonthlyAnnuity() {
     const formulaTwo = (salary * futureSeniority * 1.55 / 100) * ageModifier
     retirement.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
     retirement.insurance.annuitySum = Math.floor(retirement.insurance.monthlyAnnuity * 12 * lifeExpectancy)
+    drawRetirementPensionChart()
 }
 function onEmployerContributionChanged() {
-    calculateRetirementPensionTotal()
+    drawRetirementPensionChart()
 }
 function onEmployeeContributionChanged() {
-    calculateRetirementPensionTotal()
+    drawRetirementPensionChart()
 }
 function onEmployerContributionIncomeChanged() {
-    calculateRetirementPensionTotal()
+    drawRetirementPensionChart()
 }
 function onEmployeeContributionIncomeChanged() {
-    calculateRetirementPensionTotal()
+    drawRetirementPensionChart()
 }
-function calculateRetirementPensionTotal() {
+function onTenYearIrrChanged() {
+    drawRetirementPensionChart()
+}
+function onRetirementLevelChanged() {
+    const { level } = retirement
+    retirement.percentileRank = level * 20 - 10
+    calculateRetirementMonthlyExpense()
+}
+function calculateRetirementMonthlyExpense() {
+    const { level } = retirement
+    const selectedItem = retirementQuartile.value[level - 1]
+    retirement.annualExpense = selectedItem.value
+    drawRetirementPensionChart()
+}
+async function calculateRetireLife() {
+    retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
+}
+function drawRetirementPensionChart() {
     const { employerContribution, employeeContrubution, employerContributionIncome, employeeContrubutionIncome, tenYearsIRR } = retirement.pension
 
     let pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
     const n = retirement.age - profile.age
+    const pensionContribution = career.pension.monthlyContribution * 12
     const irr = tenYearsIRR
-    const pmt = career.pension.monthlyContribution * 12
-    let fv = 0 // fv = pv * irr + pmt
+    let fv = 0 // fv = pv * irr + pensionContribution
 
     const labels = []
     const datasetData = []
+
+    // 退休前資產累積
     for(let i = 0;i < n; i++) {
-        labels.push(currentYear + i)
+        const calculatedYear = currentYear + i
+        labels.push(calculatedYear)
         datasetData.push(pv)
         retirement.pension.total = fv
+        fv = Math.floor(pv * (1 + irr / 100) + pensionContribution)
+        pv = fv
+    }
 
-        // 計算複利終值
+    // 退休後退休支出
+    for(let i = 0;i < retirement.lifeExpectancy; i++) {
+        const calculatedYear = currentYear + n + i
+        labels.push(calculatedYear)
+        datasetData.push(pv)
+        const pmt = retirement.insurance.monthlyAnnuity * 12 - retirement.annualExpense
         fv = Math.floor(pv * (1 + irr / 100) + pmt)
         pv = fv
     }
+
     const chartData = {
         datasets: [
             {
-                label: '退休金累積試算',
+                label: '退休金資產試算',
                 data: datasetData,
             }
         ],
@@ -1132,15 +1181,6 @@ function calculateRetirementPensionTotal() {
         data: chartData
     })
     pensionChartInstance = shallowRef(chartInstance)
-}
-function onRetirementLevelChanged() {
-    const { level } = retirement
-    const selectedItem = retirementQuartile.value[level - 1]
-    retirement.percentileRank = level * 20 - 10
-    retirement.monthlyExpense = selectedItem.value
-}
-async function calculateRetireLife() {
-    retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
 }
 // 購屋分析
 const building = reactive({
@@ -1337,7 +1377,8 @@ function calculateRetirementQuartileMarks() {
     retirementQuartile.value.forEach((item, index) => {
         const { value } = item
         const percentileRank = (index + 1) * 20 - 10
-        expenseQuartileMarks[percentileRank] = Number(value).toLocaleString()
+        const retirementMonthlyExpense = Math.floor(value / 12)
+        expenseQuartileMarks[percentileRank] = Number(retirementMonthlyExpense).toLocaleString()
     })
 }
 function onAllocationChanged() {
