@@ -72,7 +72,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="通貨膨脹">
-                    <el-text>2%</el-text>
+                    <el-text>{{ inflationRate }}%</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -179,6 +179,9 @@ outline: deep
         <el-collapse>
             <el-collapse-item title="資料說明" name="1" :border="true">
                 <ul>
+                    <li>
+                        假設薪資成長率永遠剛好抵銷通膨
+                    </li>
                     <li>
                         月提繳查詢：<a href="https://www.bli.gov.tw/0013083.html" target="_blank">勞動部勞工保險局</a>
                     </li>
@@ -582,7 +585,7 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="預估利息(%)">
+                <el-form-item label="試算利息(%)">
                     <el-input-number v-model="interestRate" :min="0"/>
                 </el-form-item>
             </el-col>
@@ -627,7 +630,7 @@ outline: deep
     <template #footer>
         <el-collapse>
             <el-collapse-item title="資料說明" name="1" :border="true">
-                預估利息：<a href="https://www.cbc.gov.tw/tw/lp-370-1.html" target="_blank">央行貼放利率
+                試算利息：<a href="https://www.cbc.gov.tw/tw/lp-370-1.html" target="_blank">央行貼放利率
                 </a>
             </el-collapse-item>
         </el-collapse>
@@ -818,6 +821,7 @@ const buildingAges = ref([])
 const genders = ref([])
 const retirementQuartile = ref([])
 const interestRate = ref(0)
+const inflationRate = ref(2)
 const portfolioIRR = reactive({})
 const porfolioLabels = reactive({
     aoa: '股8債2',
@@ -1070,6 +1074,7 @@ const retirement = reactive({
 })
 let pensionChartInstance = ref(null)
 const expenseQuartileMarks = reactive({})
+// const inflatedExpenseQuartileMarks = reactive({})
 function onRetireAgeChanged() {
     calculateRetireLife()
     calculateIncomgingSeniority()
@@ -1129,6 +1134,7 @@ async function calculateRetireLife() {
 }
 function drawRetirementPensionChart() {
     const { employerContribution, employeeContrubution, employerContributionIncome, employeeContrubutionIncome, tenYearsIRR } = retirement.pension
+    let inflationModifier = 1
 
     let pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
     const n = retirement.age - profile.age
@@ -1145,7 +1151,8 @@ function drawRetirementPensionChart() {
         labels.push(calculatedYear)
         datasetData.push(pv)
         retirement.pension.total = fv
-        fv = Math.floor(pv * (1 + irr / 100) + pensionContribution)
+        inflationModifier *= (1 + inflationRate.value / 100)
+        fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
         pv = fv
     }
 
@@ -1154,7 +1161,8 @@ function drawRetirementPensionChart() {
         const calculatedYear = currentYear + n + i
         labels.push(calculatedYear)
         datasetData.push(pv)
-        const pmt = retirement.insurance.monthlyAnnuity * 12 - retirement.annualExpense
+        inflationModifier *= (1 + inflationRate.value / 100)
+        const pmt = retirement.insurance.monthlyAnnuity * 12 - retirement.annualExpense * inflationModifier
         fv = Math.floor(pv * (1 + irr / 100) + pmt)
         pv = fv
     }
@@ -1377,8 +1385,11 @@ function calculateRetirementQuartileMarks() {
     retirementQuartile.value.forEach((item, index) => {
         const { value } = item
         const percentileRank = (index + 1) * 20 - 10
-        const retirementMonthlyExpense = Math.floor(value / 12)
-        expenseQuartileMarks[percentileRank] = Number(retirementMonthlyExpense).toLocaleString()
+        const retirementMonthlyExpense = value / 12
+        expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
+        // // 通膨調整
+        // const inflatedExpense = retirementMonthlyExpense * inflationRate ^ 
+        // inflatedExpenseQuartileMarks[percentileRank] = Number(retirementMonthlyExpense).toLocaleString()]
     })
 }
 function onAllocationChanged() {
