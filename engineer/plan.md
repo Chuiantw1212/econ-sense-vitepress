@@ -105,7 +105,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="伙食費">
-                    <el-input-number v-model="career.foodExpense" :min="0" :disabled="true"/>
+                    <el-text>{{ Number(career.foodExpense).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -117,7 +117,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="勞保勞工負擔">
-                    <el-input-number v-model="career.insurance.expense" :min="0" :disabled="true"/>
+                    <el-text>{{ Number(career.insurance.expense).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -136,7 +136,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="勞退月提繳">
-                    <el-input-number v-model="career.pension.total" :disabled="true"/>
+                    <el-text>{{ Number(career.pension.total).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -155,7 +155,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="月實領 - 月支出">
-                    <el-input-number v-model="investment.monthlyAveraging" :min="0" :disabled="true"/>
+                    <el-text>{{ Number(investment.monthlyAveraging).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -194,16 +194,21 @@ outline: deep
                     <el-input-number v-model="retirement.insurance.currentSeniority" :min="0" @change="oncurrentSeniorityChanged()"/>
                 </el-form-item>
             </el-col>
-        </el-row>
-        <el-row>
             <el-col :span="12">
                 <el-form-item label="預估退休年資">
                     <el-text>{{ retirement.insurance.futureSeniority }} 年</el-text>
                 </el-form-item>
             </el-col>
+        </el-row>
+        <el-row>
             <el-col :span="12">
                 <el-form-item label="預估勞保年金">
                         <el-text>{{ Number(retirement.insurance.monthlyAnnuity).toLocaleString() }}  / 月</el-text>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="餘命x年金">
+                        <el-text>{{ Number(retirement.insurance.annuitySum).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -1030,11 +1035,13 @@ function calculateFutureSeniority() {
 }
 function calculateMonthlyAnnuity() {
     const { salary } = career.insurance
-    const { futureSeniority, age } = retirement.insurance
+    const { age, lifeExpectancy } = retirement
+    const { futureSeniority, } = retirement.insurance
     const ageModifier = 1 + (retirement.age - 65) * 0.04
     const formulaOne = (salary * futureSeniority * 0.775 / 100 + 3000) * ageModifier
     const formulaTwo = (salary * futureSeniority * 1.55 / 100) * ageModifier
     retirement.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
+    retirement.insurance.annuitySum = Math.floor(retirement.insurance.monthlyAnnuity * 12 * lifeExpectancy)
 }
 function onRetirementLevelChanged() {
     const { level } = retirement
