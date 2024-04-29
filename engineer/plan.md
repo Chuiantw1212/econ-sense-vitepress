@@ -23,7 +23,7 @@ outline: deep
         <el-button v-else @click="signOut()">登出</el-button>
       </div>
     </template>
-    <el-form ref="ruleFormRef" :model="profile" :rules="profileRules" label-width="auto">
+    <el-form ref="ruleFormRef" :model="profile" label-width="auto">
         <el-row>
             <el-col v-if="user.photoURL" :span="12">
                 <el-form-item :label="user.displayName">
@@ -56,9 +56,12 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="性別" prop="gender">
-                    <el-select v-model="profile.gender" placeholder="請選擇" @change="handleGenderChanged()">
+                    <el-radio-group v-model="profile.gender" @change="handleGenderChanged()">
+                        <el-radio v-for="(item, key) in genders" :value="item.value">{{ item.label }}</el-radio>
+                    </el-radio-group>
+                    <!-- <el-select v-model="profile.gender" placeholder="請選擇" @change="handleGenderChanged()">
                         <el-option v-for="item in genders":key="item.value":label="item.label" :value="item.value"/>
-                    </el-select>
+                    </el-select> -->
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -170,7 +173,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="月實領 - 月支出">
-                    <el-text>{{ Number(investment.monthlyAveraging).toLocaleString() }}</el-text>
+                    <el-text>{{ Number(investmentAveraging).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -717,14 +720,22 @@ outline: deep
 <el-card>
     <el-form label-width="auto">
         <el-row>
-            <el-col>
+            <el-col :span="24">
                 <el-form-item label="股債比">
-                    <el-radio-group v-model="investment.allocation" @change="onAllocationChanged()">
-                        <el-radio v-for="(label, key) in porfolioLabels" :value="key">{{label}}(IRR:{{portfolioIRR[key]}}%)</el-radio>
+                    <el-radio-group v-model="investment.allocationETF" @change="onAllocationChanged()">
+                        <el-radio v-for="(label, key) in porfolioLabels" :value="key">{{label}}</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </el-col>
         </el-row>
+        <el-row>
+            <el-col :span="23">
+                <el-form-item label="範例標的IRR">
+                    <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <br/>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="已備資產" @change="onAssetChanged()">
@@ -732,12 +743,8 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col>
-                <el-form-item label="月實領 - 月支出(來自職業試算)" @change="onIncomeChanged()">
-                    <el-input-number v-model="investment.monthlyAveraging" :min="0" :disabled="true"/>
+                <el-form-item label="月實領-月支出" @change="onAssetChanged()">
+                    <el-text>{{ Number(investmentAveraging).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -832,10 +839,10 @@ const interestRate = ref(0)
 const inflationRate = ref(2)
 const portfolioIRR = reactive({})
 const porfolioLabels = reactive({
-    aoa: '股8債2',
-    aor: '股6債4',
-    aom: '股4債6',
     aok: '股2債8',
+    aom: '股4債6',
+    aor: '股6債4',
+    aoa: '股8債2',
 })
 const currentYear = new Date().getFullYear()
 onMounted(async () => {
@@ -912,7 +919,8 @@ async function setSelecOptions() {
     }
     await getUnitPrice()
     calculateMortgate()
-    // 建立資產表
+    // 投資
+    calculatePortfolioMarks()
     createLifeAssetChart()
 }
 function openSignInDialog() {
@@ -951,10 +959,6 @@ const profile = reactive({
     gender: 'M',
     age: 0,
     lifeExpectancy: 0,
-})
-const profileRules = reactive({
-    dateOfBirth:{ required: true, message: '請選擇', },
-    gender: { required: true, message: '請選擇', },
 })
 function handleDateOfBirthChanged() {
     calculateLifeExpectancy()
@@ -1056,7 +1060,7 @@ function onMonthlyExpenseChanged() {
 }
 function calculateMonthlyAveraging() {
     const { monthlyEAT, monthlyExpense } = career
-    investment.monthlyAveraging = monthlyEAT - monthlyExpense
+    investmentAveraging.value = monthlyEAT - monthlyExpense
 }
 // 退休試算
 const retirement = reactive({
@@ -1158,17 +1162,19 @@ function drawRetirementPensionChart() {
         const calculatedYear = currentYear + i
         labels.push(calculatedYear)
         datasetData.push(pv)
-        retirement.pension.total = fv
+
         inflationModifier *= (1 + inflationRate.value / 100)
         fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
         pv = fv
     }
+    retirement.pension.total = fv
 
     // 退休後退休支出
     for(let i = 0;i < retirement.lifeExpectancy; i++) {
         const calculatedYear = currentYear + n + i
-        labels.push(calculatedYear)
         datasetData.push(pv)
+        labels.push(calculatedYear)
+
         inflationModifier *= (1 + inflationRate.value / 100)
         const pmt = retirement.insurance.monthlyAnnuity * 12 - retirement.annualExpense * inflationModifier
         fv = Math.floor(pv * (1 + irr / 100) + pmt)
@@ -1384,10 +1390,12 @@ function onSecondBornYearChanged() {
 }
 // 投資試算
 const investment = reactive({
-    allocation: 'aoa',
+    allocationETF: 'aoa',
+    stockPercentage: 80,
     assetAmount: 3500000,
-    monthlyAveraging: 70000,
 })
+const investmentAveraging = ref(0)
+const allocationQuartileMarks = reactive({})
 let investmentChartInstance = ref(null)
 function calculateRetirementQuartileMarks() {
     retirementQuartile.value.forEach((item, index) => {
@@ -1395,13 +1403,23 @@ function calculateRetirementQuartileMarks() {
         const percentileRank = (index + 1) * 20 - 10
         const retirementMonthlyExpense = value / 12
         expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
-        // // 通膨調整
-        // const inflatedExpense = retirementMonthlyExpense * inflationRate ^ 
-        // inflatedExpenseQuartileMarks[percentileRank] = Number(retirementMonthlyExpense).toLocaleString()]
     })
 }
 function onAllocationChanged() {
+    calculatePortfolioMarks()
     createLifeAssetChart()
+}
+function calculatePortfolioMarks() {
+    const { allocationETF } = investment
+    const allocationLabels = Object.keys(porfolioLabels)
+    const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
+    const stockPercentage = Math.floor((allocationIndex + 1) * 20)
+    investment.stockPercentage = stockPercentage
+    allocationLabels.forEach((label, index) => {
+        const irr = portfolioIRR[label]
+        const stockPercentage = Math.floor((index + 1) * 20)
+        allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
+    })
 }
 function onAssetChanged() {
     createLifeAssetChart()
@@ -1416,7 +1434,7 @@ function createLifeAssetChart() {
     let inflationModifier = 1
 
     let pv = investment.assetAmount
-    const irr = portfolioIRR[investment.allocation]
+    const irr = portfolioIRR[investment.allocationETF]
     let fv = 0 // fv = pv * irr + pmt
     const labels = []
     const datasetData = []
@@ -1438,7 +1456,7 @@ function createLifeAssetChart() {
         // 退休開支影響收入與支出
         const reitrementStartYear = birthYear + retirement.age
         if(year <= reitrementStartYear) {
-            calculatedPmt = investment.monthlyAveraging * 12 * inflationModifier
+            calculatedPmt = investmentAveraging.value * 12 * inflationModifier
         }
         // 房貸利息影響每月儲蓄
         const mortgageStartYear = buyHouseYear
@@ -1459,7 +1477,7 @@ function createLifeAssetChart() {
 
         // 計算複利終值
         inflationModifier *= 1 + inflationRate.value / 100
-        fv = pv * (1 + irr / 100) + calculatedPmt * inflationModifier
+        fv = pv * (1 + irr / 100) + calculatedPmt
         pv = fv
     }
     const chartData = {
