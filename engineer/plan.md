@@ -94,6 +94,7 @@ outline: deep
 </el-card>
 
 ## 2. 需求試算
+
 <el-row>
     <el-col :span="4">
         <el-checkbox
@@ -118,7 +119,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="本薪">
-                    <el-input-number v-model="career.monthlySalary" :min="0"/>
+                    <el-input-number v-model="career.monthlyBasicSalary" :min="0"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -161,7 +162,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="月實領">
-                    <el-input-number v-model="career.monthlyEAT" :min="0" @change="onMonthlyEATChanged()"/>
+                    <el-input-number v-model="career.monthlyNetPay" :min="0" @change="onMonthlyEATChanged()"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -204,7 +205,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="距離退休" prop="retireLife">
-                    <el-text>{{ retirement.insurance.incomingSeniority }} 年</el-text>
+                    <el-text>{{ retirement.age - profile.age }} 年</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -220,12 +221,12 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="目前勞保投保年資">
-                    <el-input-number v-model="retirement.insurance.currentSeniority" :min="0" @change="onCurrentSeniorityChanged()"/>
+                    <el-input-number v-model="retirement.insurance.presentSeniority" :min="0" @change="onCurrentSeniorityChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="預估屆退年資">
-                    <el-text>{{ retirement.insurance.futureSeniority }} 年</el-text>
+                    <el-text>{{ retirement.insurance.finalSeniority }} 年</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -274,19 +275,19 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="勞退十年收益率">
-                    <el-input-number v-model="retirement.pension.tenYearsIRR" :min="0" @change="onTenYearIrrChanged()"/>
+                    <el-input-number v-model="retirement.pension.irrOverDecade" :min="0" @change="onTenYearIrrChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="預估勞退一次領總額">
-                    <el-text>{{ Number(retirement.pension.total).toLocaleString() }}</el-text>
+                    <el-text>{{ Number(retirement.pension.finalValue).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24">
                 <el-form-item label="退休品質">
-                    <el-radio-group v-model="retirement.level" @change="onRetirementLevelChanged()">
+                    <el-radio-group v-model="retirement.qualityLevel" @change="onRetirementLevelChanged()">
                         <el-radio v-for="(item, key) in retirementQuartile" :value="key+1">{{ item.label }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -362,19 +363,19 @@ outline: deep
 </el-card>
 <h3 v-show="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
 <el-card v-show="checkedNeeds.includes('housing')">
-    <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="building" :rules="buildingRules" label-width="auto">
+    <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="estatePrice" :rules="buildingRules" label-width="auto">
         <p>資料筆數較多，需要等待。</p>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="居住縣市" prop="county">
-                    <el-select v-model="building.county" placeholder="請選擇" @change="onCountyChanged()">
+                    <el-select v-model="estatePrice.county" placeholder="請選擇" @change="onCountyChanged()">
                         <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="行政區" prop="town">
-                    <el-select v-model="building.town" placeholder="請選擇" :disabled="!building.county" @change="onTownChanged()">
+                    <el-select v-model="estatePrice.town" placeholder="請選擇" :disabled="!estatePrice.county" @change="onTownChanged()">
                         <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
@@ -383,7 +384,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="建物類別" prop="buildingType">
-                    <el-select v-model="building.buildingType" placeholder="請選擇" :disabled="!building.town"  @change="onBuildingTypeChanged()">
+                    <el-select v-model="estatePrice.buildingType" placeholder="請選擇" :disabled="!estatePrice.town"  @change="onBuildingTypeChanged()">
                         <el-option label="不限" value=""></el-option>
                         <el-option v-for="item in buildingTypes":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
@@ -391,7 +392,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="屋齡[年]" prop="buildingAge">
-                    <el-select v-model="building.buildingAge" placeholder="請選擇" :disabled="!building.town" @change="onBuildingAgeChanged()">
+                    <el-select v-model="estatePrice.buildingAge" placeholder="請選擇" :disabled="!estatePrice.town" @change="onBuildingAgeChanged()">
                         <el-option label="不限" value=""></el-option>
                         <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
@@ -399,7 +400,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="含車位" prop="hasParking">
-                    <el-select v-model="building.hasParking" placeholder="請選擇" @change="onHasParkingChanged()">
+                    <el-select v-model="estatePrice.hasParking" placeholder="請選擇" @change="onHasParkingChanged()">
                         <el-option label="不限" value=""></el-option>
                         <el-option v-for="item in hasParkingOptions":key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
@@ -407,77 +408,77 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="資料筆數" prop="unitPrice">
-                    <el-text>{{ Number(building.count).toLocaleString(undefined) }}</el-text>
+                    <el-text>{{ Number(estatePrice.count).toLocaleString(undefined) }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="23">
                 <el-form-item label="單價(萬/坪)" prop="unitPrice">
-                    <el-slider v-model="buildingUnitPrice" :min="building.pr25" :max="building.pr75" :marks="unitPriceMarks" :disabled="!building.average" @change="calculateTotalPrice()"/>
+                    <el-slider v-model="buildingUnitPrice" :min="estatePrice.pr25" :max="estatePrice.pr75" :marks="unitPriceMarks" :disabled="!estatePrice.average" @change="calculateTotalPrice()"/>
                 </el-form-item>
             </el-col>
         </el-row>
     </el-form>
     <br/>
-    <el-form ref="ruleFormRef" :model="room" :rules="roomRules" label-width="auto">
+    <el-form ref="ruleFormRef" :model="estateSize" :rules="roomRules" label-width="auto">
         <el-row>
             <el-col :span="12">
                 <el-form-item label="雙人房數量">
-                    <el-input-number v-model="room.doubleBedRoom" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.doubleBedRoom" :min="0" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="單人房數量">
-                    <el-input-number v-model="room.singleBedRoom" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.singleBedRoom" :min="0" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="餐廳+客廳">
-                    <el-input-number v-model="room.diningRoom" :min="1" @change="calculateFloorSize()"/>
+                <el-form-item label="客廳+餐廳">
+                    <el-input-number v-model="estateSize.livingRoom" :min="1" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="衛浴數量">
-                    <el-input-number v-model="room.bathroom" :min="1" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.bathroom" :min="1" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <!-- <el-col :span="12">
                 <el-form-item label="廚房">
-                    <el-input-number v-model="room.kitchen" :disabled="true" :min="1" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.kitchen" :disabled="true" :min="1" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col> -->
             <el-col :span="12">
                 <el-form-item label="公設比(%)" >
-                    <el-input-number v-model="room.publicRatio" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.publicRatio" :min="0" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="預估主建實坪" prop="floorSize">
-                    <el-text>{{ room.mainBuilding }} 坪</el-text>
+                    <el-text>{{ estateSize.mainBuilding }} 坪</el-text>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="預估附屬建物" prop="floorSize">
-                    <el-text>{{ room.outBuilding }} 坪</el-text>
+                    <el-text>{{ estateSize.outBuilding }} 坪</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="預估權狀坪數" prop="floorSize">
-                    <el-text>{{ room.floorSize }} 坪</el-text>
+                    <el-text>{{ estateSize.floorSize }} 坪</el-text>
                 </el-form-item>
             </el-col>
-            <el-col v-if="building.hasParking" :span="12">
+            <el-col v-if="estatePrice.hasParking" :span="12">
                 <el-form-item label="預估車位權狀" prop="floorSize">
-                    <el-text>{{ room.parkingSize }} 坪</el-text>
+                    <el-text>{{ estateSize.parkingSize }} 坪</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -593,7 +594,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="試算利息(%)">
-                    <el-input-number v-model="interestRate" :min="0"/>
+                    <el-input-number v-model="mortgage.interestRate" :min="0"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -817,6 +818,7 @@ outline: deep
  */
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
+import { getAuth, } from "firebase/auth"
 import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Chart from 'chart.js/auto';
@@ -835,7 +837,6 @@ const buildingTypes = ref([])
 const buildingAges = ref([])
 const genders = ref([])
 const retirementQuartile = ref([])
-const interestRate = ref(0)
 const inflationRate = ref(2)
 const portfolioIRR = reactive({})
 const porfolioLabels = reactive({
@@ -847,8 +848,8 @@ const porfolioLabels = reactive({
 const currentYear = new Date().getFullYear()
 onMounted(async () => {
     initializeApp()
-    setSelecOptions()
-    calculateFloorSize()
+    setSelecOptionSync()
+    initializeCalculator()
     window.addEventListener('resize', onResize)
 })
 onBeforeUnmount(() => {
@@ -867,7 +868,7 @@ async function initializeApp () {
         appId: "1:449033690264:web:f5e419118030eb3afe44ed",
         measurementId: "G-19NFT8GVCZ"
     })
-    firebase.auth().onAuthStateChanged(function(firebaseUser) {
+    firebase.auth().onAuthStateChanged(async (firebaseUser)=> {
         if(!firebaseUser) {
             return
         }
@@ -877,9 +878,11 @@ async function initializeApp () {
         user.email = email
         user.displayName = displayName
         dialogVisible.value = false
+        await getUserFormSync(firebaseUser)
+        initializeCalculator()
     })
 }
-async function setSelecOptions() {
+async function setSelecOptionSync() {
     try {
         const selectRes = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
         const selectResJson = await selectRes.json()
@@ -892,7 +895,7 @@ async function setSelecOptions() {
 
         const bankConfigRes = await fetch(`${import.meta.env.VITE_BASE_URL}/bank/config`)
         const bankConfigResJson = await bankConfigRes.json()
-        interestRate.value = bankConfigResJson.interestRate
+        mortgage.interestRate = bankConfigResJson.interestRate
         Object.assign(portfolioIRR, bankConfigResJson.portfolioIRR)
     }
     catch (error) {
@@ -904,24 +907,6 @@ async function setSelecOptions() {
             },
         })
     }
-    await calculateLifeExpectancy()
-    // 職業
-    calculateInsuranceExpense()
-    calculateCareerPensionTotal()
-    calculateMonthlyAveraging()
-    // 退休
-    calculateFutureSeniority()
-    calculateRetirementQuartileMarks()
-    calculateRetirementMonthlyExpense()
-    // 買房
-    if(building.county) {
-        towns.value = townMap[building.county]
-    }
-    await getUnitPrice()
-    calculateMortgate()
-    // 投資
-    calculatePortfolioMarks()
-    createLifeAssetChart()
 }
 function openSignInDialog() {
     dialogVisible.value = true
@@ -953,6 +938,39 @@ async function signOut() {
         user[key] = ''
     }
 }
+async function getUserFormSync(firebaseUser) {
+    const { uid } = firebaseUser
+    const idToken = await firebase.auth().currentUser.getIdToken()
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/user/${uid}`, {
+        method: 'post',
+        headers: {
+            Authorization: `Bearer ${idToken}`
+        }
+    })
+    const userForm = res.json()
+    console.log(userForm)
+}
+async function initializeCalculator() {
+    await calculateLifeExpectancy()
+    // 職業
+    calculateInsuranceExpense()
+    calculateCareerPensionTotal()
+    calculateMonthlyAveraging()
+    // 退休
+    calculateFutureSeniority()
+    calculateRetirementQuartileMarks()
+    calculateRetirementMonthlyExpense()
+    // 買房
+    if(estatePrice.county) {
+        towns.value = townMap[estatePrice.county]
+    }
+    await getUnitPriceSync()
+    calculateFloorSize()
+    calculateMortgate()
+    // 投資
+    calculatePortfolioMarks()
+    createLifeAssetChart()
+}
 // 基本資料
 const profile = reactive({
     dateOfBirth: '1990-12-12',
@@ -968,7 +986,6 @@ function handleGenderChanged() {
 }
 function onAgeChaged() {
     calculateRetireLife()
-    calculateIncomgingSeniority()
     calculateFutureSeniority()
     drawRetirementPensionChart()
 }
@@ -988,9 +1005,10 @@ async function calculateLifeExpectancy() {
             headers: {'Content-Type': 'application/json'}
         })
 
+        console.log(calculateAge)
         profile.age = calculateAge
         profile.lifeExpectancy = await res.json()
-        
+
         onAgeChaged()
     }
 }
@@ -1016,7 +1034,7 @@ const handleCheckedNeedsChange = (value) => {
 }
 // 職業試算
 const career = reactive({
-    monthlySalary: 70000,
+    monthlyBasicSalary: 70000,
     foodExpense: 3000,
     insurance: {
         salary: 45800,
@@ -1027,7 +1045,7 @@ const career = reactive({
         rate: 6,
         monthlyContribution: 0,
     },
-    monthlyEAT: 63000,
+    monthlyNetPay: 63000,
     monthlyExpense: 36000,
 })
 function onInsuranceSalaryChanged() {
@@ -1049,7 +1067,7 @@ function onPensionContributionRateChanged() {
 function calculateCareerPensionTotal() {
     const { salary, rate } = career.pension
     const maxContribution = Math.min(salary, 150000)
-    career.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100) 
+    career.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100)
     drawRetirementPensionChart()
 }
 function onMonthlyEATChanged() {
@@ -1059,17 +1077,16 @@ function onMonthlyExpenseChanged() {
     calculateMonthlyAveraging()
 }
 function calculateMonthlyAveraging() {
-    const { monthlyEAT, monthlyExpense } = career
-    investmentAveraging.value = monthlyEAT - monthlyExpense
+    const { monthlyNetPay, monthlyExpense } = career
+    investmentAveraging.value = monthlyNetPay - monthlyExpense
 }
 // 退休試算
 const retirement = reactive({
     age: 60,
     lifeExpectancy: 0,
     insurance: {
-        currentSeniority: 6.9,
-        incomingSeniority: 0,
-        futureSeniority: 0,
+        presentSeniority: 6.9,
+        finalSeniority: 0,
         monthlyAnnuity: 0,
     },
     pension: {
@@ -1077,40 +1094,34 @@ const retirement = reactive({
         employerContributionIncome: 45571,
         employeeContrubution: 137264,
         employeeContrubutionIncome: 10308,
-        tenYearsIRR: 4.76,
-        total: 0,
+        irrOverDecade: 4.76,
+        finalValue: 0,
     },
-    level: 3,
+    qualityLevel: 3,
     percentileRank: 50,
-    monthlyExpense: 50,
 })
 let pensionChartInstance = ref(null)
 const expenseQuartileMarks = reactive({})
-// const inflatedExpenseQuartileMarks = reactive({})
 function onRetireAgeChanged() {
     calculateRetireLife()
-    calculateIncomgingSeniority()
     calculateFutureSeniority()
     drawRetirementPensionChart()
 }
 function onCurrentSeniorityChanged() {
     calculateFutureSeniority()
 }
-function calculateIncomgingSeniority() {
-    retirement.insurance.incomingSeniority = retirement.age - profile.age
-}
 function calculateFutureSeniority() {
-    const { currentSeniority } = retirement.insurance
-    retirement.insurance.futureSeniority = Number(Number(currentSeniority + retirement.age - profile.age).toFixed(1))
+    const { presentSeniority } = retirement.insurance
+    retirement.insurance.finalSeniority = Number(Number(presentSeniority + retirement.age - profile.age).toFixed(1))
     calculateMonthlyAnnuity()
 }
 function calculateMonthlyAnnuity() {
     const { salary } = career.insurance
     const { age, lifeExpectancy } = retirement
-    const { futureSeniority, } = retirement.insurance
+    const { finalSeniority, } = retirement.insurance
     const ageModifier = 1 + (retirement.age - 65) * 0.04
-    const formulaOne = (salary * futureSeniority * 0.775 / 100 + 3000) * ageModifier
-    const formulaTwo = (salary * futureSeniority * 1.55 / 100) * ageModifier
+    const formulaOne = (salary * finalSeniority * 0.775 / 100 + 3000) * ageModifier
+    const formulaTwo = (salary * finalSeniority * 1.55 / 100) * ageModifier
     retirement.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
     retirement.insurance.annuitySum = Math.floor(retirement.insurance.monthlyAnnuity * 12 * lifeExpectancy)
     drawRetirementPensionChart()
@@ -1131,13 +1142,13 @@ function onTenYearIrrChanged() {
     drawRetirementPensionChart()
 }
 function onRetirementLevelChanged() {
-    const { level } = retirement
-    retirement.percentileRank = level * 20 - 10
+    const { qualityLevel } = retirement
+    retirement.percentileRank = qualityLevel * 20 - 10
     calculateRetirementMonthlyExpense()
 }
 function calculateRetirementMonthlyExpense() {
-    const { level } = retirement
-    const selectedItem = retirementQuartile.value[level - 1]
+    const { qualityLevel } = retirement
+    const selectedItem = retirementQuartile.value[qualityLevel - 1]
     retirement.annualExpense = selectedItem.value
     drawRetirementPensionChart()
 }
@@ -1145,13 +1156,13 @@ async function calculateRetireLife() {
     retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
 }
 function drawRetirementPensionChart() {
-    const { employerContribution, employeeContrubution, employerContributionIncome, employeeContrubutionIncome, tenYearsIRR } = retirement.pension
+    const { employerContribution, employeeContrubution, employerContributionIncome, employeeContrubutionIncome, irrOverDecade } = retirement.pension
     let inflationModifier = 1
 
     let pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
     const n = retirement.age - profile.age
     const pensionContribution = career.pension.monthlyContribution * 12
-    const irr = tenYearsIRR
+    const irr = irrOverDecade
     let fv = 0 // fv = pv * irr + pensionContribution
 
     const labels = []
@@ -1167,7 +1178,7 @@ function drawRetirementPensionChart() {
         fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
         pv = fv
     }
-    retirement.pension.total = fv
+    retirement.pension.finalValue = fv
 
     // 退休後退休支出
     for(let i = 0;i < retirement.lifeExpectancy; i++) {
@@ -1205,7 +1216,7 @@ function drawRetirementPensionChart() {
     pensionChartInstance = shallowRef(chartInstance)
 }
 // 購屋分析
-const building = reactive({
+const estatePrice = reactive({
     county: 'H',
     town: '68000020',
     buildingType: '',
@@ -1232,37 +1243,37 @@ const buildingRules = reactive({
     town: { required: true, message: '請選擇', },
 })
 function onCountyChanged() {
-    building.town = ''
+    estatePrice.town = ''
     towns.value = []
-    if(building.county) {
-        towns.value = townMap[building.county]
+    if(estatePrice.county) {
+        towns.value = townMap[estatePrice.county]
     }
-    getUnitPrice()
+    getUnitPriceSync()
 }
 function onTownChanged() {
-    getUnitPrice()
+    getUnitPriceSync()
 }
 function onBuildingTypeChanged() {
-    getUnitPrice()
+    getUnitPriceSync()
 }
 function onBuildingAgeChanged() {
-    getUnitPrice()
+    getUnitPriceSync()
 }
 function onHasParkingChanged() {
-    getUnitPrice()
+    getUnitPriceSync()
 }
-async function getUnitPrice() {
-    const {county, town, buildingType, buildingAge} = building
+async function getUnitPriceSync() {
+    const {county, town, buildingType, buildingAge} = estatePrice
     if(county && town) {
         buildingLoading.value = true
         const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/unitPrice`, {
             method: 'post',
-            body: JSON.stringify(building),
+            body: JSON.stringify(estatePrice),
             headers: {'Content-Type': 'application/json'}
         })
         buildingLoading.value = false
         const resJson = await res.json()
-        Object.assign(building, resJson)
+        Object.assign(estatePrice, resJson)
 
         const { pr25, pr75, average } = resJson
         if(!average) {
@@ -1278,11 +1289,11 @@ async function getUnitPrice() {
     }
 }
 // 購屋分析2
-const room = reactive({
+const estateSize = reactive({
     doubleBedRoom: 1,
     singleBedRoom: 2,
     bathroom: 2,
-    diningRoom: 1,
+    livingRoom: 1,
     publicRatio: 35,
     mainBuilding: 0,
     outBuilding: 0,
@@ -1297,7 +1308,7 @@ const roomRules = {
     publicRatio: { required: true, message: '請選擇', },
 }
 function calculateFloorSize() {
-    const { doubleBedRoom, singleBedRoom, bathroom, diningRoom, publicRatio } = room
+    const { doubleBedRoom, singleBedRoom, bathroom, livingRoom, publicRatio } = estateSize
 
     const fortmatRatio = 0.3025
     const baseInteriorSize = 30 * fortmatRatio
@@ -1305,45 +1316,45 @@ function calculateFloorSize() {
     const singleRoomSize = singleBedRoom * 13 * fortmatRatio
     const bathRoomSize = bathroom * 4 * fortmatRatio
     const headCount = 2 * doubleBedRoom + singleBedRoom
-    const diningTableSize = Math.max(2, headCount) * diningRoom *  fortmatRatio
+    const diningTableSize = Math.max(2, headCount) * livingRoom *  fortmatRatio
 
     // 主建物只包含室內空間
-    room.mainBuilding = Number(Number(baseInteriorSize + doubleRoomSize + singleRoomSize + bathRoomSize + diningTableSize).toFixed(2))
+    estateSize.mainBuilding = Number(Number(baseInteriorSize + doubleRoomSize + singleRoomSize + bathRoomSize + diningTableSize).toFixed(2))
 
     // 附屬建築比如陽台
     const balcanyPercent = 0.1 // 10%
-    room.outBuilding = Number(Number(room.mainBuilding * balcanyPercent).toFixed(2))
+    estateSize.outBuilding = Number(Number(estateSize.mainBuilding * balcanyPercent).toFixed(2))
 
     // 公設比計算
     const publicRatioPercent = 1 + publicRatio / 100
 
     // 停車位權狀
     const parkingSize = 24.75 * fortmatRatio * publicRatioPercent
-    room.parkingSize = Number(Number(parkingSize).toFixed(2))
+    estateSize.parkingSize = Number(Number(parkingSize).toFixed(2))
 
     // 權狀坪數
-    let floorSize = (room.mainBuilding + room.outBuilding) * publicRatioPercent
-    if(building.hasParking) {
-        floorSize += room.parkingSize
+    let floorSize = (estateSize.mainBuilding + estateSize.outBuilding) * publicRatioPercent
+    if(estatePrice.hasParking) {
+        floorSize += estateSize.parkingSize
     }
-    room.floorSize = Number(Number(floorSize).toFixed(2))
+    estateSize.floorSize = Number(Number(floorSize).toFixed(2))
     calculateTotalPrice()
 }
 function calculateTotalPrice() {
-    if(buildingUnitPrice.value && room.floorSize){
-        const beforeFormatPrice =  Number(buildingUnitPrice.value) * Number(room.floorSize)
+    if(buildingUnitPrice.value && estateSize.floorSize){
+        const beforeFormatPrice =  Number(buildingUnitPrice.value) * Number(estateSize.floorSize)
         totalHousePrice.value = Number(beforeFormatPrice.toFixed(2))
         calculateMortgate()
     }
 }
 // 房屋貸款試算
 const mortgage = reactive({
+    buyHouseYear: 0,
     loanPercent: 70,
     downPayment: 0,
     loanAmount: 0,
     loanTerm: 30,
     monthlyRepay: 0,
-    buyHouseYear: 0,
 })
 function calculateMortgate() {
     if(!totalHousePrice.value){
@@ -1359,7 +1370,7 @@ function calculateMortgate() {
      * 本息平均攤還
      * https://zh.wikipedia.org/zh-tw/%E6%9C%AC%E6%81%AF%E5%B9%B3%E5%9D%87%E6%94%A4%E9%82%84
      */
-    const monthlyInterestRate = interestRate.value / 100 / 12
+    const monthlyInterestRate = 　mortgage.interestRate / 100 / 12
     const monthCount = mortgage.loanTerm * 12
 
     const part = Math.pow(1 + monthlyInterestRate, monthCount)
