@@ -17,6 +17,9 @@ hero:
       text: Line社群
       link: https://line.me/ti/g2/w2xjp79QxMO76vVw_aQuEqeH2ahdcn7uY7lQAg
     - theme: alt
+      text: 開源財務計算機
+      link: /engineer/plan
+    - theme: alt
       text: 關於EN
       link: /about
 

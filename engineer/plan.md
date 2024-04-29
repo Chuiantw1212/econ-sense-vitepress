@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# 一生財務試算
+# 開源財務計算機
 
 1. 台灣唯一開源的財務規劃計算機。一切數字有憑有據，不賣商品賣事實。
 2. 工程師可藉由開源的前後端程式碼學習Javascript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
@@ -64,18 +64,6 @@ outline: deep
             <el-col :span="12">
                 <el-form-item label="預估餘命" prop="lifeExpectancy">
                     <el-input-number v-model="profile.lifeExpectancy" :min="0" :max="120" :disabled="true"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="預估退休年齡" prop="lifeExpectancy">
-                    <el-input-number v-model="profile.retireAge" :min="60" :max="70" @change="onRetireAgeChanged()"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="預估退休餘命" prop="retireLife">
-                    <el-input-number v-model="profile.retireLife" :disabled="true"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -159,7 +147,7 @@ outline: deep
             </el-col>
         </el-row>
         <el-row>
-            <el-col :span="22">
+            <el-col :span="23">
                 <el-form-item label="單價(萬/坪)" prop="unitPrice">
                     <el-slider v-model="buildingUnitPrice" :min="building.pr25" :max="building.pr75" :marks="unitPriceMarks" :disabled="!building.average" @change="calculateTotalPrice()"/>
                 </el-form-item>
@@ -463,16 +451,31 @@ outline: deep
 <el-card v-if="checkedNeeds.includes('retirement')">
     <el-form label-width="auto">
         <el-row>
-            <el-col :span="22">
-                <el-form-item label="平均月開支">
-                    <el-slider v-model="retirement.monthlyExpense" :marks="expenseQuantileMarks" />
+            <el-col :span="24">
+                <el-form-item label="退休五等分位">
+                    <el-radio-group v-model="retirement.level" @change="onRetirementLevelChanged()">
+                        <el-radio v-for="(item, key) in retirementQuartile" :value="key+1">{{ item.label }}</el-radio>
+                    </el-radio-group>
                 </el-form-item>
             </el-col>
-            <!-- <el-col :span="12">
-                <el-form-item label="預估退休餘命">
-                    <el-input-number v-model="parenting.independantAge" :min="18" @change="onIndependantAgeChanged()"/>
+            <el-col :span="23">
+                <el-form-item label="退休水準PR">
+                    <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks" :disabled="true"/>
                 </el-form-item>
-            </el-col> -->
+            </el-col>
+        </el-row>
+        <br/>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="預估退休年齡" prop="lifeExpectancy">
+                    <el-input-number v-model="retirement.age" :min="60" :max="70" @change="onRetireAgeChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估退休餘命" prop="retireLife">
+                    <el-input-number v-model="retirement.lifeExpectancy" :disabled="true"/>
+                </el-form-item>
+            </el-col>
         </el-row>
     </el-form>
     <template #footer>
@@ -650,6 +653,7 @@ const townMap = reactive({})
 const buildingTypes = ref([])
 const buildingAges = ref([])
 const genders = ref([])
+const retirementQuartile = ref([])
 const interestRate = ref(0)
 const portfolioIRR = reactive({})
 const porfolioLabels = reactive({
@@ -702,6 +706,7 @@ async function setSelecOptions() {
         buildingTypes.value = selectResJson.buildingTypes || []
         buildingAges.value = selectResJson.buildingAges || []
         genders.value = selectResJson.genders || []
+        retirementQuartile.value = selectResJson.retirementQuartile || []
         Object.assign(townMap, selectResJson.townMap)
 
         const bankConfigRes = await fetch(`${import.meta.env.VITE_BASE_URL}/bank/config`)
@@ -724,6 +729,7 @@ async function setSelecOptions() {
     }
     await getUnitPrice()
     calculateMortgate()
+    calculateRetirementQuartileMarks()
     createLifeFinanceChart()
 }
 async function getUserForm() {
@@ -765,8 +771,6 @@ const profile = reactive({
     gender: 'M',
     age: 0,
     lifeExpectancy: 0,
-    retireAge: 60,
-    retireLife: 0,
 })
 const profileRules = reactive({
     dateOfBirth:{ required: true, message: '請選擇', },
@@ -783,9 +787,6 @@ function onAgeChaged() {
 }
 function onRetireAgeChanged() {
     calculateRetireLife()
-}
-async function calculateRetireLife() {
-    profile.retireLife =  Number(Number(profile.age + profile.lifeExpectancy - profile.retireAge).toFixed(2))
 }
 async function calculateLifeExpectancy() {
     const { dateOfBirth, gender, age } = profile
@@ -1011,17 +1012,23 @@ function onSecondBornYearChanged() {
     createLifeFinanceChart()
 }
 // 退休試算
-const expenseQuantileMarks = reactive({
-    0: '234,827',
-    25: '310,371',
-    50: '348,074',
-    75: '364,157',
-    100: '435,069'
-})
+const expenseQuartileMarks = reactive({})
 const retirement = reactive({
-    monthlyExpense: 0,
+    level: 2,
+    percentileRank: 50,
+    monthlyExpense: 50,
+    lifeExpectancy: 0,
+    age: 60,
 })
-const value1 = ref(0)
+function onRetirementLevelChanged() {
+    const { level } = retirement
+    const selectedItem = retirementQuartile.value[level - 1]
+    retirement.percentileRank = level * 20 - 10
+    retirement.monthlyExpense = selectedItem.value
+}
+async function calculateRetireLife() {
+    retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
+}
 // 投資試算
 const investment = reactive({
     allocation: 'aoa',
@@ -1030,9 +1037,12 @@ const investment = reactive({
     disposableIncome: 70000,
     chartInstance: null,
 })
-function calculateExpenseQuantileMarks() {
-    const quantile = [234827, 310371, 348074, 364157, 435069]
-    // const gap = 
+function calculateRetirementQuartileMarks() {
+    retirementQuartile.value.forEach((item, index) => {
+        const { value } = item
+        const percentileRank = (index + 1) * 20 - 10
+        expenseQuartileMarks[percentileRank] = Number(value).toLocaleString()
+    })
 }
 function onAllocationChanged() {
     createLifeFinanceChart()
