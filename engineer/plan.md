@@ -360,6 +360,7 @@ outline: deep
 <h3 v-show="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
 <el-card v-show="checkedNeeds.includes('housing')">
     <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="building" :rules="buildingRules" label-width="auto">
+        <p>資料筆數較多，需要等待。</p>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="居住縣市" prop="county">
@@ -584,7 +585,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="計畫購屋年" @change="onBuyHouseYearChanged()">
-                    <el-input-number v-model="mortgage.buyHouseYear" :min="2024" :max="2124"/>
+                    <el-input-number v-model="mortgage.buyHouseYear"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -657,12 +658,12 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="第一隻出生年">
-                    <el-input-number v-model="parenting.firstBornYear" :min="0" @change="onFirstBornYearChanged()"/>
+                    <el-input-number v-model="parenting.firstBornYear" :min="0" :max="parenting.secondBornYear" @change="onFirstBornYearChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="第二隻出生年">
-                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
+                    <el-input-number v-model="parenting.secondBornYear" :min="parenting.firstBornYear" @change="onSecondBornYearChanged()"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -731,7 +732,11 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="月實領 - 月支出" @change="onIncomeChanged()">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col>
+                <el-form-item label="月實領 - 月支出(來自職業試算)" @change="onIncomeChanged()">
                     <el-input-number v-model="investment.monthlyAveraging" :min="0" :disabled="true"/>
                 </el-form-item>
             </el-col>
@@ -1195,8 +1200,8 @@ function drawRetirementPensionChart() {
 }
 // 購屋分析
 const building = reactive({
-    county: 'A',
-    town: '63000110',
+    county: 'H',
+    town: '68000020',
     buildingType: '',
     buildingAge: '',
     hasParking: '',
@@ -1332,7 +1337,7 @@ const mortgage = reactive({
     loanAmount: 0,
     loanTerm: 30,
     monthlyRepay: 0,
-    buyHouseYear: currentYear + 10,
+    buyHouseYear: 0,
 })
 function calculateMortgate() {
     if(!totalHousePrice.value){
@@ -1362,8 +1367,8 @@ function calculateMortgate() {
 const parenting = reactive({
     childAnnualExpense: 212767,
     independantAge: 22,
-    firstBornYear: 0,
-    secondBornYear: 0,
+    firstBornYear: 2025,
+    secondBornYear: 2028,
 })
 function onChildMonthlyExpenseChanged() {
     createLifeAssetChart()
@@ -1380,7 +1385,7 @@ function onSecondBornYearChanged() {
 // 投資試算
 const investment = reactive({
     allocation: 'aoa',
-    assetAmount: 1000000,
+    assetAmount: 3500000,
     monthlyAveraging: 70000,
 })
 let investmentChartInstance = ref(null)
@@ -1408,6 +1413,8 @@ function onBuyHouseYearChanged() {
     createLifeAssetChart()
 }
 function createLifeAssetChart() {
+    let inflationModifier = 1
+
     let pv = investment.assetAmount
     const irr = portfolioIRR[investment.allocation]
     let fv = 0 // fv = pv * irr + pmt
@@ -1424,14 +1431,14 @@ function createLifeAssetChart() {
         // 影響存量重大事件
         const { buyHouseYear } = mortgage
         if (year === buyHouseYear) {
-            pv -= mortgage.downPayment
+            pv -= mortgage.downPayment * inflationModifier
         }
 
         let calculatedPmt = 0
         // 退休開支影響收入與支出
         const reitrementStartYear = birthYear + retirement.age
         if(year <= reitrementStartYear) {
-            calculatedPmt = investment.monthlyAveraging * 12
+            calculatedPmt = investment.monthlyAveraging * 12 * inflationModifier
         }
         // 房貸利息影響每月儲蓄
         const mortgageStartYear = buyHouseYear
@@ -1444,14 +1451,15 @@ function createLifeAssetChart() {
         const firstBornEndYear = firstBornYear + independantAge
         const secondBornEndYear = secondBornYear + independantAge
         if(currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear) {
-            calculatedPmt -= childAnnualExpense
+            calculatedPmt -= childAnnualExpense * inflationModifier
         }
         if(currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear) {
-            calculatedPmt -= childAnnualExpense
+            calculatedPmt -= childAnnualExpense * inflationModifier
         }
 
         // 計算複利終值
-        fv = pv * (1 + irr / 100) + calculatedPmt
+        inflationModifier *= 1 + inflationRate.value / 100
+        fv = pv * (1 + irr / 100) + calculatedPmt * inflationModifier
         pv = fv
     }
     const chartData = {
