@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# 開源財務計算機
+# 開源理財計算機
 
 1. 台灣唯一開源的財務規劃計算機。一切數字有憑有據，不賣商品賣事實。
 2. 工程師可藉由開源的前後端程式碼學習Javascript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
@@ -323,6 +323,11 @@ outline: deep
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
+                <el-form-item label="計畫購屋年" @change="onBuyHouseYearChanged()">
+                    <el-input-number v-model="mortgage.buyHouseYear" :min="2024" :max="2124"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
                 <el-form-item label="預估利息">
                     <el-input-number v-model="interestRate" :min="0"/>
                 </el-form-item>
@@ -459,7 +464,7 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="23">
-                <el-form-item label="退休水準PR">
+                <el-form-item label="退休年支出PR">
                     <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks" :disabled="true"/>
                 </el-form-item>
             </el-col>
@@ -556,11 +561,6 @@ outline: deep
             </el-col>
         </el-row>
         <el-row>
-            <el-col :span="12">
-                <el-form-item label="計畫購屋年" @change="onBuyHouseYearChanged()">
-                    <el-input-number v-model="investment.buyHouseYear" :min="2024" :max="2124"/>
-                </el-form-item>
-            </el-col>
             <el-col :span="12">
                 <el-form-item label="計畫退休年" @change="onBuyHouseYearChanged()">
                     <el-input-number v-model="profile.retireAge" :min="60" :max="70" @change="onRetireAgeChanged()"/>
@@ -967,6 +967,7 @@ const mortgage = reactive({
     loanAmount: 0,
     loanTerm: 30,
     monthlyRepay: 0,
+    buyHouseYear: currentYear + 10,
 })
 function calculateMortgate() {
     if(!totalHousePrice.value){
@@ -1014,7 +1015,7 @@ function onSecondBornYearChanged() {
 // 退休試算
 const expenseQuartileMarks = reactive({})
 const retirement = reactive({
-    level: 2,
+    level: 3,
     percentileRank: 50,
     monthlyExpense: 50,
     lifeExpectancy: 0,
@@ -1033,7 +1034,6 @@ async function calculateRetireLife() {
 const investment = reactive({
     allocation: 'aoa',
     assetAmount: 1000000,
-    buyHouseYear: currentYear + 10,
     disposableIncome: 70000,
     chartInstance: null,
 })
@@ -1060,20 +1060,29 @@ function createLifeFinanceChart() {
     let pv = investment.assetAmount
     const irr = portfolioIRR[investment.allocation]
     let fv = 0 // fv = pv * irr + pmt
-    const pmt = investment.disposableIncome * 12
     const labels = []
     const datasetData = []
-    const { buyHouseYear } = investment
     for(let year = currentYear;year < currentYear + profile.lifeExpectancy; year++) {
         labels.push(year)
         datasetData.push(pv)
+
+        // 基本資料
+        const { dateOfBirth } = profile
+        const birthYear = new Date(dateOfBirth).getFullYear()
+
         // 影響存量重大事件
+        const { buyHouseYear } = mortgage
         if (year === buyHouseYear) {
             pv -= mortgage.downPayment
         }
 
-        let calculatedPmt = pmt
-        // 債務利息影響每月儲蓄
+        let calculatedPmt = 0
+        // 退休開支影響收入與支出
+        const reitrementStartYear = birthYear + retirement.age
+        if(year <= reitrementStartYear) {
+            calculatedPmt = investment.disposableIncome * 12
+        }
+        // 房貸利息影響每月儲蓄
         const mortgageStartYear = buyHouseYear
         const mortgageEndYear = buyHouseYear + mortgage.loanTerm
         if(mortgageStartYear <= year && year < mortgageEndYear) {
