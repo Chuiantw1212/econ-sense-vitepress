@@ -183,7 +183,16 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="預估退休餘命" prop="retireLife">
+                <el-form-item label="距離退休" prop="retireLife">
+                    <el-text>{{ retirement.insurance.incomingSeniority }} 年</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="退休後餘命" prop="retireLife">
                     <el-text>{{ retirement.lifeExpectancy }} 年</el-text>
                 </el-form-item>
             </el-col>
@@ -191,11 +200,11 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="勞保投保年資">
-                    <el-input-number v-model="retirement.insurance.currentSeniority" :min="0" @change="oncurrentSeniorityChanged()"/>
+                    <el-input-number v-model="retirement.insurance.currentSeniority" :min="0" @change="onCurrentSeniorityChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="預估退休年資">
+                <el-form-item label="預估屆退年資">
                     <el-text>{{ retirement.insurance.futureSeniority }} 年</el-text>
                 </el-form-item>
             </el-col>
@@ -925,6 +934,7 @@ function handleGenderChanged() {
 }
 function onAgeChaged() {
     calculateRetireLife()
+    calculateIncomgingSeniority()
     calculateFutureSeniority()
     calculateRetirementPensionTotal()
 }
@@ -946,8 +956,8 @@ async function calculateLifeExpectancy() {
 
         profile.age = calculateAge
         profile.lifeExpectancy = await res.json()
-        calculateRetireLife()
-        calculateRetirementPensionTotal()
+        
+        onAgeChaged()
     }
 }
 // 需求分析
@@ -1023,6 +1033,7 @@ const retirement = reactive({
     lifeExpectancy: 0,
     insurance: {
         currentSeniority: 6.9,
+        incomingSeniority: 0,
         futureSeniority: 0,
         monthlyAnnuity: 0,
     },
@@ -1042,11 +1053,15 @@ let pensionChartInstance = ref(null)
 const expenseQuartileMarks = reactive({})
 function onRetireAgeChanged() {
     calculateRetireLife()
+    calculateIncomgingSeniority()
     calculateFutureSeniority()
     calculateRetirementPensionTotal()
 }
-function oncurrentSeniorityChanged() {
+function onCurrentSeniorityChanged() {
     calculateFutureSeniority()
+}
+function calculateIncomgingSeniority() {
+    retirement.insurance.incomingSeniority = (retirement.age - profile.age).toFixed(1)
 }
 function calculateFutureSeniority() {
     const { currentSeniority } = retirement.insurance
