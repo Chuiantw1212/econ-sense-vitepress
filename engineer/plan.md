@@ -239,7 +239,7 @@ outline: deep
             <el-col :span="12">
             </el-col>
             <el-col :span="12">
-                <el-form-item label="餘命x年金">
+                <el-form-item label="餘命 x 年金">
                     <el-text>{{ Number(retirement.insurance.annuitySum).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
@@ -306,6 +306,9 @@ outline: deep
                     </li>
                     <li>
                         勞退收益率：<a href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00" target="_blank">中華民國退休基金協會</a>
+                    </li>
+                    <li>
+                        假設勞退一次領後的再投資報酬率打平勞動基金
                     </li>
                     <li>資料來源：
                         <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
@@ -1085,7 +1088,7 @@ function onCurrentSeniorityChanged() {
     calculateFutureSeniority()
 }
 function calculateIncomgingSeniority() {
-    retirement.insurance.incomingSeniority = (retirement.age - profile.age).toFixed(1)
+    retirement.insurance.incomingSeniority = retirement.age - profile.age
 }
 function calculateFutureSeniority() {
     const { currentSeniority } = retirement.insurance
