@@ -609,14 +609,11 @@ outline: deep
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
-                <el-form-item label="計畫購屋年" @change="onBuyHouseYearChanged()">
+                <el-form-item label="購屋西元年" @change="onBuyHouseYearChanged()">
                     <el-input-number v-model="mortgage.buyHouseYear"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="試算利息(%)">
-                    <el-input-number v-model="mortgage.interestRate" :min="0"/>
-                </el-form-item>
             </el-col>
         </el-row>
         <el-row>
@@ -626,16 +623,13 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="貸款年期">
-                    <el-input-number v-model="mortgage.loanTerm" :min="0" @change="calculateMortgate()"/>
+                <el-form-item label="預估頭期款" prop="floorSize">
+                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="預估頭期款" prop="floorSize">
-                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
-                </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="預估貸款" prop="floorSize">
@@ -645,15 +639,24 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
+                <el-form-item label="試算利息(%)">
+                    <el-input-number v-model="mortgage.interestRate" :min="0"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="貸款年期">
+                    <el-input-number v-model="mortgage.loanTerm" :min="0" @change="calculateMortgate()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
                 <el-form-item label="每月還款金額" prop="floorSize">
                     <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
-            <!-- <el-col :span="12">
-                <el-form-item label="預估貸款" prop="floorSize">
-                    <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }}</el-text>
-                </el-form-item>
-            </el-col> -->
         </el-row>
     </el-form>
     <template #footer>
@@ -682,12 +685,12 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="第一隻出生年">
+                <el-form-item label="第一隻西元年">
                     <el-input-number v-model="parenting.firstBornYear" :min="0" :max="parenting.secondBornYear" @change="onFirstBornYearChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="第二隻出生年">
+                <el-form-item label="第二隻西元年">
                     <el-input-number v-model="parenting.secondBornYear" :min="parenting.firstBornYear" @change="onSecondBornYearChanged()"/>
                 </el-form-item>
             </el-col>
@@ -743,7 +746,7 @@ outline: deep
     <el-form label-width="auto">
         <el-row>
             <el-col :span="24">
-                <el-form-item label="股債比">
+                <el-form-item label="資產配置">
                     <el-radio-group v-model="investment.allocationETF" @change="onAllocationChanged()">
                         <el-radio v-for="(label, key) in porfolioLabels" :value="key">{{label}}</el-radio>
                     </el-radio-group>
@@ -782,7 +785,7 @@ outline: deep
                 <table class="table">
                     <tr>
                         <th>參考標的</th>
-                        <th>股債比</th>
+                        <th>資產配置</th>
                         <th>來源網址</th>
                     </tr>
                     <tr>
