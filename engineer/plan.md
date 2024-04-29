@@ -130,20 +130,13 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="勞保提繳工資">
-                    <el-input-number v-model="career.insurance.salary" :min="0" :max="45800" @change="onInsuranceSalaryChanged()"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="勞保勞工負擔">
-                    <el-text>{{ Number(career.insurance.expense).toLocaleString() }}</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
                 <el-form-item label="勞退提繳工資">
                     <el-input-number v-model="career.pension.salary" :min="0" :max="150000" @change="onPensionSalaryChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="試算提繳工資">
+                    <a href="https://www.bli.gov.tw/0108097.html" target="_blank">勞動部勞工保險局</a>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -156,6 +149,18 @@ outline: deep
             <el-col :span="12">
                 <el-form-item label="勞退月提繳">
                     <el-text>{{ Number(career.pension.monthlyContribution).toLocaleString() }}</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="勞保提繳工資">
+                    <el-input-number v-model="career.insurance.salary" :min="0" :max="45800" @change="onInsuranceSalaryChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="勞保勞工負擔">
+                    <el-text>{{ Number(career.insurance.expense).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
