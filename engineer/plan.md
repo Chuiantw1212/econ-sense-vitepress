@@ -429,9 +429,15 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
                 <el-form-item label="單人房數量">
                     <el-input-number v-model="estateSize.singleBedRoom" :min="0" @change="calculateFloorSize()"/>
                 </el-form-item>
+            </el-col>
+            <el-col :span="12">
             </el-col>
         </el-row>
         <el-row>
@@ -441,27 +447,24 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
                 <el-form-item label="衛浴數量">
                     <el-input-number v-model="estateSize.bathroom" :min="1" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
-        </el-row>
-        <el-row>
-            <!-- <el-col :span="12">
-                <el-form-item label="廚房">
-                    <el-input-number v-model="estateSize.kitchen" :disabled="true" :min="1" @change="calculateFloorSize()"/>
-                </el-form-item>
-            </el-col> -->
             <el-col :span="12">
-                <el-form-item label="公設比(%)" >
-                    <el-input-number v-model="estateSize.publicRatio" :min="0" @change="calculateFloorSize()"/>
+                <el-form-item label="預估主建實坪" prop="floorSize">
+                    <el-text>{{ estateSize.mainBuilding }} 坪</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="預估主建實坪" prop="floorSize">
-                    <el-text>{{ estateSize.mainBuilding }} 坪</el-text>
+                <el-form-item label="陽台數量">
+                    <el-input-number v-model="estateSize.balcany" :min="1" :disabled="true"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -470,21 +473,39 @@ outline: deep
                 </el-form-item>
             </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="estatePrice.hasParking" >
             <el-col :span="12">
-                <el-form-item label="預估權狀坪數" prop="floorSize">
-                    <el-text>{{ estateSize.floorSize }} 坪</el-text>
+                <el-form-item label="車位數量" >
+                    <el-input-number v-model="estateSize.parkingSpace" :min="0" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
-            <el-col v-if="estatePrice.hasParking" :span="12">
+            <el-col :span="12">
                 <el-form-item label="預估車位權狀" prop="floorSize">
                     <el-text>{{ estateSize.parkingSize }} 坪</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
-        <el-form-item label="總價" prop="unitPrice">
-            <el-text>{{ Number(totalHousePrice).toLocaleString() }} 萬</el-text>
-        </el-form-item>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="公設比(%)" >
+                    <el-input-number v-model="estateSize.publicRatio" :min="0" @change="calculateFloorSize()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估權狀坪數" prop="floorSize">
+                    <el-text>{{ estateSize.floorSize }} 坪</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="總價" prop="unitPrice">
+                    <el-text>{{ Number(totalHousePrice).toLocaleString() }} 萬</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
     </el-form>
     <template #footer>
         <el-collapse>
@@ -1296,8 +1317,10 @@ const estateSize = reactive({
     livingRoom: 1,
     publicRatio: 35,
     mainBuilding: 0,
+    balcany: 1,
     outBuilding: 0,
     floorSize: 0,
+    parkingSpace: 1,
     parkingSize: 0,
 })
 const totalHousePrice = ref(0)
@@ -1308,7 +1331,7 @@ const roomRules = {
     publicRatio: { required: true, message: '請選擇', },
 }
 function calculateFloorSize() {
-    const { doubleBedRoom, singleBedRoom, bathroom, livingRoom, publicRatio } = estateSize
+    const { doubleBedRoom, singleBedRoom, bathroom, livingRoom, publicRatio, balcany, parkingSpace } = estateSize
 
     const fortmatRatio = 0.3025
     const baseInteriorSize = 30 * fortmatRatio
@@ -1322,14 +1345,14 @@ function calculateFloorSize() {
     estateSize.mainBuilding = Number(Number(baseInteriorSize + doubleRoomSize + singleRoomSize + bathRoomSize + diningTableSize).toFixed(2))
 
     // 附屬建築比如陽台
-    const balcanyPercent = 0.1 // 10%
+    const balcanyPercent = 0.1 * balcany // 10%
     estateSize.outBuilding = Number(Number(estateSize.mainBuilding * balcanyPercent).toFixed(2))
 
     // 公設比計算
     const publicRatioPercent = 1 + publicRatio / 100
 
     // 停車位權狀
-    const parkingSize = 24.75 * fortmatRatio * publicRatioPercent
+    const parkingSize = 24.75 * parkingSpace * fortmatRatio * publicRatioPercent
     estateSize.parkingSize = Number(Number(parkingSize).toFixed(2))
 
     // 權狀坪數
@@ -1350,6 +1373,7 @@ function calculateTotalPrice() {
 // 房屋貸款試算
 const mortgage = reactive({
     buyHouseYear: 0,
+    interestRate: 0,
     loanPercent: 70,
     downPayment: 0,
     loanAmount: 0,
