@@ -48,7 +48,7 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="試算年齡" prop="lifeExpectancy" @change="onAgeChaged()">
+                <el-form-item label="試算年齡" prop="lifeExpectancy">
                     <el-text>{{ profile.age }}</el-text>
                 </el-form-item>
             </el-col>
@@ -59,9 +59,6 @@ outline: deep
                     <el-radio-group v-model="profile.gender" @change="handleGenderChanged()">
                         <el-radio v-for="(item, key) in genders" :value="item.value">{{ item.label }}</el-radio>
                     </el-radio-group>
-                    <!-- <el-select v-model="profile.gender" placeholder="請選擇" @change="handleGenderChanged()">
-                        <el-option v-for="item in genders":key="item.value":label="item.label" :value="item.value"/>
-                    </el-select> -->
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -469,7 +466,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="陽台數量">
-                    <el-input-number v-model="estateSize.balcany" :min="1" :disabled="true"/>
+                    <el-input-number v-model="estateSize.balcany" :min="0" :disabled="true"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -976,8 +973,30 @@ async function getUserFormSync(firebaseUser) {
             Authorization: `Bearer ${idToken}`
         }
     })
-    if(res) {
-        const userForm = await res.json()
+    let userForm = {}
+    try {
+        userForm = await res.json()
+    } catch (error) {
+        console.log(error.message || error)
+        const idToken = await firebase.auth().currentUser.getIdToken()
+        userForm = await fetch(`${import.meta.env.VITE_BASE_URL}/user/new`, {
+            method: 'post',
+            headers: {
+                Authorization: `Bearer ${idToken}`
+            }
+        })
+        // 前端初始預設值
+        userForm.retirement.age = 65
+        userForm.retirement.pension.irrOverDecade = 4.76
+        userForm.estateSize.publicRatio = 35
+        userForm.estateSize.bathroom = 1
+        userForm.estateSize.livingRoom = 1
+        userForm.estateSize.parkingSpace = 1
+        userForm.mortgage.loanPercent = 80
+        userForm.mortgage.loanTerm = 25
+        userForm.parenting.childAnnualExpense = 212767
+        userForm.parenting.independantAge = 18
+    } finally {
         Object.assign(profile, userForm.profile)
         Object.assign(career, userForm.career)
         Object.assign(retirement, userForm.retirement)
@@ -987,15 +1006,11 @@ async function getUserFormSync(firebaseUser) {
         Object.assign(parenting, userForm.parenting)
         Object.assign(investment, userForm.investment)
         initializeCalculator()
-    } else {
-        const userForm = await fetch(`${import.meta.env.VITE_BASE_URL}/user/new`, {
-            method: 'post',
-        })
     }
 }
 async function initializeCalculator() {
     // 基本資料
-    await calculateLifeExpectancy()
+    await calculateLifeExpectancyAndAge()
     // 職業
     calculateInsuranceExpense()
     calculateCareerPensionTotal()
@@ -1017,23 +1032,18 @@ async function initializeCalculator() {
 }
 // 基本資料
 const profile = reactive({
-    dateOfBirth: '1990-12-12',
-    gender: 'M',
+    dateOfBirth: '',
+    gender: '',
     age: 0,
     lifeExpectancy: 0,
 })
 function handleDateOfBirthChanged() {
-    calculateLifeExpectancy()
+    calculateLifeExpectancyAndAge()
 }
 function handleGenderChanged() {
-    calculateLifeExpectancy()
+    calculateLifeExpectancyAndAge()
 }
-function onAgeChaged() {
-    calculateRetireLife()
-    calculateFutureSeniority()
-    drawRetirementPensionChart()
-}
-async function calculateLifeExpectancy() {
+async function calculateLifeExpectancyAndAge() {
     const { dateOfBirth, gender, age } = profile
     if(dateOfBirth && gender){
         const ceYear = new Date().getFullYear()
@@ -1052,7 +1062,9 @@ async function calculateLifeExpectancy() {
         profile.age = calculateAge
         profile.lifeExpectancy = await res.json()
 
-        onAgeChaged()
+        calculateRetireLife()
+        calculateFutureSeniority()
+        drawRetirementPensionChart()
 
         fetch(`${import.meta.env.VITE_BASE_URL}/calculate/lifeExpectancy`, {
             method: 'post',
@@ -1134,20 +1146,20 @@ const retirement = reactive({
     age: 60,
     lifeExpectancy: 0,
     insurance: {
-        presentSeniority: 6.9,
+        presentSeniority: 0, // 6.9
         finalSeniority: 0,
         monthlyAnnuity: 0,
     },
     pension: {
-        employerContribution: 250609,
-        employerContributionIncome: 45571,
-        employeeContrubution: 137264,
-        employeeContrubutionIncome: 10308,
+        employeeContrubution: 0,
+        employeeContrubutionIncome: 0,
+        employerContribution: 0,
+        employerContributionIncome: 0,
         irrOverDecade: 4.76,
         finalValue: 0,
     },
-    qualityLevel: 3,
-    percentileRank: 50,
+    qualityLevel: 0,
+    percentileRank: 0,
 })
 let pensionChartInstance = ref(null)
 const expenseQuartileMarks = reactive({})
@@ -1197,6 +1209,9 @@ function onRetirementLevelChanged() {
 }
 function calculateRetirementMonthlyExpense() {
     const { qualityLevel } = retirement
+    if(!qualityLevel || !retirementQuartile.value.length) {
+        return
+    }
     const selectedItem = retirementQuartile.value[qualityLevel - 1]
     retirement.annualExpense = selectedItem.value
     drawRetirementPensionChart()
@@ -1266,8 +1281,8 @@ function drawRetirementPensionChart() {
 }
 // 購屋分析
 const estatePrice = reactive({
-    county: 'H',
-    town: '68000020',
+    county: '',
+    town: '',
     buildingType: '',
     buildingAge: '',
     hasParking: '',
@@ -1339,16 +1354,16 @@ async function getUnitPriceSync() {
 }
 // 購屋分析2
 const estateSize = reactive({
-    doubleBedRoom: 1,
-    singleBedRoom: 2,
-    bathroom: 2,
-    livingRoom: 1,
-    publicRatio: 35,
+    doubleBedRoom: 0,
+    singleBedRoom: 0,
+    bathroom: 0,
+    livingRoom: 0,
+    publicRatio: 0,
     mainBuilding: 0,
-    balcany: 1,
+    balcany: 0,
     outBuilding: 0,
     floorSize: 0,
-    parkingSpace: 1,
+    parkingSpace: 0,
     parkingSize: 0,
 })
 const totalHousePrice = ref(0)
@@ -1380,8 +1395,10 @@ function calculateFloorSize() {
     const publicRatioPercent = 1 + publicRatio / 100
 
     // 停車位權狀
-    const parkingSize = 24.75 * parkingSpace * fortmatRatio * publicRatioPercent
-    estateSize.parkingSize = Number(Number(parkingSize).toFixed(2))
+    if(estatePrice.hasParking) {
+        const parkingSize = 24.75 * parkingSpace * fortmatRatio * publicRatioPercent
+        estateSize.parkingSize = Number(Number(parkingSize).toFixed(2))
+    }
 
     // 權狀坪數
     let floorSize = (estateSize.mainBuilding + estateSize.outBuilding) * publicRatioPercent
@@ -1401,9 +1418,9 @@ function calculateTotalPrice() {
 // 房屋貸款試算
 const mortgage = reactive({
     buyHouseYear: 0,
-    loanPercent: 70,
+    loanPercent: 0,
     interestRate: 0,
-    loanTerm: 30,
+    loanTerm: 0,
     downPayment: 0,
     loanAmount: 0,
     monthlyRepay: 0,
@@ -1434,10 +1451,10 @@ function calculateMortgate() {
 }
 // 育兒試算
 const parenting = reactive({
-    childAnnualExpense: 212767,
-    independantAge: 22,
-    firstBornYear: 2025,
-    secondBornYear: 2028,
+    childAnnualExpense: 0,
+    independantAge: 0,
+    firstBornYear: 0,
+    secondBornYear: 0,
 })
 function onChildMonthlyExpenseChanged() {
     createLifeAssetChart()
@@ -1453,9 +1470,9 @@ function onSecondBornYearChanged() {
 }
 // 投資試算
 const investment = reactive({
-    allocationETF: 'aoa',
-    stockPercentage: 80,
-    presentAsset: 3500000,
+    allocationETF: '',
+    stockPercentage: 0,
+    presentAsset: 0,
 })
 const investmentAveraging = ref(0)
 const allocationQuartileMarks = reactive({})
