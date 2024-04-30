@@ -414,7 +414,7 @@ outline: deep
     </template>
 </el-card>
 
-## 3. 退休前資產
+## 3. 五子登科
 
 退休沒問題以後，這邊就可以安心拼。
 
@@ -449,6 +449,24 @@ outline: deep
                 </el-form-item>
             </el-col>
         </el-row>
+        <!-- <el-row>
+            <el-col :span="12">
+                <el-form-item label="第一隻西元年">
+                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="第二隻西元年">
+                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row> -->
         <el-row>
             <el-col :span="12">
                 <el-form-item label="房貸頭期款" @change="onAssetChanged()">
@@ -470,7 +488,7 @@ outline: deep
                 </el-form-item>
             </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
             <el-col :span="4">
                 <el-checkbox
                     v-model="checkAll"
@@ -487,7 +505,7 @@ outline: deep
                     </el-checkbox>
                 </el-checkbox-group>
             </el-col>
-        </el-row>
+        </el-row> -->
         <canvas id="assetChart"></canvas>
         <el-row>
             <el-col>
@@ -537,6 +555,94 @@ outline: deep
                             <a href="https://www.ishares.com/us/products/239733/ishares-conservative-allocation-etf" target="_blank">
                                 來源網址
                             </a>
+                        </td>
+                    </tr>
+                </table>
+            </el-collapse-item>
+        </el-collapse>
+    </template>
+</el-card>
+
+### 育兒試算
+
+<el-card>
+    <el-form label-width="auto">
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="平均月開支(隻/每年)">
+                    <el-input-number v-model="parenting.childAnnualExpense" :min="0" @change="onChildMonthlyExpenseChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="理想家庭大小">
+                    <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="養到幾歲放生">
+                    <el-input-number v-model="parenting.independantAge" :min="18" @change="onIndependantAgeChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="第一隻西元年">
+                    <el-input-number v-model="parenting.firstBornYear" :min="0" @change="onFirstBornYearChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="第二隻西元年">
+                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+    </el-form>
+    <template #footer>
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                因為缺少資料集或是相關api，故此部分資料會較為粗糙。
+                <ul>
+                    <li>資料來源：
+                        <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
+                            主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
+                        </a>
+                    </li>
+                </ul>
+                <table class="table">
+                    <tr>
+                        <th>2021年家庭組織</th>
+                        <th>雙親</th>
+                        <th>核心</th>
+                    </tr>
+                    <tr>
+                        <td>平均每戶人數</td>
+                        <td>2.00</td>
+                        <td>3.62</td>
+                    </tr>
+                    <tr>
+                        <td>平均每戶就業人數</td>
+                        <td>0.70</td>
+                        <td>1.85</td>
+                    </tr>
+                    <tr>
+                        <td>消費支出</td>
+                        <td>652,023</td>
+                        <td>1,028,621</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            平均每位受扶養者帶來的支出： <br>
+                            (核心消費支出 - 雙親消費支出) / (核心每戶人數 - 核心就業人數) = 212,767
                         </td>
                     </tr>
                 </table>
@@ -608,7 +714,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="雙人房數量">
-                    <el-input-number v-model="estateSize.doubleBedRoom" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.doubleBedRoom" :min="0" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -617,7 +723,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="單人房數量">
-                    <el-input-number v-model="estateSize.singleBedRoom" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.singleBedRoom" :min="0" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -626,7 +732,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="客廳+餐廳">
-                    <el-input-number v-model="estateSize.livingRoom" :min="1" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.livingRoom" :min="1" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -635,7 +741,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="衛浴數量">
-                    <el-input-number v-model="estateSize.bathroom" :min="1" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.bathroom" :min="1" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -647,7 +753,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="陽台數量">
-                    <el-input-number v-model="estateSize.balcany" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.balcany" :min="0" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -671,7 +777,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="公設比(%)" >
-                    <el-input-number v-model="estateSize.publicRatio" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.publicRatio" :min="0" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -847,77 +953,6 @@ outline: deep
             <el-collapse-item title="資料說明" name="1" :border="true">
                 試算利息：<a href="https://www.cbc.gov.tw/tw/lp-370-1.html" target="_blank">央行貼放利率
                 </a>
-            </el-collapse-item>
-        </el-collapse>
-    </template>
-</el-card>
-<h3 v-show="checkedNeeds.includes('parenting')" id="_育兒試算" tabindex="-1">育兒試算</h3>
-<el-card v-show="checkedNeeds.includes('parenting')">
-    <el-form label-width="auto">
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="平均月開支(隻/每年)">
-                    <el-input-number v-model="parenting.childAnnualExpense" :min="0" @change="onChildMonthlyExpenseChanged()"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="養到幾歲放生">
-                    <el-input-number v-model="parenting.independantAge" :min="18" @change="onIndependantAgeChanged()"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="第一隻西元年">
-                    <el-input-number v-model="parenting.firstBornYear" :min="0" @change="onFirstBornYearChanged()"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="第二隻西元年">
-                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
-    </el-form>
-    <template #footer>
-        <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
-                因為缺少資料集或是相關api，故此部分資料會較為粗糙。
-                <ul>
-                    <li>資料來源：
-                        <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
-                            主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
-                        </a>
-                    </li>
-                </ul>
-                <table class="table">
-                    <tr>
-                        <th>2021年家庭組織</th>
-                        <th>雙親</th>
-                        <th>核心</th>
-                    </tr>
-                    <tr>
-                        <td>平均每戶人數</td>
-                        <td>2.00</td>
-                        <td>3.62</td>
-                    </tr>
-                    <tr>
-                        <td>平均每戶就業人數</td>
-                        <td>0.70</td>
-                        <td>1.85</td>
-                    </tr>
-                    <tr>
-                        <td>消費支出</td>
-                        <td>652,023</td>
-                        <td>1,028,621</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            平均每位受扶養者帶來的支出： <br>
-                            (核心消費支出 - 雙親消費支出) / (核心每戶人數 - 核心就業人數) = 212,767
-                        </td>
-                    </tr>
-                </table>
             </el-collapse-item>
         </el-collapse>
     </template>
@@ -1155,7 +1190,7 @@ async function initializeCalculator() {
         towns.value = townMap[estatePrice.county]
     }
     await getUnitPriceSync()
-    calculateFloorSize()
+    calculateEstateSize()
     calculateMortgate() // will calculate asset
     // 投資
     calculatePortfolioMarks()
@@ -1620,227 +1655,6 @@ async function drawRetirementPensionChart() {
         pensionChartInstance = shallowRef(chartInstance)
     }, 'retirement',)()
 }
-// 購屋分析
-const estatePrice = reactive({
-    county: '',
-    town: '',
-    buildingType: '',
-    buildingAge: '',
-    hasParking: '',
-    count: 0,
-    pr25: 0,
-    pr75: 100,
-    average: 0,
-})
-const buildingUnitPrice = ref(0)
-let unitPriceMarks = reactive({
-    0: 'PR25：？',
-    100: 'PR75：？'
-})
-const buildingLoading = ref(false)
-const towns = ref([])
-const hasParkingOptions = ref([
-    { label: '含', value: true },
-    { label: '不含', value: false},
-])
-const buildingRules = reactive({
-    county: { required: true, message: '請選擇', },
-    town: { required: true, message: '請選擇', },
-})
-function onCountyChanged() {
-    estatePrice.town = ''
-    towns.value = []
-    if(estatePrice.county) {
-        towns.value = townMap[estatePrice.county]
-    }
-    getUnitPriceSync()
-}
-function onTownChanged() {
-    getUnitPriceSync()
-}
-function onBuildingTypeChanged() {
-    getUnitPriceSync()
-}
-function onBuildingAgeChanged() {
-    getUnitPriceSync()
-}
-function onHasParkingChanged() {
-    if(estatePrice.hasParking) {
-        estateSize.parkingSpace = Math.max(1, estateSize.parkingSpace)
-    }
-    getUnitPriceSync()
-}
-async function getUnitPriceSync() {
-    const {county, town, buildingType, buildingAge} = estatePrice
-    if(county && town) {
-        buildingLoading.value = true
-        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/unitPrice`, {
-            method: 'post',
-            body: JSON.stringify(estatePrice),
-            headers: {'Content-Type': 'application/json'}
-        })
-        buildingLoading.value = false
-        const resJson = await res.json()
-        Object.assign(estatePrice, resJson)
-
-        const { pr25, pr75, average } = resJson
-        if(!average) {
-            ElMessage('資料筆數過少，請調整查詢條件')
-            return
-        }
-        unitPriceMarks = {}
-        unitPriceMarks[pr25] = `PR25: ${pr25}`
-        unitPriceMarks[pr75] = `PR75: ${pr75}`
-        unitPriceMarks[average] = `平均：${average}`
-        buildingUnitPrice.value = average
-        calculateTotalPrice()
-    }
-}
-// 購屋分析2
-const estateSize = reactive({
-    doubleBedRoom: 0,
-    singleBedRoom: 0,
-    bathroom: 0,
-    livingRoom: 0,
-    publicRatio: 0,
-    mainBuilding: 0,
-    balcany: 0,
-    outBuilding: 0,
-    floorSize: 0,
-    parkingSpace: 0,
-    parkingSize: 0,
-})
-const totalHousePrice = ref(0)
-const roomRules = {
-    doubleBedRoom: { required: true, message: '請選擇', },
-    singleBedRoom: { required: true, message: '請選擇', },
-    bathroom:  { required: true, message: '請選擇', },
-    publicRatio: { required: true, message: '請選擇', },
-}
-async function onParkingSpaceChanged() {
-    if(!estateSize.parkingSpace){
-        estatePrice.hasParking = ''
-    }
-    await getUnitPriceSync()
-    calculateFloorSize()
-}
-function calculateFloorSize() {
-    const { doubleBedRoom, singleBedRoom, bathroom, livingRoom, publicRatio, balcany, parkingSpace } = estateSize
-
-    const fortmatRatio = 0.3025
-    const baseInteriorSize = 30 * fortmatRatio
-    const doubleRoomSize = doubleBedRoom * 19 * fortmatRatio
-    const singleRoomSize = singleBedRoom * 13 * fortmatRatio
-    const bathRoomSize = bathroom * 4 * fortmatRatio
-    const headCount = 2 * doubleBedRoom + singleBedRoom
-    const diningTableSize = Math.max(2, headCount) * livingRoom *  fortmatRatio
-
-    // 主建物只包含室內空間
-    estateSize.mainBuilding = Number(Number(baseInteriorSize + doubleRoomSize + singleRoomSize + bathRoomSize + diningTableSize).toFixed(2))
-
-    // 附屬建築比如陽台
-    const balcanyPercent = 0.1 * balcany // 10%
-    estateSize.outBuilding = Number(Number(estateSize.mainBuilding * balcanyPercent).toFixed(2))
-
-    // 公設比計算
-    const publicRatioPercent = 1 + publicRatio / 100
-
-    // 停車位權狀
-    if(estatePrice.hasParking) {
-        const parkingSize = 24.75 * parkingSpace * fortmatRatio * publicRatioPercent
-        estateSize.parkingSize = Number(Number(parkingSize).toFixed(2))
-    }
-
-    // 權狀坪數
-    let floorSize = (estateSize.mainBuilding + estateSize.outBuilding) * publicRatioPercent
-    if(estatePrice.hasParking) {
-        floorSize += estateSize.parkingSize
-    }
-    estateSize.floorSize = Number(Number(floorSize).toFixed(2))
-    calculateTotalPrice()
-}
-function calculateTotalPrice() {
-    if(!buildingUnitPrice.value || !estateSize.floorSize){
-        return
-    }
-    // 儲存參數
-    debounce(() => {
-        authFetch(`/user/estatePrice`, {
-            method: 'put',
-            body: estatePrice,
-        })
-    }, 'estatePrice')()
-    debounce(() => {
-        authFetch(`/user/estateSize`, {
-            method: 'put',
-            body: estateSize,
-        })
-    }, 'estateSize')()
-    const beforeFormatPrice =  Number(buildingUnitPrice.value) * Number(estateSize.floorSize)
-    totalHousePrice.value = Number(beforeFormatPrice.toFixed(2))
-    calculateMortgate()
-}
-// 房屋貸款試算
-const mortgage = reactive({
-    buyHouseYear: 0,
-    loanPercent: 0,
-    interestRate: 0,
-    loanTerm: 0,
-    downPayment: 0,
-    loanAmount: 0,
-    monthlyRepay: 0,
-})
-async function calculateMortgate() {
-    const { loanPercent, loanTerm } = mortgage
-    if(!totalHousePrice.value || !loanPercent || !loanTerm){
-        return
-    }
-    debounce(() => {
-        // 儲存參數
-        authFetch(`/user/mortgage`, {
-            method: 'put',
-            body: mortgage,
-        })
-    }, 'mortgage')()
-    const loanAmount = totalHousePrice.value *　mortgage.loanPercent * 100
-    const downPayment = totalHousePrice.value * 10000 - mortgage.loanAmount
-    mortgage.loanAmount = loanAmount
-    mortgage.downPayment = downPayment
-
-    /**
-     * 本息平均攤還
-     * https://zh.wikipedia.org/zh-tw/%E6%9C%AC%E6%81%AF%E5%B9%B3%E5%9D%87%E6%94%A4%E9%82%84
-     */
-    const monthlyInterestRate = 　mortgage.interestRate / 100 / 12
-    const monthCount = mortgage.loanTerm * 12
-
-    const part = Math.pow(1 + monthlyInterestRate, monthCount)
-    const fraction = part * monthlyInterestRate
-    const deno = part - 1
-
-    const averageRepayRate = fraction /  deno
-    mortgage.monthlyRepay = Math.floor(loanAmount * averageRepayRate)
-    drawLifeAssetChart()
-}
-// 育兒試算
-const parenting = reactive({
-    childAnnualExpense: 0,
-    independantAge: 0,
-    firstBornYear: 0,
-    secondBornYear: 0,
-})
-function onChildMonthlyExpenseChanged() {
-    drawLifeAssetChart()
-}
-function onIndependantAgeChanged() {
-    drawLifeAssetChart()
-}
-function onFirstBornYearChanged() {
-    drawLifeAssetChart()
-}
-function onSecondBornYearChanged() {
-    drawLifeAssetChart()
-}
 // 投資試算
 const investment = reactive({
     allocationETF: '',
@@ -1968,6 +1782,229 @@ function drawLifeAssetChart() {
         data: chartData
     })
     investmentChartInstance = shallowRef(chartInstance)
+}
+// 育兒試算
+const parenting = reactive({
+    childAnnualExpense: 0,
+    independantAge: 0,
+    firstBornYear: 0,
+    secondBornYear: 0,
+})
+function onChildMonthlyExpenseChanged() {
+    drawLifeAssetChart()
+}
+function onIndependantAgeChanged() {
+    drawLifeAssetChart()
+}
+function onFirstBornYearChanged() {
+    drawLifeAssetChart()
+}
+function onSecondBornYearChanged() {
+    drawLifeAssetChart()
+}
+// 購屋分析
+const estatePrice = reactive({
+    county: '',
+    town: '',
+    buildingType: '',
+    buildingAge: '',
+    hasParking: '',
+    count: 0,
+    pr25: 0,
+    pr75: 100,
+    average: 0,
+})
+const buildingUnitPrice = ref(0)
+let unitPriceMarks = reactive({
+    0: 'PR25：？',
+    100: 'PR75：？'
+})
+const buildingLoading = ref(false)
+const towns = ref([])
+const hasParkingOptions = ref([
+    { label: '含', value: true },
+    { label: '不含', value: false},
+])
+const buildingRules = reactive({
+    county: { required: true, message: '請選擇', },
+    town: { required: true, message: '請選擇', },
+})
+function onCountyChanged() {
+    estatePrice.town = ''
+    towns.value = []
+    if(estatePrice.county) {
+        towns.value = townMap[estatePrice.county]
+    }
+    getUnitPriceSync()
+}
+function onTownChanged() {
+    getUnitPriceSync()
+}
+function onBuildingTypeChanged() {
+    getUnitPriceSync()
+}
+function onBuildingAgeChanged() {
+    getUnitPriceSync()
+}
+function onHasParkingChanged() {
+    if(estatePrice.hasParking) {
+        estateSize.parkingSpace = Math.max(1, estateSize.parkingSpace)
+    }
+    getUnitPriceSync()
+}
+async function getUnitPriceSync() {
+    const {county, town, buildingType, buildingAge} = estatePrice
+    if(county && town) {
+        buildingLoading.value = true
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/unitPrice`, {
+            method: 'post',
+            body: JSON.stringify(estatePrice),
+            headers: {'Content-Type': 'application/json'}
+        })
+        buildingLoading.value = false
+        const resJson = await res.json()
+        Object.assign(estatePrice, resJson)
+
+        const { pr25, pr75, average } = resJson
+        if(!average) {
+            ElMessage('資料筆數過少，請調整查詢條件')
+            return
+        }
+        unitPriceMarks = {}
+        unitPriceMarks[pr25] = `PR25: ${pr25}`
+        unitPriceMarks[pr75] = `PR75: ${pr75}`
+        unitPriceMarks[average] = `平均：${average}`
+        buildingUnitPrice.value = average
+        calculateTotalPrice()
+    }
+}
+// 購屋分析2
+const estateSize = reactive({
+    doubleBedRoom: 0,
+    singleBedRoom: 0,
+    bathroom: 0,
+    livingRoom: 0,
+    publicRatio: 0,
+    mainBuilding: 0,
+    balcany: 0,
+    outBuilding: 0,
+    floorSize: 0,
+    parkingSpace: 0,
+    parkingSize: 0,
+    headCount: 0,
+})
+const totalHousePrice = ref(0)
+const roomRules = {
+    doubleBedRoom: { required: true, message: '請選擇', },
+    singleBedRoom: { required: true, message: '請選擇', },
+    bathroom:  { required: true, message: '請選擇', },
+    publicRatio: { required: true, message: '請選擇', },
+}
+async function onParkingSpaceChanged() {
+    if(!estateSize.parkingSpace){
+        estatePrice.hasParking = ''
+    }
+    await getUnitPriceSync()
+    calculateEstateSize()
+}
+function calculateEstateSize() {
+    const { doubleBedRoom, singleBedRoom, bathroom, livingRoom, publicRatio, balcany, parkingSpace } = estateSize
+    const headCount = 2 * doubleBedRoom + singleBedRoom
+    estateSize.headCount = headCount
+
+    const fortmatRatio = 0.3025
+    const baseInteriorSize = 30 * fortmatRatio
+    const doubleRoomSize = doubleBedRoom * 19 * fortmatRatio
+    const singleRoomSize = singleBedRoom * 13 * fortmatRatio
+    const bathRoomSize = bathroom * 4 * fortmatRatio
+    const diningTableSize = Math.max(2, headCount) * livingRoom *  fortmatRatio
+
+    // 主建物只包含室內空間
+    estateSize.mainBuilding = Number(Number(baseInteriorSize + doubleRoomSize + singleRoomSize + bathRoomSize + diningTableSize).toFixed(2))
+
+    // 附屬建築比如陽台
+    const balcanyPercent = 0.1 * balcany // 10%
+    estateSize.outBuilding = Number(Number(estateSize.mainBuilding * balcanyPercent).toFixed(2))
+
+    // 公設比計算
+    const publicRatioPercent = 1 + publicRatio / 100
+
+    // 停車位權狀
+    if(estatePrice.hasParking) {
+        const parkingSize = 24.75 * parkingSpace * fortmatRatio * publicRatioPercent
+        estateSize.parkingSize = Number(Number(parkingSize).toFixed(2))
+    }
+
+    // 權狀坪數
+    let floorSize = (estateSize.mainBuilding + estateSize.outBuilding) * publicRatioPercent
+    if(estatePrice.hasParking) {
+        floorSize += estateSize.parkingSize
+    }
+    estateSize.floorSize = Number(Number(floorSize).toFixed(2))
+    calculateTotalPrice()
+}
+function calculateTotalPrice() {
+    if(!buildingUnitPrice.value || !estateSize.floorSize){
+        return
+    }
+    // 儲存參數
+    debounce(() => {
+        authFetch(`/user/estatePrice`, {
+            method: 'put',
+            body: estatePrice,
+        })
+    }, 'estatePrice')()
+    debounce(() => {
+        authFetch(`/user/estateSize`, {
+            method: 'put',
+            body: estateSize,
+        })
+    }, 'estateSize')()
+    const beforeFormatPrice =  Number(buildingUnitPrice.value) * Number(estateSize.floorSize)
+    totalHousePrice.value = Number(beforeFormatPrice.toFixed(2))
+    calculateMortgate()
+}
+// 房屋貸款試算
+const mortgage = reactive({
+    buyHouseYear: 0,
+    loanPercent: 0,
+    interestRate: 0,
+    loanTerm: 0,
+    downPayment: 0,
+    loanAmount: 0,
+    monthlyRepay: 0,
+})
+async function calculateMortgate() {
+    const { loanPercent, loanTerm } = mortgage
+    if(!totalHousePrice.value || !loanPercent || !loanTerm){
+        return
+    }
+    debounce(() => {
+        // 儲存參數
+        authFetch(`/user/mortgage`, {
+            method: 'put',
+            body: mortgage,
+        })
+    }, 'mortgage')()
+    const loanAmount = totalHousePrice.value *　mortgage.loanPercent * 100
+    const downPayment = totalHousePrice.value * 10000 - mortgage.loanAmount
+    mortgage.loanAmount = loanAmount
+    mortgage.downPayment = downPayment
+
+    /**
+     * 本息平均攤還
+     * https://zh.wikipedia.org/zh-tw/%E6%9C%AC%E6%81%AF%E5%B9%B3%E5%9D%87%E6%94%A4%E9%82%84
+     */
+    const monthlyInterestRate = 　mortgage.interestRate / 100 / 12
+    const monthCount = mortgage.loanTerm * 12
+
+    const part = Math.pow(1 + monthlyInterestRate, monthCount)
+    const fraction = part * monthlyInterestRate
+    const deno = part - 1
+
+    const averageRepayRate = fraction /  deno
+    mortgage.monthlyRepay = Math.floor(loanAmount * averageRepayRate)
+    drawLifeAssetChart()
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 const yearOptions = ref([])
