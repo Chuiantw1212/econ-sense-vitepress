@@ -9,7 +9,7 @@ outline: deep
 3. 民眾可以快速建立生涯財務觀念，並提共<a href="/calendar.html#聯絡en">回饋意見</a>。
 
 <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
-    登入按鈕邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
+    邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
     <div v-if="!user.uid" id="firebaseui-auth-container"></div>
 </el-dialog>
 
@@ -38,14 +38,19 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="出生日期" prop="dateOfBirth">
+                <el-form-item label="出生年" prop="dateOfBirth">
+                    <el-select v-model="profile.yearOfBirth" placeholder="請選擇" @change="onYearOfBirthChanged()" style="width: 130px">
+                        <el-option v-for="year in yearOptions":key="year":label="year" :value="year"/>
+                    </el-select>
+                </el-form-item>
+                <!-- <el-form-item label="出生日期" prop="dateOfBirth">
                     <el-date-picker
                         v-model="profile.dateOfBirth"
                         type="date"
                         placeholder="選擇出生日期"
-                        @change="handleDateOfBirthChanged()"
+                        @change="onYearOfBirthChanged()"
                     />
-                </el-form-item>
+                </el-form-item> -->
             </el-col>
             <el-col :span="12">
                 <el-form-item label="試算年齡" prop="lifeExpectancy">
@@ -93,9 +98,11 @@ outline: deep
     </template>
 </el-card>
 
-## 2. 需求試算
+## 2. 我可以FIRE嗎？
 
-<el-row>
+財務安全的理財方式，將退休前與退休後的資產分開計算。退休先有保障，當上流老人，再用退休前資產去試算是否可以推關。
+
+<!-- <el-row>
     <el-col :span="4">
         <el-checkbox
             v-model="checkAll"
@@ -112,8 +119,9 @@ outline: deep
             </el-checkbox>
         </el-checkbox-group>
     </el-col>
-</el-row>
-<h3 v-show="checkedNeeds.includes('career')" id="_職業試算" tabindex="-1">職業試算</h3>
+</el-row> -->
+### 職業試算
+
 <el-card v-show="checkedNeeds.includes('career')">
     <el-form label-width="auto">
         <el-row>
@@ -236,7 +244,9 @@ outline: deep
     </template>
     <canvas v-show="career.monthlyBasicSalary" id="incomeChart"></canvas>
 </el-card>
-<h3 v-show="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h3>
+
+### 退休試算
+
 <el-card v-show="checkedNeeds.includes('retirement')">
     <el-form label-width="auto">
         <el-row>
@@ -403,10 +413,256 @@ outline: deep
         </el-collapse>
     </template>
 </el-card>
+
+## 3. 五子登科
+
+退休沒問題以後，這邊就可以安心拼。
+
+<el-card>
+    <el-form label-width="auto">
+        <el-row>
+            <el-col :span="24">
+                <el-form-item label="資產配置">
+                    <el-radio-group v-model="investment.allocationETF" @change="onAllocationChanged()">
+                        <el-radio v-for="(label, key) in porfolioLabels" :value="key">{{label}}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="23">
+                <el-form-item label="範例標的IRR">
+                    <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <br/>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="已備資產" @change="onAssetChanged()">
+                    <el-input-number v-model="investment.presentAsset" :min="0"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="定期定額" @change="onAssetChanged()">
+                    <el-text>{{ Number(investmentAveraging).toLocaleString() }} NTD / 月</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <!-- <el-row>
+            <el-col :span="12">
+                <el-form-item label="第一隻西元年">
+                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="第二隻西元年">
+                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row> -->
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="房貸頭期款" @change="onAssetChanged()">
+                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="房貸利息負債" @change="onAssetChanged()">
+                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="房貸利息負債" @change="onAssetChanged()">
+                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <!-- <el-row>
+            <el-col :span="4">
+                <el-checkbox
+                    v-model="checkAll"
+                    :indeterminate="isIndeterminate"
+                    @change="handleCheckAllChange"
+                >
+                    全部顯示
+                </el-checkbox>
+            </el-col>
+            <el-col :span="20">
+                <el-checkbox-group v-model="checkedNeeds" @change="handleCheckedNeedsChange">
+                    <el-checkbox v-for="need in needs" :key="need" :value="need">
+                    {{ needLabelMap[need] }}
+                    </el-checkbox>
+                </el-checkbox-group>
+            </el-col>
+        </el-row> -->
+        <canvas id="assetChart"></canvas>
+        <el-row>
+            <el-col>
+            </el-col>
+        </el-row>
+    </el-form>
+    <template #footer>
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                <table class="table">
+                    <tr>
+                        <th>參考標的</th>
+                        <th>資產配置</th>
+                        <th>來源網址</th>
+                    </tr>
+                    <tr>
+                        <td>AOA</td>
+                        <td>股8債2</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239729/ishares-aggressive-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AOR</td>
+                        <td>股6債4</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239756/ishares-growth-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AOM</td>
+                        <td>股4債6</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239765/ishares-moderate-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AOK</td>
+                        <td>股2債8</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239733/ishares-conservative-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </el-collapse-item>
+        </el-collapse>
+    </template>
+</el-card>
+
+### 育兒試算
+
+<el-card>
+    <el-form label-width="auto">
+         <el-row>
+            <el-col :span="12">
+                <el-form-item label="配偶貢獻">
+                    <el-input-number v-model="parenting.spouseMonthlyContribution" :min="0" @change="drawLifeAssetChart()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="理想家庭大小">
+                    <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="平均月開支(隻/每年)">
+                    <el-input-number v-model="parenting.childAnnualExpense" :min="0" @change="drawLifeAssetChart()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="養到幾歲放生">
+                    <el-input-number v-model="parenting.independantAge" :min="18" @change="drawLifeAssetChart()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="第一隻西元年">
+                    <el-input-number v-model="parenting.firstBornYear" :min="0" @change="drawLifeAssetChart()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="第二隻西元年">
+                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="drawLifeAssetChart()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+    </el-form>
+    <template #footer>
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                因為缺少資料集或是相關api，故此部分資料會較為粗糙。
+                <ul>
+                    <li>資料來源：
+                        <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
+                            主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
+                        </a>
+                    </li>
+                </ul>
+                <table class="table">
+                    <tr>
+                        <th>2021年家庭組織</th>
+                        <th>雙親</th>
+                        <th>核心</th>
+                    </tr>
+                    <tr>
+                        <td>平均每戶人數</td>
+                        <td>2.00</td>
+                        <td>3.62</td>
+                    </tr>
+                    <tr>
+                        <td>平均每戶就業人數</td>
+                        <td>0.70</td>
+                        <td>1.85</td>
+                    </tr>
+                    <tr>
+                        <td>消費支出</td>
+                        <td>652,023</td>
+                        <td>1,028,621</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            平均每位受扶養者帶來的支出： <br>
+                            (核心消費支出 - 雙親消費支出) / (核心每戶人數 - 核心就業人數) = 212,767
+                        </td>
+                    </tr>
+                </table>
+            </el-collapse-item>
+        </el-collapse>
+    </template>
+</el-card>
+
 <h3 v-show="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
 <el-card v-show="checkedNeeds.includes('housing')">
     <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="estatePrice" :rules="buildingRules" label-width="auto">
-        <p>資料筆數較多，需要等待。</p>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="居住縣市" prop="county">
@@ -467,7 +723,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="雙人房數量">
-                    <el-input-number v-model="estateSize.doubleBedRoom" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.doubleBedRoom" :min="0" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -476,7 +732,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="單人房數量">
-                    <el-input-number v-model="estateSize.singleBedRoom" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.singleBedRoom" :min="0" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -485,7 +741,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="客廳+餐廳">
-                    <el-input-number v-model="estateSize.livingRoom" :min="1" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.livingRoom" :min="1" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -494,7 +750,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="衛浴數量">
-                    <el-input-number v-model="estateSize.bathroom" :min="1" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.bathroom" :min="1" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -506,7 +762,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="陽台數量">
-                    <el-input-number v-model="estateSize.balcany" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.balcany" :min="0" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -530,7 +786,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="公設比(%)" >
-                    <el-input-number v-model="estateSize.publicRatio" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.publicRatio" :min="0" @change="calculateEstateSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -656,6 +912,9 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
+                <el-form-item label="預估貸款成數" prop="floorSize">
+                    <a href="https://member.jcic.org.tw/main_member/MorgageQuery.aspx" target="_blank">住宅貸款統計查詢網</a>
+                </el-form-item>
             </el-col>
         </el-row>
         <el-row>
@@ -665,8 +924,8 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="預估頭期款" prop="floorSize">
-                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
+                <el-form-item label="預估貸款" prop="floorSize">
+                    <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -674,8 +933,8 @@ outline: deep
             <el-col :span="12">
             </el-col>
             <el-col :span="12">
-                <el-form-item label="預估貸款" prop="floorSize">
-                    <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }} NTD</el-text>
+                <el-form-item label="預估頭期款" prop="floorSize">
+                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -704,169 +963,11 @@ outline: deep
     <template #footer>
         <el-collapse>
             <el-collapse-item title="資料說明" name="1" :border="true">
-                試算利息：<a href="https://www.cbc.gov.tw/tw/lp-370-1.html" target="_blank">央行貼放利率
-                </a>
-            </el-collapse-item>
-        </el-collapse>
-    </template>
-</el-card>
-<h3 v-show="checkedNeeds.includes('parenting')" id="_育兒試算" tabindex="-1">育兒試算</h3>
-<el-card v-show="checkedNeeds.includes('parenting')">
-    <el-form label-width="auto">
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="平均月開支(隻/每年)">
-                    <el-input-number v-model="parenting.childAnnualExpense" :min="0" @change="onChildMonthlyExpenseChanged()"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="養到幾歲放生">
-                    <el-input-number v-model="parenting.independantAge" :min="18" @change="onIndependantAgeChanged()"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="第一隻西元年">
-                    <el-input-number v-model="parenting.firstBornYear" :min="0" @change="onFirstBornYearChanged()"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="第二隻西元年">
-                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
-    </el-form>
-    <template #footer>
-        <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
-                因為缺少資料集或是相關api，故此部分資料會較為粗糙。
                 <ul>
-                    <li>資料來源：
-                        <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
-                            主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
-                        </a>
+                    <li>
+                        試算利息：<a href="https://www.cbc.gov.tw/tw/lp-370-1.html" target="_blank">央行貼放利率</a>
                     </li>
                 </ul>
-                <table class="table">
-                    <tr>
-                        <th>2021年家庭組織</th>
-                        <th>雙親</th>
-                        <th>核心</th>
-                    </tr>
-                    <tr>
-                        <td>平均每戶人數</td>
-                        <td>2.00</td>
-                        <td>3.62</td>
-                    </tr>
-                    <tr>
-                        <td>平均每戶就業人數</td>
-                        <td>0.70</td>
-                        <td>1.85</td>
-                    </tr>
-                    <tr>
-                        <td>消費支出</td>
-                        <td>652,023</td>
-                        <td>1,028,621</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            平均每位受扶養者帶來的支出： <br>
-                            (核心消費支出 - 雙親消費支出) / (核心每戶人數 - 核心就業人數) = 212,767
-                        </td>
-                    </tr>
-                </table>
-            </el-collapse-item>
-        </el-collapse>
-    </template>
-</el-card>
-
-## 3. 退休前資產檢驗
-
-<el-card>
-    <el-form label-width="auto">
-        <el-row>
-            <el-col :span="24">
-                <el-form-item label="資產配置">
-                    <el-radio-group v-model="investment.allocationETF" @change="onAllocationChanged()">
-                        <el-radio v-for="(label, key) in porfolioLabels" :value="key">{{label}}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="23">
-                <el-form-item label="範例標的IRR">
-                    <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks" :disabled="true"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <br/>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="已備資產" @change="onAssetChanged()">
-                    <el-input-number v-model="investment.presentAsset" :min="0"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="定期定額" @change="onAssetChanged()">
-                    <el-text>{{ Number(investmentAveraging).toLocaleString() }} NTD</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <canvas id="assetChart"></canvas>
-        <el-row>
-            <el-col>
-            </el-col>
-        </el-row>
-    </el-form>
-    <template #footer>
-        <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
-                <table class="table">
-                    <tr>
-                        <th>參考標的</th>
-                        <th>資產配置</th>
-                        <th>來源網址</th>
-                    </tr>
-                    <tr>
-                        <td>AOA</td>
-                        <td>股8債2</td>
-                        <td>
-                            <a href="https://www.ishares.com/us/products/239729/ishares-aggressive-allocation-etf" target="_blank">
-                                來源網址
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>AOR</td>
-                        <td>股6債4</td>
-                        <td>
-                            <a href="https://www.ishares.com/us/products/239756/ishares-growth-allocation-etf" target="_blank">
-                                來源網址
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>AOM</td>
-                        <td>股4債6</td>
-                        <td>
-                            <a href="https://www.ishares.com/us/products/239765/ishares-moderate-allocation-etf" target="_blank">
-                                來源網址
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>AOK</td>
-                        <td>股2債8</td>
-                        <td>
-                            <a href="https://www.ishares.com/us/products/239733/ishares-conservative-allocation-etf" target="_blank">
-                                來源網址
-                            </a>
-                        </td>
-                    </tr>
-                </table>
             </el-collapse-item>
         </el-collapse>
     </template>
@@ -906,6 +1007,7 @@ async function initializeApp () {
     firebase.auth().onAuthStateChanged(async (firebaseUser)=> {
         if(!firebaseUser) {
             setIdToken()
+            getUserFormSync()
             return
         }
         const { displayName = '註冊用戶', email, photoURL, uid } = firebaseUser
@@ -1038,39 +1140,59 @@ async function setSelecOptionSync() {
     }
 }
 async function getUserFormSync(firebaseUser) {
-    const { uid } = firebaseUser
+    const initForm = {
+        retirement: {
+            age: 65,
+            pension: {
+                irrOverDecade: 4.76
+            },
+            percentileRank: 50,
+            qualityLevel: 3
+        },
+        investment: {
+            allocationETF: 'aok',
+        },
+        parenting: {
+            childAnnualExpense: 212767,
+            independantAge: 18,
+        },
+        estateSize: {
+            publicRatio: 35,
+            bathroom: 1,
+            livingRoom: 1,
+            balcany: 1,
+            parkingSpace: 1
+        },
+        mortgage: {
+            loanPercent: 80,
+            loanTerm:25,
+        },
+    }
     let userForm = {}
     try {
-        const res = await authFetch(`/user/${uid}`, {
-            method: 'post'
-        })
-        userForm = await res.json()
+        if(firebaseUser) {
+            const { uid } = firebaseUser
+            const res = await authFetch(`/user/${uid}`, {
+                method: 'post'
+            })
+            userForm = await res.json()
+        }
     } catch (error) {
         const res = await authFetch(`/user/new`, {
             method: 'post'
         })
         userForm = await res.json()
-        // 前端初始預設值
-        userForm.retirement.age = 65
-        userForm.retirement.pension.irrOverDecade = 4.76
-        userForm.estateSize.publicRatio = 35
-        userForm.estateSize.bathroom = 1
-        userForm.estateSize.livingRoom = 1
-        userForm.estateSize.balcany = 1
-        userForm.estateSize.parkingSpace = 1
-        userForm.mortgage.loanPercent = 80
-        userForm.mortgage.loanTerm = 25
-        userForm.parenting.childAnnualExpense = 212767
-        userForm.parenting.independantAge = 18
     } finally {
-        Object.assign(profile, userForm.profile)
-        Object.assign(career, userForm.career)
-        Object.assign(retirement, userForm.retirement)
-        Object.assign(estatePrice, userForm.estatePrice)
-        Object.assign(estateSize, userForm.estateSize)
-        Object.assign(mortgage, userForm.mortgage)
-        Object.assign(parenting, userForm.parenting)
-        Object.assign(investment, userForm.investment)
+        Object.assign(initForm, userForm)
+        Object.assign(profile, initForm.profile)
+        Object.assign(career, initForm.career)
+        Object.assign(retirement, initForm.retirement)
+        Object.assign(investment, initForm.investment)
+        Object.assign(estatePrice, initForm.estatePrice)
+        Object.assign(estateSize, initForm.estateSize)
+        Object.assign(mortgage, initForm.mortgage)
+        Object.assign(parenting, initForm.parenting)
+        console.log(investment)
         initializeCalculator()
     }
 }
@@ -1090,39 +1212,39 @@ async function initializeCalculator() {
         towns.value = townMap[estatePrice.county]
     }
     await getUnitPriceSync()
-    calculateFloorSize()
+    calculateEstateSize()
     calculateMortgate() // will calculate asset
-    // 生子
     // 投資
     calculatePortfolioMarks()
 }
 // 基本資料
 const profile = reactive({
-    dateOfBirth: new Date().toLocaleString(),
+    yearOfBirth: '',
+    dateOfBirth: '',
     gender: '',
     age: 0,
     lifeExpectancy: 0,
 })
-function handleDateOfBirthChanged() {
+
+function onYearOfBirthChanged() {
     calculateLifeExpectancyAndAge()
 }
 function handleGenderChanged() {
     calculateLifeExpectancyAndAge()
 }
 async function calculateLifeExpectancyAndAge() {
-    const { dateOfBirth, gender, age } = profile
-    if(dateOfBirth && gender){
+    const { yearOfBirth, gender, age } = profile
+    if(yearOfBirth && gender){
         const ceYear = new Date().getFullYear()
-        const yearOfBirth =  new Date(dateOfBirth).getFullYear()
         const calculateAge = ceYear - yearOfBirth
-
-        const res = await authFetch(`/calculate/lifeExpectancy`, {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/lifeExpectancy`, {
             method: 'post',
-            body: {
+            body: JSON.stringify({
                 ceYear,
                 age: calculateAge,
                 gender,
-            }
+            }),
+            headers: {'Content-Type': 'application/json'}
         })
         const lifeExpectancy = await res.json()
         profile.age = calculateAge
@@ -1141,11 +1263,12 @@ async function calculateLifeExpectancyAndAge() {
 // 需求分析
 const checkAll = ref(false)
 const isIndeterminate = ref(true)
-const needs = ['career','retirement', 'housing', 'parenting',]
-const checkedNeeds = ref(['career', 'retirement', 'housing', 'parenting',])
+const needs = ['career','retirement', 'investment','housing', 'parenting',]
+const checkedNeeds = ref(['career', 'retirement', 'investment', 'housing', 'parenting',])
 const needLabelMap = {
     career: '職業試算',
     retirement: '退休試算',
+    investment: '退休前資產試算',
     housing: '購屋試算',
     parenting: '育兒試算',
 }
@@ -1186,7 +1309,7 @@ function onMonthlyBasicSalaryChanged() {
     calculateInsuranceSalaryMin()
     drawChartAndCalculateIncome()
     calculateMonthlyInvesting()
-    const { monthlyBasicSalary, } = career 
+    const { monthlyBasicSalary, } = career
     career.employeeWelfareFund = Math.floor(monthlyBasicSalary * 0.5 / 100)
 }
 function onInsuranceSalaryChanged() {
@@ -1201,7 +1324,7 @@ function onPensionSalaryChanged() {
     drawChartAndCalculateIncome()
 }
 function calculatePensionSalaryMin() {
-    const { monthlyBasicSalary, foodExpense, } = career 
+    const { monthlyBasicSalary, foodExpense, } = career
     const salaryMin = monthlyBasicSalary + foodExpense
     career.pension.salaryMin = salaryMin
     career.pension.salary = Math.max(career.pension.salary, salaryMin)
@@ -1229,7 +1352,7 @@ function onPensionContributionRateChanged() {
 function calculateHealthInsurancePremium() {
     const { salary, salaryMin } = career.pension
     const salaryBasis = Math.max(salary, salaryMin)
-    const healthInsutancePremiumRate =  5.17 / 100 
+    const healthInsutancePremiumRate =  5.17 / 100
     const employeeContributionRate = 30 / 100
     career.healthInsutancePremium = Math.ceil(salaryBasis * healthInsutancePremiumRate * employeeContributionRate)
 }
@@ -1250,8 +1373,9 @@ function onMonthlyExpenseChanged() {
     calculateMonthlyInvesting()
 }
 function calculateMonthlyInvesting() {
-    const { monthlyNetPay = 0, monthlyExpense = 0 } = career
-    investmentAveraging.value = Math.floor(monthlyNetPay - monthlyExpense)
+    const { monthlyNetPay = 0, monthlyExpense = 0, monthlyNetPayEstimated } = career
+    const monthlyNetPayBasis = monthlyNetPay || monthlyNetPayEstimated
+    investmentAveraging.value = Math.floor(monthlyNetPayBasis - monthlyExpense)
 }
 function drawChartAndCalculateIncome() {
     debounce(() => {
@@ -1268,7 +1392,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({  
             label: '本薪',
             data: [pv, fv],
-            datasetIndex: 0, 
+            datasetIndex: 0,
         })
 
         pv = fv
@@ -1276,7 +1400,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({
             label: '伙食津貼',
             data: [pv, fv],
-            datasetIndex: 0, 
+            datasetIndex: 0,
         })
 
         pv = fv
@@ -1284,7 +1408,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({
             label: '職工福利金',
             data: [pv, fv],
-            datasetIndex: 1, 
+            datasetIndex: 1,
         })
 
         pv = fv
@@ -1292,7 +1416,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({
             label: '健保',
             data: [pv, fv],
-            datasetIndex: 1, 
+            datasetIndex: 1,
         })
 
         pv = fv
@@ -1300,7 +1424,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({
             label: '勞保',
             data: [pv, fv],
-            datasetIndex: 1, 
+            datasetIndex: 1,
         })
 
         pv = fv
@@ -1308,15 +1432,16 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({
             label: '勞退',
             data: [pv, fv],
-            datasetIndex: 1, 
+            datasetIndex: 1,
         })
 
         career.monthlyNetPayEstimated = fv
+        calculateMonthlyInvesting()
         fv = career.monthlyNetPay || fv
         dataAndDataIndex.push({
             label: '月實領',
             data: [fv, 0],
-            datasetIndex: 0, 
+            datasetIndex: 0,
         })
 
         if(career.monthlyExpense) {
@@ -1325,7 +1450,7 @@ function drawChartAndCalculateIncome() {
             dataAndDataIndex.push({
                 label: '月支出',
                 data: [pv, fv],
-                datasetIndex: 1, 
+                datasetIndex: 1,
             })
         }
 
@@ -1333,7 +1458,7 @@ function drawChartAndCalculateIncome() {
             dataAndDataIndex.push({
                 label: '定期定額',
                 data: [fv, 0],
-                datasetIndex: 0, 
+                datasetIndex: 0,
             })
         }
 
@@ -1482,19 +1607,19 @@ async function calculateRetireLife() {
     retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
 }
 async function drawRetirementPensionChart() {
-    debounce(() => {   
+    debounce(() => {
         // 儲存參數
         authFetch(`/user/retirement`, {
             method: 'put',
             body: retirement,
         })
-        // 計算資料   
+        // 計算資料
         const {
-            employerContribution, 
-            employeeContrubution, 
-            employerContributionIncome, 
-            employeeContrubutionIncome, 
-            irrOverDecade 
+            employerContribution,
+            employeeContrubution,
+            employerContributionIncome,
+            employeeContrubutionIncome,
+            irrOverDecade
         } = retirement.pension
         let inflationModifier = 1
 
@@ -1517,7 +1642,7 @@ async function drawRetirementPensionChart() {
             fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
             pv = fv
         }
-        retirement.pension.finalValue = fv
+        retirement.pension.finalValue = fv || 0
 
         // 退休後退休支出
         for(let i = 0;i < retirement.lifeExpectancy; i++) {
@@ -1552,6 +1677,147 @@ async function drawRetirementPensionChart() {
         pensionChartInstance = shallowRef(chartInstance)
     }, 'retirement',)()
 }
+// 投資試算
+const investment = reactive({
+    allocationETF: '',
+    stockPercentage: 0,
+    presentAsset: 0,
+})
+const investmentAveraging = ref(0)
+const allocationQuartileMarks = reactive({})
+let investmentChartInstance = ref(null)
+function calculateRetirementQuartileMarks() {
+    retirementQuartile.value.forEach((item, index) => {
+        const { value } = item
+        const percentileRank = (index + 1) * 20 - 10
+        const retirementMonthlyExpense = value / 12
+        expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
+    })
+}
+function onAllocationChanged() {
+    calculatePortfolioMarks()
+    drawLifeAssetChart()
+}
+function calculatePortfolioMarks() {
+    const { allocationETF } = investment
+    const allocationLabels = Object.keys(porfolioLabels)
+    const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
+    const stockPercentage = Math.floor((allocationIndex + 1) * 20)
+    investment.stockPercentage = stockPercentage
+    allocationLabels.forEach((label, index) => {
+        const irr = portfolioIRR[label]
+        const stockPercentage = Math.floor((index + 1) * 20)
+        allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
+    })
+}
+function onAssetChanged() {
+    drawLifeAssetChart()
+}
+function onIncomeChanged() {
+    drawLifeAssetChart()
+}
+function onBuyHouseYearChanged() {
+    drawLifeAssetChart()
+}
+function drawLifeAssetChart() {
+    debounce(() => {
+        // 儲存參數
+        authFetch(`/user/parenting`, {
+            method: 'put',
+            body: parenting,
+        })
+    }, 'parenting')()
+    debounce(() => {
+        authFetch(`/user/investment`, {
+            method: 'put',
+            body: investment,
+        })
+    }, 'investment')()
+
+    let inflationModifier = 1
+
+    let pv = investment.presentAsset
+    const irr = portfolioIRR[investment.allocationETF]
+    let fv = 0 // fv = pv * irr + pmt
+    const labels = []
+    const datasetData = []
+    for(let year = currentYear;year < currentYear + retirement.insurance.futureSeniority; year++) {
+        labels.push(year)
+        datasetData.push(pv)
+
+        // 基本資料
+        const { yearOfBirth } = profile
+
+        // 影響存量重大事件
+        const { buyHouseYear } = mortgage
+        if (year === buyHouseYear) {
+            pv -= mortgage.downPayment * inflationModifier
+        }
+
+        let calculatedPmt = 0
+        // 退休開支影響收入與支出
+        const reitrementStartYear = yearOfBirth + retirement.age
+        if(year <= reitrementStartYear) {
+            calculatedPmt = investmentAveraging.value * 12 * inflationModifier
+        }
+        // 房貸利息影響每月儲蓄
+        const mortgageStartYear = buyHouseYear
+        const mortgageEndYear = buyHouseYear + mortgage.loanTerm
+        if(mortgageStartYear <= year && year < mortgageEndYear) {
+            calculatedPmt -= mortgage.monthlyRepay * 12
+        }
+        // 育兒開支影響每月儲蓄
+        const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, spouseMonthlyContribution } = parenting
+        const firstBornEndYear = firstBornYear + independantAge
+        const secondBornEndYear = secondBornYear + independantAge
+        const hasFirstBorn = currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear
+        const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
+        if(hasFirstBorn) {
+            calculatedPmt -= childAnnualExpense * inflationModifier
+        }
+        if(hasSecondBorn) {
+            calculatedPmt -= childAnnualExpense * inflationModifier
+        }
+        if(hasFirstBorn || hasSecondBorn) {
+            calculatedPmt += spouseMonthlyContribution * inflationModifier
+        }
+
+        // 計算複利終值
+        inflationModifier *= 1 + inflationRate.value / 100
+        fv = pv * (1 + irr / 100) + calculatedPmt
+        pv = fv
+    }
+    const chartData = {
+        datasets: [
+            {
+                label: '退休前資產',
+                data: datasetData,
+            }
+        ],
+        labels
+    }
+
+    if(investmentChartInstance.value) {
+        investmentChartInstance.value.data = chartData
+        investmentChartInstance.value.update()
+        return
+    }
+
+    const ctx = document.getElementById('assetChart')
+    const chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: chartData
+    })
+    investmentChartInstance = shallowRef(chartInstance)
+}
+// 育兒試算
+const parenting = reactive({
+    childAnnualExpense: 0,
+    spouseMonthlyContribution: 0,
+    independantAge: 0,
+    firstBornYear: 0,
+    secondBornYear: 0,
+})
 // 購屋分析
 const estatePrice = reactive({
     county: '',
@@ -1641,6 +1907,7 @@ const estateSize = reactive({
     floorSize: 0,
     parkingSpace: 0,
     parkingSize: 0,
+    headCount: 0,
 })
 const totalHousePrice = ref(0)
 const roomRules = {
@@ -1654,17 +1921,18 @@ async function onParkingSpaceChanged() {
         estatePrice.hasParking = ''
     }
     await getUnitPriceSync()
-    calculateFloorSize()
+    calculateEstateSize()
 }
-function calculateFloorSize() {
+function calculateEstateSize() {
     const { doubleBedRoom, singleBedRoom, bathroom, livingRoom, publicRatio, balcany, parkingSpace } = estateSize
+    const headCount = 2 * doubleBedRoom + singleBedRoom
+    estateSize.headCount = headCount
 
     const fortmatRatio = 0.3025
     const baseInteriorSize = 30 * fortmatRatio
     const doubleRoomSize = doubleBedRoom * 19 * fortmatRatio
     const singleRoomSize = singleBedRoom * 13 * fortmatRatio
     const bathRoomSize = bathroom * 4 * fortmatRatio
-    const headCount = 2 * doubleBedRoom + singleBedRoom
     const diningTableSize = Math.max(2, headCount) * livingRoom *  fortmatRatio
 
     // 主建物只包含室內空間
@@ -1735,8 +2003,8 @@ async function calculateMortgate() {
         })
     }, 'mortgage')()
     const loanAmount = totalHousePrice.value *　mortgage.loanPercent * 100
-    const downPayment = totalHousePrice.value * 10000 - mortgage.loanAmount
     mortgage.loanAmount = loanAmount
+    const downPayment = totalHousePrice.value * 10000 - loanAmount
     mortgage.downPayment = downPayment
 
     /**
@@ -1754,158 +2022,16 @@ async function calculateMortgate() {
     mortgage.monthlyRepay = Math.floor(loanAmount * averageRepayRate)
     drawLifeAssetChart()
 }
-// 育兒試算
-const parenting = reactive({
-    childAnnualExpense: 0,
-    independantAge: 0,
-    firstBornYear: 0,
-    secondBornYear: 0,
-})
-function onChildMonthlyExpenseChanged() {
-    drawLifeAssetChart()
-}
-function onIndependantAgeChanged() {
-    drawLifeAssetChart()
-}
-function onFirstBornYearChanged() {
-    drawLifeAssetChart()
-}
-function onSecondBornYearChanged() {
-    drawLifeAssetChart()
-}
-// 投資試算
-const investment = reactive({
-    allocationETF: '',
-    stockPercentage: 0,
-    presentAsset: 0,
-})
-const investmentAveraging = ref(0)
-const allocationQuartileMarks = reactive({})
-let investmentChartInstance = ref(null)
-function calculateRetirementQuartileMarks() {
-    retirementQuartile.value.forEach((item, index) => {
-        const { value } = item
-        const percentileRank = (index + 1) * 20 - 10
-        const retirementMonthlyExpense = value / 12
-        expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
-    })
-}
-function onAllocationChanged() {
-    calculatePortfolioMarks()
-    drawLifeAssetChart()
-}
-function calculatePortfolioMarks() {
-    const { allocationETF } = investment
-    const allocationLabels = Object.keys(porfolioLabels)
-    const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
-    const stockPercentage = Math.floor((allocationIndex + 1) * 20)
-    investment.stockPercentage = stockPercentage
-    allocationLabels.forEach((label, index) => {
-        const irr = portfolioIRR[label]
-        const stockPercentage = Math.floor((index + 1) * 20)
-        allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
-    })
-}
-function onAssetChanged() {
-    drawLifeAssetChart()
-}
-function onIncomeChanged() {
-    drawLifeAssetChart()
-}
-function onBuyHouseYearChanged() {
-    drawLifeAssetChart()
-}
-function drawLifeAssetChart() {
-    debounce(() => {
-        // 儲存參數
-        authFetch(`/user/parenting`, {
-            method: 'put',
-            body: parenting,
-        })
-    }, 'parenting')()
-    debounce(() => {
-        authFetch(`/user/investment`, {
-            method: 'put',
-            body: investment,
-        })
-    }, 'investment')()
-
-    let inflationModifier = 1
-
-    let pv = investment.presentAsset
-    const irr = portfolioIRR[investment.allocationETF]
-    let fv = 0 // fv = pv * irr + pmt
-    const labels = []
-    const datasetData = []
-    for(let year = currentYear;year < currentYear + retirement.insurance.futureSeniority; year++) {
-        labels.push(year)
-        datasetData.push(pv)
-
-        // 基本資料
-        const { dateOfBirth } = profile
-        const birthYear = new Date(dateOfBirth).getFullYear()
-
-        // 影響存量重大事件
-        const { buyHouseYear } = mortgage
-        if (year === buyHouseYear) {
-            pv -= mortgage.downPayment * inflationModifier
-        }
-
-        let calculatedPmt = 0
-        // 退休開支影響收入與支出
-        const reitrementStartYear = birthYear + retirement.age
-        if(year <= reitrementStartYear) {
-            calculatedPmt = investmentAveraging.value * 12 * inflationModifier
-        }
-        // 房貸利息影響每月儲蓄
-        const mortgageStartYear = buyHouseYear
-        const mortgageEndYear = buyHouseYear + mortgage.loanTerm
-        if(mortgageStartYear <= year && year < mortgageEndYear) {
-            calculatedPmt -= mortgage.monthlyRepay * 12
-        }
-        // 育兒開支影響每月儲蓄
-        const { firstBornYear, secondBornYear, independantAge, childAnnualExpense } = parenting
-        const firstBornEndYear = firstBornYear + independantAge
-        const secondBornEndYear = secondBornYear + independantAge
-        if(currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear) {
-            calculatedPmt -= childAnnualExpense * inflationModifier
-        }
-        if(currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear) {
-            calculatedPmt -= childAnnualExpense * inflationModifier
-        }
-
-        // 計算複利終值
-        inflationModifier *= 1 + inflationRate.value / 100
-        fv = pv * (1 + irr / 100) + calculatedPmt
-        pv = fv
-    }
-    const chartData = {
-        datasets: [
-            {
-                label: '退休前資產',
-                data: datasetData,
-            }
-        ],
-        labels
-    }
-
-    if(investmentChartInstance.value) {
-        investmentChartInstance.value.data = chartData
-        investmentChartInstance.value.update()
-        return
-    }
-
-    const ctx = document.getElementById('assetChart')
-    const chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: chartData
-    })
-    investmentChartInstance = shallowRef(chartInstance)
-}
 // 沒什麼會去動到的Mounted&Debounce放底下
+const yearOptions = ref([])
 onMounted(async () => {
+    const yearOptionsTemp = []
+    for(let i = 0;i < 60; i++){
+        yearOptionsTemp.push(currentYear - i - 18)
+    }
+    yearOptions.value = yearOptionsTemp
     initializeApp()
-    setSelecOptionSync()
+    await setSelecOptionSync()
     initializeCalculator()
     window?.addEventListener('resize', onResize)
 })
