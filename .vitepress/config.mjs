@@ -78,7 +78,7 @@ export default defineConfig({
         link: '/engineer/outline',
         collapsed: false,
         items: [
-          { text: '開源理財計算機(製作中)', link: '/engineer/plan' },
+          { text: '開源財務規劃表', link: '/engineer/plan' },
           { text: '電腦DIY', link: '/engineer/computer' },
           { text: 'VitePress無本部落格(待驗證)', link: '/engineer/blog' },
           // { text: '網站技術架構(未完成)', link: '/engineer/web' },
