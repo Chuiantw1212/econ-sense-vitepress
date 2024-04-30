@@ -860,6 +860,7 @@ const user = reactive({
     photoURL: '',
     uid: ''
 })
+const idToken = ref()
 const counties = ref([])
 const townMap = reactive({})
 const buildingTypes = ref([])
@@ -899,6 +900,7 @@ async function initializeApp () {
     })
     firebase.auth().onAuthStateChanged(async (firebaseUser)=> {
         if(!firebaseUser) {
+            idToken.value = null
             return
         }
         const { displayName = '註冊用戶', email, photoURL, uid } = firebaseUser
@@ -907,6 +909,7 @@ async function initializeApp () {
         user.email = email
         user.displayName = displayName
         dialogVisible.value = false
+        idToken.value = await firebase.auth().currentUser.getIdToken()
         await getUserFormSync(firebaseUser)
         initializeCalculator()
     })
@@ -969,23 +972,20 @@ async function signOut() {
 }
 async function getUserFormSync(firebaseUser) {
     const { uid } = firebaseUser
-    const idToken = await firebase.auth().currentUser.getIdToken()
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}/user/${uid}`, {
         method: 'post',
         headers: {
-            Authorization: `Bearer ${idToken}`
+            Authorization: `Bearer ${idToken.value}`
         }
     })
     let userForm = {}
     try {
         userForm = await res.json()
     } catch (error) {
-        console.log(error.message || error)
-        const idToken = await firebase.auth().currentUser.getIdToken()
         userForm = await fetch(`${import.meta.env.VITE_BASE_URL}/user/new`, {
             method: 'post',
             headers: {
-                Authorization: `Bearer ${idToken}`
+                Authorization: `Bearer ${idToken.value}`
             }
         })
         // 前端初始預設值
@@ -1069,10 +1069,14 @@ async function calculateLifeExpectancyAndAge() {
         calculateFutureSeniority()
         drawRetirementPensionChart()
 
-        fetch(`${import.meta.env.VITE_BASE_URL}/calculate/lifeExpectancy`, {
-            method: 'post',
+        console.log({profile})
+        fetch(`${import.meta.env.VITE_BASE_URL}/user`, {
+            method: 'put',
             body: JSON.stringify(profile),
-            headers: {'Content-Type': 'application/json'}
+            headers: {
+                Authorization: `Bearer ${idToken.value}`,
+                'Content-Type': 'application/json'
+            }
         })
     }
 }
