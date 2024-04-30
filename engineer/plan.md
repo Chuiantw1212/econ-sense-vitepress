@@ -123,7 +123,7 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="伙食費">
+                <el-form-item label="伙食津貼">
                     <el-text>{{ Number(career.foodExpense).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
@@ -183,7 +183,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="月支出">
-                    <el-input-number v-model="career.monthlyExpense" :min="0" @change="onMonthlyExpenseChanged()"/>
+                    <el-input-number v-model="career.monthlyExpense" :min="0" :max="career.monthlyNetPay" @change="onMonthlyExpenseChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -207,6 +207,7 @@ outline: deep
             </el-collapse-item>
         </el-collapse>
     </template>
+    <canvas id="incomeChart"></canvas>
 </el-card>
 <h3 v-show="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h3>
 <el-card v-show="checkedNeeds.includes('retirement')">
@@ -1051,9 +1052,10 @@ async function initializeCalculator() {
     // 基本資料
     await calculateLifeExpectancyAndAge()
     // 職業
+    onMonthlyBasicSalaryChanged()
     onInsuranceSalaryChanged()
     onPensionSalaryChanged()
-    calculateMonthlyAveraging()
+    onMonthlyEATChanged()
     // 退休
     calculateFutureSeniority()
     calculateRetirementQuartileMarks()
@@ -1140,6 +1142,7 @@ const career = reactive({
         salaryMin: 0,
         rate: 0,
         monthlyContribution: 0,
+        monthlyContributionEmployee: 0,
     },
     healthInsutancePremium: 0,
     insurance: {
@@ -1149,13 +1152,19 @@ const career = reactive({
     monthlyNetPay: 0,
     monthlyExpense: 0,
 })
+let incomeChartInstance = ref(null)
 function onMonthlyBasicSalaryChanged() {
     calculatePensionSalaryMin()
-    calculateCareerPensionTotal()
+    drawIncomeChart()
 }
 function onInsuranceSalaryChanged() {
     calculateInsuranceExpense()
     calculateMonthlyAnnuity()
+}
+function onPensionSalaryChanged() {
+    calculateCareerPensionTotal()
+    calculateHealthInsurancePremium()
+    drawIncomeChart()
 }
 function calculatePensionSalaryMin() {
     const { monthlyBasicSalary, foodExpense, } = career 
@@ -1169,12 +1178,9 @@ function calculateInsuranceExpense() {
     const premiumRate =  20 / 100
     career.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate)
 }
-function onPensionSalaryChanged() {
-    calculateCareerPensionTotal()
-    calculateHealthInsurancePremium()
-}
 function onPensionContributionRateChanged() {
     calculateCareerPensionTotal()
+    drawIncomeChart()
 }
 function calculateHealthInsurancePremium() {
     const { salary } = career.pension
@@ -1185,6 +1191,7 @@ function calculateHealthInsurancePremium() {
 function calculateCareerPensionTotal() {
     const { salary, rate } = career.pension
     const maxContribution = Math.min(salary, 150000)
+    career.pension.monthlyContributionEmployee = Math.floor(maxContribution * rate / 100)
     career.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100)
     drawRetirementPensionChart()
 }
@@ -1197,6 +1204,127 @@ function onMonthlyExpenseChanged() {
 function calculateMonthlyAveraging() {
     const { monthlyNetPay, monthlyExpense } = career
     investmentAveraging.value = monthlyNetPay - monthlyExpense
+}
+function drawIncomeChart() {
+    debounce(async () => {
+        // 儲存參數
+        await authFetch(`/user/career`, {
+            method: 'put',
+            body: career,
+        })
+        let pv = 0
+        let fv = career.monthlyBasicSalary
+        const dataAndDataIndex = []
+        dataAndDataIndex.push({  
+            label: '本薪',
+            data: [pv, fv],
+            datasetIndex: 0, 
+        })
+
+        // 繪製圖表
+        pv = fv
+        fv += career.foodExpense
+        dataAndDataIndex.push({
+            label: '伙食津貼',
+            data: [pv, fv],
+            datasetIndex: 0, 
+        })
+
+        pv = fv
+        fv -= career.healthInsutancePremium
+        dataAndDataIndex.push({
+            label: '健保',
+            data: [pv, fv],
+            datasetIndex: 1, 
+        })
+
+        pv = fv
+        fv -= career.insurance.expense
+        dataAndDataIndex.push({
+            label: '勞保',
+            data: [pv, fv],
+            datasetIndex: 1, 
+        })
+
+        pv = fv
+        fv -= career.pension.monthlyContributionEmployee
+        dataAndDataIndex.push({
+            label: '勞退',
+            data: [pv, fv],
+            datasetIndex: 1, 
+        })
+
+        pv = fv
+        fv -= fv
+        dataAndDataIndex.push({
+            label: '試算實領',
+            data: [fv, pv],
+            datasetIndex: 0, 
+        })
+
+        const labels = dataAndDataIndex.map(item => item.label)
+        const data0 = dataAndDataIndex.map(item => {
+            if(item.datasetIndex === 0){
+                return item.data
+            } else {
+                return [0, 0]
+            }
+        })
+        const data1 = dataAndDataIndex.map(item => {
+            if(item.datasetIndex === 1){
+                return item.data
+            } else {
+                return [0, 0]
+            }
+        })
+
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: '應付月薪',
+                    data: data0,
+                },
+                {
+                    label: '應扣項目',
+                    data: data1
+                },
+            ]
+        }
+        if(incomeChartInstance.value) {
+            incomeChartInstance.value.data = data
+            incomeChartInstance.value.update()
+            return
+        }
+        const ctx = document.getElementById('incomeChart')
+        const chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: tooltipFormat,
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+        })
+        incomeChartInstance = shallowRef(chartInstance)
+    })()
+}
+function tooltipFormat(tooltipItems) {
+    const { raw } = tooltipItems
+    const variedValue = raw[1] - raw[0]
+    return Number(variedValue).toLocaleString()
 }
 // 退休試算
 const retirement = reactive({
@@ -1276,7 +1404,13 @@ async function calculateRetireLife() {
     retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
 }
 async function drawRetirementPensionChart() {
-    debounce(async () => {        
+    debounce(async () => {   
+        // 儲存參數
+        await authFetch(`/user/career`, {
+            method: 'put',
+            body: career,
+        })
+        // 計算資料   
         const {
             employerContribution, 
             employeeContrubution, 
@@ -1318,17 +1452,6 @@ async function drawRetirementPensionChart() {
             fv = Math.floor(pv * (1 + irr / 100) + pmt)
             pv = fv
         }
-
-        // 儲存參數
-        await authFetch(`/user/career`, {
-            method: 'put',
-            body: career,
-        })
-        await authFetch(`/user/retirement`, {
-            method: 'put',
-            body: retirement,
-        })
-        // 繪製圖表
         const chartData = {
             datasets: [
                 {
