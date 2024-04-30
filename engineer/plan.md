@@ -6,7 +6,7 @@ outline: deep
 
 1. 台灣唯一開源的財務規劃計算機。一切數字有憑有據，不賣商品賣事實。
 2. 工程師可藉由開源的前後端程式碼學習Javascript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
-3. 民眾可以快速建立生涯財務觀念，並提共回饋意見。
+3. 民眾可以快速建立生涯財務觀念，並提共<a href="/calendar.html#聯絡en">回饋意見</a>。
 
 <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
     登入按鈕邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
@@ -441,7 +441,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="資料筆數" prop="unitPrice">
-                    <el-text>{{ Number(estatePrice.count).toLocaleString(undefined) }}</el-text>
+                    <el-text>{{ Number(estatePrice.count).toLocaleString(undefined) }} 筆</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -1084,10 +1084,10 @@ async function initializeCalculator() {
     }
     await getUnitPriceSync()
     calculateFloorSize()
-    calculateMortgate()
+    calculateMortgate() // will calculate asset
+    // 生子
     // 投資
     calculatePortfolioMarks()
-    drawLifeAssetChart()
 }
 // 基本資料
 const profile = reactive({
@@ -1728,6 +1728,7 @@ async function calculateMortgate() {
 
     const averageRepayRate = fraction /  deno
     mortgage.monthlyRepay = Math.floor(loanAmount * averageRepayRate)
+    drawLifeAssetChart()
 }
 // 育兒試算
 const parenting = reactive({
