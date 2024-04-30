@@ -991,19 +991,25 @@ async function authFetch(appendUrl, options = {}) {
     }
     Object.assign(defaultOptions.headers, options.headers)
     const res = await fetch(baseUrl + appendUrl, defaultOptions)
-    return await res.json()
+    if(res.status !== 200) {
+        ElMessage(res.body || res.statusText)
+        return
+    }
+    return res
 }
 async function getUserFormSync(firebaseUser) {
     const { uid } = firebaseUser
     let userForm = {}
     try {
-        userForm = await authFetch(`/user/${uid}`, {
+        const res = await authFetch(`/user/${uid}`, {
             method: 'post'
         })
+        userForm = await res.json()
     } catch (error) {
-        userForm = await authFetch(`/user/new`, {
+        const res = await authFetch(`/user/new`, {
             method: 'post'
         })
+        userForm = await res.json()
         // 前端初始預設值
         userForm.retirement.age = 65
         userForm.retirement.pension.irrOverDecade = 4.76
@@ -1069,7 +1075,7 @@ async function calculateLifeExpectancyAndAge() {
         const yearOfBirth =  new Date(dateOfBirth).getFullYear()
         const calculateAge = ceYear - yearOfBirth
 
-        const lifeExpectancy = await authFetch(`/calculate/lifeExpectancy`, {
+        const res = await authFetch(`/calculate/lifeExpectancy`, {
             method: 'post',
             body: {
                 ceYear,
@@ -1077,6 +1083,7 @@ async function calculateLifeExpectancyAndAge() {
                 gender,
             }
         })
+        const lifeExpectancy = await res.json()
         profile.age = calculateAge
         profile.lifeExpectancy = lifeExpectancy
 
