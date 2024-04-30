@@ -120,7 +120,8 @@ outline: deep
         </el-checkbox-group>
     </el-col>
 </el-row> -->
-<h3 v-show="checkedNeeds.includes('career')" id="_職業試算" tabindex="-1">職業試算</h3>
+### 職業試算
+
 <el-card v-show="checkedNeeds.includes('career')">
     <el-form label-width="auto">
         <el-row>
@@ -243,7 +244,9 @@ outline: deep
     </template>
     <canvas v-show="career.monthlyBasicSalary" id="incomeChart"></canvas>
 </el-card>
-<h3 v-show="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h3>
+
+### 退休試算
+
 <el-card v-show="checkedNeeds.includes('retirement')">
     <el-form label-width="auto">
         <el-row>
@@ -411,7 +414,7 @@ outline: deep
     </template>
 </el-card>
 
-## 3. 退休前資產檢驗
+## 3. 退休前資產
 
 退休沒問題以後，這邊就可以安心拼。
 
@@ -465,6 +468,24 @@ outline: deep
                 <el-form-item label="房貸利息負債" @change="onAssetChanged()">
                     <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
                 </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="4">
+                <el-checkbox
+                    v-model="checkAll"
+                    :indeterminate="isIndeterminate"
+                    @change="handleCheckAllChange"
+                >
+                    全部顯示
+                </el-checkbox>
+            </el-col>
+            <el-col :span="20">
+                <el-checkbox-group v-model="checkedNeeds" @change="handleCheckedNeedsChange">
+                    <el-checkbox v-for="need in needs" :key="need" :value="need">
+                    {{ needLabelMap[need] }}
+                    </el-checkbox>
+                </el-checkbox-group>
             </el-col>
         </el-row>
         <canvas id="assetChart"></canvas>
@@ -1070,6 +1091,30 @@ async function setSelecOptionSync() {
 }
 async function getUserFormSync(firebaseUser) {
     const { uid } = firebaseUser
+    const initForm = {
+        retirement: {
+            age: 65,
+            pension: {
+                irrOverDecade: 4.76
+            },
+            percentileRank: 50
+        },
+        parenting: {
+            childAnnualExpense: 212767,
+            independantAge: 18,
+        },
+        estateSize: {
+            publicRatio: 35,
+            bathroom: 1,
+            livingRoom: 1,
+            balcany: 1,
+            parkingSpace: 1
+        },
+        mortgage: {
+            loanPercent: 80,
+            loanTerm:25,
+        },
+    }
     let userForm = {}
     try {
         const res = await authFetch(`/user/${uid}`, {
@@ -1081,27 +1126,16 @@ async function getUserFormSync(firebaseUser) {
             method: 'post'
         })
         userForm = await res.json()
-        // 前端初始預設值
-        userForm.retirement.age = 65
-        userForm.retirement.pension.irrOverDecade = 4.76
-        userForm.estateSize.publicRatio = 35
-        userForm.estateSize.bathroom = 1
-        userForm.estateSize.livingRoom = 1
-        userForm.estateSize.balcany = 1
-        userForm.estateSize.parkingSpace = 1
-        userForm.mortgage.loanPercent = 80
-        userForm.mortgage.loanTerm = 25
-        userForm.parenting.childAnnualExpense = 212767
-        userForm.parenting.independantAge = 18
     } finally {
-        Object.assign(profile, userForm.profile)
-        Object.assign(career, userForm.career)
-        Object.assign(retirement, userForm.retirement)
-        Object.assign(estatePrice, userForm.estatePrice)
-        Object.assign(estateSize, userForm.estateSize)
-        Object.assign(mortgage, userForm.mortgage)
-        Object.assign(parenting, userForm.parenting)
-        Object.assign(investment, userForm.investment)
+        Object.assign(initForm, userForm)
+        Object.assign(profile, initForm.profile)
+        Object.assign(career, initForm.career)
+        Object.assign(retirement, initForm.retirement)
+        Object.assign(estatePrice, initForm.estatePrice)
+        Object.assign(estateSize, initForm.estateSize)
+        Object.assign(mortgage, initForm.mortgage)
+        Object.assign(parenting, initForm.parenting)
+        Object.assign(investment, initForm.investment)
         initializeCalculator()
     }
 }
@@ -1218,7 +1252,7 @@ function onMonthlyBasicSalaryChanged() {
     calculateInsuranceSalaryMin()
     drawChartAndCalculateIncome()
     calculateMonthlyInvesting()
-    const { monthlyBasicSalary, } = career 
+    const { monthlyBasicSalary, } = career
     career.employeeWelfareFund = Math.floor(monthlyBasicSalary * 0.5 / 100)
 }
 function onInsuranceSalaryChanged() {
@@ -1233,7 +1267,7 @@ function onPensionSalaryChanged() {
     drawChartAndCalculateIncome()
 }
 function calculatePensionSalaryMin() {
-    const { monthlyBasicSalary, foodExpense, } = career 
+    const { monthlyBasicSalary, foodExpense, } = career
     const salaryMin = monthlyBasicSalary + foodExpense
     career.pension.salaryMin = salaryMin
     career.pension.salary = Math.max(career.pension.salary, salaryMin)
@@ -1261,7 +1295,7 @@ function onPensionContributionRateChanged() {
 function calculateHealthInsurancePremium() {
     const { salary, salaryMin } = career.pension
     const salaryBasis = Math.max(salary, salaryMin)
-    const healthInsutancePremiumRate =  5.17 / 100 
+    const healthInsutancePremiumRate =  5.17 / 100
     const employeeContributionRate = 30 / 100
     career.healthInsutancePremium = Math.ceil(salaryBasis * healthInsutancePremiumRate * employeeContributionRate)
 }
@@ -1301,7 +1335,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({  
             label: '本薪',
             data: [pv, fv],
-            datasetIndex: 0, 
+            datasetIndex: 0,
         })
 
         pv = fv
@@ -1309,7 +1343,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({
             label: '伙食津貼',
             data: [pv, fv],
-            datasetIndex: 0, 
+            datasetIndex: 0,
         })
 
         pv = fv
@@ -1317,7 +1351,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({
             label: '職工福利金',
             data: [pv, fv],
-            datasetIndex: 1, 
+            datasetIndex: 1,
         })
 
         pv = fv
@@ -1325,7 +1359,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({
             label: '健保',
             data: [pv, fv],
-            datasetIndex: 1, 
+            datasetIndex: 1,
         })
 
         pv = fv
@@ -1333,7 +1367,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({
             label: '勞保',
             data: [pv, fv],
-            datasetIndex: 1, 
+            datasetIndex: 1,
         })
 
         pv = fv
@@ -1341,7 +1375,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({
             label: '勞退',
             data: [pv, fv],
-            datasetIndex: 1, 
+            datasetIndex: 1,
         })
 
         career.monthlyNetPayEstimated = fv
@@ -1350,7 +1384,7 @@ function drawChartAndCalculateIncome() {
         dataAndDataIndex.push({
             label: '月實領',
             data: [fv, 0],
-            datasetIndex: 0, 
+            datasetIndex: 0,
         })
 
         if(career.monthlyExpense) {
@@ -1359,7 +1393,7 @@ function drawChartAndCalculateIncome() {
             dataAndDataIndex.push({
                 label: '月支出',
                 data: [pv, fv],
-                datasetIndex: 1, 
+                datasetIndex: 1,
             })
         }
 
@@ -1367,7 +1401,7 @@ function drawChartAndCalculateIncome() {
             dataAndDataIndex.push({
                 label: '定期定額',
                 data: [fv, 0],
-                datasetIndex: 0, 
+                datasetIndex: 0,
             })
         }
 
@@ -1516,19 +1550,19 @@ async function calculateRetireLife() {
     retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
 }
 async function drawRetirementPensionChart() {
-    debounce(() => {   
+    debounce(() => {
         // 儲存參數
         authFetch(`/user/retirement`, {
             method: 'put',
             body: retirement,
         })
-        // 計算資料   
+        // 計算資料
         const {
-            employerContribution, 
-            employeeContrubution, 
-            employerContributionIncome, 
-            employeeContrubutionIncome, 
-            irrOverDecade 
+            employerContribution,
+            employeeContrubution,
+            employerContributionIncome,
+            employeeContrubutionIncome,
+            irrOverDecade
         } = retirement.pension
         let inflationModifier = 1
 
