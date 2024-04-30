@@ -130,6 +130,15 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="職工福利金">
+                    <el-text> {{ Number(career.employeeWelfareFund).toLocaleString() }}</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
                 <el-form-item label="勞退/健保提繳工資">
                     <el-input-number v-model="career.pension.salary" :min="career.pension.salaryMin" :max="150000" @change="onPensionSalaryChanged()"/>
                 </el-form-item>
@@ -173,6 +182,15 @@ outline: deep
                 </el-form-item>
             </el-col>
         </el-row>
+        <!-- <el-row>
+            <el-col :span="12">
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="職工福利金">
+                    <el-text>{{ Number(career.employeeWelfareFund).toLocaleString() }}</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row> -->
         <el-row>
             <el-col :span="12">
                 <el-form-item label="月實領">
@@ -183,7 +201,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="月支出">
-                    <el-input-number v-model="career.monthlyExpense" :min="0" :max="career.monthlyNetPay" @change="onMonthlyExpenseChanged()"/>
+                    <el-input-number v-model="career.monthlyExpense" :min="0" @change="onMonthlyExpenseChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -1055,7 +1073,6 @@ async function initializeCalculator() {
     onMonthlyBasicSalaryChanged()
     onInsuranceSalaryChanged()
     onPensionSalaryChanged()
-    onMonthlyEATChanged()
     // 退休
     calculateFutureSeniority()
     calculateRetirementQuartileMarks()
@@ -1137,6 +1154,7 @@ const handleCheckedNeedsChange = (value) => {
 const career = reactive({
     monthlyBasicSalary: 0,
     foodExpense: 3000,
+    employeeWelfareFund: 0,
     pension: {
         salary: 0,
         salaryMin: 0,
@@ -1156,6 +1174,9 @@ let incomeChartInstance = ref(null)
 function onMonthlyBasicSalaryChanged() {
     calculatePensionSalaryMin()
     drawIncomeChart()
+    calculateMonthlyInvesting()
+    const { monthlyBasicSalary, } = career 
+    career.employeeWelfareFund = monthlyBasicSalary * 0.5 / 100
 }
 function onInsuranceSalaryChanged() {
     calculateInsuranceExpense()
@@ -1196,14 +1217,16 @@ function calculateCareerPensionTotal() {
     drawRetirementPensionChart()
 }
 function onMonthlyEATChanged() {
-    calculateMonthlyAveraging()
+    drawIncomeChart()
+    calculateMonthlyInvesting()
 }
 function onMonthlyExpenseChanged() {
-    calculateMonthlyAveraging()
+    drawIncomeChart()
+    calculateMonthlyInvesting()
 }
-function calculateMonthlyAveraging() {
-    const { monthlyNetPay, monthlyExpense } = career
-    investmentAveraging.value = monthlyNetPay - monthlyExpense
+function calculateMonthlyInvesting() {
+    const { monthlyNetPay = 0, monthlyExpense = 0 } = career
+    investmentAveraging.value = Math.floor(monthlyNetPay - monthlyExpense)
 }
 function drawIncomeChart() {
     debounce(async () => {
@@ -1212,6 +1235,7 @@ function drawIncomeChart() {
             method: 'put',
             body: career,
         })
+        // 繪製圖表
         let pv = 0
         let fv = career.monthlyBasicSalary
         const dataAndDataIndex = []
@@ -1221,13 +1245,20 @@ function drawIncomeChart() {
             datasetIndex: 0, 
         })
 
-        // 繪製圖表
         pv = fv
         fv += career.foodExpense
         dataAndDataIndex.push({
             label: '伙食津貼',
             data: [pv, fv],
             datasetIndex: 0, 
+        })
+
+        pv = fv
+        fv -= career.employeeWelfareFund
+        dataAndDataIndex.push({
+            label: '職工福利金',
+            data: [pv, fv],
+            datasetIndex: 1, 
         })
 
         pv = fv
@@ -1254,13 +1285,30 @@ function drawIncomeChart() {
             datasetIndex: 1, 
         })
 
-        pv = fv
-        fv -= fv
+        fv = career.monthlyNetPay || fv
         dataAndDataIndex.push({
-            label: '試算實領',
-            data: [fv, pv],
+            label: '月實領',
+            data: [fv, 0],
             datasetIndex: 0, 
         })
+
+        if(career.monthlyExpense) {
+            pv = fv
+            fv -= career.monthlyExpense
+            dataAndDataIndex.push({
+                label: '月支出',
+                data: [pv, fv],
+                datasetIndex: 1, 
+            })
+        }
+
+        if(0 <= fv) {
+            dataAndDataIndex.push({
+                label: '定期定額',
+                data: [fv, 0],
+                datasetIndex: 0, 
+            })
+        }
 
         const labels = dataAndDataIndex.map(item => item.label)
         const data0 = dataAndDataIndex.map(item => {
@@ -1406,9 +1454,9 @@ async function calculateRetireLife() {
 async function drawRetirementPensionChart() {
     debounce(async () => {   
         // 儲存參數
-        await authFetch(`/user/career`, {
+        await authFetch(`/user/retirement`, {
             method: 'put',
-            body: career,
+            body: retirement,
         })
         // 計算資料   
         const {
