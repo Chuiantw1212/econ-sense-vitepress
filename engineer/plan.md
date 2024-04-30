@@ -860,6 +860,7 @@ const user = reactive({
     photoURL: '',
     uid: ''
 })
+const currentUser = ref()
 const idToken = ref()
 const counties = ref([])
 const townMap = reactive({})
@@ -904,12 +905,14 @@ async function initializeApp () {
             return
         }
         const { displayName = '註冊用戶', email, photoURL, uid } = firebaseUser
+        currentUser.value = firebaseUser
+        idToken.value = await firebaseUser.getIdToken()
+
         user.photoURL = photoURL
         user.uid = uid
         user.email = email
         user.displayName = displayName
         dialogVisible.value = false
-        idToken.value = await firebase.auth().currentUser.getIdToken()
         await getUserFormSync(firebaseUser)
         initializeCalculator()
     })
@@ -970,23 +973,36 @@ async function signOut() {
         user[key] = ''
     }
 }
+async function authFetch(appendUrl, options = {}) {
+    const { uid } = currentUser.value
+    let baseUrl = import.meta.env.VITE_BASE_URL
+    const defaultOptions = {
+        method: 'get',
+        headers: {
+            Authorization: `Bearer ${idToken.value}`,
+        }
+    }
+    defaultOptions.method = options.method
+    if(options.body) {
+        defaultOptions.body = JSON.stringify(options.body)
+        Object.assign(defaultOptions.headers, {
+            'Content-Type': 'application/json'
+        })
+    }
+    Object.assign(defaultOptions.headers, options.headers)
+    const res = await fetch(baseUrl + appendUrl, defaultOptions)
+    return await res.json()
+}
 async function getUserFormSync(firebaseUser) {
     const { uid } = firebaseUser
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/user/${uid}`, {
-        method: 'post',
-        headers: {
-            Authorization: `Bearer ${idToken.value}`
-        }
-    })
     let userForm = {}
     try {
-        userForm = await res.json()
+        userForm = await authFetch(`/user/${uid}`, {
+            method: 'post'
+        })
     } catch (error) {
-        userForm = await fetch(`${import.meta.env.VITE_BASE_URL}/user/new`, {
-            method: 'post',
-            headers: {
-                Authorization: `Bearer ${idToken.value}`
-            }
+        userForm = await authFetch(`/user/new`, {
+            method: 'post'
         })
         // 前端初始預設值
         userForm.retirement.age = 65
@@ -1052,31 +1068,25 @@ async function calculateLifeExpectancyAndAge() {
         const ceYear = new Date().getFullYear()
         const yearOfBirth =  new Date(dateOfBirth).getFullYear()
         const calculateAge = ceYear - yearOfBirth
-        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/lifeExpectancy`, {
+
+        const lifeExpectancy = await authFetch(`/calculate/lifeExpectancy`, {
             method: 'post',
-            body: JSON.stringify({
+            body: {
                 ceYear,
                 age: calculateAge,
                 gender,
-            }),
-            headers: {'Content-Type': 'application/json'}
+            }
         })
-
         profile.age = calculateAge
-        profile.lifeExpectancy = await res.json()
+        profile.lifeExpectancy = lifeExpectancy
 
         calculateRetireLife()
         calculateFutureSeniority()
         drawRetirementPensionChart()
 
-        console.log({profile})
-        fetch(`${import.meta.env.VITE_BASE_URL}/user`, {
+        await authFetch(`/user/profile`, {
             method: 'put',
-            body: JSON.stringify(profile),
-            headers: {
-                Authorization: `Bearer ${idToken.value}`,
-                'Content-Type': 'application/json'
-            }
+            body: profile,
         })
     }
 }
