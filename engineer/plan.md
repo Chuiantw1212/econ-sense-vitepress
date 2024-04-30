@@ -875,7 +875,6 @@ outline: deep
  */
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
-import { getAuth, } from "firebase/auth"
 import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Chart from 'chart.js/auto';
@@ -973,6 +972,9 @@ function openSignInDialog() {
          * 避免FirebaseUI重複初始化錯誤
          * https://stackoverflow.com/questions/47589209/error-in-mounted-hook-error-an-authui-instance-already-exists
          */
+        if(!window){
+            return
+        }
         if(firebaseui.auth.AuthUI.getInstance()) {
             const ui = firebaseui.auth.AuthUI.getInstance()
             ui.start('#firebaseui-auth-container', uiConfig)
@@ -1025,7 +1027,7 @@ async function setSelecOptionSync() {
         ElMessageBox.alert(error.message, {
         confirmButtonText: '回講座排程',
         callback: (action) => {
-                window.location.replace('/calendar');
+                window?.location.replace('/calendar');
             },
         })
     }
@@ -1883,14 +1885,14 @@ onMounted(async () => {
     initializeApp()
     setSelecOptionSync()
     initializeCalculator()
-    window.addEventListener('resize', onResize)
+    window?.addEventListener('resize', onResize)
 })
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize)
+    window?.removeEventListener('resize', onResize)
 })
 const isFullScreen = ref(false)
 function onResize() {
-    isFullScreen.value = window.innerWidth < 768
+    isFullScreen.value = window?.innerWidth < 768
 }
 const debounceIdGroup = reactive({})
 function debounce(func, label = '', delay = 50) {

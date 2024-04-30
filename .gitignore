@@ -1,5 +1,6 @@
 .firebase
 .vitepress/dist 
+.vitepress/.temp 
 .vitepress/cache
 node_modules
 .DS_Store
