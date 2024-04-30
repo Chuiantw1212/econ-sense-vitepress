@@ -8,7 +8,7 @@ outline: deep
 2. 工程師可藉由開源的前後端程式碼學習Javascript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
 3. 民眾可以快速建立生涯財務觀念，並提共回饋意見。
 
-<el-dialog v-model="dialogVisible" title="登入" :fullscreen="isFullScreen">
+<el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
     登入按鈕邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
     <div v-if="!user.uid" id="firebaseui-auth-container"></div>
 </el-dialog>
@@ -860,32 +860,6 @@ import { getAuth, } from "firebase/auth"
 import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Chart from 'chart.js/auto';
-// 設定檔案
-const dialogVisible = ref(false)
-const isFullScreen = ref(false)
-const user = reactive({
-    displayName: '註冊用戶',
-    email: '',
-    photoURL: '',
-    uid: ''
-})
-const idToken = ref()
-const idTokenIntervalId = ref()
-const counties = ref([])
-const townMap = reactive({})
-const buildingTypes = ref([])
-const buildingAges = ref([])
-const genders = ref([])
-const retirementQuartile = ref([])
-const inflationRate = ref(2)
-const portfolioIRR = reactive({})
-const porfolioLabels = reactive({
-    aok: '股2債8',
-    aom: '股4債6',
-    aor: '股6債4',
-    aoa: '股8債2',
-})
-const currentYear = new Date().getFullYear()
 onMounted(async () => {
     initializeApp()
     setSelecOptionSync()
@@ -895,9 +869,17 @@ onMounted(async () => {
 onBeforeUnmount(() => {
     window.removeEventListener('resize', onResize)
 })
+const isFullScreen = ref(false)
 function onResize() {
     isFullScreen.value = window.innerWidth < 768
 }
+// 用戶與權限
+const user = reactive({
+    displayName: '註冊用戶',
+    email: '',
+    photoURL: '',
+    uid: ''
+})
 async function initializeApp () {
     await firebase.initializeApp({
         apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
@@ -920,11 +902,13 @@ async function initializeApp () {
         user.uid = uid
         user.email = email
         user.displayName = displayName
-        dialogVisible.value = false
+        loginDialogVisible.value = false
         await getUserFormSync(firebaseUser)
         initializeCalculator()
     })
 }
+const idToken = ref()
+const idTokenIntervalId = ref()
 async function setIdToken(currentUser) {
     if(currentUser) {
         idToken.value = await currentUser.getIdToken()
@@ -936,34 +920,9 @@ async function setIdToken(currentUser) {
         clearInterval(idTokenIntervalId.value)
     }
 }
-async function setSelecOptionSync() {
-    try {
-        const selectRes = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
-        const selectResJson = await selectRes.json()
-        counties.value = selectResJson.counties || []
-        buildingTypes.value = selectResJson.buildingTypes || []
-        buildingAges.value = selectResJson.buildingAges || []
-        genders.value = selectResJson.genders || []
-        retirementQuartile.value = selectResJson.retirementQuartile || []
-        Object.assign(townMap, selectResJson.townMap)
-
-        const bankConfigRes = await fetch(`${import.meta.env.VITE_BASE_URL}/bank/config`)
-        const bankConfigResJson = await bankConfigRes.json()
-        mortgage.interestRate = bankConfigResJson.interestRate
-        Object.assign(portfolioIRR, bankConfigResJson.portfolioIRR)
-    }
-    catch (error) {
-        // https://element-plus.org/en-US/component/message-box.html#message-box
-        ElMessageBox.alert(error.message, {
-        confirmButtonText: '回講座排程',
-        callback: (action) => {
-                window.location.replace('/calendar');
-            },
-        })
-    }
-}
+const loginDialogVisible = ref(false)
 function openSignInDialog() {
-    dialogVisible.value = true
+    loginDialogVisible.value = true
     nextTick(() => {
         const uiConfig = {
             signInOptions: [
@@ -993,6 +952,48 @@ async function signOut() {
     const result = await firebase.auth().signOut()
     for(let key in user) {
         user[key] = ''
+    }
+}
+// 主要從資料庫來的設定檔案
+const inflationRate = ref(2)
+const currentYear = new Date().getFullYear()
+const counties = ref([])
+const townMap = reactive({})
+const buildingTypes = ref([])
+const buildingAges = ref([])
+const genders = ref([])
+const retirementQuartile = ref([])
+const portfolioIRR = reactive({})
+const porfolioLabels = reactive({
+    aok: '股2債8',
+    aom: '股4債6',
+    aor: '股6債4',
+    aoa: '股8債2',
+})
+async function setSelecOptionSync() {
+    try {
+        const selectRes = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
+        const selectResJson = await selectRes.json()
+        counties.value = selectResJson.counties || []
+        buildingTypes.value = selectResJson.buildingTypes || []
+        buildingAges.value = selectResJson.buildingAges || []
+        genders.value = selectResJson.genders || []
+        retirementQuartile.value = selectResJson.retirementQuartile || []
+        Object.assign(townMap, selectResJson.townMap)
+
+        const bankConfigRes = await fetch(`${import.meta.env.VITE_BASE_URL}/bank/config`)
+        const bankConfigResJson = await bankConfigRes.json()
+        mortgage.interestRate = bankConfigResJson.interestRate
+        Object.assign(portfolioIRR, bankConfigResJson.portfolioIRR)
+    }
+    catch (error) {
+        // https://element-plus.org/en-US/component/message-box.html#message-box
+        ElMessageBox.alert(error.message, {
+        confirmButtonText: '回講座排程',
+        callback: (action) => {
+                window.location.replace('/calendar');
+            },
+        })
     }
 }
 async function authFetch(appendUrl, options = {}) {
