@@ -567,10 +567,10 @@ outline: deep
 
 <el-card>
     <el-form label-width="auto">
-        <el-row>
+         <el-row>
             <el-col :span="12">
-                <el-form-item label="平均月開支(隻/每年)">
-                    <el-input-number v-model="parenting.childAnnualExpense" :min="0" @change="onChildMonthlyExpenseChanged()"/>
+                <el-form-item label="配偶貢獻">
+                    <el-input-number v-model="parenting.spouseMonthlyContribution" :min="0" @change="drawLifeAssetChart()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -581,8 +581,17 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
+                <el-form-item label="平均月開支(隻/每年)">
+                    <el-input-number v-model="parenting.childAnnualExpense" :min="0" @change="drawLifeAssetChart()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
                 <el-form-item label="養到幾歲放生">
-                    <el-input-number v-model="parenting.independantAge" :min="18" @change="onIndependantAgeChanged()"/>
+                    <el-input-number v-model="parenting.independantAge" :min="18" @change="drawLifeAssetChart()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -591,7 +600,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="第一隻西元年">
-                    <el-input-number v-model="parenting.firstBornYear" :min="0" @change="onFirstBornYearChanged()"/>
+                    <el-input-number v-model="parenting.firstBornYear" :min="0" @change="drawLifeAssetChart()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -600,7 +609,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="第二隻西元年">
-                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
+                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="drawLifeAssetChart()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -903,6 +912,9 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
+                <el-form-item label="預估貸款成數" prop="floorSize">
+                    <a href="https://member.jcic.org.tw/main_member/MorgageQuery.aspx" target="_blank">住宅貸款統計查詢網</a>
+                </el-form-item>
             </el-col>
         </el-row>
         <el-row>
@@ -912,8 +924,8 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="預估頭期款" prop="floorSize">
-                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
+                <el-form-item label="預估貸款" prop="floorSize">
+                    <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -921,8 +933,8 @@ outline: deep
             <el-col :span="12">
             </el-col>
             <el-col :span="12">
-                <el-form-item label="預估貸款" prop="floorSize">
-                    <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }} NTD</el-text>
+                <el-form-item label="預估頭期款" prop="floorSize">
+                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -951,8 +963,11 @@ outline: deep
     <template #footer>
         <el-collapse>
             <el-collapse-item title="資料說明" name="1" :border="true">
-                試算利息：<a href="https://www.cbc.gov.tw/tw/lp-370-1.html" target="_blank">央行貼放利率
-                </a>
+                <ul>
+                    <li>
+                        試算利息：<a href="https://www.cbc.gov.tw/tw/lp-370-1.html" target="_blank">央行貼放利率</a>
+                    </li>
+                </ul>
             </el-collapse-item>
         </el-collapse>
     </template>
@@ -992,6 +1007,7 @@ async function initializeApp () {
     firebase.auth().onAuthStateChanged(async (firebaseUser)=> {
         if(!firebaseUser) {
             setIdToken()
+            getUserFormSync()
             return
         }
         const { displayName = '註冊用戶', email, photoURL, uid } = firebaseUser
@@ -1112,7 +1128,6 @@ async function setSelecOptionSync() {
         const bankConfigResJson = await bankConfigRes.json()
         mortgage.interestRate = bankConfigResJson.interestRate
         Object.assign(portfolioIRR, bankConfigResJson.portfolioIRR)
-        console.log({portfolioIRR})
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
@@ -1125,14 +1140,17 @@ async function setSelecOptionSync() {
     }
 }
 async function getUserFormSync(firebaseUser) {
-    const { uid } = firebaseUser
     const initForm = {
         retirement: {
             age: 65,
             pension: {
                 irrOverDecade: 4.76
             },
-            percentileRank: 50
+            percentileRank: 50,
+            qualityLevel: 3
+        },
+        investment: {
+            allocationETF: 'aok',
         },
         parenting: {
             childAnnualExpense: 212767,
@@ -1152,10 +1170,13 @@ async function getUserFormSync(firebaseUser) {
     }
     let userForm = {}
     try {
-        const res = await authFetch(`/user/${uid}`, {
-            method: 'post'
-        })
-        userForm = await res.json()
+        if(firebaseUser) {
+            const { uid } = firebaseUser
+            const res = await authFetch(`/user/${uid}`, {
+                method: 'post'
+            })
+            userForm = await res.json()
+        }
     } catch (error) {
         const res = await authFetch(`/user/new`, {
             method: 'post'
@@ -1166,11 +1187,12 @@ async function getUserFormSync(firebaseUser) {
         Object.assign(profile, initForm.profile)
         Object.assign(career, initForm.career)
         Object.assign(retirement, initForm.retirement)
+        Object.assign(investment, initForm.investment)
         Object.assign(estatePrice, initForm.estatePrice)
         Object.assign(estateSize, initForm.estateSize)
         Object.assign(mortgage, initForm.mortgage)
         Object.assign(parenting, initForm.parenting)
-        Object.assign(investment, initForm.investment)
+        console.log(investment)
         initializeCalculator()
     }
 }
@@ -1620,7 +1642,7 @@ async function drawRetirementPensionChart() {
             fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
             pv = fv
         }
-        retirement.pension.finalValue = fv
+        retirement.pension.finalValue = fv || 0
 
         // 退休後退休支出
         for(let i = 0;i < retirement.lifeExpectancy; i++) {
@@ -1745,14 +1767,19 @@ function drawLifeAssetChart() {
             calculatedPmt -= mortgage.monthlyRepay * 12
         }
         // 育兒開支影響每月儲蓄
-        const { firstBornYear, secondBornYear, independantAge, childAnnualExpense } = parenting
+        const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, spouseMonthlyContribution } = parenting
         const firstBornEndYear = firstBornYear + independantAge
         const secondBornEndYear = secondBornYear + independantAge
-        if(currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear) {
+        const hasFirstBorn = currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear
+        const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
+        if(hasFirstBorn) {
             calculatedPmt -= childAnnualExpense * inflationModifier
         }
-        if(currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear) {
+        if(hasSecondBorn) {
             calculatedPmt -= childAnnualExpense * inflationModifier
+        }
+        if(hasFirstBorn || hasSecondBorn) {
+            calculatedPmt += spouseMonthlyContribution * inflationModifier
         }
 
         // 計算複利終值
@@ -1786,22 +1813,11 @@ function drawLifeAssetChart() {
 // 育兒試算
 const parenting = reactive({
     childAnnualExpense: 0,
+    spouseMonthlyContribution: 0,
     independantAge: 0,
     firstBornYear: 0,
     secondBornYear: 0,
 })
-function onChildMonthlyExpenseChanged() {
-    drawLifeAssetChart()
-}
-function onIndependantAgeChanged() {
-    drawLifeAssetChart()
-}
-function onFirstBornYearChanged() {
-    drawLifeAssetChart()
-}
-function onSecondBornYearChanged() {
-    drawLifeAssetChart()
-}
 // 購屋分析
 const estatePrice = reactive({
     county: '',
@@ -1987,8 +2003,8 @@ async function calculateMortgate() {
         })
     }, 'mortgage')()
     const loanAmount = totalHousePrice.value *　mortgage.loanPercent * 100
-    const downPayment = totalHousePrice.value * 10000 - mortgage.loanAmount
     mortgage.loanAmount = loanAmount
+    const downPayment = totalHousePrice.value * 10000 - loanAmount
     mortgage.downPayment = downPayment
 
     /**
