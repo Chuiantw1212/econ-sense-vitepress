@@ -145,7 +145,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="試算提繳工資">
-                    <a href="https://www.bli.gov.tw/0108097.html" target="_blank">勞動部勞工保險局</a>
+                    <a href="https://www.bli.gov.tw/0108097.html" target="_blank" tabIndex="-1">勞動部勞工保險局</a>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -193,7 +193,16 @@ outline: deep
         </el-row> -->
         <el-row>
             <el-col :span="12">
-                <el-form-item label="月實領">
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="月實領試算">
+                    <el-text> {{ Number(career.monthlyNetPayEstimated).toLocaleString() }}</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="全年實領/12">
                     <el-input-number v-model="career.monthlyNetPay" :min="0" @change="onMonthlyEATChanged()"/>
                 </el-form-item>
             </el-col>
@@ -225,7 +234,7 @@ outline: deep
             </el-collapse-item>
         </el-collapse>
     </template>
-    <canvas id="incomeChart"></canvas>
+    <canvas v-show="career.monthlyBasicSalary" id="incomeChart"></canvas>
 </el-card>
 <h3 v-show="checkedNeeds.includes('retirement')" id="_退休試算" tabindex="-1">退休試算</h3>
 <el-card v-show="checkedNeeds.includes('retirement')">
@@ -971,9 +980,6 @@ function openSignInDialog() {
          * 避免FirebaseUI重複初始化錯誤
          * https://stackoverflow.com/questions/47589209/error-in-mounted-hook-error-an-authui-instance-already-exists
          */
-        if(!window){
-            return
-        }
         if(firebaseui.auth.AuthUI.getInstance()) {
             const ui = firebaseui.auth.AuthUI.getInstance()
             ui.start('#firebaseui-auth-container', uiConfig)
@@ -1092,7 +1098,7 @@ async function initializeCalculator() {
 }
 // 基本資料
 const profile = reactive({
-    dateOfBirth: '',
+    dateOfBirth: new Date().toLocaleString(),
     gender: '',
     age: 0,
     lifeExpectancy: 0,
@@ -1167,35 +1173,48 @@ const career = reactive({
     healthInsutancePremium: 0,
     insurance: {
         salary: 0,
+        salaryMin: 0,
         expense: 0,
     },
+    monthlyNetPayEstimated: 0,
     monthlyNetPay: 0,
     monthlyExpense: 0,
 })
 let incomeChartInstance = ref(null)
 function onMonthlyBasicSalaryChanged() {
     calculatePensionSalaryMin()
-    drawIncomeChart()
+    calculateInsuranceSalaryMin()
+    drawChartAndCalculateIncome()
     calculateMonthlyInvesting()
     const { monthlyBasicSalary, } = career 
     career.employeeWelfareFund = Math.floor(monthlyBasicSalary * 0.5 / 100)
 }
 function onInsuranceSalaryChanged() {
-    calculateInsuranceExpense()
+    calculateInsuranceSalaryMin()
     calculateMonthlyAnnuity()
-    drawIncomeChart()
+    drawChartAndCalculateIncome()
     drawRetirementPensionChart()
 }
 function onPensionSalaryChanged() {
     calculateCareerPensionTotal()
     calculateHealthInsurancePremium()
-    drawIncomeChart()
+    drawChartAndCalculateIncome()
 }
 function calculatePensionSalaryMin() {
     const { monthlyBasicSalary, foodExpense, } = career 
     const salaryMin = monthlyBasicSalary + foodExpense
     career.pension.salaryMin = salaryMin
     career.pension.salary = Math.max(career.pension.salary, salaryMin)
+    calculateHealthInsurancePremium()
+}
+function calculateInsuranceSalaryMin() {
+    if(career.monthlyBasicSalary) {
+        career.insurance.salaryMin = Math.min(45800, career.monthlyBasicSalary)
+    }
+    if(!career.insurance.salary) {
+        career.insurance.salary = career.insurance.salaryMin
+    }
+    calculateInsuranceExpense()
 }
 function calculateInsuranceExpense() {
     const { salary, } = career.insurance
@@ -1205,34 +1224,36 @@ function calculateInsuranceExpense() {
 }
 function onPensionContributionRateChanged() {
     calculateCareerPensionTotal()
-    drawIncomeChart()
+    drawChartAndCalculateIncome()
 }
 function calculateHealthInsurancePremium() {
-    const { salary } = career.pension
+    const { salary, salaryMin } = career.pension
+    const salaryBasis = Math.max(salary, salaryMin)
     const healthInsutancePremiumRate =  5.17 / 100 
     const employeeContributionRate = 30 / 100
-    career.healthInsutancePremium = Math.ceil(salary * healthInsutancePremiumRate * employeeContributionRate)
+    career.healthInsutancePremium = Math.ceil(salaryBasis * healthInsutancePremiumRate * employeeContributionRate)
 }
 function calculateCareerPensionTotal() {
-    const { salary, rate } = career.pension
-    const maxContribution = Math.min(salary, 150000)
+    const { salary, salaryMin, rate } = career.pension
+    const salaryBasis = Math.max(salary, salaryMin)
+    const maxContribution = Math.min(salaryBasis, 150000)
     career.pension.monthlyContributionEmployee = Math.floor(maxContribution * rate / 100)
     career.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100)
     drawRetirementPensionChart()
 }
 function onMonthlyEATChanged() {
-    drawIncomeChart()
+    drawChartAndCalculateIncome()
     calculateMonthlyInvesting()
 }
 function onMonthlyExpenseChanged() {
-    drawIncomeChart()
+    drawChartAndCalculateIncome()
     calculateMonthlyInvesting()
 }
 function calculateMonthlyInvesting() {
     const { monthlyNetPay = 0, monthlyExpense = 0 } = career
     investmentAveraging.value = Math.floor(monthlyNetPay - monthlyExpense)
 }
-function drawIncomeChart() {
+function drawChartAndCalculateIncome() {
     debounce(() => {
         // 儲存參數
         authFetch(`/user/career`, {
@@ -1241,8 +1262,9 @@ function drawIncomeChart() {
         })
         // 繪製圖表
         let pv = 0
-        let fv = career.monthlyBasicSalary
+        let fv = 0
         const dataAndDataIndex = []
+        fv = career.monthlyBasicSalary
         dataAndDataIndex.push({  
             label: '本薪',
             data: [pv, fv],
@@ -1289,6 +1311,7 @@ function drawIncomeChart() {
             datasetIndex: 1, 
         })
 
+        career.monthlyNetPayEstimated = fv
         fv = career.monthlyNetPay || fv
         dataAndDataIndex.push({
             label: '月實領',
