@@ -39,7 +39,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="出生年" prop="dateOfBirth">
-                    <el-select v-model="profile.yearOfBirth" placeholder="請選擇" @change="onYearOfBirthChanged()">
+                    <el-select v-model="profile.yearOfBirth" placeholder="請選擇" @change="onYearOfBirthChanged()" style="width: 130px">
                         <el-option v-for="year in yearOptions":key="year":label="year" :value="year"/>
                     </el-select>
                 </el-form-item>
@@ -100,7 +100,9 @@ outline: deep
 
 ## 2. 需求試算
 
-<el-row>
+財務安全的理財方式，將退休前與退休後的資產分開計算。退休先有保障，當上流老人，再用退休前資產去試算是否可以推關。
+
+<!-- <el-row>
     <el-col :span="4">
         <el-checkbox
             v-model="checkAll"
@@ -117,7 +119,7 @@ outline: deep
             </el-checkbox>
         </el-checkbox-group>
     </el-col>
-</el-row>
+</el-row> -->
 <h3 v-show="checkedNeeds.includes('career')" id="_職業試算" tabindex="-1">職業試算</h3>
 <el-card v-show="checkedNeeds.includes('career')">
     <el-form label-width="auto">
@@ -408,6 +410,99 @@ outline: deep
         </el-collapse>
     </template>
 </el-card>
+
+## 3. 退休前資產檢驗
+
+退休沒問題以後，這邊就可以安心拼。
+
+<el-card>
+    <el-form label-width="auto">
+        <el-row>
+            <el-col :span="24">
+                <el-form-item label="資產配置">
+                    <el-radio-group v-model="investment.allocationETF" @change="onAllocationChanged()">
+                        <el-radio v-for="(label, key) in porfolioLabels" :value="key">{{label}}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="23">
+                <el-form-item label="範例標的IRR">
+                    <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks" :disabled="true"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <br/>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="已備資產" @change="onAssetChanged()">
+                    <el-input-number v-model="investment.presentAsset" :min="0"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="定期定額" @change="onAssetChanged()">
+                    <el-text>{{ Number(investmentAveraging).toLocaleString() }} NTD</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <canvas id="assetChart"></canvas>
+        <el-row>
+            <el-col>
+            </el-col>
+        </el-row>
+    </el-form>
+    <template #footer>
+        <el-collapse>
+            <el-collapse-item title="資料說明" name="1" :border="true">
+                <table class="table">
+                    <tr>
+                        <th>參考標的</th>
+                        <th>資產配置</th>
+                        <th>來源網址</th>
+                    </tr>
+                    <tr>
+                        <td>AOA</td>
+                        <td>股8債2</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239729/ishares-aggressive-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AOR</td>
+                        <td>股6債4</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239756/ishares-growth-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AOM</td>
+                        <td>股4債6</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239765/ishares-moderate-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AOK</td>
+                        <td>股2債8</td>
+                        <td>
+                            <a href="https://www.ishares.com/us/products/239733/ishares-conservative-allocation-etf" target="_blank">
+                                來源網址
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </el-collapse-item>
+        </el-collapse>
+    </template>
+</el-card>
+
 <h3 v-show="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
 <el-card v-show="checkedNeeds.includes('housing')">
     <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="estatePrice" :rules="buildingRules" label-width="auto">
@@ -787,96 +882,6 @@ outline: deep
     </template>
 </el-card>
 
-## 3. 退休前資產檢驗
-
-<el-card>
-    <el-form label-width="auto">
-        <el-row>
-            <el-col :span="24">
-                <el-form-item label="資產配置">
-                    <el-radio-group v-model="investment.allocationETF" @change="onAllocationChanged()">
-                        <el-radio v-for="(label, key) in porfolioLabels" :value="key">{{label}}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="23">
-                <el-form-item label="範例標的IRR">
-                    <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks" :disabled="true"/>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <br/>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="已備資產" @change="onAssetChanged()">
-                    <el-input-number v-model="investment.presentAsset" :min="0"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="定期定額" @change="onAssetChanged()">
-                    <el-text>{{ Number(investmentAveraging).toLocaleString() }} NTD</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <canvas id="assetChart"></canvas>
-        <el-row>
-            <el-col>
-            </el-col>
-        </el-row>
-    </el-form>
-    <template #footer>
-        <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
-                <table class="table">
-                    <tr>
-                        <th>參考標的</th>
-                        <th>資產配置</th>
-                        <th>來源網址</th>
-                    </tr>
-                    <tr>
-                        <td>AOA</td>
-                        <td>股8債2</td>
-                        <td>
-                            <a href="https://www.ishares.com/us/products/239729/ishares-aggressive-allocation-etf" target="_blank">
-                                來源網址
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>AOR</td>
-                        <td>股6債4</td>
-                        <td>
-                            <a href="https://www.ishares.com/us/products/239756/ishares-growth-allocation-etf" target="_blank">
-                                來源網址
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>AOM</td>
-                        <td>股4債6</td>
-                        <td>
-                            <a href="https://www.ishares.com/us/products/239765/ishares-moderate-allocation-etf" target="_blank">
-                                來源網址
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>AOK</td>
-                        <td>股2債8</td>
-                        <td>
-                            <a href="https://www.ishares.com/us/products/239733/ishares-conservative-allocation-etf" target="_blank">
-                                來源網址
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-            </el-collapse-item>
-        </el-collapse>
-    </template>
-</el-card>
-
 <script setup>
 /**
  * Warning: FirebaseUI is not currently compatible with the v9 modular SDK. The v9 compatibility layer (specifically, the * app-compat and auth-compat packages) permits the usage of FirebaseUI alongside v9, but without the app size reduction * and other benefits of the v9 SDK.
@@ -1147,11 +1152,12 @@ async function calculateLifeExpectancyAndAge() {
 // 需求分析
 const checkAll = ref(false)
 const isIndeterminate = ref(true)
-const needs = ['career','retirement', 'housing', 'parenting',]
-const checkedNeeds = ref(['career', 'retirement', 'housing', 'parenting',])
+const needs = ['career','retirement', 'investment','housing', 'parenting',]
+const checkedNeeds = ref(['career', 'retirement', 'investment', 'housing', 'parenting',])
 const needLabelMap = {
     career: '職業試算',
     retirement: '退休試算',
+    investment: '退休前資產試算',
     housing: '購屋試算',
     parenting: '育兒試算',
 }
