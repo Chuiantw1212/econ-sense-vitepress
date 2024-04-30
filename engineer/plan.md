@@ -1031,6 +1031,7 @@ async function setSelecOptionSync() {
         const bankConfigResJson = await bankConfigRes.json()
         mortgage.interestRate = bankConfigResJson.interestRate
         Object.assign(portfolioIRR, bankConfigResJson.portfolioIRR)
+        console.log({portfolioIRR})
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
@@ -1255,8 +1256,9 @@ function onMonthlyExpenseChanged() {
     calculateMonthlyInvesting()
 }
 function calculateMonthlyInvesting() {
-    const { monthlyNetPay = 0, monthlyExpense = 0 } = career
-    investmentAveraging.value = Math.floor(monthlyNetPay - monthlyExpense)
+    const { monthlyNetPay = 0, monthlyExpense = 0, monthlyNetPayEstimated } = career
+    const monthlyNetPayBasis = monthlyNetPay || monthlyNetPayEstimated
+    investmentAveraging.value = Math.floor(monthlyNetPayBasis - monthlyExpense)
 }
 function drawChartAndCalculateIncome() {
     debounce(() => {
@@ -1317,6 +1319,7 @@ function drawChartAndCalculateIncome() {
         })
 
         career.monthlyNetPayEstimated = fv
+        calculateMonthlyInvesting()
         fv = career.monthlyNetPay || fv
         dataAndDataIndex.push({
             label: '月實領',
@@ -1915,7 +1918,7 @@ onMounted(async () => {
     }
     yearOptions.value = yearOptionsTemp
     initializeApp()
-    setSelecOptionSync()
+    await setSelecOptionSync()
     initializeCalculator()
     window?.addEventListener('resize', onResize)
 })
