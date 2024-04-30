@@ -497,7 +497,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="陽台數量">
-                    <el-input-number v-model="estateSize.balcany" :min="0" :disabled="true"/>
+                    <el-input-number v-model="estateSize.balcany" :min="0" @change="calculateFloorSize()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -509,7 +509,7 @@ outline: deep
         <el-row v-if="estatePrice.hasParking" >
             <el-col :span="12">
                 <el-form-item label="車位數量" >
-                    <el-input-number v-model="estateSize.parkingSpace" :min="0" @change="calculateFloorSize()"/>
+                    <el-input-number v-model="estateSize.parkingSpace" :min="0" @change="onParkingSpaceChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -673,7 +673,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="試算利息(%)">
-                    <el-input-number v-model="mortgage.interestRate" :min="0"/>
+                    <el-input-number v-model="mortgage.interestRate" :min="0" @change="calculateMortgate()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -719,12 +719,12 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="第一隻西元年">
-                    <el-input-number v-model="parenting.firstBornYear" :min="0" :max="parenting.secondBornYear" @change="onFirstBornYearChanged()"/>
+                    <el-input-number v-model="parenting.firstBornYear" :min="0" @change="onFirstBornYearChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="第二隻西元年">
-                    <el-input-number v-model="parenting.secondBornYear" :min="parenting.firstBornYear" @change="onSecondBornYearChanged()"/>
+                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -773,7 +773,7 @@ outline: deep
     </template>
 </el-card>
 
-## 3. 一生資產檢驗
+## 3. 退休前資產檢驗
 
 <el-card>
     <el-form label-width="auto">
@@ -801,7 +801,7 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="月實領-月支出" @change="onAssetChanged()">
+                <el-form-item label="定期定額" @change="onAssetChanged()">
                     <el-text>{{ Number(investmentAveraging).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
@@ -1049,6 +1049,7 @@ async function getUserFormSync(firebaseUser) {
         userForm.estateSize.publicRatio = 35
         userForm.estateSize.bathroom = 1
         userForm.estateSize.livingRoom = 1
+        userForm.estateSize.balcany = 1
         userForm.estateSize.parkingSpace = 1
         userForm.mortgage.loanPercent = 80
         userForm.mortgage.loanTerm = 25
@@ -1086,7 +1087,7 @@ async function initializeCalculator() {
     calculateMortgate()
     // 投資
     calculatePortfolioMarks()
-    createLifeAssetChart()
+    drawLifeAssetChart()
 }
 // 基本資料
 const profile = reactive({
@@ -1176,11 +1177,13 @@ function onMonthlyBasicSalaryChanged() {
     drawIncomeChart()
     calculateMonthlyInvesting()
     const { monthlyBasicSalary, } = career 
-    career.employeeWelfareFund = monthlyBasicSalary * 0.5 / 100
+    career.employeeWelfareFund = Math.floor(monthlyBasicSalary * 0.5 / 100)
 }
 function onInsuranceSalaryChanged() {
     calculateInsuranceExpense()
     calculateMonthlyAnnuity()
+    drawIncomeChart()
+    drawRetirementPensionChart()
 }
 function onPensionSalaryChanged() {
     calculateCareerPensionTotal()
@@ -1229,9 +1232,9 @@ function calculateMonthlyInvesting() {
     investmentAveraging.value = Math.floor(monthlyNetPay - monthlyExpense)
 }
 function drawIncomeChart() {
-    debounce(async () => {
+    debounce(() => {
         // 儲存參數
-        await authFetch(`/user/career`, {
+        authFetch(`/user/career`, {
             method: 'put',
             body: career,
         })
@@ -1399,14 +1402,18 @@ const expenseQuartileMarks = reactive({})
 function onRetireAgeChanged() {
     calculateRetireLife()
     calculateFutureSeniority()
+    calculateMonthlyAnnuity()
+    drawRetirementPensionChart()
+    drawLifeAssetChart()
 }
 function onCurrentSeniorityChanged() {
     calculateFutureSeniority()
+    calculateMonthlyAnnuity()
+    drawRetirementPensionChart()
 }
 function calculateFutureSeniority() {
     const { presentSeniority } = retirement.insurance
     retirement.insurance.futureSeniority = Number(Number(presentSeniority + retirement.age - profile.age).toFixed(1))
-    calculateMonthlyAnnuity()
 }
 function calculateMonthlyAnnuity() {
     const { salary } = career.insurance
@@ -1417,7 +1424,6 @@ function calculateMonthlyAnnuity() {
     const formulaTwo = (salary * futureSeniority * 1.55 / 100) * ageModifier
     retirement.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
     retirement.insurance.annuitySum = Math.floor(retirement.insurance.monthlyAnnuity * 12 * lifeExpectancy)
-    drawRetirementPensionChart()
 }
 function onEmployerContributionChanged() {
     drawRetirementPensionChart()
@@ -1452,9 +1458,9 @@ async function calculateRetireLife() {
     retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
 }
 async function drawRetirementPensionChart() {
-    debounce(async () => {   
+    debounce(() => {   
         // 儲存參數
-        await authFetch(`/user/retirement`, {
+        authFetch(`/user/retirement`, {
             method: 'put',
             body: retirement,
         })
@@ -1567,6 +1573,9 @@ function onBuildingAgeChanged() {
     getUnitPriceSync()
 }
 function onHasParkingChanged() {
+    if(estatePrice.hasParking) {
+        estateSize.parkingSpace = Math.max(1, estateSize.parkingSpace)
+    }
     getUnitPriceSync()
 }
 async function getUnitPriceSync() {
@@ -1616,6 +1625,13 @@ const roomRules = {
     bathroom:  { required: true, message: '請選擇', },
     publicRatio: { required: true, message: '請選擇', },
 }
+async function onParkingSpaceChanged() {
+    if(!estateSize.parkingSpace){
+        estatePrice.hasParking = ''
+    }
+    await getUnitPriceSync()
+    calculateFloorSize()
+}
 function calculateFloorSize() {
     const { doubleBedRoom, singleBedRoom, bathroom, livingRoom, publicRatio, balcany, parkingSpace } = estateSize
 
@@ -1652,11 +1668,25 @@ function calculateFloorSize() {
     calculateTotalPrice()
 }
 function calculateTotalPrice() {
-    if(buildingUnitPrice.value && estateSize.floorSize){
-        const beforeFormatPrice =  Number(buildingUnitPrice.value) * Number(estateSize.floorSize)
-        totalHousePrice.value = Number(beforeFormatPrice.toFixed(2))
-        calculateMortgate()
+    if(!buildingUnitPrice.value || !estateSize.floorSize){
+        return
     }
+    // 儲存參數
+    debounce(() => {
+        authFetch(`/user/estatePrice`, {
+            method: 'put',
+            body: estatePrice,
+        })
+    }, 'estatePrice')()
+    debounce(() => {
+        authFetch(`/user/estateSize`, {
+            method: 'put',
+            body: estateSize,
+        })
+    }, 'estateSize')()
+    const beforeFormatPrice =  Number(buildingUnitPrice.value) * Number(estateSize.floorSize)
+    totalHousePrice.value = Number(beforeFormatPrice.toFixed(2))
+    calculateMortgate()
 }
 // 房屋貸款試算
 const mortgage = reactive({
@@ -1668,11 +1698,18 @@ const mortgage = reactive({
     loanAmount: 0,
     monthlyRepay: 0,
 })
-function calculateMortgate() {
-    if(!totalHousePrice.value){
+async function calculateMortgate() {
+    const { loanPercent, loanTerm } = mortgage
+    if(!totalHousePrice.value || !loanPercent || !loanTerm){
         return
     }
-
+    debounce(() => {
+        // 儲存參數
+        authFetch(`/user/mortgage`, {
+            method: 'put',
+            body: mortgage,
+        })
+    }, 'mortgage')()
     const loanAmount = totalHousePrice.value *　mortgage.loanPercent * 100
     const downPayment = totalHousePrice.value * 10000 - mortgage.loanAmount
     mortgage.loanAmount = loanAmount
@@ -1700,16 +1737,16 @@ const parenting = reactive({
     secondBornYear: 0,
 })
 function onChildMonthlyExpenseChanged() {
-    createLifeAssetChart()
+    drawLifeAssetChart()
 }
 function onIndependantAgeChanged() {
-    createLifeAssetChart()
+    drawLifeAssetChart()
 }
 function onFirstBornYearChanged() {
-    createLifeAssetChart()
+    drawLifeAssetChart()
 }
 function onSecondBornYearChanged() {
-    createLifeAssetChart()
+    drawLifeAssetChart()
 }
 // 投資試算
 const investment = reactive({
@@ -1730,7 +1767,7 @@ function calculateRetirementQuartileMarks() {
 }
 function onAllocationChanged() {
     calculatePortfolioMarks()
-    createLifeAssetChart()
+    drawLifeAssetChart()
 }
 function calculatePortfolioMarks() {
     const { allocationETF } = investment
@@ -1745,15 +1782,29 @@ function calculatePortfolioMarks() {
     })
 }
 function onAssetChanged() {
-    createLifeAssetChart()
+    drawLifeAssetChart()
 }
 function onIncomeChanged() {
-    createLifeAssetChart()
+    drawLifeAssetChart()
 }
 function onBuyHouseYearChanged() {
-    createLifeAssetChart()
+    drawLifeAssetChart()
 }
-function createLifeAssetChart() {
+function drawLifeAssetChart() {
+    debounce(() => {
+        // 儲存參數
+        authFetch(`/user/parenting`, {
+            method: 'put',
+            body: parenting,
+        })
+    }, 'parenting')()
+    debounce(() => {
+        authFetch(`/user/investment`, {
+            method: 'put',
+            body: investment,
+        })
+    }, 'investment')()
+
     let inflationModifier = 1
 
     let pv = investment.presentAsset
@@ -1761,7 +1812,7 @@ function createLifeAssetChart() {
     let fv = 0 // fv = pv * irr + pmt
     const labels = []
     const datasetData = []
-    for(let year = currentYear;year < currentYear + profile.lifeExpectancy; year++) {
+    for(let year = currentYear;year < currentYear + retirement.insurance.futureSeniority; year++) {
         labels.push(year)
         datasetData.push(pv)
 
@@ -1806,7 +1857,7 @@ function createLifeAssetChart() {
     const chartData = {
         datasets: [
             {
-                label: '一生資產試算',
+                label: '退休前資產',
                 data: datasetData,
             }
         ],
