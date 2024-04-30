@@ -874,7 +874,6 @@ outline: deep
  * https://firebaseopensource.com/projects/firebase/firebaseui-web/
  */
 import firebase from 'firebase/compat/app';
-import * as firebaseui from 'firebaseui'
 import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Chart from 'chart.js/auto';

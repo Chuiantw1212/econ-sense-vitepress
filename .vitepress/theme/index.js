@@ -12,7 +12,15 @@ export default {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
     })
   },
-  enhanceApp({ app, router, siteData }) {
+  async enhanceApp({ app, }) {
+    /**
+     * Vitepress在Server side打包所以會出windows找不到的錯誤
+     * https://vitepress.dev/guide/ssr-compat#conditional-import
+     */
+    if (!import.meta.env.SSR) {
+      const firebase = await import('firebaseui')
+      app.use(firebase.default)
+    }
     install(app)
   }
 }
