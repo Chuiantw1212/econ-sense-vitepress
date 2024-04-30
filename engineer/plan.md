@@ -130,13 +130,22 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="勞退提繳工資">
+                <el-form-item label="勞退/健保提繳工資">
                     <el-input-number v-model="career.pension.salary" :min="career.pension.salaryMin" :max="150000" @change="onPensionSalaryChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="試算提繳工資">
                     <a href="https://www.bli.gov.tw/0108097.html" target="_blank">勞動部勞工保險局</a>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="健保負擔">
+                    <el-text> {{ Number(career.healthInsutancePremium).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -889,15 +898,6 @@ onBeforeUnmount(() => {
 function onResize() {
     isFullScreen.value = window.innerWidth < 768
 }
-const debounce = (callback, wait = 100) => {
-  let timeoutId = null;
-  return (...args) => {
-    window.clearTimeout(timeoutId);
-    timeoutId = window.setTimeout(() => {
-      callback(...args);
-    }, wait);
-  };
-}
 async function initializeApp () {
     await firebase.initializeApp({
         apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
@@ -1063,8 +1063,8 @@ async function initializeCalculator() {
     // 基本資料
     await calculateLifeExpectancyAndAge()
     // 職業
-    calculateInsuranceExpense()
-    calculateCareerPensionTotal()
+    onInsuranceSalaryChanged()
+    onPensionSalaryChanged()
     calculateMonthlyAveraging()
     // 退休
     calculateFutureSeniority()
@@ -1153,6 +1153,7 @@ const career = reactive({
         rate: 0,
         monthlyContribution: 0,
     },
+    healthInsutancePremium: 0,
     insurance: {
         salary: 0,
         expense: 0,
@@ -1182,9 +1183,16 @@ function calculateInsuranceExpense() {
 }
 function onPensionSalaryChanged() {
     calculateCareerPensionTotal()
+    calculateHealthInsurancePremium()
 }
 function onPensionContributionRateChanged() {
     calculateCareerPensionTotal()
+}
+function calculateHealthInsurancePremium() {
+    const { salary } = career.pension
+    const healthInsutancePremiumRate =  5.17 / 100 
+    const employeeContributionRate = 30 / 100
+    career.healthInsutancePremium = Math.ceil(salary * healthInsutancePremiumRate * employeeContributionRate)
 }
 function calculateCareerPensionTotal() {
     const { salary, rate } = career.pension
