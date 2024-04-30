@@ -119,7 +119,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="本薪">
-                    <el-input-number v-model="career.monthlyBasicSalary" :min="0"/>
+                    <el-input-number v-model="career.monthlyBasicSalary" :min="0" @change="onMonthlyBasicSalaryChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -131,7 +131,7 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="勞退提繳工資">
-                    <el-input-number v-model="career.pension.salary" :min="0" :max="150000" @change="onPensionSalaryChanged()"/>
+                    <el-input-number v-model="career.pension.salary" :min="career.pension.salaryMin" :max="150000" @change="onPensionSalaryChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -231,7 +231,7 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="預估屆退年資">
-                    <el-text>{{ retirement.insurance.finalSeniority }} 年</el-text>
+                    <el-text>{{ retirement.insurance.futureSeniority }} 年</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -860,8 +860,8 @@ const user = reactive({
     photoURL: '',
     uid: ''
 })
-const currentUser = ref()
 const idToken = ref()
+const idTokenIntervalId = ref()
 const counties = ref([])
 const townMap = reactive({})
 const buildingTypes = ref([])
@@ -889,6 +889,15 @@ onBeforeUnmount(() => {
 function onResize() {
     isFullScreen.value = window.innerWidth < 768
 }
+const debounce = (callback, wait = 100) => {
+  let timeoutId = null;
+  return (...args) => {
+    window.clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => {
+      callback(...args);
+    }, wait);
+  };
+}
 async function initializeApp () {
     await firebase.initializeApp({
         apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
@@ -901,12 +910,11 @@ async function initializeApp () {
     })
     firebase.auth().onAuthStateChanged(async (firebaseUser)=> {
         if(!firebaseUser) {
-            idToken.value = null
+            setIdToken()
             return
         }
         const { displayName = '註冊用戶', email, photoURL, uid } = firebaseUser
-        currentUser.value = firebaseUser
-        idToken.value = await firebaseUser.getIdToken()
+        await setIdToken(firebaseUser)
 
         user.photoURL = photoURL
         user.uid = uid
@@ -916,6 +924,17 @@ async function initializeApp () {
         await getUserFormSync(firebaseUser)
         initializeCalculator()
     })
+}
+async function setIdToken(currentUser) {
+    if(currentUser) {
+        idToken.value = await currentUser.getIdToken()
+        idTokenIntervalId.value = setInterval(async () => {
+            idToken.value = await firebase.auth().currentUser.getIdToken(true)
+        }, 50 * 60 * 1000)
+    } else {
+        idToken.value = null
+        clearInterval(idTokenIntervalId.value)
+    }
 }
 async function setSelecOptionSync() {
     try {
@@ -957,7 +976,10 @@ function openSignInDialog() {
             // Privacy policy url.
             privacyPolicyUrl: 'https://storage.googleapis.com/public.econ-sense.com/Privacy%20Policy%20for%20Econ-Sense.com.pdf'
         };
-        // https://stackoverflow.com/questions/47589209/error-in-mounted-hook-error-an-authui-instance-already-exists
+        /**
+         * 避免FirebaseUI重複初始化錯誤
+         * https://stackoverflow.com/questions/47589209/error-in-mounted-hook-error-an-authui-instance-already-exists
+         */
         if(firebaseui.auth.AuthUI.getInstance()) {
             const ui = firebaseui.auth.AuthUI.getInstance()
             ui.start('#firebaseui-auth-container', uiConfig)
@@ -974,7 +996,11 @@ async function signOut() {
     }
 }
 async function authFetch(appendUrl, options = {}) {
-    const { uid } = currentUser.value
+    const currentUser = firebase.auth().currentUser
+    if(!currentUser) {
+        return // 離線使用或未登入
+    }
+    const { uid } = currentUser
     let baseUrl = import.meta.env.VITE_BASE_URL
     const defaultOptions = {
         method: 'get',
@@ -1121,21 +1147,32 @@ const handleCheckedNeedsChange = (value) => {
 const career = reactive({
     monthlyBasicSalary: 0,
     foodExpense: 3000,
+    pension: {
+        salary: 0,
+        salaryMin: 0,
+        rate: 0,
+        monthlyContribution: 0,
+    },
     insurance: {
         salary: 0,
         expense: 0,
     },
-    pension: {
-        salary: 0,
-        rate: 0,
-        monthlyContribution: 0,
-    },
     monthlyNetPay: 0,
     monthlyExpense: 0,
 })
+function onMonthlyBasicSalaryChanged() {
+    calculatePensionSalaryMin()
+    calculateCareerPensionTotal()
+}
 function onInsuranceSalaryChanged() {
     calculateInsuranceExpense()
     calculateMonthlyAnnuity()
+}
+function calculatePensionSalaryMin() {
+    const { monthlyBasicSalary, foodExpense, } = career 
+    const salaryMin = monthlyBasicSalary + foodExpense
+    career.pension.salaryMin = salaryMin
+    career.pension.salary = Math.max(career.pension.salary, salaryMin)
 }
 function calculateInsuranceExpense() {
     const { salary, } = career.insurance
@@ -1171,7 +1208,7 @@ const retirement = reactive({
     lifeExpectancy: 0,
     insurance: {
         presentSeniority: 0, // 6.9
-        finalSeniority: 0,
+        futureSeniority: 0,
         monthlyAnnuity: 0,
     },
     pension: {
@@ -1190,23 +1227,22 @@ const expenseQuartileMarks = reactive({})
 function onRetireAgeChanged() {
     calculateRetireLife()
     calculateFutureSeniority()
-    drawRetirementPensionChart()
 }
 function onCurrentSeniorityChanged() {
     calculateFutureSeniority()
 }
 function calculateFutureSeniority() {
     const { presentSeniority } = retirement.insurance
-    retirement.insurance.finalSeniority = Number(Number(presentSeniority + retirement.age - profile.age).toFixed(1))
+    retirement.insurance.futureSeniority = Number(Number(presentSeniority + retirement.age - profile.age).toFixed(1))
     calculateMonthlyAnnuity()
 }
 function calculateMonthlyAnnuity() {
     const { salary } = career.insurance
     const { age, lifeExpectancy } = retirement
-    const { finalSeniority, } = retirement.insurance
+    const { futureSeniority, } = retirement.insurance
     const ageModifier = 1 + (retirement.age - 65) * 0.04
-    const formulaOne = (salary * finalSeniority * 0.775 / 100 + 3000) * ageModifier
-    const formulaTwo = (salary * finalSeniority * 1.55 / 100) * ageModifier
+    const formulaOne = (salary * futureSeniority * 0.775 / 100 + 3000) * ageModifier
+    const formulaTwo = (salary * futureSeniority * 1.55 / 100) * ageModifier
     retirement.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
     retirement.insurance.annuitySum = Math.floor(retirement.insurance.monthlyAnnuity * 12 * lifeExpectancy)
     drawRetirementPensionChart()
@@ -1243,7 +1279,7 @@ function calculateRetirementMonthlyExpense() {
 async function calculateRetireLife() {
     retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
 }
-function drawRetirementPensionChart() {
+async function drawRetirementPensionChart() {
     const { employerContribution, employeeContrubution, employerContributionIncome, employeeContrubutionIncome, irrOverDecade } = retirement.pension
     let inflationModifier = 1
 
@@ -1280,6 +1316,16 @@ function drawRetirementPensionChart() {
         pv = fv
     }
 
+    // 儲存參數
+    await authFetch(`/user/career`, {
+        method: 'put',
+        body: career,
+    })
+    await authFetch(`/user/retirement`, {
+        method: 'put',
+        body: retirement,
+    })
+    // 繪製圖表
     const chartData = {
         datasets: [
             {
@@ -1289,13 +1335,11 @@ function drawRetirementPensionChart() {
         ],
         labels
     }
-
     if(pensionChartInstance.value) {
         pensionChartInstance.value.data = chartData
         pensionChartInstance.value.update()
         return
     }
-
     const ctx = document.getElementById('pensionChart')
     const chartInstance = new Chart(ctx, {
         type: 'bar',
