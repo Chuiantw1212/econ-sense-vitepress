@@ -860,19 +860,6 @@ import { getAuth, } from "firebase/auth"
 import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Chart from 'chart.js/auto';
-onMounted(async () => {
-    initializeApp()
-    setSelecOptionSync()
-    initializeCalculator()
-    window.addEventListener('resize', onResize)
-})
-onBeforeUnmount(() => {
-    window.removeEventListener('resize', onResize)
-})
-const isFullScreen = ref(false)
-function onResize() {
-    isFullScreen.value = window.innerWidth < 768
-}
 // 用戶與權限
 const user = reactive({
     displayName: '註冊用戶',
@@ -919,6 +906,34 @@ async function setIdToken(currentUser) {
         idToken.value = null
         clearInterval(idTokenIntervalId.value)
     }
+}
+async function authFetch(appendUrl, options = {}) {
+    const currentUser = firebase.auth().currentUser
+    if(!currentUser) {
+        return // 離線使用或未登入
+    }
+    const { uid } = currentUser
+    let baseUrl = import.meta.env.VITE_BASE_URL
+    const defaultOptions = {
+        method: 'get',
+        headers: {
+            Authorization: `Bearer ${idToken.value}`,
+        }
+    }
+    defaultOptions.method = options.method
+    if(options.body) {
+        defaultOptions.body = JSON.stringify(options.body)
+        Object.assign(defaultOptions.headers, {
+            'Content-Type': 'application/json'
+        })
+    }
+    Object.assign(defaultOptions.headers, options.headers)
+    const res = await fetch(baseUrl + appendUrl, defaultOptions)
+    if(res.status !== 200) {
+        ElMessage(res.body || res.statusText)
+        return
+    }
+    return res
 }
 const loginDialogVisible = ref(false)
 function openSignInDialog() {
@@ -995,34 +1010,6 @@ async function setSelecOptionSync() {
             },
         })
     }
-}
-async function authFetch(appendUrl, options = {}) {
-    const currentUser = firebase.auth().currentUser
-    if(!currentUser) {
-        return // 離線使用或未登入
-    }
-    const { uid } = currentUser
-    let baseUrl = import.meta.env.VITE_BASE_URL
-    const defaultOptions = {
-        method: 'get',
-        headers: {
-            Authorization: `Bearer ${idToken.value}`,
-        }
-    }
-    defaultOptions.method = options.method
-    if(options.body) {
-        defaultOptions.body = JSON.stringify(options.body)
-        Object.assign(defaultOptions.headers, {
-            'Content-Type': 'application/json'
-        })
-    }
-    Object.assign(defaultOptions.headers, options.headers)
-    const res = await fetch(baseUrl + appendUrl, defaultOptions)
-    if(res.status !== 200) {
-        ElMessage(res.body || res.statusText)
-        return
-    }
-    return res
 }
 async function getUserFormSync(firebaseUser) {
     const { uid } = firebaseUser
@@ -1289,72 +1276,80 @@ async function calculateRetireLife() {
     retirement.lifeExpectancy =  Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
 }
 async function drawRetirementPensionChart() {
-    const { employerContribution, employeeContrubution, employerContributionIncome, employeeContrubutionIncome, irrOverDecade } = retirement.pension
-    let inflationModifier = 1
+    debounce(async () => {        
+        const {
+            employerContribution, 
+            employeeContrubution, 
+            employerContributionIncome, 
+            employeeContrubutionIncome, 
+            irrOverDecade 
+        } = retirement.pension
+        let inflationModifier = 1
 
-    let pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
-    const n = retirement.age - profile.age
-    const pensionContribution = career.pension.monthlyContribution * 12
-    const irr = irrOverDecade
-    let fv = 0 // fv = pv * irr + pensionContribution
+        let pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
+        const n = retirement.age - profile.age
+        const pensionContribution = career.pension.monthlyContribution * 12
+        const irr = irrOverDecade
+        let fv = 0 // fv = pv * irr + pensionContribution
 
-    const labels = []
-    const datasetData = []
+        const labels = []
+        const datasetData = []
 
-    // 退休前資產累積
-    for(let i = 0;i < n; i++) {
-        const calculatedYear = currentYear + i
-        labels.push(calculatedYear)
-        datasetData.push(pv)
+        // 退休前資產累積
+        for(let i = 0;i < n; i++) {
+            const calculatedYear = currentYear + i
+            labels.push(calculatedYear)
+            datasetData.push(pv)
 
-        inflationModifier *= (1 + inflationRate.value / 100)
-        fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
-        pv = fv
-    }
-    retirement.pension.finalValue = fv
+            inflationModifier *= (1 + inflationRate.value / 100)
+            fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
+            pv = fv
+        }
+        retirement.pension.finalValue = fv
 
-    // 退休後退休支出
-    for(let i = 0;i < retirement.lifeExpectancy; i++) {
-        const calculatedYear = currentYear + n + i
-        datasetData.push(pv)
-        labels.push(calculatedYear)
+        // 退休後退休支出
+        for(let i = 0;i < retirement.lifeExpectancy; i++) {
+            const calculatedYear = currentYear + n + i
+            datasetData.push(pv)
+            labels.push(calculatedYear)
 
-        inflationModifier *= (1 + inflationRate.value / 100)
-        const pmt = retirement.insurance.monthlyAnnuity * 12 - retirement.annualExpense * inflationModifier
-        fv = Math.floor(pv * (1 + irr / 100) + pmt)
-        pv = fv
-    }
+            inflationModifier *= (1 + inflationRate.value / 100)
+            const pmt = retirement.insurance.monthlyAnnuity * 12 - retirement.annualExpense * inflationModifier
+            fv = Math.floor(pv * (1 + irr / 100) + pmt)
+            pv = fv
+        }
 
-    // 儲存參數
-    await authFetch(`/user/career`, {
-        method: 'put',
-        body: career,
-    })
-    await authFetch(`/user/retirement`, {
-        method: 'put',
-        body: retirement,
-    })
-    // 繪製圖表
-    const chartData = {
-        datasets: [
-            {
-                label: '退休金資產試算',
-                data: datasetData,
-            }
-        ],
-        labels
-    }
-    if(pensionChartInstance.value) {
-        pensionChartInstance.value.data = chartData
-        pensionChartInstance.value.update()
-        return
-    }
-    const ctx = document.getElementById('pensionChart')
-    const chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: chartData
-    })
-    pensionChartInstance = shallowRef(chartInstance)
+        // 儲存參數
+        await authFetch(`/user/career`, {
+            method: 'put',
+            body: career,
+        })
+        await authFetch(`/user/retirement`, {
+            method: 'put',
+            body: retirement,
+        })
+        // 繪製圖表
+        const chartData = {
+            datasets: [
+                {
+                    label: '退休金資產試算',
+                    data: datasetData,
+                }
+            ],
+            labels
+        }
+        if(pensionChartInstance.value) {
+            pensionChartInstance.value.data = chartData
+            pensionChartInstance.value.update()
+            return
+        }
+        const ctx = document.getElementById('pensionChart')
+        const chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: chartData
+        })
+        pensionChartInstance = shallowRef(chartInstance)
+    }, 'retirement',)()
 }
 // 購屋分析
 const estatePrice = reactive({
@@ -1659,6 +1654,30 @@ function createLifeAssetChart() {
         data: chartData
     })
     investmentChartInstance = shallowRef(chartInstance)
+}
+// 沒什麼會去動到的Mounted&Debounce放底下
+onMounted(async () => {
+    initializeApp()
+    setSelecOptionSync()
+    initializeCalculator()
+    window.addEventListener('resize', onResize)
+})
+onBeforeUnmount(() => {
+    window.removeEventListener('resize', onResize)
+})
+const isFullScreen = ref(false)
+function onResize() {
+    isFullScreen.value = window.innerWidth < 768
+}
+const debounceIdGroup = reactive({})
+function debounce(func, label = '', delay = 50) {
+    return (...args) => {
+        clearTimeout(debounceIdGroup[label])
+        debounceIdGroup[label] = setTimeout(() => {
+            debounceIdGroup[label] = undefined
+            func()
+        }, delay)
+    }
 }
 </script>
 <style lang="scss" scoped>
