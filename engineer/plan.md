@@ -38,14 +38,19 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="出生日期" prop="dateOfBirth">
+                <el-form-item label="出生年" prop="dateOfBirth">
+                    <el-select v-model="profile.yearOfBirth" placeholder="請選擇" @change="onYearOfBirthChanged()">
+                        <el-option v-for="year in yearOptions":key="year":label="year" :value="year"/>
+                    </el-select>
+                </el-form-item>
+                <!-- <el-form-item label="出生日期" prop="dateOfBirth">
                     <el-date-picker
                         v-model="profile.dateOfBirth"
                         type="date"
                         placeholder="選擇出生日期"
-                        @change="handleDateOfBirthChanged()"
+                        @change="onYearOfBirthChanged()"
                     />
-                </el-form-item>
+                </el-form-item> -->
             </el-col>
             <el-col :span="12">
                 <el-form-item label="試算年齡" prop="lifeExpectancy">
@@ -1092,37 +1097,37 @@ async function initializeCalculator() {
     await getUnitPriceSync()
     calculateFloorSize()
     calculateMortgate() // will calculate asset
-    // 生子
     // 投資
     calculatePortfolioMarks()
 }
 // 基本資料
 const profile = reactive({
-    dateOfBirth: new Date().toLocaleString(),
+    yearOfBirth: '',
+    dateOfBirth: '',
     gender: '',
     age: 0,
     lifeExpectancy: 0,
 })
-function handleDateOfBirthChanged() {
+
+function onYearOfBirthChanged() {
     calculateLifeExpectancyAndAge()
 }
 function handleGenderChanged() {
     calculateLifeExpectancyAndAge()
 }
 async function calculateLifeExpectancyAndAge() {
-    const { dateOfBirth, gender, age } = profile
-    if(dateOfBirth && gender){
+    const { yearOfBirth, gender, age } = profile
+    if(yearOfBirth && gender){
         const ceYear = new Date().getFullYear()
-        const yearOfBirth =  new Date(dateOfBirth).getFullYear()
         const calculateAge = ceYear - yearOfBirth
-
-        const res = await authFetch(`/calculate/lifeExpectancy`, {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/lifeExpectancy`, {
             method: 'post',
-            body: {
+            body: JSON.stringify({
                 ceYear,
                 age: calculateAge,
                 gender,
-            }
+            }),
+            headers: {'Content-Type': 'application/json'}
         })
         const lifeExpectancy = await res.json()
         profile.age = calculateAge
@@ -1842,8 +1847,7 @@ function drawLifeAssetChart() {
         datasetData.push(pv)
 
         // 基本資料
-        const { dateOfBirth } = profile
-        const birthYear = new Date(dateOfBirth).getFullYear()
+        const { yearOfBirth } = profile
 
         // 影響存量重大事件
         const { buyHouseYear } = mortgage
@@ -1853,7 +1857,7 @@ function drawLifeAssetChart() {
 
         let calculatedPmt = 0
         // 退休開支影響收入與支出
-        const reitrementStartYear = birthYear + retirement.age
+        const reitrementStartYear = yearOfBirth + retirement.age
         if(year <= reitrementStartYear) {
             calculatedPmt = investmentAveraging.value * 12 * inflationModifier
         }
@@ -1903,7 +1907,13 @@ function drawLifeAssetChart() {
     investmentChartInstance = shallowRef(chartInstance)
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
+const yearOptions = ref([])
 onMounted(async () => {
+    const yearOptionsTemp = []
+    for(let i = 0;i < 60; i++){
+        yearOptionsTemp.push(currentYear - i - 18)
+    }
+    yearOptions.value = yearOptionsTemp
     initializeApp()
     setSelecOptionSync()
     initializeCalculator()
