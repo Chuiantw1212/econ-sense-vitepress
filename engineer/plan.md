@@ -9,7 +9,7 @@ outline: deep
 3. 民眾可以快速建立生涯財務觀念，並提共<a href="/calendar.html#聯絡en">回饋意見</a>。
 
 <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
-    登入按鈕邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
+    邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
     <div v-if="!user.uid" id="firebaseui-auth-container"></div>
 </el-dialog>
 
@@ -98,7 +98,7 @@ outline: deep
     </template>
 </el-card>
 
-## 2. 需求試算
+## 2. 我可以FIRE嗎？
 
 財務安全的理財方式，將退休前與退休後的資產分開計算。退休先有保障，當上流老人，再用退休前資產去試算是否可以推關。
 
@@ -442,7 +442,28 @@ outline: deep
             </el-col>
             <el-col :span="12">
                 <el-form-item label="定期定額" @change="onAssetChanged()">
-                    <el-text>{{ Number(investmentAveraging).toLocaleString() }} NTD</el-text>
+                    <el-text>{{ Number(investmentAveraging).toLocaleString() }} NTD / 月</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="房貸頭期款" @change="onAssetChanged()">
+                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="房貸利息負債" @change="onAssetChanged()">
+                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="房貸利息負債" @change="onAssetChanged()">
+                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -506,7 +527,6 @@ outline: deep
 <h3 v-show="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
 <el-card v-show="checkedNeeds.includes('housing')">
     <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="estatePrice" :rules="buildingRules" label-width="auto">
-        <p>資料筆數較多，需要等待。</p>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="居住縣市" prop="county">
