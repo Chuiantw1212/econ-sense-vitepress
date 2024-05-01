@@ -1615,7 +1615,7 @@ async function drawRetirementPensionChart() {
         for (let i = 0; i < n; i++) {
             const calculatedYear = currentYear + i
             labels.push(calculatedYear)
-            datasetData.push(pv)
+            datasetData.push(Math.floor(pv))
 
             inflationModifier *= (1 + inflationRate.value / 100)
             fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
@@ -1626,7 +1626,7 @@ async function drawRetirementPensionChart() {
         // 退休後退休支出
         for (let i = 0; i < retirement.lifeExpectancy; i++) {
             const calculatedYear = currentYear + n + i
-            datasetData.push(pv)
+            datasetData.push(Math.floor(pv))
             labels.push(calculatedYear)
 
             inflationModifier *= (1 + inflationRate.value / 100)
@@ -1710,9 +1710,6 @@ function calculateAssetIrrChanges() {
 function onAssetChanged() {
     drawLifeAssetChart()
 }
-function onIncomeChanged() {
-    drawLifeAssetChart()
-}
 function onBuyHouseYearChanged() {
     drawLifeAssetChart()
 }
@@ -1733,7 +1730,7 @@ function drawLifeAssetChart() {
     const datasetData: number[] = []
     for (let year = currentYear; year < currentYear + retirement.insurance.futureSeniority; year++) {
         labels.push(year)
-        datasetData.push(pv)
+        datasetData.push(Math.floor(pv))
 
         // 基本資料
         const { yearOfBirth } = profile
@@ -1839,28 +1836,30 @@ function drawParentingChart() {
         const secondBornEndYear = secondBornYear + independantAge
         const parentingDuration = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
         const labels: number[] = []
-        const firstBornData: number[] = []
-        const secondBornData: number[] = []
-        const asssetData: number[] = []
+        const firstBornData: number[][] = []
+        const secondBornData: number[][] = []
+        const asssetData: number[][] = []
         let insuranceAsset = insurance
         for (let i = 0; i <= parentingDuration; i++) {
             const simYear = firstBornYear + i
             labels.push(simYear)
             const inflatedExpense = Math.floor(childAnnualExpense * inflationModifier)
+            let totalExpense = 0
             if (firstBornYear && firstBornYear <= simYear && simYear <= firstBornEndYear) {
-                firstBornData.push(inflatedExpense)
-                insuranceAsset -= inflatedExpense
+                firstBornData.push([0, inflatedExpense])
+                totalExpense += inflatedExpense
             } else {
-                firstBornData.push(0)
+                firstBornData.push([0, 0])
             }
             if (secondBornYear && secondBornYear <= simYear && simYear <= secondBornEndYear) {
-                secondBornData.push(inflatedExpense)
-                insuranceAsset -= inflatedExpense
+                secondBornData.push([totalExpense, totalExpense + inflatedExpense])
+                totalExpense += inflatedExpense
             } else {
-                secondBornData.push(0)
+                secondBornData.push([0, 0])
             }
             insuranceAsset += spouseMonthlyContribution
-            asssetData.push(insuranceAsset)
+            insuranceAsset -= totalExpense
+            asssetData.push([totalExpense, Math.floor(insuranceAsset)])
             insuranceAsset = insuranceAsset * (1 + investment.irr / 100)
             inflationModifier *= 1 + inflationRate.value / 100
         }
@@ -1869,6 +1868,7 @@ function drawParentingChart() {
                 label: '長子',
                 data: firstBornData,
                 fill: true,
+                tension: 0.4
             },
         ]
         if (secondBornYear) {
@@ -1876,17 +1876,19 @@ function drawParentingChart() {
                 label: '次子',
                 data: secondBornData,
                 fill: true,
+                tension: 0.4
             })
         }
         if (insurance) {
             datasets.push({
                 label: '壽險+投資',
                 data: asssetData,
-                fill: true
+                fill: true,
+                tension: 0.4
             })
         }
 
-        const data = {
+        const data: any = {
             labels,
             datasets,
         }
@@ -1912,9 +1914,6 @@ function drawParentingChart() {
                     x: {
                         stacked: true,
                     },
-                    y: {
-                        stacked: true
-                    }
                 }
             }
         })
@@ -1923,6 +1922,7 @@ function drawParentingChart() {
 }
 function showChildAge(tooltipItems) {
     const { raw, dataIndex, dataset, datasetIndex } = tooltipItems
+    const secondValue = raw[1]
     if ([0, 1].includes(datasetIndex)) {
         const zeros = dataset.data.slice(0, parenting.independantAge).filter(value => value === 0)
         const age = dataIndex - zeros.length
@@ -1932,13 +1932,21 @@ function showChildAge(tooltipItems) {
         } else {
             return '未出生'
         }
+    } else {
+        const formatValue = Number(secondValue).toLocaleString()
+        return `年末剩餘：${formatValue}`
     }
 }
 function showChildExpense(tooltipItems) {
     const { raw, datasetIndex } = tooltipItems[0]
-    const formatExpense = Number(raw).toLocaleString()
+    const fisrtValue = raw[0]
+    const secondValue = raw[1]
     if ([0, 1].includes(datasetIndex)) {
-        return `支出: ${formatExpense}`
+        const formatExpense = Number(secondValue - fisrtValue).toLocaleString()
+        return `支出： ${formatExpense}`
+    } else {
+        const formatValue = Number(fisrtValue).toLocaleString()
+        return `總支出： ${formatValue}`
     }
 }
 // 購屋分析
