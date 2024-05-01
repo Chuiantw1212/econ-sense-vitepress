@@ -314,8 +314,17 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="預估勞退一次領總額">
+                <el-form-item label="預估勞退總額">
                     <el-text>{{ Number(retirement.pension.finalValue).toLocaleString() }}</el-text>
+                </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12">
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="預估勞退稅基">
+                    <el-text>{{ Number(retirement.pension.tax).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -347,7 +356,7 @@ outline: deep
                         勞退收益率：<a href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00" target="_blank">中華民國退休基金協會</a>
                     </li>
                     <li>
-                        假設勞退一次領後的再投資報酬率打平勞動基金
+                        假設勞退皆為一次領，且領後的再投資報酬率打平勞動基金
                     </li>
                     <li>資料來源：
                         <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
@@ -398,8 +407,6 @@ outline: deep
 </el-card>
 
 ## 3. 五子登科
-
-退休沒問題以後，這邊就可以安心拼。
 
 <el-card>
     <el-form label-width="auto">
@@ -968,7 +975,7 @@ outline: deep
  */
 import firebase from 'firebase/compat/app';
 import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox, ElLoading  } from 'element-plus'
 import Chart from 'chart.js/auto';
 // 用戶與權限
 const user = reactive({
@@ -1097,6 +1104,7 @@ const porfolioLabels = reactive({
     aoa: '股8債2',
 })
 async function setSelecOptionSync() {
+    const loading = ElLoading.service()
     try {
         const selectRes = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
         const selectResJson = await selectRes.json()
@@ -1120,6 +1128,8 @@ async function setSelecOptionSync() {
                 window?.location.replace('/calendar');
             },
         })
+    } finally {
+        loading.close()
     }
 }
 async function getUserFormSync(firebaseUser) {
@@ -1628,7 +1638,7 @@ async function drawRetirementPensionChart() {
             fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
             pv = fv
         }
-        retirement.pension.finalValue = fv || 0
+        calculatePensionFinalValue(fv)
 
         // 退休後退休支出
         for(let i = 0;i < retirement.lifeExpectancy; i++) {
@@ -1662,6 +1672,18 @@ async function drawRetirementPensionChart() {
         })
         pensionChartInstance = shallowRef(chartInstance)
     }, 'retirement',)()
+}
+function calculatePensionFinalValue(fv) {
+    retirement.pension.finalValue = fv || 0
+    const { futureSeniority } = retirement.insurance
+    const taxFreeLevel = 19.8 * 10000 * futureSeniority
+    const taxHalfLevel = 39.8 * 10000 * futureSeniority
+    let taxBasis = retirement.pension.finalValue
+    taxBasis -= taxFreeLevel
+    const taxHalf = Math.max(0, taxBasis) / 2
+    taxBasis -= taxHalfLevel
+    const taxFull = Math.max(0, taxBasis) / 2
+    retirement.pension.tax = Math.floor(taxHalf + taxFull)
 }
 // 投資試算
 const investment = reactive({
@@ -1743,7 +1765,7 @@ function drawLifeAssetChart() {
         let calculatedPmt = 0
         // 退休開支影響收入與支出
         const reitrementStartYear = yearOfBirth + retirement.age
-        if(year <= reitrementStartYear) {
+        if(year < reitrementStartYear) {
             calculatedPmt = investmentAveraging.value * 12 * inflationModifier
         }
         // 房貸利息影響每月儲蓄
@@ -1765,7 +1787,7 @@ function drawLifeAssetChart() {
             calculatedPmt -= childAnnualExpense * inflationModifier
         }
         if(hasFirstBorn || hasSecondBorn) {
-            calculatedPmt += spouseMonthlyContribution * inflationModifier
+            calculatedPmt += spouseMonthlyContribution * 12 * inflationModifier
         }
 
         // 計算複利終值
