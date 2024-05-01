@@ -315,7 +315,7 @@ outline: deep
             <el-col :span="12">
             </el-col>
             <el-col :span="12">
-                <el-form-item label="預估勞退稅基">
+                <el-form-item v-if="retirement.pension.tax" label="預估勞退稅基">
                     <el-text>{{ Number(retirement.pension.tax).toLocaleString() }}</el-text>
                 </el-form-item>
             </el-col>
@@ -1079,7 +1079,7 @@ const porfolioLabels = reactive({
     aoa: '股8債2',
 })
 async function setSelecOptionSync() {
-    // const loading = ElLoading.service()
+    const loading = ElLoading.service()
     try {
         const selectRes = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
         const selectResJson = await selectRes.json()
@@ -1104,7 +1104,7 @@ async function setSelecOptionSync() {
             },
         })
     } finally {
-        // loading.close()
+        loading.close()
     }
 }
 async function getUserFormSync(firebaseUser) {
@@ -1861,27 +1861,32 @@ function drawParentingChart() {
             insuranceAsset = insuranceAsset * (1 + investment.irr / 100)
             inflationModifier *= 1 + inflationRate.value / 100
         }
-        const data = {
-            labels,
-            datasets: [
-                {
-                    label: '長子',
-                    data: firstBornData,
-                    fill: true,
-                },
-                {
-                    label: '次子',
-                    data: secondBornData,
-                    fill: true,
-                },
-                {
-                    label: '壽險+投資',
-                    data: asssetData,
-                    fill: true
-                },
-            ],
+        const datasets = [
+            {
+                label: '長子',
+                data: firstBornData,
+                fill: true,
+            },
+        ]
+        if(secondBornYear) {
+            datasets.push({
+                label: '次子',
+                data: secondBornData,
+                fill: true,
+            })
+        }
+        if(insurance) {
+            datasets.push({
+                label: '壽險+投資',
+                data: asssetData,
+                fill: true
+            })
         }
 
+        const data = {
+            labels,
+            datasets,
+        }
         if(parentingChartInstance.value) {
             parentingChartInstance.value.data = data
             parentingChartInstance.value.update()
