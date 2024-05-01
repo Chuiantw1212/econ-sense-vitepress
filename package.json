@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Chuiantw1212/econ-sense-vite-press#readme",
   "devDependencies": {
+    "@types/node-fetch": "^2.6.11",
     "sass": "^1.75.0",
     "vitepress": "^1.1.3"
   },

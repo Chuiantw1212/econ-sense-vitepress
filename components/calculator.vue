@@ -950,6 +950,10 @@ import firebase from 'firebase/compat/app';
 import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
 import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
 import Chart from 'chart.js/auto';
+interface IOptionItem {
+    label: string,
+    value: string | number | boolean,
+}
 // 用戶與權限
 const user = reactive({
     displayName: '註冊用戶',
@@ -994,14 +998,14 @@ async function setIdToken(currentUser) {
     if (currentUser) {
         idToken.value = await currentUser.getIdToken()
         idTokenIntervalId.value = setInterval(async () => {
-            idToken.value = await firebase.auth().currentUser.getIdToken(true)
+            idToken.value = await firebase.auth()?.currentUser?.getIdToken(true)
         }, 50 * 60 * 1000)
     } else {
         idToken.value = null
         clearInterval(idTokenIntervalId.value)
     }
 }
-async function authFetch(appendUrl, options = {}) {
+async function authFetch(appendUrl, options) {
     const currentUser = await firebase.auth().currentUser
     if (!currentUser) {
         return // 離線使用或未登入
@@ -1011,7 +1015,7 @@ async function authFetch(appendUrl, options = {}) {
     }
     const { uid } = currentUser
     let baseUrl = import.meta.env.VITE_BASE_URL
-    const defaultOptions = {
+    const defaultOptions: any = {
         method: 'get',
         headers: {
             Authorization: `Bearer ${idToken.value}`,
@@ -1054,10 +1058,10 @@ function openSignInDialog() {
          */
         if (firebaseui.auth.AuthUI.getInstance()) {
             const ui = firebaseui.auth.AuthUI.getInstance()
-            ui.start('#firebaseui-auth-container', uiConfig)
+            ui?.start('#firebaseui-auth-container', uiConfig)
         } else {
             const ui = new firebaseui.auth.AuthUI(firebase.auth())
-            ui.start('#firebaseui-auth-container', uiConfig)
+            ui?.start('#firebaseui-auth-container', uiConfig)
         }
     })
 }
@@ -1069,15 +1073,15 @@ async function signOut() {
 }
 // 主要從資料庫來的設定檔案
 const inflationRate = ref(2)
-const currentYear = new Date().getFullYear()
-const counties = ref([])
+const currentYear: number = new Date().getFullYear()
+const counties = ref < IOptionItem[] > ([])
 const townMap = reactive({})
-const buildingTypes = ref([])
-const buildingAges = ref([])
-const genders = ref([])
-const retirementQuartile = ref([])
+const buildingTypes = ref < IOptionItem[] > ([])
+const buildingAges = ref < IOptionItem[] > ([])
+const genders = ref < IOptionItem[] > ([])
+const retirementQuartile = ref < IOptionItem[] > ([])
 const portfolioIRR = reactive({})
-const yearOptions = ref([])
+const yearOptions = ref < number[] > ([])
 const porfolioLabels = reactive({
     aok: '股2債8',
     aom: '股4債6',
@@ -1101,7 +1105,7 @@ async function setSelecOptionSync() {
         mortgage.interestRate = bankConfigResJson.interestRate
         Object.assign(portfolioIRR, bankConfigResJson.portfolioIRR)
 
-        const yearOptionsTemp = []
+        const yearOptionsTemp: number[] = []
         const year = new Date().getFullYear()
         for (let i = 0; i < 60; i++) {
             yearOptionsTemp.push(Number(year) - i - 18)
@@ -1274,7 +1278,7 @@ const career = reactive({
     monthlyNetPay: 0,
     monthlyExpense: 0,
 })
-let incomeChartInstance = ref(null)
+let incomeChartInstance = ref < Chart > ()
 function onMonthlyBasicSalaryChanged() {
     calculatePensionSalaryMin()
     calculateInsuranceSalaryMin()
@@ -1468,7 +1472,7 @@ function drawChartAndCalculateIncome() {
             incomeChartInstance.value.update()
             return
         }
-        const ctx = document.getElementById('incomeChart')
+        const ctx: any = document.getElementById('incomeChart')
         const chartInstance = new Chart(ctx, {
             type: 'bar',
             data: data,
@@ -1506,6 +1510,7 @@ const retirement = reactive({
         presentSeniority: 0, // 6.9
         futureSeniority: 0,
         monthlyAnnuity: 0,
+        annuitySum: 0,
     },
     pension: {
         employeeContrubution: 0,
@@ -1514,11 +1519,13 @@ const retirement = reactive({
         employerContributionIncome: 0,
         irrOverDecade: 4.76,
         finalValue: 0,
+        tax: 0,
     },
     qualityLevel: 0,
     percentileRank: 0,
+    annualExpense: 0,
 })
-let pensionChartInstance = ref(null)
+let pensionChartInstance = ref < Chart > ()
 const expenseQuartileMarks = reactive({})
 function onRetireAgeChanged() {
     calculateRetireLife()
@@ -1571,8 +1578,8 @@ function calculateRetirementMonthlyExpense() {
     if (!qualityLevel || !retirementQuartile.value.length) {
         return
     }
-    const selectedItem = retirementQuartile.value[qualityLevel - 1]
-    retirement.annualExpense = selectedItem.value
+    const selectedItem: IOptionItem = retirementQuartile.value[qualityLevel - 1]
+    retirement.annualExpense = Number(selectedItem.value)
     drawRetirementPensionChart()
 }
 async function calculateRetireLife() {
@@ -1601,8 +1608,8 @@ async function drawRetirementPensionChart() {
         const irr = irrOverDecade
         let fv = 0 // fv = pv * irr + pensionContribution
 
-        const labels = []
-        const datasetData = []
+        const labels: number[] = []
+        const datasetData: number[] = []
 
         // 退休前資產累積
         for (let i = 0; i < n; i++) {
@@ -1641,7 +1648,7 @@ async function drawRetirementPensionChart() {
             pensionChartInstance.value.update()
             return
         }
-        const ctx = document.getElementById('pensionChart')
+        const ctx: any = document.getElementById('pensionChart')
         const chartInstance = new Chart(ctx, {
             type: 'bar',
             data: chartData
@@ -1670,12 +1677,12 @@ const investment = reactive({
 })
 const investmentAveraging = ref(0)
 const allocationQuartileMarks = reactive({})
-let investmentChartInstance = ref(null)
+let investmentChartInstance = ref < Chart > ()
 function calculateRetirementQuartileMarks() {
     retirementQuartile.value.forEach((item, index) => {
         const { value } = item
         const percentileRank = (index + 1) * 20 - 10
-        const retirementMonthlyExpense = value / 12
+        const retirementMonthlyExpense = Number(value) / 12
         expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
     })
 }
@@ -1722,8 +1729,8 @@ function drawLifeAssetChart() {
     let pv = investment.presentAsset
     const irr = investment.irr
     let fv = 0 // fv = pv * irr + pmt
-    const labels = []
-    const datasetData = []
+    const labels: number[] = []
+    const datasetData: number[] = []
     for (let year = currentYear; year < currentYear + retirement.insurance.futureSeniority; year++) {
         labels.push(year)
         datasetData.push(pv)
@@ -1739,7 +1746,7 @@ function drawLifeAssetChart() {
 
         let calculatedPmt = 0
         // 退休開支影響收入與支出
-        const reitrementStartYear = yearOfBirth + retirement.age
+        const reitrementStartYear = Number(yearOfBirth) + retirement.age
         if (year <= reitrementStartYear) {
             calculatedPmt = investmentAveraging.value * 12 * inflationModifier
         }
@@ -1786,7 +1793,7 @@ function drawLifeAssetChart() {
         return
     }
 
-    const ctx = document.getElementById('assetChart')
+    const ctx: any = document.getElementById('assetChart')
     const chartInstance = new Chart(ctx, {
         type: 'bar',
         data: chartData
@@ -1803,7 +1810,7 @@ const parenting = reactive({
     insurance: 0,
     headCount: 0,
 })
-let parentingChartInstance = ref(null)
+let parentingChartInstance = ref < Chart > ()
 watch(() => parenting, () => {
     drawParentingChart()
 }, { deep: true })
@@ -1828,14 +1835,13 @@ function drawParentingChart() {
             headCount += 1
         }
         parenting.headCount = headCount
-        const parentingStartYear = firstBornYear
         const firstBornEndYear = firstBornYear + independantAge
         const secondBornEndYear = secondBornYear + independantAge
         const parentingDuration = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
-        const labels = []
-        const firstBornData = []
-        const secondBornData = []
-        const asssetData = []
+        const labels: number[] = []
+        const firstBornData: number[] = []
+        const secondBornData: number[] = []
+        const asssetData: number[] = []
         let insuranceAsset = insurance
         for (let i = 0; i <= parentingDuration; i++) {
             const simYear = firstBornYear + i
@@ -1889,7 +1895,7 @@ function drawParentingChart() {
             parentingChartInstance.value.update()
             return
         }
-        const ctx = document.getElementById('parentingChart')
+        const ctx: any = document.getElementById('parentingChart')
         const chartInstance = new Chart(ctx, {
             type: 'line',
             data: data,
@@ -1948,7 +1954,9 @@ const estatePrice = reactive({
     average: 0,
 })
 const buildingUnitPrice = ref(0)
-let unitPriceMarks = reactive({
+let unitPriceMarks: {
+    [key: string]: string
+} = reactive({
     0: 'PR25：？',
     100: 'PR75：？'
 })
@@ -2154,7 +2162,7 @@ function onResize() {
     isFullScreen.value = window?.innerWidth < 768
 }
 const debounceIdGroup = reactive({})
-function debounce(func, label = '', delay = 50) {
+function debounce(func, label = '', delay = 100) {
     return (...args) => {
         clearTimeout(debounceIdGroup[label])
         debounceIdGroup[label] = setTimeout(() => {
