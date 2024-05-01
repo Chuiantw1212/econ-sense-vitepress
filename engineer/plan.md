@@ -103,24 +103,6 @@ outline: deep
 
 財務安全的理財方式，將退休前與退休後的資產分開計算。退休先有保障，當上流老人，再用退休前資產去試算是否可以推關。
 
-<!-- <el-row>
-    <el-col :span="4">
-        <el-checkbox
-            v-model="checkAll"
-            :indeterminate="isIndeterminate"
-            @change="handleCheckAllChange"
-        >
-            全部顯示
-        </el-checkbox>
-    </el-col>
-    <el-col :span="20">
-        <el-checkbox-group v-model="checkedNeeds" @change="handleCheckedNeedsChange">
-            <el-checkbox v-for="need in needs" :key="need" :value="need">
-            {{ needLabelMap[need] }}
-            </el-checkbox>
-        </el-checkbox-group>
-    </el-col>
-</el-row> -->
 ### 職業試算
 
 <el-card v-show="checkedNeeds.includes('career')">
@@ -470,25 +452,25 @@ outline: deep
         </el-row> -->
         <el-row>
             <el-col :span="12">
-                <el-form-item label="房貸頭期款" @change="onAssetChanged()">
-                    <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
+                <el-form-item label="購屋西元年">
+                    <el-input-number v-model="mortgage.buyHouseYear"  @change="onBuyHouseYearChanged()"/>
                 </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <!-- <el-form-item label="房貸利息負債" @change="onAssetChanged()">
+                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
+                </el-form-item> -->
+            </el-col>
+        </el-row>
+        <!-- <el-row>
+            <el-col :span="12">
             </el-col>
             <el-col :span="12">
                 <el-form-item label="房貸利息負債" @change="onAssetChanged()">
                     <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
                 </el-form-item>
             </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="房貸利息負債" @change="onAssetChanged()">
-                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row>
+        </el-row> -->
         <!-- <el-row>
             <el-col :span="4">
                 <el-checkbox
@@ -575,7 +557,7 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="理想家庭大小">
+                <el-form-item label="房屋容納人數">
                     <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
                 </el-form-item>
             </el-col>
@@ -908,8 +890,8 @@ outline: deep
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
-                <el-form-item label="購屋西元年" @change="onBuyHouseYearChanged()">
-                    <el-input-number v-model="mortgage.buyHouseYear"/>
+                <el-form-item label="購屋西元年">
+                    <el-input-number v-model="mortgage.buyHouseYear" @change="onBuyHouseYearChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -1145,6 +1127,10 @@ async function getUserFormSync(firebaseUser) {
         retirement: {
             age: 65,
             pension: {
+                employeeContrubution: 0,
+                employeeContrubutionIncome: 0,
+                employerContribution: 0,
+                employerContributionIncome: 0,
                 irrOverDecade: 4.76
             },
             percentileRank: 50,
@@ -1193,7 +1179,6 @@ async function getUserFormSync(firebaseUser) {
         Object.assign(estateSize, initForm.estateSize)
         Object.assign(mortgage, initForm.mortgage)
         Object.assign(parenting, initForm.parenting)
-        console.log(investment)
         initializeCalculator()
     }
 }
