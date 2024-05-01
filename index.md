@@ -13,7 +13,7 @@ hero:
     - theme: brand 
       text: 講座排程
       link: /calendar
-    - theme: alt
+    - theme: brand
       text: 開源財務規劃表
       link: /engineer/plan
     # - theme: alt
