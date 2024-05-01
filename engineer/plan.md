@@ -1,5 +1,5 @@
 ---
-description: 探索台灣唯一開源的線上財務規劃表，工程師可學習Javascript，民眾建立財務觀念，並提供回饋意見。
+description: 台灣唯一開源的線上財務規劃表，工程師可學習Javascript，民眾建立財務觀念，並提供回饋意見。
 outline: deep
 ---
 
@@ -439,24 +439,6 @@ outline: deep
                 </el-form-item>
             </el-col>
         </el-row>
-        <!-- <el-row>
-            <el-col :span="12">
-                <el-form-item label="第一隻西元年">
-                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="第二隻西元年">
-                    <el-input-number v-model="parenting.secondBornYear" :min="0" @change="onSecondBornYearChanged()"/>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-            </el-col>
-        </el-row> -->
         <el-row>
             <el-col :span="12">
                 <el-form-item label="購屋西元年">
@@ -464,38 +446,8 @@ outline: deep
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <!-- <el-form-item label="房貸利息負債" @change="onAssetChanged()">
-                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
-                </el-form-item> -->
             </el-col>
         </el-row>
-        <!-- <el-row>
-            <el-col :span="12">
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="房貸利息負債" @change="onAssetChanged()">
-                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row> -->
-        <!-- <el-row>
-            <el-col :span="4">
-                <el-checkbox
-                    v-model="checkAll"
-                    :indeterminate="isIndeterminate"
-                    @change="handleCheckAllChange"
-                >
-                    全部顯示
-                </el-checkbox>
-            </el-col>
-            <el-col :span="20">
-                <el-checkbox-group v-model="checkedNeeds" @change="handleCheckedNeedsChange">
-                    <el-checkbox v-for="need in needs" :key="need" :value="need">
-                    {{ needLabelMap[need] }}
-                    </el-checkbox>
-                </el-checkbox-group>
-            </el-col>
-        </el-row> -->
         <canvas id="assetChart"></canvas>
         <el-row>
             <el-col>
@@ -605,12 +557,25 @@ outline: deep
             <el-col :span="12">
             </el-col>
         </el-row>
+        <el-row>
+            <el-col :span="12">
+                <el-form-item label="壽險已備">
+                    <el-input-number v-model="parenting.insurance" :min="0" @change="drawLifeAssetChart()"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            </el-col>
+        </el-row>
+        <canvas id="parentingChart"></canvas>
     </el-form>
     <template #footer>
         <el-collapse>
             <el-collapse-item title="資料說明" name="1" :border="true">
                 因為缺少資料集或是相關api，故此部分資料會較為粗糙。
                 <ul>
+                    <li>
+                        保險事故日期假定為幼子出生年
+                    </li>
                     <li>資料來源：
                         <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
                             主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
@@ -1026,7 +991,7 @@ async function setIdToken(currentUser) {
     }
 }
 async function authFetch(appendUrl, options = {}) {
-    const currentUser = firebase.auth().currentUser
+    const currentUser = await firebase.auth().currentUser
     if(!currentUser) {
         return // 離線使用或未登入
     }
@@ -1048,7 +1013,8 @@ async function authFetch(appendUrl, options = {}) {
     Object.assign(defaultOptions.headers, options.headers)
     const res = await fetch(baseUrl + appendUrl, defaultOptions)
     if(res.status !== 200) {
-        ElMessage(res.body || res.statusText)
+        const result = await res.text()
+        ElMessage(result || res.statusText)
         return
     }
     return res
@@ -1104,7 +1070,7 @@ const porfolioLabels = reactive({
     aoa: '股8債2',
 })
 async function setSelecOptionSync() {
-    const loading = ElLoading.service()
+    // const loading = ElLoading.service()
     try {
         const selectRes = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
         const selectResJson = await selectRes.json()
@@ -1129,7 +1095,7 @@ async function setSelecOptionSync() {
             },
         })
     } finally {
-        loading.close()
+        // loading.close()
     }
 }
 async function getUserFormSync(firebaseUser) {
@@ -1152,6 +1118,7 @@ async function getUserFormSync(firebaseUser) {
         parenting: {
             childAnnualExpense: 212767,
             independantAge: 18,
+            insurance: 0,
         },
         estateSize: {
             publicRatio: 35,
@@ -1729,13 +1696,6 @@ function onBuyHouseYearChanged() {
 }
 function drawLifeAssetChart() {
     debounce(() => {
-        // 儲存參數
-        authFetch(`/user/parenting`, {
-            method: 'put',
-            body: parenting,
-        })
-    }, 'parenting')()
-    debounce(() => {
         authFetch(`/user/investment`, {
             method: 'put',
             body: investment,
@@ -1825,6 +1785,16 @@ const parenting = reactive({
     independantAge: 0,
     firstBornYear: 0,
     secondBornYear: 0,
+})
+watch(() => parenting, ()=>{
+    debounce(() => {
+        // 儲存參數
+        authFetch(`/user/parenting`, {
+            method: 'put',
+            body: parenting,
+        })
+        // 繪製圖
+    }, 'parenting')()
 })
 // 購屋分析
 const estatePrice = reactive({
