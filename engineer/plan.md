@@ -1079,7 +1079,7 @@ const porfolioLabels = reactive({
     aoa: '股8債2',
 })
 async function setSelecOptionSync() {
-    // const loading = ElLoading.service()
+    const loading = ElLoading.service()
     try {
         const selectRes = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
         const selectResJson = await selectRes.json()
@@ -1104,7 +1104,7 @@ async function setSelecOptionSync() {
             },
         })
     } finally {
-        // loading.close()
+        loading.close()
     }
 }
 async function getUserFormSync(firebaseUser) {
