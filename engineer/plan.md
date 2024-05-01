@@ -2143,12 +2143,12 @@ async function calculateMortgate() {
     drawLifeAssetChart()
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
-const yearOptions = ref([])
+let yearOptions = reactive([])
 const yearOptionsTemp = []
 for(let i = 0;i < 60; i++){
     yearOptionsTemp.push(currentYear - i - 18)
 }
-yearOptions.value = yearOptionsTemp
+yearOptions = yearOptionsTemp
 onMounted(async () => {
     initializeApp()
     await setSelecOptionSync()
