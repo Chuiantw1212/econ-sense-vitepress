@@ -86,7 +86,7 @@
     財務安全的理財方式，將退休前與退休後的資產分開計算。退休先有保障，當上流老人，再用退休前資產去試算是否可以推關。
 
     <h3 id="_職業試算" tabindex="-1">職業試算</h3>
-    <el-card v-show="checkedNeeds.includes('career')">
+    <el-card>
         <el-form label-width="auto">
             <el-row>
                 <el-col :span="12">
@@ -205,7 +205,7 @@
     </el-card>
 
     <h3 id="_退休試算" tabindex="-1">退休試算</h3>
-    <el-card v-show="checkedNeeds.includes('retirement')">
+    <el-card>
         <el-form label-width="auto">
             <el-row>
                 <el-col :span="12">
@@ -595,8 +595,8 @@
         </template>
     </el-card>
 
-    <h3 v-show="checkedNeeds.includes('housing')" id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
-    <el-card v-show="checkedNeeds.includes('housing')">
+    <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
+    <el-card>
         <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="estatePrice" :rules="buildingRules"
             label-width="auto">
             <el-row>
@@ -865,8 +865,8 @@
         </template>
     </el-card>
 
-    <h3 v-show="checkedNeeds.includes('housing')" id="_購屋貸款試算" tabindex="-1">購屋貸款試算</h3>
-    <el-card v-show="checkedNeeds.includes('housing')">
+    <h3 id="_購屋貸款試算" tabindex="-1">購屋貸款試算</h3>
+    <el-card>
         <el-form label-width="auto">
             <el-row>
                 <el-col :span="12">
@@ -936,7 +936,7 @@
         </template>
     </el-card>
 </template>
-<script setup>
+<script setup lang="ts">
 /**
  * Warning: FirebaseUI is not currently compatible with the v9 modular SDK. The v9 compatibility layer (specifically, the * app-compat and auth-compat packages) permits the usage of FirebaseUI alongside v9, but without the app size reduction * and other benefits of the v9 SDK.
  * https://firebase.google.com/docs/auth/web/firebaseui
@@ -955,7 +955,8 @@ const user = reactive({
     displayName: '註冊用戶',
     email: '',
     photoURL: '',
-    uid: ''
+    uid: '',
+    id: '',
 })
 async function initializeApp() {
     await firebase.initializeApp({
@@ -969,18 +970,18 @@ async function initializeApp() {
     })
     firebase.auth().onAuthStateChanged(async (firebaseUser) => {
         if (!firebaseUser) {
-            await setIdToken()
-            await getUserFormSync()
+            await setIdToken(false)
+            await getUserFormSync(false)
             await initializeCalculator()
             return
         }
-        const { displayName = '註冊用戶', email, photoURL, uid } = firebaseUser
+        const { displayName, email, photoURL, uid } = firebaseUser
         await setIdToken(firebaseUser)
 
-        user.photoURL = photoURL
+        user.photoURL = photoURL || ''
         user.uid = uid
-        user.email = email
-        user.displayName = displayName
+        user.email = email || ''
+        user.displayName = displayName || '註冊用戶'
         loginDialogVisible.value = false
         const userForm = await getUserFormSync(firebaseUser)
         user.id = userForm.id // 告訴authFetch可以更新資料了，避免初始資料錯誤覆蓋原有資料
@@ -1121,6 +1122,8 @@ async function setSelecOptionSync() {
 }
 async function getUserFormSync(firebaseUser) {
     const initForm = {
+        profile: {},
+        career: {},
         retirement: {
             age: 65,
             pension: {
@@ -1142,6 +1145,7 @@ async function getUserFormSync(firebaseUser) {
             independantAge: 18,
             insurance: 0,
         },
+        estatePrice: {},
         estateSize: {
             publicRatio: 35,
             bathroom: 1,
@@ -1154,20 +1158,22 @@ async function getUserFormSync(firebaseUser) {
             loanTerm: 25,
         },
     }
-    let userForm = {}
+    let userForm = {
+        id: ''
+    }
     try {
         if (firebaseUser) {
             const { uid } = firebaseUser
             const res = await authFetch(`/user/${uid}`, {
                 method: 'post'
             })
-            userForm = await res.json()
+            userForm = await res?.json()
         }
     } catch (error) {
         const res = await authFetch(`/user/new`, {
             method: 'post'
         })
-        userForm = await res.json()
+        userForm = await res?.json()
     } finally {
         Object.assign(initForm, userForm)
         Object.assign(profile, initForm.profile)
@@ -1222,7 +1228,7 @@ async function calculateLifeExpectancyAndAge() {
     const { yearOfBirth, gender, age } = profile
     if (yearOfBirth && gender) {
         const ceYear = new Date().getFullYear()
-        const calculateAge = ceYear - yearOfBirth
+        const calculateAge = ceYear - Number(yearOfBirth)
         const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/lifeExpectancy`, {
             method: 'post',
             body: JSON.stringify({
@@ -1245,27 +1251,6 @@ async function calculateLifeExpectancyAndAge() {
             body: profile,
         })
     }
-}
-// 需求分析
-const checkAll = ref(false)
-const isIndeterminate = ref(true)
-const needs = ['career', 'retirement', 'investment', 'housing', 'parenting',]
-const checkedNeeds = ref(['career', 'retirement', 'investment', 'housing', 'parenting',])
-const needLabelMap = {
-    career: '職業試算',
-    retirement: '退休試算',
-    investment: '退休前資產試算',
-    housing: '購屋試算',
-    parenting: '育兒試算',
-}
-const handleCheckAllChange = (val) => {
-    checkedNeeds.value = val ? needs : []
-    isIndeterminate.value = false
-}
-const handleCheckedNeedsChange = (value) => {
-    const checkedCount = value.length
-    checkAll.value = checkedCount === needs.length
-    isIndeterminate.value = checkedCount > 0 && checkedCount < needs.length
 }
 // 職業試算
 const career = reactive({
@@ -1374,7 +1359,7 @@ function drawChartAndCalculateIncome() {
         // 繪製圖表
         let pv = 0
         let fv = 0
-        const dataAndDataIndex = []
+        const dataAndDataIndex: any[] = []
         fv = career.monthlyBasicSalary
         dataAndDataIndex.push({
             label: '本薪',
