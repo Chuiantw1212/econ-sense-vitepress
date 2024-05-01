@@ -40,9 +40,10 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="出生年" required>
-                    <el-select v-model="profile.yearOfBirth" placeholder="請選擇" @change="onYearOfBirthChanged()" style="width: 130px">
-                        <el-option v-for="year in yearOptions" :key="year":label="year" :value="year"/>
-                    </el-select>
+                    <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇" @change="onYearOfBirthChanged()" style="width: 130px">
+                        <option label="請選擇" value=""></option>
+                        <option v-for="year in yearOptions" :key="year":label="year" :value="year"/>
+                    </select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -619,42 +620,44 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="居住縣市">
-                    <el-select v-model="estatePrice.county" placeholder="請選擇" @change="onCountyChanged()">
-                        <el-option v-for="item in counties" :key="item.value":label="item.label" :value="item.value"/>
-                    </el-select>
+                    <select v-model="estatePrice.county" class="form__select" placeholder="請選擇" @change="onCountyChanged()">
+                        <option label="請選擇" value=""></option>
+                        <option v-for="item in counties" :key="item.value":label="item.label" :value="item.value"/>
+                    </select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="行政區">
-                    <el-select v-model="estatePrice.town" placeholder="請選擇" :disabled="!estatePrice.county" @change="onTownChanged()">
-                        <el-option v-for="item in towns" :key="item.value":label="item.label" :value="item.value"/>
-                    </el-select>
+                    <select v-model="estatePrice.town" class="form__select" placeholder="請選擇" :disabled="!estatePrice.county" @change="onTownChanged()">
+                        <option label="請選擇" value=""></option>
+                        <option v-for="item in towns" :key="item.value":label="item.label" :value="item.value"/>
+                    </select>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
                 <el-form-item label="建物類別">
-                    <el-select v-model="estatePrice.buildingType" placeholder="請選擇" :disabled="!estatePrice.town"  @change="onBuildingTypeChanged()">
-                        <el-option label="不限" value=""></el-option>
-                        <el-option v-for="item in buildingTypes" :key="item.value":label="item.label" :value="item.value"/>
-                    </el-select>
+                    <select v-model="estatePrice.buildingType" class="form__select" placeholder="請選擇" :disabled="!estatePrice.town"  @change="onBuildingTypeChanged()">
+                        <option label="不限" value=""></option>
+                        <option v-for="item in buildingTypes" :key="item.value":label="item.label" :value="item.value"/>
+                    </select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="屋齡[年]">
-                    <el-select v-model="estatePrice.buildingAge" placeholder="請選擇" :disabled="!estatePrice.town" @change="onBuildingAgeChanged()">
-                        <el-option label="不限" value=""></el-option>
-                        <el-option v-for="item in buildingAges" :key="item.value":label="item.label" :value="item.value"/>
-                    </el-select>
+                    <select v-model="estatePrice.buildingAge" class="form__select" placeholder="請選擇" :disabled="!estatePrice.town" @change="onBuildingAgeChanged()">
+                        <option label="不限" value=""></option>
+                        <option v-for="item in buildingAges" :key="item.value":label="item.label" :value="item.value"/>
+                    </select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="含車位">
-                    <el-select v-model="estatePrice.hasParking" placeholder="請選擇" @change="onHasParkingChanged()">
-                        <el-option label="不限" value=""></el-option>
-                        <el-option v-for="item in hasParkingOptions" :key="item.value":label="item.label" :value="item.value"/>
-                    </el-select>
+                    <select v-model="estatePrice.hasParking" class="form__select" placeholder="請選擇" @change="onHasParkingChanged()">
+                        <option label="不限" value=""></option>
+                        <option v-for="item in hasParkingOptions" :key="item.value":label="item.label" :value="item.value"/>
+                    </select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -2176,6 +2179,16 @@ function debounce(func, label = '', delay = 50) {
 }
 </script>
 <style lang="scss" scoped>
+.form__select {
+    all: unset;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    width: 130px;
+    padding: 0 15px;
+    &:disabled {
+        background-color: rgb(245, 247, 250);
+    }
+}
 .card-header--custom {
     display: flex;
     align-items: center;
