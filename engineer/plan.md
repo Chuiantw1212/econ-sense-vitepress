@@ -1801,22 +1801,28 @@ watch(() => parenting, ()=> {
         const { firstBornYear, secondBornYear, independantAge, childAnnualExpense } = parenting
         const parentingStartYear = firstBornYear
         const firstBornEndYear = firstBornYear + independantAge
-        const parentingEndYear = Math.max(firstBornYear, secondBornYear) + independantAge
+        const secondBornEndYear = secondBornYear + independantAge
+        const parentingDuration = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
         const labels = []
         const firstBornData = []
         const secondBornData = []
-        for(let i=0;i<parentingEndYear;i++) {
-            const simYear = currentYear + i
+        for(let i=0;i<parentingDuration;i++) {
+            const simYear = firstBornYear + i
             labels.push(simYear)
-            const inflatedExpense = childAnnualExpense * inflationModifier
-            if(firstBornYear && firstBornYear<=simYear && simYear<firstBornEndYear) {
-                dataset0.push(childAnnualExpense)
+            const inflatedExpense = Math.floor(childAnnualExpense * inflationModifier)
+            if(firstBornYear && firstBornYear<=simYear && simYear<=firstBornEndYear) {
+                firstBornData.push(inflatedExpense)
+            }else {
+                firstBornData.push(0)
             }
-            if(secondBornYear && secondBornYear<=simYear && simYear<parentingEndYear) {
-                dataset0.push(childAnnualExpense)
+            if(secondBornYear && secondBornYear<=simYear && simYear<=secondBornEndYear) {
+                secondBornData.push(inflatedExpense)
+            }else {
+                secondBornData.push(0)
             }
             inflationModifier *= 1 + inflationRate.value / 100
         }
+        console.log(firstBornData)
         const data = {
             labels,
             datasets: [
@@ -1826,7 +1832,7 @@ watch(() => parenting, ()=> {
                     fill: true
                 },
                 {
-                    label: '二一個孩子',
+                    label: '第二個孩子',
                     data: secondBornData,
                     fill: true
                 },
