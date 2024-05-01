@@ -956,8 +956,9 @@ async function initializeApp () {
     })
     firebase.auth().onAuthStateChanged(async (firebaseUser)=> {
         if(!firebaseUser) {
-            setIdToken()
-            getUserFormSync()
+            await setIdToken()
+            await getUserFormSync()
+            await initializeCalculator()
             return
         }
         const { displayName = '註冊用戶', email, photoURL, uid } = firebaseUser
@@ -968,7 +969,8 @@ async function initializeApp () {
         user.email = email
         user.displayName = displayName
         loginDialogVisible.value = false
-        await getUserFormSync(firebaseUser)
+        const userForm = await getUserFormSync(firebaseUser)
+        user.id = userForm.id // 告訴authFetch可以更新資料了，避免初始資料錯誤覆蓋原有資料
         initializeCalculator()
     })
 }
@@ -987,8 +989,11 @@ async function setIdToken(currentUser) {
 }
 async function authFetch(appendUrl, options = {}) {
     const currentUser = await firebase.auth().currentUser
-    if(!user.id) {
+    if(!currentUser) {
         return // 離線使用或未登入
+    }
+    if(options.body && !user.id){
+        return // 避免初始化資料覆蓋回noSQL
     }
     const { uid } = currentUser
     let baseUrl = import.meta.env.VITE_BASE_URL
@@ -1151,9 +1156,8 @@ async function getUserFormSync(firebaseUser) {
         Object.assign(estateSize, initForm.estateSize)
         Object.assign(mortgage, initForm.mortgage)
         Object.assign(parenting, initForm.parenting)
-        await initializeCalculator()
-        user.id = userForm.id // 告訴authFetch可以更新資料了，避免初始資料錯誤覆蓋原有資料
     }
+    return userForm
 }
 async function initializeCalculator() {
     // 基本資料
@@ -1336,6 +1340,7 @@ function calculateMonthlyInvesting() {
     const { monthlyNetPay = 0, monthlyExpense = 0, monthlyNetPayEstimated } = career
     const monthlyNetPayBasis = monthlyNetPay || monthlyNetPayEstimated
     investmentAveraging.value = Math.floor(monthlyNetPayBasis - monthlyExpense)
+    drawLifeAssetChart()
 }
 function drawChartAndCalculateIncome() {
     debounce(() => {
