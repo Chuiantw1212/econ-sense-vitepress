@@ -40,8 +40,8 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="出生年" required>
-                    <el-select v-model="profile.yearOfBirth" placeholder="請選擇" @change="onYearOfBirthChanged()" style="width: 130px">
-                        <el-option v-for="year in yearOptions":key="year":label="year" :value="year"/>
+                    <el-select v-model="profile.yearOfBirth" placeholder="請選擇" @change="onYearOfBirthChanged()" style="width: 130px" :key="forceDropdownRender">
+                        <el-option v-for="year in yearOptions" :key="year":label="year" :value="year"/>
                     </el-select>
                 </el-form-item>
             </el-col>
@@ -619,15 +619,15 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="居住縣市">
-                    <el-select v-model="estatePrice.county" placeholder="請選擇" @change="onCountyChanged()">
-                        <el-option v-for="item in counties":key="item.value":label="item.label" :value="item.value"/>
+                    <el-select v-model="estatePrice.county" placeholder="請選擇" :key="forceDropdownRender" @change="onCountyChanged()">
+                        <el-option v-for="item in counties" :key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="行政區">
-                    <el-select v-model="estatePrice.town" placeholder="請選擇" :disabled="!estatePrice.county" @change="onTownChanged()">
-                        <el-option v-for="item in towns":key="item.value":label="item.label" :value="item.value"/>
+                    <el-select v-model="estatePrice.town" placeholder="請選擇" :key="forceDropdownRender" :disabled="!estatePrice.county" @change="onTownChanged()">
+                        <el-option v-for="item in towns" :key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
@@ -635,25 +635,25 @@ outline: deep
         <el-row>
             <el-col :span="12">
                 <el-form-item label="建物類別">
-                    <el-select v-model="estatePrice.buildingType" placeholder="請選擇" :disabled="!estatePrice.town"  @change="onBuildingTypeChanged()">
+                    <el-select v-model="estatePrice.buildingType" placeholder="請選擇" :key="forceDropdownRender" :disabled="!estatePrice.town"  @change="onBuildingTypeChanged()">
                         <el-option label="不限" value=""></el-option>
-                        <el-option v-for="item in buildingTypes":key="item.value":label="item.label" :value="item.value"/>
+                        <el-option v-for="item in buildingTypes" :key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="屋齡[年]">
-                    <el-select v-model="estatePrice.buildingAge" placeholder="請選擇" :disabled="!estatePrice.town" @change="onBuildingAgeChanged()">
+                    <el-select v-model="estatePrice.buildingAge" placeholder="請選擇" :key="forceDropdownRender" :disabled="!estatePrice.town" @change="onBuildingAgeChanged()">
                         <el-option label="不限" value=""></el-option>
-                        <el-option v-for="item in buildingAges":key="item.value":label="item.label" :value="item.value"/>
+                        <el-option v-for="item in buildingAges" :key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item label="含車位">
-                    <el-select v-model="estatePrice.hasParking" placeholder="請選擇" @change="onHasParkingChanged()">
+                    <el-select v-model="estatePrice.hasParking" placeholder="請選擇" :key="forceDropdownRender" @change="onHasParkingChanged()">
                         <el-option label="不限" value=""></el-option>
-                        <el-option v-for="item in hasParkingOptions":key="item.value":label="item.label" :value="item.value"/>
+                        <el-option v-for="item in hasParkingOptions" :key="item.value":label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
             </el-col>
@@ -1064,6 +1064,7 @@ async function signOut() {
 }
 // 主要從資料庫來的設定檔案
 const inflationRate = ref(2)
+const forceDropdownRender = ref(0)
 const currentYear = new Date().getFullYear()
 const counties = ref([])
 const townMap = reactive({})
@@ -1102,6 +1103,7 @@ async function setSelecOptionSync() {
             yearOptionsTemp.push(Number(year) - i - 18)
         }
         yearOptions.value = yearOptionsTemp
+        forceDropdownRender.value = Math.random()
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
