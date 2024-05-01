@@ -39,19 +39,11 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="出生年" prop="dateOfBirth">
+                <el-form-item label="出生年" prop="dateOfBirth" required>
                     <el-select v-model="profile.yearOfBirth" placeholder="請選擇" @change="onYearOfBirthChanged()" style="width: 130px">
                         <el-option v-for="year in yearOptions":key="year":label="year" :value="year"/>
                     </el-select>
                 </el-form-item>
-                <!-- <el-form-item label="出生日期" prop="dateOfBirth">
-                    <el-date-picker
-                        v-model="profile.dateOfBirth"
-                        type="date"
-                        placeholder="選擇出生日期"
-                        @change="onYearOfBirthChanged()"
-                    />
-                </el-form-item> -->
             </el-col>
             <el-col :span="12">
                 <el-form-item label="試算年齡" prop="lifeExpectancy">
@@ -61,7 +53,7 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="性別" prop="gender">
+                <el-form-item label="性別" prop="gender" required>
                     <el-radio-group v-model="profile.gender" @change="handleGenderChanged()">
                         <el-radio v-for="(item, key) in genders" :value="item.value">{{ item.label }}</el-radio>
                     </el-radio-group>
@@ -85,7 +77,7 @@ outline: deep
     </el-form>
     <template #footer>
         <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
+            <el-collapse-item title="試算說明" name="1" :border="true">
                 <ul>
                     <li>
                         預期餘命：<a href="https://data.gov.tw/dataset/39493" target="_blank">預期壽命推估</a>
@@ -109,7 +101,7 @@ outline: deep
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
-                <el-form-item label="本薪">
+                <el-form-item label="本薪" required>
                     <el-input-number v-model="career.monthlyBasicSalary" :min="0" @change="onMonthlyBasicSalaryChanged()"/>
                 </el-form-item>
             </el-col>
@@ -130,12 +122,12 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="勞退/健保提繳工資">
+                <el-form-item label="勞退提繳工資" required>
                     <el-input-number v-model="career.pension.salary" :min="career.pension.salaryMin" :max="150000" @change="onPensionSalaryChanged()"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="試算提繳工資">
+                <el-form-item label="提繳工資查詢">
                     <a href="https://www.bli.gov.tw/0108097.html" target="_blank" tabIndex="-1">勞動部勞工保險局</a>
                 </el-form-item>
             </el-col>
@@ -151,7 +143,7 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="勞退自提率(%)">
+                <el-form-item label="勞退自提率(%)" required>
                     <el-input-number v-model="career.pension.rate" @change="onPensionContributionRateChanged()" :min="0" :max="6"/>
                 </el-form-item>
             </el-col>
@@ -163,7 +155,7 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="勞保提繳工資">
+                <el-form-item label="勞保提繳工資" required>
                     <el-input-number v-model="career.insurance.salary" :min="0" :max="45800" @change="onInsuranceSalaryChanged()"/>
                 </el-form-item>
             </el-col>
@@ -193,14 +185,14 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="全年實領/12">
+                <el-form-item label="年實領/12">
                     <el-input-number v-model="career.monthlyNetPay" :min="0" @change="onMonthlyEATChanged()"/>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="月支出">
+                <el-form-item label="月支出" required>
                     <el-input-number v-model="career.monthlyExpense" :min="0" @change="onMonthlyExpenseChanged()"/>
                 </el-form-item>
             </el-col>
@@ -213,7 +205,7 @@ outline: deep
     </el-form>
     <template #footer>
         <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
+            <el-collapse-item title="試算說明" name="1" :border="true">
                 <ul>
                     <li>
                         假設薪資成長率永遠剛好抵銷通膨
@@ -234,7 +226,7 @@ outline: deep
     <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
-                <el-form-item label="計畫退休年齡" prop="lifeExpectancy">
+                <el-form-item label="計畫退休年齡" prop="lifeExpectancy" required>
                     <el-input-number v-model="retirement.age" :min="60" :max="70" @change="onRetireAgeChanged()"/>
                 </el-form-item>
             </el-col>
@@ -309,7 +301,7 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="勞退十年收益率">
+                <el-form-item label="勞退十年收益率" required>
                     <el-input-number v-model="retirement.pension.irrOverDecade" :min="0" @change="onTenYearIrrChanged()"/>
                 </el-form-item>
             </el-col>
@@ -330,7 +322,7 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="24">
-                <el-form-item label="退休品質">
+                <el-form-item label="退休品質" required>
                     <el-radio-group v-model="retirement.qualityLevel" @change="onRetirementLevelChanged()">
                         <el-radio v-for="(item, key) in retirementQuartile" :value="key+1">{{ item.label }}</el-radio>
                     </el-radio-group>
@@ -347,16 +339,16 @@ outline: deep
     </el-form>
     <template #footer>
         <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
+            <el-collapse-item title="試算說明" name="1" :border="true">
                 <ul>
+                    <li>
+                        假設勞退皆為一次領，且領後的再投資報酬率打平勞動基金
+                    </li>
                     <li>
                         勞保勞退查詢：<a href="https://edesk.bli.gov.tw/me/#/na/login">勞保局E化服務系統</a>
                     </li>
                     <li>
                         勞退收益率：<a href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00" target="_blank">中華民國退休基金協會</a>
-                    </li>
-                    <li>
-                        假設勞退皆為一次領，且領後的再投資報酬率打平勞動基金
                     </li>
                     <li>資料來源：
                         <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
@@ -456,7 +448,7 @@ outline: deep
     </el-form>
     <template #footer>
         <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
+            <el-collapse-item title="試算說明" name="1" :border="true">
                 <table class="table">
                     <tr>
                         <th>參考標的</th>
@@ -523,7 +515,7 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="平均月開支(隻/每年)">
+                <el-form-item label="月開支(隻/每年)" required>
                     <el-input-number v-model="parenting.childAnnualExpense" :min="0" @change="drawLifeAssetChart()"/>
                 </el-form-item>
             </el-col>
@@ -532,7 +524,7 @@ outline: deep
         </el-row>
         <el-row>
             <el-col :span="12">
-                <el-form-item label="養到幾歲放生">
+                <el-form-item label="養到幾歲放生" required>
                     <el-input-number v-model="parenting.independantAge" :min="18" @change="drawLifeAssetChart()"/>
                 </el-form-item>
             </el-col>
@@ -570,11 +562,14 @@ outline: deep
     </el-form>
     <template #footer>
         <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
+            <el-collapse-item title="試算說明" name="1" :border="true">
                 因為缺少資料集或是相關api，故此部分資料會較為粗糙。
                 <ul>
                     <li>
-                        保險事故日期假定為幼子出生年
+                        出生西元年設定0則不列入計算
+                    </li>
+                    <li>
+                        保險事故日期假定為幼子出生年，且投資報酬率比照原先資產配置
                     </li>
                     <li>資料來源：
                         <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
@@ -762,7 +757,7 @@ outline: deep
     </el-form>
     <template #footer>
         <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
+            <el-collapse-item title="試算說明" name="1" :border="true">
                 單價資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html" target="_blank">財團法人金融聯合徵信中心 OpenAPI
                 </a>
                 <table class="table">
@@ -917,7 +912,7 @@ outline: deep
     </el-form>
     <template #footer>
         <el-collapse>
-            <el-collapse-item title="資料說明" name="1" :border="true">
+            <el-collapse-item title="試算說明" name="1" :border="true">
                 <ul>
                     <li>
                         試算利息：<a href="https://www.cbc.gov.tw/tw/lp-370-1.html" target="_blank">央行貼放利率</a>
@@ -992,7 +987,7 @@ async function setIdToken(currentUser) {
 }
 async function authFetch(appendUrl, options = {}) {
     const currentUser = await firebase.auth().currentUser
-    if(!currentUser) {
+    if(!user.id) {
         return // 離線使用或未登入
     }
     const { uid } = currentUser
@@ -1156,7 +1151,8 @@ async function getUserFormSync(firebaseUser) {
         Object.assign(estateSize, initForm.estateSize)
         Object.assign(mortgage, initForm.mortgage)
         Object.assign(parenting, initForm.parenting)
-        initializeCalculator()
+        await initializeCalculator()
+        user.id = userForm.id // 告訴authFetch可以更新資料了，避免初始資料錯誤覆蓋原有資料
     }
 }
 async function initializeCalculator() {
@@ -1182,6 +1178,7 @@ async function initializeCalculator() {
 }
 // 基本資料
 const profile = reactive({
+    id: '', // 避免登入判斷錯誤
     yearOfBirth: '',
     dateOfBirth: '',
     gender: '',
@@ -1725,7 +1722,7 @@ function drawLifeAssetChart() {
         let calculatedPmt = 0
         // 退休開支影響收入與支出
         const reitrementStartYear = yearOfBirth + retirement.age
-        if(year < reitrementStartYear) {
+        if(year <= reitrementStartYear) {
             calculatedPmt = investmentAveraging.value * 12 * inflationModifier
         }
         // 房貸利息影響每月儲蓄
@@ -1786,7 +1783,8 @@ const parenting = reactive({
     firstBornYear: 0,
     secondBornYear: 0,
 })
-watch(() => parenting, ()=>{
+let parentingChartInstance = ref(null)
+watch(() => parenting, ()=> {
     debounce(() => {
         // 儲存參數
         authFetch(`/user/parenting`, {
@@ -1794,8 +1792,77 @@ watch(() => parenting, ()=>{
             body: parenting,
         })
         // 繪製圖
+        let inflationModifier = 1
+        const { firstBornYear, secondBornYear, independantAge, childAnnualExpense } = parenting
+        const parentingStartYear = firstBornYear
+        const firstBornEndYear = firstBornYear + independantAge
+        const parentingEndYear = Math.max(firstBornYear, secondBornYear) + independantAge
+        const labels = []
+        const firstBornData = []
+        const secondBornData = []
+        for(let i=0;i<parentingEndYear;i++) {
+            const simYear = currentYear + i
+            labels.push(simYear)
+            const inflatedExpense = childAnnualExpense * inflationModifier
+            if(firstBornYear && firstBornYear<=simYear && simYear<firstBornEndYear) {
+                dataset0.push(childAnnualExpense)
+            }
+            if(secondBornYear && secondBornYear<=simYear && simYear<parentingEndYear) {
+                dataset0.push(childAnnualExpense)
+            }
+            inflationModifier *= 1 + inflationRate.value / 100
+        }
+        const data = {
+            labels,
+            datasets: [
+                {
+                    label: '第一個孩子',
+                    data: firstBornData,
+                    fill: true
+                },
+                {
+                    label: '二一個孩子',
+                    data: secondBornData,
+                    fill: true
+                },
+                // {
+                //     label: '壽險已備',
+                //     data: [600000,400000,200000],
+                //     fill: true
+                // },
+            ]
+        }
+
+        if(parentingChartInstance.value) {
+            parentingChartInstance.value.data = data
+            parentingChartInstance.value.update()
+            return
+        }
+        const ctx = document.getElementById('parentingChart')
+        const chartInstance = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+            //     plugins: {
+            //         tooltip: {
+            //             callbacks: {
+            //                 label: tooltipFormat,
+            //             }
+            //         }
+            //     },
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+        })
+        parentingChartInstance = shallowRef(chartInstance)
     }, 'parenting')()
-})
+}, {deep: true})
 // 購屋分析
 const estatePrice = reactive({
     county: '',
