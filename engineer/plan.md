@@ -1072,6 +1072,7 @@ const buildingAges = ref([])
 const genders = ref([])
 const retirementQuartile = ref([])
 const portfolioIRR = reactive({})
+const yearOptions = ref([])
 const porfolioLabels = reactive({
     aok: '股2債8',
     aom: '股4債6',
@@ -1094,6 +1095,13 @@ async function setSelecOptionSync() {
         const bankConfigResJson = await bankConfigRes.json()
         mortgage.interestRate = bankConfigResJson.interestRate
         Object.assign(portfolioIRR, bankConfigResJson.portfolioIRR)
+
+        const yearOptionsTemp = []
+        const year = new Date().getFullYear()
+        for(let i = 0;i < 60; i++){
+            yearOptionsTemp.push(Number(year) - i - 18)
+        }
+        yearOptions.value = yearOptionsTemp
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
@@ -2143,12 +2151,6 @@ async function calculateMortgate() {
     drawLifeAssetChart()
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
-let yearOptions = reactive([])
-const yearOptionsTemp = []
-for(let i = 0;i < 60; i++){
-    yearOptionsTemp.push(currentYear - i - 18)
-}
-yearOptions = yearOptionsTemp
 onMounted(async () => {
     initializeApp()
     await setSelecOptionSync()
