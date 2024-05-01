@@ -1827,21 +1827,21 @@ watch(() => parenting, ()=> {
             labels,
             datasets: [
                 {
-                    label: '第一個孩子',
+                    label: '長子',
                     data: firstBornData,
-                    fill: true
+                    fill: true,
                 },
                 {
-                    label: '第二個孩子',
+                    label: '次子',
                     data: secondBornData,
-                    fill: true
+                    fill: true,
                 },
                 // {
                 //     label: '壽險已備',
                 //     data: [600000,400000,200000],
                 //     fill: true
                 // },
-            ]
+            ],
         }
 
         if(parentingChartInstance.value) {
@@ -1854,13 +1854,14 @@ watch(() => parenting, ()=> {
             type: 'line',
             data: data,
             options: {
-            //     plugins: {
-            //         tooltip: {
-            //             callbacks: {
-            //                 label: tooltipFormat,
-            //             }
-            //         }
-            //     },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: showChildAge,
+                            footer: showChildExpense
+                        }
+                    }
+                },
                 scales: {
                     x: {
                         stacked: true,
@@ -1874,6 +1875,21 @@ watch(() => parenting, ()=> {
         parentingChartInstance = shallowRef(chartInstance)
     }, 'parenting')()
 }, {deep: true})
+function showChildAge(tooltipItems) {
+    const { raw, dataIndex, dataset } = tooltipItems
+    const zeros = dataset.data.slice(0, parenting.independantAge).filter(value => value === 0)
+    const age = dataIndex - zeros.length
+    if(age >= 0){
+        const formatAge = Math.max(0, age)
+        return `${dataset.label}: ${formatAge}歲`
+    } else {
+        return '未出生'
+    }
+}
+function showChildExpense(tooltipItems) {
+    const { raw,} = tooltipItems[0]
+    return Number(raw).toLocaleString()
+}
 // 購屋分析
 const estatePrice = reactive({
     county: '',
