@@ -27,7 +27,7 @@
                         <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
                             @change="onYearOfBirthChanged()" style="width: 130px">
                             <option label="請選擇" value=""></option>
-                            <option v-for="year in birthYearOptions" :key="year" :label="year" :value="year" />
+                            <option v-for="year in config.birthYearOptions" :key="year" :label="year" :value="year" />
                         </select>
                     </el-form-item>
                 </el-col>
@@ -414,7 +414,7 @@
                 <el-col :span="24">
                     <el-form-item label="資產配置">
                         <el-radio-group v-model="investment.allocationETF" @change="onAllocationChanged()">
-                            <el-radio v-for="(label, key) in porfolioLabels" :value="key">{{ label }}</el-radio>
+                            <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -508,7 +508,8 @@
                         <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
                             style="width: 130px">
                             <option label="請選擇" value=""></option>
-                            <option v-for="year in birthYearOptions" :key="year" :label="String(year)" :value="year" />
+                            <option v-for="year in config.birthYearOptions" :key="year" :label="String(year)"
+                                :value="year" />
                         </select>
                     </el-form-item>
                 </el-col>
@@ -521,7 +522,7 @@
                         <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
                             style="width: 130px">
                             <option label="請選擇" value=""></option>
-                            <option v-for="year in marriageYearOptions" :key="year" :label="String(year)"
+                            <option v-for="year in config.marriageYearOptions" :key="year" :label="String(year)"
                                 :value="year" />
                         </select>
                     </el-form-item>
@@ -597,7 +598,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="資產投報率">
-                        <el-text>{{ portfolioIRR[investment.allocationETF] }} %</el-text>
+                        <el-text>{{ config.portfolioIRR[investment.allocationETF] }} %</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -1129,28 +1130,32 @@ async function signOut() {
 }
 // 主要從資料庫來的設定檔案
 const config = {
+    // primitive types
+    currentYear: new Date().getFullYear(),
     inflationRate: 2,
+    // array types
     genders: [],
     counties: [],
     buildingTypes: [],
     buildingAges: [],
     retirementQuartile: [],
+    birthYearOptions: [],
+    marriageYearOptions: [],
+    // object types
+    townMap: {},
+    portfolioIRR: {},
+    porfolioLabels: {
+        aok: '股2債8',
+        aom: '股4債6',
+        aor: '股6債4',
+        aoa: '股8債2',
+    }
 }
-const currentYear: number = new Date().getFullYear()
-const townMap = reactive({})
-const portfolioIRR = reactive({})
-const birthYearOptions = ref<number[]>([])
-const marriageYearOptions = ref<number[]>([])
-const porfolioLabels = reactive({
-    aok: '股2債8',
-    aom: '股4債6',
-    aor: '股6債4',
-    aoa: '股8債2',
-})
 const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
     loadingDialogVisible.value = true
     try {
+        // 靜態的設定檔案
         const selectRes = await fetch(`${VITE_BASE_URL}/select`)
         const selectResJson = await selectRes.json()
         config.counties = selectResJson.counties || []
@@ -1158,17 +1163,17 @@ async function setSelecOptionSync() {
         config.buildingAges = selectResJson.buildingAges || []
         config.genders = selectResJson.genders || []
         config.retirementQuartile = selectResJson.retirementQuartile || []
-        Object.assign(townMap, selectResJson.townMap)
-
+        Object.assign(config.townMap, selectResJson.townMap)
+        // 由爬蟲抓回的設定
         const bankConfigRes = await fetch(`${VITE_BASE_URL}/bank/config`)
         const bankConfigResJson = await bankConfigRes.json()
         mortgage.interestRate = bankConfigResJson.interestRate
-        Object.assign(portfolioIRR, bankConfigResJson.portfolioIRR)
+        Object.assign(config.portfolioIRR, bankConfigResJson.portfolioIRR)
 
         const year = new Date().getFullYear()
         for (let i = 0; i < 60; i++) {
-            birthYearOptions.value.push(Number(year) - i - 18)
-            marriageYearOptions.value.push(Number(year) - i)
+            config.birthYearOptions.push(Number(year) - i - 18)
+            config.marriageYearOptions.push(Number(year) - i)
         }
     }
     catch (error) {
@@ -1268,7 +1273,7 @@ async function initializeCalculator() {
     calculateAssetIrrChanges()
     // 買房
     if (estatePrice.county) {
-        towns.value = townMap[estatePrice.county]
+        towns.value = config.townMap[estatePrice.county]
     }
     await getUnitPriceSync()
     calculateEstateSize()
@@ -1675,7 +1680,7 @@ async function drawRetirementPensionChart() {
 
         // 退休前資產累積
         for (let i = 0; i < n; i++) {
-            const calculatedYear = currentYear + i
+            const calculatedYear = config.currentYear + i
             labels.push(calculatedYear)
             datasetData.push(Math.floor(pv))
 
@@ -1687,7 +1692,7 @@ async function drawRetirementPensionChart() {
 
         // 退休後退休支出
         for (let i = 0; i < retirement.lifeExpectancy; i++) {
-            const calculatedYear = currentYear + n + i
+            const calculatedYear = config.currentYear + n + i
             datasetData.push(Math.floor(pv))
             labels.push(calculatedYear)
 
@@ -1757,13 +1762,13 @@ function calculateAssetIrrChanges() {
     if (!allocationETF) {
         return
     }
-    investment.irr = portfolioIRR[investment.allocationETF]
-    const allocationLabels = Object.keys(porfolioLabels)
+    investment.irr = config.portfolioIRR[investment.allocationETF]
+    const allocationLabels = Object.keys(config.porfolioLabels)
     const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
     const stockPercentage = Math.floor((allocationIndex + 1) * 20)
     investment.stockPercentage = stockPercentage
     allocationLabels.forEach((label, index) => {
-        const irr = portfolioIRR[label]
+        const irr = config.portfolioIRR[label]
         const stockPercentage = Math.floor((index + 1) * 20)
         allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
     })
@@ -1790,7 +1795,7 @@ function drawLifeAssetChart() {
     let fv = 0 // fv = pv * irr + pmt
     const labels: number[] = []
     const datasetData: number[] = []
-    for (let year = currentYear; year < currentYear + retirement.insurance.futureSeniority; year++) {
+    for (let year = config.currentYear; year < config.currentYear + retirement.insurance.futureSeniority; year++) {
         labels.push(year)
         datasetData.push(Math.floor(pv))
 
@@ -1819,8 +1824,8 @@ function drawLifeAssetChart() {
         const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, spouseMonthlyContribution } = parenting
         const firstBornEndYear = firstBornYear + independantAge
         const secondBornEndYear = secondBornYear + independantAge
-        const hasFirstBorn = currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear
-        const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
+        const hasFirstBorn = config.currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear
+        const hasSecondBorn = config.currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
         if (hasFirstBorn) {
             calculatedPmt -= childAnnualExpense * inflationModifier
         }
@@ -2044,7 +2049,7 @@ function onCountyChanged() {
     estatePrice.town = ''
     towns.value = []
     if (estatePrice.county) {
-        towns.value = townMap[estatePrice.county]
+        towns.value = config.townMap[estatePrice.county]
     }
     getUnitPriceSync()
 }
