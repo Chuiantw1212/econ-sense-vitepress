@@ -225,6 +225,7 @@ const retirement = computed(() => {
 })
 function calculateRetirement(propogate = false) {
     calculateRetireLife()
+    calculateYearToRetirement()
     calculateFutureSeniority()
     calculateInsuranceMonthlyAnnuity()
     calculatePR()
@@ -235,19 +236,26 @@ async function calculateRetireLife() {
     const rawNumber = props.profile.age + props.profile.lifeExpectancy - retirement.value.age
     retirement.value.lifeExpectancy = props.config.toFixedTwo.format(rawNumber)
 }
+function calculateYearToRetirement() {
+    const rawNumber = retirement.value.age - props.profile.age
+    retirement.value.yearToRetirement = rawNumber
+}
 function calculateFutureSeniority() {
     const { presentSeniority } = retirement.value.insurance
     const rawNumber = presentSeniority + retirement.value.age - props.profile.age
-    retirement.value.insurance.futureSeniority = props.config.toFixedOne.format(rawNumber)
+    retirement.value.insurance.futureSeniority = Math.floor(rawNumber)
 }
 function calculateInsuranceMonthlyAnnuity() {
     const { lifeExpectancy, age } = retirement.value
     const { futureSeniority, salary } = retirement.value.insurance
+    if (!lifeExpectancy || !age || !futureSeniority || !salary) {
+        return
+    }
     const ageModifier: number = 1 + (Number(age) - 65) * 0.04
     const formulaOne: number = (Number(salary) * Number(futureSeniority) * 0.775 / 100 + 3000) * ageModifier
     const formulaTwo: number = (Number(salary) * Number(futureSeniority) * 1.55 / 100) * ageModifier
     retirement.value.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
-    retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * lifeExpectancy)
+    retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy))
 }
 function calculatePR() {
     const { qualityLevel } = retirement.value
@@ -275,18 +283,19 @@ async function drawRetirementAssetChart(propogate = true) {
     const {
         yearToRetirement,
         lifeExpectancy,
+        annualExpense,
     } = retirement.value
     const {
         monthlyAnnuity,
-        annualExpense,
     } = retirement.value.insurance
+
     const inflationRate = 1 + props.config.inflationRate / 100
     let inflationModifier = 1
 
     let pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
     const n = yearToRetirement
     const pensionContribution = monthlyContribution * 12
-    const irr = 1 + (irrOverDecade / 100)
+    const pensionIrr = 1 + (irrOverDecade / 100)
     let fv = 0 // fv = pv * n + pmt
 
     const labels: number[] = []
@@ -298,7 +307,7 @@ async function drawRetirementAssetChart(propogate = true) {
         labels.push(calculatedYear)
 
         const pmt = pensionContribution * inflationModifier
-        fv = Math.floor(pv * irr + pmt)
+        fv = Math.floor(pv * pensionIrr + pmt)
         datasetData.push(Math.floor(fv))
 
         pv = fv
@@ -308,16 +317,18 @@ async function drawRetirementAssetChart(propogate = true) {
     calculatePensionFinalValue(fv)
 
     // 退休後退休支出
+    let annuityInflationModifier = 1
     for (let i = 0; i < lifeExpectancy; i++) {
         const calculatedYear = props.config.currentYear + n + i
         labels.push(calculatedYear)
 
-        const pmt = (monthlyAnnuity * 12 - annualExpense) * inflationModifier
-        fv = Math.floor(pv * irr + pmt)
+        const pmt = (monthlyAnnuity * 12 * annuityInflationModifier) - annualExpense * inflationModifier
+        fv = Math.floor(pv * pensionIrr + pmt)
         datasetData.push(Math.floor(fv))
 
         pv = fv
         inflationModifier *= inflationRate
+        annuityInflationModifier *= inflationRate
     }
     const chartData = {
         datasets: [
