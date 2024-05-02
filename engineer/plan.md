@@ -12,5 +12,5 @@ outline: deep
 <Calculator></Calculator>
 
 <script setup>
-import Calculator from '../components/calculator.vue'
+import Calculator from '../components/calculator/index.vue'
 </script>

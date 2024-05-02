@@ -17,131 +17,9 @@
             </div>
         </template>
     </el-dialog>
-
+    {{ profile }}
     <Profile v-model="profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
-        @change="onProfileChanged()"></Profile>
-
-    <h2 id="_2. 我可以FIRE嗎？" tabindex="-1">2. 我可以FIRE嗎？</h2>
-    財務安全的理財方式，將退休前與退休後的資產分開計算。退休先有保障，當上流老人，再用退休前資產去試算是否可以推關。
-
-    <h3 id="_職業試算" tabindex="-1">職業試算</h3>
-    <el-card>
-        <el-form label-width="auto">
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="本薪" required>
-                        <el-input-number v-model="career.monthlyBasicSalary" :min="0"
-                            @change="onMonthlyBasicSalaryChanged()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="伙食津貼">
-                        <el-text>{{ Number(career.foodExpense).toLocaleString() }}</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="職工福利金">
-                        <el-text> {{ Number(career.employeeWelfareFund).toLocaleString() }}</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="勞退提繳工資" required>
-                        <el-input-number v-model="career.pension.salary" :min="career.pension.salaryMin" :max="150000"
-                            @change="onPensionSalaryChanged()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="提繳工資查詢">
-                        <a href="https://www.bli.gov.tw/0108097.html" target="_blank" tabIndex="-1">勞動部勞工保險局</a>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="健保負擔">
-                        <el-text> {{ Number(career.healthInsutancePremium).toLocaleString() }}</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="勞退自提率(%)" required>
-                        <el-input-number v-model="career.pension.rate" @change="onPensionContributionRateChanged()"
-                            :min="0" :max="6" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="勞退月提繳">
-                        <el-text>{{ Number(career.pension.monthlyContribution).toLocaleString() }}</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="勞保提繳工資" required>
-                        <el-input-number v-model="career.insurance.salary" :min="0" :max="45800"
-                            @change="onInsuranceSalaryChanged()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="勞保勞工負擔">
-                        <el-text>{{ Number(career.insurance.expense).toLocaleString() }}</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="月實領試算">
-                        <el-text> {{ Number(career.monthlyNetPayEstimated).toLocaleString() }}</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="年實領/12">
-                        <el-input-number v-model="career.monthlyNetPay" :min="0" @change="onMonthlyEATChanged()" />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="月支出" required>
-                        <el-input-number v-model="career.monthlyExpense" :min="0" @change="onMonthlyExpenseChanged()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="月實領 - 月支出">
-                        <el-text>{{ Number(investmentAveraging).toLocaleString() }}</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-        </el-form>
-        <template #footer>
-            <el-collapse>
-                <el-collapse-item title="試算說明" name="1" :border="true">
-                    <ul>
-                        <li>
-                            假設薪資成長率永遠剛好抵銷通膨
-                        </li>
-                        <li>
-                            月提繳查詢：<a href="https://www.bli.gov.tw/0013083.html" target="_blank">勞動部勞工保險局</a>
-                        </li>
-                    </ul>
-                </el-collapse-item>
-            </el-collapse>
-        </template>
-        <canvas v-show="career.monthlyBasicSalary" id="incomeChart"></canvas>
-    </el-card>
+        @update:modelValue="onProfileChanged()"></Profile>
 
     <h3 id="_退休試算" tabindex="-1">退休試算</h3>
     <el-card>
@@ -357,7 +235,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="定期定額" @change="onAssetChanged()">
-                        <el-text>{{ Number(investmentAveraging).toLocaleString() }} NTD / 月</el-text>
+                        <el-text>{{ Number(investment.averaging).toLocaleString() }} NTD / 月</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -918,7 +796,7 @@
 </template>
 <script setup lang="ts">
 import firebase from 'firebase/compat/app';
-import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
+import { onMounted, ref, reactive, watch, nextTick, shdebounceallowRef, onBeforeUnmount, computed } from 'vue'
 import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
 import Chart from 'chart.js/auto';
 import Profile from './profile.vue'
@@ -1182,7 +1060,7 @@ const profile = reactive({
 function onProfileChanged() {
     calculateRetireLife()
     calculateFutureSeniority()
-    drawRetirementPensionChart()
+    drawRetirementAssetChart()
     authFetch(`/user/profile`, {
         method: 'put',
         body: profile,
@@ -1209,6 +1087,7 @@ const career = reactive({
     monthlyNetPayEstimated: 0,
     monthlyNetPay: 0,
     monthlyExpense: 0,
+    monthlySaving: 0,
 })
 let incomeChartInstance = ref<Chart>()
 function onMonthlyBasicSalaryChanged() {
@@ -1223,7 +1102,7 @@ function onInsuranceSalaryChanged() {
     calculateInsuranceSalaryMin()
     calculateMonthlyAnnuity()
     drawChartAndCalculateIncome()
-    drawRetirementPensionChart()
+    drawRetirementAssetChart()
 }
 function onPensionSalaryChanged() {
     calculateCareerPensionTotal()
@@ -1252,10 +1131,6 @@ function calculateInsuranceExpense() {
     const premiumRate = 20 / 100
     career.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate)
 }
-function onPensionContributionRateChanged() {
-    calculateCareerPensionTotal()
-    drawChartAndCalculateIncome()
-}
 function calculateHealthInsurancePremium() {
     const { salary, salaryMin } = career.pension
     const salaryBasis = Math.max(salary, salaryMin)
@@ -1269,20 +1144,13 @@ function calculateCareerPensionTotal() {
     const maxContribution = Math.min(salaryBasis, 150000)
     career.pension.monthlyContributionEmployee = Math.floor(maxContribution * rate / 100)
     career.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100)
-    drawRetirementPensionChart()
-}
-function onMonthlyEATChanged() {
-    drawChartAndCalculateIncome()
-    calculateMonthlyInvesting()
-}
-function onMonthlyExpenseChanged() {
-    drawChartAndCalculateIncome()
-    calculateMonthlyInvesting()
+    drawRetirementAssetChart()
 }
 function calculateMonthlyInvesting() {
     const { monthlyNetPay = 0, monthlyExpense = 0, monthlyNetPayEstimated } = career
     const monthlyNetPayBasis = monthlyNetPay || monthlyNetPayEstimated
-    investmentAveraging.value = Math.floor(monthlyNetPayBasis - monthlyExpense)
+    investment.averaging = Math.floor(monthlyNetPayBasis - monthlyExpense)
+    career.saving = Math.floor(monthlyNetPayBasis - monthlyExpense)
     drawLifeAssetChart()
 }
 function drawChartAndCalculateIncome() {
@@ -1463,42 +1331,52 @@ function onRetireAgeChanged() {
     calculateRetireLife()
     calculateFutureSeniority()
     calculateMonthlyAnnuity()
-    drawRetirementPensionChart()
+    drawRetirementAssetChart()
     drawLifeAssetChart()
 }
 function onCurrentSeniorityChanged() {
     calculateFutureSeniority()
     calculateMonthlyAnnuity()
-    drawRetirementPensionChart()
+    drawRetirementAssetChart()
 }
 function calculateFutureSeniority() {
     const { presentSeniority } = retirement.insurance
+    const retirementAge = retirement.age
+    const profileAge = profile.age
+    console.log({
+        presentSeniority,
+        retirementAge,
+        profileAge
+    })
     retirement.insurance.futureSeniority = Number(Number(presentSeniority + retirement.age - profile.age).toFixed(1))
 }
 function calculateMonthlyAnnuity() {
     const { salary } = career.insurance
-    const { age, lifeExpectancy } = retirement
+    const { lifeExpectancy, age } = retirement
     const { futureSeniority, } = retirement.insurance
-    const ageModifier = 1 + (retirement.age - 65) * 0.04
-    const formulaOne = (salary * futureSeniority * 0.775 / 100 + 3000) * ageModifier
-    const formulaTwo = (salary * futureSeniority * 1.55 / 100) * ageModifier
+    if (!futureSeniority) {
+        return
+    }
+    const ageModifier: number = 1 + (Number(age) - 65) * 0.04
+    const formulaOne: number = (Number(salary) * Number(futureSeniority) * 0.775 / 100 + 3000) * ageModifier
+    const formulaTwo: number = (Number(salary) * Number(futureSeniority) * 1.55 / 100) * ageModifier
     retirement.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
     retirement.insurance.annuitySum = Math.floor(retirement.insurance.monthlyAnnuity * 12 * lifeExpectancy)
 }
 function onEmployerContributionChanged() {
-    drawRetirementPensionChart()
+    drawRetirementAssetChart()
 }
 function onEmployeeContributionChanged() {
-    drawRetirementPensionChart()
+    drawRetirementAssetChart()
 }
 function onEmployerContributionIncomeChanged() {
-    drawRetirementPensionChart()
+    drawRetirementAssetChart()
 }
 function onEmployeeContributionIncomeChanged() {
-    drawRetirementPensionChart()
+    drawRetirementAssetChart()
 }
 function onTenYearIrrChanged() {
-    drawRetirementPensionChart()
+    drawRetirementAssetChart()
 }
 function onRetirementLevelChanged() {
     const { qualityLevel } = retirement
@@ -1512,12 +1390,12 @@ function calculateRetirementMonthlyExpense() {
     }
     const selectedItem: IOptionItem = config.retirementQuartile[qualityLevel - 1]
     retirement.annualExpense = Number(selectedItem.value)
-    drawRetirementPensionChart()
+    drawRetirementAssetChart()
 }
 async function calculateRetireLife() {
     retirement.lifeExpectancy = Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
 }
-async function drawRetirementPensionChart() {
+async function drawRetirementAssetChart() {
     debounce(() => {
         // 儲存參數
         authFetch(`/user/retirement`, {
@@ -1606,8 +1484,8 @@ const investment = reactive({
     irr: 0,
     stockPercentage: 0,
     presentAsset: 0,
+    averaging: 0,
 })
-const investmentAveraging = ref(0)
 const allocationQuartileMarks = reactive({})
 let investmentChartInstance = ref<Chart>()
 function calculateRetirementQuartileMarks() {
@@ -1677,7 +1555,7 @@ function drawLifeAssetChart() {
         // 退休開支影響收入與支出
         const reitrementStartYear = Number(yearOfBirth) + retirement.age
         if (year <= reitrementStartYear) {
-            calculatedPmt = investmentAveraging.value * 12 * inflationModifier
+            calculatedPmt = investment.averaging * 12 * inflationModifier
         }
         // 房貸利息影響每月儲蓄
         const mortgageStartYear = buyHouseYear

@@ -100,8 +100,8 @@
 import { ref, nextTick, computed } from 'vue'
 import firebase from 'firebase/compat/app';
 const { VITE_BASE_URL } = import.meta.env
+const emits = defineEmits(['signOut', 'update:modelValue'])
 const loginDialogVisible = ref(false)
-const emits = defineEmits(['signOut', 'change'])
 const props = defineProps({
     modelValue: {
         type: Object,
@@ -134,7 +134,7 @@ const profile = computed({
         return props.modelValue
     },
     set(newValue) {
-        emits('change', newValue)
+        emits('update:modelValue', newValue)
     }
 })
 function toggleSignInDialog(value) {
