@@ -23,7 +23,6 @@
     <Career v-model="career" :user="user" :config="config" ref="CareerRef" @update:model-value="onCareerChanged()">
     </Career>
 
-
     <h3 id="_退休試算" tabindex="-1">退休試算</h3>
     <el-card>
         <el-form label-width="auto">
