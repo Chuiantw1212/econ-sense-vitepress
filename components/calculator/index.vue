@@ -17,9 +17,12 @@
             </div>
         </template>
     </el-dialog>
-    {{ profile }}
     <Profile v-model="profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
         @update:modelValue="onProfileChanged()"></Profile>
+
+    <Career v-model="career" :user="user" :config="config" ref="CareerRef" @update:model-value="onCareerChanged()">
+    </Career>
+
 
     <h3 id="_退休試算" tabindex="-1">退休試算</h3>
     <el-card>
@@ -234,8 +237,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="定期定額" @change="onAssetChanged()">
-                        <el-text>{{ Number(investment.averaging).toLocaleString() }} NTD / 月</el-text>
+                    <el-form-item label="每月儲蓄投資" @change="onAssetChanged()">
+                        <el-text>{{ Number(career.saving).toLocaleString() }} NTD / 月</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -796,11 +799,13 @@
 </template>
 <script setup lang="ts">
 import firebase from 'firebase/compat/app';
-import { onMounted, ref, reactive, watch, nextTick, shdebounceallowRef, onBeforeUnmount, computed } from 'vue'
+import { onMounted, ref, reactive, watch, nextTick, onBeforeUnmount, computed, shallowRef } from 'vue'
 import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
 import Chart from 'chart.js/auto';
 import Profile from './profile.vue'
+import Career from './career.vue'
 const ProfileRef = ref(null)
+const CareerRef = ref(null)
 const { VITE_BASE_URL } = import.meta.env
 interface IOptionItem {
     label: string,
@@ -898,6 +903,7 @@ const config = reactive({
     // primitive types
     currentYear: new Date().getFullYear(),
     inflationRate: 2,
+    maxPensionSalary: 150000,
     // array types
     genders: [],
     counties: [],
@@ -1029,11 +1035,9 @@ async function getUserFormSync(firebaseUser) {
 }
 async function initializeCalculator() {
     // 基本資料
-    await ProfileRef.value.calculateLifeExpectancyAndAge()
+    await ProfileRef.value.calculateProfile()
     // 職業
-    onMonthlyBasicSalaryChanged()
-    onInsuranceSalaryChanged()
-    onPensionSalaryChanged()
+    await CareerRef.value.calculateCareer()
     // 退休
     calculateFutureSeniority()
     calculateRetirementQuartileMarks()
@@ -1089,218 +1093,28 @@ const career = reactive({
     monthlyExpense: 0,
     monthlySaving: 0,
 })
-let incomeChartInstance = ref<Chart>()
-function onMonthlyBasicSalaryChanged() {
-    calculatePensionSalaryMin()
-    calculateInsuranceSalaryMin()
-    drawChartAndCalculateIncome()
-    calculateMonthlyInvesting()
-    const { monthlyBasicSalary, } = career
-    career.employeeWelfareFund = Math.floor(monthlyBasicSalary * 0.5 / 100)
-}
-function onInsuranceSalaryChanged() {
-    calculateInsuranceSalaryMin()
-    calculateMonthlyAnnuity()
-    drawChartAndCalculateIncome()
-    drawRetirementAssetChart()
-}
-function onPensionSalaryChanged() {
-    calculateCareerPensionTotal()
-    calculateHealthInsurancePremium()
-    drawChartAndCalculateIncome()
-}
-function calculatePensionSalaryMin() {
-    const { monthlyBasicSalary, foodExpense, } = career
-    const salaryMin = monthlyBasicSalary + foodExpense
-    career.pension.salaryMin = salaryMin
-    career.pension.salary = Math.max(career.pension.salary, salaryMin)
-    calculateHealthInsurancePremium()
-}
-function calculateInsuranceSalaryMin() {
-    if (career.monthlyBasicSalary) {
-        career.insurance.salaryMin = Math.min(45800, career.monthlyBasicSalary)
-    }
-    if (!career.insurance.salary) {
-        career.insurance.salary = career.insurance.salaryMin
-    }
-    calculateInsuranceExpense()
-}
-function calculateInsuranceExpense() {
-    const { salary, } = career.insurance
-    const insuranceRate = 12 / 100
-    const premiumRate = 20 / 100
-    career.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate)
-}
-function calculateHealthInsurancePremium() {
-    const { salary, salaryMin } = career.pension
-    const salaryBasis = Math.max(salary, salaryMin)
-    const healthInsutancePremiumRate = 5.17 / 100
-    const employeeContributionRate = 30 / 100
-    career.healthInsutancePremium = Math.ceil(salaryBasis * healthInsutancePremiumRate * employeeContributionRate)
-}
-function calculateCareerPensionTotal() {
-    const { salary, salaryMin, rate } = career.pension
-    const salaryBasis = Math.max(salary, salaryMin)
-    const maxContribution = Math.min(salaryBasis, 150000)
-    career.pension.monthlyContributionEmployee = Math.floor(maxContribution * rate / 100)
-    career.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100)
-    drawRetirementAssetChart()
-}
-function calculateMonthlyInvesting() {
-    const { monthlyNetPay = 0, monthlyExpense = 0, monthlyNetPayEstimated } = career
-    const monthlyNetPayBasis = monthlyNetPay || monthlyNetPayEstimated
-    investment.averaging = Math.floor(monthlyNetPayBasis - monthlyExpense)
-    career.saving = Math.floor(monthlyNetPayBasis - monthlyExpense)
+function onCareerChanged() {
+    // 儲存參數
+    authFetch(`/user/career`, {
+        method: 'put',
+        body: career,
+    })
+    // 影響其他
+    calculateInsuranceMonthlyAnnuity()
     drawLifeAssetChart()
 }
-function drawChartAndCalculateIncome() {
-    debounce(() => {
-        // 儲存參數
-        authFetch(`/user/career`, {
-            method: 'put',
-            body: career,
-        })
-        // 繪製圖表
-        let pv = 0
-        let fv = 0
-        const dataAndDataIndex: any[] = []
-        fv = career.monthlyBasicSalary
-        dataAndDataIndex.push({
-            label: '本薪',
-            data: [pv, fv],
-            datasetIndex: 0,
-        })
-
-        pv = fv
-        fv += career.foodExpense
-        dataAndDataIndex.push({
-            label: '伙食津貼',
-            data: [pv, fv],
-            datasetIndex: 0,
-        })
-
-        pv = fv
-        fv -= career.employeeWelfareFund
-        dataAndDataIndex.push({
-            label: '職工福利金',
-            data: [pv, fv],
-            datasetIndex: 1,
-        })
-
-        pv = fv
-        fv -= career.healthInsutancePremium
-        dataAndDataIndex.push({
-            label: '健保',
-            data: [pv, fv],
-            datasetIndex: 1,
-        })
-
-        pv = fv
-        fv -= career.insurance.expense
-        dataAndDataIndex.push({
-            label: '勞保',
-            data: [pv, fv],
-            datasetIndex: 1,
-        })
-
-        pv = fv
-        fv -= career.pension.monthlyContributionEmployee
-        dataAndDataIndex.push({
-            label: '勞退',
-            data: [pv, fv],
-            datasetIndex: 1,
-        })
-
-        career.monthlyNetPayEstimated = fv
-        calculateMonthlyInvesting()
-        fv = career.monthlyNetPay || fv
-        dataAndDataIndex.push({
-            label: '月實領',
-            data: [fv, 0],
-            datasetIndex: 0,
-        })
-
-        if (career.monthlyExpense) {
-            pv = fv
-            fv -= career.monthlyExpense
-            dataAndDataIndex.push({
-                label: '月支出',
-                data: [pv, fv],
-                datasetIndex: 1,
-            })
-        }
-
-        if (0 <= fv) {
-            dataAndDataIndex.push({
-                label: '定期定額',
-                data: [fv, 0],
-                datasetIndex: 0,
-            })
-        }
-
-        const labels = dataAndDataIndex.map(item => item.label)
-        const data0 = dataAndDataIndex.map(item => {
-            if (item.datasetIndex === 0) {
-                return item.data
-            } else {
-                return [0, 0]
-            }
-        })
-        const data1 = dataAndDataIndex.map(item => {
-            if (item.datasetIndex === 1) {
-                return item.data
-            } else {
-                return [0, 0]
-            }
-        })
-
-        const data = {
-            labels: labels,
-            datasets: [
-                {
-                    label: '應付月薪',
-                    data: data0,
-                },
-                {
-                    label: '應扣項目',
-                    data: data1
-                },
-            ]
-        }
-        if (incomeChartInstance.value) {
-            incomeChartInstance.value.data = data
-            incomeChartInstance.value.update()
-            return
-        }
-        const ctx: any = document.getElementById('incomeChart')
-        const chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: {
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: tooltipFormat,
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true
-                    }
-                }
-            }
-        })
-        incomeChartInstance = shallowRef(chartInstance)
-    })()
-}
-function tooltipFormat(tooltipItems) {
-    const { raw } = tooltipItems
-    const variedValue = raw[1] - raw[0]
-    return Number(variedValue).toLocaleString()
+function calculateInsuranceMonthlyAnnuity() {
+    const { salary } = career.insurance
+    const { lifeExpectancy, age } = retirement
+    const { futureSeniority, } = retirement.insurance
+    if (!futureSeniority) {
+        return
+    }
+    const ageModifier: number = 1 + (Number(age) - 65) * 0.04
+    const formulaOne: number = (Number(salary) * Number(futureSeniority) * 0.775 / 100 + 3000) * ageModifier
+    const formulaTwo: number = (Number(salary) * Number(futureSeniority) * 1.55 / 100) * ageModifier
+    retirement.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
+    retirement.insurance.annuitySum = Math.floor(retirement.insurance.monthlyAnnuity * 12 * lifeExpectancy)
 }
 // 退休試算
 const retirement = reactive({
@@ -1330,13 +1144,13 @@ const expenseQuartileMarks = reactive({})
 function onRetireAgeChanged() {
     calculateRetireLife()
     calculateFutureSeniority()
-    calculateMonthlyAnnuity()
+    calculateInsuranceMonthlyAnnuity()
     drawRetirementAssetChart()
     drawLifeAssetChart()
 }
 function onCurrentSeniorityChanged() {
     calculateFutureSeniority()
-    calculateMonthlyAnnuity()
+    calculateInsuranceMonthlyAnnuity()
     drawRetirementAssetChart()
 }
 function calculateFutureSeniority() {
@@ -1349,19 +1163,6 @@ function calculateFutureSeniority() {
         profileAge
     })
     retirement.insurance.futureSeniority = Number(Number(presentSeniority + retirement.age - profile.age).toFixed(1))
-}
-function calculateMonthlyAnnuity() {
-    const { salary } = career.insurance
-    const { lifeExpectancy, age } = retirement
-    const { futureSeniority, } = retirement.insurance
-    if (!futureSeniority) {
-        return
-    }
-    const ageModifier: number = 1 + (Number(age) - 65) * 0.04
-    const formulaOne: number = (Number(salary) * Number(futureSeniority) * 0.775 / 100 + 3000) * ageModifier
-    const formulaTwo: number = (Number(salary) * Number(futureSeniority) * 1.55 / 100) * ageModifier
-    retirement.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
-    retirement.insurance.annuitySum = Math.floor(retirement.insurance.monthlyAnnuity * 12 * lifeExpectancy)
 }
 function onEmployerContributionChanged() {
     drawRetirementAssetChart()
