@@ -624,9 +624,9 @@ import Chart from 'chart.js/auto';
 import Profile from './profile.vue'
 import Career from './career.vue'
 import Retirement from './retirement.vue'
-const ProfileRef = ref(null)
-const CareerRef = ref(null)
-const RetirementRef = ref(null)
+const ProfileRef = ref()
+const CareerRef = ref()
+const RetirementRef = ref()
 const { VITE_BASE_URL } = import.meta.env
 interface IOptionItem {
     label: string,
@@ -902,6 +902,7 @@ function onProfileChanged() {
     // 影響其他
     retirement.yearToRetirement = retirement.age - profile.age
     retirement.lifeExpectancy = Number(Number(profile.lifeExpectancy - retirement.yearToRetirement).toFixed(2))
+    console.log(retirement.lifeExpectancy)
     RetirementRef.value.calculateRetirement(false)
 }
 // 職業試算

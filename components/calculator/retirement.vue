@@ -112,8 +112,8 @@
                         <el-form-item label="退休品質" required>
                             <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement()">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                                    item.label
-                                }}</el-radio>
+                        item.label
+                    }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -198,7 +198,7 @@ interface IOptionItem {
     label: string,
     value: string | number | boolean,
 }
-let pensionChartInstance = ref < Chart > ()
+let pensionChartInstance = ref<Chart>()
 const emits = defineEmits(['update:modelValue', 'change'])
 const props = defineProps({
     modelValue: {
@@ -280,13 +280,14 @@ async function drawRetirementAssetChart(propogate = true) {
         monthlyAnnuity,
         annualExpense,
     } = retirement.value.insurance
+    const inflationRate = 1 + props.config.inflationRate / 100
     let inflationModifier = 1
 
     let pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
     const n = yearToRetirement
     const pensionContribution = monthlyContribution * 12
-    const irr = irrOverDecade
-    let fv = 0 // fv = pv * irr + pensionContribution
+    const irr = 1 + (irrOverDecade / 100)
+    let fv = 0 // fv = pv * n + pmt
 
     const labels: number[] = []
     const datasetData: number[] = []
@@ -295,24 +296,28 @@ async function drawRetirementAssetChart(propogate = true) {
     for (let i = 0; i < n; i++) {
         const calculatedYear = props.config.currentYear + i
         labels.push(calculatedYear)
-        datasetData.push(Math.floor(pv))
 
-        inflationModifier *= (1 + props.config.inflationRate / 100)
-        fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
+        const pmt = pensionContribution * inflationModifier
+        fv = Math.floor(pv * irr + pmt)
+        datasetData.push(Math.floor(fv))
+
         pv = fv
+        inflationModifier *= inflationRate
     }
+
     calculatePensionFinalValue(fv)
 
     // 退休後退休支出
     for (let i = 0; i < lifeExpectancy; i++) {
         const calculatedYear = props.config.currentYear + n + i
-        datasetData.push(Math.floor(pv))
         labels.push(calculatedYear)
 
-        inflationModifier *= (1 + props.config.inflationRate / 100)
-        const pmt = monthlyAnnuity * 12 - annualExpense * inflationModifier
-        fv = Math.floor(pv * (1 + irr / 100) + pmt)
+        const pmt = (monthlyAnnuity * 12 - annualExpense) * inflationModifier
+        fv = Math.floor(pv * irr + pmt)
+        datasetData.push(Math.floor(fv))
+
         pv = fv
+        inflationModifier *= inflationRate
     }
     const chartData = {
         datasets: [
