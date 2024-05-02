@@ -78,7 +78,7 @@
             </el-collapse>
         </template>
     </el-card>
-    <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
+    <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="config.isFullScreen">
         邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
         <div v-if="!user.uid" id="firebaseui-auth-container"></div>
     </el-dialog>
@@ -1149,7 +1149,11 @@ const config = {
         aom: '股4債6',
         aor: '股6債4',
         aoa: '股8債2',
-    }
+    },
+    // Dialog
+    loadingDialogVisible: false,
+    loginDialogVisible: false,
+    isFullScreen: false,
 }
 const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
@@ -2232,9 +2236,8 @@ onMounted(async () => {
 onBeforeUnmount(() => {
     window?.removeEventListener('resize', onResize)
 })
-const isFullScreen = ref(false)
 function onResize() {
-    isFullScreen.value = window?.innerWidth < 768
+    config.isFullScreen = window?.innerWidth < 768
 }
 const debounceIdGroup = reactive({})
 function debounce(func, label = '', delay = 100) {
