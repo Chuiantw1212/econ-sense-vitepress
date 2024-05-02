@@ -11,7 +11,7 @@
                 <el-button v-else @click="emits('signOut')">登出</el-button>
             </div>
         </template>
-        <el-form ref="ruleFormRef" :model="modelValue" label-width="auto">
+        <el-form ref="ruleFormRef" label-width="auto">
             <el-row>
                 <el-col v-if="user.photoURL" :span="12">
                     <el-form-item :label="user.displayName">
@@ -27,8 +27,8 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="出生年" required>
-                        <select v-model="modelValue.yearOfBirth" class="form__select" placeholder="請選擇"
-                            @change="onYearOfBirthChanged()" style="width: 130px">
+                        <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
+                            @change="calculateLifeExpectancyAndAge()" style="width: 130px">
                             <option label="請選擇" value=""></option>
                             <option v-for="year in config.birthYearOptions" :key="year" :label="year" :value="year" />
                         </select>
@@ -36,21 +36,22 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="試算年齡">
-                        <el-text>{{ modelValue.age }}</el-text>
+                        <el-text>{{ profile.age }}</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="性別" required>
-                        <el-radio-group v-model="modelValue.gender" @change="handleGenderChanged()">
-                            <el-radio v-for="(item, key) in config.genders" :value="item.value">{{ item.label }}</el-radio>
+                        <el-radio-group v-model="profile.gender" @change="calculateLifeExpectancyAndAge()">
+                            <el-radio v-for="(item, key) in config.genders" :value="item.value">{{ item.label
+                                }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="預估餘命">
-                        <el-text>{{ modelValue.lifeExpectancy }}</el-text>
+                        <el-text>{{ profile.lifeExpectancy }}</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -80,34 +81,27 @@
             </el-collapse>
         </template>
     </el-card>
-    <el-dialog v-model="config.loginDialogVisible" title="登入" :fullscreen="config.isFullScreen">
+    <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="config.isFullScreen">
         邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
-        <div v-if="!user.uid" id="firebaseui-auth-container"></div>
+        <div id="firebaseui-auth-container"></div>
     </el-dialog>
-    <el-dialog v-model="config.loadingDialogVisible" title="等待伺服器開機" width="500">
-        <div>此為免費服務，伺服器開機需10秒左右來準備以下必須資料。</div>
-        <ul>
-            <li>餘命運算</li>
-            <li>2023聯徵房地資料契約</li>
-            <li>央行擔保放款融通利率</li>
-        </ul>
-        <div>完成後此提示會自動關閉。就可以開始使用了。</div>
-        <template #footer>
-            <div class="dialog-footer">
-                <el-button @click="backToCalendar()">放棄使用</el-button>
-                <el-button v-loading="true" :disabled="true" type="primary" @click="config.loadingDialogVisible = false">
-                    下一步
-                </el-button>
-            </div>
-        </template>
-    </el-dialog>
-
 </template>
 <script setup lang="ts">
+/**
+ * Warning: FirebaseUI is not currently compatible with the v9 modular SDK. The v9 compatibility layer (specifically, the * app-compat and auth-compat packages) permits the usage of FirebaseUI alongside v9, but without the app size reduction * and other benefits of the v9 SDK.
+ * https://firebase.google.com/docs/auth/web/firebaseui
+ * https://firebase.google.com/docs/web/modular-upgrade
+ */
+/**
+ * FirebaseUI for Web — Auth
+ * https://firebaseopensource.com/projects/firebase/firebaseui-web/
+ */
 import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
 import firebase from 'firebase/compat/app';
+import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
 const { VITE_BASE_URL } = import.meta.env
-const emits = defineEmits(['signOut'])
+const loginDialogVisible = ref(false)
+const emits = defineEmits(['signOut', 'change'])
 const props = defineProps({
     modelValue: {
         type: Object,
@@ -122,29 +116,28 @@ const props = defineProps({
             }
         }
     },
+    user: {
+        type: Object,
+        default: () => { }
+    },
     config: {
         type: Object,
         default: () => { }
     }
 })
-const loadingDialogVisible = ref(false)
-const loginDialogVisible = ref(false)
-const user = reactive({
-    displayName: '註冊用戶',
-    email: '',
-    photoURL: '',
-    uid: '',
-    id: '',
+const profile = computed({
+    get() {
+        return props.modelValue
+    },
+    set(newValue) {
+        emits('change', newValue)
+    }
 })
-// const modelValue = reactive({
-//     id: '', // 避免登入判斷錯誤
-//     yearOfBirth: '',
-//     dateOfBirth: '',
-//     gender: '',
-//     age: 0,
-//     lifeExpectancy: 0,
-// })
+function toggleSignInDialog(value) {
+    loginDialogVisible.value = value
+}
 function openSignInDialog() {
+    toggleSignInDialog(true)
     nextTick(() => {
         const uiConfig = {
             signInOptions: [
@@ -170,14 +163,8 @@ function openSignInDialog() {
         }
     })
 }
-function onYearOfBirthChanged() {
-    calculateLifeExpectancyAndAge()
-}
-function handleGenderChanged() {
-    calculateLifeExpectancyAndAge()
-}
 async function calculateLifeExpectancyAndAge() {
-    const { yearOfBirth, gender, age } = props.modelValue
+    const { yearOfBirth, gender } = profile.value
     if (yearOfBirth && gender) {
         const ceYear = new Date().getFullYear()
         const calculateAge = ceYear - Number(yearOfBirth)
@@ -191,17 +178,48 @@ async function calculateLifeExpectancyAndAge() {
             headers: { 'Content-Type': 'application/json' }
         })
         const lifeExpectancy = await res.json()
-        props.modelValue.age = calculateAge
-        props.modelValue.lifeExpectancy = lifeExpectancy
-
-        calculateRetireLife()
-        calculateFutureSeniority()
-        drawRetirementPensionChart()
-
-        await authFetch(`/user/profile`, {
-            method: 'put',
-            body: profile,
-        })
+        profile.value.age = calculateAge
+        profile.value.lifeExpectancy = lifeExpectancy
     }
 }
+
+defineExpose({
+    calculateLifeExpectancyAndAge,
+    toggleSignInDialog
+});
 </script>
+<style lang="scss" scoped>
+.form__select {
+    all: unset;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    width: 130px;
+    padding: 0 15px;
+
+    &:disabled {
+        background-color: rgb(245, 247, 250);
+    }
+}
+
+.card-header--custom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table {
+    * {
+        border-color: var(--el-border-color-light);
+        color: var(--el-text-color-regular);
+        background: white !important;
+    }
+}
+
+:deep(.my-label) {
+    background: white;
+}
+
+:deep(.my-content) {
+    background: white;
+}
+</style>
