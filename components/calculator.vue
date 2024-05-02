@@ -27,7 +27,7 @@
                         <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
                             @change="onYearOfBirthChanged()" style="width: 130px">
                             <option label="請選擇" value=""></option>
-                            <option v-for="year in yearOptions" :key="year" :label="year" :value="year" />
+                            <option v-for="year in birthYearOptions" :key="year" :label="year" :value="year" />
                         </select>
                     </el-form-item>
                 </el-col>
@@ -41,7 +41,8 @@
                 <el-col :span="12">
                     <el-form-item label="性別" required>
                         <el-radio-group v-model="profile.gender" @change="handleGenderChanged()">
-                            <el-radio v-for="(item, key) in genders" :value="item.value">{{ item.label }}</el-radio>
+                            <el-radio v-for="(item, key) in config.genders" :value="item.value">{{ item.label
+                                }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -56,7 +57,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="通貨膨脹">
-                        <el-text>{{ inflationRate }}%</el-text>
+                        <el-text>{{ config.inflationRate }}%</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -330,7 +331,7 @@
                 <el-col :span="24">
                     <el-form-item label="退休品質" required>
                         <el-radio-group v-model="retirement.qualityLevel" @change="onRetirementLevelChanged()">
-                            <el-radio v-for="(item, key) in retirementQuartile" :value="key + 1">{{ item.label
+                            <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{ item.label
                                 }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
@@ -495,9 +496,49 @@
             </el-collapse>
         </template>
     </el-card>
-    <h3 id="_育兒試算" tabindex="-1">育兒試算</h3>
+    <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
+            aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
+    <h3 id="_育兒試算" tabindex="-1">育兒試算<a class="header-anchor" href="#育兒試算"
+            aria-label="Permalink to &quot;育兒試算&quot;">&ZeroWidthSpace;</a></h3>
     <el-card>
         <el-form label-width="auto">
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="配婚出生年">
+                        <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
+                            style="width: 130px">
+                            <option label="請選擇" value=""></option>
+                            <option v-for="year in birthYearOptions" :key="year" :label="String(year)" :value="year" />
+                        </select>
+                    </el-form-item>
+                </el-col>
+                <el-col>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="現配偶婚年">
+                        <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
+                            style="width: 130px">
+                            <option label="請選擇" value=""></option>
+                            <option v-for="year in marriageYearOptions" :key="year" :label="String(year)"
+                                :value="year" />
+                        </select>
+                    </el-form-item>
+                </el-col>
+                <el-col>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="配偶貢獻">
+                        <el-input-number v-model="parenting.spouseMonthlyContribution" :min="0"
+                            @change="drawLifeAssetChart()" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                </el-col>
+            </el-row>
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="配偶貢獻">
@@ -622,7 +663,7 @@
                         <select v-model="estatePrice.county" class="form__select" placeholder="請選擇"
                             @change="onCountyChanged()">
                             <option label="請選擇" value=""></option>
-                            <option v-for="item in counties" :key="item.value" :label="item.label"
+                            <option v-for="item in config.counties" :key="item.value" :label="item.label"
                                 :value="item.value" />
                         </select>
                     </el-form-item>
@@ -643,7 +684,7 @@
                         <select v-model="estatePrice.buildingType" class="form__select" placeholder="請選擇"
                             :disabled="!estatePrice.town" @change="onBuildingTypeChanged()">
                             <option label="不限" value=""></option>
-                            <option v-for="item in buildingTypes" :key="item.value" :label="item.label"
+                            <option v-for="item in config.buildingTypes" :key="item.value" :label="item.label"
                                 :value="item.value" />
                         </select>
                     </el-form-item>
@@ -653,7 +694,7 @@
                         <select v-model="estatePrice.buildingAge" class="form__select" placeholder="請選擇"
                             :disabled="!estatePrice.town" @change="onBuildingAgeChanged()">
                             <option label="不限" value=""></option>
-                            <option v-for="item in buildingAges" :key="item.value" :label="item.label"
+                            <option v-for="item in config.buildingAges" :key="item.value" :label="item.label"
                                 :value="item.value" />
                         </select>
                     </el-form-item>
@@ -1087,16 +1128,19 @@ async function signOut() {
     }
 }
 // 主要從資料庫來的設定檔案
-const inflationRate = ref(2)
+const config = {
+    inflationRate: 2,
+    genders: [],
+    counties: [],
+    buildingTypes: [],
+    buildingAges: [],
+    retirementQuartile: [],
+}
 const currentYear: number = new Date().getFullYear()
-const counties = ref<IOptionItem[]>([])
 const townMap = reactive({})
-const buildingTypes = ref<IOptionItem[]>([])
-const buildingAges = ref<IOptionItem[]>([])
-const genders = ref<IOptionItem[]>([])
-const retirementQuartile = ref<IOptionItem[]>([])
 const portfolioIRR = reactive({})
-const yearOptions = ref<number[]>([])
+const birthYearOptions = ref<number[]>([])
+const marriageYearOptions = ref<number[]>([])
 const porfolioLabels = reactive({
     aok: '股2債8',
     aom: '股4債6',
@@ -1109,11 +1153,11 @@ async function setSelecOptionSync() {
     try {
         const selectRes = await fetch(`${VITE_BASE_URL}/select`)
         const selectResJson = await selectRes.json()
-        counties.value = selectResJson.counties || []
-        buildingTypes.value = selectResJson.buildingTypes || []
-        buildingAges.value = selectResJson.buildingAges || []
-        genders.value = selectResJson.genders || []
-        retirementQuartile.value = selectResJson.retirementQuartile || []
+        config.counties = selectResJson.counties || []
+        config.buildingTypes = selectResJson.buildingTypes || []
+        config.buildingAges = selectResJson.buildingAges || []
+        config.genders = selectResJson.genders || []
+        config.retirementQuartile = selectResJson.retirementQuartile || []
         Object.assign(townMap, selectResJson.townMap)
 
         const bankConfigRes = await fetch(`${VITE_BASE_URL}/bank/config`)
@@ -1121,12 +1165,11 @@ async function setSelecOptionSync() {
         mortgage.interestRate = bankConfigResJson.interestRate
         Object.assign(portfolioIRR, bankConfigResJson.portfolioIRR)
 
-        const yearOptionsTemp: number[] = []
         const year = new Date().getFullYear()
         for (let i = 0; i < 60; i++) {
-            yearOptionsTemp.push(Number(year) - i - 18)
+            birthYearOptions.value.push(Number(year) - i - 18)
+            marriageYearOptions.value.push(Number(year) - i)
         }
-        yearOptions.value = yearOptionsTemp
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
@@ -1594,10 +1637,10 @@ function onRetirementLevelChanged() {
 }
 function calculateRetirementMonthlyExpense() {
     const { qualityLevel } = retirement
-    if (!qualityLevel || !retirementQuartile.value.length) {
+    if (!qualityLevel || !config.retirementQuartile.length) {
         return
     }
-    const selectedItem: IOptionItem = retirementQuartile.value[qualityLevel - 1]
+    const selectedItem: IOptionItem = config.retirementQuartile[qualityLevel - 1]
     retirement.annualExpense = Number(selectedItem.value)
     drawRetirementPensionChart()
 }
@@ -1636,7 +1679,7 @@ async function drawRetirementPensionChart() {
             labels.push(calculatedYear)
             datasetData.push(Math.floor(pv))
 
-            inflationModifier *= (1 + inflationRate.value / 100)
+            inflationModifier *= (1 + config.inflationRate / 100)
             fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
             pv = fv
         }
@@ -1648,7 +1691,7 @@ async function drawRetirementPensionChart() {
             datasetData.push(Math.floor(pv))
             labels.push(calculatedYear)
 
-            inflationModifier *= (1 + inflationRate.value / 100)
+            inflationModifier *= (1 + config.inflationRate / 100)
             const pmt = retirement.insurance.monthlyAnnuity * 12 - retirement.annualExpense * inflationModifier
             fv = Math.floor(pv * (1 + irr / 100) + pmt)
             pv = fv
@@ -1698,7 +1741,7 @@ const investmentAveraging = ref(0)
 const allocationQuartileMarks = reactive({})
 let investmentChartInstance = ref<Chart>()
 function calculateRetirementQuartileMarks() {
-    retirementQuartile.value.forEach((item, index) => {
+    config.retirementQuartile.forEach((item, index) => {
         const { value } = item
         const percentileRank = (index + 1) * 20 - 10
         const retirementMonthlyExpense = Number(value) / 12
@@ -1789,7 +1832,7 @@ function drawLifeAssetChart() {
         }
 
         // 計算複利終值
-        inflationModifier *= 1 + inflationRate.value / 100
+        inflationModifier *= 1 + config.inflationRate / 100
         fv = pv * (1 + irr / 100) + calculatedPmt
         pv = fv
     }
@@ -1880,7 +1923,7 @@ function drawParentingChart() {
             insuranceAsset -= totalExpense
             asssetData.push([totalExpense, Math.floor(insuranceAsset)])
             insuranceAsset = insuranceAsset * (1 + investment.irr / 100)
-            inflationModifier *= 1 + inflationRate.value / 100
+            inflationModifier *= 1 + config.inflationRate / 100
         }
         const datasets = [
             {
