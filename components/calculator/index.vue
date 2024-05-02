@@ -674,10 +674,10 @@ const idToken = ref()
 const idTokenIntervalId = ref()
 async function setIdToken(currentUser) {
     if (currentUser) {
-        idToken.value = await currentUser.getIdToken()
-        idTokenIntervalId.value = setInterval(async () => {
-            idToken.value = await firebase.auth()?.currentUser?.getIdToken(true)
-        }, 50 * 60 * 1000)
+        idToken.value = await currentUser.getIdToken(true)
+        // idTokenIntervalId.value = setInterval(async () => {
+        //     idToken.value = await firebase.auth()?.currentUser?.getIdToken(true)
+        // }, 50 * 60 * 1000)
     } else {
         idToken.value = null
         clearInterval(idTokenIntervalId.value)
@@ -708,7 +708,13 @@ async function authFetch(appendUrl, options) {
     const res = await fetch(VITE_BASE_URL + appendUrl, defaultOptions)
     if (res.status !== 200) {
         const result = await res.text()
-        ElMessage(result || res.statusText)
+        if (result.includes('auth/id-token-expired')) {
+            const currentUser = await firebase.auth()?.currentUser
+            await setIdToken(currentUser)
+            authFetch(appendUrl, options)
+        } else {
+            ElMessage(result || res.statusText)
+        }
         return
     }
     return res
