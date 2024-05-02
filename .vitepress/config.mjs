@@ -120,7 +120,7 @@ export default defineConfig({
      </g>
      </svg>` }
       },
-      { icon: 'github', link: 'https://github.com/Chuiantw1212/econ-sense-vite-press' },
+      // { icon: 'github', link: 'https://github.com/Chuiantw1212/econ-sense-vite-press' },
       { icon: 'instagram', link: 'https://www.instagram.com/econ.sense' },
       // { icon: 'linkedin', link: 'https://www.linkedin.com/in/chuiantw1212' },
     ],
