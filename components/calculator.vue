@@ -1055,6 +1055,7 @@ async function authFetch(appendUrl, options) {
     return res
 }
 function openSignInDialog() {
+    loginDialogVisible.value = true
     nextTick(() => {
         const uiConfig = {
             signInOptions: [
