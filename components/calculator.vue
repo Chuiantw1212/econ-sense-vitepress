@@ -81,6 +81,23 @@
         邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
         <div v-if="!user.uid" id="firebaseui-auth-container"></div>
     </el-dialog>
+    <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="500">
+        <div>此為免費服務，伺服器開機需10秒左右來準備以下必須資料。</div>
+        <ul>
+            <li>餘命運算</li>
+            <li>2023聯徵房地資料契約</li>
+            <li>央行擔保放款融通利率</li>
+        </ul>
+        <div>完成後此提示會自動關閉。就可以開始使用了。</div>
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="backToCalendar()">放棄使用</el-button>
+                <el-button v-loading="true" :disabled="true" type="primary" @click="loadingDialogVisible = false">
+                    下一步
+                </el-button>
+            </div>
+        </template>
+    </el-dialog>
 
     <h2 id="_2. 我可以FIRE嗎？" tabindex="-1">2. 我可以FIRE嗎？</h2>
     財務安全的理財方式，將退休前與退休後的資產分開計算。退休先有保障，當上流老人，再用退休前資產去試算是否可以推關。
@@ -950,6 +967,7 @@ import firebase from 'firebase/compat/app';
 import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
 import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
 import Chart from 'chart.js/auto';
+const { VITE_BASE_URL } = import.meta.env
 interface IOptionItem {
     label: string,
     value: string | number | boolean,
@@ -962,6 +980,7 @@ const user = reactive({
     uid: '',
     id: '',
 })
+const loginDialogVisible = ref(false)
 async function initializeApp() {
     await firebase.initializeApp({
         apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
@@ -1013,8 +1032,6 @@ async function authFetch(appendUrl, options) {
     if (options.body && !user.id) {
         return // 避免初始化資料覆蓋回noSQL
     }
-    const { uid } = currentUser
-    let baseUrl = import.meta.env.VITE_BASE_URL
     const defaultOptions: any = {
         method: 'get',
         headers: {
@@ -1029,7 +1046,7 @@ async function authFetch(appendUrl, options) {
         })
     }
     Object.assign(defaultOptions.headers, options.headers)
-    const res = await fetch(baseUrl + appendUrl, defaultOptions)
+    const res = await fetch(VITE_BASE_URL + appendUrl, defaultOptions)
     if (res.status !== 200) {
         const result = await res.text()
         ElMessage(result || res.statusText)
@@ -1037,9 +1054,7 @@ async function authFetch(appendUrl, options) {
     }
     return res
 }
-const loginDialogVisible = ref(false)
 function openSignInDialog() {
-    loginDialogVisible.value = true
     nextTick(() => {
         const uiConfig = {
             signInOptions: [
@@ -1074,24 +1089,25 @@ async function signOut() {
 // 主要從資料庫來的設定檔案
 const inflationRate = ref(2)
 const currentYear: number = new Date().getFullYear()
-const counties = ref < IOptionItem[] > ([])
+const counties = ref<IOptionItem[]>([])
 const townMap = reactive({})
-const buildingTypes = ref < IOptionItem[] > ([])
-const buildingAges = ref < IOptionItem[] > ([])
-const genders = ref < IOptionItem[] > ([])
-const retirementQuartile = ref < IOptionItem[] > ([])
+const buildingTypes = ref<IOptionItem[]>([])
+const buildingAges = ref<IOptionItem[]>([])
+const genders = ref<IOptionItem[]>([])
+const retirementQuartile = ref<IOptionItem[]>([])
 const portfolioIRR = reactive({})
-const yearOptions = ref < number[] > ([])
+const yearOptions = ref<number[]>([])
 const porfolioLabels = reactive({
     aok: '股2債8',
     aom: '股4債6',
     aor: '股6債4',
     aoa: '股8債2',
 })
+const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
-    const loading = ElLoading.service()
+    loadingDialogVisible.value = true
     try {
-        const selectRes = await fetch(`${import.meta.env.VITE_BASE_URL}/select`)
+        const selectRes = await fetch(`${VITE_BASE_URL}/select`)
         const selectResJson = await selectRes.json()
         counties.value = selectResJson.counties || []
         buildingTypes.value = selectResJson.buildingTypes || []
@@ -1100,7 +1116,7 @@ async function setSelecOptionSync() {
         retirementQuartile.value = selectResJson.retirementQuartile || []
         Object.assign(townMap, selectResJson.townMap)
 
-        const bankConfigRes = await fetch(`${import.meta.env.VITE_BASE_URL}/bank/config`)
+        const bankConfigRes = await fetch(`${VITE_BASE_URL}/bank/config`)
         const bankConfigResJson = await bankConfigRes.json()
         mortgage.interestRate = bankConfigResJson.interestRate
         Object.assign(portfolioIRR, bankConfigResJson.portfolioIRR)
@@ -1114,15 +1130,18 @@ async function setSelecOptionSync() {
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
-        ElMessageBox.alert(error.message, {
+        ElMessageBox.alert('Google Cloud App Engine無回應', {
             confirmButtonText: '回講座排程',
-            callback: (action) => {
-                window?.location.replace('/calendar');
+            callback: () => {
+                backToCalendar()
             },
         })
     } finally {
-        loading.close()
+        loadingDialogVisible.value = false
     }
+}
+function backToCalendar() {
+    window?.location.replace('/calendar')
 }
 async function getUserFormSync(firebaseUser) {
     const initForm = {
@@ -1233,7 +1252,7 @@ async function calculateLifeExpectancyAndAge() {
     if (yearOfBirth && gender) {
         const ceYear = new Date().getFullYear()
         const calculateAge = ceYear - Number(yearOfBirth)
-        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/lifeExpectancy`, {
+        const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
             method: 'post',
             body: JSON.stringify({
                 ceYear,
@@ -1278,7 +1297,7 @@ const career = reactive({
     monthlyNetPay: 0,
     monthlyExpense: 0,
 })
-let incomeChartInstance = ref < Chart > ()
+let incomeChartInstance = ref<Chart>()
 function onMonthlyBasicSalaryChanged() {
     calculatePensionSalaryMin()
     calculateInsuranceSalaryMin()
@@ -1525,7 +1544,7 @@ const retirement = reactive({
     percentileRank: 0,
     annualExpense: 0,
 })
-let pensionChartInstance = ref < Chart > ()
+let pensionChartInstance = ref<Chart>()
 const expenseQuartileMarks = reactive({})
 function onRetireAgeChanged() {
     calculateRetireLife()
@@ -1677,7 +1696,7 @@ const investment = reactive({
 })
 const investmentAveraging = ref(0)
 const allocationQuartileMarks = reactive({})
-let investmentChartInstance = ref < Chart > ()
+let investmentChartInstance = ref<Chart>()
 function calculateRetirementQuartileMarks() {
     retirementQuartile.value.forEach((item, index) => {
         const { value } = item
@@ -1807,7 +1826,7 @@ const parenting = reactive({
     insurance: 0,
     headCount: 0,
 })
-let parentingChartInstance = ref < Chart > ()
+let parentingChartInstance = ref<Chart>()
 watch(() => parenting, () => {
     drawParentingChart()
 }, { deep: true })
@@ -2005,7 +2024,7 @@ async function getUnitPriceSync() {
     const { county, town, buildingType, buildingAge } = estatePrice
     if (county && town) {
         buildingLoading.value = true
-        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/calculate/unitPrice`, {
+        const res = await fetch(`${VITE_BASE_URL}/calculate/unitPrice`, {
             method: 'post',
             body: JSON.stringify(estatePrice),
             headers: { 'Content-Type': 'application/json' }
