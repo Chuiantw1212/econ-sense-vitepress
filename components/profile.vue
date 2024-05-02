@@ -44,8 +44,9 @@
                 <el-col :span="12">
                     <el-form-item label="性別" required>
                         <el-radio-group v-model="profile.gender" @change="calculateLifeExpectancyAndAge()">
-                            <el-radio v-for="(item, key) in config.genders" :value="item.value">{{ item.label
-                                }}</el-radio>
+                            <el-radio v-for="(item, key) in config.genders" :value="item.value">
+                                {{ item.label }}
+                            </el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -96,9 +97,8 @@
  * FirebaseUI for Web — Auth
  * https://firebaseopensource.com/projects/firebase/firebaseui-web/
  */
-import { onMounted, ref, reactive, watch, nextTick, shallowRef, onBeforeUnmount, computed } from 'vue'
+import { ref, nextTick, computed } from 'vue'
 import firebase from 'firebase/compat/app';
-import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
 const { VITE_BASE_URL } = import.meta.env
 const loginDialogVisible = ref(false)
 const emits = defineEmits(['signOut', 'change'])
@@ -118,11 +118,15 @@ const props = defineProps({
     },
     user: {
         type: Object,
-        default: () => { }
+        default: () => {
+            return {}
+        }
     },
     config: {
         type: Object,
-        default: () => { }
+        default: () => {
+            return {}
+        }
     }
 })
 const profile = computed({

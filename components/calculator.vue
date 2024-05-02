@@ -1016,7 +1016,7 @@ async function signOut() {
     }
 }
 // 主要從資料庫來的設定檔案
-const config = {
+const config = reactive({
     // primitive types
     currentYear: new Date().getFullYear(),
     inflationRate: 2,
@@ -1041,7 +1041,7 @@ const config = {
     loadingDialogVisible: false,
     loginDialogVisible: false,
     isFullScreen: false,
-}
+})
 const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
     loadingDialogVisible.value = true
@@ -1180,38 +1180,13 @@ const profile = reactive({
     lifeExpectancy: 0,
 })
 function onProfileChanged() {
+    calculateRetireLife()
+    calculateFutureSeniority()
+    drawRetirementPensionChart()
     authFetch(`/user/profile`, {
         method: 'put',
         body: profile,
     })
-}
-async function calculateLifeExpectancyAndAge() {
-    const { yearOfBirth, gender, age } = profile
-    if (yearOfBirth && gender) {
-        const ceYear = new Date().getFullYear()
-        const calculateAge = ceYear - Number(yearOfBirth)
-        const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
-            method: 'post',
-            body: JSON.stringify({
-                ceYear,
-                age: calculateAge,
-                gender,
-            }),
-            headers: { 'Content-Type': 'application/json' }
-        })
-        const lifeExpectancy = await res.json()
-        profile.age = calculateAge
-        profile.lifeExpectancy = lifeExpectancy
-
-        calculateRetireLife()
-        calculateFutureSeniority()
-        drawRetirementPensionChart()
-
-        await authFetch(`/user/profile`, {
-            method: 'put',
-            body: profile,
-        })
-    }
 }
 // 職業試算
 const career = reactive({
@@ -2116,8 +2091,10 @@ async function calculateMortgate() {
 onMounted(async () => {
     initializeApp()
     await setSelecOptionSync()
-    initializeCalculator()
-    window?.addEventListener('resize', onResize)
+    nextTick(() => {
+        initializeCalculator()
+        window?.addEventListener('resize', onResize)
+    })
 })
 onBeforeUnmount(() => {
     window?.removeEventListener('resize', onResize)
