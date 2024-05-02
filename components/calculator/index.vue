@@ -17,196 +17,16 @@
             </div>
         </template>
     </el-dialog>
+
     <Profile v-model="profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
         @update:modelValue="onProfileChanged()"></Profile>
 
-    <Career v-model="career" :user="user" :config="config" ref="CareerRef" @update:model-value="onCareerChanged()">
+    <Career v-model="career" :user="user" :config="config" ref="CareerRef" @update:modelValue="onCareerChanged()">
     </Career>
 
-    <h3 id="_退休試算" tabindex="-1">退休試算</h3>
-    <el-card>
-        <el-form label-width="auto">
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="計畫退休年齡" required>
-                        <el-input-number v-model="retirement.age" :min="60" :max="70" @change="onRetireAgeChanged()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="距離退休">
-                        <el-text>{{ retirement.age - profile.age }} 年</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="退休後餘命">
-                        <el-text>{{ retirement.lifeExpectancy }} 年</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="目前勞保投保年資">
-                        <el-input-number v-model="retirement.insurance.presentSeniority" :min="0"
-                            @change="onCurrentSeniorityChanged()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="預估屆退年資">
-                        <el-text>{{ retirement.insurance.futureSeniority }} 年</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="預估勞保年金">
-                        <el-text>{{ Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} / 月</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="餘命 x 年金">
-                        <el-text>{{ Number(retirement.insurance.annuitySum).toLocaleString() }}</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="顧主提繳累計">
-                        <el-input-number v-model="retirement.pension.employerContribution" :min="0"
-                            @change="onEmployerContributionChanged()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="個人提繳累計">
-                        <el-input-number v-model="retirement.pension.employeeContrubution" :min="0"
-                            @change="onEmployeeContributionChanged()" />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="顧主提繳收益">
-                        <el-input-number v-model="retirement.pension.employerContributionIncome" :min="0"
-                            @change="onEmployerContributionIncomeChanged()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="個人提繳收益">
-                        <el-input-number v-model="retirement.pension.employeeContrubutionIncome" :min="0"
-                            @change="onEmployeeContributionIncomeChanged()" />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="勞退十年收益率" required>
-                        <el-input-number v-model="retirement.pension.irrOverDecade" :min="0"
-                            @change="onTenYearIrrChanged()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="預估勞退總額">
-                        <el-text>{{ Number(retirement.pension.finalValue).toLocaleString() }}</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item v-if="retirement.pension.tax" label="預估勞退稅基">
-                        <el-text>{{ Number(retirement.pension.tax).toLocaleString() }}</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="退休品質" required>
-                        <el-radio-group v-model="retirement.qualityLevel" @change="onRetirementLevelChanged()">
-                            <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{ item.label
-                                }}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="23">
-                    <el-form-item label="退休月支出">
-                        <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks" :disabled="true" />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <br />
-            <canvas id="pensionChart"></canvas>
-        </el-form>
-        <template #footer>
-            <el-collapse>
-                <el-collapse-item title="試算說明" name="1" :border="true">
-                    <ul>
-                        <li>
-                            假設勞退皆為一次領，且領後的再投資報酬率打平勞動基金
-                        </li>
-                        <li>
-                            勞保勞退查詢：<a href="https://edesk.bli.gov.tw/me/#/na/login">勞保局E化服務系統</a>
-                        </li>
-                        <li>
-                            勞退收益率：<a href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00"
-                                target="_blank">中華民國退休基金協會</a>
-                        </li>
-                        <li>資料來源：
-                            <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
-                                主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
-                            </a>
-                        </li>
-                    </ul>
-                    <table class="table">
-                        <tr>
-                            <th>
-                                <div>65歲及以上</div>
-                                <div>按戶數五等分位組</div>
-                            </th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
-                        </tr>
-                        <tr>
-                            <td>平均每戶人數</td>
-                            <td>1.62</td>
-                            <td>1.98</td>
-                            <td>2.22</td>
-                            <td>2.64</td>
-                            <td>3.07</td>
-                        </tr>
-                        <tr>
-                            <td>消費支出</td>
-                            <td>380,421</td>
-                            <td>614,536</td>
-                            <td>772,725</td>
-                            <td>961,375</td>
-                            <td>1,335,663</td>
-                        </tr>
-                        <tr>
-                            <td>平均每人消費支出</td>
-                            <td>234,827</td>
-                            <td>310,371</td>
-                            <td>348,074</td>
-                            <td>364,157</td>
-                            <td>435,069</td>
-                        </tr>
-                    </table>
-                </el-collapse-item>
-            </el-collapse>
-        </template>
-    </el-card>
+    <Retirement v-model="retirement" :config="config" :profile="profile" ref="RetirementRef"
+        @update:model-value="onRetirementChanged()">
+    </Retirement>
 
     <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科</h2>
     <el-card>
@@ -803,8 +623,10 @@ import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
 import Chart from 'chart.js/auto';
 import Profile from './profile.vue'
 import Career from './career.vue'
+import Retirement from './retirement.vue'
 const ProfileRef = ref(null)
 const CareerRef = ref(null)
+const RetirementRef = ref(null)
 const { VITE_BASE_URL } = import.meta.env
 interface IOptionItem {
     label: string,
@@ -832,7 +654,7 @@ async function initializeApp() {
         if (!firebaseUser) {
             await setIdToken(false)
             await getUserFormSync(false)
-            await initializeCalculator()
+            // await initializeCalculator()
             return
         }
         const { displayName, email, photoURL, uid } = firebaseUser
@@ -924,6 +746,15 @@ const config = reactive({
     loadingDialogVisible: false,
     loginDialogVisible: false,
     isFullScreen: false,
+    // Format https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
+    toFixedOne: new Intl.NumberFormat(undefined, {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+    }),
+    toFixedTwo: new Intl.NumberFormat(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })
 })
 const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
@@ -937,6 +768,12 @@ async function setSelecOptionSync() {
         config.buildingAges = selectResJson.buildingAges || []
         config.genders = selectResJson.genders || []
         config.retirementQuartile = selectResJson.retirementQuartile || []
+        config.retirementQuartile.forEach((item, index) => {
+            const { value } = item
+            const percentileRank = (index + 1) * 20 - 10
+            const retirementMonthlyExpense = Number(value) / 12
+            retirement.expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
+        })
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
         const bankConfigRes = await fetch(`${VITE_BASE_URL}/bank/config`)
@@ -1033,14 +870,9 @@ async function getUserFormSync(firebaseUser) {
     return userForm
 }
 async function initializeCalculator() {
-    // 基本資料
     await ProfileRef.value.calculateProfile()
-    // 職業
     await CareerRef.value.calculateCareer()
-    // 退休
-    calculateFutureSeniority()
-    calculateRetirementQuartileMarks()
-    calculateRetirementMonthlyExpense()
+    await RetirementRef.value.calculateRetirement()
     // 投資
     calculateAssetIrrChanges()
     // 買房
@@ -1061,13 +893,16 @@ const profile = reactive({
     lifeExpectancy: 0,
 })
 function onProfileChanged() {
-    calculateRetireLife()
-    calculateFutureSeniority()
-    drawRetirementAssetChart()
+    console.log('onProfileChanged,', profile)
+    // 儲存參數
     authFetch(`/user/profile`, {
         method: 'put',
         body: profile,
     })
+    // 影響其他
+    retirement.yearToRetirement = retirement.age - profile.age
+    retirement.lifeExpectancy = Number(Number(profile.lifeExpectancy - retirement.yearToRetirement).toFixed(2))
+    RetirementRef.value.calculateRetirement(false)
 }
 // 職業試算
 const career = reactive({
@@ -1093,39 +928,37 @@ const career = reactive({
     monthlySaving: 0,
 })
 function onCareerChanged() {
+    console.log('onCareerChanged', career)
     // 儲存參數
     authFetch(`/user/career`, {
         method: 'put',
         body: career,
     })
     // 影響其他
-    calculateInsuranceMonthlyAnnuity()
-    drawLifeAssetChart()
-}
-function calculateInsuranceMonthlyAnnuity() {
-    const { salary } = career.insurance
-    const { lifeExpectancy, age } = retirement
-    const { futureSeniority, } = retirement.insurance
-    if (!futureSeniority) {
-        return
-    }
-    const ageModifier: number = 1 + (Number(age) - 65) * 0.04
-    const formulaOne: number = (Number(salary) * Number(futureSeniority) * 0.775 / 100 + 3000) * ageModifier
-    const formulaTwo: number = (Number(salary) * Number(futureSeniority) * 1.55 / 100) * ageModifier
-    retirement.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
-    retirement.insurance.annuitySum = Math.floor(retirement.insurance.monthlyAnnuity * 12 * lifeExpectancy)
+    console.log(retirement.insurance)
+    retirement.insurance.salary = career.insurance.salary
+    retirement.pension.monthlyContribution = career.pension.monthlyContribution
+    investment.averaging = career.monthlySaving
+    RetirementRef.value.calculateRetirement()
+    // drawLifeAssetChart()
 }
 // 退休試算
 const retirement = reactive({
     age: 60,
+    yearToRetirement: 0,
     lifeExpectancy: 0,
+    expenseQuartileMarks: {},
+    // 勞保
     insurance: {
+        salary: 0,
         presentSeniority: 0, // 6.9
         futureSeniority: 0,
         monthlyAnnuity: 0,
         annuitySum: 0,
     },
+    // 勞退
     pension: {
+        monthlyContribution: 0,
         employeeContrubution: 0,
         employeeContrubutionIncome: 0,
         employerContribution: 0,
@@ -1134,149 +967,16 @@ const retirement = reactive({
         finalValue: 0,
         tax: 0,
     },
+    // 退休水準
     qualityLevel: 0,
     percentileRank: 0,
     annualExpense: 0,
 })
-let pensionChartInstance = ref<Chart>()
-const expenseQuartileMarks = reactive({})
-function onRetireAgeChanged() {
-    calculateRetireLife()
-    calculateFutureSeniority()
-    calculateInsuranceMonthlyAnnuity()
-    drawRetirementAssetChart()
-    drawLifeAssetChart()
-}
-function onCurrentSeniorityChanged() {
-    calculateFutureSeniority()
-    calculateInsuranceMonthlyAnnuity()
-    drawRetirementAssetChart()
-}
-function calculateFutureSeniority() {
-    const { presentSeniority } = retirement.insurance
-    const retirementAge = retirement.age
-    const profileAge = profile.age
-    console.log({
-        presentSeniority,
-        retirementAge,
-        profileAge
+function onRetirementChanged() {
+    authFetch(`/user/retirement`, {
+        method: 'put',
+        body: retirement,
     })
-    retirement.insurance.futureSeniority = Number(Number(presentSeniority + retirement.age - profile.age).toFixed(1))
-}
-function onEmployerContributionChanged() {
-    drawRetirementAssetChart()
-}
-function onEmployeeContributionChanged() {
-    drawRetirementAssetChart()
-}
-function onEmployerContributionIncomeChanged() {
-    drawRetirementAssetChart()
-}
-function onEmployeeContributionIncomeChanged() {
-    drawRetirementAssetChart()
-}
-function onTenYearIrrChanged() {
-    drawRetirementAssetChart()
-}
-function onRetirementLevelChanged() {
-    const { qualityLevel } = retirement
-    retirement.percentileRank = qualityLevel * 20 - 10
-    calculateRetirementMonthlyExpense()
-}
-function calculateRetirementMonthlyExpense() {
-    const { qualityLevel } = retirement
-    if (!qualityLevel || !config.retirementQuartile.length) {
-        return
-    }
-    const selectedItem: IOptionItem = config.retirementQuartile[qualityLevel - 1]
-    retirement.annualExpense = Number(selectedItem.value)
-    drawRetirementAssetChart()
-}
-async function calculateRetireLife() {
-    retirement.lifeExpectancy = Number(Number(profile.age + profile.lifeExpectancy - retirement.age).toFixed(2))
-}
-async function drawRetirementAssetChart() {
-    debounce(() => {
-        // 儲存參數
-        authFetch(`/user/retirement`, {
-            method: 'put',
-            body: retirement,
-        })
-        // 計算資料
-        const {
-            employerContribution,
-            employeeContrubution,
-            employerContributionIncome,
-            employeeContrubutionIncome,
-            irrOverDecade
-        } = retirement.pension
-        let inflationModifier = 1
-
-        let pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
-        const n = retirement.age - profile.age
-        const pensionContribution = career.pension.monthlyContribution * 12
-        const irr = irrOverDecade
-        let fv = 0 // fv = pv * irr + pensionContribution
-
-        const labels: number[] = []
-        const datasetData: number[] = []
-
-        // 退休前資產累積
-        for (let i = 0; i < n; i++) {
-            const calculatedYear = config.currentYear + i
-            labels.push(calculatedYear)
-            datasetData.push(Math.floor(pv))
-
-            inflationModifier *= (1 + config.inflationRate / 100)
-            fv = Math.floor(pv * (1 + irr / 100) + pensionContribution * inflationModifier)
-            pv = fv
-        }
-        calculatePensionFinalValue(fv)
-
-        // 退休後退休支出
-        for (let i = 0; i < retirement.lifeExpectancy; i++) {
-            const calculatedYear = config.currentYear + n + i
-            datasetData.push(Math.floor(pv))
-            labels.push(calculatedYear)
-
-            inflationModifier *= (1 + config.inflationRate / 100)
-            const pmt = retirement.insurance.monthlyAnnuity * 12 - retirement.annualExpense * inflationModifier
-            fv = Math.floor(pv * (1 + irr / 100) + pmt)
-            pv = fv
-        }
-        const chartData = {
-            datasets: [
-                {
-                    label: '退休金資產試算',
-                    data: datasetData,
-                }
-            ],
-            labels
-        }
-        if (pensionChartInstance.value) {
-            pensionChartInstance.value.data = chartData
-            pensionChartInstance.value.update()
-            return
-        }
-        const ctx: any = document.getElementById('pensionChart')
-        const chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: chartData
-        })
-        pensionChartInstance = shallowRef(chartInstance)
-    }, 'retirement',)()
-}
-function calculatePensionFinalValue(fv) {
-    retirement.pension.finalValue = fv || 0
-    const { futureSeniority } = retirement.insurance
-    const taxFreeLevel = 19.8 * 10000 * futureSeniority
-    const taxHalfLevel = 39.8 * 10000 * futureSeniority
-    let taxBasis = retirement.pension.finalValue
-    taxBasis -= taxFreeLevel
-    const taxHalf = Math.max(0, taxBasis) / 2
-    taxBasis -= taxHalfLevel
-    const taxFull = Math.max(0, taxBasis) / 2
-    retirement.pension.tax = Math.floor(taxHalf + taxFull)
 }
 // 投資試算
 const investment = reactive({
@@ -1288,14 +988,6 @@ const investment = reactive({
 })
 const allocationQuartileMarks = reactive({})
 let investmentChartInstance = ref<Chart>()
-function calculateRetirementQuartileMarks() {
-    config.retirementQuartile.forEach((item, index) => {
-        const { value } = item
-        const percentileRank = (index + 1) * 20 - 10
-        const retirementMonthlyExpense = Number(value) / 12
-        expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
-    })
-}
 function onAllocationChanged() {
     calculateAssetIrrChanges()
     drawLifeAssetChart()
@@ -1394,18 +1086,18 @@ function drawLifeAssetChart() {
         labels
     }
 
-    if (investmentChartInstance.value) {
-        investmentChartInstance.value.data = chartData
-        investmentChartInstance.value.update()
-        return
-    }
+    // if (investmentChartInstance.value) {
+    //     investmentChartInstance.value.data = chartData
+    //     investmentChartInstance.value.update()
+    //     return
+    // }
 
-    const ctx: any = document.getElementById('assetChart')
-    const chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: chartData
-    })
-    investmentChartInstance = shallowRef(chartInstance)
+    // const ctx: any = document.getElementById('assetChart')
+    // const chartInstance = new Chart(ctx, {
+    //     type: 'bar',
+    //     data: chartData
+    // })
+    // investmentChartInstance = shallowRef(chartInstance)
 }
 // 育兒試算
 const parenting = reactive({
@@ -1770,7 +1462,7 @@ onMounted(async () => {
     initializeApp()
     await setSelecOptionSync()
     nextTick(() => {
-        initializeCalculator()
+        // initializeCalculator()
         window?.addEventListener('resize', onResize)
     })
 })

@@ -125,11 +125,9 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, nextTick, computed, shallowRef } from 'vue'
+import { ref, computed, shallowRef } from 'vue'
 import Chart from 'chart.js/auto';
 let incomeChartInstance = ref<Chart>()
-const debounceId = ref(null)
-const { VITE_BASE_URL } = import.meta.env
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
     modelValue: {
@@ -145,23 +143,22 @@ const props = defineProps({
         }
     }
 })
-const career = computed({
-    get() {
-        return props.modelValue
-    },
-    set(newValue) {
-        emits('update:modelValue', newValue)
-    }
+const career = computed(() => {
+    return props.modelValue
 })
 function calculateCareer() {
-    calculateEmployeeWelfareFund()
-    calculateInsuranceSalary()
-    calculateInsuranceExpense()
-    calculatePensionSalary()
-    calculateCareerPensionContribution()
-    calculateHealthPremiumByPension()
-    drawChartAndCalculateIncome()
-    calculateMonthlySaving()
+    try {
+        calculateEmployeeWelfareFund()
+        calculateInsuranceSalary()
+        calculateInsuranceExpense()
+        calculatePensionSalary()
+        calculateCareerPensionContribution()
+        calculateHealthPremiumByPension()
+        drawChartAndCalculateIncome()
+        calculateMonthlySaving()
+    } catch (error) {
+        console.log(error.message || error)
+    }
 }
 // 減項計算
 function calculateEmployeeWelfareFund() {
@@ -212,151 +209,151 @@ function calculateMonthlySaving() {
 }
 // 畫圖
 function drawChartAndCalculateIncome() {
-    debounce(() => {
-        // 繪製圖表
-        let pv = 0
-        let fv = 0
-        const dataAndDataIndex: any[] = []
-        fv = career.value.monthlyBasicSalary
-        dataAndDataIndex.push({
-            label: '本薪',
-            data: [pv, fv],
-            datasetIndex: 0,
-        })
+    // 繪製圖表
+    let pv = 0
+    let fv = 0
+    const dataAndDataIndex: any[] = []
+    fv = career.value.monthlyBasicSalary
+    dataAndDataIndex.push({
+        label: '本薪',
+        data: [pv, fv],
+        datasetIndex: 0,
+    })
 
-        pv = fv
-        fv += career.value.foodExpense
-        dataAndDataIndex.push({
-            label: '伙食津貼',
-            data: [pv, fv],
-            datasetIndex: 0,
-        })
+    pv = fv
+    fv += career.value.foodExpense
+    dataAndDataIndex.push({
+        label: '伙食津貼',
+        data: [pv, fv],
+        datasetIndex: 0,
+    })
 
+    pv = fv
+    fv -= career.value.employeeWelfareFund
+    dataAndDataIndex.push({
+        label: '職工福利金',
+        data: [pv, fv],
+        datasetIndex: 1,
+    })
+
+    pv = fv
+    fv -= career.value.healthInsutancePremium
+    dataAndDataIndex.push({
+        label: '健保',
+        data: [pv, fv],
+        datasetIndex: 1,
+    })
+
+    pv = fv
+    fv -= career.value.insurance.expense
+    dataAndDataIndex.push({
+        label: '勞保',
+        data: [pv, fv],
+        datasetIndex: 1,
+    })
+
+    pv = fv
+    fv -= career.value.pension.monthlyContributionEmployee
+    dataAndDataIndex.push({
+        label: '勞退',
+        data: [pv, fv],
+        datasetIndex: 1,
+    })
+
+    career.value.monthlyNetPayEstimated = fv
+    calculateMonthlySaving()
+    fv = career.value.monthlyNetPay || fv
+    dataAndDataIndex.push({
+        label: '月實領',
+        data: [fv, 0],
+        datasetIndex: 0,
+    })
+
+    if (career.value.monthlyExpense) {
         pv = fv
-        fv -= career.value.employeeWelfareFund
+        fv -= career.value.monthlyExpense
         dataAndDataIndex.push({
-            label: '職工福利金',
+            label: '月支出',
             data: [pv, fv],
             datasetIndex: 1,
         })
+    }
 
-        pv = fv
-        fv -= career.value.healthInsutancePremium
+    if (0 <= fv) {
         dataAndDataIndex.push({
-            label: '健保',
-            data: [pv, fv],
-            datasetIndex: 1,
-        })
-
-        pv = fv
-        fv -= career.value.insurance.expense
-        dataAndDataIndex.push({
-            label: '勞保',
-            data: [pv, fv],
-            datasetIndex: 1,
-        })
-
-        pv = fv
-        fv -= career.value.pension.monthlyContributionEmployee
-        dataAndDataIndex.push({
-            label: '勞退',
-            data: [pv, fv],
-            datasetIndex: 1,
-        })
-
-        career.value.monthlyNetPayEstimated = fv
-        calculateMonthlySaving()
-        fv = career.value.monthlyNetPay || fv
-        dataAndDataIndex.push({
-            label: '月實領',
+            label: '定期定額',
             data: [fv, 0],
             datasetIndex: 0,
         })
+    }
 
-        if (career.value.monthlyExpense) {
-            pv = fv
-            fv -= career.value.monthlyExpense
-            dataAndDataIndex.push({
-                label: '月支出',
-                data: [pv, fv],
-                datasetIndex: 1,
-            })
+    const labels = dataAndDataIndex.map(item => item.label)
+    const data0 = dataAndDataIndex.map(item => {
+        if (item.datasetIndex === 0) {
+            return item.data
+        } else {
+            return [0, 0]
         }
+    })
+    const data1 = dataAndDataIndex.map(item => {
+        if (item.datasetIndex === 1) {
+            return item.data
+        } else {
+            return [0, 0]
+        }
+    })
 
-        if (0 <= fv) {
-            dataAndDataIndex.push({
-                label: '定期定額',
-                data: [fv, 0],
-                datasetIndex: 0,
-            })
-        }
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: '應付月薪',
+                data: data0,
+            },
+            {
+                label: '應扣項目',
+                data: data1
+            },
+        ]
+    }
+    emits('update:modelValue', career)
 
-        const labels = dataAndDataIndex.map(item => item.label)
-        const data0 = dataAndDataIndex.map(item => {
-            if (item.datasetIndex === 0) {
-                return item.data
-            } else {
-                return [0, 0]
-            }
-        })
-        const data1 = dataAndDataIndex.map(item => {
-            if (item.datasetIndex === 1) {
-                return item.data
-            } else {
-                return [0, 0]
-            }
-        })
-
-        const data = {
-            labels: labels,
-            datasets: [
-                {
-                    label: '應付月薪',
-                    data: data0,
-                },
-                {
-                    label: '應扣項目',
-                    data: data1
-                },
-            ]
-        }
-        if (incomeChartInstance.value) {
-            incomeChartInstance.value.data = data
-            incomeChartInstance.value.update()
-            return
-        }
-        const ctx: any = document.getElementById('incomeChart')
-        const chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: {
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: tooltipFormat,
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true
+    if (incomeChartInstance.value) {
+        incomeChartInstance.value.data = data
+        incomeChartInstance.value.update()
+        return
+    }
+    const ctx: any = document.getElementById('incomeChart')
+    const chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: tooltipFormat,
                     }
                 }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true
+                }
             }
-        })
-        incomeChartInstance = shallowRef(chartInstance)
-
-        emits('update:modelValue', career)
-    })()
+        }
+    })
+    incomeChartInstance = shallowRef(chartInstance)
 }
 function tooltipFormat(tooltipItems) {
     const { raw } = tooltipItems
     const variedValue = raw[1] - raw[0]
     return Number(variedValue).toLocaleString()
 }
+
+const debounceId = ref(null)
 function debounce(func, delay = 100) {
     return (...args) => {
         clearTimeout(debounceId.value)
@@ -366,6 +363,7 @@ function debounce(func, delay = 100) {
         }, delay)
     }
 }
+
 defineExpose({
     calculateCareer,
 });

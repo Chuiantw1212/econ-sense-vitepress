@@ -103,7 +103,7 @@
 import { ref, nextTick, computed } from 'vue'
 import firebase from 'firebase/compat/app';
 const { VITE_BASE_URL } = import.meta.env
-const emits = defineEmits(['signOut', 'update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'signOut'])
 const loginDialogVisible = ref(false)
 const props = defineProps({
     modelValue: {
@@ -132,13 +132,8 @@ const props = defineProps({
         }
     }
 })
-const profile = computed({
-    get() {
-        return props.modelValue
-    },
-    set(newValue) {
-        emits('update:modelValue', newValue)
-    }
+const profile = computed(() => {
+    return props.modelValue
 })
 function toggleSignInDialog(value) {
     loginDialogVisible.value = value
@@ -186,7 +181,9 @@ async function calculateProfile() {
         })
         const lifeExpectancy = await res.json()
         profile.value.age = calculateAge
-        profile.value.lifeExpectancy = lifeExpectancy
+        profile.value.lifeExpectancy = Number(lifeExpectancy)
+
+        emits('update:modelValue', profile)
     }
 }
 
