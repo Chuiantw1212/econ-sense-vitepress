@@ -173,6 +173,9 @@ async function authFetch(appendUrl, options) {
 function avoidCircular(source) {
     console.log(source._value)
     // 不知道為什麼打包出來會出狀況，手動篩選兩層物件
+    if (source._value) { // 這應該是vitepress的打包bug
+        return JSON.stringify(source._value)
+    }
     if (typeof source === 'object') { // career
         const target = {}
         for (let firstLevel in source) {
@@ -181,13 +184,14 @@ function avoidCircular(source) {
                 target[firstLevel] = {}
                 for (let secondLevel in firstLevelValue) {
                     const secondLevelValue = firstLevelValue[secondLevel] // career.insurance.salary
-                    target[firstLevel][secondLevel] = secondLevelValue
+                    if (typeof secondLevelValue !== 'object') {
+                        target[firstLevel][secondLevel] = secondLevelValue
+                    }
                 }
             } else {
                 target[firstLevel] = firstLevelValue // career.inflationRate
             }
         }
-        console.log(target)
         return JSON.stringify(target)
     } else {
         return JSON.stringify(source)
