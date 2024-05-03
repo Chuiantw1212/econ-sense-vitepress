@@ -145,11 +145,12 @@ const props = defineProps({
 const investment = computed(() => {
     return props.modelValue
 })
-function calculateAsset() {
+function calculateAsset(options: any = {}) {
     const { allocationETF } = investment.value
     if (!allocationETF) {
         return
     }
+    const { propagate = true } = options
     const { portfolioIRR, porfolioLabels } = props.config
     investment.value.irr = portfolioIRR[allocationETF]
     const allocationLabels = Object.keys(porfolioLabels)
@@ -162,12 +163,12 @@ function calculateAsset() {
         investment.value.allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
     })
     debounce(() => {
-        drawLifeAssetChart()
+        drawLifeAssetChart(propagate)
     })()
 }
 
 let investmentChartInstance = ref<Chart>()
-function drawLifeAssetChart() {
+function drawLifeAssetChart(propagate = true) {
     const { presentAsset, irr, period } = investment.value
     const irrModifier = 1 + irr / 100
     const { currentYear, inflationRate } = props.config
@@ -231,7 +232,9 @@ function drawLifeAssetChart() {
         ],
         labels
     }
-    emits('update:modelValue', investment)
+    if (propagate) {
+        emits('update:modelValue', investment)
+    }
 
     if (investmentChartInstance.value) {
         investmentChartInstance.value.data = chartData

@@ -7,7 +7,8 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="本薪" required>
-                            <el-input-number v-model="career.monthlyBasicSalary" :min="0" @change="calculateCareer()" />
+                            <el-input-number v-model="career.monthlyBasicSalary" :min="0"
+                                @change="calculateCareer($event)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -29,7 +30,7 @@
                     <el-col :span="12">
                         <el-form-item label="勞退提繳工資" required>
                             <el-input-number v-model="career.pension.salary" :min="career.pension.salaryMin"
-                                :max="150000" @change="calculateCareer()" />
+                                :max="150000" @change="calculateCareer($event)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -50,7 +51,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="勞退自提率(%)" required>
-                            <el-input-number v-model="career.pension.rate" @change="calculateCareer()" :min="0"
+                            <el-input-number v-model="career.pension.rate" @change="calculateCareer($event)" :min="0"
                                 :max="6" />
                         </el-form-item>
                     </el-col>
@@ -64,7 +65,7 @@
                     <el-col :span="12">
                         <el-form-item label="勞保提繳工資" required>
                             <el-input-number v-model="career.insurance.salary" :min="0" :max="45800"
-                                @change="calculateCareer()" />
+                                @change="calculateCareer($event)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -85,14 +86,16 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="年實領/12">
-                            <el-input-number v-model="career.monthlyNetPay" :min="0" @change="calculateCareer()" />
+                            <el-input-number v-model="career.monthlyNetPay" :min="0"
+                                @change="calculateCareer($event)" />
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="月支出" required>
-                            <el-input-number v-model="career.monthlyExpense" :min="0" @change="calculateCareer()" />
+                            <el-input-number v-model="career.monthlyExpense" :min="0"
+                                @change="calculateCareer($event)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -142,7 +145,8 @@ const props = defineProps({
 const career = computed(() => {
     return props.modelValue
 })
-function calculateCareer() {
+function calculateCareer(options: any = {}) {
+    const { propagate = true } = options
     try {
         calculateEmployeeWelfareFund()
         calculateInsuranceSalary()
@@ -151,9 +155,8 @@ function calculateCareer() {
         calculateCareerPensionContribution()
         calculateHealthPremiumByPension()
         debounce(() => {
-            drawChartAndCalculateIncome()
+            drawChartAndCalculateIncome(propagate)
         })()
-        calculateMonthlySaving()
     } catch (error) {
         console.log(error.message || error)
     }
@@ -206,7 +209,7 @@ function calculateMonthlySaving() {
     career.value.monthlySaving = Math.floor(monthlyNetPayBasis - monthlyExpense)
 }
 // 畫圖
-function drawChartAndCalculateIncome() {
+function drawChartAndCalculateIncome(propagate = false) {
     // 繪製圖表
     let pv = 0
     let fv = 0
@@ -314,7 +317,9 @@ function drawChartAndCalculateIncome() {
             },
         ]
     }
-    emits('update:modelValue', career)
+    if (propagate) {
+        emits('update:modelValue', career)
+    }
 
     if (incomeChartInstance.value) {
         incomeChartInstance.value.data = data
@@ -364,5 +369,5 @@ function debounce(func, delay = 100) {
 
 defineExpose({
     calculateCareer,
-});
+})
 </script>
