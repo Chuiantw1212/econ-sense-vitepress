@@ -198,9 +198,6 @@ const config = reactive({
         aor: '股6債4',
         aoa: '股8債2',
     },
-    // Dialog
-    loadingDialogVisible: false,
-    loginDialogVisible: false,
     isFullScreen: false,
     toFixed: (value, digit = 2) => {
         return Number(Number(value).toFixed(digit))
