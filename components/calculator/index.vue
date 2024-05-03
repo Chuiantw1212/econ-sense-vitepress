@@ -58,7 +58,8 @@
         </EstateSize>
         <br />
         <Estate v-model="estatePrice" :career="career" :estateSize="estateSize" :mortgage="mortgage"
-            :investment="investment" :config="config" ref="EstateRef" @update:model-value="onEstateBudgetChanged()">
+            :investment="investment" :config="config" ref="EstateRef" @reset="resetTotalPrice()"
+            @update:model-value="onEstateBudgetChanged()">
         </Estate>
 
         <Mortgage v-model="mortgage" :config="config" :estatePrice="estatePrice" ref="MortgageRef"
@@ -262,7 +263,8 @@ async function getUserFormSync(firebaseUser) {
                 employeeContrubutionIncome: 0,
                 employerContribution: 0,
                 employerContributionIncome: 0,
-                irrOverDecade: 4.76
+                irrOverDecade: 4.76,
+                totalValue: 0,
             },
             percentileRank: 50,
             qualityLevel: 3
@@ -282,7 +284,8 @@ async function getUserFormSync(firebaseUser) {
             bathroom: 1,
             livingRoom: 1,
             balcany: 1,
-            parkingSpace: 1
+            parkingSpace: 1,
+            budgetGoal: 0,
         },
         mortgage: {
             loanPercent: 80,
@@ -337,7 +340,7 @@ async function initializeCalculator() {
     await EstatePriceRef.value.calculateUnitPrice({
         propagate: true,
     })
-    await EstateRef.value.calculateTotalPrice({
+    await EstateRef.value.calculateBudgetPeriod({
         propagate: true,
     })
     await MortgageRef.value.calculateMortgage({
@@ -425,7 +428,7 @@ const retirement = reactive({
         employerContribution: 0,
         employerContributionIncome: 0,
         irrOverDecade: 4.76,
-        finalValue: 0,
+        totalValue: 0,
         tax: 0,
     },
     // 退休水準
@@ -492,8 +495,20 @@ const estatePrice = reactive({
     unitPrice: 0,
     totalPrice: 0,
     budget: 0,
+    budgetGoal: 0,
+    downpayMin: 0,
+    downpayMax: 100,
     yearsToDownpay: 0,
 })
+function resetTotalPrice() {
+    estatePrice.county = ''
+    estatePrice.town = ''
+    estatePrice.pr25 = 0
+    estatePrice.pr75 = 100
+    estatePrice.average = 0
+    estatePrice.unitPrice = 0
+    estatePrice.totalPrice = 0
+}
 async function onEstatePriceChanged() {
     authFetch(`/user/estatePrice`, {
         method: 'put',
@@ -502,7 +517,7 @@ async function onEstatePriceChanged() {
     await EstateSizeRef.value.calculateEstateSize({
         propagate: false,
     })
-    await EstateRef.value.calculateTotalPrice({
+    await EstateRef.value.calculateBudgetPeriod({
         propagate: false,
     })
 }
@@ -512,7 +527,6 @@ async function onEstateBudgetChanged() {
         body: estatePrice,
     })
 }
-// 購屋大小
 const estateSize = reactive({
     doubleBedRoom: 0,
     singleBedRoom: 1,
@@ -536,10 +550,12 @@ watch(() => estateSize, async (newValue, oldValue) => {
             propagate: true,
         })
     }
-    await EstateRef.value.calculateTotalPrice({
-        propagate: false,
-    })
-})
+    if (EstateRef.value) {
+        await EstateRef.value.calculateBudgetPeriod({
+            propagate: false,
+        })
+    }
+}, { deep: true })
 // 房屋貸款試算
 const mortgage = reactive({
     buyHouseYear: 0,
