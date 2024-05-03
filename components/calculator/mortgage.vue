@@ -119,7 +119,10 @@ function drawMortgageChart() {
     const loanAmount = totalPrice * loanPercent / 100
     mortgage.value.loanAmount = loanAmount
     const downPayment = totalPrice - loanAmount
-    mortgage.value.downPayment = downPayment
+    mortgage.value.estimatedDownPayment = downPayment
+    if (!mortgage.value.downPayment) {
+        mortgage.value.downPayment = downPayment
+    }
 
     /**
      * 本息平均攤還

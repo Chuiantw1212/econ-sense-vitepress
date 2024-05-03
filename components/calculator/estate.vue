@@ -1,46 +1,69 @@
 <template>
     <el-card>
         <el-form label-width="auto">
+            <el-row v-if="estatePrice.totalPrice">
+                <el-col :span="24">
+                    <el-form-item label="總價">
+                        <el-text>= 單價({{ estatePrice.unitPrice }}) x 權狀({{ estateSize.floorSize }}) = {{
+                Number(estatePrice.totalPrice).toLocaleString() }} NTD</el-text>
+                    </el-form-item>
+                </el-col>
+                <!-- <el-col :span="6">
+                    <el-form-item label="x 權狀">
+                        <el-text>{{ estateSize.floorSize }}</el-text>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="= 總價">
+                        <el-text>{{ Number(estatePrice.totalPrice).toLocaleString() }} NTD</el-text>
+                    </el-form-item>
+                </el-col> -->
+            </el-row>
+            <el-row v-if="estatePrice.totalPrice">
+                <el-col>
+                    <el-form-item label="參考頭期款">
+                        <el-slider v-model="estatePrice.budgetGoal" :marks="marks" />
+                        <!-- <el-text>= 總價20%~30% = 
+                            {{ Number(Math.floor(estatePrice.totalPrice * 0.2)).toLocaleString() }} NTD ~
+                            {{ Number(Math.floor(estatePrice.totalPrice * 0.3)).toLocaleString() }} NTD
+                            </el-text> -->
+                    </el-form-item>
+                </el-col>
+                <!-- <el-col :span="12">
+                    <el-form-item v-if="!estatePrice.budgetGoal" label="預估總價30%準備時間">
+                        <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
+                            ({{ estatePrice.yearsToDownpay }}年後)</el-text>
+                    </el-form-item>
+                </el-col> -->
+            </el-row>
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="已備頭期款">
                         <el-input-number v-model="estatePrice.budget" :min="0" :step="200000"
-                            @change="calculateTotalPrice($event)" />
+                            @change="calculateBudgetPeriod($event)" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="定期定額">
+                    <el-form-item v-show="career.monthlyBasicSalary" label="月實領 - 月支出">
                         <el-text>{{ Number(career.monthlySaving).toLocaleString() }} / 月</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="estatePrice.totalPrice">
+            <el-row>
                 <el-col :span="12">
-                    <el-form-item label="預估總價">
-                        <el-text>{{ Number(estatePrice.totalPrice).toLocaleString() }} NTD</el-text>
+                    <el-form-item label="目標頭期款">
+                        <el-input-number v-model="estatePrice.budgetGoal" :min="0" :step="200000"
+                            :disabled="budgetGoalDisabled" @change="calculateBudgetPeriod($event)" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="存到預估總價30%">
+                    <el-form-item v-if="estatePrice.budgetGoal" label="頭期款準備時間">
                         <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
                             ({{ estatePrice.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <!-- <el-row>
-                <el-col :span="12">
-                    <el-form-item label="目標頭期款">
-                        <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="存到頭期款">
-                        <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
-                            ({{ estatePrice.yearsToDownpay }}年後)</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row> -->
-            <canvas v-show="estatePrice.totalPrice" id="savingDownpayChart"></canvas>
+            <canvas v-show="estatePrice.totalPrice || estatePrice.budgetGoal" id="savingDownpayChart"></canvas>
         </el-form>
         <template #footer>
             <el-collapse>
@@ -204,44 +227,62 @@ const props = defineProps({
         required: true,
     }
 })
+const downpayMarks = ref({})
 
 const estatePrice = computed(() => {
     return props.modelValue
 })
+const budgetGoalDisabled = computed(() => {
+    const { monthlyBasicSalary } = props.career
+    const { budget } = estatePrice.value
+    return !monthlyBasicSalary && !budget
+})
 
-function calculateTotalPrice(options: any = { propagate: true }) {
+function calculateBudgetPeriod(options: any = { propagate: true }) {
+    calculateTotalPrice()
+    calculateDownpayMarks()
     const { propagate = true } = options
-    const { unitPrice, } = estatePrice.value
-    const { floorSize, } = props.estateSize
-    if (!unitPrice || !floorSize) {
-        return
-    }
-    const beforeFormatPrice = Number(unitPrice) * Number(floorSize) * 10000
-    estatePrice.value.totalPrice = beforeFormatPrice
     debounce(() => {
         drawDownpayChart(propagate)
     })(propagate)
 }
 
+function calculateTotalPrice() {
+    const { unitPrice, } = estatePrice.value
+    const { floorSize, } = props.estateSize
+    if (unitPrice && floorSize) {
+        const beforeFormatPrice = Number(unitPrice) * Number(floorSize) * 10000
+        estatePrice.value.totalPrice = beforeFormatPrice
+    }
+}
+function calculateDownpayMarks() {
+    const { totalPrice } = estatePrice.value
+    
+}
+
 let downPayChartInstance = ref<Chart>()
 function drawDownpayChart(propagate = false) {
-    const { budget, totalPrice } = estatePrice.value
-    const { downPayment } = props.mortgage
+    const { budget, totalPrice, budgetGoal } = estatePrice.value
     if (propagate) {
         emits('update:modelValue', estatePrice)
     }
     const { irr, } = props.investment
     const { inflationRate, currentYear } = props.config
+    const { monthlySaving, monthlyBasicSalary } = props.career
 
     const irrModifier: number = 1 + irr / 100
     const inflationRatio: number = 1 + inflationRate / 100
 
     let pv: number = budget
-    let pmt: number = props.career.monthlySaving * 12
+    let pmt: number = 0
+    if (monthlyBasicSalary) {
+        pmt = props.career.monthlySaving * 12
+    }
     let fv: number = 0
     let goal: number = 0
-    if (downPayment) {
-        goal = downPayment
+
+    if (budgetGoal) {
+        goal = budgetGoal
     } else {
         goal = Number(totalPrice) * 0.3
     }
@@ -250,6 +291,12 @@ function drawDownpayChart(propagate = false) {
     const dataSetData: number[] = []
     let estateTotalPrice: number[] = []
     let period = 0
+    console.log({
+        pv,
+        pmt,
+        fv,
+        goal
+    })
     do {
         pmt *= inflationRatio
         goal *= inflationRatio
@@ -308,7 +355,7 @@ function debounce(func, delay = 100) {
 }
 
 defineExpose({
-    calculateTotalPrice,
+    calculateBudgetPeriod,
 })
 </script>
 <style lang="scss">

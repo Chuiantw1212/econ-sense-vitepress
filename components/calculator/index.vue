@@ -262,7 +262,8 @@ async function getUserFormSync(firebaseUser) {
                 employeeContrubutionIncome: 0,
                 employerContribution: 0,
                 employerContributionIncome: 0,
-                irrOverDecade: 4.76
+                irrOverDecade: 4.76,
+                totalValue: 0,
             },
             percentileRank: 50,
             qualityLevel: 3
@@ -282,7 +283,8 @@ async function getUserFormSync(firebaseUser) {
             bathroom: 1,
             livingRoom: 1,
             balcany: 1,
-            parkingSpace: 1
+            parkingSpace: 1,
+            budgetGoal: 0,
         },
         mortgage: {
             loanPercent: 80,
@@ -337,7 +339,7 @@ async function initializeCalculator() {
     await EstatePriceRef.value.calculateUnitPrice({
         propagate: true,
     })
-    await EstateRef.value.calculateTotalPrice({
+    await EstateRef.value.calculateBudgetPeriod({
         propagate: true,
     })
     await MortgageRef.value.calculateMortgage({
@@ -425,7 +427,7 @@ const retirement = reactive({
         employerContribution: 0,
         employerContributionIncome: 0,
         irrOverDecade: 4.76,
-        finalValue: 0,
+        totalValue: 0,
         tax: 0,
     },
     // 退休水準
@@ -492,6 +494,7 @@ const estatePrice = reactive({
     unitPrice: 0,
     totalPrice: 0,
     budget: 0,
+    budgetGoal: 0,
     yearsToDownpay: 0,
 })
 async function onEstatePriceChanged() {
@@ -502,7 +505,7 @@ async function onEstatePriceChanged() {
     await EstateSizeRef.value.calculateEstateSize({
         propagate: false,
     })
-    await EstateRef.value.calculateTotalPrice({
+    await EstateRef.value.calculateBudgetPeriod({
         propagate: false,
     })
 }
@@ -536,7 +539,7 @@ watch(() => estateSize, async (newValue, oldValue) => {
             propagate: true,
         })
     }
-    await EstateRef.value.calculateTotalPrice({
+    await EstateRef.value.calculateBudgetPeriod({
         propagate: false,
     })
 })

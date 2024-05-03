@@ -94,7 +94,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="預估勞退總額">
-                            <el-text>{{ Number(retirement.pension.finalValue).toLocaleString() }}</el-text>
+                            <el-text>{{ Number(retirement.pension.totalValue).toLocaleString() }}</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -311,13 +311,14 @@ async function drawRetirementAssetChart(propagate = false) {
         labels.push(calculatedYear)
 
         const pmt = pensionContribution * inflationModifier
+        console.log({ fv })
         fv = Math.floor(pv * pensionIrr + pmt)
         datasetData.push(Math.floor(fv))
 
         pv = fv
         inflationModifier *= inflationRate
     }
-
+    console.log({ fv })
     calculatePensionFinalValue(fv)
 
     // 退休後退休支出
@@ -360,12 +361,12 @@ async function drawRetirementAssetChart(propagate = false) {
     })
     pensionChartInstance = shallowRef(chartInstance)
 }
-function calculatePensionFinalValue(fv) {
-    retirement.value.pension.finalValue = fv || 0
+function calculatePensionFinalValue(fv = 0) {
+    retirement.value.pension.totalValue = Number(fv)
     const { futureSeniority } = retirement.value.insurance
     const taxFreeLevel = 19.8 * 10000 * futureSeniority
     const taxHalfLevel = 39.8 * 10000 * futureSeniority
-    let taxBasis = retirement.value.pension.finalValue
+    let taxBasis = retirement.value.pension.totalValue
     taxBasis -= taxFreeLevel
     const taxHalf = Math.max(0, taxBasis) / 2
     taxBasis -= taxHalfLevel
