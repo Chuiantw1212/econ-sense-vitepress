@@ -156,7 +156,7 @@ async function getUnitPriceSync(propagate = false) {
     }
 }
 
-const debounceId = ref(null)
+const debounceId = ref()
 function debounce(func, delay = 100) {
     return (immediate) => {
         clearTimeout(debounceId.value)

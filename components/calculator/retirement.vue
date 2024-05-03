@@ -372,7 +372,7 @@ function calculatePensionFinalValue(fv) {
     retirement.value.pension.tax = Math.floor(taxHalf + taxFull)
 }
 
-const debounceId = ref(null)
+const debounceId = ref()
 function debounce(func, delay = 100) {
     return (immediate) => {
         clearTimeout(debounceId.value)

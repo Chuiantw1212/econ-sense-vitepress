@@ -256,7 +256,7 @@ function drawLifeAssetChart(propagate = true) {
     investmentChartInstance = shallowRef(chartInstance)
 }
 
-const debounceId = ref(null)
+const debounceId = ref()
 function debounce(func, delay = 100) {
     return (immediate) => {
         clearTimeout(debounceId.value)

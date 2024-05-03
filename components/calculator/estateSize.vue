@@ -8,7 +8,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="parenting.headCount" label="房屋應容納人數">
+                    <el-form-item v-if="parenting.headCount" label="家庭成員數">
                         <el-text>{{ parenting.headCount }} 人</el-text>
                     </el-form-item>
                 </el-col>
@@ -168,7 +168,7 @@ function debounceCalculate(propagate = false) {
     }
 }
 
-const debounceId = ref(null)
+const debounceId = ref()
 function debounce(func, delay = 100) {
     return (immediate) => {
         clearTimeout(debounceId.value)

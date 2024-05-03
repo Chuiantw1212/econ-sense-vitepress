@@ -113,8 +113,10 @@
             <template #footer>
                 <el-collapse>
                     <el-collapse-item title="試算說明" name="1" :border="true">
-                        因為缺少資料集或是相關api，故此部分資料會較為粗糙。
                         <ul>
+                            <li>
+                                因為缺少資料集或是相關api，故此部分資料會較為粗糙。
+                            </li>
                             <li>
                                 出生西元年設定0則不列入計算
                             </li>
@@ -377,7 +379,7 @@ function showChildExpense(tooltipItems) {
     }
 }
 
-const debounceId = ref(null)
+const debounceId = ref()
 function debounce(func, delay = 100) {
     return (immediate) => {
         clearTimeout(debounceId.value)

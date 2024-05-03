@@ -356,7 +356,7 @@ function tooltipFormat(tooltipItems) {
     return Number(variedValue).toLocaleString()
 }
 
-const debounceId = ref(null)
+const debounceId = ref()
 function debounce(func, delay = 100) {
     return (immediate) => {
         clearTimeout(debounceId.value)

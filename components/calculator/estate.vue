@@ -28,7 +28,8 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="存到總價30%">
-                        <el-text>{{ estatePrice.yearsToDownpay }} 年</el-text>
+                        <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }} 
+                            ({{ estatePrice.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -198,11 +199,6 @@ function calculateTotalPrice(options: any = { propagate: true }) {
     const { propagate = true } = options
     const { unitPrice, budget } = estatePrice.value
     const { floorSize, } = props.estateSize
-    console.log({
-        unitPrice,
-        floorSize,
-        budget
-    })
     if (!unitPrice || !floorSize) {
         return
     }
@@ -219,9 +215,9 @@ function drawDownpayChart(propagate = false) {
     if (propagate) {
         emits('update:modelValue', estatePrice)
     }
-    if (!budget || budget < 200000) {
-        return
-    }
+    // if (!budget) {
+    //     return
+    // }
     const { irr, } = props.investment
     const { inflationRate, currentYear } = props.config
 
@@ -245,7 +241,6 @@ function drawDownpayChart(propagate = false) {
         dataSetData.push(Math.floor(fv))
         estateTotalPrice.push(goal)
         pv = fv
-
     } while (fv < goal)
     calculateYearsToDownpay(period)
 
@@ -280,7 +275,7 @@ function calculateYearsToDownpay(years) {
     estatePrice.value.yearsToDownpay = years
 }
 
-const debounceId = ref(null)
+const debounceId = ref()
 function debounce(func, delay = 100) {
     return (immediate) => {
         clearTimeout(debounceId.value)
@@ -297,7 +292,6 @@ function debounce(func, delay = 100) {
 
 defineExpose({
     calculateTotalPrice,
-    // calculateDownpayPeriod,
 })
 </script>
 <style lang="scss">

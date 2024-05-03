@@ -1,139 +1,74 @@
 <template>
-    <el-dialog v-model="config.loadingDialogVisible" title="等待伺服器開機" width="500">
-        <div>此為免費服務，伺服器開機需10秒左右來準備以下必須資料。</div>
-        <ul>
-            <li>餘命運算</li>
-            <li>2023聯徵房地資料契約</li>
-            <li>央行擔保放款融通利率</li>
-        </ul>
-        <div>完成後此提示會自動關閉。就可以開始使用了。</div>
-        <template #footer>
-            <div class="dialog-footer">
-                <el-button @click="backToCalendar()">放棄使用</el-button>
-                <el-button v-loading="true" :disabled="true" type="primary"
-                    @click="config.loadingDialogVisible = false">
-                    下一步
-                </el-button>
-            </div>
-        </template>
-    </el-dialog>
+    <div>
+        <el-dialog v-model="config.loadingDialogVisible" title="等待伺服器開機" width="500">
+            <div>此為免費服務，伺服器開機需10秒左右來準備以下必須資料。</div>
+            <ul>
+                <li>餘命運算</li>
+                <li>2023聯徵房地資料契約</li>
+                <li>央行擔保放款融通利率</li>
+            </ul>
+            <div>完成後此提示會自動關閉。就可以開始使用了。</div>
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button @click="backToCalendar()">放棄使用</el-button>
+                    <el-button v-loading="true" :disabled="true" type="primary"
+                        @click="config.loadingDialogVisible = false">
+                        下一步
+                    </el-button>
+                </div>
+            </template>
+        </el-dialog>
 
-    <Profile v-model="profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
-        @update:modelValue="onProfileChanged()"></Profile>
+        <Profile v-model="profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
+            @update:modelValue="onProfileChanged()"></Profile>
 
-    <h2 id="_2. 我可以FIRE嗎？" tabindex="-1">2. 我可以FIRE嗎？<a class="header-anchor" href="#2. 我可以FIRE嗎？"
-            aria-label="Permalink to &quot;2. 我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
+        <h2 id="_2. 我可以FIRE嗎？" tabindex="-1">2. 我可以FIRE嗎？<a class="header-anchor" href="#2. 我可以FIRE嗎？"
+                aria-label="Permalink to &quot;2. 我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
 
-    <Career v-model="career" :user="user" :config="config" ref="CareerRef" @update:modelValue="onCareerChanged()">
-    </Career>
+        <Career v-model="career" :user="user" :config="config" ref="CareerRef" @update:modelValue="onCareerChanged()">
+        </Career>
 
-    <Retirement v-model="retirement" :config="config" :profile="profile" ref="RetirementRef"
-        @update:modelValue="onRetirementChanged()">
-    </Retirement>
+        <Retirement v-model="retirement" :config="config" :profile="profile" ref="RetirementRef"
+            @update:modelValue="onRetirementChanged()">
+        </Retirement>
 
-    <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科<a class="header-anchor" href="#3. 五子登科"
-            aria-label="Permalink to &quot;3. 五子登科&quot;">&ZeroWidthSpace;</a></h2>
+        <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科<a class="header-anchor" href="#3. 五子登科"
+                aria-label="Permalink to &quot;3. 五子登科&quot;">&ZeroWidthSpace;</a></h2>
 
-    <Investment v-model="investment" :config="config" :profile="profile" :career="career" :parenting="parenting"
-        :mortgage="mortgage" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
-    </Investment>
+        <Investment v-model="investment" :config="config" :profile="profile" :career="career" :parenting="parenting"
+            :mortgage="mortgage" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
+        </Investment>
 
-    <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
-            aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
+        <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
+                aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
 
-    <Parenting v-model="parenting" :config="config" :investment="investment" :estateSize="estateSize" ref="ParentingRef"
-        @update:model-value="onParentingChanged()">
-    </Parenting>
+        <Parenting v-model="parenting" :config="config" :investment="investment" :estateSize="estateSize"
+            ref="ParentingRef" @update:model-value="onParentingChanged()">
+        </Parenting>
 
-    <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算<a class="header-anchor" href="#購屋總價試算"
-            aria-label="Permalink to &quot;購屋總價試算&quot;">&ZeroWidthSpace;</a></h3>
+        <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算<a class="header-anchor" href="#購屋總價試算"
+                aria-label="Permalink to &quot;購屋總價試算&quot;">&ZeroWidthSpace;</a></h3>
 
-    <EstatePrice v-model="estatePrice" :config="config" :estateSize="estateSize" ref="EstatePriceRef"
-        @update:model-value="onEstatePriceChanged()">
-    </EstatePrice>
-    <br />
-    <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
-        ref="EstateSizeRef" @update:model-value="onEstateSizeChanged()"></EstateSize>
-    <br />
-    <Estate v-model="estatePrice" :career="career" :estateSize="estateSize" :investment="investment" :config="config"
-        ref="EstateRef" @update:model-value="onEstateBudgetChanged()">
-    </Estate>
+        <EstatePrice v-model="estatePrice" :config="config" :estateSize="estateSize" ref="EstatePriceRef"
+            @update:model-value="onEstatePriceChanged()">
+        </EstatePrice>
+        <br />
+        <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
+            ref="EstateSizeRef" @update:model-value="onEstateSizeChanged()"></EstateSize>
+        <br />
+        <Estate v-model="estatePrice" :career="career" :estateSize="estateSize" :investment="investment"
+            :config="config" ref="EstateRef" @update:model-value="onEstateBudgetChanged()">
+        </Estate>
 
-    <h3 id="_購屋貸款試算" tabindex="-1">購屋貸款試算</h3>
-    <el-card>
-        <el-form label-width="auto">
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="購屋西元年">
-                        <el-input-number v-model="mortgage.buyHouseYear" @change="onBuyHouseYearChanged()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="預估貸款成數">
-                        <a href="https://member.jcic.org.tw/main_member/MorgageQuery.aspx" target="_blank">住宅貸款統計查詢網</a>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="貸款比例(%)">
-                        <el-input-number v-model="mortgage.loanPercent" :min="0" :max="100" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="預估貸款">
-                        <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }} NTD</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="預估頭期款">
-                        <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="試算利息(%)">
-                        <el-input-number v-model="mortgage.interestRate" :min="0" @change="calculateMortgate()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="貸款年期">
-                        <el-input-number v-model="mortgage.loanTerm" :min="0" @change="calculateMortgate()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="每月還款金額" prop="floorSize">
-                        <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-        </el-form>
-        <template #footer>
-            <el-collapse>
-                <el-collapse-item title="試算說明" name="1" :border="true">
-                    <ul>
-                        <li>
-                            試算利息：<a href="https://www.cbc.gov.tw/tw/lp-370-1.html" target="_blank">央行貼放利率</a>
-                        </li>
-                    </ul>
-                </el-collapse-item>
-            </el-collapse>
-        </template>
-    </el-card>
+        <Mortgage v-model="mortgage" :config="config" :estatePrice="estatePrice" ref="MortgageRef"
+            @update:model-value="onMortgageChanged()">
+        </Mortgage>
+    </div>
 </template>
 <script setup lang="ts">
 import firebase from 'firebase/compat/app';
-import { onMounted, ref, reactive, watch, nextTick, onBeforeUnmount, computed, shallowRef } from 'vue'
-import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
+import { onMounted, ref, reactive, nextTick, onBeforeUnmount,} from 'vue'
+import { ElMessage, ElMessageBox, } from 'element-plus'
 import Profile from './profile.vue'
 import Career from './career.vue'
 import Retirement from './retirement.vue'
@@ -142,6 +77,7 @@ import Estate from './estate.vue'
 import Parenting from './parenting.vue'
 import EstateSize from './estateSize.vue'
 import EstatePrice from './estatePrice.vue'
+import Mortgage from './mortgage.vue'
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
@@ -150,6 +86,7 @@ const ParentingRef = ref()
 const EstateSizeRef = ref()
 const EstatePriceRef = ref()
 const EstateRef = ref()
+const MortgageRef = ref()
 const { VITE_BASE_URL } = import.meta.env
 interface IOptionItem {
     label: string,
@@ -182,7 +119,6 @@ async function initializeApp() {
         }
         const { displayName, email, photoURL, uid } = firebaseUser
         await setIdToken(firebaseUser)
-
         user.photoURL = photoURL || ''
         user.uid = uid
         user.email = email || ''
@@ -194,13 +130,11 @@ async function initializeApp() {
     })
 }
 const idToken = ref()
-const idTokenIntervalId = ref()
 async function setIdToken(currentUser) {
     if (currentUser) {
         idToken.value = await currentUser.getIdToken(true)
     } else {
         idToken.value = null
-        clearInterval(idTokenIntervalId.value)
     }
 }
 async function authFetch(appendUrl, options) {
@@ -411,7 +345,10 @@ async function initializeCalculator() {
     await EstateRef.value.calculateTotalPrice({
         propagate: true,
     })
-    calculateMortgate() // will calculate asset
+    await EstateRef.value.calculateTotalPrice({
+        propagate: true,
+    })
+    // calculateMortgate() // will calculate asset
 }
 // 基本資料
 const profile = reactive({
@@ -546,34 +483,7 @@ function onParentingChanged() {
         propagate: false,
     })
 }
-// 購屋大小
-const estateSize = reactive({
-    doubleBedRoom: 0,
-    singleBedRoom: 0,
-    bathroom: 0,
-    livingRoom: 0,
-    publicRatio: 0,
-    mainBuilding: 0,
-    balcany: 0,
-    outBuilding: 0,
-    floorSize: 0,
-    parkingSpace: 0,
-    parkingSize: 0,
-    headCount: 0,
-})
-const totalHousePrice = ref(0)
-async function onEstateSizeChanged() {
-    if (!estateSize.parkingSpace) {
-        estatePrice.hasParking = ''
-    }
-    await EstatePriceRef.value.calculateUnitPrice({
-        propagate: true,
-    })
-    await EstateRef.value.calculateTotalPrice({
-        propagate: false,
-    })
-}
-// 購屋單價
+// 購屋單價與總價
 const estatePrice = reactive({
     county: '',
     town: '',
@@ -605,7 +515,32 @@ async function onEstateBudgetChanged() {
         body: estatePrice,
     })
 }
-
+// 購屋大小
+const estateSize = reactive({
+    doubleBedRoom: 0,
+    singleBedRoom: 0,
+    bathroom: 0,
+    livingRoom: 0,
+    publicRatio: 0,
+    mainBuilding: 0,
+    balcany: 0,
+    outBuilding: 0,
+    floorSize: 0,
+    parkingSpace: 0,
+    parkingSize: 0,
+    headCount: 0,
+})
+async function onEstateSizeChanged() {
+    if (!estateSize.parkingSpace) {
+        estatePrice.hasParking = ''
+    }
+    await EstatePriceRef.value.calculateUnitPrice({
+        propagate: true,
+    })
+    await EstateRef.value.calculateTotalPrice({
+        propagate: false,
+    })
+}
 // 房屋貸款試算
 const mortgage = reactive({
     buyHouseYear: 0,
@@ -616,36 +551,14 @@ const mortgage = reactive({
     loanAmount: 0,
     monthlyRepay: 0,
 })
-async function calculateMortgate() {
-    const { loanPercent, loanTerm } = mortgage
-    if (!totalHousePrice.value || !loanPercent || !loanTerm) {
-        return
-    }
-    // 儲存參數
+function onMortgageChanged() {
     authFetch(`/user/mortgage`, {
         method: 'put',
         body: mortgage,
     })
-
-    const loanAmount = totalHousePrice.value * mortgage.loanPercent * 100
-    mortgage.loanAmount = loanAmount
-    const downPayment = totalHousePrice.value * 10000 - loanAmount
-    mortgage.downPayment = downPayment
-
-    /**
-     * 本息平均攤還
-     * https://zh.wikipedia.org/zh-tw/%E6%9C%AC%E6%81%AF%E5%B9%B3%E5%9D%87%E6%94%A4%E9%82%84
-     */
-    const monthlyInterestRate = mortgage.interestRate / 100 / 12
-    const monthCount = mortgage.loanTerm * 12
-
-    const part = Math.pow(1 + monthlyInterestRate, monthCount)
-    const fraction = part * monthlyInterestRate
-    const deno = part - 1
-
-    const averageRepayRate = fraction / deno
-    mortgage.monthlyRepay = Math.floor(loanAmount * averageRepayRate)
-    // drawLifeAssetChart()
+    InvestmentRef.value.calculateAsset({
+        propagate: false,
+    })
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
