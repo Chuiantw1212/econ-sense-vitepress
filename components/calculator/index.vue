@@ -134,21 +134,24 @@ async function setIdToken(currentUser) {
     }
 }
 async function authFetch(appendUrl, options) {
+    if (options.body && !options.body.id) {
+        return // 避免初始化資料覆蓋回noSQL
+    }
+
     const currentUser = await firebase.auth().currentUser
     if (!currentUser) {
         return // 離線使用或未登入
     }
-    
-    console.log(appendUrl, options.body?.id)
-    if (options.body && !options.body.id) {
-        return // 避免初始化資料覆蓋回noSQL
-    }
+
     const defaultOptions: any = {
         method: 'get',
         headers: {
             Authorization: `Bearer ${idToken.value}`,
         }
     }
+    
+    console.log(appendUrl, options.body)
+
     defaultOptions.method = options.method
     if (options.body) {
         defaultOptions.body = avoidCircular(options.body)
