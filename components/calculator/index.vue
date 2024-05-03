@@ -191,6 +191,10 @@ function avoidCircular(source) {
         return JSON.stringify(source)
     }
 }
+async function signOut() {
+    await firebase.auth().signOut()
+    location.reload()
+}
 // 主要從資料庫來的設定檔案
 const config = reactive({
     // primitive types
