@@ -4,57 +4,6 @@
                 aria-label="Permalink to &quot;育兒試算&quot;">&ZeroWidthSpace;</a></h3>
         <el-card>
             <el-form label-width="auto">
-                <!-- <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="配婚出生年">
-                            <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
-                                style="width: 130px">
-                                <option label="請選擇" value=""></option>
-                                <option v-for="year in config.birthYearOptions" :key="year" :label="String(year)"
-                                    :value="year" />
-                            </select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="現配偶婚年">
-                            <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
-                                style="width: 130px">
-                                <option label="請選擇" value=""></option>
-                                <option v-for="year in config.marriageYearOptions" :key="year" :label="String(year)"
-                                    :value="year" />
-                            </select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col>
-                    </el-col>
-                </el-row> -->
-                <!-- <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="配偶貢獻/月">
-                            <el-input-number v-model="parenting.spouseMonthlyContribution" :min="0"
-                                @change="calculateParenting($event)" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                    </el-col>
-                </el-row> -->
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="配偶貢獻/月">
-                            <el-input-number v-model="parenting.spouseMonthlyContribution" :min="0"
-                                @change="calculateParenting($event)" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="房屋可容納人數">
-                            <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="月開支(隻/每年)" required>
@@ -63,6 +12,9 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
+                        <el-form-item label="房屋可容納人數">
+                            <el-text>{{ parenting.headCount }} 人</el-text>
+                        </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
@@ -77,7 +29,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="第一隻西元年">
+                        <el-form-item label="第一隻西元年" required>
                             <el-input-number v-model="parenting.firstBornYear" :min="0"
                                 @change="calculateParenting($event)" />
                         </el-form-item>
@@ -97,6 +49,16 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
+                        <el-form-item label="配偶貢獻/月">
+                            <el-input-number v-model="parenting.spouseMonthlyContribution" :min="0"
+                                @change="calculateParenting($event)" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
                         <el-form-item label="壽險已備">
                             <el-input-number v-model="parenting.lifeInsurance" :min="0"
                                 @change="calculateParenting($event)" />
@@ -108,7 +70,7 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <canvas id="parentingChart"></canvas>
+                <canvas v-show="parenting.firstBornYear" id="parentingChart"></canvas>
             </el-form>
             <template #footer>
                 <el-collapse>
@@ -122,6 +84,9 @@
                             </li>
                             <li>
                                 保險事故日期假定為長子出生年，且投資報酬率比照原先資產配置
+                            </li>
+                            <li>
+                                扶養成本會受到通膨影響
                             </li>
                             <li>資料來源：
                                 <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
@@ -279,9 +244,9 @@ function drawParentingChart(propagate = true) {
         tension: number
     }[] = []
     const tension = 0.5
-    if (firstBornData) {
+    if (firstBornYear) {
         datasets.push({
-            label: '長子',
+            label: '長子', // 用"子"來抓資料格式
             data: firstBornData,
             fill: true,
             tension,
@@ -289,7 +254,7 @@ function drawParentingChart(propagate = true) {
     }
     if (secondBornYear) {
         datasets.push({
-            label: '次子',
+            label: '次子', // 用"子"來抓資料格式
             data: secondBornData,
             fill: true,
             tension,
@@ -348,11 +313,11 @@ function drawParentingChart(propagate = true) {
     parentingChartInstance = shallowRef(chartInstance)
 }
 function showChildAge(tooltipItems) {
-    const { raw, dataIndex, dataset, datasetIndex } = tooltipItems
+    const { raw, dataIndex, dataset, } = tooltipItems
+    const { label } = dataset
     const { independantAge } = parenting.value
     const secondValue = raw[1]
-    if ([0, 1].includes(datasetIndex)) {
-        console.log(dataset.data)
+    if (label.includes('子')) {
         const zeros = dataset.data.slice(0, independantAge).filter(value => value[1] === 0)
         const age = dataIndex - zeros.length + 1
         if (age >= 0) {
@@ -363,14 +328,15 @@ function showChildAge(tooltipItems) {
         }
     } else {
         const formatValue = Number(secondValue).toLocaleString()
-        return `年末剩餘：${formatValue}`
+        return `年末結餘：${formatValue}`
     }
 }
 function showChildExpense(tooltipItems) {
-    const { raw, datasetIndex } = tooltipItems[0]
+    const { raw, dataset } = tooltipItems[0]
+    const { label } = dataset
     const fisrtValue = raw[0]
     const secondValue = raw[1]
-    if ([0, 1].includes(datasetIndex)) {
+    if (label.includes('子')) {
         const formatExpense = Number(secondValue - fisrtValue).toLocaleString()
         return `支出： ${formatExpense}`
     } else {

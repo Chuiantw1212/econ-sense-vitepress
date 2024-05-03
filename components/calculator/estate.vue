@@ -14,20 +14,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="預估頭期款">
-                        <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="存到頭期款">
-                        <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
-                            ({{ estatePrice.yearsToDownpay }}年後)</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <!-- <el-row>
+            <el-row v-if="estatePrice.totalPrice">
                 <el-col :span="12">
                     <el-form-item label="預估總價">
                         <el-text>{{ Number(estatePrice.totalPrice).toLocaleString() }} NTD</el-text>
@@ -39,8 +26,21 @@
                             ({{ estatePrice.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
                 </el-col>
+            </el-row>
+            <!-- <el-row>
+                <el-col :span="12">
+                    <el-form-item label="目標頭期款">
+                        <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="存到頭期款">
+                        <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
+                            ({{ estatePrice.yearsToDownpay }}年後)</el-text>
+                    </el-form-item>
+                </el-col>
             </el-row> -->
-            <canvas id="savingDownpayChart"></canvas>
+            <canvas v-show="estatePrice.totalPrice" id="savingDownpayChart"></canvas>
         </el-form>
         <template #footer>
             <el-collapse>
@@ -233,13 +233,13 @@ function drawDownpayChart(propagate = false) {
     const { irr, } = props.investment
     const { inflationRate, currentYear } = props.config
 
-    const irrModifier = 1 + irr / 100
-    const inflationRatio = 1 + inflationRate / 100
+    const irrModifier: number = 1 + irr / 100
+    const inflationRatio: number = 1 + inflationRate / 100
 
-    let pv = budget
-    let pmt = props.career.monthlySaving * 12
-    let fv = 0
-    let goal = 0
+    let pv: number = budget
+    let pmt: number = props.career.monthlySaving * 12
+    let fv: number = 0
+    let goal: number = 0
     if (downPayment) {
         goal = downPayment
     } else {
@@ -257,7 +257,7 @@ function drawDownpayChart(propagate = false) {
         fv = pv * irrModifier + pmt
         labels.push(currentYear + ++period)
         dataSetData.push(Math.floor(fv))
-        estateTotalPrice.push(goal)
+        estateTotalPrice.push(Math.floor(goal))
         pv = fv
     } while (fv < goal)
     calculateYearsToDownpay(period)

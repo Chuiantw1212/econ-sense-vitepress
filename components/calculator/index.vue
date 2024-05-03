@@ -520,7 +520,7 @@ async function onEstateBudgetChanged() {
 // 購屋大小
 const estateSize = reactive({
     doubleBedRoom: 0,
-    singleBedRoom: 0,
+    singleBedRoom: 1,
     bathroom: 0,
     livingRoom: 0,
     publicRatio: 0,
