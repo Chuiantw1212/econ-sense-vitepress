@@ -171,15 +171,26 @@ async function authFetch(appendUrl, options) {
     }
     return res
 }
-function avoidCircular(o) {
-    var seen = [];
-    return JSON.stringify(o, function (_, value) {
-        if (typeof value === 'object' && value !== null) {
-            if (seen.indexOf(value) !== -1) return;
-            else seen.push(value);
+function avoidCircular(source) {
+    // 不知道為什麼打包出來會出狀況，手動篩選兩層物件
+    if (typeof source === 'object') { // career
+        const target = {}
+        for (let firstLevel in source) {
+            const firstLevelValue = source[firstLevel] // career.insurance
+            if (typeof firstLevelValue === 'object') {
+                target[firstLevel] = {}
+                for (let secondLevel in firstLevelValue) {
+                    const secondLevelValue = firstLevelValue[secondLevel] // career.insurance.salary
+                    target[firstLevel][secondLevel] = secondLevelValue
+                }
+            } else {
+                target[firstLevel] = firstLevelValue // career.inflationRate
+            }
         }
-        return value;
-    });
+        return JSON.stringify(target)
+    } else {
+        return JSON.stringify(source)
+    }
 }
 // 主要從資料庫來的設定檔案
 const config = reactive({
