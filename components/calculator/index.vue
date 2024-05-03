@@ -960,18 +960,18 @@ function drawParentingChart() {
         const secondBornData: number[][] = []
         const asssetData: number[][] = []
         let insuranceAsset = insurance
-        for (let i = 0; i <= parentingDuration; i++) {
+        for (let i = 0; i < parentingDuration; i++) {
             const simYear = firstBornYear + i
             labels.push(simYear)
             const inflatedExpense = Math.floor(childAnnualExpense * inflationModifier)
             let totalExpense = 0
-            if (firstBornYear && firstBornYear <= simYear && simYear <= firstBornEndYear) {
+            if (firstBornYear && firstBornYear <= simYear && simYear < firstBornEndYear) {
                 firstBornData.push([0, inflatedExpense])
                 totalExpense += inflatedExpense
             } else {
                 firstBornData.push([0, 0])
             }
-            if (secondBornYear && secondBornYear <= simYear && simYear <= secondBornEndYear) {
+            if (secondBornYear && secondBornYear <= simYear && simYear < secondBornEndYear) {
                 secondBornData.push([totalExpense, totalExpense + inflatedExpense])
                 totalExpense += inflatedExpense
             } else {
@@ -984,12 +984,13 @@ function drawParentingChart() {
             inflationModifier *= 1 + config.inflationRate / 100
         }
         const datasets = []
+        const tension = 0.5
         if (firstBornData) {
             datasets.push({
                 label: '長子',
                 data: firstBornData,
                 fill: true,
-                tension: 0.4
+                tension,
             })
         }
         if (secondBornYear) {
@@ -997,7 +998,7 @@ function drawParentingChart() {
                 label: '次子',
                 data: secondBornData,
                 fill: true,
-                tension: 0.4
+                tension,
             })
         }
         if (insurance) {
@@ -1005,7 +1006,7 @@ function drawParentingChart() {
                 label: '壽險+投資',
                 data: asssetData,
                 fill: true,
-                tension: 0.4
+                tension,
             })
         }
 
@@ -1045,8 +1046,8 @@ function showChildAge(tooltipItems) {
     const { raw, dataIndex, dataset, datasetIndex } = tooltipItems
     const secondValue = raw[1]
     if ([0, 1].includes(datasetIndex)) {
-        const zeros = dataset.data.slice(0, parenting.independantAge).filter(value => value === 0)
-        const age = dataIndex - zeros.length
+        const zeros = dataset.data.slice(0, parenting.independantAge).filter(value => value[1] === 0)
+        const age = dataIndex - zeros.length + 1
         if (age >= 0) {
             const formatAge = Math.max(0, age)
             return `${dataset.label}: ${formatAge}歲`

@@ -164,6 +164,7 @@ function calculateAsset() {
 let investmentChartInstance = ref<Chart>()
 function drawLifeAssetChart() {
     const { presentAsset, irr, period } = investment.value
+    const irrModifier = 1 + irr / 100
     const { currentYear, inflationRate } = props.config
 
     const inflatoinRatio = 1 + inflationRate / 100
@@ -184,6 +185,22 @@ function drawLifeAssetChart() {
         const { monthlySaving } = props.career
         let calculatedPmt = monthlySaving
 
+        // 育兒開支影響每月儲蓄
+        const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, spouseMonthlyContribution } = props.parenting
+        const firstBornEndYear = firstBornYear + independantAge
+        const secondBornEndYear = secondBornYear + independantAge
+        const hasFirstBorn = currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear
+        const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
+        if (hasFirstBorn) {
+            calculatedPmt -= childAnnualExpense
+        }
+        if (hasSecondBorn) {
+            calculatedPmt -= childAnnualExpense
+        }
+        if (hasFirstBorn || hasSecondBorn) {
+            calculatedPmt += spouseMonthlyContribution * 12
+        }
+
         // 房貸利息影響每月儲蓄
         const mortgageStartYear = buyHouseYear
         const mortgageEndYear = buyHouseYear + loanTerm
@@ -191,24 +208,9 @@ function drawLifeAssetChart() {
         if (mortgageStartYear <= year && year < mortgageEndYear) {
             mortgagePmt = monthlyRepay * 12
         }
-        // // 育兒開支影響每月儲蓄
-        // const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, spouseMonthlyContribution } = props.parenting
-        // const firstBornEndYear = firstBornYear + independantAge
-        // const secondBornEndYear = secondBornYear + independantAge
-        // const hasFirstBorn = currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear
-        // const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
-        // if (hasFirstBorn) {
-        //     calculatedPmt -= childAnnualExpense * inflationModifier
-        // }
-        // if (hasSecondBorn) {
-        //     calculatedPmt -= childAnnualExpense * inflationModifier
-        // }
-        // if (hasFirstBorn || hasSecondBorn) {
-        //     calculatedPmt += spouseMonthlyContribution * 12 * inflationModifier
-        // }
 
         // 計算複利終值
-        fv = pv * (1 + irr / 100) + (calculatedPmt * inflatoinRatio) + mortgagePmt
+        fv = pv * irrModifier + (calculatedPmt * inflatoinRatio) + mortgagePmt
         labels.push(year)
         datasetData.push(Math.floor(pv))
         // 參數漸變
