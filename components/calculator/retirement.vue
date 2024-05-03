@@ -6,7 +6,7 @@
             <el-form label-width="auto">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="計畫退休年齡" required>
+                        <el-form-item label="計畫退休年齡">
                             <el-input-number v-model="retirement.age" :min="60" :max="70"
                                 @change="calculateRetirement($event)" />
                         </el-form-item>
@@ -87,7 +87,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="勞退十年收益率" required>
+                        <el-form-item label="勞退十年收益率">
                             <el-input-number v-model="retirement.pension.irrOverDecade" :min="0"
                                 @change="calculateRetirement($event)" />
                         </el-form-item>
@@ -109,7 +109,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="24">
-                        <el-form-item label="退休品質" required>
+                        <el-form-item label="退休品質">
                             <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
                         item.label

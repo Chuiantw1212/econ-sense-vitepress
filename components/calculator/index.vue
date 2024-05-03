@@ -54,7 +54,7 @@
         </EstatePrice>
         <br />
         <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
-            ref="EstateSizeRef" @update:model-value="onEstateSizeChanged()"></EstateSize>
+            ref="EstateSizeRef"></EstateSize>
         <br />
         <Estate v-model="estatePrice" :career="career" :estateSize="estateSize" :mortgage="mortgage"
             :investment="investment" :config="config" ref="EstateRef" @update:model-value="onEstateBudgetChanged()">
@@ -67,7 +67,7 @@
 </template>
 <script setup lang="ts">
 import firebase from 'firebase/compat/app';
-import { onMounted, ref, reactive, nextTick, onBeforeUnmount, } from 'vue'
+import { onMounted, ref, reactive, nextTick, onBeforeUnmount, watch } from 'vue'
 import { ElMessage, ElMessageBox, } from 'element-plus'
 import Profile from './profile.vue'
 import Career from './career.vue'
@@ -532,17 +532,19 @@ const estateSize = reactive({
     parkingSize: 0,
     headCount: 0,
 })
-async function onEstateSizeChanged() {
-    if (!estateSize.parkingSpace) {
+watch(() => estateSize, async (newValue, oldValue) => {
+    const hasChangeParkingSpace = newValue.parkingSpace !== oldValue.parkingSpace
+    const toZero = newValue.parkingSpace === 0
+    if (hasChangeParkingSpace && toZero) {
         estatePrice.hasParking = ''
+        await EstatePriceRef.value.calculateUnitPrice({
+            propagate: true,
+        })
     }
-    await EstatePriceRef.value.calculateUnitPrice({
-        propagate: true,
-    })
     await EstateRef.value.calculateTotalPrice({
         propagate: false,
     })
-}
+})
 // 房屋貸款試算
 const mortgage = reactive({
     buyHouseYear: 0,
