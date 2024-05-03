@@ -55,7 +55,9 @@
     <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
         ref="EstateSizeRef" @update:model-value="onEstateSizeChanged()"></EstateSize>
     <br />
-    <Estate v-model="estatePrice" :estateSize="estateSize" ref="EstateRef"></Estate>
+    <Estate v-model="estatePrice" :career="career" :estateSize="estateSize" :investment="investment" :config="config"
+        ref="EstateRef" @update:model-value="onEstateBudgetChanged()">
+    </Estate>
 
     <h3 id="_購屋貸款試算" tabindex="-1">購屋貸款試算</h3>
     <el-card>
@@ -597,7 +599,12 @@ async function onEstatePriceChanged() {
         propagate: false,
     })
 }
-
+async function onEstateBudgetChanged() {
+    authFetch(`/user/estatePrice`, {
+        method: 'put',
+        body: estatePrice,
+    })
+}
 
 // 房屋貸款試算
 const mortgage = reactive({
@@ -614,13 +621,12 @@ async function calculateMortgate() {
     if (!totalHousePrice.value || !loanPercent || !loanTerm) {
         return
     }
-    debounce(() => {
-        // 儲存參數
-        authFetch(`/user/mortgage`, {
-            method: 'put',
-            body: mortgage,
-        })
-    }, 'mortgage')()
+    // 儲存參數
+    authFetch(`/user/mortgage`, {
+        method: 'put',
+        body: mortgage,
+    })
+
     const loanAmount = totalHousePrice.value * mortgage.loanPercent * 100
     mortgage.loanAmount = loanAmount
     const downPayment = totalHousePrice.value * 10000 - loanAmount
@@ -656,16 +662,6 @@ onBeforeUnmount(() => {
 })
 function onResize() {
     config.isFullScreen = window?.innerWidth < 768
-}
-const debounceIdGroup = reactive({})
-function debounce(func, label = '', delay = 100) {
-    return (...args) => {
-        clearTimeout(debounceIdGroup[label])
-        debounceIdGroup[label] = setTimeout(() => {
-            debounceIdGroup[label] = undefined
-            func()
-        }, delay)
-    }
 }
 </script>
 <style lang="scss" scoped>

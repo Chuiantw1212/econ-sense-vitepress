@@ -3,23 +3,51 @@
         <el-form label-width="auto">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="頭期款預算">
-                        <el-input-number v-model="estatePrice.budget" :min="0" @change="onBudgetChanged()" />
-                    </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="試算總價">
-                        <el-text>{{ estatePrice.totalPrice }} NTD</el-text>
+                        <el-text>{{ Number(estatePrice.totalPrice).toLocaleString() }} NTD</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="已備頭期款">
+                        <el-input-number v-model="estatePrice.budget" :min="0" :step="200000"
+                            @change="calculateTotalPrice($event)" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="定期定額">
+                        <el-text>{{ Number(career.monthlySaving).toLocaleString() }} / 月</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="存到總價30%">
+                        <el-text>{{ estatePrice.yearsToDownpay }} 年</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <canvas v-show="estatePrice.budget" id="savingDownpayChart"></canvas>
         </el-form>
         <template #footer>
             <el-collapse>
                 <el-collapse-item title="試算說明" name="1" :border="true">
-                    單價資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html" target="_blank">財團法人金融聯合徵信中心
-                        OpenAPI
-                    </a>
+                    <ul>
+                        <li>
+                            假設房價增幅速度與通膨持平
+                        </li>
+                        <li>
+                            單價資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html"
+                                target="_blank">財團法人金融聯合徵信中心
+                                OpenAPI
+                            </a>
+                        </li>
+                    </ul>
                     <table class="table">
                         <tr>
                             <th>空間</th>
@@ -121,43 +149,155 @@
     </el-card>
 </template>
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
+import Chart from 'chart.js/auto';
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
     modelValue: {
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true,
+    },
+    config: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
+    },
+    career: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
     },
     estateSize: {
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true,
     },
+    investment: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
+    }
 })
+
 const estatePrice = computed(() => {
     return props.modelValue
 })
-function onBudgetChanged() {
-    emits('update:modelValue', estatePrice)
-}
+
 function calculateTotalPrice(options: any = { propagate: true }) {
     const { propagate = true } = options
-    const { unitPrice } = estatePrice.value
-    const { floorSize } = props.estateSize
+    const { unitPrice, budget } = estatePrice.value
+    const { floorSize, } = props.estateSize
+    console.log({
+        unitPrice,
+        floorSize,
+        budget
+    })
     if (!unitPrice || !floorSize) {
         return
     }
     const beforeFormatPrice = Number(unitPrice) * Number(floorSize) * 10000
-    estatePrice.value.totalPrice = Number(beforeFormatPrice).toLocaleString()
+    estatePrice.value.totalPrice = beforeFormatPrice
+    debounce(() => {
+        drawDownpayChart(propagate)
+    })(propagate)
+}
+
+let downPayChartInstance = ref<Chart>()
+function drawDownpayChart(propagate = false) {
+    const { budget, totalPrice } = estatePrice.value
     if (propagate) {
         emits('update:modelValue', estatePrice)
     }
+    if (!budget || budget < 200000) {
+        return
+    }
+    const { irr, } = props.investment
+    const { inflationRate, currentYear } = props.config
+
+    const irrModifier = 1 + irr / 100
+    const inflationRatio = 1 + inflationRate / 100
+
+    let pv = budget
+    let pmt = props.career.monthlySaving * 12
+    let fv = 0
+    let goal = Number(totalPrice) * 0.3
+    const labels: string[] = []
+    const dataSetData: number[] = []
+    let estateTotalPrice: number[] = []
+    let period = 0
+    do {
+        pmt *= inflationRatio
+        goal *= inflationRatio
+
+        fv = pv * irrModifier + pmt
+        labels.push(currentYear + ++period)
+        dataSetData.push(Math.floor(fv))
+        estateTotalPrice.push(goal)
+        pv = fv
+
+    } while (fv < goal)
+    calculateYearsToDownpay(period)
+
+    const chartData = {
+        labels,
+        datasets: [
+            {
+                label: '已備頭期款',
+                data: dataSetData,
+            },
+            {
+                label: '目標頭期款',
+                data: estateTotalPrice,
+            }
+        ],
+    }
+
+    if (downPayChartInstance.value) {
+        downPayChartInstance.value.data = chartData
+        downPayChartInstance.value.update()
+        return
+    }
+
+    const ctx: any = document.getElementById('savingDownpayChart')
+    const chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: chartData
+    })
+    downPayChartInstance = shallowRef(chartInstance)
 }
+function calculateYearsToDownpay(years) {
+    estatePrice.value.yearsToDownpay = years
+}
+
+const debounceId = ref(null)
+function debounce(func, delay = 100) {
+    return (immediate) => {
+        clearTimeout(debounceId.value)
+        if (immediate) {
+            func()
+        } else {
+            debounceId.value = setTimeout(() => {
+                debounceId.value = undefined
+                func()
+            }, delay)
+        }
+    }
+}
+
 defineExpose({
     calculateTotalPrice,
+    // calculateDownpayPeriod,
 })
 </script>
 <style lang="scss">
