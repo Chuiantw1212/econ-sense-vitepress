@@ -134,7 +134,7 @@ async function setIdToken(currentUser) {
     }
 }
 async function authFetch(appendUrl, options) {
-    if (options.body && !options.body.id) {
+    if (options.body && Boolean(options.body.id) !== true) {
         return // 避免初始化資料覆蓋回noSQL
     }
 
@@ -149,7 +149,7 @@ async function authFetch(appendUrl, options) {
             Authorization: `Bearer ${idToken.value}`,
         }
     }
-    
+
     console.log(appendUrl, options.body)
 
     defaultOptions.method = options.method
@@ -176,11 +176,10 @@ async function authFetch(appendUrl, options) {
 }
 // 不知道為什麼打包出來會出狀況，手動篩選兩層物件
 function avoidCircular(source) {
-    console.log(source._value)
-    // 不知道為什麼打包出來會出狀況，手動篩選兩層物件
-    if (source._value) { // 這應該是vitepress的打包bug
-        return JSON.stringify(source._value)
-    }
+    console.log(source)
+    // if (source._value) { // 這應該是vitepress的打包bug
+    //     return JSON.stringify(source._value)
+    // }
     if (typeof source === 'object') { // career
         const target = {}
         for (let firstLevel in source) {
@@ -630,7 +629,7 @@ function onMortgageChanged() {
 onMounted(async () => {
     await initializeApp()
     await setSelecOptionSync()
-    await getUserFormSync(false)
+    // await getUserFormSync(false)
     nextTick(() => {
         initializeCalculator()
         window.scrollTo(0, 0)
