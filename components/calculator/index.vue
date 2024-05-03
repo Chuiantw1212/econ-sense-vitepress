@@ -28,7 +28,7 @@
         <Career v-model="career" :user="user" :config="config" ref="CareerRef" @update:modelValue="onCareerChanged()">
         </Career>
 
-        <Retirement v-model="retirement" :config="config" :profile="profile" ref="RetirementRef"
+        <Retirement v-model="retirement" :config="config" :career="career" :profile="profile" ref="RetirementRef"
             @update:modelValue="onRetirementChanged()">
         </Retirement>
 
@@ -393,7 +393,6 @@ function onCareerChanged() {
         method: 'put',
         body: career,
     })
-    retirement.pension.monthlyContribution = career.pension.monthlyContribution
     RetirementRef.value.calculateRetirement({
         propagate: false,
     })
