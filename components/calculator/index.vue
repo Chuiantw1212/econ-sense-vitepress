@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-dialog v-model="config.loadingDialogVisible" title="等待伺服器開機" width="500">
+        <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="500">
             <div>此為免費服務，伺服器開機需10秒左右來準備以下必須資料。</div>
             <ul>
                 <li>餘命運算</li>
@@ -11,8 +11,7 @@
             <template #footer>
                 <div class="dialog-footer">
                     <el-button @click="backToCalendar()">放棄使用</el-button>
-                    <el-button v-loading="true" :disabled="true" type="primary"
-                        @click="config.loadingDialogVisible = false">
+                    <el-button v-loading="true" :disabled="true" type="primary" @click="loadingDialogVisible = false">
                         下一步
                     </el-button>
                 </div>
