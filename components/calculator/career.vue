@@ -178,11 +178,10 @@ function calculateEmployeeWelfareFund() {
     career.value.employeeWelfareFund = Math.floor(monthlyBasicSalary * 0.5 / 100)
 }
 function calculateHealthPremiumByPension() {
-    const { salary, salaryMin } = career.value.pension
-    const salaryBasis = Math.max(salary, salaryMin)
+    const { salary, } = career.value.pension
     const healthInsutancePremiumRate = 5.17 / 100
     const employeeContributionRate = 30 / 100
-    career.value.healthInsutancePremium = Math.ceil(salaryBasis * healthInsutancePremiumRate * employeeContributionRate)
+    career.value.healthInsutancePremium = Math.ceil(salary * healthInsutancePremiumRate * employeeContributionRate)
 }
 // 勞保計算
 function calculateInsuranceSalary() {
@@ -219,9 +218,8 @@ function calculatePensionSalary() {
     }
 }
 function calculateCareerPensionContribution() {
-    const { salary, salaryMin, rate } = career.value.pension
-    const salaryBasis = Math.max(salary, salaryMin)
-    const maxContribution = Math.min(salaryBasis, props.config.maxPensionSalary)
+    const { salary, rate } = career.value.pension
+    const maxContribution = Math.min(salary, props.config.maxPensionSalary)
     career.value.pension.monthlyContributionEmployee = Math.floor(maxContribution * rate / 100)
     career.value.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100)
 }
