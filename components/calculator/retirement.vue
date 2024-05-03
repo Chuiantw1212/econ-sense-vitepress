@@ -112,8 +112,8 @@
                         <el-form-item label="退休品質">
                             <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                                    item.label
-                                    }}</el-radio>
+                        item.label
+                    }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -351,7 +351,7 @@ async function drawRetirementAssetChart(propagate = false) {
     }
     // 儲存參數
     if (propagate) {
-        emits('update:modelValue', retirement)
+        emits('update:modelValue', retirement.value)
     }
     // 繪圖
     if (pensionChartInstance.value) {

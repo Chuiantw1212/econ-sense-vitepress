@@ -128,7 +128,7 @@ async function calculateUnitPrice(options: any = { propagate: true }) {
     await unitPricePromise
 }
 function updateEstateUnitPrice() {
-    emits('update:modelValue', estatePrice)
+    emits('update:modelValue', estatePrice.value)
 }
 async function getUnitPriceSync(propagate = false) {
     const { county, town, } = estatePrice.value
@@ -155,7 +155,7 @@ async function getUnitPriceSync(propagate = false) {
         estatePrice.value.unitPrice = average
 
         if (propagate) {
-            emits('update:modelValue', estatePrice)
+            emits('update:modelValue', estatePrice.value)
         }
 
         return estatePrice.value.unitPrice
