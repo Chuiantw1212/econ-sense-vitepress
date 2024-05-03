@@ -150,8 +150,8 @@ function calculateTotalPrice(options: any = { propagate: true }) {
     if (!unitPrice || !floorSize) {
         return
     }
-    const beforeFormatPrice = Number(unitPrice) * Number(floorSize)
-    estatePrice.value.totalPrice = Number(beforeFormatPrice.toFixed(2))
+    const beforeFormatPrice = Number(unitPrice) * Number(floorSize) * 10000
+    estatePrice.value.totalPrice = Number(beforeFormatPrice).toLocaleString()
     if (propagate) {
         emits('update:modelValue', estatePrice)
     }

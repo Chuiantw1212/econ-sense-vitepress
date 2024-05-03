@@ -61,7 +61,7 @@
             <el-row v-if="estatePrice.hasParking">
                 <el-col :span="12">
                     <el-form-item label="車位數量">
-                        <el-input-number v-model="estateSize.parkingSpace" :min="0" @change="onParkingSpaceChanged()" />
+                        <el-input-number v-model="estateSize.parkingSpace" :min="0" @change="calculateEstateSize()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -111,14 +111,15 @@ const props = defineProps({
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true,
     }
 })
 const estateSize = computed(() => {
     return props.modelValue
 })
-function calculateEstateSize(options: any = { propagate: true }) {
-    const { propagate = true } = options
+function calculateEstateSize(options: any = { propagate: true, skipDebounce: false }) {
+    const { propagate = true, } = options
     debounce(() => {
         debounceCalculate(propagate)
     })(propagate)
@@ -152,6 +153,7 @@ function debounceCalculate(propagate = false) {
     // 權狀坪數
     let floorSize = (mainBuilding + outBuilding) * publicRatioPercent
     // 停車位權狀
+    // console.log()
     if (props.estatePrice.hasParking) {
         const miumumParkingSpace = Math.max(1, parkingSpace)
         estateSize.value.parkingSpace = miumumParkingSpace

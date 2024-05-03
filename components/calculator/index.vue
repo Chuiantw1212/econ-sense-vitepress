@@ -23,7 +23,6 @@
 
     <h2 id="_2. 我可以FIRE嗎？" tabindex="-1">2. 我可以FIRE嗎？<a class="header-anchor" href="#2. 我可以FIRE嗎？"
             aria-label="Permalink to &quot;2. 我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
-    財務安全的理財方式，將退休前與退休後的資產分開計算。退休先有保障，當上流老人，再用退休前資產去試算是否可以推關。
 
     <Career v-model="career" :user="user" :config="config" ref="CareerRef" @update:modelValue="onCareerChanged()">
     </Career>
@@ -34,11 +33,13 @@
 
     <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科<a class="header-anchor" href="#3. 五子登科"
             aria-label="Permalink to &quot;3. 五子登科&quot;">&ZeroWidthSpace;</a></h2>
-    用退休前資產試算是否能過關。
 
     <Investment v-model="investment" :config="config" :profile="profile" :career="career" :parenting="parenting"
         :mortgage="mortgage" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
     </Investment>
+
+    <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
+            aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
 
     <Parenting v-model="parenting" :config="config" :investment="investment" :estateSize="estateSize" ref="ParentingRef"
         @update:model-value="onParentingChanged()">
@@ -51,13 +52,10 @@
         @update:model-value="onEstatePriceChanged()">
     </EstatePrice>
     <br />
-    <EstateSize v-model="estateSize" :config="config" :parenting="parenting" ref="EstateSizeRef"
-        @update:model-value="onEstateSizeChanged()"></EstateSize>
+    <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
+        ref="EstateSizeRef" @update:model-value="onEstateSizeChanged()"></EstateSize>
     <br />
     <Estate v-model="estatePrice" :estateSize="estateSize" ref="EstateRef"></Estate>
-
-    <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
-            aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
 
     <h3 id="_購屋貸款試算" tabindex="-1">購屋貸款試算</h3>
     <el-card>
@@ -538,12 +536,10 @@ const parenting = reactive({
     headCount: 0,
 })
 function onParentingChanged() {
-    // 儲存參數
     authFetch(`/user/parenting`, {
         method: 'put',
         body: parenting,
     })
-    // 影響其他
     InvestmentRef.value.calculateAsset({
         propagate: false,
     })
@@ -589,12 +585,15 @@ const estatePrice = reactive({
     unitPrice: 0,
     totalPrice: 0,
 })
-function onEstatePriceChanged() {
+async function onEstatePriceChanged() {
     authFetch(`/user/estatePrice`, {
         method: 'put',
         body: estatePrice,
     })
-    EstateRef.value.calculateTotalPrice({
+    await EstateSizeRef.value.calculateEstateSize({
+        propagate: false,
+    })
+    await EstateRef.value.calculateTotalPrice({
         propagate: false,
     })
 }

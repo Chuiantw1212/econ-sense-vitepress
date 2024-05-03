@@ -63,7 +63,7 @@
                 <el-col :span="23">
                     <el-form-item label="單價(萬/坪)">
                         <el-slider v-model="estatePrice.unitPrice" :min="estatePrice.pr25" :max="estatePrice.pr75"
-                            :marks="unitPriceMarks" :disabled="!estatePrice.average"
+                            :marks="unitPriceMarks" :disabled="!estatePrice.average" show-input
                             @change="updateEstateUnitPrice()" />
                     </el-form-item>
                 </el-col>
@@ -145,9 +145,9 @@ async function getUnitPriceSync(propagate = false) {
             return
         }
         unitPriceMarks = {}
-        unitPriceMarks[pr25] = `PR25: ${pr25}`
-        unitPriceMarks[pr75] = `PR75: ${pr75}`
-        unitPriceMarks[average] = `平均：${average}`
+        unitPriceMarks[pr25] = `後: ${pr25}`
+        unitPriceMarks[pr75] = `前: ${pr75}`
+        unitPriceMarks[average] = `均：${average}` // 避免文字重疊
         estatePrice.value.unitPrice = average
 
         if (propagate) {

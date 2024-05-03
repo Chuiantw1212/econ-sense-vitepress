@@ -171,7 +171,6 @@ function calculateAsset(options: any = { propagate: true }) {
 function calculateIrr() {
     const { allocationETF } = investment.value
     const { portfolioIRR, } = props.config
-    console.log({ portfolioIRR, allocationETF })
     investment.value.irr = portfolioIRR[allocationETF]
 }
 
