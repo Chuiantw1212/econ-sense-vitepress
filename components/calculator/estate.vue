@@ -1,6 +1,6 @@
 <template>
-    <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算<a class="header-anchor"
-                href="#購屋總價試算" aria-label="Permalink to &quot;購屋總價試算&quot;">&ZeroWidthSpace;</a></h3>
+    <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算<a class="header-anchor" href="#購屋總價試算"
+            aria-label="Permalink to &quot;購屋總價試算&quot;">&ZeroWidthSpace;</a></h3>
     <el-card>
         <slot name="price">
 
@@ -118,3 +118,19 @@
 <script setup lang="ts">
 
 </script>
+<style lang="scss">
+.table {
+    * {
+        border-color: var(--el-border-color-light);
+        color: var(--el-text-color-regular) !important;
+        background: white !important;
+    }
+}
+:deep(.my-label) {
+    background: white;
+}
+
+:deep(.my-content) {
+    background: white;
+}
+</style>

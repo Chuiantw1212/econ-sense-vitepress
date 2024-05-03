@@ -32,7 +32,8 @@
         @update:model-value="onRetirementChanged()">
     </Retirement>
 
-    <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科</h2>
+    <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科<a class="header-anchor" href="#3. 五子登科"
+            aria-label="Permalink to &quot;3. 五子登科&quot;">&ZeroWidthSpace;</a></h2>
     用退休前資產試算是否能過關。
 
     <Investment v-model="investment" :config="config" :profile="profile" :career="career" :parenting="parenting"
