@@ -112,8 +112,8 @@
                         <el-form-item label="退休品質">
                             <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                        item.label
-                    }}</el-radio>
+                                    item.label
+                                    }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -218,6 +218,12 @@ const props = defineProps({
         default: () => {
             return {}
         }
+    },
+    career: {
+        type: Object,
+        default: () => {
+            return {}
+        }
     }
 })
 const retirement = computed(() => {
@@ -251,7 +257,8 @@ function calculateFutureSeniority() {
 }
 function calculateInsuranceMonthlyAnnuity() {
     const { lifeExpectancy, age } = retirement.value
-    const { futureSeniority, salary } = retirement.value.insurance
+    const { futureSeniority, } = retirement.value.insurance
+    const { salary } = props.career.insurance
     if (!lifeExpectancy || !age || !futureSeniority || !salary) {
         return
     }
@@ -277,13 +284,13 @@ function calculateRetirementExpense() {
 async function drawRetirementAssetChart(propagate = false) {
     // 計算資料
     const {
-        monthlyContribution,
         employerContribution,
         employeeContrubution,
         employerContributionIncome,
         employeeContrubutionIncome,
         irrOverDecade
     } = retirement.value.pension
+    const { monthlyContribution } = props.career.pension
     const {
         yearToRetirement,
         lifeExpectancy,
