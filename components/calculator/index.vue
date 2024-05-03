@@ -134,10 +134,6 @@ async function setIdToken(currentUser) {
     }
 }
 async function authFetch(appendUrl, options) {
-    if (options.body && Boolean(options.body.id) !== true) {
-        return // 避免初始化資料覆蓋回noSQL
-    }
-
     const currentUser = await firebase.auth().currentUser
     if (!currentUser) {
         return // 離線使用或未登入
