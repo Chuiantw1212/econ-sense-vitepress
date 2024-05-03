@@ -234,7 +234,6 @@ function calculateRetirement(options: any = { propagate: true }) {
     calculateRetireLife()
     calculateFutureSeniority()
     calculateInsuranceMonthlyAnnuity()
-    calculatePR()
     calculateRetirementExpense()
     debounce(() => {
         drawRetirementAssetChart(propagate)
@@ -270,15 +269,12 @@ function calculateInsuranceMonthlyAnnuity() {
         retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy))
     }
 }
-function calculatePR() {
-    const { qualityLevel } = retirement.value
-    retirement.value.percentileRank = qualityLevel * 20 - 10
-}
 function calculateRetirementExpense() {
     const { qualityLevel } = retirement.value
     if (!qualityLevel || !props.config.retirementQuartile.length) {
         return
     }
+    retirement.value.percentileRank = qualityLevel * 20 - 10
     const selectedItem: IOptionItem = props.config.retirementQuartile[qualityLevel - 1]
     retirement.value.annualExpense = Number(selectedItem.value)
     drawRetirementAssetChart()
