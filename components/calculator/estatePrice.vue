@@ -1,72 +1,75 @@
 <template>
-    <el-form ref="ruleFormRef" label-width="auto">
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="居住縣市">
-                    <select v-model="estatePrice.county" class="form__select" placeholder="請選擇"
-                        @change="onCountyChanged()">
-                        <option label="請選擇" value=""></option>
-                        <option v-for="item in config.counties" :key="item.value" :label="item.label"
-                            :value="item.value" />
-                    </select>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="行政區">
-                    <select v-model="estatePrice.town" class="form__select" placeholder="請選擇"
-                        :disabled="!estatePrice.county" @change="calculateUnitPrice()">
-                        <option label="請選擇" value=""></option>
-                        <option v-for="item in towns" :key="item.value" :label="item.label" :value="item.value" />
-                    </select>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="建物類別">
-                    <select v-model="estatePrice.buildingType" class="form__select" placeholder="請選擇"
-                        :disabled="!estatePrice.town" @change="calculateUnitPrice()">
-                        <option label="不限" value=""></option>
-                        <option v-for="item in config.buildingTypes" :key="item.value" :label="item.label"
-                            :value="item.value" />
-                    </select>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="屋齡[年]">
-                    <select v-model="estatePrice.buildingAge" class="form__select" placeholder="請選擇"
-                        :disabled="!estatePrice.town" @change="calculateUnitPrice()">
-                        <option label="不限" value=""></option>
-                        <option v-for="item in config.buildingAges" :key="item.value" :label="item.label"
-                            :value="item.value" />
-                    </select>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="含車位">
-                    <select v-model="estatePrice.hasParking" class="form__select" placeholder="請選擇"
-                        @change="calculateUnitPrice()">
-                        <option label="不限" value=""></option>
-                        <option v-for="(item, index) in hasParkingOptions" :key="index" :label="item.label"
-                            :value="item.value" />
-                    </select>
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="資料筆數">
-                    <el-text>{{ Number(estatePrice.count).toLocaleString(undefined) }} 筆</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="23">
-                <el-form-item label="單價(萬/坪)">
-                    <el-slider v-model="estatePrice.unitPrice" :min="estatePrice.pr25" :max="estatePrice.pr75"
-                        :marks="unitPriceMarks" :disabled="!estatePrice.average" @change="updateEstateUnitPrice()" />
-                </el-form-item>
-            </el-col>
-        </el-row>
-    </el-form>
+    <el-card>
+        <el-form v-loading="estatePriceLoading" ref="ruleFormRef" label-width="auto">
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="居住縣市" required>
+                        <select v-model="estatePrice.county" class="form__select" placeholder="請選擇"
+                            @change="onCountyChanged()">
+                            <option label="請選擇" value=""></option>
+                            <option v-for="item in config.counties" :key="item.value" :label="item.label"
+                                :value="item.value" />
+                        </select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="行政區" required>
+                        <select v-model="estatePrice.town" class="form__select" placeholder="請選擇"
+                            :disabled="!estatePrice.county" @change="calculateUnitPrice()">
+                            <option label="請選擇" value=""></option>
+                            <option v-for="item in towns" :key="item.value" :label="item.label" :value="item.value" />
+                        </select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="建物類別">
+                        <select v-model="estatePrice.buildingType" class="form__select" placeholder="請選擇"
+                            :disabled="!estatePrice.town" @change="calculateUnitPrice()">
+                            <option label="不限" value=""></option>
+                            <option v-for="item in config.buildingTypes" :key="item.value" :label="item.label"
+                                :value="item.value" />
+                        </select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="屋齡[年]">
+                        <select v-model="estatePrice.buildingAge" class="form__select" placeholder="請選擇"
+                            :disabled="!estatePrice.town" @change="calculateUnitPrice()">
+                            <option label="不限" value=""></option>
+                            <option v-for="item in config.buildingAges" :key="item.value" :label="item.label"
+                                :value="item.value" />
+                        </select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="含車位">
+                        <select v-model="estatePrice.hasParking" class="form__select" placeholder="請選擇"
+                            @change="calculateUnitPrice()">
+                            <option label="不限" value=""></option>
+                            <option v-for="(item, index) in hasParkingOptions" :key="index" :label="item.label"
+                                :value="item.value" />
+                        </select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="資料筆數">
+                        <el-text>{{ Number(estatePrice.count).toLocaleString(undefined) }} 筆</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="23">
+                    <el-form-item label="單價(萬/坪)">
+                        <el-slider v-model="estatePrice.unitPrice" :min="estatePrice.pr25" :max="estatePrice.pr75"
+                            :marks="unitPriceMarks" :disabled="!estatePrice.average"
+                            @change="updateEstateUnitPrice()" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+    </el-card>
 </template>
 <script setup lang="ts">
 import { computed, ref, reactive } from 'vue'
@@ -78,7 +81,7 @@ const hasParkingOptions = ref([
     { label: '含', value: true },
     { label: '不含', value: false },
 ])
-const buildingLoading = ref(false)
+const estatePriceLoading = ref(false)
 let unitPriceMarks: {
     [key: string]: string
 } = reactive({
@@ -105,15 +108,16 @@ const estatePrice = computed(() => {
 function onCountyChanged() {
     estatePrice.value.town = ''
     towns.value = []
-    const { county } = estatePrice.value
-    if (county) {
-        towns.value = props.config.townMap[county]
-    }
     calculateUnitPrice({
         propagate: true,
     })
 }
 function calculateUnitPrice(options: any = { propagate: true }) {
+    const { county } = estatePrice.value
+    if (county) {
+        towns.value = props.config.townMap[county]
+    }
+
     const { propagate = true } = options
     debounce(() => {
         getUnitPriceSync(propagate)
@@ -125,15 +129,15 @@ function updateEstateUnitPrice() {
 async function getUnitPriceSync(propagate = false) {
     const { county, town, } = estatePrice.value
     if (county && town) {
-        buildingLoading.value = true
+        estatePriceLoading.value = true
         const res = await fetch(`${VITE_BASE_URL}/calculate/unitPrice`, {
             method: 'post',
-            body: JSON.stringify(estatePrice),
+            body: JSON.stringify(estatePrice.value),
             headers: { 'Content-Type': 'application/json' }
         })
-        buildingLoading.value = false
+        estatePriceLoading.value = false
         const resJson = await res.json()
-        Object.assign(estatePrice, resJson)
+        Object.assign(estatePrice.value, resJson)
 
         const { pr25, pr75, average } = resJson
         if (!average) {

@@ -44,17 +44,17 @@
         @update:model-value="onParentingChanged()">
     </Parenting>
 
-    <Estate v-model="estatePrice" :estateSize="estateSize" ref="EstateRef">
-        <template v-slot:size>
-            <EstateSize v-model="estateSize" :config="config" :parenting="parenting" ref="EstateSizeRef"
-                @update:model-value="onEstateSizeChanged()"></EstateSize>
-        </template>
-        <template v-slot:price>
-            <EstatePrice v-model="estatePrice" :config="config" :estateSize="estateSize" ref="EstatePriceRef"
-                @update:model-value="onEstatePriceChanged()">
-            </EstatePrice>
-        </template>
-    </Estate>
+    <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算<a class="header-anchor" href="#購屋總價試算"
+            aria-label="Permalink to &quot;購屋總價試算&quot;">&ZeroWidthSpace;</a></h3>
+
+    <EstatePrice v-model="estatePrice" :config="config" :estateSize="estateSize" ref="EstatePriceRef"
+        @update:model-value="onEstatePriceChanged()">
+    </EstatePrice>
+    <br />
+    <EstateSize v-model="estateSize" :config="config" :parenting="parenting" ref="EstateSizeRef"
+        @update:model-value="onEstateSizeChanged()"></EstateSize>
+    <br />
+    <Estate v-model="estatePrice" :estateSize="estateSize" ref="EstateRef"></Estate>
 
     <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
             aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
@@ -423,12 +423,10 @@ const profile = reactive({
     lifeExpectancy: 0,
 })
 function onProfileChanged() {
-    // 儲存參數
     authFetch(`/user/profile`, {
         method: 'put',
         body: profile,
     })
-    // 影響其他
     retirement.yearToRetirement = retirement.age - profile.age
     const lifeExpectancy = profile.lifeExpectancy - retirement.yearToRetirement
     retirement.lifeExpectancy = Number(Number(lifeExpectancy).toFixed(2))
@@ -460,12 +458,10 @@ const career = reactive({
     monthlySaving: 0,
 })
 function onCareerChanged() {
-    // 儲存參數
     authFetch(`/user/career`, {
         method: 'put',
         body: career,
     })
-    // 影響其他
     retirement.insurance.salary = career.insurance.salary
     retirement.pension.monthlyContribution = career.pension.monthlyContribution
     RetirementRef.value.calculateRetirement({
@@ -506,12 +502,10 @@ const retirement = reactive({
     annualExpense: 0,
 })
 function onRetirementChanged() {
-    // 儲存參數
     authFetch(`/user/retirement`, {
         method: 'put',
         body: retirement,
     })
-    // 影響其他
     investment.period = retirement.yearToRetirement
 }
 // 投資試算
@@ -525,12 +519,10 @@ const investment = reactive({
     period: 0,
 })
 function onInvestmentChanged() {
-    // 儲存參數
     authFetch(`/user/investment`, {
         method: 'put',
         body: investment,
     })
-    // 影響其他
     ParentingRef.value.calculateParenting({
         propagate: false,
     })
@@ -598,12 +590,13 @@ const estatePrice = reactive({
     totalPrice: 0,
 })
 function onEstatePriceChanged() {
-    // 儲存參數
     authFetch(`/user/estatePrice`, {
         method: 'put',
         body: estatePrice,
     })
-    // 影響其他
+    EstateRef.value.calculateTotalPrice({
+        propagate: false,
+    })
 }
 
 
@@ -653,6 +646,7 @@ async function calculateMortgate() {
 onMounted(async () => {
     await initializeApp()
     await setSelecOptionSync()
+    await getUserFormSync(false)
     nextTick(() => {
         initializeCalculator()
         window?.addEventListener('resize', onResize)

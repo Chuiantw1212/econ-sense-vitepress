@@ -211,7 +211,7 @@ function drawParentingChart(propagate = true) {
     const inflationRatio = 1 + inflationRate / 100
     let inflationModifier = 1
     const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, spouseMonthlyContribution } = parenting.value
-    console.log(props.investment)
+
     // 計算投資報酬率
     const investmentIrr = 1 + props.investment.irr / 100
     // 計算家庭人口
@@ -232,7 +232,9 @@ function drawParentingChart(propagate = true) {
     const labels: number[] = []
     const firstBornData: number[][] = []
     const secondBornData: number[][] = []
-    const asssetData: number[][] = []
+    const lifeInsuranceEquity: number[][] = []
+    const lifeInsuranceCash: number[][] = []
+    // let cash = lifeInsurance
     let pv = lifeInsurance
     let fv = 0
 
@@ -260,9 +262,11 @@ function drawParentingChart(propagate = true) {
             pmt += spouseMonthlyContribution
         }
 
-        console.log({ pv, investmentIrr, pmt })
         fv = pv * investmentIrr + pmt
-        asssetData.push([pmt, Math.floor(fv)])
+        lifeInsuranceEquity.push([pmt, Math.floor(fv)])
+        // cash = cash + pmt
+        // lifeInsuranceCash.push([pmt, Math.floor(cash)])
+
         inflationModifier *= inflationRatio
         pv = fv
     }
@@ -292,10 +296,16 @@ function drawParentingChart(propagate = true) {
     if (lifeInsurance) {
         datasets.push({
             label: '壽險+投資',
-            data: asssetData,
+            data: lifeInsuranceEquity,
             fill: true,
             tension,
         })
+        // datasets.push({
+        //     label: '壽險不投資',
+        //     data: lifeInsuranceCash,
+        //     fill: true,
+        //     tension,
+        // })
     }
 
     const data: any = {

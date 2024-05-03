@@ -241,7 +241,6 @@ function drawLifeAssetChart(propagate = true) {
         labels
     }
     if (propagate) {
-        console.log('value updated', investment)
         emits('update:modelValue', investment)
     }
     if (investmentChartInstance.value) {

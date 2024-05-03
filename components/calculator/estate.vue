@@ -1,11 +1,9 @@
 <template>
-    <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算<a class="header-anchor" href="#購屋總價試算"
-            aria-label="Permalink to &quot;購屋總價試算&quot;">&ZeroWidthSpace;</a></h3>
     <el-card>
         <el-form label-width="auto">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="預算">
+                    <el-form-item label="頭期款預算">
                         <el-input-number v-model="estatePrice.budget" :min="0" @change="onBudgetChanged()" />
                     </el-form-item>
                 </el-col>
@@ -16,13 +14,6 @@
                 </el-col>
             </el-row>
         </el-form>
-        <slot name="price">
-
-        </slot>
-        <br />
-        <slot name="size">
-
-        </slot>
         <template #footer>
             <el-collapse>
                 <el-collapse-item title="試算說明" name="1" :border="true">

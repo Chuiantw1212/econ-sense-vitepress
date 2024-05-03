@@ -1,87 +1,89 @@
 <template>
-    <el-form label-width="auto">
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="雙人房數量">
-                    <el-input-number v-model="estateSize.doubleBedRoom" :min="0" @change="calculateEstateSize()" />
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item v-if="parenting.headCount" label="房屋應容納人數">
-                    <el-text>{{ parenting.headCount }} 人</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="單人房數量">
-                    <el-input-number v-model="estateSize.singleBedRoom" :min="0" @change="calculateEstateSize()" />
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="房屋可容納人數">
-                    <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="客廳+餐廳">
-                    <el-input-number v-model="estateSize.livingRoom" :min="1" @change="calculateEstateSize()" />
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="衛浴數量">
-                    <el-input-number v-model="estateSize.bathroom" :min="1" @change="calculateEstateSize()" />
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="預估主建實坪">
-                    <el-text>{{ estateSize.mainBuilding }} 坪</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="陽台數量">
-                    <el-input-number v-model="estateSize.balcany" :min="0" @change="calculateEstateSize()" />
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="預估附屬建物">
-                    <el-text>{{ estateSize.outBuilding }} 坪</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row v-if="estatePrice.hasParking">
-            <el-col :span="12">
-                <el-form-item label="車位數量">
-                    <el-input-number v-model="estateSize.parkingSpace" :min="0" @change="onParkingSpaceChanged()" />
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="預估車位權狀">
-                    <el-text>{{ estateSize.parkingSize }} 坪</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12">
-                <el-form-item label="公設比(%)">
-                    <el-input-number v-model="estateSize.publicRatio" :min="0" @change="calculateEstateSize()" />
-                </el-form-item>
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="預估權狀坪數">
-                    <el-text>{{ estateSize.floorSize }} 坪</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row>
-    </el-form>
+    <el-card>
+        <el-form label-width="auto">
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="雙人房數量">
+                        <el-input-number v-model="estateSize.doubleBedRoom" :min="0" @change="calculateEstateSize()" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item v-if="parenting.headCount" label="房屋應容納人數">
+                        <el-text>{{ parenting.headCount }} 人</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="單人房數量">
+                        <el-input-number v-model="estateSize.singleBedRoom" :min="0" @change="calculateEstateSize()" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="房屋可容納人數">
+                        <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="客廳+餐廳">
+                        <el-input-number v-model="estateSize.livingRoom" :min="1" @change="calculateEstateSize()" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="衛浴數量">
+                        <el-input-number v-model="estateSize.bathroom" :min="1" @change="calculateEstateSize()" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="預估主建實坪">
+                        <el-text>{{ estateSize.mainBuilding }} 坪</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="陽台數量">
+                        <el-input-number v-model="estateSize.balcany" :min="0" @change="calculateEstateSize()" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="預估附屬建物">
+                        <el-text>{{ estateSize.outBuilding }} 坪</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row v-if="estatePrice.hasParking">
+                <el-col :span="12">
+                    <el-form-item label="車位數量">
+                        <el-input-number v-model="estateSize.parkingSpace" :min="0" @change="onParkingSpaceChanged()" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="預估車位權狀">
+                        <el-text>{{ estateSize.parkingSize }} 坪</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="公設比(%)">
+                        <el-input-number v-model="estateSize.publicRatio" :min="0" @change="calculateEstateSize()" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="預估權狀坪數">
+                        <el-text>{{ estateSize.floorSize }} 坪</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+    </el-card>
 </template>
 <script setup lang="ts">
 import { computed, ref } from 'vue'
@@ -151,7 +153,7 @@ function debounceCalculate(propagate = false) {
     let floorSize = (mainBuilding + outBuilding) * publicRatioPercent
     // 停車位權狀
     if (props.estatePrice.hasParking) {
-        const miumumParkingSpace =  Math.max(1, parkingSpace)
+        const miumumParkingSpace = Math.max(1, parkingSpace)
         estateSize.value.parkingSpace = miumumParkingSpace
         const parkingSize = 24.75 * miumumParkingSpace * fortmatRatio * publicRatioPercent
         estateSize.value.parkingSize = Number(Number(parkingSize).toFixed(2))
