@@ -138,6 +138,8 @@ async function authFetch(appendUrl, options) {
     if (!currentUser) {
         return // 離線使用或未登入
     }
+    
+    console.log(appendUrl, options.body?.id)
     if (options.body && !options.body.id) {
         return // 避免初始化資料覆蓋回noSQL
     }
