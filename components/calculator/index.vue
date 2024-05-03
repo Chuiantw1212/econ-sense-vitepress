@@ -342,17 +342,20 @@ async function getUserFormSync(firebaseUser) {
                 method: 'post'
             })
             userForm = await res?.json()
-            // 真不知道為什麼資料會覆蓋，這邊有id視為是從server帶回來舊資料
-            for (let key in userForm) {
-                userForm[key].id = userForm.id
-            }
         }
     } catch (error) {
+        ElMessage(error.message || error)
         const res = await authFetch(`/user/new`, {
             method: 'post'
         })
         userForm = await res?.json()
     } finally {
+        // 真不知道為什麼資料會覆蓋，這邊有id視為是從server帶回來舊資料
+        for (let key in userForm) {
+            if (typeof userForm[key] === 'object') {
+                userForm[key].id = userForm.id
+            }
+        }
         Object.assign(initForm, userForm)
         Object.assign(profile, initForm.profile)
         Object.assign(career, initForm.career)
