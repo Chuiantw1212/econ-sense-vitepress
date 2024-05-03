@@ -171,6 +171,7 @@ async function authFetch(appendUrl, options) {
     return res
 }
 function avoidCircular(source) {
+    console.log(source._value)
     // 不知道為什麼打包出來會出狀況，手動篩選兩層物件
     if (typeof source === 'object') { // career
         const target = {}
