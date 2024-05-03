@@ -57,6 +57,9 @@
                 <el-collapse-item title="試算說明" name="1" :border="true">
                     <ul>
                         <li>
+                            假設依靠投資籌措頭期款
+                        </li>
+                        <li>
                             假設房價增幅速度與通膨持平
                         </li>
                         <li>
