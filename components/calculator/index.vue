@@ -151,7 +151,7 @@ async function authFetch(appendUrl, options) {
     }
     defaultOptions.method = options.method
     if (options.body) {
-        defaultOptions.body = JSON.stringify(options.body)
+        defaultOptions.body = simpleStringify(options.body)
         Object.assign(defaultOptions.headers, {
             'Content-Type': 'application/json'
         })
@@ -171,6 +171,24 @@ async function authFetch(appendUrl, options) {
     }
     return res
 }
+function simpleStringify(object) {
+    // stringify an object, avoiding circular structures
+    // https://stackoverflow.com/a/31557814
+    var simpleObject = {};
+    for (var prop in object) {
+        if (!object.hasOwnProperty(prop)) {
+            continue;
+        }
+        if (typeof (object[prop]) == 'object') {
+            continue;
+        }
+        if (typeof (object[prop]) == 'function') {
+            continue;
+        }
+        simpleObject[prop] = object[prop];
+    }
+    return JSON.stringify(simpleObject); // returns cleaned up JSON
+};
 async function signOut() {
     await firebase.auth().signOut()
     location.reload()
