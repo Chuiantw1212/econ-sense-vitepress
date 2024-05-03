@@ -230,7 +230,9 @@ function calculateRetirement(propogate = false) {
     calculateInsuranceMonthlyAnnuity()
     calculatePR()
     calculateRetirementExpense()
-    drawRetirementAssetChart(propogate)
+    debounce(() => {
+        drawRetirementAssetChart(propogate)
+    })()
 }
 async function calculateRetireLife() {
     const rawNumber = props.profile.age + props.profile.lifeExpectancy - retirement.value.age
@@ -333,7 +335,7 @@ async function drawRetirementAssetChart(propogate = true) {
     const chartData = {
         datasets: [
             {
-                label: '退休金資產試算',
+                label: '退休金存量',
                 data: datasetData,
             }
         ],
@@ -369,7 +371,7 @@ function calculatePensionFinalValue(fv) {
 
 const debounceId = ref(null)
 function debounce(func, delay = 100) {
-    return (...args) => {
+    return () => {
         clearTimeout(debounceId.value)
         debounceId.value = setTimeout(() => {
             debounceId.value = undefined

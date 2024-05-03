@@ -154,7 +154,9 @@ function calculateCareer() {
         calculatePensionSalary()
         calculateCareerPensionContribution()
         calculateHealthPremiumByPension()
-        drawChartAndCalculateIncome()
+        debounce(() => {
+            drawChartAndCalculateIncome()
+        })()
         calculateMonthlySaving()
     } catch (error) {
         console.log(error.message || error)
@@ -355,7 +357,7 @@ function tooltipFormat(tooltipItems) {
 
 const debounceId = ref(null)
 function debounce(func, delay = 100) {
-    return (...args) => {
+    return () => {
         clearTimeout(debounceId.value)
         debounceId.value = setTimeout(() => {
             debounceId.value = undefined

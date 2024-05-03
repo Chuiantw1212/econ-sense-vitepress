@@ -29,94 +29,11 @@
     </Retirement>
 
     <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科</h2>
-    <el-card>
-        <el-form label-width="auto">
-            <el-row>
-                <el-col :span="24">
-                    <el-form-item label="資產配置">
-                        <el-radio-group v-model="investment.allocationETF" @change="onAllocationChanged()">
-                            <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label }}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="23">
-                    <el-form-item label="投資報酬率">
-                        <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks"
-                            :disabled="true" />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <br />
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="已備資產" @change="onAssetChanged()">
-                        <el-input-number v-model="investment.presentAsset" :min="0" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="每月儲蓄投資" @change="onAssetChanged()">
-                        <el-text>{{ Number(career.saving).toLocaleString() }} NTD / 月</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <canvas id="assetChart"></canvas>
-        </el-form>
-        <template #footer>
-            <el-collapse>
-                <el-collapse-item title="試算說明" name="1" :border="true">
-                    <table class="table">
-                        <tr>
-                            <th>參考標的</th>
-                            <th>資產配置</th>
-                            <th>來源網址</th>
-                        </tr>
-                        <tr>
-                            <td>AOA</td>
-                            <td>股8債2</td>
-                            <td>
-                                <a href="https://www.ishares.com/us/products/239729/ishares-aggressive-allocation-etf"
-                                    target="_blank">
-                                    來源網址
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>AOR</td>
-                            <td>股6債4</td>
-                            <td>
-                                <a href="https://www.ishares.com/us/products/239756/ishares-growth-allocation-etf"
-                                    target="_blank">
-                                    來源網址
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>AOM</td>
-                            <td>股4債6</td>
-                            <td>
-                                <a href="https://www.ishares.com/us/products/239765/ishares-moderate-allocation-etf"
-                                    target="_blank">
-                                    來源網址
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>AOK</td>
-                            <td>股2債8</td>
-                            <td>
-                                <a href="https://www.ishares.com/us/products/239733/ishares-conservative-allocation-etf"
-                                    target="_blank">
-                                    來源網址
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                </el-collapse-item>
-            </el-collapse>
-        </template>
-    </el-card>
+
+    <Investment v-model="investment" :config="config" :profile="profile" :career="career" :parenting="parenting"
+        :mortgage="mortgage" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
+    </Investment>
+
     <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
             aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
     <h3 id="_育兒試算" tabindex="-1">育兒試算<a class="header-anchor" href="#育兒試算"
@@ -624,9 +541,11 @@ import Chart from 'chart.js/auto';
 import Profile from './profile.vue'
 import Career from './career.vue'
 import Retirement from './retirement.vue'
+import Investment from './investment.vue'
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
+const InvestmentRef = ref()
 const { VITE_BASE_URL } = import.meta.env
 interface IOptionItem {
     label: string,
@@ -675,9 +594,6 @@ const idTokenIntervalId = ref()
 async function setIdToken(currentUser) {
     if (currentUser) {
         idToken.value = await currentUser.getIdToken(true)
-        // idTokenIntervalId.value = setInterval(async () => {
-        //     idToken.value = await firebase.auth()?.currentUser?.getIdToken(true)
-        // }, 50 * 60 * 1000)
     } else {
         idToken.value = null
         clearInterval(idTokenIntervalId.value)
@@ -879,8 +795,7 @@ async function initializeCalculator() {
     await ProfileRef.value.calculateProfile()
     await CareerRef.value.calculateCareer()
     await RetirementRef.value.calculateRetirement()
-    // 投資
-    calculateAssetIrrChanges()
+    await InvestmentRef.value.calculateAsset()
     // 買房
     if (estatePrice.county) {
         towns.value = config.townMap[estatePrice.county]
@@ -935,7 +850,6 @@ const career = reactive({
     monthlySaving: 0,
 })
 function onCareerChanged() {
-    console.log('onCareerChanged', career)
     // 儲存參數
     authFetch(`/user/career`, {
         method: 'put',
@@ -945,7 +859,6 @@ function onCareerChanged() {
     console.log(retirement.insurance)
     retirement.insurance.salary = career.insurance.salary
     retirement.pension.monthlyContribution = career.pension.monthlyContribution
-    investment.averaging = career.monthlySaving
     RetirementRef.value.calculateRetirement()
     // drawLifeAssetChart()
 }
@@ -980,10 +893,13 @@ const retirement = reactive({
     annualExpense: 0,
 })
 function onRetirementChanged() {
+    // 儲存參數
     authFetch(`/user/retirement`, {
         method: 'put',
         body: retirement,
     })
+    // 影響其他
+    investment.period = retirement.yearToRetirement
 }
 // 投資試算
 const investment = reactive({
@@ -992,119 +908,14 @@ const investment = reactive({
     stockPercentage: 0,
     presentAsset: 0,
     averaging: 0,
+    allocationQuartileMarks: {},
+    period: 0,
 })
-const allocationQuartileMarks = reactive({})
-let investmentChartInstance = ref<Chart>()
-function onAllocationChanged() {
-    calculateAssetIrrChanges()
-    drawLifeAssetChart()
-}
-function calculateAssetIrrChanges() {
-    const { allocationETF } = investment
-    if (!allocationETF) {
-        return
-    }
-    investment.irr = config.portfolioIRR[investment.allocationETF]
-    const allocationLabels = Object.keys(config.porfolioLabels)
-    const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
-    const stockPercentage = Math.floor((allocationIndex + 1) * 20)
-    investment.stockPercentage = stockPercentage
-    allocationLabels.forEach((label, index) => {
-        const irr = config.portfolioIRR[label]
-        const stockPercentage = Math.floor((index + 1) * 20)
-        allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
+function onInvestmentChanged() {
+    authFetch(`/user/investment`, {
+        method: 'put',
+        body: investment,
     })
-    drawParentingChart()
-}
-function onAssetChanged() {
-    drawLifeAssetChart()
-}
-function onBuyHouseYearChanged() {
-    drawLifeAssetChart()
-}
-function drawLifeAssetChart() {
-    debounce(() => {
-        authFetch(`/user/investment`, {
-            method: 'put',
-            body: investment,
-        })
-    }, 'investment')()
-
-    let inflationModifier = 1
-
-    let pv = investment.presentAsset
-    const irr = investment.irr
-    let fv = 0 // fv = pv * irr + pmt
-    const labels: number[] = []
-    const datasetData: number[] = []
-    for (let year = config.currentYear; year < config.currentYear + retirement.insurance.futureSeniority; year++) {
-        labels.push(year)
-        datasetData.push(Math.floor(pv))
-
-        // 基本資料
-        const { yearOfBirth } = profile
-
-        // 影響存量重大事件
-        const { buyHouseYear } = mortgage
-        if (year === buyHouseYear) {
-            pv -= mortgage.downPayment * inflationModifier
-        }
-
-        let calculatedPmt = 0
-        // 退休開支影響收入與支出
-        const reitrementStartYear = Number(yearOfBirth) + retirement.age
-        if (year <= reitrementStartYear) {
-            calculatedPmt = investment.averaging * 12 * inflationModifier
-        }
-        // 房貸利息影響每月儲蓄
-        const mortgageStartYear = buyHouseYear
-        const mortgageEndYear = buyHouseYear + mortgage.loanTerm
-        if (mortgageStartYear <= year && year < mortgageEndYear) {
-            calculatedPmt -= mortgage.monthlyRepay * 12
-        }
-        // 育兒開支影響每月儲蓄
-        const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, spouseMonthlyContribution } = parenting
-        const firstBornEndYear = firstBornYear + independantAge
-        const secondBornEndYear = secondBornYear + independantAge
-        const hasFirstBorn = config.currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear
-        const hasSecondBorn = config.currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
-        if (hasFirstBorn) {
-            calculatedPmt -= childAnnualExpense * inflationModifier
-        }
-        if (hasSecondBorn) {
-            calculatedPmt -= childAnnualExpense * inflationModifier
-        }
-        if (hasFirstBorn || hasSecondBorn) {
-            calculatedPmt += spouseMonthlyContribution * 12 * inflationModifier
-        }
-
-        // 計算複利終值
-        inflationModifier *= 1 + config.inflationRate / 100
-        fv = pv * (1 + irr / 100) + calculatedPmt
-        pv = fv
-    }
-    const chartData = {
-        datasets: [
-            {
-                label: '退休前資產',
-                data: datasetData,
-            }
-        ],
-        labels
-    }
-
-    // if (investmentChartInstance.value) {
-    //     investmentChartInstance.value.data = chartData
-    //     investmentChartInstance.value.update()
-    //     return
-    // }
-
-    // const ctx: any = document.getElementById('assetChart')
-    // const chartInstance = new Chart(ctx, {
-    //     type: 'bar',
-    //     data: chartData
-    // })
-    // investmentChartInstance = shallowRef(chartInstance)
 }
 // 育兒試算
 const parenting = reactive({
@@ -1172,14 +983,15 @@ function drawParentingChart() {
             insuranceAsset = insuranceAsset * (1 + investment.irr / 100)
             inflationModifier *= 1 + config.inflationRate / 100
         }
-        const datasets = [
-            {
+        const datasets = []
+        if (firstBornData) {
+            datasets.push({
                 label: '長子',
                 data: firstBornData,
                 fill: true,
                 tension: 0.4
-            },
-        ]
+            })
+        }
         if (secondBornYear) {
             datasets.push({
                 label: '次子',
