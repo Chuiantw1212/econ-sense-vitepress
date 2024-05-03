@@ -18,7 +18,7 @@
                 <el-row>
                     <el-col :span="23">
                         <el-form-item label="投資報酬率">
-                            <el-slider v-model="investment.stockPercentage" :marks="investment.allocationQuartileMarks"
+                            <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks"
                                 :disabled="true" />
                         </el-form-item>
                     </el-col>
@@ -48,7 +48,7 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <canvas id="assetChart"></canvas>
+                <canvas v-show="!unableToDraw" id="assetChart"></canvas>
             </el-form>
             <template #footer>
                 <el-collapse>
@@ -110,7 +110,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, shallowRef } from 'vue'
+import { ref, computed, shallowRef, reactive } from 'vue'
 import Chart from 'chart.js/auto';
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
@@ -151,14 +151,11 @@ const props = defineProps({
         }
     }
 })
+const allocationQuartileMarks = reactive({})
 const investment = computed(() => {
     return props.modelValue
 })
 function calculateAsset(options: any = { propagate: true }) {
-    const { allocationETF } = investment.value
-    if (!allocationETF) {
-        return
-    }
     calculateInvestmentPeriod()
     calculatePortfolio()
 
@@ -178,15 +175,28 @@ function calculatePortfolio() {
     allocationLabels.forEach((label, index) => {
         const irr = portfolioIRR[label]
         const stockPercentage = Math.floor((index + 1) * 20)
-        investment.value.allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
+        allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
     })
 }
 function calculateInvestmentPeriod() {
     investment.value.period = props.retirement.yearToRetirement
 }
 
+const unableToDraw = computed(() => {
+    const { presentAsset, irr, period } = investment.value
+    const { monthlySaving } = props.career
+    const noPv = !presentAsset
+    const noPmt = !monthlySaving
+    const noIY = !irr
+    const noN = !period
+    return (noPv && noPmt) || noIY || noN
+})
+
 let investmentChartInstance = ref<Chart>()
 function drawLifeAssetChart(propagate = true) {
+    if (unableToDraw.value) {
+        return
+    }
     const { presentAsset, irr, period } = investment.value
     const irrModifier = 1 + irr / 100
     const { currentYear, inflationRate } = props.config
@@ -241,6 +251,7 @@ function drawLifeAssetChart(propagate = true) {
         pv = fv
         inflationModifier *= inflatoinRatio
     }
+    console.log(datasetData)
     const chartData = {
         datasets: [
             {

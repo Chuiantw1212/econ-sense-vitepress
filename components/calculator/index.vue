@@ -433,7 +433,6 @@ let investment = reactive({
     stockPercentage: 0,
     presentAsset: 0,
     averaging: 0,
-    allocationQuartileMarks: {},
     period: 0,
 })
 function onInvestmentChanged() {
