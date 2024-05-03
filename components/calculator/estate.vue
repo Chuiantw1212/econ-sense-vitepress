@@ -3,15 +3,6 @@
         <el-form label-width="auto">
             <el-row>
                 <el-col :span="12">
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="試算總價">
-                        <el-text>{{ Number(estatePrice.totalPrice).toLocaleString() }} NTD</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
                     <el-form-item label="已備頭期款">
                         <el-input-number v-model="estatePrice.budget" :min="0" :step="200000"
                             @change="calculateTotalPrice($event)" />
@@ -24,11 +15,27 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="12">
+                <el-col v-if="mortgage.downPayment" :span="12">
+                    <el-form-item label="預估頭期款">
+                        <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
+                    </el-form-item>
                 </el-col>
-                <el-col :span="12">
+                <el-col v-if="mortgage.downPayment" :span="12">
+                    <el-form-item label="存到頭期款">
+                        <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
+                            ({{ estatePrice.yearsToDownpay }}年後)</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col v-if="!mortgage.downPayment" :span="12">
+                    <el-form-item label="預估總價">
+                        <el-text>{{ Number(estatePrice.totalPrice).toLocaleString() }} NTD</el-text>
+                    </el-form-item>
+                </el-col>
+                <el-col v-if="!mortgage.downPayment" :span="12">
                     <el-form-item label="存到總價30%">
-                        <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }} 
+                        <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
                             ({{ estatePrice.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
                 </el-col>
@@ -188,6 +195,13 @@ const props = defineProps({
             return {}
         },
         required: true,
+    },
+    mortgage: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
     }
 })
 
@@ -197,7 +211,7 @@ const estatePrice = computed(() => {
 
 function calculateTotalPrice(options: any = { propagate: true }) {
     const { propagate = true } = options
-    const { unitPrice, budget } = estatePrice.value
+    const { unitPrice, } = estatePrice.value
     const { floorSize, } = props.estateSize
     if (!unitPrice || !floorSize) {
         return
@@ -212,12 +226,10 @@ function calculateTotalPrice(options: any = { propagate: true }) {
 let downPayChartInstance = ref<Chart>()
 function drawDownpayChart(propagate = false) {
     const { budget, totalPrice } = estatePrice.value
+    const { downPayment } = props.mortgage
     if (propagate) {
         emits('update:modelValue', estatePrice)
     }
-    // if (!budget) {
-    //     return
-    // }
     const { irr, } = props.investment
     const { inflationRate, currentYear } = props.config
 
@@ -227,7 +239,13 @@ function drawDownpayChart(propagate = false) {
     let pv = budget
     let pmt = props.career.monthlySaving * 12
     let fv = 0
-    let goal = Number(totalPrice) * 0.3
+    let goal = 0
+    if (downPayment) {
+        goal = downPayment
+    } else {
+        goal = Number(totalPrice) * 0.3
+    }
+    
     const labels: string[] = []
     const dataSetData: number[] = []
     let estateTotalPrice: number[] = []
@@ -243,7 +261,6 @@ function drawDownpayChart(propagate = false) {
         pv = fv
     } while (fv < goal)
     calculateYearsToDownpay(period)
-
     const chartData = {
         labels,
         datasets: [

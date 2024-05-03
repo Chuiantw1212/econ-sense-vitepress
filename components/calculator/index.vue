@@ -56,8 +56,8 @@
         <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
             ref="EstateSizeRef" @update:model-value="onEstateSizeChanged()"></EstateSize>
         <br />
-        <Estate v-model="estatePrice" :career="career" :estateSize="estateSize" :investment="investment"
-            :config="config" ref="EstateRef" @update:model-value="onEstateBudgetChanged()">
+        <Estate v-model="estatePrice" :career="career" :estateSize="estateSize" :mortgage="mortgage"
+            :investment="investment" :config="config" ref="EstateRef" @update:model-value="onEstateBudgetChanged()">
         </Estate>
 
         <Mortgage v-model="mortgage" :config="config" :estatePrice="estatePrice" ref="MortgageRef"
@@ -67,7 +67,7 @@
 </template>
 <script setup lang="ts">
 import firebase from 'firebase/compat/app';
-import { onMounted, ref, reactive, nextTick, onBeforeUnmount,} from 'vue'
+import { onMounted, ref, reactive, nextTick, onBeforeUnmount, } from 'vue'
 import { ElMessage, ElMessageBox, } from 'element-plus'
 import Profile from './profile.vue'
 import Career from './career.vue'
@@ -345,7 +345,7 @@ async function initializeCalculator() {
     await EstateRef.value.calculateTotalPrice({
         propagate: true,
     })
-    await EstateRef.value.calculateTotalPrice({
+    await MortgageRef.value.calculateMortgage({
         propagate: true,
     })
     // calculateMortgate() // will calculate asset

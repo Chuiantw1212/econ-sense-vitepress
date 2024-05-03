@@ -98,6 +98,13 @@ const props = defineProps({
         },
         required: true,
     },
+    mortgage: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
+    },
 })
 const mortgage = computed(() => {
     return props.modelValue
@@ -111,21 +118,14 @@ function calculateMortgage(options: any = { propagate: true }) {
 }
 
 function drawMortgageChart() {
-    const { loanPercent, loanTerm } = mortgage.value
+    const { loanPercent, loanTerm, interestRate } = mortgage.value
     const { totalPrice, } = props.estatePrice
-    const { interestRate } = props.config
-    console.log({
-        loanPercent,
-        loanTerm,
-        totalPrice,
-        interestRate
-    })
     if (!totalPrice || !loanPercent || !loanTerm) {
         return
     }
-    const loanAmount = totalPrice * loanPercent * 100
+    const loanAmount = totalPrice * loanPercent / 100
     mortgage.value.loanAmount = loanAmount
-    const downPayment = totalPrice * 10000 - loanAmount
+    const downPayment = totalPrice - loanAmount
     mortgage.value.downPayment = downPayment
 
     /**

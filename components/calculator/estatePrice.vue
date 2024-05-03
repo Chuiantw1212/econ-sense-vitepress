@@ -24,21 +24,21 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="建物類別">
-                        <select v-model="estatePrice.buildingType" class="form__select" placeholder="請選擇"
-                            :disabled="!estatePrice.town" @change="calculateUnitPrice()">
-                            <option label="不限" value=""></option>
-                            <option v-for="item in config.buildingTypes" :key="item.value" :label="item.label"
-                                :value="item.value" />
-                        </select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
                     <el-form-item label="屋齡[年]">
                         <select v-model="estatePrice.buildingAge" class="form__select" placeholder="請選擇"
                             :disabled="!estatePrice.town" @change="calculateUnitPrice()">
                             <option label="不限" value=""></option>
                             <option v-for="item in config.buildingAges" :key="item.value" :label="item.label"
+                                :value="item.value" />
+                        </select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="建物類別">
+                        <select v-model="estatePrice.buildingType" class="form__select" placeholder="請選擇"
+                            :disabled="!estatePrice.town" @change="calculateUnitPrice()">
+                            <option label="不限" value=""></option>
+                            <option v-for="item in config.buildingTypes" :key="item.value" :label="item.label"
                                 :value="item.value" />
                         </select>
                     </el-form-item>
@@ -112,16 +112,20 @@ function onCountyChanged() {
         propagate: true,
     })
 }
-function calculateUnitPrice(options: any = { propagate: true }) {
+async function calculateUnitPrice(options: any = { propagate: true }) {
     const { county } = estatePrice.value
     if (county) {
         towns.value = props.config.townMap[county]
     }
 
     const { propagate = true } = options
-    debounce(() => {
-        getUnitPriceSync(propagate)
-    })(propagate)
+    const unitPricePromise = new Promise((resolve) => {
+        debounce(async () => {
+            const unitPrice = await getUnitPriceSync(propagate)
+            resolve(unitPrice)
+        })(propagate)
+    })
+    await unitPricePromise
 }
 function updateEstateUnitPrice() {
     emits('update:modelValue', estatePrice)
@@ -153,6 +157,8 @@ async function getUnitPriceSync(propagate = false) {
         if (propagate) {
             emits('update:modelValue', estatePrice)
         }
+
+        return estatePrice.value.unitPrice
     }
 }
 
