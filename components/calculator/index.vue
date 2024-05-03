@@ -121,8 +121,7 @@ async function initializeApp() {
         user.email = email || ''
         user.displayName = displayName || '註冊用戶'
         ProfileRef.value.toggleSignInDialog(false)
-        const userForm = await getUserFormSync(firebaseUser)
-        user.id = userForm.id // 告訴authFetch可以更新資料了，避免初始資料錯誤覆蓋原有資料
+        await getUserFormSync(firebaseUser)
         initializeCalculator()
     })
 }
@@ -139,7 +138,7 @@ async function authFetch(appendUrl, options) {
     if (!currentUser) {
         return // 離線使用或未登入
     }
-    if (options.body && !user.id) {
+    if (options.body && !options.body.id) {
         return // 避免初始化資料覆蓋回noSQL
     }
     const defaultOptions: any = {
@@ -170,6 +169,7 @@ async function authFetch(appendUrl, options) {
     }
     return res
 }
+// 不知道為什麼打包出來會出狀況，手動篩選兩層物件
 function avoidCircular(source) {
     console.log(source._value)
     // 不知道為什麼打包出來會出狀況，手動篩選兩層物件
@@ -343,6 +343,10 @@ async function getUserFormSync(firebaseUser) {
                 method: 'post'
             })
             userForm = await res?.json()
+            // 真不知道為什麼資料會覆蓋，這邊有id視為是從server帶回來舊資料
+            for (let key in userForm) {
+                userForm[key].id = userForm.id
+            }
         }
     } catch (error) {
         const res = await authFetch(`/user/new`, {
