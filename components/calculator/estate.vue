@@ -294,12 +294,6 @@ function drawDownpayChart(propagate = false) {
     const dataSetData: number[] = []
     let estateTotalPrice: number[] = []
     let period = 0
-    console.log({
-        pv,
-        pmt,
-        fv,
-        goal
-    })
     do {
         pmt *= inflationRatio
         goal *= inflationRatio
@@ -307,7 +301,6 @@ function drawDownpayChart(propagate = false) {
         fv = pv * irrModifier + pmt
         labels.push(currentYear + ++period)
         dataSetData.push(Math.floor(fv))
-        console.log(Math.floor(goal))
         estateTotalPrice.push(Math.floor(goal))
         pv = fv
     } while (fv < goal)

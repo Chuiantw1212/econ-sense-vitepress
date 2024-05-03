@@ -151,7 +151,7 @@ async function authFetch(appendUrl, options) {
     }
     defaultOptions.method = options.method
     if (options.body) {
-        defaultOptions.body = JSON.stringify(options.body)
+        defaultOptions.body = avoidCircular(options.body)
         Object.assign(defaultOptions.headers, {
             'Content-Type': 'application/json'
         })
@@ -170,6 +170,16 @@ async function authFetch(appendUrl, options) {
         return
     }
     return res
+}
+function avoidCircular(o) {
+    var seen = [];
+    return JSON.stringify(o, function (_, value) {
+        if (typeof value === 'object' && value !== null) {
+            if (seen.indexOf(value) !== -1) return;
+            else seen.push(value);
+        }
+        return value;
+    });
 }
 // 主要從資料庫來的設定檔案
 const config = reactive({
@@ -248,9 +258,19 @@ async function getUserFormSync(firebaseUser) {
     const initForm = {
         profile: {},
         career: {
-            insurance: 0,
+            insurance: {
+                salary: 0,
+                presentSeniority: 0, // 6.9
+                futureSeniority: 0,
+                monthlyAnnuity: 0,
+                annuitySum: 0,
+            },
             pension: {
+                salary: 0,
+                salaryMin: 0,
                 rate: 0,
+                monthlyContribution: 0,
+                monthlyContributionEmployee: 0,
             }
         },
         retirement: {
@@ -376,17 +396,17 @@ const career = reactive({
     foodExpense: 3000,
     employeeWelfareFund: 0,
     pension: {
-        salary: 0,
-        salaryMin: 0,
-        rate: 0,
-        monthlyContribution: 0,
-        monthlyContributionEmployee: 0,
+        salary: 100000,
+        salaryMin: 100000,
+        rate: 100000,
+        monthlyContribution: 100000,
+        monthlyContributionEmployee: 100000,
     },
     healthInsutancePremium: 0,
     insurance: {
-        salary: 0,
-        salaryMin: 0,
-        expense: 0,
+        salary: 100000,
+        salaryMin: 100000,
+        expense: 100000,
     },
     monthlyNetPayEstimated: 0,
     monthlyNetPay: 0,
