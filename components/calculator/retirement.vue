@@ -237,7 +237,8 @@ function calculateRetirement(options: any = { propagate: true }) {
 }
 async function calculateRetireLife() {
     const rawNumber = props.profile.age + props.profile.lifeExpectancy - retirement.value.age
-    retirement.value.lifeExpectancy = props.config.toFixed(rawNumber)
+    const maxZero = Math.max(0, rawNumber)
+    retirement.value.lifeExpectancy = props.config.toFixed(maxZero)
 }
 function calculateYearToRetirement() {
     const rawNumber = retirement.value.age - props.profile.age
