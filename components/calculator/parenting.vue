@@ -32,19 +32,19 @@
                     <el-col>
                     </el-col>
                 </el-row> -->
-                <el-row>
+                <!-- <el-row>
                     <el-col :span="12">
-                        <el-form-item label="配偶貢獻">
+                        <el-form-item label="配偶貢獻/月">
                             <el-input-number v-model="parenting.spouseMonthlyContribution" :min="0"
                                 @change="calculateParenting($event)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                     </el-col>
-                </el-row>
+                </el-row> -->
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="配偶貢獻">
+                        <el-form-item label="配偶貢獻/月">
                             <el-input-number v-model="parenting.spouseMonthlyContribution" :min="0"
                                 @change="calculateParenting($event)" />
                         </el-form-item>
