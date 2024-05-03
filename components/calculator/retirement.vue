@@ -311,14 +311,12 @@ async function drawRetirementAssetChart(propagate = false) {
         labels.push(calculatedYear)
 
         const pmt = pensionContribution * inflationModifier
-        console.log({ fv })
         fv = Math.floor(pv * pensionIrr + pmt)
         datasetData.push(Math.floor(fv))
 
         pv = fv
         inflationModifier *= inflationRate
     }
-    console.log({ fv })
     calculatePensionFinalValue(fv)
 
     // 退休後退休支出

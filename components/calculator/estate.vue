@@ -2,40 +2,27 @@
     <el-card>
         <el-form label-width="auto">
             <el-row v-if="estatePrice.totalPrice">
-                <el-col :span="24">
+                <el-col :span="18">
                     <el-form-item label="總價">
-                        <el-text>= 單價({{ estatePrice.unitPrice }}) x 權狀({{ estateSize.floorSize }}) = {{
-                Number(estatePrice.totalPrice).toLocaleString() }} NTD</el-text>
+                        <el-text>= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{ estateSize.floorSize }}坪) = {{
+                            Number(estatePrice.totalPrice).toLocaleString() }} NTD</el-text>
                     </el-form-item>
                 </el-col>
-                <!-- <el-col :span="6">
-                    <el-form-item label="x 權狀">
-                        <el-text>{{ estateSize.floorSize }}</el-text>
+                <el-col :span="6">
+                    <el-form-item>
+                        <el-button @click="resetTotalPrice()">取消總價試算結果</el-button>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12">
-                    <el-form-item label="= 總價">
-                        <el-text>{{ Number(estatePrice.totalPrice).toLocaleString() }} NTD</el-text>
-                    </el-form-item>
-                </el-col> -->
             </el-row>
             <el-row v-if="estatePrice.totalPrice">
-                <el-col>
+                <el-col :span="23">
                     <el-form-item label="參考頭期款">
-                        <el-slider v-model="estatePrice.budgetGoal" :marks="marks" />
-                        <!-- <el-text>= 總價20%~30% = 
-                            {{ Number(Math.floor(estatePrice.totalPrice * 0.2)).toLocaleString() }} NTD ~
-                            {{ Number(Math.floor(estatePrice.totalPrice * 0.3)).toLocaleString() }} NTD
-                            </el-text> -->
+                        <el-slider v-model="estatePrice.budgetGoal" :marks="downpayMarks" :min="estatePrice.downpayMin"
+                            :max="estatePrice.downpayMax" @change="calculateBudgetPeriod($event)" />
                     </el-form-item>
                 </el-col>
-                <!-- <el-col :span="12">
-                    <el-form-item v-if="!estatePrice.budgetGoal" label="預估總價30%準備時間">
-                        <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
-                            ({{ estatePrice.yearsToDownpay }}年後)</el-text>
-                    </el-form-item>
-                </el-col> -->
             </el-row>
+            <br v-if="estatePrice.totalPrice" />
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="已備頭期款">
@@ -52,18 +39,18 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="目標頭期款">
-                        <el-input-number v-model="estatePrice.budgetGoal" :min="0" :step="200000"
-                            :disabled="budgetGoalDisabled" @change="calculateBudgetPeriod($event)" />
+                        <el-input-number v-model="estatePrice.budgetGoal" :min="0"
+                            @change="calculateBudgetPeriod($event)" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="estatePrice.budgetGoal" label="頭期款準備時間">
+                    <el-form-item v-if="!unableToDrawChart" label="頭期款準備時間">
                         <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
                             ({{ estatePrice.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <canvas v-show="estatePrice.totalPrice || estatePrice.budgetGoal" id="savingDownpayChart"></canvas>
+            <canvas v-show="!unableToDrawChart" id="savingDownpayChart"></canvas>
         </el-form>
         <template #footer>
             <el-collapse>
@@ -182,7 +169,7 @@
 <script setup lang="ts">
 import { computed, ref, shallowRef } from 'vue'
 import Chart from 'chart.js/auto';
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'reset'])
 const props = defineProps({
     modelValue: {
         type: Object,
@@ -227,16 +214,22 @@ const props = defineProps({
         required: true,
     }
 })
-const downpayMarks = ref({})
 
+const downpayMarks = ref({})
 const estatePrice = computed(() => {
     return props.modelValue
 })
-const budgetGoalDisabled = computed(() => {
+const unableToDrawChart = computed(() => {
     const { monthlyBasicSalary } = props.career
-    const { budget } = estatePrice.value
-    return !monthlyBasicSalary && !budget
+    const { budget, budgetGoal } = estatePrice.value
+    const noPv = !budget
+    const noPmt = !monthlyBasicSalary
+    const noFv = !budgetGoal
+    return (noPv && noPmt) || noFv
 })
+function resetTotalPrice() {
+    emits('reset')
+}
 
 function calculateBudgetPeriod(options: any = { propagate: true }) {
     calculateTotalPrice()
@@ -257,19 +250,29 @@ function calculateTotalPrice() {
 }
 function calculateDownpayMarks() {
     const { totalPrice } = estatePrice.value
-    
+    const downParyMin = Math.floor(totalPrice * 0.2)
+    const downPayMax = Math.floor(totalPrice * 0.3)
+    estatePrice.value.downpayMax = downPayMax
+    estatePrice.value.downpayMin = downParyMin
+    const newDownpayMarks = {}
+    newDownpayMarks[downParyMin] = `總價20%`
+    newDownpayMarks[downPayMax] = `總價30%`
+    downpayMarks.value = newDownpayMarks
 }
 
 let downPayChartInstance = ref<Chart>()
 function drawDownpayChart(propagate = false) {
-    const { budget, totalPrice, budgetGoal } = estatePrice.value
+    if (unableToDrawChart.value) {
+        return
+    }
     if (propagate) {
         emits('update:modelValue', estatePrice)
     }
+
     const { irr, } = props.investment
     const { inflationRate, currentYear } = props.config
-    const { monthlySaving, monthlyBasicSalary } = props.career
-
+    const { budget, totalPrice, budgetGoal } = estatePrice.value
+    const { monthlyBasicSalary } = props.career
     const irrModifier: number = 1 + irr / 100
     const inflationRatio: number = 1 + inflationRate / 100
 
@@ -304,6 +307,7 @@ function drawDownpayChart(propagate = false) {
         fv = pv * irrModifier + pmt
         labels.push(currentYear + ++period)
         dataSetData.push(Math.floor(fv))
+        console.log(Math.floor(goal))
         estateTotalPrice.push(Math.floor(goal))
         pv = fv
     } while (fv < goal)
