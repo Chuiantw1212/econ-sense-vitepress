@@ -142,7 +142,9 @@ async function authFetch(appendUrl, options) {
     if (!currentUser) {
         return // 離線使用或未登入
     }
-
+    if (options.body && !options.body.id) {
+        return // 避免初始化資料覆蓋回noSQL
+    }
     const defaultOptions: any = {
         method: 'get',
         headers: {
@@ -154,7 +156,7 @@ async function authFetch(appendUrl, options) {
 
     defaultOptions.method = options.method
     if (options.body) {
-        defaultOptions.body = avoidCircular(options.body)
+        defaultOptions.body = JSON.stringify(options.body)
         Object.assign(defaultOptions.headers, {
             'Content-Type': 'application/json'
         })
@@ -173,33 +175,6 @@ async function authFetch(appendUrl, options) {
         return
     }
     return res
-}
-// 不知道為什麼打包出來會出狀況，手動篩選兩層物件
-function avoidCircular(source) {
-    console.log(source)
-    // if (source._value) { // 這應該是vitepress的打包bug
-    //     return JSON.stringify(source._value)
-    // }
-    if (typeof source === 'object') { // career
-        const target = {}
-        for (let firstLevel in source) {
-            const firstLevelValue = source[firstLevel] // career.insurance
-            if (typeof firstLevelValue === 'object') {
-                target[firstLevel] = {}
-                for (let secondLevel in firstLevelValue) {
-                    const secondLevelValue = firstLevelValue[secondLevel] // career.insurance.salary
-                    if (typeof secondLevelValue !== 'object') {
-                        target[firstLevel][secondLevel] = secondLevelValue
-                    }
-                }
-            } else {
-                target[firstLevel] = firstLevelValue // career.inflationRate
-            }
-        }
-        return JSON.stringify(target)
-    } else {
-        return JSON.stringify(source)
-    }
 }
 async function signOut() {
     await firebase.auth().signOut()
