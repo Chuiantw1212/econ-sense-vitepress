@@ -286,7 +286,7 @@ async function getUserFormSync(firebaseUser) {
                 totalValue: 0,
             },
             insurance: {
-                presentSeniority: 0
+                presentSeniority: 0,
                 futureSeniority: 0
             },
             percentileRank: 50,
