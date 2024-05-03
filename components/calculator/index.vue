@@ -186,6 +186,7 @@ function avoidCircular(source) {
                 target[firstLevel] = firstLevelValue // career.inflationRate
             }
         }
+        console.log(target)
         return JSON.stringify(target)
     } else {
         return JSON.stringify(source)
