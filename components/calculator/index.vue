@@ -393,7 +393,6 @@ function onCareerChanged() {
         method: 'put',
         body: career,
     })
-    retirement.insurance.salary = career.insurance.salary
     retirement.pension.monthlyContribution = career.pension.monthlyContribution
     RetirementRef.value.calculateRetirement({
         propagate: false,
