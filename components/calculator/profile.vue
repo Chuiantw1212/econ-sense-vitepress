@@ -84,7 +84,7 @@
                 </el-collapse>
             </template>
         </el-card>
-        <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="config.isFullScreen">
+        <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
             邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
             <div id="firebaseui-auth-container"></div>
         </el-dialog>
@@ -100,7 +100,7 @@
  * FirebaseUI for Web — Auth
  * https://firebaseopensource.com/projects/firebase/firebaseui-web/
  */
-import { ref, nextTick, computed } from 'vue'
+import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
 import firebase from 'firebase/compat/app';
 const { VITE_BASE_URL } = import.meta.env
 const emits = defineEmits(['update:modelValue', 'signOut'])
@@ -132,6 +132,16 @@ const props = defineProps({
         }
     }
 })
+const isFullScreen = ref(false)
+onMounted(async () => {
+    window?.addEventListener('resize', onResize)
+})
+onBeforeUnmount(() => {
+    window?.removeEventListener('resize', onResize)
+})
+function onResize() {
+    isFullScreen.value = window?.innerWidth < 768
+}
 const profile = computed(() => {
     return props.modelValue
 })

@@ -198,8 +198,7 @@ const config = reactive({
         aor: '股6債4',
         aoa: '股8債2',
     },
-    isFullScreen: false,
-    toFixed: (value, digit = 2) => {
+    toFixed: (value, digit = 2) => { // deprecated
         return Number(Number(value).toFixed(digit))
     }
 })
@@ -579,16 +578,9 @@ onMounted(async () => {
     await getUserFormSync(false)
     nextTick(() => {
         initializeCalculator()
-        window?.addEventListener('resize', onResize)
         window.scrollTo(0, 0)
     })
 })
-onBeforeUnmount(() => {
-    window?.removeEventListener('resize', onResize)
-})
-function onResize() {
-    config.isFullScreen = window?.innerWidth < 768
-}
 </script>
 <style lang="scss" scoped>
 .form__select {
