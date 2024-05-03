@@ -134,21 +134,24 @@ async function setIdToken(currentUser) {
     }
 }
 async function authFetch(appendUrl, options) {
+    if (options.body && Boolean(options.body.id) !== true) {
+        return // 避免初始化資料覆蓋回noSQL
+    }
+
     const currentUser = await firebase.auth().currentUser
     if (!currentUser) {
         return // 離線使用或未登入
     }
-    
-    console.log(appendUrl, options.body?.id)
-    if (options.body && !options.body.id) {
-        return // 避免初始化資料覆蓋回noSQL
-    }
+
     const defaultOptions: any = {
         method: 'get',
         headers: {
             Authorization: `Bearer ${idToken.value}`,
         }
     }
+
+    console.log(appendUrl, options.body)
+
     defaultOptions.method = options.method
     if (options.body) {
         defaultOptions.body = avoidCircular(options.body)
@@ -173,10 +176,10 @@ async function authFetch(appendUrl, options) {
 }
 // 不知道為什麼打包出來會出狀況，手動篩選兩層物件
 function avoidCircular(source) {
-    // 不知道為什麼打包出來會出狀況，手動篩選兩層物件
-    if (source._value) { // 這應該是vitepress的打包bug
-        return JSON.stringify(source._value)
-    }
+    console.log(source)
+    // if (source._value) { // 這應該是vitepress的打包bug
+    //     return JSON.stringify(source._value)
+    // }
     if (typeof source === 'object') { // career
         const target = {}
         for (let firstLevel in source) {
@@ -398,7 +401,7 @@ async function initializeCalculator() {
     // calculateMortgate() // will calculate asset
 }
 // 基本資料
-const profile = reactive({
+let profile = reactive({
     id: '', // 避免登入判斷錯誤
     yearOfBirth: '',
     dateOfBirth: '',
@@ -419,7 +422,7 @@ function onProfileChanged() {
     })
 }
 // 職業試算
-const career = reactive({
+let career = reactive({
     monthlyBasicSalary: 0,
     foodExpense: 3000,
     employeeWelfareFund: 0,
@@ -454,7 +457,7 @@ function onCareerChanged() {
     })
 }
 // 退休試算
-const retirement = reactive({
+let retirement = reactive({
     age: 60,
     yearToRetirement: 0,
     lifeExpectancy: 0,
@@ -491,7 +494,7 @@ function onRetirementChanged() {
     investment.period = retirement.yearToRetirement
 }
 // 投資試算
-const investment = reactive({
+let investment = reactive({
     allocationETF: '',
     irr: 0,
     stockPercentage: 0,
@@ -510,7 +513,7 @@ function onInvestmentChanged() {
     })
 }
 // 育兒試算
-const parenting = reactive({
+let parenting = reactive({
     childAnnualExpense: 0,
     spouseMonthlyContribution: 0,
     independantAge: 0,
@@ -529,7 +532,7 @@ function onParentingChanged() {
     })
 }
 // 購屋單價與總價
-const estatePrice = reactive({
+let estatePrice = reactive({
     county: '',
     town: '',
     buildingType: '',
@@ -574,7 +577,7 @@ async function onEstateBudgetChanged() {
         body: estatePrice,
     })
 }
-const estateSize = reactive({
+let estateSize = reactive({
     doubleBedRoom: 0,
     singleBedRoom: 1,
     bathroom: 0,
@@ -604,7 +607,7 @@ watch(() => estateSize, async (newValue, oldValue) => {
     }
 }, { deep: true })
 // 房屋貸款試算
-const mortgage = reactive({
+let mortgage = reactive({
     buyHouseYear: 0,
     loanPercent: 0,
     interestRate: 0,
@@ -626,7 +629,7 @@ function onMortgageChanged() {
 onMounted(async () => {
     await initializeApp()
     await setSelecOptionSync()
-    await getUserFormSync(false)
+    // await getUserFormSync(false)
     nextTick(() => {
         initializeCalculator()
         window.scrollTo(0, 0)
