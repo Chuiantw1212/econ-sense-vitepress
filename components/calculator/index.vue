@@ -134,15 +134,13 @@ async function setIdToken(currentUser) {
     }
 }
 async function authFetch(appendUrl, options) {
-    if (options.body && Boolean(options.body.id) !== true) {
-        return // 避免初始化資料覆蓋回noSQL
-    }
-
     const currentUser = await firebase.auth().currentUser
     if (!currentUser) {
         return // 離線使用或未登入
     }
-
+    if (options.body && !user.id) {
+        return // 避免初始化資料覆蓋回noSQL
+    }
     const defaultOptions: any = {
         method: 'get',
         headers: {
@@ -154,7 +152,7 @@ async function authFetch(appendUrl, options) {
 
     defaultOptions.method = options.method
     if (options.body) {
-        defaultOptions.body = avoidCircular(options.body)
+        defaultOptions.body = JSON.stringify(options.body)
         Object.assign(defaultOptions.headers, {
             'Content-Type': 'application/json'
         })
@@ -173,33 +171,6 @@ async function authFetch(appendUrl, options) {
         return
     }
     return res
-}
-// 不知道為什麼打包出來會出狀況，手動篩選兩層物件
-function avoidCircular(source) {
-    console.log(source)
-    // if (source._value) { // 這應該是vitepress的打包bug
-    //     return JSON.stringify(source._value)
-    // }
-    if (typeof source === 'object') { // career
-        const target = {}
-        for (let firstLevel in source) {
-            const firstLevelValue = source[firstLevel] // career.insurance
-            if (typeof firstLevelValue === 'object') {
-                target[firstLevel] = {}
-                for (let secondLevel in firstLevelValue) {
-                    const secondLevelValue = firstLevelValue[secondLevel] // career.insurance.salary
-                    if (typeof secondLevelValue !== 'object') {
-                        target[firstLevel][secondLevel] = secondLevelValue
-                    }
-                }
-            } else {
-                target[firstLevel] = firstLevelValue // career.inflationRate
-            }
-        }
-        return JSON.stringify(target)
-    } else {
-        return JSON.stringify(source)
-    }
 }
 async function signOut() {
     await firebase.auth().signOut()
@@ -291,7 +262,6 @@ async function getUserFormSync(firebaseUser) {
             },
             pension: {
                 salary: 0,
-                salaryMin: 0,
                 rate: 0,
                 monthlyContribution: 0,
                 monthlyContributionEmployee: 0,
@@ -355,12 +325,7 @@ async function getUserFormSync(firebaseUser) {
         })
         userForm = await res?.json()
     } finally {
-        // 真不知道為什麼資料會覆蓋，這邊有id視為是從server帶回來舊資料
-        for (let key in userForm) {
-            if (typeof userForm[key] === 'object') {
-                userForm[key].id = userForm.id
-            }
-        }
+        user.id = userForm.id
         Object.assign(initForm, userForm)
         Object.assign(profile, initForm.profile)
         Object.assign(career, initForm.career)
@@ -398,10 +363,9 @@ async function initializeCalculator() {
     await MortgageRef.value.calculateMortgage({
         propagate: true,
     })
-    // calculateMortgate() // will calculate asset
 }
 // 基本資料
-let profile = reactive({
+const profile = reactive({
     id: '', // 避免登入判斷錯誤
     yearOfBirth: '',
     dateOfBirth: '',
@@ -422,13 +386,12 @@ function onProfileChanged() {
     })
 }
 // 職業試算
-let career = reactive({
+const career = reactive({
     monthlyBasicSalary: 0,
     foodExpense: 3000,
     employeeWelfareFund: 0,
     pension: {
         salary: 100000,
-        salaryMin: 100000,
         rate: 100000,
         monthlyContribution: 100000,
         monthlyContributionEmployee: 100000,
@@ -436,7 +399,6 @@ let career = reactive({
     healthInsutancePremium: 0,
     insurance: {
         salary: 100000,
-        salaryMin: 100000,
         expense: 100000,
     },
     monthlyNetPayEstimated: 0,
@@ -457,7 +419,7 @@ function onCareerChanged() {
     })
 }
 // 退休試算
-let retirement = reactive({
+const retirement = reactive({
     age: 60,
     yearToRetirement: 0,
     lifeExpectancy: 0,
@@ -494,7 +456,7 @@ function onRetirementChanged() {
     investment.period = retirement.yearToRetirement
 }
 // 投資試算
-let investment = reactive({
+const investment = reactive({
     allocationETF: '',
     irr: 0,
     stockPercentage: 0,
@@ -513,7 +475,7 @@ function onInvestmentChanged() {
     })
 }
 // 育兒試算
-let parenting = reactive({
+const parenting = reactive({
     childAnnualExpense: 0,
     spouseMonthlyContribution: 0,
     independantAge: 0,
@@ -532,7 +494,7 @@ function onParentingChanged() {
     })
 }
 // 購屋單價與總價
-let estatePrice = reactive({
+const estatePrice = reactive({
     county: '',
     town: '',
     buildingType: '',
@@ -577,7 +539,7 @@ async function onEstateBudgetChanged() {
         body: estatePrice,
     })
 }
-let estateSize = reactive({
+const estateSize = reactive({
     doubleBedRoom: 0,
     singleBedRoom: 1,
     bathroom: 0,
@@ -607,7 +569,7 @@ watch(() => estateSize, async (newValue, oldValue) => {
     }
 }, { deep: true })
 // 房屋貸款試算
-let mortgage = reactive({
+const mortgage = reactive({
     buyHouseYear: 0,
     loanPercent: 0,
     interestRate: 0,
