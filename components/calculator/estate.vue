@@ -15,32 +15,32 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col v-if="mortgage.downPayment" :span="12">
+                <el-col :span="12">
                     <el-form-item label="預估頭期款">
                         <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
                     </el-form-item>
                 </el-col>
-                <el-col v-if="mortgage.downPayment" :span="12">
+                <el-col :span="12">
                     <el-form-item label="存到頭期款">
                         <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
                             ({{ estatePrice.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
-                <el-col v-if="!mortgage.downPayment" :span="12">
+            <!-- <el-row>
+                <el-col :span="12">
                     <el-form-item label="預估總價">
                         <el-text>{{ Number(estatePrice.totalPrice).toLocaleString() }} NTD</el-text>
                     </el-form-item>
                 </el-col>
-                <el-col v-if="!mortgage.downPayment" :span="12">
-                    <el-form-item label="存到總價30%">
+                <el-col :span="12">
+                    <el-form-item label="存到預估總價30%">
                         <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
                             ({{ estatePrice.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
                 </el-col>
-            </el-row>
-            <canvas v-show="estatePrice.budget" id="savingDownpayChart"></canvas>
+            </el-row> -->
+            <canvas id="savingDownpayChart"></canvas>
         </el-form>
         <template #footer>
             <el-collapse>
@@ -245,7 +245,7 @@ function drawDownpayChart(propagate = false) {
     } else {
         goal = Number(totalPrice) * 0.3
     }
-    
+
     const labels: string[] = []
     const dataSetData: number[] = []
     let estateTotalPrice: number[] = []

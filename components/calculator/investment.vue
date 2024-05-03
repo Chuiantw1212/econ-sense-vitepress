@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h3 id="_退休前資產試算" tabindex="-1">退休前資產試算<a class="header-anchor" href="#退休前資產試算"
-                aria-label="Permalink to &quot;退休前資產試算&quot;">&ZeroWidthSpace;</a></h3>
+        <h3 id="_投資資產試算" tabindex="-1">投資資產試算<a class="header-anchor" href="#投資資產試算"
+                aria-label="Permalink to &quot;投資資產試算&quot;">&ZeroWidthSpace;</a></h3>
 
         <el-card>
             <el-form label-width="auto">
@@ -53,6 +53,9 @@
             <template #footer>
                 <el-collapse>
                     <el-collapse-item title="試算說明" name="1" :border="true">
+                        <ul>
+                            <li>因版面有限，只計算退休前資產累積。</li>
+                        </ul>
                         <table class="table">
                             <tr>
                                 <th>參考標的</th>

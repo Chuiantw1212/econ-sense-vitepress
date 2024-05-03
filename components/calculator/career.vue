@@ -50,7 +50,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="勞退自提率(%)" required>
+                        <el-form-item label="勞退自提率(%)">
                             <el-input-number v-model="career.pension.rate" @change="calculateCareer($event)" :min="0"
                                 :max="6" />
                         </el-form-item>
@@ -254,12 +254,14 @@ function drawChartAndCalculateIncome(propagate = false) {
     })
 
     pv = fv
-    fv -= career.value.pension.monthlyContributionEmployee
-    dataAndDataIndex.push({
-        label: '勞退',
-        data: [pv, fv],
-        datasetIndex: 1,
-    })
+    if (career.value.pension.rate) {
+        fv -= career.value.pension.monthlyContributionEmployee
+        dataAndDataIndex.push({
+            label: '勞退',
+            data: [pv, fv],
+            datasetIndex: 1,
+        })
+    }
 
     career.value.monthlyNetPayEstimated = fv
     calculateMonthlySaving()

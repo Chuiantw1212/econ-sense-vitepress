@@ -38,7 +38,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="試算年齡">
-                            <el-text>{{ profile.age }}</el-text>
+                            <el-text>{{ profile.age }} 歲</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -54,7 +54,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="預估餘命">
-                            <el-text>{{ profile.lifeExpectancy }}</el-text>
+                            <el-text>{{ profile.lifeExpectancy }} 年</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>

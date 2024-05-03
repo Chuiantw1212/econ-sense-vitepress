@@ -98,13 +98,6 @@ const props = defineProps({
         },
         required: true,
     },
-    mortgage: {
-        type: Object,
-        default: () => {
-            return {}
-        },
-        required: true,
-    },
 })
 const mortgage = computed(() => {
     return props.modelValue

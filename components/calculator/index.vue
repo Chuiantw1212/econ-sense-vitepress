@@ -496,6 +496,8 @@ const estatePrice = reactive({
     average: 0,
     unitPrice: 0,
     totalPrice: 0,
+    budget: 0,
+    yearsToDownpay: 0,
 })
 async function onEstatePriceChanged() {
     authFetch(`/user/estatePrice`, {
