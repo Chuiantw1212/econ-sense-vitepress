@@ -269,7 +269,12 @@ function backToCalendar() {
 async function getUserFormSync(firebaseUser) {
     const initForm = {
         profile: {},
-        career: {},
+        career: {
+            insurance: 0,
+            pension: {
+                rate: 0,
+            }
+        },
         retirement: {
             age: 65,
             pension: {
@@ -279,6 +284,9 @@ async function getUserFormSync(firebaseUser) {
                 employerContributionIncome: 0,
                 irrOverDecade: 4.76,
                 totalValue: 0,
+            },
+            insurance: {
+                futureSeniority: 0
             },
             percentileRank: 50,
             qualityLevel: 3
