@@ -31,20 +31,20 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="每月儲蓄投資" @change="calculateAsset()">
+                        <el-form-item label="儲蓄投資" @change="calculateAsset()">
                             <el-text>{{ Number(career.monthlySaving).toLocaleString() }} NTD / 月</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="已備資產" @change="calculateAsset()">
+                        <!-- <el-form-item label="已備資產" @change="calculateAsset()">
                             <el-input-number v-model="investment.presentAsset" :min="0" />
-                        </el-form-item>
+                        </el-form-item> -->
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="每月房貸利息" @change="calculateAsset()">
-                            <el-text>{{ Number(career.monthlySaving).toLocaleString() }} NTD / 月</el-text>
+                        <el-form-item label="房貸利息" @change="calculateAsset()">
+                            <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -231,6 +231,7 @@ function drawLifeAssetChart() {
         ],
         labels
     }
+    emits('update:modelValue', investment)
 
     if (investmentChartInstance.value) {
         investmentChartInstance.value.data = chartData
