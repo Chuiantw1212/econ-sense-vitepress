@@ -221,12 +221,14 @@ const estatePrice = computed(() => {
 })
 const unableToDrawChart = computed(() => {
     const { monthlyBasicSalary } = props.career
+    const { irr, } = props.investment
     const { budget, budgetGoal } = estatePrice.value
     const noPv = !budget
     const noPmt = !monthlyBasicSalary
+    const noN = !irr
     const noFv = !budgetGoal
 
-    return (noPv && noPmt) || noFv
+    return (noPv && noPmt) || noN || noFv
 })
 function resetTotalPrice() {
     emits('reset')
@@ -284,11 +286,6 @@ function drawDownpayChart(propagate = false) {
     }
     let fv: number = 0
     let goal: number = 0
-    console.log({
-        budget,
-        monthlyBasicSalary,
-        budgetGoal
-    })
 
     if (budgetGoal) {
         goal = budgetGoal
@@ -298,7 +295,8 @@ function drawDownpayChart(propagate = false) {
 
     const labels: string[] = []
     const dataSetData: number[] = []
-    let estateTotalPrice: number[] = []
+    const estateTotalPrice: number[] = []
+
     let period = 0
     do {
         pmt *= inflationRatio
@@ -310,6 +308,7 @@ function drawDownpayChart(propagate = false) {
         estateTotalPrice.push(Math.floor(goal))
         pv = fv
     } while (fv < goal)
+
     calculateYearsToDownpay(period)
     const chartData = {
         labels,
