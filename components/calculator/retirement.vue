@@ -223,7 +223,8 @@ const props = defineProps({
 const retirement = computed(() => {
     return props.modelValue
 })
-function calculateRetirement({ propagate = true }) {
+function calculateRetirement(options: any = { propagate: true }) {
+    const { propagate = true } = options
     calculateRetireLife()
     calculateYearToRetirement()
     calculateFutureSeniority()
@@ -232,7 +233,7 @@ function calculateRetirement({ propagate = true }) {
     calculateRetirementExpense()
     debounce(() => {
         drawRetirementAssetChart(propagate)
-    })()
+    })(propagate)
 }
 async function calculateRetireLife() {
     const rawNumber = props.profile.age + props.profile.lifeExpectancy - retirement.value.age
@@ -373,12 +374,16 @@ function calculatePensionFinalValue(fv) {
 
 const debounceId = ref(null)
 function debounce(func, delay = 100) {
-    return () => {
+    return (immediate) => {
         clearTimeout(debounceId.value)
-        debounceId.value = setTimeout(() => {
-            debounceId.value = undefined
+        if (immediate) {
             func()
-        }, delay)
+        } else {
+            debounceId.value = setTimeout(() => {
+                debounceId.value = undefined
+                func()
+            }, delay)
+        }
     }
 }
 

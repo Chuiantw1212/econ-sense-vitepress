@@ -29,7 +29,7 @@
     </Career>
 
     <Retirement v-model="retirement" :config="config" :profile="profile" ref="RetirementRef"
-        @update:model-value="onRetirementChanged()">
+        @update:modelValue="onRetirementChanged()">
     </Retirement>
 
     <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科<a class="header-anchor" href="#3. 五子登科"
@@ -40,7 +40,7 @@
         :mortgage="mortgage" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
     </Investment>
 
-    <Parenting v-model="parenting" :config="config" :estateSize="estateSize" ref="ParentingRef"
+    <Parenting v-model="parenting" :config="config" :investment="investment" :estateSize="estateSize" ref="ParentingRef"
         @update:model-value="onParentingChanged()">
     </Parenting>
 
@@ -387,11 +387,21 @@ async function getUserFormSync(firebaseUser) {
     return userForm
 }
 async function initializeCalculator() {
-    await ProfileRef.value.calculateProfile()
-    await CareerRef.value.calculateCareer()
-    await RetirementRef.value.calculateRetirement()
-    await InvestmentRef.value.calculateAsset()
-    await EstateSizeRef.value.calculateEstateSize()
+    await ProfileRef.value.calculateProfile({
+        propagate: true,
+    })
+    await CareerRef.value.calculateCareer({
+        propagate: true,
+    })
+    await RetirementRef.value.calculateRetirement({
+        propagate: true,
+    })
+    await InvestmentRef.value.calculateAsset({
+        propagate: true,
+    })
+    await EstateSizeRef.value.calculateEstateSize({
+        propagate: true,
+    })
     if (estatePrice.county) {
         towns.value = config.townMap[estatePrice.county]
     }
@@ -714,10 +724,10 @@ async function calculateMortgate() {
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
-    initializeApp()
+    await initializeApp()
     await setSelecOptionSync()
     nextTick(() => {
-        // initializeCalculator()
+        initializeCalculator()
         window?.addEventListener('resize', onResize)
     })
 })

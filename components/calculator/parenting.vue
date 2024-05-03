@@ -98,7 +98,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="壽險已備">
-                            <el-input-number v-model="parenting.insurance" :min="0"
+                            <el-input-number v-model="parenting.lifeInsurance" :min="0"
                                 @change="calculateParenting($event)" />
                         </el-form-item>
                     </el-col>
@@ -171,35 +171,39 @@ const props = defineProps({
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true,
     },
     config: {
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true,
     },
     investment: {
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true,
     },
     estateSize: {
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true,
     },
 })
 const parenting = computed(() => {
     return props.modelValue
 })
-function calculateParenting(options: any = {}) {
+function calculateParenting(options: any = { propagate: true }) {
     const { propagate = true } = options
     debounce(() => {
         drawParentingChart(propagate)
-    })()
+    })(propagate)
 }
 function drawParentingChart(propagate = true) {
     // 繪製圖
@@ -207,8 +211,9 @@ function drawParentingChart(propagate = true) {
     const inflationRatio = 1 + inflationRate / 100
     let inflationModifier = 1
     const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, spouseMonthlyContribution } = parenting.value
+    console.log(props.investment)
     // 計算投資報酬率
-    const investmentIrr = 1 + props.investment.irr * 100
+    const investmentIrr = 1 + props.investment.irr / 100
     // 計算家庭人口
     let headCount = 1 // 自己
     if (spouseMonthlyContribution) {
@@ -255,6 +260,7 @@ function drawParentingChart(propagate = true) {
             pmt += spouseMonthlyContribution
         }
 
+        console.log({ pv, investmentIrr, pmt })
         fv = pv * investmentIrr + pmt
         asssetData.push([pmt, Math.floor(fv)])
         inflationModifier *= inflationRatio
@@ -334,6 +340,7 @@ function showChildAge(tooltipItems) {
     const { independantAge } = parenting.value
     const secondValue = raw[1]
     if ([0, 1].includes(datasetIndex)) {
+        console.log(dataset.data)
         const zeros = dataset.data.slice(0, independantAge).filter(value => value[1] === 0)
         const age = dataIndex - zeros.length + 1
         if (age >= 0) {
@@ -362,12 +369,16 @@ function showChildExpense(tooltipItems) {
 
 const debounceId = ref(null)
 function debounce(func, delay = 100) {
-    return () => {
+    return (immediate) => {
         clearTimeout(debounceId.value)
-        debounceId.value = setTimeout(() => {
-            debounceId.value = undefined
+        if (immediate) {
             func()
-        }, delay)
+        } else {
+            debounceId.value = setTimeout(() => {
+                debounceId.value = undefined
+                func()
+            }, delay)
+        }
     }
 }
 

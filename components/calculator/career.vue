@@ -145,7 +145,7 @@ const props = defineProps({
 const career = computed(() => {
     return props.modelValue
 })
-function calculateCareer(options: any = {}) {
+function calculateCareer(options: any = { propagate: true }) {
     const { propagate = true } = options
     try {
         calculateEmployeeWelfareFund()
@@ -156,7 +156,7 @@ function calculateCareer(options: any = {}) {
         calculateHealthPremiumByPension()
         debounce(() => {
             drawChartAndCalculateIncome(propagate)
-        })()
+        })(propagate)
     } catch (error) {
         console.log(error.message || error)
     }
@@ -358,12 +358,16 @@ function tooltipFormat(tooltipItems) {
 
 const debounceId = ref(null)
 function debounce(func, delay = 100) {
-    return () => {
+    return (immediate) => {
         clearTimeout(debounceId.value)
-        debounceId.value = setTimeout(() => {
-            debounceId.value = undefined
+        if (immediate) {
             func()
-        }, delay)
+        } else {
+            debounceId.value = setTimeout(() => {
+                debounceId.value = undefined
+                func()
+            }, delay)
+        }
     }
 }
 

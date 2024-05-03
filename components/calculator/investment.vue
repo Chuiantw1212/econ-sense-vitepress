@@ -145,14 +145,14 @@ const props = defineProps({
 const investment = computed(() => {
     return props.modelValue
 })
-function calculateAsset(options: any = {}) {
+function calculateAsset(options: any = { propagate: true }) {
     const { allocationETF } = investment.value
     if (!allocationETF) {
         return
     }
-    const { propagate = true } = options
+    calculateIrr()
+
     const { portfolioIRR, porfolioLabels } = props.config
-    investment.value.irr = portfolioIRR[allocationETF]
     const allocationLabels = Object.keys(porfolioLabels)
     const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
     const stockPercentage = Math.floor((allocationIndex + 1) * 20)
@@ -162,9 +162,17 @@ function calculateAsset(options: any = {}) {
         const stockPercentage = Math.floor((index + 1) * 20)
         investment.value.allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
     })
+
+    const { propagate = true } = options
     debounce(() => {
         drawLifeAssetChart(propagate)
-    })()
+    })(propagate)
+}
+function calculateIrr() {
+    const { allocationETF } = investment.value
+    const { portfolioIRR, } = props.config
+    console.log({ portfolioIRR, allocationETF })
+    investment.value.irr = portfolioIRR[allocationETF]
 }
 
 let investmentChartInstance = ref<Chart>()
@@ -233,9 +241,9 @@ function drawLifeAssetChart(propagate = true) {
         labels
     }
     if (propagate) {
+        console.log('value updated', investment)
         emits('update:modelValue', investment)
     }
-
     if (investmentChartInstance.value) {
         investmentChartInstance.value.data = chartData
         investmentChartInstance.value.update()
@@ -252,12 +260,16 @@ function drawLifeAssetChart(propagate = true) {
 
 const debounceId = ref(null)
 function debounce(func, delay = 100) {
-    return () => {
+    return (immediate) => {
         clearTimeout(debounceId.value)
-        debounceId.value = setTimeout(() => {
-            debounceId.value = undefined
+        if (immediate) {
             func()
-        }, delay)
+        } else {
+            debounceId.value = setTimeout(() => {
+                debounceId.value = undefined
+                func()
+            }, delay)
+        }
     }
 }
 
