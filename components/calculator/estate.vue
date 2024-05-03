@@ -2,6 +2,20 @@
     <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算<a class="header-anchor" href="#購屋總價試算"
             aria-label="Permalink to &quot;購屋總價試算&quot;">&ZeroWidthSpace;</a></h3>
     <el-card>
+        <el-form label-width="auto">
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="預算">
+                        <el-input-number v-model="estatePrice.budget" :min="0" @change="onBudgetChanged()" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="試算總價">
+                        <el-text>{{ estatePrice.totalPrice }} NTD</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
         <slot name="price">
 
         </slot>
@@ -116,7 +130,44 @@
     </el-card>
 </template>
 <script setup lang="ts">
-
+import { computed, ref } from 'vue'
+const emits = defineEmits(['update:modelValue'])
+const props = defineProps({
+    modelValue: {
+        type: Object,
+        default: () => {
+            return {}
+        }
+    },
+    estateSize: {
+        type: Object,
+        default: () => {
+            return {}
+        }
+    },
+})
+const estatePrice = computed(() => {
+    return props.modelValue
+})
+function onBudgetChanged() {
+    emits('update:modelValue', estatePrice)
+}
+function calculateTotalPrice(options: any = { propagate: true }) {
+    const { propagate = true } = options
+    const { unitPrice } = estatePrice.value
+    const { floorSize } = props.estateSize
+    if (!unitPrice || !floorSize) {
+        return
+    }
+    const beforeFormatPrice = Number(unitPrice) * Number(floorSize)
+    estatePrice.value.totalPrice = Number(beforeFormatPrice.toFixed(2))
+    if (propagate) {
+        emits('update:modelValue', estatePrice)
+    }
+}
+defineExpose({
+    calculateTotalPrice,
+})
 </script>
 <style lang="scss">
 .table {
@@ -126,6 +177,7 @@
         background: white !important;
     }
 }
+
 :deep(.my-label) {
     background: white;
 }

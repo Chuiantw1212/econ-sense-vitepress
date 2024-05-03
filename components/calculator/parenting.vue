@@ -244,14 +244,14 @@ function drawParentingChart(propagate = true) {
         let pmt = 0
         const hasFirstBorn = firstBornYear && firstBornYear <= simYear && simYear < firstBornEndYear
         if (hasFirstBorn) {
-            firstBornData.push([0, inflatedChildExpense])
             pmt -= inflatedChildExpense
+            firstBornData.push([0, inflatedChildExpense])
         } else {
             firstBornData.push([0, 0])
         }
         const hasSecondBorn = secondBornYear && secondBornYear <= simYear && simYear < secondBornEndYear
         if (hasSecondBorn) {
-            secondBornData.push([pmt, pmt + inflatedChildExpense])
+            secondBornData.push([-pmt, - (pmt - inflatedChildExpense)]) // 負負得正
             pmt -= inflatedChildExpense
         } else {
             secondBornData.push([0, 0])

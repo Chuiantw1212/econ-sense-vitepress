@@ -44,14 +44,16 @@
         @update:model-value="onParentingChanged()">
     </Parenting>
 
-    <Estate>
+    <Estate v-model="estatePrice" :estateSize="estateSize" ref="EstateRef">
         <template v-slot:size>
             <EstateSize v-model="estateSize" :config="config" :parenting="parenting" ref="EstateSizeRef"
                 @update:model-value="onEstateSizeChanged()"></EstateSize>
         </template>
-        <!-- <template v-slot:price>
-            <EstatePrice v-model="estatePrice"></EstatePrice>
-        </template> -->
+        <template v-slot:price>
+            <EstatePrice v-model="estatePrice" :config="config" :estateSize="estateSize" ref="EstatePriceRef"
+                @update:model-value="onEstatePriceChanged()">
+            </EstatePrice>
+        </template>
     </Estate>
 
     <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
@@ -132,21 +134,22 @@
 import firebase from 'firebase/compat/app';
 import { onMounted, ref, reactive, watch, nextTick, onBeforeUnmount, computed, shallowRef } from 'vue'
 import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
-import Chart from 'chart.js/auto';
 import Profile from './profile.vue'
 import Career from './career.vue'
 import Retirement from './retirement.vue'
 import Investment from './investment.vue'
 import Estate from './estate.vue'
-import EstateSize from './estateSize.vue'
 import Parenting from './parenting.vue'
-// import EstatePrice from './estatePrice.vue'
+import EstateSize from './estateSize.vue'
+import EstatePrice from './estatePrice.vue'
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
 const InvestmentRef = ref()
 const ParentingRef = ref()
 const EstateSizeRef = ref()
+const EstatePriceRef = ref()
+const EstateRef = ref()
 const { VITE_BASE_URL } = import.meta.env
 interface IOptionItem {
     label: string,
@@ -402,10 +405,12 @@ async function initializeCalculator() {
     await EstateSizeRef.value.calculateEstateSize({
         propagate: true,
     })
-    if (estatePrice.county) {
-        towns.value = config.townMap[estatePrice.county]
-    }
-    await getUnitPriceSync()
+    await EstatePriceRef.value.calculateUnitPrice({
+        propagate: true,
+    })
+    await EstateRef.value.calculateTotalPrice({
+        propagate: true,
+    })
     calculateMortgate() // will calculate asset
 }
 // 基本資料
@@ -551,86 +556,7 @@ function onParentingChanged() {
         propagate: false,
     })
 }
-
-// 購屋分析
-const estatePrice = reactive({
-    county: '',
-    town: '',
-    buildingType: '',
-    buildingAge: '',
-    hasParking: '',
-    count: 0,
-    pr25: 0,
-    pr75: 100,
-    average: 0,
-})
-const buildingUnitPrice = ref(0)
-let unitPriceMarks: {
-    [key: string]: string
-} = reactive({
-    0: 'PR25：？',
-    100: 'PR75：？'
-})
-const buildingLoading = ref(false)
-const towns = ref([])
-const hasParkingOptions = ref([
-    { label: '含', value: true },
-    { label: '不含', value: false },
-])
-const buildingRules = reactive({
-    county: { required: true, message: '請選擇', },
-    town: { required: true, message: '請選擇', },
-})
-function onCountyChanged() {
-    estatePrice.town = ''
-    towns.value = []
-    if (estatePrice.county) {
-        towns.value = config.townMap[estatePrice.county]
-    }
-    getUnitPriceSync()
-}
-function onTownChanged() {
-    getUnitPriceSync()
-}
-function onBuildingTypeChanged() {
-    getUnitPriceSync()
-}
-function onBuildingAgeChanged() {
-    getUnitPriceSync()
-}
-function onHasParkingChanged() {
-    if (estatePrice.hasParking) {
-        estateSize.parkingSpace = Math.max(1, estateSize.parkingSpace)
-    }
-    getUnitPriceSync()
-}
-async function getUnitPriceSync() {
-    const { county, town, buildingType, buildingAge } = estatePrice
-    if (county && town) {
-        buildingLoading.value = true
-        const res = await fetch(`${VITE_BASE_URL}/calculate/unitPrice`, {
-            method: 'post',
-            body: JSON.stringify(estatePrice),
-            headers: { 'Content-Type': 'application/json' }
-        })
-        buildingLoading.value = false
-        const resJson = await res.json()
-        Object.assign(estatePrice, resJson)
-
-        const { pr25, pr75, average } = resJson
-        if (!average) {
-            ElMessage('資料筆數過少，請調整查詢條件')
-            return
-        }
-        unitPriceMarks = {}
-        unitPriceMarks[pr25] = `PR25: ${pr25}`
-        unitPriceMarks[pr75] = `PR75: ${pr75}`
-        unitPriceMarks[average] = `平均：${average}`
-        buildingUnitPrice.value = average
-        calculateTotalPrice()
-    }
-}
-// 購屋分析2
+// 購屋大小
 const estateSize = reactive({
     doubleBedRoom: 0,
     singleBedRoom: 0,
@@ -646,40 +572,41 @@ const estateSize = reactive({
     headCount: 0,
 })
 const totalHousePrice = ref(0)
-function onEstateSizeChanged() {
-    calculateTotalPrice()
-}
-async function onParkingSpaceChanged() {
+async function onEstateSizeChanged() {
     if (!estateSize.parkingSpace) {
         estatePrice.hasParking = ''
     }
-    await getUnitPriceSync()
-    calculateEstateSize()
+    await EstatePriceRef.value.calculateUnitPrice({
+        propagate: true,
+    })
+    await EstateRef.value.calculateTotalPrice({
+        propagate: false,
+    })
 }
-function calculateEstateSize() {
-
-}
-function calculateTotalPrice() {
-    if (!buildingUnitPrice.value || !estateSize.floorSize) {
-        return
-    }
+// 購屋單價
+const estatePrice = reactive({
+    county: '',
+    town: '',
+    buildingType: '',
+    buildingAge: '',
+    hasParking: '',
+    count: 0,
+    pr25: 0,
+    pr75: 100,
+    average: 0,
+    unitPrice: 0,
+    totalPrice: 0,
+})
+function onEstatePriceChanged() {
     // 儲存參數
-    debounce(() => {
-        authFetch(`/user/estatePrice`, {
-            method: 'put',
-            body: estatePrice,
-        })
-    }, 'estatePrice')()
-    debounce(() => {
-        authFetch(`/user/estateSize`, {
-            method: 'put',
-            body: estateSize,
-        })
-    }, 'estateSize')()
-    const beforeFormatPrice = Number(buildingUnitPrice.value) * Number(estateSize.floorSize)
-    totalHousePrice.value = Number(beforeFormatPrice.toFixed(2))
-    calculateMortgate()
+    authFetch(`/user/estatePrice`, {
+        method: 'put',
+        body: estatePrice,
+    })
+    // 影響其他
 }
+
+
 // 房屋貸款試算
 const mortgage = reactive({
     buyHouseYear: 0,

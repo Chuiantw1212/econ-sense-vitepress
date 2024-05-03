@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="ruleFormRef" label-width="auto">
+    <el-form label-width="auto">
         <el-row>
             <el-col :span="12">
                 <el-form-item label="雙人房數量">
@@ -81,15 +81,6 @@
                 </el-form-item>
             </el-col>
         </el-row>
-        <!-- <el-row>
-            <el-col :span="12">
-            </el-col>
-            <el-col :span="12">
-                <el-form-item label="總價">
-                    <el-text>{{ Number(totalHousePrice).toLocaleString() }} 萬</el-text>
-                </el-form-item>
-            </el-col>
-        </el-row> -->
     </el-form>
 </template>
 <script setup lang="ts">
@@ -124,16 +115,18 @@ const props = defineProps({
 const estateSize = computed(() => {
     return props.modelValue
 })
-function calculateEstateSize() {
+function calculateEstateSize(options: any = { propagate: true }) {
+    const { propagate = true } = options
     debounce(() => {
-        debounceCalculate()
-    })()
+        debounceCalculate(propagate)
+    })(propagate)
 }
-function debounceCalculate() {
+function debounceCalculate(propagate = false) {
     const { doubleBedRoom, singleBedRoom, bathroom, livingRoom, publicRatio, balcany, parkingSpace } = estateSize.value
+    // 家庭人數
     const headCount = 2 * doubleBedRoom + singleBedRoom
     estateSize.value.headCount = headCount
-
+    // 計算空間
     const fortmatRatio = 0.3025
     const baseInteriorSize = 30 * fortmatRatio
     const doubleRoomSize = doubleBedRoom * 19 * fortmatRatio
@@ -158,21 +151,31 @@ function debounceCalculate() {
     let floorSize = (mainBuilding + outBuilding) * publicRatioPercent
     // 停車位權狀
     if (props.estatePrice.hasParking) {
-        const parkingSize = 24.75 * parkingSpace * fortmatRatio * publicRatioPercent
+        const miumumParkingSpace =  Math.max(1, parkingSpace)
+        estateSize.value.parkingSpace = miumumParkingSpace
+        const parkingSize = 24.75 * miumumParkingSpace * fortmatRatio * publicRatioPercent
         estateSize.value.parkingSize = Number(Number(parkingSize).toFixed(2))
         floorSize += parkingSize
     }
     estateSize.value.floorSize = Number(Number(floorSize).toFixed(2))
+
+    if (propagate) {
+        emits('update:modelValue', estateSize)
+    }
 }
 
 const debounceId = ref(null)
 function debounce(func, delay = 100) {
-    return () => {
+    return (immediate) => {
         clearTimeout(debounceId.value)
-        debounceId.value = setTimeout(() => {
-            debounceId.value = undefined
+        if (immediate) {
             func()
-        }, delay)
+        } else {
+            debounceId.value = setTimeout(() => {
+                debounceId.value = undefined
+                func()
+            }, delay)
+        }
     }
 }
 

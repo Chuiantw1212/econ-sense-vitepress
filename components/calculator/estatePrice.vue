@@ -1,6 +1,5 @@
 <template>
-    <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="estatePrice" :rules="buildingRules"
-        label-width="auto">
+    <el-form ref="ruleFormRef" label-width="auto">
         <el-row>
             <el-col :span="12">
                 <el-form-item label="居住縣市">
@@ -15,7 +14,7 @@
             <el-col :span="12">
                 <el-form-item label="行政區">
                     <select v-model="estatePrice.town" class="form__select" placeholder="請選擇"
-                        :disabled="!estatePrice.county" @change="onTownChanged()">
+                        :disabled="!estatePrice.county" @change="calculateUnitPrice()">
                         <option label="請選擇" value=""></option>
                         <option v-for="item in towns" :key="item.value" :label="item.label" :value="item.value" />
                     </select>
@@ -26,7 +25,7 @@
             <el-col :span="12">
                 <el-form-item label="建物類別">
                     <select v-model="estatePrice.buildingType" class="form__select" placeholder="請選擇"
-                        :disabled="!estatePrice.town" @change="onBuildingTypeChanged()">
+                        :disabled="!estatePrice.town" @change="calculateUnitPrice()">
                         <option label="不限" value=""></option>
                         <option v-for="item in config.buildingTypes" :key="item.value" :label="item.label"
                             :value="item.value" />
@@ -36,7 +35,7 @@
             <el-col :span="12">
                 <el-form-item label="屋齡[年]">
                     <select v-model="estatePrice.buildingAge" class="form__select" placeholder="請選擇"
-                        :disabled="!estatePrice.town" @change="onBuildingAgeChanged()">
+                        :disabled="!estatePrice.town" @change="calculateUnitPrice()">
                         <option label="不限" value=""></option>
                         <option v-for="item in config.buildingAges" :key="item.value" :label="item.label"
                             :value="item.value" />
@@ -46,9 +45,9 @@
             <el-col :span="12">
                 <el-form-item label="含車位">
                     <select v-model="estatePrice.hasParking" class="form__select" placeholder="請選擇"
-                        @change="onHasParkingChanged()">
+                        @change="calculateUnitPrice()">
                         <option label="不限" value=""></option>
-                        <option v-for="item in hasParkingOptions" :key="item.value" :label="item.label"
+                        <option v-for="(item, index) in hasParkingOptions" :key="index" :label="item.label"
                             :value="item.value" />
                     </select>
                 </el-form-item>
@@ -62,10 +61,148 @@
         <el-row>
             <el-col :span="23">
                 <el-form-item label="單價(萬/坪)">
-                    <el-slider v-model="buildingUnitPrice" :min="estatePrice.pr25" :max="estatePrice.pr75"
-                        :marks="unitPriceMarks" :disabled="!estatePrice.average" @change="calculateTotalPrice()" />
+                    <el-slider v-model="estatePrice.unitPrice" :min="estatePrice.pr25" :max="estatePrice.pr75"
+                        :marks="unitPriceMarks" :disabled="!estatePrice.average" @change="updateEstateUnitPrice()" />
                 </el-form-item>
             </el-col>
         </el-row>
     </el-form>
 </template>
+<script setup lang="ts">
+import { computed, ref, reactive } from 'vue'
+import { ElMessage, } from 'element-plus'
+const { VITE_BASE_URL } = import.meta.env
+const emits = defineEmits(['update:modelValue'])
+const towns = ref([])
+const hasParkingOptions = ref([
+    { label: '含', value: true },
+    { label: '不含', value: false },
+])
+const buildingLoading = ref(false)
+let unitPriceMarks: {
+    [key: string]: string
+} = reactive({
+    0: 'PR25：？',
+    100: 'PR75：？'
+})
+const props = defineProps({
+    modelValue: {
+        type: Object,
+        default: () => {
+            return {}
+        }
+    },
+    config: {
+        type: Object,
+        default: () => {
+            return {}
+        }
+    },
+})
+const estatePrice = computed(() => {
+    return props.modelValue
+})
+function onCountyChanged() {
+    estatePrice.value.town = ''
+    towns.value = []
+    const { county } = estatePrice.value
+    if (county) {
+        towns.value = props.config.townMap[county]
+    }
+    calculateUnitPrice({
+        propagate: true,
+    })
+}
+function calculateUnitPrice(options: any = { propagate: true }) {
+    const { propagate = true } = options
+    debounce(() => {
+        getUnitPriceSync(propagate)
+    })(propagate)
+}
+function updateEstateUnitPrice() {
+    emits('update:modelValue', estatePrice)
+}
+async function getUnitPriceSync(propagate = false) {
+    const { county, town, } = estatePrice.value
+    if (county && town) {
+        buildingLoading.value = true
+        const res = await fetch(`${VITE_BASE_URL}/calculate/unitPrice`, {
+            method: 'post',
+            body: JSON.stringify(estatePrice),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        buildingLoading.value = false
+        const resJson = await res.json()
+        Object.assign(estatePrice, resJson)
+
+        const { pr25, pr75, average } = resJson
+        if (!average) {
+            ElMessage('資料筆數過少，請調整查詢條件')
+            return
+        }
+        unitPriceMarks = {}
+        unitPriceMarks[pr25] = `PR25: ${pr25}`
+        unitPriceMarks[pr75] = `PR75: ${pr75}`
+        unitPriceMarks[average] = `平均：${average}`
+        estatePrice.value.unitPrice = average
+
+        if (propagate) {
+            emits('update:modelValue', estatePrice)
+        }
+    }
+}
+
+const debounceId = ref(null)
+function debounce(func, delay = 100) {
+    return (immediate) => {
+        clearTimeout(debounceId.value)
+        if (immediate) {
+            func()
+        } else {
+            debounceId.value = setTimeout(() => {
+                debounceId.value = undefined
+                func()
+            }, delay)
+        }
+    }
+}
+
+defineExpose({
+    calculateUnitPrice,
+})
+</script>
+<style lang="scss" scoped>
+.form__select {
+    all: unset;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    width: 130px;
+    padding: 0 15px;
+
+    &:disabled {
+        background-color: rgb(245, 247, 250);
+    }
+}
+
+.card-header--custom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table {
+    * {
+        border-color: var(--el-border-color-light);
+        color: var(--el-text-color-regular);
+        background: white !important;
+    }
+}
+
+:deep(.my-label) {
+    background: white;
+}
+
+:deep(.my-content) {
+    background: white;
+}
+</style>
