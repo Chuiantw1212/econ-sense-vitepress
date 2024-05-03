@@ -349,7 +349,7 @@ async function initializeCalculator() {
     // calculateMortgate() // will calculate asset
 }
 // 基本資料
-const profile = reactive({
+let profile = reactive({
     id: '', // 避免登入判斷錯誤
     yearOfBirth: '',
     dateOfBirth: '',
@@ -370,7 +370,7 @@ function onProfileChanged() {
     })
 }
 // 職業試算
-const career = reactive({
+let career = reactive({
     monthlyBasicSalary: 0,
     foodExpense: 3000,
     employeeWelfareFund: 0,
@@ -407,7 +407,7 @@ function onCareerChanged() {
     })
 }
 // 退休試算
-const retirement = reactive({
+let retirement = reactive({
     age: 60,
     yearToRetirement: 0,
     lifeExpectancy: 0,
@@ -444,7 +444,7 @@ function onRetirementChanged() {
     investment.period = retirement.yearToRetirement
 }
 // 投資試算
-const investment = reactive({
+let investment = reactive({
     allocationETF: '',
     irr: 0,
     stockPercentage: 0,
@@ -463,7 +463,7 @@ function onInvestmentChanged() {
     })
 }
 // 育兒試算
-const parenting = reactive({
+let parenting = reactive({
     childAnnualExpense: 0,
     spouseMonthlyContribution: 0,
     independantAge: 0,
@@ -482,7 +482,7 @@ function onParentingChanged() {
     })
 }
 // 購屋單價與總價
-const estatePrice = reactive({
+let estatePrice = reactive({
     county: '',
     town: '',
     buildingType: '',
@@ -527,7 +527,7 @@ async function onEstateBudgetChanged() {
         body: estatePrice,
     })
 }
-const estateSize = reactive({
+let estateSize = reactive({
     doubleBedRoom: 0,
     singleBedRoom: 1,
     bathroom: 0,
@@ -557,7 +557,7 @@ watch(() => estateSize, async (newValue, oldValue) => {
     }
 }, { deep: true })
 // 房屋貸款試算
-const mortgage = reactive({
+let mortgage = reactive({
     buyHouseYear: 0,
     loanPercent: 0,
     interestRate: 0,
