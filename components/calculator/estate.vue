@@ -225,6 +225,11 @@ const unableToDrawChart = computed(() => {
     const noPv = !budget
     const noPmt = !monthlyBasicSalary
     const noFv = !budgetGoal
+    console.log({
+        budget,
+        monthlyBasicSalary,
+        budgetGoal
+    })
     return (noPv && noPmt) || noFv
 })
 function resetTotalPrice() {

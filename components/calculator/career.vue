@@ -186,9 +186,6 @@ function calculateHealthPremiumByPension() {
 // 勞保計算
 function calculateInsuranceSalary() {
     const { monthlyBasicSalary } = career.value
-    if (career.value.monthlyBasicSalary) {
-        career.value.insurance.salaryMin = Math.min(45800, monthlyBasicSalary)
-    }
     const insuranceSalary = laborInsuranceLevels.find((value: number) => {
         return monthlyBasicSalary < value
     })
@@ -207,9 +204,9 @@ function calculateInsuranceExpense() {
 // 勞退計算
 function calculatePensionSalary() {
     const { monthlyBasicSalary, foodExpense, } = career.value
-    const salaryMin = monthlyBasicSalary + foodExpense
+    const pensionSalaryMin = monthlyBasicSalary + foodExpense
     const pensionSalary = pensionLevel.find(value => {
-        return salaryMin < value
+        return pensionSalaryMin < value
     })
     if (pensionSalary) {
         career.value.pension.salary = pensionSalary
@@ -219,9 +216,11 @@ function calculatePensionSalary() {
 }
 function calculateCareerPensionContribution() {
     const { salary, rate } = career.value.pension
-    const maxContribution = Math.min(salary, props.config.maxPensionSalary)
-    career.value.pension.monthlyContributionEmployee = Math.floor(maxContribution * rate / 100)
-    career.value.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100)
+    if (salary) {
+        const maxContribution = Math.min(salary, props.config.maxPensionSalary)
+        career.value.pension.monthlyContributionEmployee = Math.floor(maxContribution * rate / 100)
+        career.value.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100)
+    }
 }
 // 投資計算
 function calculateMonthlySaving() {

@@ -266,7 +266,6 @@ async function getUserFormSync(firebaseUser) {
             },
             pension: {
                 salary: 0,
-                salaryMin: 0,
                 rate: 0,
                 monthlyContribution: 0,
                 monthlyContributionEmployee: 0,
@@ -403,7 +402,6 @@ const career = reactive({
     employeeWelfareFund: 0,
     pension: {
         salary: 100000,
-        salaryMin: 100000,
         rate: 100000,
         monthlyContribution: 100000,
         monthlyContributionEmployee: 100000,
@@ -411,7 +409,6 @@ const career = reactive({
     healthInsutancePremium: 0,
     insurance: {
         salary: 100000,
-        salaryMin: 100000,
         expense: 100000,
     },
     monthlyNetPayEstimated: 0,
