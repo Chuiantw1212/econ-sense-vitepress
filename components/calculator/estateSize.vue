@@ -164,7 +164,7 @@ function debounceCalculate(propagate = false) {
     estateSize.value.floorSize = Number(Number(floorSize).toFixed(2))
 
     if (propagate) {
-        emits('update:modelValue', estateSize)
+        emits('update:modelValue', estateSize.value)
     }
 }
 

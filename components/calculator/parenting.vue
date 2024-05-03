@@ -282,7 +282,7 @@ function drawParentingChart(propagate = true) {
 
     // 儲存參數
     if (propagate) {
-        emits('update:modelValue', parenting)
+        emits('update:modelValue', parenting.value)
     }
 
     if (parentingChartInstance.value) {

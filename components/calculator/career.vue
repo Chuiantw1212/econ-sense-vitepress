@@ -341,7 +341,7 @@ function drawChartAndCalculateIncome(propagate = false) {
         ]
     }
     if (propagate) {
-        emits('update:modelValue', career)
+        emits('update:modelValue', career.value)
     }
 
     if (incomeChartInstance.value) {

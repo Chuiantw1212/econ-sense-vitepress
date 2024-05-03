@@ -266,7 +266,7 @@ function drawDownpayChart(propagate = false) {
         return
     }
     if (propagate) {
-        emits('update:modelValue', estatePrice)
+        emits('update:modelValue', estatePrice.value)
     }
 
     const { irr, } = props.investment

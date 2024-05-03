@@ -243,7 +243,7 @@ function drawLifeAssetChart(propagate = true) {
         labels
     }
     if (propagate) {
-        emits('update:modelValue', investment)
+        emits('update:modelValue', investment.value)
     }
     if (investmentChartInstance.value) {
         investmentChartInstance.value.data = chartData

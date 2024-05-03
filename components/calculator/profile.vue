@@ -207,7 +207,7 @@ async function calculateProfile() {
         profile.value.age = calculateAge
         profile.value.lifeExpectancy = Number(lifeExpectancy)
 
-        emits('update:modelValue', profile)
+        emits('update:modelValue', profile.value)
     }
 }
 

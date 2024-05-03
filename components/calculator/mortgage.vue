@@ -138,7 +138,7 @@ function drawMortgageChart() {
     const averageRepayRate = fraction / deno
     mortgage.value.monthlyRepay = Math.floor(loanAmount * averageRepayRate)
 
-    emits('update:modelValue', mortgage)
+    emits('update:modelValue', mortgage.value)
 }
 
 const debounceId = ref()
