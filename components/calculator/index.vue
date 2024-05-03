@@ -21,6 +21,10 @@
     <Profile v-model="profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
         @update:modelValue="onProfileChanged()"></Profile>
 
+    <h2 id="_2. 我可以FIRE嗎？" tabindex="-1">2. 我可以FIRE嗎？<a class="header-anchor" href="#2. 我可以FIRE嗎？"
+            aria-label="Permalink to &quot;2. 我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
+    財務安全的理財方式，將退休前與退休後的資產分開計算。退休先有保障，當上流老人，再用退休前資產去試算是否可以推關。
+
     <Career v-model="career" :user="user" :config="config" ref="CareerRef" @update:modelValue="onCareerChanged()">
     </Career>
 
@@ -29,10 +33,21 @@
     </Retirement>
 
     <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科</h2>
+    用退休前資產試算是否能過關。
 
     <Investment v-model="investment" :config="config" :profile="profile" :career="career" :parenting="parenting"
         :mortgage="mortgage" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
     </Investment>
+
+    <Estate>
+        <template v-slot:size>
+            <EstateSize v-model="estateSize" :config="config" :parenting="parenting" ref="estateSizeRef"
+                @update:model-value="onEstateSizeChanged()"></EstateSize>
+        </template>
+        <!-- <template v-slot:price>
+            <EstatePrice v-model="estatePrice"></EstatePrice>
+        </template> -->
+    </Estate>
 
     <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
             aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
@@ -192,275 +207,6 @@
         </template>
     </el-card>
 
-    <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算</h3>
-    <el-card>
-        <el-form ref="ruleFormRef" v-loading="buildingLoading" :model="estatePrice" :rules="buildingRules"
-            label-width="auto">
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="居住縣市">
-                        <select v-model="estatePrice.county" class="form__select" placeholder="請選擇"
-                            @change="onCountyChanged()">
-                            <option label="請選擇" value=""></option>
-                            <option v-for="item in config.counties" :key="item.value" :label="item.label"
-                                :value="item.value" />
-                        </select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="行政區">
-                        <select v-model="estatePrice.town" class="form__select" placeholder="請選擇"
-                            :disabled="!estatePrice.county" @change="onTownChanged()">
-                            <option label="請選擇" value=""></option>
-                            <option v-for="item in towns" :key="item.value" :label="item.label" :value="item.value" />
-                        </select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="建物類別">
-                        <select v-model="estatePrice.buildingType" class="form__select" placeholder="請選擇"
-                            :disabled="!estatePrice.town" @change="onBuildingTypeChanged()">
-                            <option label="不限" value=""></option>
-                            <option v-for="item in config.buildingTypes" :key="item.value" :label="item.label"
-                                :value="item.value" />
-                        </select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="屋齡[年]">
-                        <select v-model="estatePrice.buildingAge" class="form__select" placeholder="請選擇"
-                            :disabled="!estatePrice.town" @change="onBuildingAgeChanged()">
-                            <option label="不限" value=""></option>
-                            <option v-for="item in config.buildingAges" :key="item.value" :label="item.label"
-                                :value="item.value" />
-                        </select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="含車位">
-                        <select v-model="estatePrice.hasParking" class="form__select" placeholder="請選擇"
-                            @change="onHasParkingChanged()">
-                            <option label="不限" value=""></option>
-                            <option v-for="item in hasParkingOptions" :key="item.value" :label="item.label"
-                                :value="item.value" />
-                        </select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="資料筆數">
-                        <el-text>{{ Number(estatePrice.count).toLocaleString(undefined) }} 筆</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="23">
-                    <el-form-item label="單價(萬/坪)">
-                        <el-slider v-model="buildingUnitPrice" :min="estatePrice.pr25" :max="estatePrice.pr75"
-                            :marks="unitPriceMarks" :disabled="!estatePrice.average" @change="calculateTotalPrice()" />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-        </el-form>
-        <br />
-        <el-form ref="ruleFormRef" :model="estateSize" :rules="roomRules" label-width="auto">
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="雙人房數量">
-                        <el-input-number v-model="estateSize.doubleBedRoom" :min="0" @change="calculateEstateSize()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item v-if="parenting.headCount" label="房屋應容納人數">
-                        <el-text>{{ parenting.headCount }} 人</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="單人房數量">
-                        <el-input-number v-model="estateSize.singleBedRoom" :min="0" @change="calculateEstateSize()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="房屋可容納人數">
-                        <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="客廳+餐廳">
-                        <el-input-number v-model="estateSize.livingRoom" :min="1" @change="calculateEstateSize()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="衛浴數量">
-                        <el-input-number v-model="estateSize.bathroom" :min="1" @change="calculateEstateSize()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="預估主建實坪">
-                        <el-text>{{ estateSize.mainBuilding }} 坪</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="陽台數量">
-                        <el-input-number v-model="estateSize.balcany" :min="0" @change="calculateEstateSize()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="預估附屬建物">
-                        <el-text>{{ estateSize.outBuilding }} 坪</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row v-if="estatePrice.hasParking">
-                <el-col :span="12">
-                    <el-form-item label="車位數量">
-                        <el-input-number v-model="estateSize.parkingSpace" :min="0" @change="onParkingSpaceChanged()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="預估車位權狀">
-                        <el-text>{{ estateSize.parkingSize }} 坪</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="公設比(%)">
-                        <el-input-number v-model="estateSize.publicRatio" :min="0" @change="calculateEstateSize()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="預估權狀坪數">
-                        <el-text>{{ estateSize.floorSize }} 坪</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="總價">
-                        <el-text>{{ Number(totalHousePrice).toLocaleString() }} 萬</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-        </el-form>
-        <template #footer>
-            <el-collapse>
-                <el-collapse-item title="試算說明" name="1" :border="true">
-                    單價資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html" target="_blank">財團法人金融聯合徵信中心
-                        OpenAPI
-                    </a>
-                    <table class="table">
-                        <tr>
-                            <th>空間</th>
-                            <th>參考平方公尺</th>
-                            <th>參考依據</th>
-                        </tr>
-                        <tr>
-                            <td>雙人房</td>
-                            <td>19</td>
-                            <td>
-                                <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=K0110021&flno=13"
-                                    target="_blank">
-                                    觀光旅館建築及設備標準
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>單人房</td>
-                            <td>13</td>
-                            <td>
-                                <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=K0110021&flno=13"
-                                    target="_blank">
-                                    觀光旅館建築及設備標準
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>衛浴</td>
-                            <td>4</td>
-                            <td>
-                                <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=D0070115&flno=295"
-                                    target="_blank">
-                                    建築技術規則建築設計施工編
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>廚房</td>
-                            <td>2~4</td>
-                            <td>
-                                <a href="https://www.pro360.com.tw/category/kitchen_decorating#:~:text=%E4%B8%8D%E5%90%8C%E7%9A%84%E5%BB%9A%E5%85%B7%E9%85%8D%E7%BD%AE%E5%B0%8D,%E8%BC%83%E5%A5%BD%E7%9A%84%E4%BD%BF%E7%94%A8%E9%AB%94%E9%A9%97%E3%80%82"
-                                    target="_blank">
-                                    廚房空間如何規劃？廚房設計4大攻略及範例圖片參考｜PRO360達人網
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>餐廳+客廳</td>
-                            <td>1/人</td>
-                            <td>
-                                <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=N0060009&flno=322"
-                                    target="_blank">
-                                    職業安全衛生設施規則
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>其他室內空間</td>
-                            <td>30</td>
-                            <td>
-                                <a href="https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=H0070037&flno=10"
-                                    target="_blank">
-                                    幼兒園及其分班基本設施設備標準
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>陽台</td>
-                            <td>10%</td>
-                            <td>
-                                <a href="https://law.moj.gov.tw/LawClass/LawSingleRela.aspx?PCODE=D0070115&FLNO=162&ty=L"
-                                    target="_blank">
-                                    建築技術規則建築設計施工編
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>車位</td>
-                            <td>24.75</td>
-                            <td>
-                                <a href="https://tnews.cc/ur/newscon25045.htm" target="_blank">
-                                    研商「精進建物測繪登記相關業務」第 2 次會議紀錄
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>公設比</td>
-                            <td>預設35%</td>
-                            <td>
-                                <a href="https://www.google.com/search?q=%E5%85%AC%E8%A8%AD%E6%AF%94" target="_blank">
-                                    Google搜索
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                </el-collapse-item>
-            </el-collapse>
-        </template>
-    </el-card>
 
     <h3 id="_購屋貸款試算" tabindex="-1">購屋貸款試算</h3>
     <el-card>
@@ -542,10 +288,14 @@ import Profile from './profile.vue'
 import Career from './career.vue'
 import Retirement from './retirement.vue'
 import Investment from './investment.vue'
+import Estate from './estate.vue'
+import EstateSize from './estateSize.vue'
+// import EstatePrice from './estatePrice.vue'
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
 const InvestmentRef = ref()
+const estateSizeRef = ref()
 const { VITE_BASE_URL } = import.meta.env
 interface IOptionItem {
     label: string,
@@ -668,15 +418,9 @@ const config = reactive({
     loadingDialogVisible: false,
     loginDialogVisible: false,
     isFullScreen: false,
-    // Format https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
-    toFixedOne: new Intl.NumberFormat(undefined, {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1
-    }),
-    toFixedTwo: new Intl.NumberFormat(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    })
+    toFixed: (value, digit = 2) => {
+        return Number(Number(value).toFixed(digit))
+    }
 })
 const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
@@ -796,12 +540,11 @@ async function initializeCalculator() {
     await CareerRef.value.calculateCareer()
     await RetirementRef.value.calculateRetirement()
     await InvestmentRef.value.calculateAsset()
-    // 買房
+    await estateSizeRef.value.calculateEstateSize()
     if (estatePrice.county) {
         towns.value = config.townMap[estatePrice.county]
     }
     await getUnitPriceSync()
-    calculateEstateSize()
     calculateMortgate() // will calculate asset
 }
 // 基本資料
@@ -814,7 +557,6 @@ const profile = reactive({
     lifeExpectancy: 0,
 })
 function onProfileChanged() {
-    console.log('onProfileChanged,', profile)
     // 儲存參數
     authFetch(`/user/profile`, {
         method: 'put',
@@ -822,8 +564,8 @@ function onProfileChanged() {
     })
     // 影響其他
     retirement.yearToRetirement = retirement.age - profile.age
-    retirement.lifeExpectancy = Number(Number(profile.lifeExpectancy - retirement.yearToRetirement).toFixed(2))
-    console.log(retirement.lifeExpectancy)
+    const lifeExpectancy = profile.lifeExpectancy - retirement.yearToRetirement
+    retirement.lifeExpectancy = Number(Number().toFixed(2))
     RetirementRef.value.calculateRetirement(false)
 }
 // 職業試算
@@ -856,11 +598,10 @@ function onCareerChanged() {
         body: career,
     })
     // 影響其他
-    console.log(retirement.insurance)
     retirement.insurance.salary = career.insurance.salary
     retirement.pension.monthlyContribution = career.pension.monthlyContribution
     RetirementRef.value.calculateRetirement()
-    // drawLifeAssetChart()
+    InvestmentRef.value.calculateAsset()
 }
 // 退休試算
 const retirement = reactive({
@@ -1165,11 +906,8 @@ const estateSize = reactive({
     headCount: 0,
 })
 const totalHousePrice = ref(0)
-const roomRules = {
-    doubleBedRoom: { required: true, message: '請選擇', },
-    singleBedRoom: { required: true, message: '請選擇', },
-    bathroom: { required: true, message: '請選擇', },
-    publicRatio: { required: true, message: '請選擇', },
+function onEstateSizeChanged() {
+    calculateTotalPrice()
 }
 async function onParkingSpaceChanged() {
     if (!estateSize.parkingSpace) {
@@ -1179,40 +917,7 @@ async function onParkingSpaceChanged() {
     calculateEstateSize()
 }
 function calculateEstateSize() {
-    const { doubleBedRoom, singleBedRoom, bathroom, livingRoom, publicRatio, balcany, parkingSpace } = estateSize
-    const headCount = 2 * doubleBedRoom + singleBedRoom
-    estateSize.headCount = headCount
 
-    const fortmatRatio = 0.3025
-    const baseInteriorSize = 30 * fortmatRatio
-    const doubleRoomSize = doubleBedRoom * 19 * fortmatRatio
-    const singleRoomSize = singleBedRoom * 13 * fortmatRatio
-    const bathRoomSize = bathroom * 4 * fortmatRatio
-    const diningTableSize = Math.max(2, headCount) * livingRoom * fortmatRatio
-
-    // 主建物只包含室內空間
-    estateSize.mainBuilding = Number(Number(baseInteriorSize + doubleRoomSize + singleRoomSize + bathRoomSize + diningTableSize).toFixed(2))
-
-    // 附屬建築比如陽台
-    const balcanyPercent = 0.1 * balcany // 10%
-    estateSize.outBuilding = Number(Number(estateSize.mainBuilding * balcanyPercent).toFixed(2))
-
-    // 公設比計算
-    const publicRatioPercent = 1 + publicRatio / 100
-
-    // 停車位權狀
-    if (estatePrice.hasParking) {
-        const parkingSize = 24.75 * parkingSpace * fortmatRatio * publicRatioPercent
-        estateSize.parkingSize = Number(Number(parkingSize).toFixed(2))
-    }
-
-    // 權狀坪數
-    let floorSize = (estateSize.mainBuilding + estateSize.outBuilding) * publicRatioPercent
-    if (estatePrice.hasParking) {
-        floorSize += estateSize.parkingSize
-    }
-    estateSize.floorSize = Number(Number(floorSize).toFixed(2))
-    calculateTotalPrice()
 }
 function calculateTotalPrice() {
     if (!buildingUnitPrice.value || !estateSize.floorSize) {
@@ -1275,7 +980,7 @@ async function calculateMortgate() {
 
     const averageRepayRate = fraction / deno
     mortgage.monthlyRepay = Math.floor(loanAmount * averageRepayRate)
-    drawLifeAssetChart()
+    // drawLifeAssetChart()
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {

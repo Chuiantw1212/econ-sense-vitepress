@@ -1,10 +1,6 @@
 <template>
     <div>
-        <h2 id="_2. 我可以FIRE嗎？" tabindex="-1">2. 我可以FIRE嗎？<a data-v-f933e41e="" class="header-anchor"
-                href="#2. 我可以FIRE嗎？" aria-label="Permalink to &quot;2. 我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
-        財務安全的理財方式，將退休前與退休後的資產分開計算。退休先有保障，當上流老人，再用退休前資產去試算是否可以推關。
-
-        <h3 id="_職業試算" tabindex="-1">職業試算<a data-v-f933e41e="" class="header-anchor" href="#職業試算"
+        <h3 id="_職業試算" tabindex="-1">職業試算<a class="header-anchor" href="#職業試算"
                 aria-label="Permalink to &quot;職業試算&quot;">&ZeroWidthSpace;</a></h3>
         <el-card>
             <el-form label-width="auto">
