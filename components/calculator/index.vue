@@ -54,7 +54,8 @@
         </EstatePrice>
         <br />
         <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
-            ref="EstateSizeRef"></EstateSize>
+            ref="EstateSizeRef">
+        </EstateSize>
         <br />
         <Estate v-model="estatePrice" :career="career" :estateSize="estateSize" :mortgage="mortgage"
             :investment="investment" :config="config" ref="EstateRef" @update:model-value="onEstateBudgetChanged()">
@@ -88,10 +89,6 @@ const EstatePriceRef = ref()
 const EstateRef = ref()
 const MortgageRef = ref()
 const { VITE_BASE_URL } = import.meta.env
-interface IOptionItem {
-    label: string,
-    value: string | number | boolean,
-}
 // 用戶與權限
 const user = reactive({
     displayName: '註冊用戶',
@@ -175,9 +172,7 @@ async function authFetch(appendUrl, options) {
 }
 async function signOut() {
     await firebase.auth().signOut()
-    for (let key in user) {
-        user[key] = ''
-    }
+    location.reload()
 }
 // 主要從資料庫來的設定檔案
 const config = reactive({
@@ -572,6 +567,7 @@ onMounted(async () => {
     nextTick(() => {
         initializeCalculator()
         window?.addEventListener('resize', onResize)
+        window.scrollTo(0, 0)
     })
 })
 onBeforeUnmount(() => {

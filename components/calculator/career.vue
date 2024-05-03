@@ -28,24 +28,15 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="勞退提繳工資" required>
-                            <el-input-number v-model="career.pension.salary" :min="career.pension.salaryMin"
-                                :max="150000" @change="calculateCareer($event)" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="提繳工資查詢">
-                            <a href="https://www.bli.gov.tw/0108097.html" target="_blank" tabIndex="-1">勞動部勞工保險局</a>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
+                        <!-- <el-form-item label="勞退提繳工資">
+                            <el-text> {{ Number(career.pension.salary).toLocaleString() }}</el-text>
+                        </el-form-item> -->
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="健保負擔">
                             <el-text> {{ Number(career.healthInsutancePremium).toLocaleString() }}</el-text>
                         </el-form-item>
+
                     </el-col>
                 </el-row>
                 <el-row>
@@ -63,10 +54,9 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="勞保提繳工資" required>
-                            <el-input-number v-model="career.insurance.salary" :min="0" :max="45800"
-                                @change="calculateCareer($event)" />
-                        </el-form-item>
+                        <!-- <el-form-item label="勞保提繳工資">
+                            <el-text> {{ Number(career.insurance.salary).toLocaleString() }}</el-text>
+                        </el-form-item> -->
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="勞保勞工負擔">
@@ -115,6 +105,9 @@
                             <li>
                                 月提繳查詢：<a href="https://www.bli.gov.tw/0013083.html" target="_blank">勞動部勞工保險局</a>
                             </li>
+                            <li>
+                                勞保投保薪資分級表：<a href="https://www.bli.gov.tw/0100493.html" target="_blank">勞動部勞工保險局</a>
+                            </li>
                         </ul>
                     </el-collapse-item>
                 </el-collapse>
@@ -128,6 +121,24 @@ import { ref, computed, shallowRef } from 'vue'
 import Chart from 'chart.js/auto';
 let incomeChartInstance = ref<Chart>()
 const emits = defineEmits(['update:modelValue'])
+const laborInsuranceLevels = [
+    27470, 27600, 28800,
+    30300, 31800, 33300, 34800, 36300, 38200,
+    40100, 42000, 43900, 45800
+]
+const pensionLevel = [
+    1500, 3000, 4500, 6000, 7500, 8700, 9900, 11100, 12540, 13500, 15840, 16500, 17280, 17880, 19047,
+    20008, 21009, 22000, 23100, 24000, 25250, 26400, 27470, 27600, 28800,
+    30300, 31800, 33300, 34800, 36300, 38200,
+    40100, 42000, 43900, 45800, 48200,
+    50600, 53000, 55400, 57800,
+    60800, 63800, 66800, 69800,
+    72800, 76500,
+    80200, 83900, 87600,
+    92100, 96600,
+    10110, 105600, 110100, 115500,
+    120900, 126300, 131700, 137100, 142500, 147900, 150000
+]
 const props = defineProps({
     modelValue: {
         type: Object,
@@ -175,11 +186,17 @@ function calculateHealthPremiumByPension() {
 }
 // 勞保計算
 function calculateInsuranceSalary() {
+    const { monthlyBasicSalary } = career.value
     if (career.value.monthlyBasicSalary) {
-        career.value.insurance.salaryMin = Math.min(45800, career.value.monthlyBasicSalary)
+        career.value.insurance.salaryMin = Math.min(45800, monthlyBasicSalary)
     }
-    if (!career.value.insurance.salary) {
-        career.value.insurance.salary = career.value.insurance.salaryMin
+    const insuranceSalary = laborInsuranceLevels.find((value: number) => {
+        return monthlyBasicSalary < value
+    })
+    if (!insuranceSalary) {
+        career.value.insurance.salary = laborInsuranceLevels.slice(-1)[0]
+    } else {
+        career.value.insurance.salary = insuranceSalary
     }
 }
 function calculateInsuranceExpense() {
@@ -192,8 +209,14 @@ function calculateInsuranceExpense() {
 function calculatePensionSalary() {
     const { monthlyBasicSalary, foodExpense, } = career.value
     const salaryMin = monthlyBasicSalary + foodExpense
-    career.value.pension.salaryMin = salaryMin
-    career.value.pension.salary = Math.max(career.value.pension.salary, salaryMin)
+    const pensionSalary = pensionLevel.find(value => {
+        return salaryMin < value
+    })
+    if (pensionSalary) {
+        career.value.pension.salary = pensionSalary
+    } else {
+        career.value.pension.salary = pensionLevel.slice(-1)[0]
+    }
 }
 function calculateCareerPensionContribution() {
     const { salary, salaryMin, rate } = career.value.pension
