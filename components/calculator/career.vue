@@ -196,10 +196,12 @@ function calculateInsuranceSalary() {
     }
 }
 function calculateInsuranceExpense() {
-    const { salary, } = career.value.insurance
-    const insuranceRate = 12 / 100
-    const premiumRate = 20 / 100
-    career.value.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate)
+    const { salary = 0, } = career.value.insurance
+    if (salary) {
+        const insuranceRate = 12 / 100
+        const premiumRate = 20 / 100
+        career.value.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate)
+    }
 }
 // 勞退計算
 function calculatePensionSalary() {

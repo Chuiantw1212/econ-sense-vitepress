@@ -112,8 +112,8 @@
                         <el-form-item label="退休品質">
                             <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                        item.label
-                    }}</el-radio>
+                                    item.label
+                                    }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -232,7 +232,6 @@ const retirement = computed(() => {
 function calculateRetirement(options: any = { propagate: true }) {
     const { propagate = true } = options
     calculateRetireLife()
-    calculateYearToRetirement()
     calculateFutureSeniority()
     calculateInsuranceMonthlyAnnuity()
     calculatePR()
@@ -242,13 +241,14 @@ function calculateRetirement(options: any = { propagate: true }) {
     })(propagate)
 }
 async function calculateRetireLife() {
-    const rawNumber = props.profile.age + props.profile.lifeExpectancy - retirement.value.age
-    const maxZero = Math.max(0, rawNumber)
-    retirement.value.lifeExpectancy = props.config.toFixed(maxZero)
-}
-function calculateYearToRetirement() {
-    const rawNumber = retirement.value.age - props.profile.age
-    retirement.value.yearToRetirement = rawNumber
+    const { age: currentAge, lifeExpectancy } = props.profile
+    const { age: retireAge } = retirement.value
+    if (currentAge && lifeExpectancy && retireAge) {
+        retirement.value.yearToRetirement = retireAge - currentAge
+        const rawNumber = lifeExpectancy - retirement.value.yearToRetirement
+        const maxZero = Math.max(0, rawNumber)
+        retirement.value.lifeExpectancy = props.config.toFixed(maxZero)
+    }
 }
 function calculateFutureSeniority() {
     const { presentSeniority } = retirement.value.insurance
@@ -259,14 +259,16 @@ function calculateInsuranceMonthlyAnnuity() {
     const { lifeExpectancy, age } = retirement.value
     const { futureSeniority, } = retirement.value.insurance
     const { salary } = props.career.insurance
-    if (!lifeExpectancy || !age || !futureSeniority || !salary) {
+    if (!age || !futureSeniority || !salary) {
         return
     }
     const ageModifier: number = 1 + (Number(age) - 65) * 0.04
     const formulaOne: number = (Number(salary) * Number(futureSeniority) * 0.775 / 100 + 3000) * ageModifier
     const formulaTwo: number = (Number(salary) * Number(futureSeniority) * 1.55 / 100) * ageModifier
     retirement.value.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
-    retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy))
+    if (lifeExpectancy) {
+        retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy))
+    }
 }
 function calculatePR() {
     const { qualityLevel } = retirement.value

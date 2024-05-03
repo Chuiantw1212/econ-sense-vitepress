@@ -143,6 +143,12 @@ const props = defineProps({
         default: () => {
             return {}
         }
+    },
+    retirement: {
+        type: Object,
+        default: () => {
+            return {}
+        }
     }
 })
 const investment = computed(() => {
@@ -153,28 +159,30 @@ function calculateAsset(options: any = { propagate: true }) {
     if (!allocationETF) {
         return
     }
-    calculateIrr()
-
-    const { portfolioIRR, porfolioLabels } = props.config
-    const allocationLabels = Object.keys(porfolioLabels)
-    const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
-    const stockPercentage = Math.floor((allocationIndex + 1) * 20)
-    investment.value.stockPercentage = stockPercentage
-    allocationLabels.forEach((label, index) => {
-        const irr = portfolioIRR[label]
-        const stockPercentage = Math.floor((index + 1) * 20)
-        investment.value.allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
-    })
+    calculateInvestmentPeriod()
+    calculatePortfolio()
 
     const { propagate = true } = options
     debounce(() => {
         drawLifeAssetChart(propagate)
     })(propagate)
 }
-function calculateIrr() {
+function calculatePortfolio() {
     const { allocationETF } = investment.value
-    const { portfolioIRR, } = props.config
+    const { portfolioIRR, porfolioLabels } = props.config
+    const allocationLabels = Object.keys(porfolioLabels)
+    const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
+    const stockPercentage = Math.floor((allocationIndex + 1) * 20)
+    investment.value.stockPercentage = stockPercentage
     investment.value.irr = portfolioIRR[allocationETF]
+    allocationLabels.forEach((label, index) => {
+        const irr = portfolioIRR[label]
+        const stockPercentage = Math.floor((index + 1) * 20)
+        investment.value.allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
+    })
+}
+function calculateInvestmentPeriod() {
+    investment.value.period = props.retirement.yearToRetirement
 }
 
 let investmentChartInstance = ref<Chart>()

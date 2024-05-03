@@ -35,7 +35,8 @@
                 aria-label="Permalink to &quot;3. 五子登科&quot;">&ZeroWidthSpace;</a></h2>
 
         <Investment v-model="investment" :config="config" :profile="profile" :career="career" :parenting="parenting"
-            :mortgage="mortgage" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
+            :mortgage="mortgage" :retirement="retirement" ref="InvestmentRef"
+            @update:model-value="onInvestmentChanged()">
         </Investment>
 
         <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
@@ -236,7 +237,7 @@ async function setSelecOptionSync() {
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
-        ElMessageBox.alert('Google Cloud App Engine無回應', {
+        ElMessageBox.alert(error.msssage || 'Google Cloud App Engine無回應', {
             confirmButtonText: '回講座排程',
             callback: () => {
                 backToCalendar()
@@ -251,24 +252,35 @@ function backToCalendar() {
 }
 async function getUserFormSync(firebaseUser) {
     const initForm = {
-        profile: {},
+        profile: {
+            age: 0,
+            lifeExpectancy: 0,
+        },
         career: {
+            monthlyBasicSalary: 0,
+            foodExpense: 3000,
+            employeeWelfareFund: 0,
             insurance: {
                 salary: 0,
                 presentSeniority: 0, // 6.9
                 futureSeniority: 0,
-                monthlyAnnuity: 0,
-                annuitySum: 0,
+                expense: 0,
             },
             pension: {
                 salary: 0,
                 rate: 0,
                 monthlyContribution: 0,
                 monthlyContributionEmployee: 0,
-            }
+            },
+            healthInsutancePremium: 0,
+            monthlyNetPayEstimated: 0,
+            monthlyNetPay: 0,
+            monthlyExpense: 0,
+            monthlySaving: 0,
         },
         retirement: {
             age: 65,
+            lifeExpectancy:0,
             pension: {
                 employeeContrubution: 0,
                 employeeContrubutionIncome: 0,
@@ -278,11 +290,14 @@ async function getUserFormSync(firebaseUser) {
                 totalValue: 0,
             },
             insurance: {
+                annuitySum: 0,
+                monthlyAnnuity: 0,
                 presentSeniority: 0,
                 futureSeniority: 0
             },
             percentileRank: 50,
-            qualityLevel: 3
+            qualityLevel: 3,
+            expenseQuartileMarks: {}
         },
         investment: {
             allocationETF: 'aok',
@@ -378,33 +393,14 @@ function onProfileChanged() {
         method: 'put',
         body: profile,
     })
-    retirement.yearToRetirement = retirement.age - profile.age
-    const lifeExpectancy = profile.lifeExpectancy - retirement.yearToRetirement
-    retirement.lifeExpectancy = Number(Number(lifeExpectancy).toFixed(2))
     RetirementRef.value.calculateRetirement({
         propagate: false,
     })
 }
 // 職業試算
 let career = reactive({
-    monthlyBasicSalary: 0,
-    foodExpense: 3000,
-    employeeWelfareFund: 0,
-    pension: {
-        salary: 100000,
-        rate: 100000,
-        monthlyContribution: 100000,
-        monthlyContributionEmployee: 100000,
-    },
-    healthInsutancePremium: 0,
-    insurance: {
-        salary: 100000,
-        expense: 100000,
-    },
-    monthlyNetPayEstimated: 0,
-    monthlyNetPay: 0,
-    monthlyExpense: 0,
-    monthlySaving: 0,
+    pension: {},
+    insurance: {},
 })
 function onCareerChanged() {
     authFetch(`/user/career`, {
@@ -420,40 +416,15 @@ function onCareerChanged() {
 }
 // 退休試算
 let retirement = reactive({
-    age: 60,
-    yearToRetirement: 0,
-    lifeExpectancy: 0,
+    insurance: {},
+    pension: {},
     expenseQuartileMarks: {},
-    // 勞保
-    insurance: {
-        salary: 0,
-        presentSeniority: 0, // 6.9
-        futureSeniority: 0,
-        monthlyAnnuity: 0,
-        annuitySum: 0,
-    },
-    // 勞退
-    pension: {
-        monthlyContribution: 0,
-        employeeContrubution: 0,
-        employeeContrubutionIncome: 0,
-        employerContribution: 0,
-        employerContributionIncome: 0,
-        irrOverDecade: 4.76,
-        totalValue: 0,
-        tax: 0,
-    },
-    // 退休水準
-    qualityLevel: 0,
-    percentileRank: 0,
-    annualExpense: 0,
 })
 function onRetirementChanged() {
     authFetch(`/user/retirement`, {
         method: 'put',
         body: retirement,
     })
-    investment.period = retirement.yearToRetirement
 }
 // 投資試算
 let investment = reactive({
