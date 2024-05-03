@@ -225,11 +225,7 @@ const unableToDrawChart = computed(() => {
     const noPv = !budget
     const noPmt = !monthlyBasicSalary
     const noFv = !budgetGoal
-    console.log({
-        budget,
-        monthlyBasicSalary,
-        budgetGoal
-    })
+
     return (noPv && noPmt) || noFv
 })
 function resetTotalPrice() {
@@ -288,6 +284,11 @@ function drawDownpayChart(propagate = false) {
     }
     let fv: number = 0
     let goal: number = 0
+    console.log({
+        budget,
+        monthlyBasicSalary,
+        budgetGoal
+    })
 
     if (budgetGoal) {
         goal = budgetGoal

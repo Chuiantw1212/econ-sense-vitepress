@@ -142,7 +142,7 @@ async function authFetch(appendUrl, options) {
     if (!currentUser) {
         return // 離線使用或未登入
     }
-    if (options.body && !options.body.id) {
+    if (options.body && !user.id) {
         return // 避免初始化資料覆蓋回noSQL
     }
     const defaultOptions: any = {
@@ -329,12 +329,7 @@ async function getUserFormSync(firebaseUser) {
         })
         userForm = await res?.json()
     } finally {
-        // 真不知道為什麼資料會覆蓋，這邊有id視為是從server帶回來舊資料
-        for (let key in userForm) {
-            if (typeof userForm[key] === 'object') {
-                userForm[key].id = userForm.id
-            }
-        }
+        user.id = userForm.id
         Object.assign(initForm, userForm)
         Object.assign(profile, initForm.profile)
         Object.assign(career, initForm.career)
@@ -372,7 +367,6 @@ async function initializeCalculator() {
     await MortgageRef.value.calculateMortgage({
         propagate: true,
     })
-    // calculateMortgate() // will calculate asset
 }
 // 基本資料
 const profile = reactive({
