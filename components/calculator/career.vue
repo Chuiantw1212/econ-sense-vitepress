@@ -290,7 +290,7 @@ function drawChartAndCalculateIncome(propagate = false) {
     fv = career.value.monthlyNetPay || fv
     dataAndDataIndex.push({
         label: '月實領',
-        data: [fv, 0],
+        data: [0,fv],
         datasetIndex: 0,
     })
 
@@ -307,7 +307,7 @@ function drawChartAndCalculateIncome(propagate = false) {
     if (0 <= fv) {
         dataAndDataIndex.push({
             label: '定期定額',
-            data: [fv, 0],
+            data: [0, fv],
             datasetIndex: 0,
         })
     }

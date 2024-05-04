@@ -112,8 +112,8 @@
                         <el-form-item label="退休品質">
                             <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                                    item.label
-                                    }}</el-radio>
+                        item.label
+                    }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -311,7 +311,7 @@ async function drawRetirementAssetChart(propagate = false) {
     if (unableToDraw.value) {
         return
     }
-    // 計算資料
+    // 常數參數
     const {
         employerContribution,
         employeeContrubution,
@@ -328,7 +328,8 @@ async function drawRetirementAssetChart(propagate = false) {
     const {
         monthlyAnnuity,
     } = retirement.value.insurance
-
+    
+    // 計算資料
     const inflationRate = 1 + props.config.inflationRate / 100
     let inflationModifier = 1
 
@@ -356,18 +357,20 @@ async function drawRetirementAssetChart(propagate = false) {
     calculatePensionFinalValue(fv)
 
     // 退休後退休支出
-    let annuityInflationModifier = 1
+    let insuranceAnnuityInflationModifier = 1
     for (let i = 0; i < lifeExpectancy; i++) {
+        inflationModifier *= inflationRate
+        insuranceAnnuityInflationModifier *= inflationRate
+
+        const annutalAnnuity = monthlyAnnuity * 12 * insuranceAnnuityInflationModifier
+        const inflatedAnnualExpense = annualExpense * inflationModifier
+        const pmt = annutalAnnuity - inflatedAnnualExpense
+
+        fv = Math.floor(pv * pensionIrr + pmt)
         const calculatedYear = props.config.currentYear + n + i
         labels.push(calculatedYear)
-
-        const pmt = (monthlyAnnuity * 12 * annuityInflationModifier) - annualExpense * inflationModifier
-        fv = Math.floor(pv * pensionIrr + pmt)
         datasetData.push(Math.floor(fv))
-
         pv = fv
-        inflationModifier *= inflationRate
-        annuityInflationModifier *= inflationRate
     }
     const chartData = {
         datasets: [
