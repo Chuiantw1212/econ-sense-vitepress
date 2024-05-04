@@ -201,7 +201,7 @@ function drawParentingChart(propagate = true) {
     const secondBornData: number[][] = []
     const lifeInsuranceEquity: number[][] = []
     const lifeInsuranceCash: number[][] = []
-    // let cash = lifeInsurance
+    let cash = lifeInsurance
     let pv = lifeInsurance
     let fv = 0
 
@@ -231,8 +231,8 @@ function drawParentingChart(propagate = true) {
 
         fv = pv * investmentIrr + pmt
         lifeInsuranceEquity.push([pmt, Math.floor(fv)])
-        // cash = cash + pmt
-        // lifeInsuranceCash.push([pmt, Math.floor(cash)])
+        cash = cash + pmt
+        lifeInsuranceCash.push([pmt, Math.floor(cash)])
 
         inflationModifier *= inflationRatio
         pv = fv
@@ -267,12 +267,12 @@ function drawParentingChart(propagate = true) {
             fill: true,
             tension,
         })
-        // datasets.push({
-        //     label: '壽險不投資',
-        //     data: lifeInsuranceCash,
-        //     fill: true,
-        //     tension,
-        // })
+        datasets.push({
+            label: '壽險不投資',
+            data: lifeInsuranceCash,
+            fill: true,
+            tension,
+        })
     }
 
     const data: any = {
