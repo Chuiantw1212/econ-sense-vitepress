@@ -35,7 +35,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="房屋應容納人數">
+                        <el-form-item label="家庭成員數">
                             <el-text>{{ parenting.headCount }} 人</el-text>
                         </el-form-item>
                     </el-col>
@@ -48,18 +48,11 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                    </el-col>
-                </el-row>
-                <!-- <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="配偶貢獻/月">
-                            <el-input-number v-model="parenting.spouseMonthlyContribution" :min="0"
-                                @change="calculateParenting($event)" />
+                        <el-form-item label="房屋可容納人數">
+                            <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
-                    </el-col>
-                </el-row> -->
+                </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="壽險已備">
