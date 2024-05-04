@@ -52,6 +52,16 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
+                        <el-row v-if="retirement.insurance.presentSeniority >= 15">
+                            <el-col :span="12">
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="預估遺囑年金">
+                                    <el-text>{{ Number(retirement.insurance.survivorPension).toLocaleString() }} /
+                                        月</el-text>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
                         <el-row>
                             <el-col :span="12">
                             </el-col>
@@ -119,8 +129,8 @@
                         <el-form-item label="退休品質">
                             <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                        item.label
-                    }}</el-radio>
+                                    item.label
+                                }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -272,9 +282,9 @@ function calculateFutureSeniority() {
     const rawNumber = presentSeniority + retirement.value.age - props.profile.age
     retirement.value.insurance.futureSeniority = Math.floor(rawNumber)
 }
-function calculateInsuranceMonthlyAnnuity() {
+function calculateInsuranceMonthlyAnnuity() { // presentSeniority
     const { lifeExpectancy, age } = retirement.value
-    const { futureSeniority, } = retirement.value.insurance
+    const { presentSeniority, futureSeniority, } = retirement.value.insurance
     const { salary } = props.career.insurance
     if (!age || !futureSeniority || !salary) {
         return
@@ -283,7 +293,10 @@ function calculateInsuranceMonthlyAnnuity() {
     const formulaOne: number = (Number(salary) * Number(futureSeniority) * 0.775 / 100 + 3000) * ageModifier
     const formulaTwo: number = (Number(salary) * Number(futureSeniority) * 1.55 / 100) * ageModifier
     retirement.value.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
-    if (lifeExpectancy) {
+    if (presentSeniority >= 15) { // 遺囑年金 https://www.bli.gov.tw/0007867.html
+        retirement.value.insurance.survivorPension = Math.floor(retirement.value.insurance.monthlyAnnuity / 2)
+    }
+    if (lifeExpectancy) { // 勞保年金請領總和
         retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy))
     }
 }
