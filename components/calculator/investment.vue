@@ -36,18 +36,46 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="購屋西元年">
-                            <el-input-number v-model="mortgage.buyHouseYear" @change="calculateAsset()" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="房貸利息" @change="calculateAsset()">
-                            <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
+                <el-collapse>
+                    <el-collapse-item title="點此快速調整目標(日期&月支出)" :border="true">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="購屋西元年">
+                                    <el-input-number v-model="mortgage.buyHouseYear" @change="calculateAsset()" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="房貸利息" @change="calculateAsset()">
+                                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="第一隻西元年">
+                                    <el-input-number v-model="parenting.firstBornYear" :min="0"
+                                        @change="calculateAsset($event)" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="月開支(隻/每年)">
+                                    <el-input-number v-model="parenting.childAnnualExpense" :min="0"
+                                        @change="calculateAsset($event)" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="第二隻西元年">
+                                    <el-input-number v-model="parenting.secondBornYear" :min="0"
+                                        @change="calculateAsset($event)" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                            </el-col>
+                        </el-row>
+                    </el-collapse-item>
+                </el-collapse>
                 <!-- <el-row>
                     <el-col :span="12">
                     </el-col>
