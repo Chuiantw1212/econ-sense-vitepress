@@ -558,7 +558,7 @@ function onMortgageChanged() {
 onMounted(async () => {
     await initializeApp()
     await setSelecOptionSync()
-    // await getUserFormSync(false)
+    await getUserFormSync(false)
     nextTick(() => {
         initializeCalculator()
         window.scrollTo(0, 0)

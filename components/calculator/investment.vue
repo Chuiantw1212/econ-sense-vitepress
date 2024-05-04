@@ -210,11 +210,17 @@ function drawLifeAssetChart(propagate = true) {
     const datasetData: number[] = []
 
     for (let year = currentYear; year < currentYear + period; year++) {
-        // 影響存量重大事件
+        inflationModifier *= inflatoinRatio
+        /**
+         * 影響存量重大事件
+         */
         const { buyHouseYear, downPayment, monthlyRepay, loanTerm } = props.mortgage
         if (year === buyHouseYear) {
             pv -= downPayment * inflationModifier
         }
+        /**
+         * 會受到通膨影響的PMT
+         */
         // 執業收支 
         const { monthlySaving } = props.career
         let calculatedPmt = monthlySaving
@@ -234,22 +240,23 @@ function drawLifeAssetChart(propagate = true) {
         if (hasFirstBorn || hasSecondBorn) {
             calculatedPmt += spouseMonthlyContribution * 12
         }
-
+        calculatedPmt *= inflationModifier
+        /**
+         * 不受到通膨影響的PMT
+         */
         // 房貸利息影響每月儲蓄
         const mortgageStartYear = buyHouseYear
         const mortgageEndYear = buyHouseYear + loanTerm
         let mortgagePmt = 0
         if (mortgageStartYear <= year && year < mortgageEndYear) {
-            mortgagePmt = monthlyRepay * 12
+            mortgagePmt = -monthlyRepay * 12
         }
 
         // 計算複利終值
-        fv = pv * irrModifier + (calculatedPmt * inflatoinRatio) + mortgagePmt
+        fv = pv * irrModifier + calculatedPmt + mortgagePmt
         labels.push(year)
-        datasetData.push(Math.floor(pv))
-        // 參數漸變
+        datasetData.push(Math.floor(fv))
         pv = fv
-        inflationModifier *= inflatoinRatio
     }
     console.log(datasetData)
     const chartData = {
