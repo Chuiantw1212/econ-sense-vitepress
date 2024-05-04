@@ -328,7 +328,7 @@ function showChildAge(tooltipItems) {
         }
     } else {
         const formatValue = Number(secondValue).toLocaleString()
-        return `年末結餘：${formatValue}`
+        return `${label}結餘：${formatValue}`
     }
 }
 function showChildExpense(tooltipItems) {
