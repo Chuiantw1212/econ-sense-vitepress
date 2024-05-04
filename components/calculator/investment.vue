@@ -171,6 +171,12 @@ const props = defineProps({
             return {}
         }
     },
+    spouse: {
+        type: Object,
+        default: () => {
+            return {}
+        }
+    },
     mortgage: {
         type: Object,
         default: () => {
@@ -239,8 +245,9 @@ function drawLifeAssetChart(propagate = true) {
     const { presentAsset, irr, period } = investment.value
     const { buyHouseYear, downPayment, monthlyRepay, loanTerm } = props.mortgage
     const { currentYear, inflationRate } = props.config
+    const { monthlyContribution } = props.spouse
+    const spouseAnnualContribution = monthlyContribution * 12
     const irrModifier = 1 + irr / 100
-
     const inflatoinRatio = 1 + inflationRate / 100
     let inflationModifier = 1
 
@@ -275,7 +282,7 @@ function drawLifeAssetChart(propagate = true) {
         let calculatedPmt = annualSaving * inflationModifier
 
         // 育兒開支影響每月儲蓄
-        const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, spouseMonthlyContribution } = props.parenting
+        const { firstBornYear, secondBornYear, independantAge, childAnnualExpense } = props.parenting
         const firstBornEndYear = firstBornYear + independantAge
         const secondBornEndYear = secondBornYear + independantAge
         const hasFirstBorn = currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear
@@ -288,8 +295,8 @@ function drawLifeAssetChart(propagate = true) {
             childExpense += childAnnualExpense * inflationModifier
         }
         if (hasFirstBorn || hasSecondBorn) {
-            const spouseAnnualContribution = spouseMonthlyContribution * 12 * inflationModifier
-            childExpense -= spouseAnnualContribution
+            const inflatedContribution = spouseAnnualContribution * inflationModifier
+            childExpense -= inflatedContribution
             calculatedPmt -= childExpense
             childExpenseData.push(Math.floor(childExpense))
         } else {
