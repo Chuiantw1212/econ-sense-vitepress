@@ -117,8 +117,8 @@ function drawMortgageChart() {
         return
     }
     const loanAmount = totalPrice * loanPercent / 100
-    mortgage.value.loanAmount = loanAmount
-    const downPayment = totalPrice - loanAmount
+    mortgage.value.loanAmount = Math.floor(loanAmount)
+    const downPayment = Math.floor(totalPrice - loanAmount)
     mortgage.value.estimatedDownPayment = downPayment
     if (!mortgage.value.downPayment) {
         mortgage.value.downPayment = downPayment
