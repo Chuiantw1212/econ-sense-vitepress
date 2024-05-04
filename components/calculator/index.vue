@@ -492,6 +492,10 @@ function resetTotalPrice() {
     estatePrice.average = 0
     estatePrice.unitPrice = 0
     estatePrice.totalPrice = 0
+    authFetch(`/user/estatePrice`, {
+        method: 'put',
+        body: estatePrice,
+    })
 }
 async function onEstatePriceChanged() {
     authFetch(`/user/estatePrice`, {
