@@ -240,7 +240,7 @@ function drawParentingChart(propagate = true) {
             secondBornData.push([0, 0])
         }
         if (hasFirstBorn && hasSecondBorn) {
-            pmt += spouseMonthlyContribution
+            pmt += monthlyContribution
         }
 
         fv = pv * investmentIrr + pmt

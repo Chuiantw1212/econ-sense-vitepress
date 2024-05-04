@@ -52,6 +52,15 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="餘命 x 年金">
+                                    <el-text>{{ Number(retirement.insurance.annuitySum).toLocaleString() }}</el-text>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
                         <el-row v-if="retirement.insurance.presentSeniority >= 15">
                             <el-col :span="12">
                             </el-col>
@@ -59,15 +68,6 @@
                                 <el-form-item label="預估遺囑年金">
                                     <el-text>{{ Number(retirement.insurance.survivorPension).toLocaleString() }} /
                                         月</el-text>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="餘命 x 年金">
-                                    <el-text>{{ Number(retirement.insurance.annuitySum).toLocaleString() }}</el-text>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -130,7 +130,7 @@
                             <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
                                     item.label
-                                }}</el-radio>
+                                    }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
