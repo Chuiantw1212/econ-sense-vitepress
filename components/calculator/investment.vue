@@ -198,32 +198,42 @@ function drawLifeAssetChart(propagate = true) {
         return
     }
     const { presentAsset, irr, period } = investment.value
-    const irrModifier = 1 + irr / 100
+    const { buyHouseYear, downPayment, monthlyRepay, loanTerm } = props.mortgage
     const { currentYear, inflationRate } = props.config
+    const irrModifier = 1 + irr / 100
 
     const inflatoinRatio = 1 + inflationRate / 100
     let inflationModifier = 1
 
     let pv = presentAsset
-    let fv = 0 // fv = pv * irr + pmt
+    let fv = 0
     const labels: number[] = []
     const datasetData: number[] = []
+    const investingData: number[] = []
+    const mortgageData: number[] = []
+    const downpayData: number[] = []
+    const childExpenseData: number[] = []
 
     for (let year = currentYear; year < currentYear + period; year++) {
         inflationModifier *= inflatoinRatio
         /**
          * 影響存量重大事件
          */
-        const { buyHouseYear, downPayment, monthlyRepay, loanTerm } = props.mortgage
         if (year === buyHouseYear) {
-            pv -= downPayment * inflationModifier
+            const inflatedDownpay = downPayment * inflationModifier
+            pv -= inflatedDownpay
+            downpayData.push(inflatedDownpay)
+        } else {
+            downpayData.push(0)
         }
         /**
          * 會受到通膨影響的PMT
          */
         // 執業收支 
         const { monthlySaving } = props.career
-        let calculatedPmt = monthlySaving
+        const annualSaving = monthlySaving * 12
+        investingData.push(annualSaving)
+        let calculatedPmt = annualSaving
 
         // 育兒開支影響每月儲蓄
         const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, spouseMonthlyContribution } = props.parenting
@@ -231,15 +241,22 @@ function drawLifeAssetChart(propagate = true) {
         const secondBornEndYear = secondBornYear + independantAge
         const hasFirstBorn = currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear
         const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
+        let childExpense = 0
         if (hasFirstBorn) {
-            calculatedPmt -= childAnnualExpense
+            childExpense += childAnnualExpense
         }
         if (hasSecondBorn) {
-            calculatedPmt -= childAnnualExpense
+            childExpense += childAnnualExpense
         }
         if (hasFirstBorn || hasSecondBorn) {
-            calculatedPmt += spouseMonthlyContribution * 12
+            const spouseAnnualContribution = spouseMonthlyContribution * 12
+            childExpense -= spouseAnnualContribution
+            calculatedPmt -= childExpense
+            childExpenseData.push(childExpense)
+        } else {
+            childExpenseData.push(0)
         }
+        // 加計通貨膨脹
         calculatedPmt *= inflationModifier
         /**
          * 不受到通膨影響的PMT
@@ -249,23 +266,46 @@ function drawLifeAssetChart(propagate = true) {
         const mortgageEndYear = buyHouseYear + loanTerm
         let mortgagePmt = 0
         if (mortgageStartYear <= year && year < mortgageEndYear) {
-            mortgagePmt = -monthlyRepay * 12
+            mortgagePmt = monthlyRepay * 12
         }
+        calculatedPmt -= mortgagePmt
+        mortgageData.push(mortgagePmt)
 
         // 計算複利終值
-        fv = pv * irrModifier + calculatedPmt + mortgagePmt
-        labels.push(year)
+        fv = pv * irrModifier + calculatedPmt
         datasetData.push(Math.floor(fv))
+        labels.push(year)
         pv = fv
     }
-    console.log(datasetData)
+    const datasets = [
+        {
+            label: '資產存量',
+            data: datasetData,
+        },
+        {
+            label: '定期定額',
+            data: investingData,
+        }
+    ]
+    if (buyHouseYear) {
+        datasets.push({
+            label: '房貸支出',
+            data: mortgageData,
+        })
+        datasets.push({
+            label: '頭期款',
+            data: downpayData,
+        })
+    }
+    const hasChildExpense = childExpenseData.some(value => value !== 0)
+    if (hasChildExpense) {
+        datasets.push({
+            label: '育兒支出',
+            data: childExpenseData,
+        })
+    }
     const chartData = {
-        datasets: [
-            {
-                label: '退休前資產存量',
-                data: datasetData,
-            }
-        ],
+        datasets,
         labels
     }
     if (propagate) {
@@ -280,7 +320,17 @@ function drawLifeAssetChart(propagate = true) {
     const ctx: any = document.getElementById('assetChart')
     const chartInstance = new Chart(ctx, {
         type: 'bar',
-        data: chartData
+        data: chartData,
+        options: {
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true
+                }
+            }
+        }
     })
     investmentChartInstance = shallowRef(chartInstance)
 }
