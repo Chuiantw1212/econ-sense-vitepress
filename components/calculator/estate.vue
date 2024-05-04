@@ -44,7 +44,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="!unableToDrawChart" label="頭期款準備時間">
+                    <el-form-item v-if="!unableToDrawChart" label="預期籌措時間">
                         <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
                             ({{ estatePrice.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
@@ -370,13 +370,5 @@ defineExpose({
         color: var(--el-text-color-regular) !important;
         background: white !important;
     }
-}
-
-:deep(.my-label) {
-    background: white;
-}
-
-:deep(.my-content) {
-    background: white;
 }
 </style>

@@ -38,9 +38,9 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <!-- <el-form-item label="已備資產" @change="calculateAsset()">
-                            <el-input-number v-model="investment.presentAsset" :min="0" />
-                        </el-form-item> -->
+                        <el-form-item label="購屋西元年">
+                            <el-input-number v-model="mortgage.buyHouseYear" @change="calculateAsset()" />
+                        </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="房貸利息" @change="calculateAsset()">
@@ -48,12 +48,22 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
+                <!-- <el-row>
+                    <el-col :span="12">
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="房貸利息" @change="calculateAsset()">
+                            <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
+                        </el-form-item>
+                    </el-col>
+                </el-row> -->
                 <canvas v-show="!unableToDraw" id="assetChart"></canvas>
             </el-form>
             <template #footer>
                 <el-collapse>
                     <el-collapse-item title="試算說明" name="1" :border="true">
                         <ul>
+                            <li>將日期歸零，則視同取消計算項目。</li>
                             <li>因版面有限，只計算退休前資產累積。</li>
                         </ul>
                         <table class="table">
@@ -233,7 +243,7 @@ function drawLifeAssetChart(propagate = true) {
         const { monthlySaving } = props.career
         const annualSaving = monthlySaving * 12
         investingData.push(annualSaving)
-        let calculatedPmt = annualSaving
+        let calculatedPmt = annualSaving * inflationModifier
 
         // 育兒開支影響每月儲蓄
         const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, spouseMonthlyContribution } = props.parenting
@@ -243,16 +253,16 @@ function drawLifeAssetChart(propagate = true) {
         const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
         let childExpense = 0
         if (hasFirstBorn) {
-            childExpense += childAnnualExpense
+            childExpense += childAnnualExpense * inflationModifier
         }
         if (hasSecondBorn) {
-            childExpense += childAnnualExpense
+            childExpense += childAnnualExpense * inflationModifier
         }
         if (hasFirstBorn || hasSecondBorn) {
-            const spouseAnnualContribution = spouseMonthlyContribution * 12
+            const spouseAnnualContribution = spouseMonthlyContribution * 12 * inflationModifier
             childExpense -= spouseAnnualContribution
             calculatedPmt -= childExpense
-            childExpenseData.push(childExpense)
+            childExpenseData.push(Math.floor(childExpense))
         } else {
             childExpenseData.push(0)
         }
@@ -269,7 +279,7 @@ function drawLifeAssetChart(propagate = true) {
             mortgagePmt = monthlyRepay * 12
         }
         calculatedPmt -= mortgagePmt
-        mortgageData.push(mortgagePmt)
+        mortgageData.push(Math.floor(mortgagePmt))
 
         // 計算複利終值
         fv = pv * irrModifier + calculatedPmt
@@ -287,6 +297,13 @@ function drawLifeAssetChart(propagate = true) {
         //     data: investingData,
         // }
     ]
+    const hasChildExpense = childExpenseData.some(value => value !== 0)
+    if (hasChildExpense) {
+        datasets.push({
+            label: '育兒支出',
+            data: childExpenseData,
+        })
+    }
     if (buyHouseYear) {
         datasets.push({
             label: '房貸支出',
@@ -297,13 +314,6 @@ function drawLifeAssetChart(propagate = true) {
             data: downpayData,
         })
     }
-    const hasChildExpense = childExpenseData.some(value => value !== 0)
-    if (hasChildExpense) {
-        datasets.push({
-            label: '育兒支出',
-            data: childExpenseData,
-        })
-    }
     const chartData = {
         datasets,
         labels
@@ -311,12 +321,12 @@ function drawLifeAssetChart(propagate = true) {
     if (propagate) {
         emits('update:modelValue', investment.value)
     }
+
     if (investmentChartInstance.value) {
         investmentChartInstance.value.data = chartData
         investmentChartInstance.value.update()
         return
     }
-
     const ctx: any = document.getElementById('assetChart')
     const chartInstance = new Chart(ctx, {
         type: 'bar',

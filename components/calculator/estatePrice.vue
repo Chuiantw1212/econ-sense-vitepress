@@ -207,12 +207,4 @@ defineExpose({
         background: white !important;
     }
 }
-
-:deep(.my-label) {
-    background: white;
-}
-
-:deep(.my-content) {
-    background: white;
-}
 </style>

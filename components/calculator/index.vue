@@ -42,6 +42,8 @@
         <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
                 aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
 
+        <Spouse v-model="spouse"></Spouse>
+
         <Parenting v-model="parenting" :config="config" :investment="investment" :estateSize="estateSize"
             ref="ParentingRef" @update:model-value="onParentingChanged()">
         </Parenting>
@@ -76,6 +78,7 @@ import Career from './career.vue'
 import Retirement from './retirement.vue'
 import Investment from './investment.vue'
 import Estate from './estate.vue'
+import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
 import EstateSize from './estateSize.vue'
 import EstatePrice from './estatePrice.vue'
@@ -149,8 +152,6 @@ async function authFetch(appendUrl, options) {
         }
     }
 
-    console.log(appendUrl, options.body)
-
     defaultOptions.method = options.method
     if (options.body) {
         defaultOptions.body = JSON.stringify(options.body)
@@ -189,8 +190,6 @@ const config = reactive({
     buildingTypes: [],
     buildingAges: [],
     retirementQuartile: [],
-    birthYearOptions: [],
-    marriageYearOptions: [],
     // object types
     townMap: {},
     portfolioIRR: {},
@@ -222,12 +221,6 @@ async function setSelecOptionSync() {
         const bankConfigResJson = await bankConfigRes.json()
         mortgage.interestRate = bankConfigResJson.interestRate
         Object.assign(config.portfolioIRR, bankConfigResJson.portfolioIRR)
-
-        const year = new Date().getFullYear()
-        for (let i = 0; i < 60; i++) {
-            config.birthYearOptions.push(Number(year) - i - 18)
-            config.marriageYearOptions.push(Number(year) - i)
-        }
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
@@ -293,14 +286,20 @@ async function getUserFormSync(firebaseUser) {
             qualityLevel: 3,
             expenseQuartileMarks: {}
         },
-        investment: {
-            allocationETF: 'aok',
-            stockPercentage: 20,
+        spouse: {
+            yearOfMarriage: config.currentYear,
+            marriageLength: 0,
+            monthlyContribution: 0,
+            weddingExpense: 0,
         },
         parenting: {
             childAnnualExpense: 212767,
             independantAge: 18,
             lifeInsurance: 0,
+        },
+        investment: {
+            allocationETF: 'aok',
+            stockPercentage: 20,
         },
         estatePrice: {},
         estateSize: {
@@ -340,6 +339,7 @@ async function getUserFormSync(firebaseUser) {
         Object.assign(career, initForm.career)
         Object.assign(retirement, initForm.retirement)
         Object.assign(investment, initForm.investment)
+        Object.assign(spouse, initForm.spouse)
         Object.assign(estatePrice, initForm.estatePrice)
         Object.assign(estateSize, initForm.estateSize)
         Object.assign(mortgage, initForm.mortgage)
@@ -422,6 +422,9 @@ function onRetirementChanged() {
         method: 'put',
         body: retirement,
     })
+    InvestmentRef.value.calculateAsset({
+        propagate: true,
+    })
 }
 // 投資試算
 let investment = reactive({
@@ -441,6 +444,8 @@ function onInvestmentChanged() {
         propagate: false,
     })
 }
+// 配偶試算
+let spouse = reactive({})
 // 育兒試算
 let parenting = reactive({
     childAnnualExpense: 0,
@@ -590,13 +595,5 @@ onMounted(async () => {
         color: var(--el-text-color-regular);
         background: white !important;
     }
-}
-
-:deep(.my-label) {
-    background: white;
-}
-
-:deep(.my-content) {
-    background: white;
 }
 </style>

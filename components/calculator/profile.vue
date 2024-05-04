@@ -31,7 +31,7 @@
                             <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
                                 @change="calculateProfile()" style="width: 130px">
                                 <option label="請選擇" value=""></option>
-                                <option v-for="year in config.birthYearOptions" :key="year" :label="year"
+                                <option v-for="year in birthYearOptions" :key="year" :label="String(year)"
                                     :value="year" />
                             </select>
                         </el-form-item>
@@ -132,8 +132,13 @@ const props = defineProps({
         }
     }
 })
+const birthYearOptions = ref<number[]>([])
 const isFullScreen = ref(false)
 onMounted(async () => {
+    const year = new Date().getFullYear()
+    for (let i = 0; i < 60; i++) {
+        birthYearOptions.value.push(Number(year) - i - 18)
+    }
     window?.addEventListener('resize', onResize)
 })
 onBeforeUnmount(() => {
@@ -241,13 +246,5 @@ defineExpose({
         color: var(--el-text-color-regular);
         background: white !important;
     }
-}
-
-:deep(.my-label) {
-    background: white;
-}
-
-:deep(.my-content) {
-    background: white;
 }
 </style>
