@@ -119,13 +119,13 @@
                     </el-col>
                     <el-col :span="23">
                         <el-form-item label="退休月支出">
-                            <el-slider v-model="retirement.percentileRank" :marks="retirement.expenseQuartileMarks"
+                            <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks"
                                 :disabled="true" />
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <br />
-                <canvas id="pensionChart"></canvas>
+                <canvas v-show="!unableToDraw" id="pensionChart"></canvas>
             </el-form>
             <template #footer>
                 <el-collapse>
@@ -192,7 +192,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, shallowRef } from 'vue'
+import { ref, computed, shallowRef, reactive } from 'vue'
 import Chart from 'chart.js/auto';
 interface IOptionItem {
     label: string,
@@ -226,11 +226,14 @@ const props = defineProps({
         }
     }
 })
+const expenseQuartileMarks = reactive({})
+
 const retirement = computed(() => {
     return props.modelValue
 })
 function calculateRetirement(options: any = { propagate: true }) {
     const { propagate = true } = options
+    calculateExpenseQuartileMarks()
     calculateRetireLife()
     calculateFutureSeniority()
     calculateInsuranceMonthlyAnnuity()
@@ -239,7 +242,15 @@ function calculateRetirement(options: any = { propagate: true }) {
         drawRetirementAssetChart(propagate)
     })(propagate)
 }
-async function calculateRetireLife() {
+function calculateExpenseQuartileMarks() {
+    props.config.retirementQuartile.forEach((item, index) => {
+        const { value } = item
+        const percentileRank = (index + 1) * 20 - 10
+        const retirementMonthlyExpense = Number(value) / 12
+        expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
+    })
+}
+function calculateRetireLife() {
     const { age: currentAge, lifeExpectancy } = props.profile
     const { age: retireAge } = retirement.value
     if (currentAge && lifeExpectancy && retireAge) {
@@ -277,9 +288,29 @@ function calculateRetirementExpense() {
     retirement.value.percentileRank = qualityLevel * 20 - 10
     const selectedItem: IOptionItem = props.config.retirementQuartile[qualityLevel - 1]
     retirement.value.annualExpense = Number(selectedItem.value)
-    drawRetirementAssetChart()
 }
+
+const unableToDraw = computed(() => {
+    const { monthlyContribution } = props.career.pension
+    const {
+        irrOverDecade
+    } = retirement.value.pension
+    const {
+        yearToRetirement,
+        lifeExpectancy,
+        annualExpense,
+    } = retirement.value
+    const {
+        monthlyAnnuity,
+    } = retirement.value.insurance
+    const noBefore = !monthlyContribution || !irrOverDecade || !yearToRetirement
+    const noAfter = !lifeExpectancy || !annualExpense || !monthlyAnnuity
+    return noBefore || noAfter
+})
 async function drawRetirementAssetChart(propagate = false) {
+    if (unableToDraw.value) {
+        return
+    }
     // 計算資料
     const {
         employerContribution,

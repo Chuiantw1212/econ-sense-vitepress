@@ -216,12 +216,6 @@ async function setSelecOptionSync() {
         config.buildingAges = selectResJson.buildingAges || []
         config.genders = selectResJson.genders || []
         config.retirementQuartile = selectResJson.retirementQuartile || []
-        config.retirementQuartile.forEach((item, index) => {
-            const { value } = item
-            const percentileRank = (index + 1) * 20 - 10
-            const retirementMonthlyExpense = Number(value) / 12
-            retirement.expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
-        })
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
         const bankConfigRes = await fetch(`${VITE_BASE_URL}/bank/config`)
@@ -280,7 +274,7 @@ async function getUserFormSync(firebaseUser) {
         },
         retirement: {
             age: 65,
-            lifeExpectancy:0,
+            lifeExpectancy: 0,
             pension: {
                 employeeContrubution: 0,
                 employeeContrubutionIncome: 0,
@@ -388,13 +382,16 @@ let profile = reactive({
     age: 0,
     lifeExpectancy: 0,
 })
-function onProfileChanged() {
+async function onProfileChanged() {
     authFetch(`/user/profile`, {
         method: 'put',
         body: profile,
     })
-    RetirementRef.value.calculateRetirement({
-        propagate: false,
+    await RetirementRef.value.calculateRetirement({
+        propagate: true,
+    })
+    await InvestmentRef.value.calculateAsset({
+        propagate: true,
     })
 }
 // 職業試算
