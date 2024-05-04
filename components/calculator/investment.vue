@@ -26,12 +26,13 @@
                 <br />
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="已備資產" @change="calculateAsset()">
-                            <el-input-number v-model="investment.presentAsset" :min="0" />
+                        <el-form-item label="已備資產">
+                            <el-input-number v-model="investment.presentAsset" :min="0" :step="100000"
+                                @change="calculateAsset()" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="儲蓄投資" @change="calculateAsset()">
+                        <el-form-item label="儲蓄投資">
                             <el-text>{{ Number(career.monthlySaving).toLocaleString() }} NTD / 月</el-text>
                         </el-form-item>
                     </el-col>
@@ -45,7 +46,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="房貸利息" @change="calculateAsset()">
+                                <el-form-item label="房貸利息">
                                     <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
                                 </el-form-item>
                             </el-col>
@@ -203,7 +204,7 @@ const investment = computed(() => {
 function calculateAsset(options: any = { propagate: true }) {
     calculateInvestmentPeriod()
     calculatePortfolio()
-
+    console.log('calculateAsset')
     const { propagate = true } = options
     debounce(() => {
         drawLifeAssetChart(propagate)
@@ -268,7 +269,7 @@ function drawLifeAssetChart(propagate = true) {
         if (year === buyHouseYear) {
             const inflatedDownpay = downPayment * inflationModifier
             pv -= inflatedDownpay
-            downpayData.push(inflatedDownpay)
+            downpayData.push(Math.floor(inflatedDownpay))
         } else {
             downpayData.push(0)
         }

@@ -18,7 +18,7 @@
                 <el-col :span="23">
                     <el-form-item label="參考頭期款">
                         <el-slider v-model="estatePrice.budgetGoal" :marks="downpayMarks" :min="estatePrice.downpayMin"
-                            :max="estatePrice.downpayMax" @change="calculateBudgetPeriod($event)" />
+                            :max="estatePrice.downpayMax" @change="calculateBudgetPeriod()" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -27,7 +27,7 @@
                 <el-col :span="12">
                     <el-form-item label="已備頭期款">
                         <el-input-number v-model="estatePrice.budget" :min="0" :step="200000"
-                            @change="calculateBudgetPeriod($event)" />
+                            @change="calculateBudgetPeriod()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -38,9 +38,8 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="目標頭期款">
-                        <el-input-number v-model="estatePrice.budgetGoal" :min="0"
-                            @change="calculateBudgetPeriod($event)" />
+                    <el-form-item label="參考頭期款">
+                        <el-input-number v-model="estatePrice.budgetGoal" :min="0" @change="calculateBudgetPeriod()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -271,6 +270,7 @@ function drawDownpayChart(propagate = false) {
     if (unableToDrawChart.value) {
         return
     }
+    console.log({ propagate })
     if (propagate) {
         emits('update:modelValue', estatePrice.value)
     }
@@ -321,7 +321,7 @@ function drawDownpayChart(propagate = false) {
                 data: dataSetData,
             },
             {
-                label: '目標頭期款',
+                label: '參考頭期款',
                 data: estateTotalPrice,
             }
         ],

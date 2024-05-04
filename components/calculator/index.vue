@@ -535,6 +535,9 @@ async function onEstateBudgetChanged() {
         method: 'put',
         body: estatePrice,
     })
+    InvestmentRef.value.calculateAsset({
+        propagate: false,
+    })
 }
 let estateSize = reactive({
     doubleBedRoom: 0,

@@ -10,10 +10,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="預估貸款成數">
+                        <!-- <el-form-item label="預估貸款成數">
                             <a href="https://member.jcic.org.tw/main_member/MorgageQuery.aspx"
                                 target="_blank">住宅貸款統計查詢網</a>
-                        </el-form-item>
+                        </el-form-item> -->
                     </el-col>
                 </el-row>
                 <el-row>

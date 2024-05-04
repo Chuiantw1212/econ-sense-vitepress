@@ -29,7 +29,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="已婚年數">
+                    <el-form-item v-if="spouse.marriageLength > 0" label="已婚年數">
                         <el-text>{{ spouse.marriageLength }} 歲</el-text>
                     </el-form-item>
                 </el-col>
@@ -102,10 +102,12 @@ function setMarriageYears() {
     const beforeYears = []
     const afterYears = []
     for (let i = 0; i < 20; i++) {
-        beforeYears.push(currentYear - i)
         afterYears.push(currentYear + i)
+        if (i !== 0) {
+            beforeYears.push(currentYear - i)
+        }
     }
-    marriageYearOptions.value = [...beforeYears.reverse(), ...afterYears]
+    marriageYearOptions.value = [...afterYears.reverse(), ...beforeYears,]
 }
 function calculatecSpouse(options: any = { propagate: true }) {
     const { yearOfMarriage, yearOfBirth } = spouse.value
