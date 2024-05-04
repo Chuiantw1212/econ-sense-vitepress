@@ -13,7 +13,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="配偶貢獻">
-                            <el-text>{{ Number(spouse.monthlyContribution).toLocaleString() }} NTD/月</el-text>
+                            <el-text>{{ Number(spouse.monthlyContribution).toLocaleString() }} NTD / 月</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -89,9 +89,12 @@
                                 保險事故日期假定為長子出生年，且投資報酬率比照原先資產配置
                             </li>
                             <li>
+                                遺囑年金：<a href="https://www.bli.gov.tw/0014363.html" target="_blank">勞動部勞工保險局</a>
+                            </li>
+                            <li>
                                 扶養成本會受到通膨影響
                             </li>
-                            <li>資料來源：
+                            <li>育兒開支
                                 <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
                                     主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
                                 </a>
