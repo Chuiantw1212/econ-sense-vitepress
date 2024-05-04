@@ -44,8 +44,9 @@
 
         <Spouse v-model="spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()"></Spouse>
 
-        <Parenting v-model="parenting" :config="config" :spouse="spouse" :investment="investment"
-            :estateSize="estateSize" ref="ParentingRef" @update:model-value="onParentingChanged()">
+        <Parenting v-model="parenting" :config="config" :career="career" :retirement="retirement" :spouse="spouse"
+            :investment="investment" :estateSize="estateSize" ref="ParentingRef"
+            @update:model-value="onParentingChanged()">
         </Parenting>
 
         <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算<a class="header-anchor" href="#購屋總價試算"

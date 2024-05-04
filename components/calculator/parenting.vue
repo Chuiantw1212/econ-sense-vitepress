@@ -154,6 +154,20 @@ const props = defineProps({
         },
         required: true,
     },
+    career: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
+    },
+    retirement: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
+    },
     spouse: {
         type: Object,
         default: () => {
@@ -181,21 +195,14 @@ const parenting = computed(() => {
 })
 function calculateParenting(options: any = { propagate: true }) {
     const { propagate = true } = options
+    calculateHeadCount()
     debounce(() => {
         drawParentingChart(propagate)
     })(propagate)
 }
-function drawParentingChart(propagate = true) {
-    // 繪製圖
-    const { inflationRate } = props.config
-    const inflationRatio = 1 + inflationRate / 100
-    let inflationModifier = 1
-    const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, } = parenting.value
+function calculateHeadCount() {
+    const { firstBornYear, secondBornYear, } = parenting.value
     const { monthlyContribution } = props.spouse
-
-    // 計算投資報酬率
-    const investmentIrr = 1 + props.investment.irr / 100
-    // 計算家庭人口
     let headCount = 1 // 自己
     if (monthlyContribution) {
         headCount += 1
@@ -207,32 +214,48 @@ function drawParentingChart(propagate = true) {
         headCount += 1
     }
     parenting.value.headCount = headCount
-    const firstBornEndYear = firstBornYear + independantAge
-    const secondBornEndYear = secondBornYear + independantAge
-    const parentingDuration = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
+}
+function drawParentingChart(propagate = true) {
+    // 繪製圖
+    const { inflationRate } = props.config
+    const inflationRatio = 1 + inflationRate / 100
+    let inflationModifier: number = 1
+    const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, } = parenting.value
+    const { monthlyContribution } = props.spouse
+    const { survivorPension } = props.retirement
+
+    // 計算投資報酬率
+    const investmentIrr = 1 + props.investment.irr / 100
+    const firstBornEndYear: number = firstBornYear + independantAge
+    const secondBornEndYear: number = secondBornYear + independantAge
+    const parentingDuration: number = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
     const labels: number[] = []
     const firstBornData: number[][] = []
     const secondBornData: number[][] = []
     const lifeInsuranceEquity: number[][] = []
     const lifeInsuranceCash: number[][] = []
+    // const survivorPension: number[][] = []
     let cash = lifeInsurance
-    let pv = lifeInsurance
-    let fv = 0
+    let pv: number = lifeInsurance
+    let fv: number = 0
 
     for (let i = 0; i < parentingDuration; i++) {
-        const simYear = firstBornYear + i
+        const simYear: number = firstBornYear + i
         labels.push(simYear)
-
         const inflatedChildExpense = Math.floor(childAnnualExpense * inflationModifier)
-        let pmt = 0
-        const hasFirstBorn = firstBornYear && firstBornYear <= simYear && simYear < firstBornEndYear
+        /**
+         * 計算PMT
+         */
+        let pmt: number = 0
+        // 生育支出
+        const hasFirstBorn: boolean = firstBornYear && firstBornYear <= simYear && simYear < firstBornEndYear
         if (hasFirstBorn) {
             pmt -= inflatedChildExpense
             firstBornData.push([0, inflatedChildExpense])
         } else {
             firstBornData.push([0, 0])
         }
-        const hasSecondBorn = secondBornYear && secondBornYear <= simYear && simYear < secondBornEndYear
+        const hasSecondBorn: boolean = secondBornYear && secondBornYear <= simYear && simYear < secondBornEndYear
         if (hasSecondBorn) {
             secondBornData.push([-pmt, - (pmt - inflatedChildExpense)]) // 負負得正
             pmt -= inflatedChildExpense
@@ -240,13 +263,21 @@ function drawParentingChart(propagate = true) {
             secondBornData.push([0, 0])
         }
         if (hasFirstBorn && hasSecondBorn) {
-            pmt += monthlyContribution
+            pmt += monthlyContribution * inflationModifier
+        }
+        // 遺囑年金
+        if (survivorPension) {
+            const inflatedSurvivorPension = Math.floor(survivorPension * inflationModifier)
+            pmt += inflatedSurvivorPension
+            // survivorPension.push([])
         }
 
+        // 儲存資料
         fv = pv * investmentIrr + pmt
-        lifeInsuranceEquity.push([pmt, Math.floor(fv)])
+        const floorPmt = Math.floor(pmt)
+        lifeInsuranceEquity.push([floorPmt, Math.floor(Math.max(0, fv))])
         cash = cash + pmt
-        lifeInsuranceCash.push([pmt, Math.floor(cash)])
+        lifeInsuranceCash.push([floorPmt, Math.floor(Math.max(0, cash))])
 
         inflationModifier *= inflationRatio
         pv = fv
@@ -321,6 +352,9 @@ function drawParentingChart(propagate = true) {
                 x: {
                     stacked: true,
                 },
+                // y: { // 要部份stacked，部分overlap
+                //     stacked: true,
+                // },
             }
         }
     })

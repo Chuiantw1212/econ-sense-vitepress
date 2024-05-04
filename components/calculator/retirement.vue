@@ -61,7 +61,7 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                        <el-row v-if="retirement.insurance.presentSeniority >= 15">
+                        <el-row v-if="retirement.insurance.survivorPension">
                             <el-col :span="12">
                             </el-col>
                             <el-col :span="12">
@@ -295,6 +295,8 @@ function calculateInsuranceMonthlyAnnuity() { // presentSeniority
     retirement.value.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
     if (presentSeniority >= 15) { // 遺囑年金 https://www.bli.gov.tw/0007867.html
         retirement.value.insurance.survivorPension = Math.floor(retirement.value.insurance.monthlyAnnuity / 2)
+    } else {
+        retirement.value.insurance.survivorPension = 0
     }
     if (lifeExpectancy) { // 勞保年金請領總和
         retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy))
