@@ -12,8 +12,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="房屋可容納人數">
-                            <el-text>{{ parenting.headCount }} 人</el-text>
+                        <el-form-item label="配偶貢獻">
+                            <el-text>{{ Number(spouse.monthlyContribution).toLocaleString() }} NTD/月</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -35,6 +35,9 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
+                        <el-form-item label="房屋應容納人數">
+                            <el-text>{{ parenting.headCount }} 人</el-text>
+                        </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
@@ -47,7 +50,7 @@
                     <el-col :span="12">
                     </el-col>
                 </el-row>
-                <el-row>
+                <!-- <el-row>
                     <el-col :span="12">
                         <el-form-item label="配偶貢獻/月">
                             <el-input-number v-model="parenting.spouseMonthlyContribution" :min="0"
@@ -56,7 +59,7 @@
                     </el-col>
                     <el-col :span="12">
                     </el-col>
-                </el-row>
+                </el-row> -->
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="壽險已備">
@@ -148,6 +151,13 @@ const props = defineProps({
         },
         required: true,
     },
+    spouse: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
+    },
     investment: {
         type: Object,
         default: () => {
@@ -177,13 +187,14 @@ function drawParentingChart(propagate = true) {
     const { inflationRate } = props.config
     const inflationRatio = 1 + inflationRate / 100
     let inflationModifier = 1
-    const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, spouseMonthlyContribution } = parenting.value
+    const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, } = parenting.value
+    const { monthlyContribution } = props.spouse
 
     // 計算投資報酬率
     const investmentIrr = 1 + props.investment.irr / 100
     // 計算家庭人口
     let headCount = 1 // 自己
-    if (spouseMonthlyContribution) {
+    if (monthlyContribution) {
         headCount += 1
     }
     if (firstBornYear) {

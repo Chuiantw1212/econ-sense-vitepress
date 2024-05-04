@@ -3,6 +3,22 @@
         <el-form label-width="auto">
             <el-row>
                 <el-col :span="12">
+                    <el-form-item label="出生年">
+                        <select v-model="spouse.yearOfBirth" class="form__select" placeholder="請選擇"
+                            @change="calculatecSpouse()" style="width: 130px">
+                            <option label="請選擇" value=""></option>
+                            <option v-for="year in birthYearOptions" :key="year" :label="String(year)" :value="year" />
+                        </select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="試算年齡">
+                        <el-text>{{ spouse.age }} 歲</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
                     <el-form-item label="結婚年">
                         <select v-model="spouse.yearOfMarriage" class="form__select" placeholder="請選擇"
                             @change="calculatecSpouse()" style="width: 130px">
@@ -13,13 +29,20 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
+                    <el-form-item label="已婚年數">
+                        <el-text>{{ spouse.marriageLength }} 歲</el-text>
+                    </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="婚禮預算">
-                        <el-input-number v-model="spouse.weddingExpense" @change="calculatecSpouse()" />
+                    <el-form-item label="配偶貢獻/月">
+                        <el-input-number v-model="spouse.monthlyContribution" :min="0" :step="1000"
+                            @change="calculatecSpouse($event)" />
                     </el-form-item>
+                    <!-- <el-form-item label="婚禮預算">
+                        <el-input-number v-model="spouse.weddingExpense" @change="calculatecSpouse()" />
+                    </el-form-item> -->
                 </el-col>
                 <el-col :span="12">
                 </el-col>
@@ -46,9 +69,11 @@ const props = defineProps({
         }
     },
 })
+const birthYearOptions = ref<number[]>([])
 const marriageYearOptions = ref<number[]>([])
 // hooks
 onMounted(() => {
+    setBirthYearOptions()
     setMarriageYears()
 })
 
@@ -63,9 +88,15 @@ const unableToDraw = computed(() => {
     // const noIY = !irr
     // const noN = !period
     // return (noPv && noPmt) || noIY || noN
-    return false
+    return true
 })
 // methods
+function setBirthYearOptions() {
+    const year = new Date().getFullYear()
+    for (let i = 0; i < 60; i++) {
+        birthYearOptions.value.push(Number(year) - i - 18)
+    }
+}
 function setMarriageYears() {
     const currentYear = new Date().getFullYear()
     const beforeYears = []
@@ -77,6 +108,10 @@ function setMarriageYears() {
     marriageYearOptions.value = [...beforeYears.reverse(), ...afterYears]
 }
 function calculatecSpouse(options: any = { propagate: true }) {
+    const { yearOfMarriage, yearOfBirth } = spouse.value
+    spouse.value.marriageLength = props.config.currentYear - yearOfMarriage
+    spouse.value.age = props.config.currentYear - yearOfBirth
+
     const { propagate = true } = options
     debounce(() => {
         drawMarriageChart(propagate)

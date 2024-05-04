@@ -134,11 +134,9 @@ const props = defineProps({
 })
 const birthYearOptions = ref<number[]>([])
 const isFullScreen = ref(false)
+// hooks
 onMounted(async () => {
-    const year = new Date().getFullYear()
-    for (let i = 0; i < 60; i++) {
-        birthYearOptions.value.push(Number(year) - i - 18)
-    }
+    setBirthYearOptions()
     window?.addEventListener('resize', onResize)
 })
 onBeforeUnmount(() => {
@@ -150,6 +148,13 @@ function onResize() {
 const profile = computed(() => {
     return props.modelValue
 })
+// methods
+function setBirthYearOptions() {
+    const year = new Date().getFullYear()
+    for (let i = 0; i < 60; i++) {
+        birthYearOptions.value.push(Number(year) - i - 18)
+    }
+}
 function toggleSignInDialog(value) {
     loginDialogVisible.value = value
 }

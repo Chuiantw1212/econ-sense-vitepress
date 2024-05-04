@@ -39,13 +39,13 @@
             @update:model-value="onInvestmentChanged()">
         </Investment>
 
-        <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
+        <h3 id="_結婚試算" tabindex="-1">配偶試算<a class="header-anchor" href="#配偶試算"
                 aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
 
-        <Spouse v-model="spouse"></Spouse>
+        <Spouse v-model="spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()"></Spouse>
 
-        <Parenting v-model="parenting" :config="config" :investment="investment" :estateSize="estateSize"
-            ref="ParentingRef" @update:model-value="onParentingChanged()">
+        <Parenting v-model="parenting" :config="config" :spouse="spouse" :investment="investment"
+            :estateSize="estateSize" ref="ParentingRef" @update:model-value="onParentingChanged()">
         </Parenting>
 
         <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算<a class="header-anchor" href="#購屋總價試算"
@@ -87,6 +87,7 @@ const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
 const InvestmentRef = ref()
+const SpouseRef = ref()
 const ParentingRef = ref()
 const EstateSizeRef = ref()
 const EstatePriceRef = ref()
@@ -291,6 +292,7 @@ async function getUserFormSync(firebaseUser) {
             marriageLength: 0,
             monthlyContribution: 0,
             weddingExpense: 0,
+            yearOfBirth: '',
         },
         parenting: {
             childAnnualExpense: 212767,
@@ -355,6 +357,9 @@ async function initializeCalculator() {
         propagate: true,
     })
     await RetirementRef.value.calculateRetirement({
+        propagate: true,
+    })
+    await SpouseRef.value.calculatecSpouse({
         propagate: true,
     })
     await InvestmentRef.value.calculateAsset({
@@ -446,6 +451,12 @@ function onInvestmentChanged() {
 }
 // 配偶試算
 let spouse = reactive({})
+function onSpouseChanged() {
+    authFetch(`/user/spouse`, {
+        method: 'put',
+        body: spouse,
+    })
+}
 // 育兒試算
 let parenting = reactive({
     childAnnualExpense: 0,
