@@ -12,8 +12,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="房屋可容納人數">
-                            <el-text>{{ parenting.headCount }} 人</el-text>
+                        <el-form-item label="配偶貢獻">
+                            <el-text>{{ Number(spouse.monthlyContribution).toLocaleString() }} NTD / 月</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -35,6 +35,9 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
+                        <el-form-item label="家庭成員數">
+                            <el-text>{{ parenting.headCount }} 人</el-text>
+                        </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
@@ -45,22 +48,15 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="配偶貢獻/月">
-                            <el-input-number v-model="parenting.spouseMonthlyContribution" :min="0"
-                                @change="calculateParenting($event)" />
+                        <el-form-item label="房屋可容納人數">
+                            <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
                         </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="壽險已備">
-                            <el-input-number v-model="parenting.lifeInsurance" :min="0"
+                            <el-input-number v-model="parenting.lifeInsurance" :min="0" :step="100000"
                                 @change="calculateParenting($event)" />
                         </el-form-item>
                     </el-col>
@@ -86,9 +82,12 @@
                                 保險事故日期假定為長子出生年，且投資報酬率比照原先資產配置
                             </li>
                             <li>
+                                遺囑年金：<a href="https://www.bli.gov.tw/0014363.html" target="_blank">勞動部勞工保險局</a>
+                            </li>
+                            <li>
                                 扶養成本會受到通膨影響
                             </li>
-                            <li>資料來源：
+                            <li>育兒開支
                                 <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
                                     主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
                                 </a>
@@ -148,6 +147,27 @@ const props = defineProps({
         },
         required: true,
     },
+    career: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
+    },
+    retirement: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
+    },
+    spouse: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
+    },
     investment: {
         type: Object,
         default: () => {
@@ -168,22 +188,16 @@ const parenting = computed(() => {
 })
 function calculateParenting(options: any = { propagate: true }) {
     const { propagate = true } = options
+    calculateHeadCount()
     debounce(() => {
         drawParentingChart(propagate)
     })(propagate)
 }
-function drawParentingChart(propagate = true) {
-    // 繪製圖
-    const { inflationRate } = props.config
-    const inflationRatio = 1 + inflationRate / 100
-    let inflationModifier = 1
-    const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, spouseMonthlyContribution } = parenting.value
-
-    // 計算投資報酬率
-    const investmentIrr = 1 + props.investment.irr / 100
-    // 計算家庭人口
+function calculateHeadCount() {
+    const { firstBornYear, secondBornYear, } = parenting.value
+    const { monthlyContribution } = props.spouse
     let headCount = 1 // 自己
-    if (spouseMonthlyContribution) {
+    if (monthlyContribution) {
         headCount += 1
     }
     if (firstBornYear) {
@@ -193,48 +207,82 @@ function drawParentingChart(propagate = true) {
         headCount += 1
     }
     parenting.value.headCount = headCount
-    const firstBornEndYear = firstBornYear + independantAge
-    const secondBornEndYear = secondBornYear + independantAge
-    const parentingDuration = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
+}
+function drawParentingChart(propagate = true) {
+    // 繪製圖
+    const { inflationRate } = props.config
+    const inflationRatio = 1 + inflationRate / 100
+    let inflationModifier: number = 1
+    const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, } = parenting.value
+    const { monthlyContribution } = props.spouse
+    const { survivorPension } = props.retirement.insurance
+
+    // 計算投資報酬率
+    const investmentIrr = 1 + props.investment.irr / 100
+    const firstBornEndYear: number = firstBornYear + independantAge
+    const secondBornEndYear: number = secondBornYear + independantAge
+    const parentingDuration: number = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
+    const spouseAnnualContribution: number = monthlyContribution * 12
+    const annualInsuranceSurvivorPension: number = survivorPension * 12
+    // 輸出資料
     const labels: number[] = []
     const firstBornData: number[][] = []
     const secondBornData: number[][] = []
+    const spouseContributionData: number[][] = []
     const lifeInsuranceEquity: number[][] = []
     const lifeInsuranceCash: number[][] = []
-    // let cash = lifeInsurance
-    let pv = lifeInsurance
-    let fv = 0
+    const survivorPensionData: number[][] = []
+    let cash = lifeInsurance
+    let pv: number = lifeInsurance
+    let fv: number = 0
 
     for (let i = 0; i < parentingDuration; i++) {
-        const simYear = firstBornYear + i
+        inflationModifier *= inflationRatio
+        const simYear: number = firstBornYear + i
         labels.push(simYear)
-
+        /**
+         * 計算PMT
+         */
+        let pmt: number = 0
+        // 生育支出
         const inflatedChildExpense = Math.floor(childAnnualExpense * inflationModifier)
-        let pmt = 0
-        const hasFirstBorn = firstBornYear && firstBornYear <= simYear && simYear < firstBornEndYear
+        const hasFirstBorn: boolean = firstBornYear && firstBornYear <= simYear && simYear < firstBornEndYear
         if (hasFirstBorn) {
             pmt -= inflatedChildExpense
-            firstBornData.push([0, inflatedChildExpense])
+            firstBornData.push([0, -inflatedChildExpense])
         } else {
             firstBornData.push([0, 0])
         }
-        const hasSecondBorn = secondBornYear && secondBornYear <= simYear && simYear < secondBornEndYear
+        const hasSecondBorn: boolean = secondBornYear && secondBornYear <= simYear && simYear < secondBornEndYear
         if (hasSecondBorn) {
-            secondBornData.push([-pmt, - (pmt - inflatedChildExpense)]) // 負負得正
+            secondBornData.push([pmt, (pmt - inflatedChildExpense)]) // 負負得正
             pmt -= inflatedChildExpense
         } else {
             secondBornData.push([0, 0])
         }
         if (hasFirstBorn && hasSecondBorn) {
-            pmt += spouseMonthlyContribution
+            const inflatedSpouseContribution = Math.floor(spouseAnnualContribution * inflationModifier)
+            pmt += inflatedSpouseContribution
+            spouseContributionData.push([0, inflatedSpouseContribution])
+        } else {
+            spouseContributionData.push([0, 0])
+        }
+        // 遺囑年金
+        if (survivorPension) {
+            const inflatedSurvivorPension = Math.floor(annualInsuranceSurvivorPension * inflationModifier)
+            pmt += inflatedSurvivorPension
+            survivorPensionData.push([0, inflatedSurvivorPension])
+        } else {
+            survivorPensionData.push([0, 0])
         }
 
+        // 儲存資料
         fv = pv * investmentIrr + pmt
-        lifeInsuranceEquity.push([pmt, Math.floor(fv)])
-        // cash = cash + pmt
-        // lifeInsuranceCash.push([pmt, Math.floor(cash)])
+        const floorPmt = Math.floor(pmt)
+        lifeInsuranceEquity.push([floorPmt, Math.floor(Math.max(0, fv))])
+        cash = cash + pmt
+        lifeInsuranceCash.push([floorPmt, Math.floor(Math.max(0, cash))])
 
-        inflationModifier *= inflationRatio
         pv = fv
     }
     const datasets: {
@@ -260,6 +308,22 @@ function drawParentingChart(propagate = true) {
             tension,
         })
     }
+    if (firstBornYear || secondBornYear) {
+        datasets.push({
+            label: '配偶扶養',
+            data: spouseContributionData,
+            fill: true,
+            tension,
+        })
+    }
+    if (survivorPension) {
+        datasets.push({
+            label: '遺囑年金',
+            data: survivorPensionData,
+            fill: true,
+            tension,
+        })
+    }
     if (lifeInsurance) {
         datasets.push({
             label: '壽險+投資',
@@ -267,12 +331,12 @@ function drawParentingChart(propagate = true) {
             fill: true,
             tension,
         })
-        // datasets.push({
-        //     label: '壽險不投資',
-        //     data: lifeInsuranceCash,
-        //     fill: true,
-        //     tension,
-        // })
+        datasets.push({
+            label: '壽險不投資',
+            data: lifeInsuranceCash,
+            fill: true,
+            tension,
+        })
     }
 
     const data: any = {
@@ -307,6 +371,9 @@ function drawParentingChart(propagate = true) {
                 x: {
                     stacked: true,
                 },
+                // y: { // 要部份stacked，部分overlap
+                //     stacked: true,
+                // },
             }
         }
     })
@@ -328,7 +395,7 @@ function showChildAge(tooltipItems) {
         }
     } else {
         const formatValue = Number(secondValue).toLocaleString()
-        return `年末結餘：${formatValue}`
+        return `${label}：${formatValue}`
     }
 }
 function showChildExpense(tooltipItems) {
@@ -339,7 +406,8 @@ function showChildExpense(tooltipItems) {
     if (label.includes('子')) {
         const formatExpense = Number(secondValue - fisrtValue).toLocaleString()
         return `支出： ${formatExpense}`
-    } else {
+    }
+    if (label.includes('壽')) {
         const formatValue = Number(fisrtValue).toLocaleString()
         return `總支出： ${formatValue}`
     }

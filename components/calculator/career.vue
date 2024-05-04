@@ -196,10 +196,12 @@ function calculateInsuranceSalary() {
     }
 }
 function calculateInsuranceExpense() {
-    const { salary, } = career.value.insurance
-    const insuranceRate = 12 / 100
-    const premiumRate = 20 / 100
-    career.value.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate)
+    const { salary = 0, } = career.value.insurance
+    if (salary) {
+        const insuranceRate = 12 / 100
+        const premiumRate = 20 / 100
+        career.value.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate)
+    }
 }
 // 勞退計算
 function calculatePensionSalary() {
@@ -288,7 +290,7 @@ function drawChartAndCalculateIncome(propagate = false) {
     fv = career.value.monthlyNetPay || fv
     dataAndDataIndex.push({
         label: '月實領',
-        data: [fv, 0],
+        data: [0,fv],
         datasetIndex: 0,
     })
 
@@ -305,7 +307,7 @@ function drawChartAndCalculateIncome(propagate = false) {
     if (0 <= fv) {
         dataAndDataIndex.push({
             label: '定期定額',
-            data: [fv, 0],
+            data: [0, fv],
             datasetIndex: 0,
         })
     }

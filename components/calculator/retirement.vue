@@ -26,106 +26,123 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="目前勞保投保年資">
-                            <el-input-number v-model="retirement.insurance.presentSeniority" :min="0"
-                                @change="calculateRetirement($event)" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="預估屆退年資">
-                            <el-text>{{ retirement.insurance.futureSeniority }} 年</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="預估勞保年金">
-                            <el-text>{{ Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} / 月</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="餘命 x 年金">
-                            <el-text>{{ Number(retirement.insurance.annuitySum).toLocaleString() }}</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="顧主提繳累計">
-                            <el-input-number v-model="retirement.pension.employerContribution" :min="0"
-                                @change="calculateRetirement($event)" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="個人提繳累計">
-                            <el-input-number v-model="retirement.pension.employeeContrubution" :min="0"
-                                @change="calculateRetirement($event)" />
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="顧主提繳收益">
-                            <el-input-number v-model="retirement.pension.employerContributionIncome" :min="0"
-                                @change="calculateRetirement($event)" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="個人提繳收益">
-                            <el-input-number v-model="retirement.pension.employeeContrubutionIncome" :min="0"
-                                @change="calculateRetirement($event)" />
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="勞退十年收益率">
-                            <el-input-number v-model="retirement.pension.irrOverDecade" :min="0"
-                                @change="calculateRetirement($event)" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="預估勞退總額">
-                            <el-text>{{ Number(retirement.pension.totalValue).toLocaleString() }}</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item v-if="retirement.pension.tax" label="預估勞退稅基">
-                            <el-text>{{ Number(retirement.pension.tax).toLocaleString() }}</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
+                <el-collapse>
+                    <el-collapse-item title="查詢勞保局E化服務系統後設定" :border="true">
+
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="目前勞保投保年資">
+                                    <el-input-number v-model="retirement.insurance.presentSeniority" :min="0"
+                                        @change="calculateRetirement($event)" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="預估屆退年資">
+                                    <el-text>{{ retirement.insurance.futureSeniority }} 年</el-text>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="預估勞保年金">
+                                    <el-text>{{ Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                                        月</el-text>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="餘命 x 年金">
+                                    <el-text>{{ Number(retirement.insurance.annuitySum).toLocaleString() }}</el-text>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row v-if="retirement.insurance.survivorPension">
+                            <el-col :span="12">
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="預估遺囑年金">
+                                    <el-text>{{ Number(retirement.insurance.survivorPension).toLocaleString() }} /
+                                        月</el-text>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="顧主提繳累計">
+                                    <el-input-number v-model="retirement.pension.employerContribution" :min="0"
+                                        @change="calculateRetirement($event)" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="個人提繳累計">
+                                    <el-input-number v-model="retirement.pension.employeeContrubution" :min="0"
+                                        @change="calculateRetirement($event)" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="顧主提繳收益">
+                                    <el-input-number v-model="retirement.pension.employerContributionIncome" :min="0"
+                                        @change="calculateRetirement($event)" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="個人提繳收益">
+                                    <el-input-number v-model="retirement.pension.employeeContrubutionIncome" :min="0"
+                                        @change="calculateRetirement($event)" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="勞退十年收益率">
+                                    <el-input-number v-model="retirement.pension.irrOverDecade" :min="0"
+                                        @change="calculateRetirement($event)" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="預估勞退總額">
+                                    <el-text>{{ Number(retirement.pension.totalValue).toLocaleString() }}</el-text>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item v-if="retirement.pension.tax" label="預估勞退稅基">
+                                    <el-text>{{ Number(retirement.pension.tax).toLocaleString() }}</el-text>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </el-collapse-item>
+                </el-collapse>
+                <br />
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="退休品質">
                             <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                        item.label
-                    }}</el-radio>
+                                    item.label
+                                    }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
                     <el-col :span="23">
                         <el-form-item label="退休月支出">
-                            <el-slider v-model="retirement.percentileRank" :marks="retirement.expenseQuartileMarks"
+                            <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks"
                                 :disabled="true" />
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <br />
-                <canvas id="pensionChart"></canvas>
+                <canvas v-show="!unableToDraw" id="pensionChart"></canvas>
             </el-form>
             <template #footer>
                 <el-collapse>
@@ -142,7 +159,7 @@
                                     href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00"
                                     target="_blank">中華民國退休基金協會</a>
                             </li>
-                            <li>資料來源：
+                            <li>退休開支：
                                 <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
                                     主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
                                 </a>
@@ -192,7 +209,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, shallowRef } from 'vue'
+import { ref, computed, shallowRef, reactive } from 'vue'
 import Chart from 'chart.js/auto';
 interface IOptionItem {
     label: string,
@@ -226,63 +243,97 @@ const props = defineProps({
         }
     }
 })
+const expenseQuartileMarks = reactive({})
+
 const retirement = computed(() => {
     return props.modelValue
 })
 function calculateRetirement(options: any = { propagate: true }) {
     const { propagate = true } = options
+    calculateExpenseQuartileMarks()
     calculateRetireLife()
-    calculateYearToRetirement()
     calculateFutureSeniority()
     calculateInsuranceMonthlyAnnuity()
-    calculatePR()
     calculateRetirementExpense()
     debounce(() => {
         drawRetirementAssetChart(propagate)
     })(propagate)
 }
-async function calculateRetireLife() {
-    const rawNumber = props.profile.age + props.profile.lifeExpectancy - retirement.value.age
-    const maxZero = Math.max(0, rawNumber)
-    retirement.value.lifeExpectancy = props.config.toFixed(maxZero)
+function calculateExpenseQuartileMarks() {
+    props.config.retirementQuartile.forEach((item, index) => {
+        const { value } = item
+        const percentileRank = (index + 1) * 20 - 10
+        const retirementMonthlyExpense = Number(value) / 12
+        expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
+    })
 }
-function calculateYearToRetirement() {
-    const rawNumber = retirement.value.age - props.profile.age
-    retirement.value.yearToRetirement = rawNumber
+function calculateRetireLife() {
+    const { age: currentAge, lifeExpectancy } = props.profile
+    const { age: retireAge } = retirement.value
+    if (currentAge && lifeExpectancy && retireAge) {
+        retirement.value.yearToRetirement = retireAge - currentAge
+        const rawNumber = lifeExpectancy - retirement.value.yearToRetirement
+        const maxZero = Math.max(0, rawNumber)
+        retirement.value.lifeExpectancy = props.config.toFixed(maxZero)
+    }
 }
 function calculateFutureSeniority() {
     const { presentSeniority } = retirement.value.insurance
     const rawNumber = presentSeniority + retirement.value.age - props.profile.age
     retirement.value.insurance.futureSeniority = Math.floor(rawNumber)
 }
-function calculateInsuranceMonthlyAnnuity() {
+function calculateInsuranceMonthlyAnnuity() { // presentSeniority
     const { lifeExpectancy, age } = retirement.value
-    const { futureSeniority, } = retirement.value.insurance
+    const { presentSeniority, futureSeniority, } = retirement.value.insurance
     const { salary } = props.career.insurance
-    if (!lifeExpectancy || !age || !futureSeniority || !salary) {
+    if (!age || !futureSeniority || !salary) {
         return
     }
     const ageModifier: number = 1 + (Number(age) - 65) * 0.04
     const formulaOne: number = (Number(salary) * Number(futureSeniority) * 0.775 / 100 + 3000) * ageModifier
     const formulaTwo: number = (Number(salary) * Number(futureSeniority) * 1.55 / 100) * ageModifier
     retirement.value.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
-    retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy))
-}
-function calculatePR() {
-    const { qualityLevel } = retirement.value
-    retirement.value.percentileRank = qualityLevel * 20 - 10
+    if (presentSeniority >= 15) { // 遺囑年金 https://www.bli.gov.tw/0007867.html
+        retirement.value.insurance.survivorPension = Math.floor(retirement.value.insurance.monthlyAnnuity / 2)
+    } else {
+        retirement.value.insurance.survivorPension = 0
+    }
+    if (lifeExpectancy) { // 勞保年金請領總和
+        retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy))
+    }
 }
 function calculateRetirementExpense() {
     const { qualityLevel } = retirement.value
     if (!qualityLevel || !props.config.retirementQuartile.length) {
         return
     }
+    retirement.value.percentileRank = qualityLevel * 20 - 10
     const selectedItem: IOptionItem = props.config.retirementQuartile[qualityLevel - 1]
     retirement.value.annualExpense = Number(selectedItem.value)
-    drawRetirementAssetChart()
 }
+
+const unableToDraw = computed(() => {
+    const { monthlyContribution } = props.career.pension
+    const {
+        irrOverDecade
+    } = retirement.value.pension
+    const {
+        yearToRetirement,
+        lifeExpectancy,
+        annualExpense,
+    } = retirement.value
+    const {
+        monthlyAnnuity,
+    } = retirement.value.insurance
+    const noBefore = !monthlyContribution || !irrOverDecade || !yearToRetirement
+    const noAfter = !lifeExpectancy || !annualExpense || !monthlyAnnuity
+    return noBefore || noAfter
+})
 async function drawRetirementAssetChart(propagate = false) {
-    // 計算資料
+    if (unableToDraw.value) {
+        return
+    }
+    // 常數參數
     const {
         employerContribution,
         employeeContrubution,
@@ -300,6 +351,7 @@ async function drawRetirementAssetChart(propagate = false) {
         monthlyAnnuity,
     } = retirement.value.insurance
 
+    // 計算資料
     const inflationRate = 1 + props.config.inflationRate / 100
     let inflationModifier = 1
 
@@ -327,18 +379,20 @@ async function drawRetirementAssetChart(propagate = false) {
     calculatePensionFinalValue(fv)
 
     // 退休後退休支出
-    let annuityInflationModifier = 1
+    let insuranceAnnuityInflationModifier = 1
     for (let i = 0; i < lifeExpectancy; i++) {
+        inflationModifier *= inflationRate
+        insuranceAnnuityInflationModifier *= inflationRate
+
+        const annutalAnnuity = monthlyAnnuity * 12 * insuranceAnnuityInflationModifier
+        const inflatedAnnualExpense = annualExpense * inflationModifier
+        const pmt = annutalAnnuity - inflatedAnnualExpense
+
+        fv = Math.floor(pv * pensionIrr + pmt)
         const calculatedYear = props.config.currentYear + n + i
         labels.push(calculatedYear)
-
-        const pmt = (monthlyAnnuity * 12 * annuityInflationModifier) - annualExpense * inflationModifier
-        fv = Math.floor(pv * pensionIrr + pmt)
         datasetData.push(Math.floor(fv))
-
         pv = fv
-        inflationModifier *= inflationRate
-        annuityInflationModifier *= inflationRate
     }
     const chartData = {
         datasets: [

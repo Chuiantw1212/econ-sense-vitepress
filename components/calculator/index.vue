@@ -34,15 +34,19 @@
         <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科<a class="header-anchor" href="#3. 五子登科"
                 aria-label="Permalink to &quot;3. 五子登科&quot;">&ZeroWidthSpace;</a></h2>
 
-        <Investment v-model="investment" :config="config" :profile="profile" :career="career" :parenting="parenting"
-            :mortgage="mortgage" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
+        <Investment v-model="investment" :config="config" :profile="profile" :career="career" :spouse="spouse"
+            :parenting="parenting" :mortgage="mortgage" :retirement="retirement" ref="InvestmentRef"
+            @update:model-value="onInvestmentChanged()">
         </Investment>
 
-        <h3 id="_結婚試算" tabindex="-1">結婚試算<a class="header-anchor" href="#結婚試算"
+        <h3 id="_結婚試算" tabindex="-1">配偶試算<a class="header-anchor" href="#配偶試算"
                 aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
 
-        <Parenting v-model="parenting" :config="config" :investment="investment" :estateSize="estateSize"
-            ref="ParentingRef" @update:model-value="onParentingChanged()">
+        <Spouse v-model="spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()"></Spouse>
+
+        <Parenting v-model="parenting" :config="config" :career="career" :retirement="retirement" :spouse="spouse"
+            :investment="investment" :estateSize="estateSize" ref="ParentingRef"
+            @update:model-value="onParentingChanged()">
         </Parenting>
 
         <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算<a class="header-anchor" href="#購屋總價試算"
@@ -75,6 +79,7 @@ import Career from './career.vue'
 import Retirement from './retirement.vue'
 import Investment from './investment.vue'
 import Estate from './estate.vue'
+import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
 import EstateSize from './estateSize.vue'
 import EstatePrice from './estatePrice.vue'
@@ -83,6 +88,7 @@ const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
 const InvestmentRef = ref()
+const SpouseRef = ref()
 const ParentingRef = ref()
 const EstateSizeRef = ref()
 const EstatePriceRef = ref()
@@ -148,8 +154,6 @@ async function authFetch(appendUrl, options) {
         }
     }
 
-    console.log(appendUrl, options.body)
-
     defaultOptions.method = options.method
     if (options.body) {
         defaultOptions.body = JSON.stringify(options.body)
@@ -188,8 +192,6 @@ const config = reactive({
     buildingTypes: [],
     buildingAges: [],
     retirementQuartile: [],
-    birthYearOptions: [],
-    marriageYearOptions: [],
     // object types
     townMap: {},
     portfolioIRR: {},
@@ -215,28 +217,16 @@ async function setSelecOptionSync() {
         config.buildingAges = selectResJson.buildingAges || []
         config.genders = selectResJson.genders || []
         config.retirementQuartile = selectResJson.retirementQuartile || []
-        config.retirementQuartile.forEach((item, index) => {
-            const { value } = item
-            const percentileRank = (index + 1) * 20 - 10
-            const retirementMonthlyExpense = Number(value) / 12
-            retirement.expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
-        })
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
         const bankConfigRes = await fetch(`${VITE_BASE_URL}/bank/config`)
         const bankConfigResJson = await bankConfigRes.json()
         mortgage.interestRate = bankConfigResJson.interestRate
         Object.assign(config.portfolioIRR, bankConfigResJson.portfolioIRR)
-
-        const year = new Date().getFullYear()
-        for (let i = 0; i < 60; i++) {
-            config.birthYearOptions.push(Number(year) - i - 18)
-            config.marriageYearOptions.push(Number(year) - i)
-        }
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
-        ElMessageBox.alert('Google Cloud App Engine無回應', {
+        ElMessageBox.alert(error.msssage || 'Google Cloud App Engine無回應', {
             confirmButtonText: '回講座排程',
             callback: () => {
                 backToCalendar()
@@ -251,24 +241,35 @@ function backToCalendar() {
 }
 async function getUserFormSync(firebaseUser) {
     const initForm = {
-        profile: {},
+        profile: {
+            age: 0,
+            lifeExpectancy: 0,
+        },
         career: {
+            monthlyBasicSalary: 0,
+            foodExpense: 3000,
+            employeeWelfareFund: 0,
             insurance: {
                 salary: 0,
                 presentSeniority: 0, // 6.9
                 futureSeniority: 0,
-                monthlyAnnuity: 0,
-                annuitySum: 0,
+                expense: 0,
             },
             pension: {
                 salary: 0,
                 rate: 0,
                 monthlyContribution: 0,
                 monthlyContributionEmployee: 0,
-            }
+            },
+            healthInsutancePremium: 0,
+            monthlyNetPayEstimated: 0,
+            monthlyNetPay: 0,
+            monthlyExpense: 0,
+            monthlySaving: 0,
         },
         retirement: {
             age: 65,
+            lifeExpectancy: 0,
             pension: {
                 employeeContrubution: 0,
                 employeeContrubutionIncome: 0,
@@ -278,20 +279,30 @@ async function getUserFormSync(firebaseUser) {
                 totalValue: 0,
             },
             insurance: {
+                annuitySum: 0,
+                monthlyAnnuity: 0,
                 presentSeniority: 0,
                 futureSeniority: 0
             },
             percentileRank: 50,
-            qualityLevel: 3
+            qualityLevel: 3,
+            expenseQuartileMarks: {}
         },
-        investment: {
-            allocationETF: 'aok',
-            stockPercentage: 20,
+        spouse: {
+            yearOfMarriage: config.currentYear,
+            marriageLength: 0,
+            monthlyContribution: 0,
+            weddingExpense: 0,
+            yearOfBirth: '',
         },
         parenting: {
             childAnnualExpense: 212767,
             independantAge: 18,
             lifeInsurance: 0,
+        },
+        investment: {
+            allocationETF: 'aok',
+            stockPercentage: 20,
         },
         estatePrice: {},
         estateSize: {
@@ -331,6 +342,7 @@ async function getUserFormSync(firebaseUser) {
         Object.assign(career, initForm.career)
         Object.assign(retirement, initForm.retirement)
         Object.assign(investment, initForm.investment)
+        Object.assign(spouse, initForm.spouse)
         Object.assign(estatePrice, initForm.estatePrice)
         Object.assign(estateSize, initForm.estateSize)
         Object.assign(mortgage, initForm.mortgage)
@@ -349,6 +361,12 @@ async function initializeCalculator() {
         propagate: true,
     })
     await InvestmentRef.value.calculateAsset({
+        propagate: true,
+    })
+    await SpouseRef.value.calculatecSpouse({
+        propagate: true,
+    })
+    await ParentingRef.value.calculateParenting({
         propagate: true,
     })
     await EstateSizeRef.value.calculateEstateSize({
@@ -373,38 +391,22 @@ let profile = reactive({
     age: 0,
     lifeExpectancy: 0,
 })
-function onProfileChanged() {
+async function onProfileChanged() {
     authFetch(`/user/profile`, {
         method: 'put',
         body: profile,
     })
-    retirement.yearToRetirement = retirement.age - profile.age
-    const lifeExpectancy = profile.lifeExpectancy - retirement.yearToRetirement
-    retirement.lifeExpectancy = Number(Number(lifeExpectancy).toFixed(2))
-    RetirementRef.value.calculateRetirement({
-        propagate: false,
+    await RetirementRef.value.calculateRetirement({
+        propagate: true,
+    })
+    await InvestmentRef.value.calculateAsset({
+        propagate: true,
     })
 }
 // 職業試算
 let career = reactive({
-    monthlyBasicSalary: 0,
-    foodExpense: 3000,
-    employeeWelfareFund: 0,
-    pension: {
-        salary: 100000,
-        rate: 100000,
-        monthlyContribution: 100000,
-        monthlyContributionEmployee: 100000,
-    },
-    healthInsutancePremium: 0,
-    insurance: {
-        salary: 100000,
-        expense: 100000,
-    },
-    monthlyNetPayEstimated: 0,
-    monthlyNetPay: 0,
-    monthlyExpense: 0,
-    monthlySaving: 0,
+    pension: {},
+    insurance: {},
 })
 function onCareerChanged() {
     authFetch(`/user/career`, {
@@ -420,40 +422,18 @@ function onCareerChanged() {
 }
 // 退休試算
 let retirement = reactive({
-    age: 60,
-    yearToRetirement: 0,
-    lifeExpectancy: 0,
+    insurance: {},
+    pension: {},
     expenseQuartileMarks: {},
-    // 勞保
-    insurance: {
-        salary: 0,
-        presentSeniority: 0, // 6.9
-        futureSeniority: 0,
-        monthlyAnnuity: 0,
-        annuitySum: 0,
-    },
-    // 勞退
-    pension: {
-        monthlyContribution: 0,
-        employeeContrubution: 0,
-        employeeContrubutionIncome: 0,
-        employerContribution: 0,
-        employerContributionIncome: 0,
-        irrOverDecade: 4.76,
-        totalValue: 0,
-        tax: 0,
-    },
-    // 退休水準
-    qualityLevel: 0,
-    percentileRank: 0,
-    annualExpense: 0,
 })
 function onRetirementChanged() {
     authFetch(`/user/retirement`, {
         method: 'put',
         body: retirement,
     })
-    investment.period = retirement.yearToRetirement
+    InvestmentRef.value.calculateAsset({
+        propagate: true,
+    })
 }
 // 投資試算
 let investment = reactive({
@@ -462,7 +442,6 @@ let investment = reactive({
     stockPercentage: 0,
     presentAsset: 0,
     averaging: 0,
-    allocationQuartileMarks: {},
     period: 0,
 })
 function onInvestmentChanged() {
@@ -471,6 +450,20 @@ function onInvestmentChanged() {
         body: investment,
     })
     ParentingRef.value.calculateParenting({
+        propagate: false,
+    })
+}
+// 配偶試算
+let spouse = reactive({})
+function onSpouseChanged() {
+    authFetch(`/user/spouse`, {
+        method: 'put',
+        body: spouse,
+    })
+    ParentingRef.value.calculateParenting({
+        propagate: false,
+    })
+    InvestmentRef.value.calculateAsset({
         propagate: false,
     })
 }
@@ -520,6 +513,10 @@ function resetTotalPrice() {
     estatePrice.average = 0
     estatePrice.unitPrice = 0
     estatePrice.totalPrice = 0
+    authFetch(`/user/estatePrice`, {
+        method: 'put',
+        body: estatePrice,
+    })
 }
 async function onEstatePriceChanged() {
     authFetch(`/user/estatePrice`, {
@@ -537,6 +534,9 @@ async function onEstateBudgetChanged() {
     authFetch(`/user/estatePrice`, {
         method: 'put',
         body: estatePrice,
+    })
+    InvestmentRef.value.calculateAsset({
+        propagate: false,
     })
 }
 let estateSize = reactive({
@@ -591,7 +591,7 @@ function onMortgageChanged() {
 onMounted(async () => {
     await initializeApp()
     await setSelecOptionSync()
-    // await getUserFormSync(false)
+    await getUserFormSync(false)
     nextTick(() => {
         initializeCalculator()
         window.scrollTo(0, 0)
@@ -623,13 +623,5 @@ onMounted(async () => {
         color: var(--el-text-color-regular);
         background: white !important;
     }
-}
-
-:deep(.my-label) {
-    background: white;
-}
-
-:deep(.my-content) {
-    background: white;
 }
 </style>

@@ -10,10 +10,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="預估貸款成數">
+                        <!-- <el-form-item label="預估貸款成數">
                             <a href="https://member.jcic.org.tw/main_member/MorgageQuery.aspx"
                                 target="_blank">住宅貸款統計查詢網</a>
-                        </el-form-item>
+                        </el-form-item> -->
                     </el-col>
                 </el-row>
                 <el-row>
@@ -53,8 +53,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="每月還款金額" prop="floorSize">
-                            <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD</el-text>
+                        <el-form-item label="還款金額" prop="floorSize">
+                            <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -117,8 +117,8 @@ function drawMortgageChart() {
         return
     }
     const loanAmount = totalPrice * loanPercent / 100
-    mortgage.value.loanAmount = loanAmount
-    const downPayment = totalPrice - loanAmount
+    mortgage.value.loanAmount = Math.floor(loanAmount)
+    const downPayment = Math.floor(totalPrice - loanAmount)
     mortgage.value.estimatedDownPayment = downPayment
     if (!mortgage.value.downPayment) {
         mortgage.value.downPayment = downPayment
