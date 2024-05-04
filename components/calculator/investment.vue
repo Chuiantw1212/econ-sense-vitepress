@@ -282,10 +282,10 @@ function drawLifeAssetChart(propagate = true) {
             label: '資產存量',
             data: datasetData,
         },
-        {
-            label: '定期定額',
-            data: investingData,
-        }
+        // {
+        //     label: '定期定額',
+        //     data: investingData,
+        // }
     ]
     if (buyHouseYear) {
         datasets.push({
