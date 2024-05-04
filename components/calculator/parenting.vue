@@ -222,54 +222,65 @@ function drawParentingChart(propagate = true) {
     let inflationModifier: number = 1
     const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, } = parenting.value
     const { monthlyContribution } = props.spouse
-    const { survivorPension } = props.retirement
+    const { survivorPension } = props.retirement.insurance
 
     // 計算投資報酬率
     const investmentIrr = 1 + props.investment.irr / 100
     const firstBornEndYear: number = firstBornYear + independantAge
     const secondBornEndYear: number = secondBornYear + independantAge
     const parentingDuration: number = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
+    const spouseAnnualContribution: number = monthlyContribution * 12
+    const annualInsuranceSurvivorPension: number = survivorPension * 12
+    // 輸出資料
     const labels: number[] = []
     const firstBornData: number[][] = []
     const secondBornData: number[][] = []
+    const spouseContributionData: number[][] = []
     const lifeInsuranceEquity: number[][] = []
     const lifeInsuranceCash: number[][] = []
-    // const survivorPension: number[][] = []
+    const survivorPensionData: number[][] = []
     let cash = lifeInsurance
     let pv: number = lifeInsurance
     let fv: number = 0
 
     for (let i = 0; i < parentingDuration; i++) {
+        inflationModifier *= inflationRatio
         const simYear: number = firstBornYear + i
         labels.push(simYear)
-        const inflatedChildExpense = Math.floor(childAnnualExpense * inflationModifier)
         /**
          * 計算PMT
          */
         let pmt: number = 0
         // 生育支出
+        const inflatedChildExpense = Math.floor(childAnnualExpense * inflationModifier)
         const hasFirstBorn: boolean = firstBornYear && firstBornYear <= simYear && simYear < firstBornEndYear
         if (hasFirstBorn) {
             pmt -= inflatedChildExpense
-            firstBornData.push([0, inflatedChildExpense])
+            firstBornData.push([0, -inflatedChildExpense])
         } else {
             firstBornData.push([0, 0])
         }
         const hasSecondBorn: boolean = secondBornYear && secondBornYear <= simYear && simYear < secondBornEndYear
         if (hasSecondBorn) {
-            secondBornData.push([-pmt, - (pmt - inflatedChildExpense)]) // 負負得正
+            secondBornData.push([pmt, (pmt - inflatedChildExpense)]) // 負負得正
             pmt -= inflatedChildExpense
         } else {
             secondBornData.push([0, 0])
         }
         if (hasFirstBorn && hasSecondBorn) {
-            pmt += monthlyContribution * inflationModifier
+            const inflatedSpouseContribution = Math.floor(spouseAnnualContribution * inflationModifier)
+            pmt += inflatedSpouseContribution
+            spouseContributionData.push([0, inflatedSpouseContribution])
+        } else {
+            spouseContributionData.push([0, 0])
         }
         // 遺囑年金
         if (survivorPension) {
-            const inflatedSurvivorPension = Math.floor(survivorPension * inflationModifier)
+            const inflatedSurvivorPension = Math.floor(annualInsuranceSurvivorPension * inflationModifier)
             pmt += inflatedSurvivorPension
-            // survivorPension.push([])
+            survivorPensionData.push([0, inflatedSurvivorPension])
+        } else {
+            survivorPensionData.push([0, 0])
         }
 
         // 儲存資料
@@ -279,7 +290,6 @@ function drawParentingChart(propagate = true) {
         cash = cash + pmt
         lifeInsuranceCash.push([floorPmt, Math.floor(Math.max(0, cash))])
 
-        inflationModifier *= inflationRatio
         pv = fv
     }
     const datasets: {
@@ -301,6 +311,22 @@ function drawParentingChart(propagate = true) {
         datasets.push({
             label: '次子', // 用"子"來抓資料格式
             data: secondBornData,
+            fill: true,
+            tension,
+        })
+    }
+    if (firstBornYear || secondBornYear) {
+        datasets.push({
+            label: '配偶扶養',
+            data: spouseContributionData,
+            fill: true,
+            tension,
+        })
+    }
+    if (survivorPension) {
+        datasets.push({
+            label: '遺囑年金',
+            data: survivorPensionData,
             fill: true,
             tension,
         })
@@ -376,7 +402,7 @@ function showChildAge(tooltipItems) {
         }
     } else {
         const formatValue = Number(secondValue).toLocaleString()
-        return `${label}結餘：${formatValue}`
+        return `${label}：${formatValue}`
     }
 }
 function showChildExpense(tooltipItems) {
@@ -387,7 +413,8 @@ function showChildExpense(tooltipItems) {
     if (label.includes('子')) {
         const formatExpense = Number(secondValue - fisrtValue).toLocaleString()
         return `支出： ${formatExpense}`
-    } else {
+    }
+    if (label.includes('壽')) {
         const formatValue = Number(fisrtValue).toLocaleString()
         return `總支出： ${formatValue}`
     }
