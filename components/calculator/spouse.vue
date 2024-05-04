@@ -36,7 +36,7 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="配偶貢獻/月">
+                    <el-form-item label="家庭貢獻/月">
                         <el-input-number v-model="spouse.monthlyContribution" :min="0" :step="1000"
                             @change="calculatecSpouse($event)" />
                     </el-form-item>
@@ -47,7 +47,7 @@
                 <el-col :span="12">
                 </el-col>
             </el-row>
-            <canvas v-show="!unableToDraw" id="spouseChart"></canvas>
+            <!-- <canvas v-show="!unableToDraw" id="spouseChart"></canvas> -->
         </el-form>
     </el-card>
 </template>
@@ -88,7 +88,7 @@ const unableToDraw = computed(() => {
     // const noIY = !irr
     // const noN = !period
     // return (noPv && noPmt) || noIY || noN
-    return true
+    return false
 })
 // methods
 function setBirthYearOptions() {
@@ -138,21 +138,23 @@ function drawMarriageChart(propagate = true) {
         return
     }
     const ctx: any = document.getElementById('spouseChart')
-    const chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: chartData,
-        options: {
-            scales: {
-                x: {
-                    stacked: true,
-                },
-                y: {
-                    stacked: true
+    if (ctx) {
+        const chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
                 }
             }
-        }
-    })
-    spouseChartInstance = shallowRef(chartInstance)
+        })
+        spouseChartInstance = shallowRef(chartInstance)
+    }
 }
 
 const debounceId = ref()

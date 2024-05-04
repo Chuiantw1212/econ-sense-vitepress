@@ -360,10 +360,13 @@ async function initializeCalculator() {
     await RetirementRef.value.calculateRetirement({
         propagate: true,
     })
+    await InvestmentRef.value.calculateAsset({
+        propagate: true,
+    })
     await SpouseRef.value.calculatecSpouse({
         propagate: true,
     })
-    await InvestmentRef.value.calculateAsset({
+    await ParentingRef.value.calculateParenting({
         propagate: true,
     })
     await EstateSizeRef.value.calculateEstateSize({
@@ -456,6 +459,12 @@ function onSpouseChanged() {
     authFetch(`/user/spouse`, {
         method: 'put',
         body: spouse,
+    })
+    ParentingRef.value.calculateParenting({
+        propagate: false,
+    })
+    InvestmentRef.value.calculateAsset({
+        propagate: false,
     })
 }
 // 育兒試算
