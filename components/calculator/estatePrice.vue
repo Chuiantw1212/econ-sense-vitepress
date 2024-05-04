@@ -131,35 +131,36 @@ function updateEstateUnitPrice() {
     emits('update:modelValue', estatePrice.value)
 }
 async function getUnitPriceSync(propagate = false) {
-    const { county, town, } = estatePrice.value
-    if (county && town) {
-        estatePriceLoading.value = true
-        const res = await fetch(`${VITE_BASE_URL}/calculate/unitPrice`, {
-            method: 'post',
-            body: JSON.stringify(estatePrice.value),
-            headers: { 'Content-Type': 'application/json' }
-        })
-        estatePriceLoading.value = false
-        const resJson = await res.json()
-        Object.assign(estatePrice.value, resJson)
-
-        const { pr25, pr75, average } = resJson
-        if (!average) {
-            ElMessage('資料筆數過少，請調整查詢條件')
-            return
-        }
-        unitPriceMarks = {}
-        unitPriceMarks[pr25] = `後: ${pr25}`
-        unitPriceMarks[pr75] = `前: ${pr75}`
-        unitPriceMarks[average] = `均：${average}` // 避免文字重疊
-        estatePrice.value.unitPrice = average
-
-        if (propagate) {
-            emits('update:modelValue', estatePrice.value)
-        }
-
-        return estatePrice.value.unitPrice
+    if (propagate) {
+        emits('update:modelValue', estatePrice.value)
     }
+
+    const { county, town, } = estatePrice.value
+    if (!county || !town) {
+        return
+    }
+    estatePriceLoading.value = true
+    const res = await fetch(`${VITE_BASE_URL}/calculate/unitPrice`, {
+        method: 'post',
+        body: JSON.stringify(estatePrice.value),
+        headers: { 'Content-Type': 'application/json' }
+    })
+    estatePriceLoading.value = false
+    const resJson = await res.json()
+    Object.assign(estatePrice.value, resJson)
+
+    const { pr25, pr75, average } = resJson
+    if (!average) {
+        ElMessage('資料筆數過少，請調整查詢條件')
+        return
+    }
+    unitPriceMarks = {}
+    unitPriceMarks[pr25] = `後: ${pr25}`
+    unitPriceMarks[pr75] = `前: ${pr75}`
+    unitPriceMarks[average] = `均：${average}` // 避免文字重疊
+    estatePrice.value.unitPrice = average
+
+    return estatePrice.value.unitPrice // 回傳再回傳
 }
 
 const debounceId = ref()
