@@ -37,7 +37,7 @@
                     </el-col>
                 </el-row>
                 <el-collapse>
-                    <el-collapse-item title="點此快速調整目標(日期&月支出)" :border="true">
+                    <el-collapse-item title="點此快速調整目標(日期&支出)" :border="true">
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="購屋西元年">
