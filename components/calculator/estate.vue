@@ -16,13 +16,27 @@
             </el-row>
             <el-row v-if="estatePrice.totalPrice">
                 <el-col :span="23">
-                    <el-form-item label="參考頭期款">
+                    <el-form-item label="頭期款占總價">
                         <el-slider v-model="estatePrice.budgetGoal" :marks="downpayMarks" :min="estatePrice.downpayMin"
-                            :max="estatePrice.downpayMax" @change="calculateBudgetPeriod()" />
+                            :max="estatePrice.downpayMax" :step="downpayStep" @change="calculateBudgetPeriod()" />
                     </el-form-item>
                 </el-col>
             </el-row>
             <br v-if="estatePrice.totalPrice" />
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="參考頭期款">
+                        <el-input-number v-model="estatePrice.budgetGoal" :min="0" :step="downpayStep"
+                            @change="calculateBudgetPeriod()" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item v-if="!unableToDrawChart" label="預期籌措時間">
+                        <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
+                            ({{ estatePrice.yearsToDownpay }}年後)</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="已備頭期款">
@@ -33,19 +47,6 @@
                 <el-col :span="12">
                     <el-form-item v-show="career.monthlyBasicSalary" label="月實領 - 月支出">
                         <el-text>{{ Number(career.monthlySaving).toLocaleString() }} / 月</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="參考頭期款">
-                        <el-input-number v-model="estatePrice.budgetGoal" :min="0" @change="calculateBudgetPeriod()" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item v-if="!unableToDrawChart" label="預期籌措時間">
-                        <el-text>{{ config.currentYear + estatePrice.yearsToDownpay }}
-                            ({{ estatePrice.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -218,6 +219,7 @@ const props = defineProps({
 })
 
 const downpayMarks = ref({})
+const downpayStep = ref(1)
 const estatePrice = computed(() => {
     return props.modelValue
 })
@@ -255,13 +257,18 @@ function calculateTotalPrice() {
 }
 function calculateDownpayMarks() {
     const { totalPrice } = estatePrice.value
-    const downParyMin = Math.floor(totalPrice * 0.2)
-    const downPayMax = Math.floor(totalPrice * 0.3)
-    estatePrice.value.downpayMax = downPayMax
-    estatePrice.value.downpayMin = downParyMin
+    estatePrice.value.downpayMin = 0
+    estatePrice.value.downpayMax = totalPrice
+    if (totalPrice) {
+        downpayStep.value = Math.floor(totalPrice * 0.1)
+    } else {
+        downpayStep.value = 200000
+    }
     const newDownpayMarks = {}
-    newDownpayMarks[downParyMin] = `總價20%`
-    newDownpayMarks[downPayMax] = `總價30%`
+    for (let i = 0; i <= 10; i++) {
+        const price = Math.floor(totalPrice / 10 * (i))
+        newDownpayMarks[price] = `${i * 10}%`
+    }
     downpayMarks.value = newDownpayMarks
 }
 

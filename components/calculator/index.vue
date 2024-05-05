@@ -324,7 +324,7 @@ async function getUserFormSync(firebaseUser) {
         },
         mortgage: {
             loanPercent: 80,
-            loanTerm: 25,
+            loanTerm: 20,
         },
     }
     let userForm = {

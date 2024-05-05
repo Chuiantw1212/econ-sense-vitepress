@@ -131,10 +131,6 @@ function updateEstateUnitPrice() {
     emits('update:modelValue', estatePrice.value)
 }
 async function getUnitPriceSync(propagate = false) {
-    if (propagate) {
-        emits('update:modelValue', estatePrice.value)
-    }
-
     const { county, town, } = estatePrice.value
     if (!county || !town) {
         return
@@ -160,6 +156,9 @@ async function getUnitPriceSync(propagate = false) {
     unitPriceMarks[average] = `均：${average}` // 避免文字重疊
     estatePrice.value.unitPrice = average
 
+    if (propagate) {
+        emits('update:modelValue', estatePrice.value)
+    }
     return estatePrice.value.unitPrice // 回傳再回傳
 }
 
