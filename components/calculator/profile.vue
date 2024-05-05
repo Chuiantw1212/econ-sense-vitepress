@@ -28,6 +28,10 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="出生年" required>
+                            <econSelect v-model="profile.yearOfBirth" @change="calculateProfile()" style="width: 130px"
+                                :items="birthYearOptions">
+
+                            </econSelect>
                             <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
                                 @change="calculateProfile()" style="width: 130px">
                                 <option label="請選擇" value=""></option>
@@ -60,6 +64,13 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
+                        <el-form-item label="身份別" required>
+                            <el-radio-group v-model="profile.insuranceType" @change="calculateProfile()">
+                                <el-radio v-for="(item) in insuranceTypeOptions" :value="item.value">
+                                    {{ item.label }}
+                                </el-radio>
+                            </el-radio-group>
+                        </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="通貨膨脹">
@@ -100,9 +111,10 @@
  * FirebaseUI for Web — Auth
  * https://firebaseopensource.com/projects/firebase/firebaseui-web/
  */
+const { VITE_BASE_URL } = import.meta.env
 import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
 import firebase from 'firebase/compat/app';
-const { VITE_BASE_URL } = import.meta.env
+import econSelect from '../econSelect.vue'
 const emits = defineEmits(['update:modelValue', 'signOut'])
 const loginDialogVisible = ref(false)
 const props = defineProps({
@@ -132,7 +144,33 @@ const props = defineProps({
         }
     }
 })
-const birthYearOptions = ref<number[]>([])
+const birthYearOptions = ref<any[]>([])
+const insuranceTypeOptions = ref([
+    {
+        label: '勞工(有勞保)',
+        value: 'labor',
+    },
+    {
+        label: '企業主/自營(無勞保)',
+        value: 'entrepreneur'
+    },
+    {
+        label: '軍職人員(有軍保)',
+        value: 'military'
+    },
+    {
+        label: '公教人員(有公保)',
+        value: 'civilServant',
+    },
+    {
+        label: '農民(有農保)',
+        value: 'farmer',
+    },
+    {
+        label: '國民(有國保)',
+        value: 'national'
+    }
+])
 const isFullScreen = ref(false)
 // hooks
 onMounted(async () => {
@@ -152,7 +190,11 @@ const profile = computed(() => {
 function setBirthYearOptions() {
     const year = new Date().getFullYear()
     for (let i = 0; i < 60; i++) {
-        birthYearOptions.value.push(Number(year) - i - 18)
+        const calculatedYear = Number(year) - i - 18
+        birthYearOptions.value.push({
+            label: calculatedYear,
+            value: calculatedYear
+        })
     }
 }
 function toggleSignInDialog(value) {

@@ -250,6 +250,7 @@ async function getUserFormSync(firebaseUser) {
         profile: {
             age: 0,
             lifeExpectancy: 0,
+            insuranceType: '',
         },
         career: {
             monthlyBasicSalary: 0,
