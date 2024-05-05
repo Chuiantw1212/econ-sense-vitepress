@@ -119,6 +119,12 @@ const members = [
 
 ## 興趣認證
 
+### NLP專業執行師
+
+<div style="display:flex;flex-wrap:wrap;">
+    <img style="width:100%" src="/about/052019_1.webp" alt=NLP專業執行師>
+</div>
+
 ### Cafe Startups 認證講師
 
 <div style="display:flex;flex-wrap:wrap;">
@@ -130,10 +136,4 @@ const members = [
 <div style="display:flex;flex-wrap:wrap;">
     <img style="width:50%" src="/about/082258_2.webp" alt=新天鵝堡進階桌遊師>
     <img style="width:50%" src="/about/082258_3.webp" alt=新天鵝堡初階桌遊師>
-</div>
-
-### NLP專業執行師
-
-<div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/about/052019_1.webp" alt=NLP專業執行師>
 </div>
