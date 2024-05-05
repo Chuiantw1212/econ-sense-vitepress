@@ -1,7 +1,8 @@
 <template>
     <select v-model="selectValue" class="form__select" :disabled="disabled" @change="handleChange()">
         <option :label="placeholder" value=""></option>
-        <option v-for="(item) in items" :key="item.value" :label="item.label" :value="item.value" />
+        <option v-for="(item) in items" :key="item.value" :label="item.label" :value="item.value"
+            :disabled="item.disabled" />
     </select>
 </template>
 <script setup lang="ts">
@@ -9,7 +10,8 @@ import { computed, PropType } from 'vue'
 const emits = defineEmits(['update:modelValue', 'change'])
 interface IOptionItem {
     label: string
-    value: any
+    value: any,
+    disabled: boolean,
 }
 const props = defineProps({
     modelValue: {

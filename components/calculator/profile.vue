@@ -30,14 +30,7 @@
                         <el-form-item label="出生年" required>
                             <econSelect v-model="profile.yearOfBirth" @change="calculateProfile()" style="width: 130px"
                                 :items="birthYearOptions">
-
                             </econSelect>
-                            <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
-                                @change="calculateProfile()" style="width: 130px">
-                                <option label="請選擇" value=""></option>
-                                <option v-for="year in birthYearOptions" :key="year" :label="String(year)"
-                                    :value="year" />
-                            </select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -64,12 +57,15 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="身份別" required>
-                            <el-radio-group v-model="profile.insuranceType" @change="calculateProfile()">
+                        <el-form-item label="職業保險別" required>
+                            <econSelect v-model="profile.insuranceType" @change="calculateProfile()"
+                                style="width: 130px" :items="insuranceTypeOptions">
+                            </econSelect>
+                            <!-- <el-radio-group v-model="profile.insuranceType" @change="calculateProfile()">
                                 <el-radio v-for="(item) in insuranceTypeOptions" :value="item.value">
                                     {{ item.label }}
                                 </el-radio>
-                            </el-radio-group>
+                            </el-radio-group> -->
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -149,26 +145,32 @@ const insuranceTypeOptions = ref([
     {
         label: '勞工(有勞保)',
         value: 'labor',
+        disabled: false,
     },
     {
         label: '企業主/自營(無勞保)',
-        value: 'entrepreneur'
+        value: 'entrepreneur',
+        disabled: false,
     },
     {
         label: '軍職人員(有軍保)',
-        value: 'military'
+        value: 'military',
+        disabled: true,
     },
     {
         label: '公教人員(有公保)',
         value: 'civilServant',
+        disabled: true,
     },
     {
         label: '農民(有農保)',
         value: 'farmer',
+        disabled: true,
     },
     {
         label: '國民(有國保)',
-        value: 'national'
+        value: 'national',
+        disabled: true,
     }
 ])
 const isFullScreen = ref(false)
