@@ -4,6 +4,15 @@
                 aria-label="Permalink to &quot;職業試算&quot;">&ZeroWidthSpace;</a></h3>
         <el-card>
             <el-form label-width="auto">
+                <el-row v-if="profile.insuranceType === 'entrepreneur'">
+                    <el-col :span="12">
+                        <el-form-item label="公司人數(不含己)" required>
+                            <el-input-number v-model="career.headCount" :min="0" @change="calculateCareer($event)" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                    </el-col>
+                </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="本薪" required>
@@ -144,14 +153,23 @@ const props = defineProps({
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true,
     },
     config: {
         type: Object,
         default: () => {
             return {}
-        }
-    }
+        },
+        required: true,
+    },
+    profile: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
+    },
 })
 const career = computed(() => {
     return props.modelValue
@@ -290,7 +308,7 @@ function drawChartAndCalculateIncome(propagate = false) {
     fv = career.value.monthlyNetPay || fv
     dataAndDataIndex.push({
         label: '月實領',
-        data: [0,fv],
+        data: [0, fv],
         datasetIndex: 0,
     })
 

@@ -25,7 +25,8 @@
         <h2 id="_2. 我可以FIRE嗎？" tabindex="-1">2. 我可以FIRE嗎？<a class="header-anchor" href="#2. 我可以FIRE嗎？"
                 aria-label="Permalink to &quot;2. 我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
 
-        <Career v-model="career" :user="user" :config="config" ref="CareerRef" @update:modelValue="onCareerChanged()">
+        <Career v-model="career" :user="user" :config="config" :profile="profile" ref="CareerRef"
+            @update:modelValue="onCareerChanged()">
         </Career>
 
         <Retirement v-model="retirement" :config="config" :career="career" :profile="profile" ref="RetirementRef"
@@ -253,6 +254,7 @@ async function getUserFormSync(firebaseUser) {
             yearOfMarriage: '',
         },
         career: {
+            headCount: 0,
             monthlyBasicSalary: 0,
             foodExpense: 3000,
             employeeWelfareFund: 0,
@@ -403,6 +405,9 @@ async function onProfileChanged() {
     authFetch(`/user/profile`, {
         method: 'put',
         body: profile,
+    })
+    await CareerRef.value.calculateCareer({
+        propagate: true,
     })
     await RetirementRef.value.calculateRetirement({
         propagate: true,

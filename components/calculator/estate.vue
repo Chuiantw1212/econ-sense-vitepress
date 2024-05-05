@@ -270,7 +270,6 @@ function drawDownpayChart(propagate = false) {
     if (unableToDrawChart.value) {
         return
     }
-    console.log({ propagate })
     if (propagate) {
         emits('update:modelValue', estatePrice.value)
     }
