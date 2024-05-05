@@ -160,7 +160,7 @@ const insuranceTypeOptions = ref([
         disabled: false,
     },
     {
-        label: '企業主/自營(無勞保)',
+        label: '企業主/自營',
         value: 'entrepreneur',
         disabled: false,
     },
