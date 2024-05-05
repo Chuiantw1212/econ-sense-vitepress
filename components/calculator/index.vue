@@ -220,10 +220,15 @@ async function setSelecOptionSync() {
         config.retirementQuartile = selectResJson.retirementQuartile || []
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
-        const bankConfigRes = await fetch(`${VITE_BASE_URL}/bank/config`)
-        const bankConfigResJson = await bankConfigRes.json()
-        mortgage.interestRate = bankConfigResJson.interestRate
-        Object.assign(config.portfolioIRR, bankConfigResJson.portfolioIRR)
+        const bankConfigPromises = [
+            fetch(`${VITE_BASE_URL}/bank/config/interestRate`),
+            fetch(`${VITE_BASE_URL}/bank/config/portfolioIrr`),
+        ]
+        const bankConfigRes = await Promise.all(bankConfigPromises)
+        const interestRate = await bankConfigRes[0].json()
+        const portfolioIrr = await bankConfigRes[1].json()
+        mortgage.interestRate = interestRate
+        Object.assign(config.portfolioIRR, portfolioIrr)
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
