@@ -74,6 +74,17 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="配偶婚年" required>
+                            <econSelect v-model="profile.yearOfMarriage" @change="calculateProfile()"
+                                style="width: 130px" :items="marriageYearOptions" placeholder="未婚">
+                            </econSelect>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                    </el-col>
+                </el-row>
             </el-form>
             <template #footer>
                 <el-collapse>
@@ -141,6 +152,7 @@ const props = defineProps({
     }
 })
 const birthYearOptions = ref<any[]>([])
+const marriageYearOptions = ref<any[]>([])
 const insuranceTypeOptions = ref([
     {
         label: '勞工(有勞保)',
@@ -177,6 +189,7 @@ const isFullScreen = ref(false)
 // hooks
 onMounted(async () => {
     setBirthYearOptions()
+    setMarriageYears()
     window?.addEventListener('resize', onResize)
 })
 onBeforeUnmount(() => {
@@ -189,6 +202,26 @@ const profile = computed(() => {
     return props.modelValue
 })
 // methods
+function setMarriageYears() {
+    const currentYear = new Date().getFullYear()
+    const beforeYears = []
+    const afterYears = []
+    for (let i = 0; i < 20; i++) {
+        const afterYear = currentYear + i
+        afterYears.push({
+            label: afterYear,
+            value: afterYear,
+        })
+        if (i !== 0) {
+            const beforeYear = currentYear - i
+            beforeYears.push({
+                label: beforeYear,
+                value: beforeYear,
+            })
+        }
+    }
+    marriageYearOptions.value = [...afterYears.reverse(), ...beforeYears,]
+}
 function setBirthYearOptions() {
     const year = new Date().getFullYear()
     for (let i = 0; i < 60; i++) {
