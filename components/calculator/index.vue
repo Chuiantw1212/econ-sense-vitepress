@@ -1,13 +1,14 @@
 <template>
     <div>
         <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="500">
-            <div>此為免費服務，伺服器開機需10秒左右來準備以下必須資料。</div>
+            <div>此為免費服務，伺服器開機需15秒左右來準備以下必須資料。</div>
             <ul>
                 <li>餘命運算</li>
                 <li>2023聯徵房地資料契約</li>
                 <li>央行擔保放款融通利率</li>
+                <li>而且有時候會故障卡死......</li>
             </ul>
-            <div>完成後此提示會自動關閉。就可以開始使用了。</div>
+            <div>當此提示順利地自動關閉。就可以開始使用了。</div>
             <template #footer>
                 <div class="dialog-footer">
                     <el-button @click="backToCalendar()">放棄使用</el-button>
@@ -219,10 +220,15 @@ async function setSelecOptionSync() {
         config.retirementQuartile = selectResJson.retirementQuartile || []
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
-        const bankConfigRes = await fetch(`${VITE_BASE_URL}/bank/config`)
-        const bankConfigResJson = await bankConfigRes.json()
-        mortgage.interestRate = bankConfigResJson.interestRate
-        Object.assign(config.portfolioIRR, bankConfigResJson.portfolioIRR)
+        const bankConfigPromises = [
+            fetch(`${VITE_BASE_URL}/bank/config/interestRate`),
+            fetch(`${VITE_BASE_URL}/bank/config/portfolioIrr`),
+        ]
+        const bankConfigRes = await Promise.all(bankConfigPromises)
+        const interestRate = await bankConfigRes[0].json()
+        const portfolioIrr = await bankConfigRes[1].json()
+        mortgage.interestRate = interestRate
+        Object.assign(config.portfolioIRR, portfolioIrr)
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
