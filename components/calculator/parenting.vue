@@ -6,13 +6,13 @@
             <el-form label-width="auto">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="月開支(隻/每年)" required>
+                        <el-form-item label="年開支/隻" required>
                             <el-input-number v-model="parenting.childAnnualExpense" :min="0"
                                 @change="calculateParenting($event)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="配偶貢獻">
+                        <el-form-item v-if="spouse.monthlyContribution" label="配偶貢獻">
                             <el-text>{{ Number(spouse.monthlyContribution).toLocaleString() }} NTD / 月</el-text>
                         </el-form-item>
                     </el-col>
@@ -308,7 +308,7 @@ function drawParentingChart(propagate = true) {
             tension,
         })
     }
-    if (firstBornYear || secondBornYear) {
+    if (spouseAnnualContribution) {
         datasets.push({
             label: '配偶扶養',
             data: spouseContributionData,
