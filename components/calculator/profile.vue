@@ -162,7 +162,7 @@ const insuranceTypeOptions = ref([
     {
         label: '企業主/自營',
         value: 'entrepreneur',
-        disabled: false,
+        disabled: true,
     },
     {
         label: '軍職人員(有軍保)',

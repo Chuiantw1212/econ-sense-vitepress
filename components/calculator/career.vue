@@ -16,7 +16,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="本薪" required>
-                            <el-input-number v-model="career.monthlyBasicSalary" :min="0"
+                            <el-input-number v-model="career.monthlyBasicSalary" :min="0" :step="1000"
                                 @change="calculateCareer($event)" />
                         </el-form-item>
                     </el-col>
@@ -93,7 +93,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="月支出" required>
-                            <el-input-number v-model="career.monthlyExpense" :min="0"
+                            <el-input-number v-model="career.monthlyExpense" :min="0" :step="1000"
                                 @change="calculateCareer($event)" />
                         </el-form-item>
                     </el-col>
