@@ -204,7 +204,6 @@ const investment = computed(() => {
 function calculateAsset(options: any = { propagate: true }) {
     calculateInvestmentPeriod()
     calculatePortfolio()
-    console.log('calculateAsset')
     const { propagate = true } = options
     debounce(() => {
         drawLifeAssetChart(propagate)

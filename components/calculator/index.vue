@@ -42,7 +42,6 @@
 
         <h3 id="_結婚試算" tabindex="-1">配偶試算<a class="header-anchor" href="#配偶試算"
                 aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
-
         <Spouse v-model="spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()"></Spouse>
 
         <Parenting v-model="parenting" :config="config" :career="career" :retirement="retirement" :spouse="spouse"
@@ -251,6 +250,7 @@ async function getUserFormSync(firebaseUser) {
             age: 0,
             lifeExpectancy: 0,
             insuranceType: '',
+            yearOfMarriage: '',
         },
         career: {
             monthlyBasicSalary: 0,
@@ -397,6 +397,7 @@ let profile = reactive({
     gender: '',
     age: 0,
     lifeExpectancy: 0,
+    yearOfMarriage: '',
 })
 async function onProfileChanged() {
     authFetch(`/user/profile`, {

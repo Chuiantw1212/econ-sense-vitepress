@@ -74,7 +74,7 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row>
+                <!-- <el-row>
                     <el-col :span="12">
                         <el-form-item label="配偶婚年" required>
                             <econSelect v-model="profile.yearOfMarriage" @change="calculateProfile()"
@@ -84,7 +84,7 @@
                     </el-col>
                     <el-col :span="12">
                     </el-col>
-                </el-row>
+                </el-row> -->
             </el-form>
             <template #footer>
                 <el-collapse>

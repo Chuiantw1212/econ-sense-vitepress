@@ -110,14 +110,27 @@ function setMarriageYears() {
     marriageYearOptions.value = [...afterYears.reverse(), ...beforeYears,]
 }
 function calculatecSpouse(options: any = { propagate: true }) {
-    const { yearOfMarriage, yearOfBirth } = spouse.value
-    spouse.value.marriageLength = props.config.currentYear - yearOfMarriage
-    spouse.value.age = props.config.currentYear - yearOfBirth
+    const { yearOfMarriage } = spouse.value
+    if (!yearOfMarriage) {
+        spouse.value.age = 0
+        spouse.value.monthlyContribution = 0
+    }
+    calculateYearOfMarriage()
+    calculateMarriageAge()
 
     const { propagate = true } = options
     debounce(() => {
         drawMarriageChart(propagate)
     })(propagate)
+}
+
+function calculateYearOfMarriage() {
+    const { yearOfMarriage } = spouse.value
+    spouse.value.marriageLength = props.config.currentYear - yearOfMarriage
+}
+function calculateMarriageAge() {
+    const { yearOfBirth } = spouse.value
+    spouse.value.age = props.config.currentYear - yearOfBirth
 }
 
 let spouseChartInstance = ref<Chart>()

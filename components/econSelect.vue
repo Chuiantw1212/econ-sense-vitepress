@@ -15,7 +15,6 @@ interface IOptionItem {
 }
 const props = defineProps({
     modelValue: {
-        type: String || Number || Boolean,
         default: ''
     },
     disabled: {
