@@ -129,8 +129,8 @@
                         <el-form-item label="退休品質">
                             <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                                    item.label
-                                    }}</el-radio>
+                        item.label
+                    }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -362,16 +362,20 @@ async function drawRetirementAssetChart(propagate = false) {
     let fv = 0 // fv = pv * n + pmt
 
     const labels: number[] = []
-    const datasetData: number[] = []
+    const pensionData: number[][] = []
+    const annualAnnuityData: number[][] = []
+    const retirementAnnualExpenseData: number[][] = []
 
     // 退休前資產累積
     for (let i = 0; i < n; i++) {
         const calculatedYear = props.config.currentYear + i
         labels.push(calculatedYear)
+        annualAnnuityData.push([0, 0])
+        retirementAnnualExpenseData.push([0, 0])
 
         const pmt = pensionContribution * inflationModifier
         fv = Math.floor(pv * pensionIrr + pmt)
-        datasetData.push(Math.floor(fv))
+        pensionData.push([0, Math.floor(fv)])
 
         pv = fv
         inflationModifier *= inflationRate
@@ -384,21 +388,39 @@ async function drawRetirementAssetChart(propagate = false) {
         inflationModifier *= inflationRate
         insuranceAnnuityInflationModifier *= inflationRate
 
-        const annutalAnnuity = monthlyAnnuity * 12 * insuranceAnnuityInflationModifier
-        const inflatedAnnualExpense = annualExpense * inflationModifier
+        const annutalAnnuity = Math.floor(monthlyAnnuity * 12 * insuranceAnnuityInflationModifier)
+        annualAnnuityData.push([0, annutalAnnuity])
+        const inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
+        retirementAnnualExpenseData.push([0, -inflatedAnnualExpense])
         const pmt = annutalAnnuity - inflatedAnnualExpense
 
         fv = Math.floor(pv * pensionIrr + pmt)
         const calculatedYear = props.config.currentYear + n + i
         labels.push(calculatedYear)
-        datasetData.push(Math.floor(fv))
+        pensionData.push([0, Math.floor(fv)])
         pv = fv
     }
-    const chartData = {
+    // 繪圖
+    const tension = 0.5
+    const chartData: any = {
         datasets: [
             {
-                label: '退休金存量',
-                data: datasetData,
+                label: '勞退一次領+投資',
+                data: pensionData,
+                fill: true,
+                tension,
+            },
+            {
+                label: '勞保年金',
+                data: annualAnnuityData,
+                fill: true,
+                tension,
+            },
+            {
+                label: '退休支出',
+                data: retirementAnnualExpenseData,
+                fill: true,
+                tension,
             }
         ],
         labels
@@ -415,8 +437,18 @@ async function drawRetirementAssetChart(propagate = false) {
     }
     const ctx: any = document.getElementById('pensionChart')
     const chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: chartData
+        type: 'line',
+        data: chartData,
+        options: {
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                // y: { // 要部份stacked，部分overlap
+                //     stacked: true,
+                // },
+            }
+        }
     })
     pensionChartInstance = shallowRef(chartInstance)
 }
