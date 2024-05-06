@@ -17,25 +17,18 @@
                     <el-col :span="12">
                         <el-form-item label="投保單位">
                             <econSelect v-model="laborInsurace.type" :options="laborInsuranceTypeOptions"
-                                :disabled="!career.headCount" @change="calculateCareer($event)"></econSelect>
+                                :disabled="!career.headCount || career.headCount >= 5"
+                                @change="calculateCareer($event)">
+                            </econSelect>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item :label="`勞保負擔率`">
-                            <el-text>{{ laborInsurace.premiumRate[laborInsurace.type] }} %</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row v-if="laborInsurace.type === 'union'">
-                    <el-col :span="12">
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item :label="`職業災害費率`">
+                        <el-form-item v-if="laborInsurace.type === 'union'" :label="`職業災害費率`">
                             <el-text>目前皆以{{ accidentInsurance.premiumRate }}%計算</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row>
+                <el-row v-if="laborInsurace.type === 'company'">
                     <el-col :span="12">
                         <el-form-item label="本薪" required>
                             <el-input-number v-model="career.monthlyBasicSalary" :min="0" :step="1000"
@@ -43,28 +36,32 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'company'" label="伙食津貼(免稅)">
-                            <el-text>{{ Number(career.foodExpense).toLocaleString() }}</el-text>
+                        <el-form-item label="+ 伙食津貼">
+                            <el-text>{{ Number(career.foodExpense).toLocaleString() }} (免稅)</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row>
+                <el-row v-if="laborInsurace.type === 'company'">
                     <el-col :span="12">
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'company'" label="職工福利金">
+                        <el-form-item label="- 職工福利金">
                             <el-text> {{ Number(career.employeeWelfareFund).toLocaleString() }}</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
+                        <el-form-item v-if="laborInsurace.type === 'union'" label="本薪" required>
+                            <el-input-number v-model="career.monthlyBasicSalary" :min="0" :step="1000"
+                                @change="calculateCareer($event)" />
+                        </el-form-item>
                         <!-- <el-form-item label="健保提繳工資">
                             <el-text> {{ Number(healInsurance.salary).toLocaleString() }}</el-text>
                         </el-form-item> -->
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="健保自付額">
+                        <el-form-item label="- 健保自付額">
                             <el-text> {{ Number(healInsurance.contribution).toLocaleString() }}</el-text>
                         </el-form-item>
 
@@ -85,7 +82,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'company'" label="勞退月提繳">
+                        <el-form-item v-if="laborInsurace.type === 'company'" label="- 勞退月提繳">
                             <el-text>{{ Number(career.pension.monthlyContribution).toLocaleString() }}</el-text>
                         </el-form-item>
                     </el-col>
@@ -97,8 +94,9 @@
                         </el-form-item> -->
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item :label="`勞保自付額`">
-                            <el-text>{{ Number(career.insurance.expense).toLocaleString() }}</el-text>
+                        <el-form-item :label="`- 勞保自付額`">
+                            <el-text>{{ Number(career.insurance.expense).toLocaleString() }} (負擔率{{
+                    laborInsurace.premiumRate[laborInsurace.type] }}%)</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -106,7 +104,7 @@
                     <el-col :span="12">
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="月實領試算">
+                        <el-form-item label="= 月實領試算">
                             <el-text> {{ Number(career.monthlyNetPayEstimated).toLocaleString() }}</el-text>
                         </el-form-item>
                     </el-col>
@@ -223,8 +221,11 @@ const onlyHealthInsurance = [
 ]
 const healInsurance = reactive({
     salary: 0,
-    rate: 5.17,
     premiumRate: 5.17, // 健保費用率
+    contributionShare: {
+        company: 30,
+        union: 60,
+    },
     employeeContributionRate: 30,
     contribution: 0,
 })
@@ -271,6 +272,27 @@ function calculateCareer(options: any = { propagate: true }) {
         console.log(error.message || error)
     }
 }
+function calculateInsuranceType() {
+    switch (props.profile.insuranceType) {
+        case 'employee':
+            laborInsurace.type = 'company'
+            break;
+        case 'entrepreneur':
+            const { headCount, } = career.value
+            if (headCount === 0) {
+                laborInsurace.type = 'union'
+                career.value.pension.rate = 0
+            }
+            if (headCount >= 5) {
+                laborInsurace.type = 'company'
+            }
+            break;
+        default: {
+            alert(`InsuranceType Exception:${props.profile.insuranceType}`)
+            break;
+        }
+    }
+}
 // 減項計算
 function calculateEmployeeWelfareFund() {
     if (laborInsurace.type === 'company') {
@@ -307,18 +329,12 @@ function calculateHealthPremium() {
     healInsurance.salary = healthInsuranceSalary
     // 計算健保支出
     let healthInsuranceContribution = healthInsuranceSalary
-    const { premiumRate, employeeContributionRate } = healInsurance
+    const { premiumRate, contributionShare } = healInsurance
     healthInsuranceContribution *= premiumRate / 100
-    healthInsuranceContribution *= employeeContributionRate / 100
-    healInsurance.contribution = Math.floor(healthInsuranceContribution)
+    healthInsuranceContribution *= contributionShare[laborInsurace.type] / 100
+    healInsurance.contribution = Math.ceil(healthInsuranceContribution)
 }
 // 勞保計算
-function calculateInsuranceType() {
-    const { headCount, } = career.value
-    if (headCount === 0) {
-        laborInsurace.type = 'union'
-    }
-}
 function calculateInsuranceSalary() {
     const { monthlyBasicSalary } = career.value
     const insuranceSalary = laborInsuranceLevels.find((value: number) => {
@@ -382,7 +398,7 @@ function calculateCareerPensionContribution() {
         case 'entrepreneur':
             career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (rate) / 100)
             break;
-        default: 
+        default:
             alert(`型別錯誤:${props.profile.insuranceType}`,)
             break;
     }
