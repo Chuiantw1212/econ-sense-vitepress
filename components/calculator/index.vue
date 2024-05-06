@@ -572,7 +572,7 @@ let mortgage = reactive({
     downpayMax: 100,
     loanPercent: 0,
     yearsToDownpay: 0,
-    buyHouseYear: 0,
+    downpayYear: 0,
     interestRate: 0,
     loanTerm: 0,
     downPayment: 0,

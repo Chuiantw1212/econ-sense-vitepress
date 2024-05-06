@@ -42,7 +42,7 @@
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="購屋西元年">
-                                    <el-input-number v-model="mortgage.buyHouseYear" @change="calculateAsset()" />
+                                    <el-input-number v-model="mortgage.downpayYear" @change="calculateAsset()" />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -242,7 +242,7 @@ function drawLifeAssetChart(propagate = true) {
         return
     }
     const { presentAsset, irr, period } = investment.value
-    const { buyHouseYear, downPayment, monthlyRepay, loanTerm } = props.mortgage
+    const { downpayYear, downPayment, monthlyRepay, loanTerm } = props.mortgage
     const { currentYear, inflationRate } = props.config
     const { monthlyContribution } = props.spouse
     const spouseAnnualContribution = monthlyContribution * 12
@@ -264,7 +264,7 @@ function drawLifeAssetChart(propagate = true) {
         /**
          * 影響存量重大事件
          */
-        if (year === buyHouseYear) {
+        if (year === downpayYear) {
             const inflatedDownpay = downPayment * inflationModifier
             pv -= inflatedDownpay
             downpayData.push(Math.floor(inflatedDownpay))
@@ -307,8 +307,8 @@ function drawLifeAssetChart(propagate = true) {
          * 不受到通膨影響的PMT
          */
         // 房貸利息影響每月儲蓄
-        const mortgageStartYear = buyHouseYear
-        const mortgageEndYear = buyHouseYear + loanTerm
+        const mortgageStartYear = downpayYear
+        const mortgageEndYear = downpayYear + loanTerm
         let mortgagePmt = 0
         if (mortgageStartYear <= year && year < mortgageEndYear) {
             mortgagePmt = monthlyRepay * 12
@@ -339,7 +339,7 @@ function drawLifeAssetChart(propagate = true) {
             data: childExpenseData,
         })
     }
-    if (buyHouseYear) {
+    if (downpayYear) {
         datasets.push({
             label: '房貸支出',
             data: mortgageData,

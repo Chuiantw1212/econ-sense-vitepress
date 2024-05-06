@@ -44,14 +44,14 @@
                 <el-col :span="12">
                     <el-form-item :label="downpayTitle">
                         <el-input-number v-model="mortgage.downpay" :min="0" :step="200000"
-                            @change="calculateMortgage()" />
+                            @change="calculateMortgage({ setTotalPrice: true })" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="career.monthlyBasicSalary && !mortgage.buyHouseYear" label="月實領 - 月支出">
+                    <el-form-item v-if="career.monthlyBasicSalary && !mortgage.downpayYear" label="月實領 - 月支出">
                         <el-text>{{ Number(career.monthlySaving).toLocaleString() }} / 月</el-text>
                     </el-form-item>
-                    <el-form-item v-if="mortgage.buyHouseYear" label="預估貸款">
+                    <el-form-item v-if="mortgage.downpayYear" label="預估貸款">
                         <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }} NTD</el-text>
                     </el-form-item>
                 </el-col>
@@ -61,7 +61,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="購屋西元年">
-                        <el-input-number v-model="mortgage.buyHouseYear" @change="calculateMortgage()" />
+                        <el-input-number v-model="mortgage.downpayYear" @change="calculateMortgage()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -274,8 +274,8 @@ const props = defineProps({
 })
 // hooks
 const downpayTitle = computed(() => {
-    const { buyHouseYear } = mortgage.value
-    if (buyHouseYear) {
+    const { downpayYear } = mortgage.value
+    if (downpayYear) {
         return `頭期款`
     } else {
         return `已備頭期款`
@@ -320,6 +320,9 @@ function calculateMortgage(options: any = { propagate: true }) {
     const { propagate = true } = options
     debounce(() => {
         drawDownpayChart(propagate)
+        if (setDownpay || setTotalPrice) {
+            calculateDownpayYear()
+        }
     })(propagate)
 }
 function calculateTotalPrice() {
@@ -366,27 +369,30 @@ function drawDownpayChart(propagate = false) {
     if (unableToDrawChart.value) {
         return
     }
-
     const { irr, } = props.investment
     const { inflationRate, currentYear } = props.config
-    const { downpay, totalPriceEstimated, downpayGoal } = mortgage.value
-    const { monthlyBasicSalary } = props.career
+    const { downpay, downpayGoal } = mortgage.value
+    const { monthlyBasicSalary, monthlySaving } = props.career
     const irrModifier: number = 1 + irr / 100
     const inflationRatio: number = 1 + inflationRate / 100
+    console.log({
+        irr,
+        inflationRate,
+        currentYear,
+        downpay,
+        downpayGoal,
+        monthlyBasicSalary,
+        monthlySaving,
+
+    })
 
     let pv: number = downpay
     let pmt: number = 0
     if (monthlyBasicSalary) {
-        pmt = props.career.monthlySaving * 12
+        pmt = monthlySaving * 12
     }
     let fv: number = 0
-    let goal: number = 0
-
-    if (downpayGoal) {
-        goal = downpayGoal
-    } else {
-        goal = Number(totalPriceEstimated) * 0.3
-    }
+    let goal: number = downpayGoal
 
     const labels: string[] = []
     const dataSetData: number[] = []
@@ -403,7 +409,6 @@ function drawDownpayChart(propagate = false) {
         estateTotalPrice.push(Math.floor(goal))
         pv = fv
     } while (fv < goal)
-
     calculateYearsToDownpay(period)
     const chartData = {
         labels,
@@ -434,8 +439,11 @@ function drawDownpayChart(propagate = false) {
 }
 function calculateYearsToDownpay(years) {
     mortgage.value.yearsToDownpay = years
-    const minBuyHouseYear = props.config.currentYear + years
-    mortgage.value.buyHouseYear = Math.max(minBuyHouseYear, mortgage.value.buyHouseYear)
+
+}
+function calculateDownpayYear() {
+    const minBuyHouseYear = props.config.currentYear + mortgage.value.yearsToDownpay
+    mortgage.value.downpayYear = Math.max(minBuyHouseYear, mortgage.value.downpayYear)
 }
 
 const debounceId = ref()

@@ -6,7 +6,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="購屋西元年">
-                            <el-input-number v-model="mortgage.buyHouseYear" @change="calculateMortgage()" />
+                            <el-input-number v-model="mortgage.downpayYear" @change="calculateMortgage()" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
