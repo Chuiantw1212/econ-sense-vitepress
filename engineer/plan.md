@@ -9,7 +9,9 @@ outline: deep
 2. 工程師可藉由開源的前後端程式碼學習Javascript (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>)。
 3. 民眾可以快速建立生涯財務觀念，並提共<a href="/calendar.html#聯絡en">回饋意見</a>。
 
-<Calculator></Calculator>
+<ClientOnly>
+    <Calculator></Calculator>
+</ClientOnly>
 
 <script setup>
 import Calculator from '../components/calculator/index.vue'

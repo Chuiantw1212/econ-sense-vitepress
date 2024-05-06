@@ -217,9 +217,13 @@ async function setSelecOptionSync() {
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
         const interestRate = await bankConfigRes[1].json()
-        const portfolioIrr = await bankConfigRes[2].json()
         mortgage.interestRate = interestRate
-        Object.assign(config.portfolioIRR, portfolioIrr)
+        const ishareCoreETFs = await bankConfigRes[2].json()
+        const portfolioIRR = {}
+        ishareCoreETFs.forEach(etf => {
+            portfolioIRR[etf.label] = etf.value
+        })
+        Object.assign(config.portfolioIRR, portfolioIRR)
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
