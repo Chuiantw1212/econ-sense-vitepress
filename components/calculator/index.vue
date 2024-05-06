@@ -288,7 +288,7 @@ async function getUserFormSync(firebaseUser) {
             expenseQuartileMarks: {}
         },
         spouse: {
-            yearOfMarriage: config.currentYear,
+            yearOfMarriage: '',
             marriageLength: 0,
             monthlyContribution: 0,
             weddingExpense: 0,
@@ -315,7 +315,7 @@ async function getUserFormSync(firebaseUser) {
             loanTerm: 20,
             totalPrice: 0,
             downpay: 0,
-            downpayPercent: 0,
+            downpayPercent: 20,
             downpayGoal: 0,
             monthlyRepay: 0,
             downpayYear: 0,
@@ -373,9 +373,6 @@ async function initializeCalculator() {
     await ParentingRef.value.calculateParenting({
         propagate: true,
     })
-    // await EstateRef.value.calculateEstate({
-    //     propagate: true,
-    // })
     await MortgageRef.value.calculateMortgage({
         propagate: true,
     })
@@ -554,7 +551,8 @@ function onDialogConfirm(newValue) {
 }
 // 房屋貸款試算
 let mortgage = reactive({
-    totalPriceEstimated: 0
+    totalPriceEstimated: 0,
+    interestRate: 0,
 })
 function onMortgageChanged() {
     authFetch(`/user/mortgage`, {

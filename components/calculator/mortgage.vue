@@ -110,6 +110,9 @@
                             假設依靠投資籌措頭期款
                         </li>
                         <li>
+                            試算利息：<a href="https://www.cbc.gov.tw/tw/lp-370-1.html" target="_blank">央行貼放利率</a>
+                        </li>
+                        <li>
                             假設房價增幅速度與通膨持平
                         </li>
                         <li>
@@ -348,6 +351,9 @@ function calculateDownpayGoal() {
     const priceCalculated = totalPriceEstimated || totalPrice
     mortgage.value.downpayGoalStep = Math.floor(priceCalculated / 10)
     mortgage.value.downpayGoal = Math.floor(priceCalculated * downpayPercent / 100)
+    if (!mortgage.value.downpayPercent) {
+        mortgage.value.downpayPercent = 20
+    }
 }
 function calculateDownpayGoalPercent() {
     const { totalPriceEstimated, totalPrice, downpayGoal } = mortgage.value
