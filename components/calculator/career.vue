@@ -273,7 +273,11 @@ function calculateCareer(options: any = { propagate: true }) {
     }
 }
 function calculateInsuranceType() {
-    switch (props.profile.insuranceType) {
+    const { insuranceType } = props.profile
+    if (!insuranceType) {
+        return
+    }
+    switch (insuranceType) {
         case 'employee':
             laborInsurace.type = 'company'
             break;
@@ -287,10 +291,10 @@ function calculateInsuranceType() {
                 laborInsurace.type = 'company'
             }
             break;
-        default: {
-            alert(`InsuranceType Exception:${props.profile.insuranceType}`)
-            break;
-        }
+        // default: {
+        //     alert(`InsuranceType Exception:${props.profile.insuranceType}`)
+        //     break;
+        // }
     }
 }
 // 減項計算
@@ -319,7 +323,6 @@ function calculateHealthPremium() {
             healthSalaryMin = Math.max(healthSalaryMin, legalMinSalary)
         }
     }
-    console.log({ healthSalaryMin })
     let healthInsuranceSalary = insuranceSalaryLevel.find(salaryLevel => {
         return salaryLevel >= healthSalaryMin
     })
@@ -385,7 +388,8 @@ function calculatePensionSalary() {
 function calculateCareerPensionContribution() {
     const { rate } = career.value.pension
     const { salary } = laborPension
-    if (!salary) {
+    const { insuranceType } = props.profile
+    if (!salary || !insuranceType) {
         return
     }
     const maxLaborInsuranceSalary = laborAndHealthInsurance[laborAndHealthInsurance.length - 1]
@@ -398,9 +402,9 @@ function calculateCareerPensionContribution() {
         case 'entrepreneur':
             career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (rate) / 100)
             break;
-        default:
-            alert(`型別錯誤:${props.profile.insuranceType}`,)
-            break;
+        // default:
+        //     alert(`型別錯誤:${props.profile.insuranceType}`,)
+        //     break;
     }
 }
 // 投資計算
