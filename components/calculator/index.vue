@@ -305,20 +305,23 @@ async function getUserFormSync(firebaseUser) {
             allocationETF: 'aok',
             stockPercentage: 20,
         },
-        estatePrice: {
-            totalPrice: 0,
-        },
+        estatePrice: {},
         estateSize: {
             publicRatio: 35,
             bathroom: 1,
             livingRoom: 1,
             balcany: 1,
             parkingSpace: 1,
-            downpayGoal: 0,
         },
         mortgage: {
-            loanPercent: 80,
             loanTerm: 20,
+            totalPrice: 0,
+            downpay: 0,
+            downpayPercent: 0,
+            downpayGoal: 0,
+            monthlyRepay: 0,
+            downpayYear: 0,
+            loanAmount: 0,
         },
     }
     let userForm = {
@@ -349,6 +352,9 @@ async function getUserFormSync(firebaseUser) {
         Object.assign(estatePrice, initForm.estatePrice)
         Object.assign(estateSize, initForm.estateSize)
         Object.assign(mortgage, initForm.mortgage)
+        console.log({
+            mortgage
+        })
         Object.assign(parenting, initForm.parenting)
     }
     return userForm
@@ -553,19 +559,7 @@ function onDialogConfirm(newValue) {
 }
 // 房屋貸款試算
 let mortgage = reactive({
-    totalPriceEstimated: 0,
-    downpay: 0,
-    downpayGoal: 0,
-    downpayPercent: 0,
-    downpayMin: 0,
-    downpayMax: 100,
-    loanPercent: 0,
-    yearsToDownpay: 0,
-    downpayYear: 0,
-    interestRate: 0,
-    loanTerm: 0,
-    loanAmount: 0,
-    monthlyRepay: 0,
+    totalPriceEstimated: 0
 })
 function onMortgageChanged() {
     authFetch(`/user/mortgage`, {

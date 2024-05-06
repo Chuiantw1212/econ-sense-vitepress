@@ -5,10 +5,10 @@
                 <el-col :span="18">
                     <el-form-item label="房屋總價">
                         <el-text v-if="mortgage.totalPriceEstimated">= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
-                estateSize.floorSize }}坪) = {{
-                    Number(mortgage.totalPriceEstimated).toLocaleString() }} NTD</el-text>
+                            estateSize.floorSize }}坪) = {{
+                                Number(mortgage.totalPriceEstimated).toLocaleString() }} NTD</el-text>
                         <el-input-number v-else v-model="mortgage.totalPrice" :min="0" :step="1000000"
-                        @change="calculateMortgage({ setDownpay: true })" />
+                            @change="calculateMortgage({ setDownpay: true })" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -35,9 +35,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="!unableToDrawChart" label="預期籌措時間">
-                        <el-text>{{ config.currentYear + mortgage.yearsToDownpay }}
-                            ({{ mortgage.yearsToDownpay }}年後)</el-text>
+                    <el-form-item v-if="career.monthlyBasicSalary" label="月實領 - 月支出">
+                        <el-text>{{ Number(career.monthlySaving).toLocaleString() }} / 月</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -49,11 +48,9 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="career.monthlyBasicSalary && !mortgage.downpayYear" label="月實領 - 月支出">
-                        <el-text>{{ Number(career.monthlySaving).toLocaleString() }} / 月</el-text>
-                    </el-form-item>
-                    <el-form-item v-if="mortgage.downpayYear" label="預估貸款">
-                        <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }} NTD</el-text>
+                    <el-form-item v-if="!unableToDrawChart" label="預期籌措時間">
+                        <el-text>{{ config.currentYear + mortgage.yearsToDownpay }}
+                            ({{ mortgage.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -66,6 +63,9 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
+                    <el-form-item v-if="mortgage.downpayYear" label="預估貸款">
+                        <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }} NTD</el-text>
+                    </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
@@ -334,9 +334,10 @@ function calculateTotalPriceEstimated() {
         const totalPriceEstimated = Math.floor(Number(unitPrice) * Number(floorSize) * 10000)
         mortgage.value.totalPriceEstimated = totalPriceEstimated
         mortgage.value.totalPrice = totalPriceEstimated
-    } else {
-        mortgage.value.totalPriceEstimated = 0
     }
+    // else {
+    //     mortgage.value.totalPriceEstimated = 0
+    // }
 }
 function setTotalPriceMarks() {
     for (let i = 0; i < 10; i++) {
@@ -361,6 +362,10 @@ function calculateLoanAmount() {
     if (!totalPrice || !downpay) {
         return
     }
+    console.log({
+        totalPrice,
+        downpay
+    })
     const loanAmount = totalPrice - downpay
     mortgage.value.loanAmount = Math.floor(loanAmount)
 }
@@ -370,13 +375,14 @@ function calculateMonthlyRepay() {
      * https://zh.wikipedia.org/zh-tw/%E6%9C%AC%E6%81%AF%E5%B9%B3%E5%9D%87%E6%94%A4%E9%82%84
      */
     const { interestRate, loanTerm, loanAmount } = mortgage.value
+    if (!interestRate || !loanTerm || !loanAmount) {
+        return
+    }
     const monthlyInterestRate = interestRate / 100 / 12
     const monthCount = loanTerm * 12
-
     const part = Math.pow(1 + monthlyInterestRate, monthCount)
     const fraction = part * monthlyInterestRate
     const deno = part - 1
-
     const averageRepayRate = fraction / deno
     mortgage.value.monthlyRepay = Math.floor(loanAmount * averageRepayRate)
 }
@@ -452,8 +458,15 @@ function calculateYearsToDownpay(years) {
 
 }
 function calculateDownpayYear() {
-    const minBuyHouseYear = props.config.currentYear + mortgage.value.yearsToDownpay
-    mortgage.value.downpayYear = Math.max(minBuyHouseYear, mortgage.value.downpayYear)
+    const { yearsToDownpay } = mortgage.value
+    console.log({
+        currentYear: props.config.currentYear,
+        yearsToDownpay
+    })
+    if (yearsToDownpay) {
+        const minBuyHouseYear = props.config.currentYear + mortgage.value.yearsToDownpay
+        mortgage.value.downpayYear = Math.max(minBuyHouseYear, mortgage.value.downpayYear)
+    }
 }
 
 const debounceId = ref()
