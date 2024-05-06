@@ -19,14 +19,6 @@
             </template>
         </el-dialog>
 
-        <h3 id="_購屋試算" tabindex="-1">購屋試算<a class="header-anchor" href="#購屋試算"
-                aria-label="Permalink to &quot;購屋試算&quot;">&ZeroWidthSpace;</a></h3>
-
-        <Mortgage v-model="mortgage" :config="config" :career="career" :estateSize="estateSize" :investment="investment"
-            :estatePrice="estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
-            @open="openEstateCalculator()" @reset="resetTotalPrice()">
-        </Mortgage>
-
         <Profile v-model="profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
             @update:modelValue="onProfileChanged()"></Profile>
 
@@ -58,7 +50,13 @@
             @update:model-value="onParentingChanged()">
         </Parenting>
 
+        <h3 id="_購屋試算" tabindex="-1">購屋試算<a class="header-anchor" href="#購屋試算"
+                aria-label="Permalink to &quot;購屋試算&quot;">&ZeroWidthSpace;</a></h3>
 
+        <Mortgage v-model="mortgage" :config="config" :career="career" :estateSize="estateSize" :investment="investment"
+            :estatePrice="estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
+            @open="openEstateCalculator()" @reset="resetTotalPrice()">
+        </Mortgage>
 
         <el-dialog :modelValue="estateCalculatorVisiable" title="估算總價" :lock-scroll="true"
             @close="estateCalculatorVisiable = false">
@@ -352,9 +350,6 @@ async function getUserFormSync(firebaseUser) {
         Object.assign(estatePrice, initForm.estatePrice)
         Object.assign(estateSize, initForm.estateSize)
         Object.assign(mortgage, initForm.mortgage)
-        console.log({
-            mortgage
-        })
         Object.assign(parenting, initForm.parenting)
     }
     return userForm

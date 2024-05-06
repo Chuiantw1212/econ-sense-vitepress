@@ -30,7 +30,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="預估頭期款">
-                        <el-input-number v-model="mortgage.downpayGoal" :min="0" :step="100000"
+                        <el-input-number v-model="mortgage.downpayGoal" :min="0" :step="mortgage.downpayGoalStep"
                             @change="calculateMortgage({ setTotalPrice: true })" />
                     </el-form-item>
                 </el-col>
@@ -325,6 +325,7 @@ function calculateTotalPrice() {
     const { downpayPercent, downpayGoal } = mortgage.value
     if (downpayPercent) {
         mortgage.value.totalPrice = Math.floor(downpayGoal / downpayPercent * 100)
+        // mortgage.value.downpayGoalStep = Math.floor(mortgage.value.totalPrice / 10)
     }
 }
 function calculateTotalPriceEstimated() {
@@ -334,10 +335,8 @@ function calculateTotalPriceEstimated() {
         const totalPriceEstimated = Math.floor(Number(unitPrice) * Number(floorSize) * 10000)
         mortgage.value.totalPriceEstimated = totalPriceEstimated
         mortgage.value.totalPrice = totalPriceEstimated
+        // mortgage.value.downpayGoalStep = Math.floor(totalPriceEstimated / 10)
     }
-    // else {
-    //     mortgage.value.totalPriceEstimated = 0
-    // }
 }
 function setTotalPriceMarks() {
     for (let i = 0; i < 10; i++) {
@@ -347,14 +346,19 @@ function setTotalPriceMarks() {
 function calculateDownpayGoal() {
     const { totalPriceEstimated, totalPrice, downpayPercent } = mortgage.value
     const priceCalculated = totalPriceEstimated || totalPrice
+    mortgage.value.downpayGoalStep = Math.floor(priceCalculated / 10)
     mortgage.value.downpayGoal = Math.floor(priceCalculated * downpayPercent / 100)
 }
 function calculateDownpayGoalPercent() {
     const { totalPriceEstimated, totalPrice, downpayGoal } = mortgage.value
     const price = totalPriceEstimated || totalPrice
-    if (price && downpayGoal) {
-        const downpayPercent = downpayGoal / price * 100
-        mortgage.value.downpayPercent = Math.floor(downpayPercent)
+    if (price) {
+        if (downpayGoal) {
+            const downpayPercent = downpayGoal / price * 100
+            mortgage.value.downpayPercent = Math.floor(downpayPercent)
+        } else {
+            mortgage.value.downpayPercent = 0
+        }
     }
 }
 function calculateLoanAmount() {
@@ -362,10 +366,6 @@ function calculateLoanAmount() {
     if (!totalPrice || !downpay) {
         return
     }
-    console.log({
-        totalPrice,
-        downpay
-    })
     const loanAmount = totalPrice - downpay
     mortgage.value.loanAmount = Math.floor(loanAmount)
 }
@@ -459,10 +459,6 @@ function calculateYearsToDownpay(years) {
 }
 function calculateDownpayYear() {
     const { yearsToDownpay } = mortgage.value
-    console.log({
-        currentYear: props.config.currentYear,
-        yearsToDownpay
-    })
     if (yearsToDownpay) {
         const minBuyHouseYear = props.config.currentYear + mortgage.value.yearsToDownpay
         mortgage.value.downpayYear = Math.max(minBuyHouseYear, mortgage.value.downpayYear)
