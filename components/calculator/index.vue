@@ -383,9 +383,6 @@ async function initializeCalculator() {
     await MortgageRef.value.calculateMortgage({
         propagate: true,
     })
-    await MortgageRef.value.calculateMortgage({
-        propagate: true,
-    })
 }
 // 基本資料
 let profile = reactive({
@@ -522,6 +519,7 @@ function resetTotalPrice() {
     })
 }
 async function onEstatePriceChanged() {
+    console.log('onEstatePriceChanged')
     authFetch(`/user/estatePrice`, {
         method: 'put',
         body: estatePrice,
@@ -531,6 +529,7 @@ async function onEstatePriceChanged() {
     })
     await MortgageRef.value.calculateMortgage({
         propagate: false,
+        setDownpay: true,
     })
 }
 let estateSize = reactive({
@@ -575,7 +574,7 @@ let mortgage = reactive({
     downpayYear: 0,
     interestRate: 0,
     loanTerm: 0,
-    downPayment: 0,
+    downpay: 0,
     loanAmount: 0,
     monthlyRepay: 0,
 })

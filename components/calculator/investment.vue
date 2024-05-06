@@ -242,7 +242,7 @@ function drawLifeAssetChart(propagate = true) {
         return
     }
     const { presentAsset, irr, period } = investment.value
-    const { downpayYear, downPayment, monthlyRepay, loanTerm } = props.mortgage
+    const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal } = props.mortgage
     const { currentYear, inflationRate } = props.config
     const { monthlyContribution } = props.spouse
     const spouseAnnualContribution = monthlyContribution * 12
@@ -265,7 +265,8 @@ function drawLifeAssetChart(propagate = true) {
          * 影響存量重大事件
          */
         if (year === downpayYear) {
-            const inflatedDownpay = downPayment * inflationModifier
+            const calculatedDownpay = downpayGoal || downpay
+            const inflatedDownpay = calculatedDownpay * inflationModifier
             pv -= inflatedDownpay
             downpayData.push(Math.floor(inflatedDownpay))
         } else {

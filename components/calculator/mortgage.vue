@@ -78,7 +78,7 @@
                 </el-col>
                 <el-col :span="12">
                     <!-- <el-form-item label="預估頭期款">
-                        <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
+                        <el-text>{{ Number(mortgage.downpay).toLocaleString() }} NTD</el-text>
                     </el-form-item> -->
                 </el-col>
             </el-row>
@@ -306,10 +306,10 @@ function resetTotalPrice() {
     emits('reset')
 }
 function calculateMortgage(options: any = { propagate: true }) {
-    const { setDownpay = false, setTotalPrice = false } = options
+    const { propagate = true, setDownpay = false, setTotalPrice = false } = options
     calculateTotalPriceEstimated()
     if (setDownpay) {
-        calculateDownpay()
+        calculateDownpayGoal()
     }
     if (setTotalPrice) {
         calculateTotalPrice()
@@ -318,7 +318,6 @@ function calculateMortgage(options: any = { propagate: true }) {
     calculateLoanAmount()
     calculateMonthlyRepay()
     // draw chart
-    const { propagate = true } = options
     debounce(() => {
         drawDownpayChart(propagate)
         if (setDownpay || setTotalPrice) {
@@ -340,17 +339,17 @@ function calculateTotalPriceEstimated() {
         mortgage.value.totalPriceEstimated = beforeFormatPrice
     }
 }
-function calculateDownpay() {
+function calculateDownpayGoal() {
     const { totalPriceEstimated, totalPrice, downpayPercent } = mortgage.value
-    const priceCalculated = totalPrice || totalPriceEstimated
+    const priceCalculated = totalPriceEstimated || totalPrice
     mortgage.value.downpayGoal = Math.floor(priceCalculated * downpayPercent / 100)
 }
 function calculateDownpayPercent() {
     const { totalPriceEstimated, totalPrice, downpayGoal } = mortgage.value
-    const price = totalPrice || totalPriceEstimated
+    const price = totalPriceEstimated || totalPrice
     if (price) {
         const downpayPercent = downpayGoal / price * 100
-        mortgage.value.downpayPercent = downpayPercent
+        mortgage.value.downpayPercent = Math.floor(downpayPercent)
     }
 }
 function calculateLoanAmount() {
@@ -377,6 +376,7 @@ function calculateMonthlyRepay() {
     const averageRepayRate = fraction / deno
     mortgage.value.monthlyRepay = Math.floor(loanAmount * averageRepayRate)
 }
+
 let downPayChartInstance = ref<Chart>()
 function drawDownpayChart(propagate = false) {
     if (propagate) {
@@ -391,16 +391,6 @@ function drawDownpayChart(propagate = false) {
     const { monthlyBasicSalary, monthlySaving } = props.career
     const irrModifier: number = 1 + irr / 100
     const inflationRatio: number = 1 + inflationRate / 100
-    console.log({
-        irr,
-        inflationRate,
-        currentYear,
-        downpay,
-        downpayGoal,
-        monthlyBasicSalary,
-        monthlySaving,
-
-    })
 
     let pv: number = downpay
     let pmt: number = 0
