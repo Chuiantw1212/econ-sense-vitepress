@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="500">
-            <div>此為免費服務，伺服器開機需15秒左右來準備以下必須資料。</div>
+            <div>此為免費服務，伺服器開機需15~30秒左右來準備以下必須資料。</div>
             <ul>
                 <li>餘命運算</li>
                 <li>2023聯徵房地資料契約</li>
@@ -200,8 +200,14 @@ const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
     loadingDialogVisible.value = true
     try {
+        const bankConfigPromises = [
+            fetch(`${VITE_BASE_URL}/select`),
+            fetch(`${VITE_BASE_URL}/bank/config/interestRate`),
+            fetch(`${VITE_BASE_URL}/bank/config/portfolioIrr`),
+        ]
+        const bankConfigRes = await Promise.all(bankConfigPromises)
         // 靜態的設定檔案
-        const selectRes = await fetch(`${VITE_BASE_URL}/select`)
+        const selectRes = await bankConfigRes[0]
         const selectResJson = await selectRes.json()
         config.counties = selectResJson.counties || []
         config.buildingTypes = selectResJson.buildingTypes || []
@@ -210,13 +216,8 @@ async function setSelecOptionSync() {
         config.retirementQuartile = selectResJson.retirementQuartile || []
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
-        const bankConfigPromises = [
-            fetch(`${VITE_BASE_URL}/bank/config/interestRate`),
-            fetch(`${VITE_BASE_URL}/bank/config/portfolioIrr`),
-        ]
-        const bankConfigRes = await Promise.all(bankConfigPromises)
-        const interestRate = await bankConfigRes[0].json()
-        const portfolioIrr = await bankConfigRes[1].json()
+        const interestRate = await bankConfigRes[1].json()
+        const portfolioIrr = await bankConfigRes[2].json()
         mortgage.interestRate = interestRate
         Object.assign(config.portfolioIRR, portfolioIrr)
     }
