@@ -46,25 +46,26 @@
         <Spouse v-model="spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()"></Spouse>
 
         <Parenting v-model="parenting" :config="config" :career="career" :retirement="retirement" :spouse="spouse"
-            :investment="investment" :estateSize="estateSize" ref="ParentingRef"
+            :investment="investment" :estateSize="estateSize" :mortgage="mortgage" ref="ParentingRef"
             @update:model-value="onParentingChanged()">
         </Parenting>
 
         <h3 id="_購屋試算" tabindex="-1">購屋試算<a class="header-anchor" href="#購屋試算"
                 aria-label="Permalink to &quot;購屋試算&quot;">&ZeroWidthSpace;</a></h3>
 
-        <EstatePrice v-model="estatePrice" :config="config" :estateSize="estateSize" ref="EstatePriceRef"
-            @update:model-value="onEstatePriceChanged()">
-        </EstatePrice>
-        <br />
-        <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
-            ref="EstateSizeRef">
-        </EstateSize>
-        <br />
+        <el-dialog v-model="estateCalculatorVisiable" title="估算總價">
+            <EstatePrice v-model="estatePrice" :config="config" :estateSize="estateSize" ref="EstatePriceRef"
+                @update:model-value="onEstatePriceChanged()">
+            </EstatePrice>
+            <br />
+            <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
+                ref="EstateSizeRef">
+            </EstateSize>
+        </el-dialog>
 
         <Mortgage v-model="mortgage" :config="config" :career="career" :estateSize="estateSize" :investment="investment"
             :estatePrice="estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
-            @reset="resetTotalPrice()">
+            @open="openEstateCalculator()" @reset="resetTotalPrice()">
         </Mortgage>
     </div>
 </template>
@@ -458,6 +459,9 @@ function onInvestmentChanged() {
     ParentingRef.value.calculateParenting({
         propagate: false,
     })
+    MortgageRef.value.calculateMortgage({
+        propagate: true,
+    })
 }
 // 配偶試算
 let spouse = reactive({})
@@ -493,6 +497,7 @@ function onParentingChanged() {
     })
 }
 // 購屋單價與總價
+const estateCalculatorVisiable = ref(false)
 let estatePrice = reactive({
     county: '',
     town: '',
@@ -517,6 +522,9 @@ function resetTotalPrice() {
         method: 'put',
         body: estatePrice,
     })
+}
+function openEstateCalculator() {
+    estateCalculatorVisiable.value = true
 }
 async function onEstatePriceChanged() {
     console.log('onEstatePriceChanged')
@@ -558,6 +566,7 @@ watch(() => estateSize, async (newValue, oldValue) => {
     if (MortgageRef.value) {
         await MortgageRef.value.calculateMortgage({
             propagate: false,
+            setDownpay: true,
         })
     }
 }, { deep: true })
@@ -574,7 +583,6 @@ let mortgage = reactive({
     downpayYear: 0,
     interestRate: 0,
     loanTerm: 0,
-    downpay: 0,
     loanAmount: 0,
     monthlyRepay: 0,
 })
