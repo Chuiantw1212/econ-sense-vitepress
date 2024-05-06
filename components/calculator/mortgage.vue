@@ -316,6 +316,7 @@ function calculateMortgage(options: any = { propagate: true }) {
     }
     calculateDownpayPercent()
     calculateLoanAmount()
+    calculateMonthlyRepay()
     // draw chart
     const { propagate = true } = options
     debounce(() => {
@@ -360,7 +361,22 @@ function calculateLoanAmount() {
     const loanAmount = totalPrice - downpay
     mortgage.value.loanAmount = Math.floor(loanAmount)
 }
+function calculateMonthlyRepay() {
+    /**
+     * 本息平均攤還
+     * https://zh.wikipedia.org/zh-tw/%E6%9C%AC%E6%81%AF%E5%B9%B3%E5%9D%87%E6%94%A4%E9%82%84
+     */
+    const { interestRate, loanTerm, loanAmount } = mortgage.value
+    const monthlyInterestRate = interestRate / 100 / 12
+    const monthCount = loanTerm * 12
 
+    const part = Math.pow(1 + monthlyInterestRate, monthCount)
+    const fraction = part * monthlyInterestRate
+    const deno = part - 1
+
+    const averageRepayRate = fraction / deno
+    mortgage.value.monthlyRepay = Math.floor(loanAmount * averageRepayRate)
+}
 let downPayChartInstance = ref<Chart>()
 function drawDownpayChart(propagate = false) {
     if (propagate) {
