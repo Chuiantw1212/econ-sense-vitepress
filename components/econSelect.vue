@@ -51,7 +51,7 @@ function handleChange() {
     all: unset;
     border: 1px solid #dcdfe6;
     border-radius: 4px;
-    width: 130px;
+    width: 117px;
     padding: 0 15px;
 
     &:disabled {
