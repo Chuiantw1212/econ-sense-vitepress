@@ -96,7 +96,7 @@
                     <el-col :span="12">
                         <el-form-item :label="`- 勞保自付額`">
                             <el-text>{{ Number(career.insurance.expense).toLocaleString() }} (負擔率{{
-                    laborInsurace.premiumRate[laborInsurace.type] }}%)</el-text>
+                                laborInsurace.premiumRate[laborInsurace.type] }}%)</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -111,7 +111,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="年實領/12">
+                        <el-form-item label="年實領 / 12">
                             <el-input-number v-model="career.monthlyNetPay" :min="0"
                                 @change="calculateCareer($event)" />
                         </el-form-item>
@@ -135,6 +135,9 @@
                 <el-collapse>
                     <el-collapse-item title="試算說明" name="1" :border="true">
                         <ul>
+                            <li>
+                                包含獎金等等不固定薪資、以及投資股利等等後的稅後所得/12，是計算每月可投資金額的基礎。
+                            </li>
                             <li>
                                 假設薪資成長率永遠剛好抵銷通膨
                             </li>
