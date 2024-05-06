@@ -29,7 +29,7 @@
                     <el-col :span="12">
                         <el-form-item label="出生年" required>
                             <econSelect v-model="profile.yearOfBirth" @change="calculateProfile()" style="width: 130px"
-                                :items="birthYearOptions">
+                                :options="birthYearOptions">
                             </econSelect>
                         </el-form-item>
                     </el-col>
@@ -59,7 +59,7 @@
                     <el-col :span="12">
                         <el-form-item label="職業保險別" required>
                             <econSelect v-model="profile.insuranceType" @change="calculateProfile()"
-                                style="width: 130px" :items="insuranceTypeOptions">
+                                style="width: 130px" :options="insuranceTypeOptions">
                             </econSelect>
                             <!-- <el-radio-group v-model="profile.insuranceType" @change="calculateProfile()">
                                 <el-radio v-for="(item) in insuranceTypeOptions" :value="item.value">
@@ -156,13 +156,13 @@ const marriageYearOptions = ref<any[]>([])
 const insuranceTypeOptions = ref([
     {
         label: '勞工(有勞保)',
-        value: 'labor',
+        value: 'employee',
         disabled: false,
     },
     {
-        label: '企業主/自營/自由業',
+        label: '企業主/自營/自由業(做到一半)',
         value: 'entrepreneur',
-        disabled: true,
+        disabled: false,
     },
     {
         label: '軍職人員(有軍保)',

@@ -6,11 +6,15 @@
             <el-form label-width="auto">
                 <el-row v-if="profile.insuranceType === 'entrepreneur'">
                     <el-col :span="12">
-                        <el-form-item label="公司人數(不含己)" required>
+                        <el-form-item label="不含己公司人數" required>
                             <el-input-number v-model="career.headCount" :min="0" @change="calculateCareer($event)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
+                        <el-form-item label="投保單位">
+                            <econSelect v-model="laborInsuraceType" :options="laborInsuranceTypeOptions"
+                                :disabled="!career.headCount" @change="calculateCareer($event)"></econSelect>
+                        </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
@@ -21,7 +25,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="伙食津貼">
+                        <el-form-item v-if="laborInsuraceType === 'company'" label="伙食津貼">
                             <el-text>{{ Number(career.foodExpense).toLocaleString() }}</el-text>
                         </el-form-item>
                     </el-col>
@@ -30,20 +34,27 @@
                     <el-col :span="12">
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="職工福利金">
+                        <el-form-item v-if="laborInsuraceType === 'company'" label="職工福利金">
                             <el-text> {{ Number(career.employeeWelfareFund).toLocaleString() }}</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <!-- <el-form-item label="勞退提繳工資">
-                            <el-text> {{ Number(career.pension.salary).toLocaleString() }}</el-text>
-                        </el-form-item> -->
+                        <el-form-item label="勞退提繳工資">
+                            <el-text> {{ Number(laborPension.salary).toLocaleString() }}</el-text>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="健保提繳工資">
+                            <el-text> {{ Number(healInsurance.salary).toLocaleString() }}</el-text>
+                        </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="健保負擔">
-                            <el-text> {{ Number(career.healthInsutancePremium).toLocaleString() }}</el-text>
+                            <el-text> {{ Number(healInsurance.contribution).toLocaleString() }}</el-text>
                         </el-form-item>
 
                     </el-col>
@@ -63,12 +74,12 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <!-- <el-form-item label="勞保提繳工資">
+                        <el-form-item label="勞保提繳工資">
                             <el-text> {{ Number(career.insurance.salary).toLocaleString() }}</el-text>
-                        </el-form-item> -->
+                        </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="勞保勞工負擔">
+                        <el-form-item :label="`勞保負擔${laborInsuracePremiumRate[laborInsuraceType]}%`">
                             <el-text>{{ Number(career.insurance.expense).toLocaleString() }}</el-text>
                         </el-form-item>
                     </el-col>
@@ -126,18 +137,37 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, shallowRef } from 'vue'
+import { ref, computed, shallowRef, reactive } from 'vue'
 import Chart from 'chart.js/auto';
+import econSelect from '../econSelect.vue'
 let incomeChartInstance = ref<Chart>()
 const emits = defineEmits(['update:modelValue'])
+const laborInsuraceType = ref('company')
+const laborInsuranceTypeOptions = [
+    {
+        label: '公司',
+        value: 'company'
+    },
+    {
+        label: '職業工會',
+        value: 'union'
+    }
+]
+const laborInsuracePremiumRate = {
+    company: 20,
+    union: 60
+}
 const laborInsuranceLevels = [
     27470, 27600, 28800,
     30300, 31800, 33300, 34800, 36300, 38200,
     40100, 42000, 43900, 45800
 ]
-const pensionLevel = [
+const onlyLaborInsurance = [
     1500, 3000, 4500, 6000, 7500, 8700, 9900, 11100, 12540, 13500, 15840, 16500, 17280, 17880, 19047,
-    20008, 21009, 22000, 23100, 24000, 25250, 26400, 27470, 27600, 28800,
+    20008, 21009, 22000, 23100, 24000, 25250, 26400,
+]
+const laborAndHealthInsurance = [
+    27470, 27600, 28800,
     30300, 31800, 33300, 34800, 36300, 38200,
     40100, 42000, 43900, 45800, 48200,
     50600, 53000, 55400, 57800,
@@ -146,8 +176,24 @@ const pensionLevel = [
     80200, 83900, 87600,
     92100, 96600,
     10110, 105600, 110100, 115500,
-    120900, 126300, 131700, 137100, 142500, 147900, 150000
+    120900, 126300, 131700, 137100, 142500, 147900, 150000,
 ]
+const onlyHealthInsurance = [
+    156400, 162800, 169200,
+    175600, 182000, 189500,
+    197000, 204500, 212000,
+    219500,
+]
+const healInsurance = reactive({
+    salary: 0,
+    rate: 5.17,
+    premiumRate: 5.17, // 健保費用率
+    employeeContributionRate: 30,
+    contribution: 0,
+})
+const laborPension = reactive({
+    salary: 0,
+})
 const props = defineProps({
     modelValue: {
         type: Object,
@@ -178,11 +224,12 @@ function calculateCareer(options: any = { propagate: true }) {
     const { propagate = true } = options
     try {
         calculateEmployeeWelfareFund()
+        calculateInsuranceTypeAndLevel()
         calculateInsuranceSalary()
         calculateInsuranceExpense()
         calculatePensionSalary()
         calculateCareerPensionContribution()
-        calculateHealthPremiumByPension()
+        calculateHealthPremium()
         debounce(() => {
             drawChartAndCalculateIncome(propagate)
         })(propagate)
@@ -195,13 +242,37 @@ function calculateEmployeeWelfareFund() {
     const { monthlyBasicSalary, } = career.value
     career.value.employeeWelfareFund = Math.floor(monthlyBasicSalary * 0.5 / 100)
 }
-function calculateHealthPremiumByPension() {
-    const { salary, } = career.value.pension
-    const healthInsutancePremiumRate = 5.17 / 100
-    const employeeContributionRate = 30 / 100
-    career.value.healthInsutancePremium = Math.ceil(salary * healthInsutancePremiumRate * employeeContributionRate)
+function calculateHealthPremium() {
+    const { monthlyBasicSalary, foodExpense, } = career.value
+    let salary = monthlyBasicSalary
+    if (laborInsuraceType.value === 'company') {
+        salary += foodExpense
+    }
+    const insuranceSalaryLevel = [
+        ...laborAndHealthInsurance,
+        ...onlyHealthInsurance,
+    ]
+    let healthInsuranceSalary = insuranceSalaryLevel.find(salaryLevel => {
+        return salaryLevel >= salary
+    })
+    if (!healthInsuranceSalary) {
+        healthInsuranceSalary = insuranceSalaryLevel.slice(-1)[0]
+    }
+    healInsurance.salary = healthInsuranceSalary
+    // 計算健保支出
+    let healthInsuranceContribution = healthInsuranceSalary
+    const { premiumRate, employeeContributionRate } = healInsurance
+    healthInsuranceContribution *= premiumRate / 100
+    healthInsuranceContribution *= employeeContributionRate / 100
+    healInsurance.contribution = Math.floor(healthInsuranceContribution)
 }
 // 勞保計算
+function calculateInsuranceTypeAndLevel() {
+    const { headCount, } = career.value
+    if (headCount === 0) {
+        laborInsuraceType.value = 'union'
+    }
+}
 function calculateInsuranceSalary() {
     const { monthlyBasicSalary } = career.value
     const insuranceSalary = laborInsuranceLevels.find((value: number) => {
@@ -215,31 +286,37 @@ function calculateInsuranceSalary() {
 }
 function calculateInsuranceExpense() {
     const { salary = 0, } = career.value.insurance
-    if (salary) {
-        const insuranceRate = 12 / 100
-        const premiumRate = 20 / 100
-        career.value.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate)
+    if (!salary) {
+        return
     }
+    const insuranceRate = 12 / 100
+    const premiumRate = laborInsuracePremiumRate[laborInsuraceType.value] / 100
+    career.value.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate)
 }
 // 勞退計算
 function calculatePensionSalary() {
     const { monthlyBasicSalary, foodExpense, } = career.value
     const pensionSalaryMin = monthlyBasicSalary + foodExpense
-    const pensionSalary = pensionLevel.find(value => {
+    const insuranceSalaryLevel = [
+        ...onlyLaborInsurance,
+        ...laborAndHealthInsurance,
+    ]
+    const pensionSalary = insuranceSalaryLevel.find(value => {
         return pensionSalaryMin < value
     })
     if (pensionSalary) {
-        career.value.pension.salary = pensionSalary
+        laborPension.salary = pensionSalary
     } else {
-        career.value.pension.salary = pensionLevel.slice(-1)[0]
+        laborPension.salary = insuranceSalaryLevel[insuranceSalaryLevel.length - 1]
     }
 }
 function calculateCareerPensionContribution() {
     const { salary, rate } = career.value.pension
     if (salary) {
-        const maxContribution = Math.min(salary, props.config.maxPensionSalary)
-        career.value.pension.monthlyContributionEmployee = Math.floor(maxContribution * rate / 100)
-        career.value.pension.monthlyContribution = Math.floor(maxContribution * (6 + rate) / 100)
+        const maxLaborInsuranceSalary = laborAndHealthInsurance[laborAndHealthInsurance.length - 1]
+        const laborInsuranceSalary = Math.min(salary, maxLaborInsuranceSalary)
+        career.value.pension.monthlyContributionEmployee = Math.floor(laborInsuranceSalary * rate / 100)
+        career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (6 + rate) / 100)
     }
 }
 // 投資計算
@@ -278,7 +355,7 @@ function drawChartAndCalculateIncome(propagate = false) {
     })
 
     pv = fv
-    fv -= career.value.healthInsutancePremium
+    fv -= healInsurance.contribution
     dataAndDataIndex.push({
         label: '健保',
         data: [pv, fv],

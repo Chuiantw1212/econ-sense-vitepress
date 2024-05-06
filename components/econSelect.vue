@@ -1,7 +1,7 @@
 <template>
     <select v-model="selectValue" class="form__select" :disabled="disabled" @change="handleChange()">
         <option :label="placeholder" value=""></option>
-        <option v-for="(item) in items" :key="item.value" :label="item.label" :value="item.value"
+        <option v-for="(item) in options" :key="item.value" :label="item.label" :value="item.value"
             :disabled="item.disabled" />
     </select>
 </template>
@@ -11,7 +11,7 @@ const emits = defineEmits(['update:modelValue', 'change'])
 interface IOptionItem {
     label: string
     value: any,
-    disabled: boolean,
+    disabled?: boolean,
 }
 const props = defineProps({
     modelValue: {
@@ -21,7 +21,7 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    items: {
+    options: {
         type: Array as PropType<IOptionItem[]>,
         default: () => {
             return []

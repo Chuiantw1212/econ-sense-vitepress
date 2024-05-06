@@ -186,7 +186,6 @@ const config = reactive({
     // primitive types
     currentYear: new Date().getFullYear(),
     inflationRate: 2,
-    maxPensionSalary: 150000,
     // array types
     genders: [],
     counties: [],
