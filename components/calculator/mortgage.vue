@@ -14,7 +14,7 @@
                 <el-col :span="6">
                     <el-form-item>
                         <el-button v-if="!mortgage.totalPriceEstimated" @click="emits('open')">點此估算總價</el-button>
-                        <el-button v-if="mortgage.totalPriceEstimated" @click="resetTotalPrice()">取消並自行輸入總價</el-button>
+                        <el-button v-if="mortgage.totalPriceEstimated" @click="resetTotalPrice()">取消並自行調整</el-button>
                     </el-form-item>
                 </el-col>
             </el-row>

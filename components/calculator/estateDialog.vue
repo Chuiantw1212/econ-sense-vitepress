@@ -25,7 +25,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { computed, ref, reactive, onMounted, onBeforeUnmount, watch } from 'vue'
+import { computed, ref, reactive, onMounted, nextTick, watch } from 'vue'
 import EstateSize from './estateSize.vue'
 import EstatePrice from './estatePrice.vue'
 const emits = defineEmits(['update:modelValue', 'confirm'])
@@ -117,10 +117,10 @@ function confirmUpdate() {
     })
 }
 onMounted(() => {
-    estateSize.value = JSON.parse(JSON.stringify(props.estateSize))
     estatePrice.value = JSON.parse(JSON.stringify(props.estatePrice))
-})
-defineExpose({
-    calculateEstate,
+    estateSize.value = JSON.parse(JSON.stringify(props.estateSize))
+    nextTick(() => {
+        calculateEstate()
+    })
 })
 </script>
