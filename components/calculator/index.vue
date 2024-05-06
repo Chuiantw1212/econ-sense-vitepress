@@ -200,8 +200,14 @@ const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
     loadingDialogVisible.value = true
     try {
+        const bankConfigPromises = [
+            fetch(`${VITE_BASE_URL}/select`),
+            fetch(`${VITE_BASE_URL}/bank/config/interestRate`),
+            fetch(`${VITE_BASE_URL}/bank/config/portfolioIrr`),
+        ]
+        const bankConfigRes = await Promise.all(bankConfigPromises)
         // 靜態的設定檔案
-        const selectRes = await fetch(`${VITE_BASE_URL}/select`)
+        const selectRes = await bankConfigRes[0]
         const selectResJson = await selectRes.json()
         config.counties = selectResJson.counties || []
         config.buildingTypes = selectResJson.buildingTypes || []
@@ -210,13 +216,8 @@ async function setSelecOptionSync() {
         config.retirementQuartile = selectResJson.retirementQuartile || []
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
-        const bankConfigPromises = [
-            fetch(`${VITE_BASE_URL}/bank/config/interestRate`),
-            fetch(`${VITE_BASE_URL}/bank/config/portfolioIrr`),
-        ]
-        const bankConfigRes = await Promise.all(bankConfigPromises)
-        const interestRate = await bankConfigRes[0].json()
-        const portfolioIrr = await bankConfigRes[1].json()
+        const interestRate = await bankConfigRes[1].json()
+        const portfolioIrr = await bankConfigRes[2].json()
         mortgage.interestRate = interestRate
         Object.assign(config.portfolioIRR, portfolioIrr)
     }
