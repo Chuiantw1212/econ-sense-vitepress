@@ -6,7 +6,7 @@
             <el-form label-width="auto">
                 <el-row v-if="profile.insuranceType === 'entrepreneur'">
                     <el-col :span="12">
-                        <el-form-item label="不含己公司人數" required>
+                        <el-form-item label="僱傭員工數" required>
                             <el-input-number v-model="career.headCount" :min="0" @change="calculateCareer($event)" />
                         </el-form-item>
                     </el-col>
@@ -43,7 +43,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'company'" label="伙食津貼">
+                        <el-form-item v-if="laborInsurace.type === 'company'" label="伙食津貼(免稅)">
                             <el-text>{{ Number(career.foodExpense).toLocaleString() }}</el-text>
                         </el-form-item>
                     </el-col>
@@ -59,9 +59,9 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="健保提繳工資">
+                        <!-- <el-form-item label="健保提繳工資">
                             <el-text> {{ Number(healInsurance.salary).toLocaleString() }}</el-text>
-                        </el-form-item>
+                        </el-form-item> -->
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="健保自付額">
@@ -291,14 +291,11 @@ function calculateHealthPremium() {
         ...onlyHealthInsurance,
     ]
     if (props.profile.insuranceType === 'entrepreneur') {
-        const healthLevel = entrepreneurHealthLevel[headCount] - 1// 記得從0索引
-        const legalMinSalary = insuranceSalaryLevel[healthLevel]
-        console.log({
-            headCount,
-            healthLevel,
-            legalMinSalary
-        })
-        healthSalaryMin = Math.max(healthSalaryMin, legalMinSalary)
+        if (laborInsurace.type === 'company') {
+            const healthLevel = entrepreneurHealthLevel[headCount] - 1// 記得從0索引
+            const legalMinSalary = insuranceSalaryLevel[healthLevel]
+            healthSalaryMin = Math.max(healthSalaryMin, legalMinSalary)
+        }
     }
     console.log({ healthSalaryMin })
     let healthInsuranceSalary = insuranceSalaryLevel.find(salaryLevel => {
@@ -372,11 +369,22 @@ function calculatePensionSalary() {
 function calculateCareerPensionContribution() {
     const { rate } = career.value.pension
     const { salary } = laborPension
-    if (salary) {
-        const maxLaborInsuranceSalary = laborAndHealthInsurance[laborAndHealthInsurance.length - 1]
-        const laborInsuranceSalary = Math.min(salary, maxLaborInsuranceSalary)
-        career.value.pension.monthlyContributionEmployee = Math.floor(laborInsuranceSalary * rate / 100)
-        career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (6 + rate) / 100)
+    if (!salary) {
+        return
+    }
+    const maxLaborInsuranceSalary = laborAndHealthInsurance[laborAndHealthInsurance.length - 1]
+    const laborInsuranceSalary = Math.min(salary, maxLaborInsuranceSalary)
+    career.value.pension.monthlyContributionEmployee = Math.floor(laborInsuranceSalary * rate / 100)
+    switch (props.profile.insuranceType) {
+        case 'employee':
+            career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (6 + rate) / 100)
+            break;
+        case 'entrepreneur':
+            career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (rate) / 100)
+            break;
+        default: 
+            alert(`型別錯誤:${props.profile.insuranceType}`,)
+            break;
     }
 }
 // 投資計算
@@ -435,7 +443,7 @@ function drawChartAndCalculateIncome(propagate = false) {
     })
 
     pv = fv
-    if (career.value.pension.rate) {
+    if (career.value.pension.monthlyContributionEmployee) {
         fv -= career.value.pension.monthlyContributionEmployee
         dataAndDataIndex.push({
             label: '勞退',
