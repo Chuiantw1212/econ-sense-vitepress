@@ -6,13 +6,13 @@
             <el-form label-width="auto">
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="月開支(隻/每年)" required>
+                        <el-form-item label="年開支/隻" required>
                             <el-input-number v-model="parenting.childAnnualExpense" :min="0"
                                 @change="calculateParenting($event)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="配偶貢獻">
+                        <el-form-item v-if="spouse.monthlyContribution" label="配偶貢獻">
                             <el-text>{{ Number(spouse.monthlyContribution).toLocaleString() }} NTD / 月</el-text>
                         </el-form-item>
                     </el-col>
@@ -48,7 +48,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="房屋可容納人數">
+                        <el-form-item v-if="mortgage.totalPriceEstimated" label="房屋可容納人數">
                             <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
                         </el-form-item>
                     </el-col>
@@ -182,6 +182,13 @@ const props = defineProps({
         },
         required: true,
     },
+    mortgage: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
+    },
 })
 const parenting = computed(() => {
     return props.modelValue
@@ -308,7 +315,7 @@ function drawParentingChart(propagate = true) {
             tension,
         })
     }
-    if (firstBornYear || secondBornYear) {
+    if (spouseAnnualContribution) {
         datasets.push({
             label: '配偶扶養',
             data: spouseContributionData,

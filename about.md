@@ -31,7 +31,48 @@ const members = [
 ]
 </script>
 
-## 工作經歷
+## 主要專案經歷
+
+### 常識經濟學官網
+
+<table>
+    <thead>
+        <tr>
+            <th>名稱</th>
+            <th>描述</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+                前端
+            </th>
+            <th>
+            <a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a>,
+            VitePress, Element Plus, Typescript, firebaseui, chart.js,</th>
+        </tr>
+        <tr>
+           <th>
+                後端
+            </th>
+            <th>
+            <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>,
+            Fastify.js, Typescript, jsdom, </th>
+        </tr>
+        <tr>
+            <th>
+                雲端
+            </th>
+            <th>Firebase Hosting, Google App Engine</th>
+        </tr>
+        <tr>
+            <th>
+                其他
+            </th>
+            <th>SEO, 聯徵Open API, 爬蟲</th>
+        </tr>
+    </tbody>
+</table>
 
 ### Job Pair Co-Founder
 
@@ -118,6 +159,12 @@ const members = [
 <img style="width:100%" src="/about/bachelar.png" alt=nchu>
 
 ## 興趣認證
+
+### NLP專業執行師
+
+<div style="display:flex;flex-wrap:wrap;">
+    <img style="width:100%" src="/about/052019_1.webp" alt=NLP專業執行師>
+</div>
 
 ### Cafe Startups 認證講師
 

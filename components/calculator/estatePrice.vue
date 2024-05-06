@@ -46,7 +46,7 @@
                 <el-col :span="12">
                     <el-form-item label="含車位">
                         <select v-model="estatePrice.hasParking" class="form__select" placeholder="請選擇"
-                            @change="calculateUnitPrice()">
+                            :disabled="!estatePrice.town" @change="calculateUnitPrice()">
                             <option label="不限" value=""></option>
                             <option v-for="(item, index) in hasParkingOptions" :key="index" :label="item.label"
                                 :value="item.value" />
@@ -131,10 +131,6 @@ function updateEstateUnitPrice() {
     emits('update:modelValue', estatePrice.value)
 }
 async function getUnitPriceSync(propagate = false) {
-    if (propagate) {
-        emits('update:modelValue', estatePrice.value)
-    }
-
     const { county, town, } = estatePrice.value
     if (!county || !town) {
         return
@@ -160,6 +156,9 @@ async function getUnitPriceSync(propagate = false) {
     unitPriceMarks[average] = `均：${average}` // 避免文字重疊
     estatePrice.value.unitPrice = average
 
+    if (propagate) {
+        emits('update:modelValue', estatePrice.value)
+    }
     return estatePrice.value.unitPrice // 回傳再回傳
 }
 

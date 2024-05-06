@@ -25,7 +25,8 @@
         <h2 id="_2. 我可以FIRE嗎？" tabindex="-1">2. 我可以FIRE嗎？<a class="header-anchor" href="#2. 我可以FIRE嗎？"
                 aria-label="Permalink to &quot;2. 我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
 
-        <Career v-model="career" :user="user" :config="config" ref="CareerRef" @update:modelValue="onCareerChanged()">
+        <Career v-model="career" :user="user" :config="config" :profile="profile" ref="CareerRef"
+            @update:modelValue="onCareerChanged()">
         </Career>
 
         <Retirement v-model="retirement" :config="config" :career="career" :profile="profile" ref="RetirementRef"
@@ -42,33 +43,27 @@
 
         <h3 id="_結婚試算" tabindex="-1">配偶試算<a class="header-anchor" href="#配偶試算"
                 aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
-
         <Spouse v-model="spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()"></Spouse>
 
         <Parenting v-model="parenting" :config="config" :career="career" :retirement="retirement" :spouse="spouse"
-            :investment="investment" :estateSize="estateSize" ref="ParentingRef"
+            :investment="investment" :estateSize="estateSize" :mortgage="mortgage" ref="ParentingRef"
             @update:model-value="onParentingChanged()">
         </Parenting>
 
-        <h3 id="_購屋總價試算" tabindex="-1">購屋總價試算<a class="header-anchor" href="#購屋總價試算"
-                aria-label="Permalink to &quot;購屋總價試算&quot;">&ZeroWidthSpace;</a></h3>
+        <h3 id="_購屋試算" tabindex="-1">購屋試算<a class="header-anchor" href="#購屋試算"
+                aria-label="Permalink to &quot;購屋試算&quot;">&ZeroWidthSpace;</a></h3>
 
-        <EstatePrice v-model="estatePrice" :config="config" :estateSize="estateSize" ref="EstatePriceRef"
-            @update:model-value="onEstatePriceChanged()">
-        </EstatePrice>
-        <br />
-        <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
-            ref="EstateSizeRef">
-        </EstateSize>
-        <br />
-        <Estate v-model="estatePrice" :career="career" :estateSize="estateSize" :mortgage="mortgage"
-            :investment="investment" :config="config" ref="EstateRef" @reset="resetTotalPrice()"
-            @update:model-value="onEstateBudgetChanged()">
-        </Estate>
-
-        <Mortgage v-model="mortgage" :config="config" :estatePrice="estatePrice" ref="MortgageRef"
-            @update:model-value="onMortgageChanged()">
+        <Mortgage v-model="mortgage" :config="config" :career="career" :estateSize="estateSize" :investment="investment"
+            :estatePrice="estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
+            @open="openEstateCalculator()" @reset="resetTotalPrice()">
         </Mortgage>
+
+        <el-dialog :modelValue="estateCalculatorVisiable" title="估算總價" :lock-scroll="true"
+            @close="estateCalculatorVisiable = false">
+            <EstateDialogContent :config="config" :estateSize="estateSize" :estatePrice="estatePrice"
+                :parenting="parenting" ref="EstateRef" @confirm="onDialogConfirm($event)">
+            </EstateDialogContent>
+        </el-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -79,20 +74,16 @@ import Profile from './profile.vue'
 import Career from './career.vue'
 import Retirement from './retirement.vue'
 import Investment from './investment.vue'
-import Estate from './estate.vue'
 import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
-import EstateSize from './estateSize.vue'
-import EstatePrice from './estatePrice.vue'
 import Mortgage from './mortgage.vue'
+import EstateDialogContent from './estateDialog.vue'
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
 const InvestmentRef = ref()
 const SpouseRef = ref()
 const ParentingRef = ref()
-const EstateSizeRef = ref()
-const EstatePriceRef = ref()
 const EstateRef = ref()
 const MortgageRef = ref()
 const { VITE_BASE_URL } = import.meta.env
@@ -127,7 +118,7 @@ async function initializeApp() {
         user.uid = uid
         user.email = email || ''
         user.displayName = displayName || '註冊用戶'
-        ProfileRef.value.toggleSignInDialog(false)
+        ProfileRef.value?.toggleSignInDialog(false)
         await getUserFormSync(firebaseUser)
         initializeCalculator()
     })
@@ -186,7 +177,6 @@ const config = reactive({
     // primitive types
     currentYear: new Date().getFullYear(),
     inflationRate: 2,
-    maxPensionSalary: 150000,
     // array types
     genders: [],
     counties: [],
@@ -250,8 +240,11 @@ async function getUserFormSync(firebaseUser) {
         profile: {
             age: 0,
             lifeExpectancy: 0,
+            insuranceType: '',
+            yearOfMarriage: '',
         },
         career: {
+            headCount: 0,
             monthlyBasicSalary: 0,
             foodExpense: 3000,
             employeeWelfareFund: 0,
@@ -276,6 +269,7 @@ async function getUserFormSync(firebaseUser) {
         retirement: {
             age: 65,
             lifeExpectancy: 0,
+            yearToRetirement: 0,
             pension: {
                 employeeContrubution: 0,
                 employeeContrubutionIncome: 0,
@@ -295,7 +289,7 @@ async function getUserFormSync(firebaseUser) {
             expenseQuartileMarks: {}
         },
         spouse: {
-            yearOfMarriage: config.currentYear,
+            yearOfMarriage: '',
             marriageLength: 0,
             monthlyContribution: 0,
             weddingExpense: 0,
@@ -317,11 +311,16 @@ async function getUserFormSync(firebaseUser) {
             livingRoom: 1,
             balcany: 1,
             parkingSpace: 1,
-            budgetGoal: 0,
         },
         mortgage: {
-            loanPercent: 80,
-            loanTerm: 25,
+            loanTerm: 20,
+            totalPrice: 0,
+            downpay: 0,
+            downpayPercent: 20,
+            downpayGoal: 0,
+            monthlyRepay: 0,
+            downpayYear: 0,
+            loanAmount: 0,
         },
     }
     let userForm = {
@@ -375,15 +374,6 @@ async function initializeCalculator() {
     await ParentingRef.value.calculateParenting({
         propagate: true,
     })
-    await EstateSizeRef.value.calculateEstateSize({
-        propagate: true,
-    })
-    await EstatePriceRef.value.calculateUnitPrice({
-        propagate: true,
-    })
-    await EstateRef.value.calculateBudgetPeriod({
-        propagate: true,
-    })
     await MortgageRef.value.calculateMortgage({
         propagate: true,
     })
@@ -396,11 +386,15 @@ let profile = reactive({
     gender: '',
     age: 0,
     lifeExpectancy: 0,
+    yearOfMarriage: '',
 })
 async function onProfileChanged() {
     authFetch(`/user/profile`, {
         method: 'put',
         body: profile,
+    })
+    await CareerRef.value.calculateCareer({
+        propagate: true,
     })
     await RetirementRef.value.calculateRetirement({
         propagate: true,
@@ -458,6 +452,9 @@ function onInvestmentChanged() {
     ParentingRef.value.calculateParenting({
         propagate: false,
     })
+    MortgageRef.value.calculateMortgage({
+        propagate: true,
+    })
 }
 // 配偶試算
 let spouse = reactive({})
@@ -493,6 +490,7 @@ function onParentingChanged() {
     })
 }
 // 購屋單價與總價
+const estateCalculatorVisiable = ref(false)
 let estatePrice = reactive({
     county: '',
     town: '',
@@ -504,12 +502,6 @@ let estatePrice = reactive({
     pr75: 100,
     average: 0,
     unitPrice: 0,
-    totalPrice: 0,
-    budget: 0,
-    budgetGoal: 0,
-    downpayMin: 0,
-    downpayMax: 100,
-    yearsToDownpay: 0,
 })
 function resetTotalPrice() {
     estatePrice.county = ''
@@ -518,31 +510,10 @@ function resetTotalPrice() {
     estatePrice.pr75 = 100
     estatePrice.average = 0
     estatePrice.unitPrice = 0
-    estatePrice.totalPrice = 0
+    mortgage.totalPriceEstimated = 0
     authFetch(`/user/estatePrice`, {
         method: 'put',
         body: estatePrice,
-    })
-}
-async function onEstatePriceChanged() {
-    authFetch(`/user/estatePrice`, {
-        method: 'put',
-        body: estatePrice,
-    })
-    await EstateSizeRef.value.calculateEstateSize({
-        propagate: false,
-    })
-    await EstateRef.value.calculateBudgetPeriod({
-        propagate: false,
-    })
-}
-async function onEstateBudgetChanged() {
-    authFetch(`/user/estatePrice`, {
-        method: 'put',
-        body: estatePrice,
-    })
-    InvestmentRef.value.calculateAsset({
-        propagate: false,
     })
 }
 let estateSize = reactive({
@@ -559,30 +530,30 @@ let estateSize = reactive({
     parkingSize: 0,
     headCount: 0,
 })
-watch(() => estateSize, async (newValue, oldValue) => {
-    const hasChangeParkingSpace = newValue.parkingSpace !== oldValue.parkingSpace
-    const toZero = newValue.parkingSpace === 0
-    if (hasChangeParkingSpace && toZero) {
-        estatePrice.hasParking = ''
-        await EstatePriceRef.value.calculateUnitPrice({
-            propagate: true,
-        })
-    }
-    if (EstateRef.value) {
-        await EstateRef.value.calculateBudgetPeriod({
-            propagate: false,
-        })
-    }
-}, { deep: true })
+function openEstateCalculator() {
+    estateCalculatorVisiable.value = true
+}
+function onDialogConfirm(newValue) {
+    estateCalculatorVisiable.value = false
+    Object.assign(estatePrice, newValue.estatePrice)
+    Object.assign(estateSize, newValue.estateSize)
+    authFetch(`/user/estatePrice`, {
+        method: 'put',
+        body: estatePrice,
+    })
+    authFetch(`/user/estateSize`, {
+        method: 'put',
+        body: estateSize,
+    })
+    MortgageRef.value.calculateMortgage({
+        propagate: true,
+        setDownpay: true,
+    })
+}
 // 房屋貸款試算
 let mortgage = reactive({
-    buyHouseYear: 0,
-    loanPercent: 0,
+    totalPriceEstimated: 0,
     interestRate: 0,
-    loanTerm: 0,
-    downPayment: 0,
-    loanAmount: 0,
-    monthlyRepay: 0,
 })
 function onMortgageChanged() {
     authFetch(`/user/mortgage`, {

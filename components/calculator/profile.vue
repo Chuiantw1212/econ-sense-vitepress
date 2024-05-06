@@ -28,12 +28,9 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="出生年" required>
-                            <select v-model="profile.yearOfBirth" class="form__select" placeholder="請選擇"
-                                @change="calculateProfile()" style="width: 130px">
-                                <option label="請選擇" value=""></option>
-                                <option v-for="year in birthYearOptions" :key="year" :label="String(year)"
-                                    :value="year" />
-                            </select>
+                            <econSelect v-model="profile.yearOfBirth" @change="calculateProfile()" style="width: 130px"
+                                :options="birthYearOptions">
+                            </econSelect>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -60,6 +57,16 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
+                        <el-form-item label="職業保險別" required>
+                            <econSelect v-model="profile.insuranceType" @change="calculateProfile()"
+                                style="width: 130px" :options="insuranceTypeOptions">
+                            </econSelect>
+                            <!-- <el-radio-group v-model="profile.insuranceType" @change="calculateProfile()">
+                                <el-radio v-for="(item) in insuranceTypeOptions" :value="item.value">
+                                    {{ item.label }}
+                                </el-radio>
+                            </el-radio-group> -->
+                        </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="通貨膨脹">
@@ -67,6 +74,17 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
+                <!-- <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="配偶婚年" required>
+                            <econSelect v-model="profile.yearOfMarriage" @change="calculateProfile()"
+                                style="width: 130px" :items="marriageYearOptions" placeholder="未婚">
+                            </econSelect>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                    </el-col>
+                </el-row> -->
             </el-form>
             <template #footer>
                 <el-collapse>
@@ -85,7 +103,9 @@
             </template>
         </el-card>
         <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
-            邀請您進入我們的服務。註冊後，您可以方便地使用我們的平台，因為您的資料將被儲存，包括您的電子郵件地址以及填寫的表單內容。這樣做是為了讓您下次登入時不必重新輸入表單資料，提供更流暢的使用體驗。我們尊重您的隱私，您的資料將受到保護並嚴格保密。
+            <p>
+                歡迎您使用我們的服務！註冊後，您可以輕鬆使用我們的平台，因為您的資料將被安全儲存，包括電子郵件地址和填寫的表單內容。這樣做是為了方便您下次登入時無需重新輸入表單資料，提供更順暢的使用體驗。我們十分尊重您的隱私，您的資料將受到保護並嚴格保密。
+            </p>
             <div id="firebaseui-auth-container"></div>
         </el-dialog>
     </div>
@@ -100,9 +120,10 @@
  * FirebaseUI for Web — Auth
  * https://firebaseopensource.com/projects/firebase/firebaseui-web/
  */
+const { VITE_BASE_URL } = import.meta.env
 import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
 import firebase from 'firebase/compat/app';
-const { VITE_BASE_URL } = import.meta.env
+import econSelect from '../econSelect.vue'
 const emits = defineEmits(['update:modelValue', 'signOut'])
 const loginDialogVisible = ref(false)
 const props = defineProps({
@@ -132,11 +153,45 @@ const props = defineProps({
         }
     }
 })
-const birthYearOptions = ref<number[]>([])
+const birthYearOptions = ref<any[]>([])
+const marriageYearOptions = ref<any[]>([])
+const insuranceTypeOptions = ref([
+    {
+        label: '勞工(勞保)',
+        value: 'employee',
+        disabled: false,
+    },
+    {
+        label: '企業主/自營(勞保)',
+        value: 'entrepreneur',
+        disabled: false,
+    },
+    {
+        label: '軍職人員(軍保)',
+        value: 'military',
+        disabled: true,
+    },
+    {
+        label: '公教人員(公保)',
+        value: 'civilServant',
+        disabled: true,
+    },
+    {
+        label: '農民(農保)',
+        value: 'farmer',
+        disabled: true,
+    },
+    {
+        label: '國民(國保)',
+        value: 'national',
+        disabled: true,
+    }
+])
 const isFullScreen = ref(false)
 // hooks
 onMounted(async () => {
     setBirthYearOptions()
+    setMarriageYears()
     window?.addEventListener('resize', onResize)
 })
 onBeforeUnmount(() => {
@@ -149,10 +204,34 @@ const profile = computed(() => {
     return props.modelValue
 })
 // methods
+function setMarriageYears() {
+    const currentYear = new Date().getFullYear()
+    const beforeYears = []
+    const afterYears = []
+    for (let i = 0; i < 20; i++) {
+        const afterYear = currentYear + i
+        afterYears.push({
+            label: afterYear,
+            value: afterYear,
+        })
+        if (i !== 0) {
+            const beforeYear = currentYear - i
+            beforeYears.push({
+                label: beforeYear,
+                value: beforeYear,
+            })
+        }
+    }
+    marriageYearOptions.value = [...afterYears.reverse(), ...beforeYears,]
+}
 function setBirthYearOptions() {
     const year = new Date().getFullYear()
     for (let i = 0; i < 60; i++) {
-        birthYearOptions.value.push(Number(year) - i - 18)
+        const calculatedYear = Number(year) - i - 18
+        birthYearOptions.value.push({
+            label: calculatedYear,
+            value: calculatedYear
+        })
     }
 }
 function toggleSignInDialog(value) {
