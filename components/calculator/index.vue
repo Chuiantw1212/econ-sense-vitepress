@@ -53,20 +53,17 @@
         <h3 id="_購屋試算" tabindex="-1">購屋試算<a class="header-anchor" href="#購屋試算"
                 aria-label="Permalink to &quot;購屋試算&quot;">&ZeroWidthSpace;</a></h3>
 
-        <el-dialog v-model="estateCalculatorVisiable" title="估算總價">
-            <EstatePrice v-model="estatePrice" :config="config" :estateSize="estateSize" ref="EstatePriceRef"
-                @update:model-value="onEstatePriceChanged()">
-            </EstatePrice>
-            <br />
-            <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
-                ref="EstateSizeRef">
-            </EstateSize>
-        </el-dialog>
-
         <Mortgage v-model="mortgage" :config="config" :career="career" :estateSize="estateSize" :investment="investment"
             :estatePrice="estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
             @open="openEstateCalculator()" @reset="resetTotalPrice()">
         </Mortgage>
+
+        <el-dialog :modelValue="estateCalculatorVisiable" title="估算總價" :lock-scroll="true"
+            @close="estateCalculatorVisiable = false">
+            <EstateDialogContent :config="config" :estateSize="estateSize" :estatePrice="estatePrice"
+                :parenting="parenting" ref="EstateRef" @confirm="onDialogConfirm($event)">
+            </EstateDialogContent>
+        </el-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -79,17 +76,15 @@ import Retirement from './retirement.vue'
 import Investment from './investment.vue'
 import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
-import EstateSize from './estateSize.vue'
-import EstatePrice from './estatePrice.vue'
 import Mortgage from './mortgage.vue'
+import EstateDialogContent from './estateDialog.vue'
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
 const InvestmentRef = ref()
 const SpouseRef = ref()
 const ParentingRef = ref()
-const EstateSizeRef = ref()
-const EstatePriceRef = ref()
+const EstateRef = ref()
 const MortgageRef = ref()
 const { VITE_BASE_URL } = import.meta.env
 // 用戶與權限
@@ -375,10 +370,7 @@ async function initializeCalculator() {
     await ParentingRef.value.calculateParenting({
         propagate: true,
     })
-    await EstateSizeRef.value.calculateEstateSize({
-        propagate: true,
-    })
-    await EstatePriceRef.value.calculateUnitPrice({
+    await EstateRef.value?.calculateEstate({
         propagate: true,
     })
     await MortgageRef.value.calculateMortgage({
@@ -523,23 +515,6 @@ function resetTotalPrice() {
         body: estatePrice,
     })
 }
-function openEstateCalculator() {
-    estateCalculatorVisiable.value = true
-}
-async function onEstatePriceChanged() {
-    console.log('onEstatePriceChanged')
-    authFetch(`/user/estatePrice`, {
-        method: 'put',
-        body: estatePrice,
-    })
-    await EstateSizeRef.value.calculateEstateSize({
-        propagate: false,
-    })
-    await MortgageRef.value.calculateMortgage({
-        propagate: false,
-        setDownpay: true,
-    })
-}
 let estateSize = reactive({
     doubleBedRoom: 0,
     singleBedRoom: 1,
@@ -554,22 +529,26 @@ let estateSize = reactive({
     parkingSize: 0,
     headCount: 0,
 })
-watch(() => estateSize, async (newValue, oldValue) => {
-    const hasChangeParkingSpace = newValue.parkingSpace !== oldValue.parkingSpace
-    const toZero = newValue.parkingSpace === 0
-    if (hasChangeParkingSpace && toZero) {
-        estatePrice.hasParking = ''
-        await EstatePriceRef.value.calculateUnitPrice({
-            propagate: true,
-        })
-    }
-    if (MortgageRef.value) {
-        await MortgageRef.value.calculateMortgage({
-            propagate: false,
-            setDownpay: true,
-        })
-    }
-}, { deep: true })
+function openEstateCalculator() {
+    estateCalculatorVisiable.value = true
+}
+function onDialogConfirm(newValue) {
+    estateCalculatorVisiable.value = false
+    Object.assign(estatePrice, newValue.estatePrice)
+    Object.assign(estateSize, newValue.estateSize)
+    authFetch(`/user/estatePrice`, {
+        method: 'put',
+        body: estatePrice,
+    })
+    authFetch(`/user/estateSize`, {
+        method: 'put',
+        body: estateSize,
+    })
+    MortgageRef.value.calculateMortgage({
+        propagate: true,
+        setDownpay: true,
+    })
+}
 // 房屋貸款試算
 let mortgage = reactive({
     totalPriceEstimated: 0,
