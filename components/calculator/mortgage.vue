@@ -115,6 +115,9 @@
                             假設房價增幅速度與通膨持平
                         </li>
                         <li>
+                            購屋西元年歸零可回歸籌措頭期款模式
+                        </li>
+                        <li>
                             單價資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html"
                                 target="_blank">財團法人金融聯合徵信中心
                                 OpenAPI
