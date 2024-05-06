@@ -25,7 +25,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <br />
+            <br v-if="!mortgage.buyHouseYear" />
             <el-row v-if="!mortgage.buyHouseYear">
                 <el-col :span="12">
                     <el-form-item label="預估頭期款">
@@ -42,19 +42,22 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="實際/已備頭期款">
+                    <el-form-item :label="downpayTitle">
                         <el-input-number v-model="mortgage.downpay" :min="0" :step="200000"
                             @change="calculateMortgage()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-show="career.monthlyBasicSalary" label="月實領 - 月支出">
+                    <el-form-item v-if="career.monthlyBasicSalary && !mortgage.buyHouseYear" label="月實領 - 月支出">
                         <el-text>{{ Number(career.monthlySaving).toLocaleString() }} / 月</el-text>
+                    </el-form-item>
+                    <el-form-item v-if="mortgage.buyHouseYear" label="預估貸款">
+                        <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }} NTD</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <canvas v-show="!unableToDrawChart" id="savingDownpayChart"></canvas>
-            <br />
+            <canvas v-show="!unableToDrawChart && !mortgage.buyHouseYear" id="savingDownpayChart"></canvas>
+            <br v-if="!mortgage.buyHouseYear" />
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="購屋西元年">
@@ -68,18 +71,15 @@
                 <el-col :span="12">
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="預估貸款">
-                        <el-text>{{ Number(mortgage.loanAmount).toLocaleString() }} NTD</el-text>
-                    </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="預估頭期款">
+                    <!-- <el-form-item label="預估頭期款">
                         <el-text>{{ Number(mortgage.downPayment).toLocaleString() }} NTD</el-text>
-                    </el-form-item>
+                    </el-form-item> -->
                 </el-col>
             </el-row>
             <el-row>
@@ -269,7 +269,15 @@ const props = defineProps({
         required: true,
     }
 })
-
+// hooks
+const downpayTitle = computed(() => {
+    const { buyHouseYear } = mortgage.value
+    if (buyHouseYear) {
+        return `頭期款`
+    } else {
+        return `已備頭期款`
+    }
+})
 const downpayMarks = ref({})
 onMounted(() => {
     for (let i = 0; i < 10; i++) {
@@ -303,6 +311,8 @@ function calculateMortgage(options: any = { propagate: true }) {
     if (setTotalPrice) {
         calculateTotalPrice()
     }
+    calculateLoanAmount()
+    // draw chart
     const { propagate = true } = options
     debounce(() => {
         drawDownpayChart(propagate)
@@ -310,7 +320,9 @@ function calculateMortgage(options: any = { propagate: true }) {
 }
 function calculateTotalPrice() {
     const { downpayPercent, downpayGoal } = mortgage.value
-    mortgage.value.totalPrice = Math.floor(downpayGoal / downpayPercent * 100)
+    if (downpayPercent) {
+        mortgage.value.totalPrice = Math.floor(downpayGoal / downpayPercent * 100)
+    }
 }
 function calculateTotalPriceEstimated() {
     const { unitPrice, } = props.estatePrice
@@ -322,8 +334,18 @@ function calculateTotalPriceEstimated() {
 }
 function calculateDownpay() {
     const { totalPriceEstimated, totalPrice, downpayPercent } = mortgage.value
-    const priceCalculated = totalPrice || totalPriceEstimated
-    mortgage.value.downpayGoal = Math.floor(priceCalculated * downpayPercent / 100)
+    if (downpayPercent) {
+        const priceCalculated = totalPrice || totalPriceEstimated
+        mortgage.value.downpayGoal = Math.floor(priceCalculated * downpayPercent / 100)
+    }
+}
+function calculateLoanAmount() {
+    const { totalPrice, downpay } = mortgage.value
+    if (!totalPrice || !downpay) {
+        return
+    }
+    const loanAmount = totalPrice - downpay
+    mortgage.value.loanAmount = Math.floor(loanAmount)
 }
 
 let downPayChartInstance = ref<Chart>()
