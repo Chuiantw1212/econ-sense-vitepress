@@ -269,6 +269,7 @@ async function getUserFormSync(firebaseUser) {
         retirement: {
             age: 65,
             lifeExpectancy: 0,
+            yearToRetirement: 0,
             pension: {
                 employeeContrubution: 0,
                 employeeContrubutionIncome: 0,
