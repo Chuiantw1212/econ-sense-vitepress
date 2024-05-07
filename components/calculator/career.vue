@@ -50,9 +50,9 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row>
+                <el-row v-if="career.laborInsuranceType === 'union'">
                     <el-col :span="12">
-                        <el-form-item v-if="career.laborInsuranceType === 'union'" label="本薪" required>
+                        <el-form-item label="本薪" required>
                             <el-input-number v-model="career.monthlyBasicSalary" :min="0" :step="1000"
                                 @change="calculateCareer($event)" />
                         </el-form-item>
@@ -113,7 +113,7 @@
                     <el-col :span="12">
                         <el-form-item label="年實領 / 12">
                             <el-input-number v-model="career.monthlyNetPay" :min="0"
-                                @change="calculateCareer($event)" />
+                                :disabled="!career.monthlyBasicSalary" @change="calculateCareer($event)" />
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -276,6 +276,10 @@ function calculateCareer(options: any = { propagate: true }) {
     }
 }
 function calculateInsuranceType() {
+    const { monthlyBasicSalary } = career.value
+    if (!monthlyBasicSalary) {
+        career.value.pension.rate = 0
+    }
     const { insuranceType } = props.profile
     if (!insuranceType) {
         return
@@ -294,10 +298,9 @@ function calculateInsuranceType() {
                 career.value.laborInsuranceType = 'company'
             }
             break;
-        // default: {
-        //     alert(`InsuranceType Exception:${props.profile.insuranceType}`)
-        //     break;
-        // }
+        default: {
+            break;
+        }
     }
 }
 // 減項計算

@@ -8,11 +8,11 @@
                     <el-col :span="12">
                         <el-form-item label="計畫退休年齡">
                             <el-input-number v-model="retirement.age" :min="60" :max="70"
-                                @change="calculateRetirement($event)" />
+                                :disabled="!profile.yearOfBirth" @change="calculateRetirement($event)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="距離退休">
+                        <el-form-item v-if="retirement.yearToRetirement" label="距離退休">
                             <el-text>{{ retirement.yearToRetirement }} 年</el-text>
                         </el-form-item>
                     </el-col>
@@ -21,7 +21,7 @@
                     <el-col :span="12">
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="退休後餘命">
+                        <el-form-item v-if="retirement.lifeExpectancy" label="退休後餘命">
                             <el-text>{{ retirement.lifeExpectancy }} 年</el-text>
                         </el-form-item>
                     </el-col>

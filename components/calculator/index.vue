@@ -67,8 +67,8 @@
             </EstateDialogContent>
         </el-dialog>
 
-        <h2 id="_資料匯出" tabindex="-1">資料匯出<a class="header-anchor" href="#資料匯出"
-                aria-label="Permalink to &quot;資料匯出&quot;">&ZeroWidthSpace;</a></h2>
+        <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
+                aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
 
         <DataCenter @export="exportUserForm()"></DataCenter>
     </div>
@@ -314,7 +314,7 @@ const userForm = reactive({
         headCount: 0,
         monthlyBasicSalary: 0,
         employeeWelfareFund: 0,
-        laborInsuranceType: '',
+        laborInsuranceType: 'company',
         insurance: {
             salary: 0,
             presentSeniority: 0, // 6.9
