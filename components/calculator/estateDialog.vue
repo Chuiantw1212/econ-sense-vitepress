@@ -18,6 +18,7 @@
             </el-col>
             <el-col :span="6">
                 <el-form-item>
+                    <el-button @click="emits('close')">取消</el-button>
                     <el-button @click="confirmUpdate()">確認帶回</el-button>
                 </el-form-item>
             </el-col>
@@ -28,7 +29,7 @@
 import { computed, ref, reactive, onMounted, nextTick, watch } from 'vue'
 import EstateSize from './estateSize.vue'
 import EstatePrice from './estatePrice.vue'
-const emits = defineEmits(['update:modelValue', 'confirm'])
+const emits = defineEmits(['update:modelValue', 'confirm', 'close'])
 const EstateSizeRef = ref()
 const EstatePriceRef = ref()
 const props = defineProps({

@@ -63,7 +63,8 @@
         <el-dialog :modelValue="estateCalculatorVisiable" title="估算總價" :lock-scroll="true"
             @close="estateCalculatorVisiable = false">
             <EstateDialogContent :config="config" :estateSize="userForm.estateSize" :estatePrice="userForm.estatePrice"
-                :parenting="userForm.parenting" ref="EstateRef" @confirm="onDialogConfirm($event)">
+                :parenting="userForm.parenting" ref="EstateRef" @close="estateCalculatorVisiable = false"
+                @confirm="onDialogConfirm($event)">
             </EstateDialogContent>
         </el-dialog>
 

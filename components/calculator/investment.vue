@@ -18,7 +18,7 @@
                     <el-col :span="23">
                         <el-form-item label="投資報酬率">
                             <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks"
-                            :disabled="true" />
+                                :disabled="true" />
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -27,7 +27,7 @@
                     <el-col :span="12">
                         <el-form-item label="已備資產">
                             <el-input-number v-model="investment.presentAsset" :min="0" :step="100000"
-                            :disabled="isFormDisabled" @change="calculateAsset()" />
+                                :disabled="isFormDisabled" @change="calculateAsset()" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -339,14 +339,15 @@ function drawLifeAssetChart(propagate = true) {
         mortgageData.push(Math.floor(-mortgagePmt))
 
         // 計算複利終值
-        fv = pv * irrModifier + calculatedPmt
+        fv = pv * irrModifier
         datasetData.push(Math.floor(fv))
+        fv += calculatedPmt
         labels.push(year)
         pv = fv
     }
     const datasets = [
         {
-            label: '資產存量',
+            label: '資產增值',
             data: datasetData,
         },
     ]
@@ -362,7 +363,7 @@ function drawLifeAssetChart(propagate = true) {
             data: childExpenseData,
         })
     }
-    if (downpayYear) {
+    if (downpayYear && downpayYear < currentYear + period) {
         datasets.push({
             label: '房貸支出',
             data: mortgageData,
