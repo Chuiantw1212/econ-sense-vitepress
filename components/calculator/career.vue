@@ -16,19 +16,19 @@
                 <el-row v-if="profile.insuranceType === 'entrepreneur'">
                     <el-col :span="12">
                         <el-form-item label="投保單位">
-                            <econSelect v-model="laborInsurace.type" :options="laborInsuranceTypeOptions"
+                            <econSelect v-model="career.laborInsuranceType" :options="laborInsuranceTypeOptions"
                                 :disabled="!career.headCount || career.headCount >= 5"
                                 @change="calculateCareer($event)">
                             </econSelect>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'union'" :label="`職業災害費率`">
+                        <el-form-item v-if="career.laborInsuranceType === 'union'" :label="`職業災害費率`">
                             <el-text>目前皆以{{ accidentInsurance.premiumRate }}%計算</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row v-if="laborInsurace.type === 'company'">
+                <el-row v-if="career.laborInsuranceType === 'company'">
                     <el-col :span="12">
                         <el-form-item label="本薪" required>
                             <el-input-number v-model="career.monthlyBasicSalary" :min="0" :step="1000"
@@ -41,7 +41,7 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row v-if="laborInsurace.type === 'company'">
+                <el-row v-if="career.laborInsuranceType === 'company'">
                     <el-col :span="12">
                     </el-col>
                     <el-col :span="12">
@@ -52,7 +52,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'union'" label="本薪" required>
+                        <el-form-item v-if="career.laborInsuranceType === 'union'" label="本薪" required>
                             <el-input-number v-model="career.monthlyBasicSalary" :min="0" :step="1000"
                                 @change="calculateCareer($event)" />
                         </el-form-item>
@@ -69,20 +69,20 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <!-- <el-form-item v-if="laborInsurace.type === 'company'" label="勞退提繳工資">
+                        <!-- <el-form-item v-if="career.laborInsuranceType === 'company'" label="勞退提繳工資">
                             <el-text> {{ Number(laborPension.salary).toLocaleString() }}</el-text>
                         </el-form-item> -->
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'company'" label="勞退自提率(%)">
+                        <el-form-item v-if="career.laborInsuranceType === 'company'" label="勞退自提率(%)">
                             <el-input-number v-model="career.pension.rate" @change="calculateCareer($event)" :min="0"
                                 :max="6" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'company'" label="- 勞退月提繳">
+                        <el-form-item v-if="career.laborInsuranceType === 'company'" label="- 勞退月提繳">
                             <el-text>{{ Number(career.pension.monthlyContribution).toLocaleString() }}</el-text>
                         </el-form-item>
                     </el-col>
@@ -96,7 +96,7 @@
                     <el-col :span="12">
                         <el-form-item :label="`- 勞保自付額`">
                             <el-text>{{ Number(career.insurance?.expense).toLocaleString() }} (負擔率{{
-                    laborInsurace.premiumRate[laborInsurace.type] }}%)</el-text>
+                    laborInsurace.premiumRate[career.laborInsuranceType] }}%)</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -172,7 +172,6 @@ const laborInsuranceTypeOptions = [
     }
 ]
 const laborInsurace = reactive({
-    type: 'company',
     ordinaryAccidentRate: 11,
     employeementRate: 1,
     accidentRate: 0.11,
@@ -283,16 +282,16 @@ function calculateInsuranceType() {
     }
     switch (insuranceType) {
         case 'employee':
-            laborInsurace.type = 'company'
+            career.value.laborInsuranceType = 'company'
             break;
         case 'entrepreneur':
             const { headCount, } = career.value
             if (headCount === 0) {
-                laborInsurace.type = 'union'
+                career.value.laborInsuranceType = 'union'
                 career.value.pension.rate = 0
             }
             if (headCount >= 5) {
-                laborInsurace.type = 'company'
+                career.value.laborInsuranceType = 'company'
             }
             break;
         // default: {
@@ -303,7 +302,7 @@ function calculateInsuranceType() {
 }
 // 減項計算
 function calculateEmployeeWelfareFund() {
-    if (laborInsurace.type === 'company') {
+    if (career.value.laborInsuranceType === 'company') {
         const { monthlyBasicSalary, } = career.value
         career.value.employeeWelfareFund = Math.floor(monthlyBasicSalary * 0.5 / 100)
     } else {
@@ -312,8 +311,9 @@ function calculateEmployeeWelfareFund() {
 }
 function calculateHealthPremium() {
     const { monthlyBasicSalary, headCount } = career.value
+    const { laborInsuranceType } = career.value
     let healthSalaryMin = monthlyBasicSalary
-    if (laborInsurace.type === 'company') {
+    if (laborInsuranceType === 'company') {
         healthSalaryMin += foodExpense
     }
     const insuranceSalaryLevel = [
@@ -321,7 +321,7 @@ function calculateHealthPremium() {
         ...onlyHealthInsurance,
     ]
     if (props.profile.insuranceType === 'entrepreneur') {
-        if (laborInsurace.type === 'company') {
+        if (laborInsuranceType === 'company') {
             const healthLevel = entrepreneurHealthLevel[headCount] - 1// 記得從0索引
             const legalMinSalary = insuranceSalaryLevel[healthLevel]
             healthSalaryMin = Math.max(healthSalaryMin, legalMinSalary)
@@ -338,7 +338,7 @@ function calculateHealthPremium() {
     let healthInsuranceContribution = healthInsuranceSalary
     const { premiumRate, contributionShare } = healInsurance
     healthInsuranceContribution *= premiumRate / 100
-    healthInsuranceContribution *= contributionShare[laborInsurace.type] / 100
+    healthInsuranceContribution *= contributionShare[laborInsuranceType] / 100
     healInsurance.contribution = Math.ceil(healthInsuranceContribution)
 }
 // 勞保計算
@@ -360,20 +360,20 @@ function calculateInsuranceExpense() {
     }
     const { ordinaryAccidentRate, employeementRate, accidentRate } = laborInsurace
     let insuranceRate = ordinaryAccidentRate
-    if (laborInsurace.type === 'union') {
+    if (career.value.laborInsuranceType === 'union') {
         insuranceRate += accidentRate
     } else {
         insuranceRate += employeementRate
     }
     insuranceRate /= 100
-    const premiumRate = laborInsurace.premiumRate[laborInsurace.type] / 100
+    const premiumRate = laborInsurace.premiumRate[career.value.laborInsuranceType] / 100
     career.value.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate) // 無條件進位?
 }
 // 勞退計算
 function calculatePensionSalary() {
     const { monthlyBasicSalary, } = career.value
     let pensionSalaryMin = monthlyBasicSalary
-    if (laborInsurace.type === 'company') {
+    if (career.value.laborInsuranceType === 'company') {
         pensionSalaryMin += foodExpense
     }
     const insuranceSalaryLevel = [
@@ -427,7 +427,7 @@ function drawChartAndCalculateIncome(propagate = false) {
         datasetIndex: 0,
     })
 
-    if (laborInsurace.type === 'company') {
+    if (career.value.laborInsuranceType === 'company') {
         pv = fv
         fv += foodExpense
         dataAndDataIndex.push({

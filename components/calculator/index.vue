@@ -314,6 +314,7 @@ const userForm = reactive({
         headCount: 0,
         monthlyBasicSalary: 0,
         employeeWelfareFund: 0,
+        laborInsuranceType: '',
         insurance: {
             salary: 0,
             presentSeniority: 0, // 6.9
@@ -540,11 +541,39 @@ function onMortgageChanged() {
 }
 // 資料匯出
 async function exportUserForm() {
-    const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
+    const res = await fetch(`${VITE_BASE_URL}/user/type`, {
         method: 'get',
     })
-    const userForm = await res.json()
+    const userFormType = await res.json()
+    const copiedResult = copyObjectValue(userForm, userFormType)
+    console.log({
+        copiedResult
+    })
+    // for (let key in userForm) {
+    //     const value = userForm[key]
+    //     if (typeof value === 'object') {
 
+    //     }
+    // }
+    // console.log({
+    //     userForm
+    // })
+}
+function copyObjectValue(valueRefObj, keyRefObj) {
+    const copiedResult = {}
+    for (let key in keyRefObj) {
+        const valueChecked = keyRefObj[key]
+        if (typeof valueChecked === 'object') {
+            const result = copyObjectValue(valueRefObj[key], keyRefObj[key])
+            copiedResult[key] = result
+        } else {
+            const primitiveValue = valueRefObj[key]
+            if (![null, undefined].includes(primitiveValue)) {
+                copiedResult[key] = primitiveValue
+            }
+        }
+    }
+    return copiedResult
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {

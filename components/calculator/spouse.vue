@@ -114,6 +114,7 @@ function calculatecSpouse(options: any = { propagate: true }) {
     if (!yearOfMarriage) {
         spouse.value.age = 0
         spouse.value.monthlyContribution = 0
+        spouse.value.yearOfBirth = ''
     }
     calculateYearOfMarriage()
     calculateMarriageAge()
