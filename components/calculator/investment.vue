@@ -4,21 +4,11 @@
                 aria-label="Permalink to &quot;投資資產試算&quot;">&ZeroWidthSpace;</a></h3>
         <el-card>
             <el-form label-width="auto">
-                <el-row v-if="isFormDisabled">
-                    <el-col>
-                        <el-form-item label="表單前提">
-                            <el-text type="danger">
-                                須填寫基本資料、職業試算、退休試算
-                            </el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="資產配置">
                             <el-radio-group v-model="investment.allocationETF" @change="calculateAsset()">
-                                <el-radio v-for="(label, key) in config.porfolioLabels" :disabled="isFormDisabled"
-                                    :value="key">{{ label
+                                <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label
                                     }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
@@ -28,7 +18,7 @@
                     <el-col :span="23">
                         <el-form-item label="投資報酬率">
                             <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks"
-                                :disabled="true" />
+                            :disabled="true" />
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -37,12 +27,21 @@
                     <el-col :span="12">
                         <el-form-item label="已備資產">
                             <el-input-number v-model="investment.presentAsset" :min="0" :step="100000"
-                                :disabled="isFormDisabled" @change="calculateAsset()" />
+                            :disabled="isFormDisabled" @change="calculateAsset()" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="儲蓄投資">
                             <el-text>{{ Number(career.monthlySaving).toLocaleString() }} NTD / 月</el-text>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row v-if="isFormDisabled">
+                    <el-col>
+                        <el-form-item label="圖表繪製前提">
+                            <el-text type="danger">
+                                填寫基本資料、職業試算、退休試算
+                            </el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>

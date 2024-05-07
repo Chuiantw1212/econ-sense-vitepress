@@ -6,9 +6,9 @@
             <el-form label-width="auto">
                 <el-row v-if="isFormDisabled">
                     <el-col>
-                        <el-form-item label="表單前提">
+                        <el-form-item label="表單開放前提">
                             <el-text type="danger">
-                                須填寫基本資料、職業試算
+                                填寫基本資料、職業試算
                             </el-text>
                         </el-form-item>
                     </el-col>
