@@ -347,6 +347,10 @@ function calculateHealthPremium() {
 // 勞保計算
 function calculateInsuranceSalary() {
     const { monthlyBasicSalary } = career.value
+    if (!monthlyBasicSalary) {
+        career.value.insurance.salary = 0
+        return
+    }
     const insuranceSalary = laborInsuranceLevels.find((value: number) => {
         return monthlyBasicSalary <= value
     })
@@ -359,6 +363,7 @@ function calculateInsuranceSalary() {
 function calculateInsuranceExpense() {
     const { salary = 0, } = career.value.insurance
     if (!salary) {
+        career.value.insurance.expense = 0
         return
     }
     const { ordinaryAccidentRate, employeementRate, accidentRate } = laborInsurace
@@ -397,6 +402,7 @@ function calculateCareerPensionContribution() {
     const { salary } = laborPension
     const { insuranceType } = props.profile
     if (!salary || !insuranceType) {
+        career.value.pension.monthlyContribution = 0
         return
     }
     const maxLaborInsuranceSalary = laborAndHealthInsurance[laborAndHealthInsurance.length - 1]
@@ -419,18 +425,19 @@ function calculateMonthlySaving() {
 }
 // 畫圖
 function drawChartAndCalculateIncome(propagate = false) {
+    const { monthlyBasicSalary, laborInsuranceType, employeeWelfareFund, insurance, pension } = career.value
     // 繪製圖表
     let pv = 0
     let fv = 0
     const dataAndDataIndex: any[] = []
-    fv = career.value.monthlyBasicSalary
+    fv = monthlyBasicSalary
     dataAndDataIndex.push({
         label: '本薪',
         data: [pv, fv],
         datasetIndex: 0,
     })
 
-    if (career.value.laborInsuranceType === 'company') {
+    if (laborInsuranceType === 'company') {
         pv = fv
         fv += foodExpense
         dataAndDataIndex.push({
@@ -440,9 +447,9 @@ function drawChartAndCalculateIncome(propagate = false) {
         })
     }
 
-    if (career.value.employeeWelfareFund) {
+    if (employeeWelfareFund) {
         pv = fv
-        fv -= career.value.employeeWelfareFund
+        fv -= employeeWelfareFund
         dataAndDataIndex.push({
             label: '職工福利金',
             data: [pv, fv],
@@ -459,7 +466,7 @@ function drawChartAndCalculateIncome(propagate = false) {
     })
 
     pv = fv
-    fv -= career.value.insurance.expense
+    fv -= insurance.expense
     dataAndDataIndex.push({
         label: '勞保',
         data: [pv, fv],
@@ -467,17 +474,19 @@ function drawChartAndCalculateIncome(propagate = false) {
     })
 
     pv = fv
-    if (career.value.pension.monthlyContributionEmployee) {
-        fv -= career.value.pension.monthlyContributionEmployee
+    if (pension.monthlyContributionEmployee) {
+        fv -= pension.monthlyContributionEmployee
         dataAndDataIndex.push({
             label: '勞退',
             data: [pv, fv],
             datasetIndex: 1,
         })
     }
-
-    career.value.monthlyNetPayEstimated = fv
+    if (monthlyBasicSalary) {
+        career.value.monthlyNetPayEstimated = fv
+    }
     calculateMonthlySaving()
+
     fv = career.value.monthlyNetPay || fv
     dataAndDataIndex.push({
         label: '月實領',

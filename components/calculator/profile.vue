@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h2 id="_1. 基本資料" tabindex="-1">
-            1. 基本資料
-            <a class="header-anchor" href="#1. 基本資料" aria-label="Permalink to &quot;1. 基本資料&quot;">&ZeroWidthSpace;</a>
+        <h2 id="_基本資料" tabindex="-1">
+            基本資料
+            <a class="header-anchor" href="#基本資料" aria-label="Permalink to &quot;基本資料&quot;">&ZeroWidthSpace;</a>
         </h2>
         <el-card>
             <template #header>
@@ -37,7 +37,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item v-if="profile.age" label="試算年齡">
+                        <el-form-item label="試算年齡">
                             <el-text>{{ profile.age }} 歲</el-text>
                         </el-form-item>
                     </el-col>
@@ -53,7 +53,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item v-if="profile.lifeExpectancy" label="預估餘命">
+                        <el-form-item label="預估餘命">
                             <el-text>{{ profile.lifeExpectancy }} 年</el-text>
                         </el-form-item>
                     </el-col>
@@ -170,22 +170,22 @@ const insuranceTypeOptions = ref([
         disabled: false,
     },
     {
-        label: '軍職人員(軍保)',
+        label: '軍職人員(未完成)',
         value: 'military',
         disabled: true,
     },
     {
-        label: '公教人員(公保)',
+        label: '公教人員(未完成)',
         value: 'civilServant',
         disabled: true,
     },
     {
-        label: '農民(農保)',
+        label: '農民(未完成)',
         value: 'farmer',
         disabled: true,
     },
     {
-        label: '國民(國保)',
+        label: '國民(未完成)',
         value: 'national',
         disabled: true,
     }

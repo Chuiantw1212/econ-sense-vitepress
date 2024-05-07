@@ -1,12 +1,12 @@
 <template>
     <div>
         <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="500">
-            <div>此為免費服務，伺服器開機5~10秒左右來準備以下必須資料。</div>
+            <div>此為免費服務，伺服器開機5秒左右來準備以下必須資料。</div>
             <ul>
                 <li>餘命運算</li>
                 <li>2023聯徵房地資料契約</li>
                 <li>央行擔保放款融通利率</li>
-                <li>而且有時候會故障卡死......</li>
+                <li>而且有時候會故障卡死......╮（╯＿╰）╭</li>
             </ul>
             <div>當此提示順利地自動關閉。就可以開始使用了。</div>
             <template #footer>
@@ -22,8 +22,8 @@
         <Profile v-model="userForm.profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
             @update:modelValue="onProfileChanged()"></Profile>
 
-        <h2 id="_2. 我可以FIRE嗎？" tabindex="-1">2. 我可以FIRE嗎？<a class="header-anchor" href="#2. 我可以FIRE嗎？"
-                aria-label="Permalink to &quot;2. 我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
+        <h2 id="_我可以FIRE嗎？" tabindex="-1">我可以FIRE嗎？<a class="header-anchor" href="#我可以FIRE嗎？"
+                aria-label="Permalink to &quot;我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
 
         <Career v-model="userForm.career" :user="user" :config="config" :profile="userForm.profile" ref="CareerRef"
             @update:modelValue="onCareerChanged()">
@@ -33,8 +33,8 @@
             ref="RetirementRef" @update:modelValue="onRetirementChanged()">
         </Retirement>
 
-        <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科<a class="header-anchor" href="#3. 五子登科"
-                aria-label="Permalink to &quot;3. 五子登科&quot;">&ZeroWidthSpace;</a></h2>
+        <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
+                aria-label="Permalink to &quot;五子登科&quot;">&ZeroWidthSpace;</a></h2>
 
         <Investment v-model="userForm.investment" :config="config" :profile="userForm.profile" :career="userForm.career"
             :spouse="userForm.spouse" :parenting="userForm.parenting" :mortgage="userForm.mortgage"
@@ -308,7 +308,7 @@ const userForm = reactive({
         age: 0,
         lifeExpectancy: 0,
         yearOfMarriage: '',
-        insuranceType: '',
+        insuranceType: 'employee',
     },
     career: {
         headCount: 0,
