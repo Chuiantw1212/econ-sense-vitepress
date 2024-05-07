@@ -551,19 +551,25 @@ async function exportUserForm() {
     })
     const userFormType = await res.json()
     const copiedResult = copyObjectValue(userForm, userFormType)
-    console.log({
-        copiedResult
+    const date = new Date().toLocaleDateString('zh-TW', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
     })
-    // for (let key in userForm) {
-    //     const value = userForm[key]
-    //     if (typeof value === 'object') {
-
-    //     }
-    // }
-    // console.log({
-    //     userForm
-    // })
+    const fileName = `${date}-開源財務規劃.json`
+    saveAsJson(fileName, copiedResult,)
 }
+const saveAsJson = (filename, dataObjToWrite) => {
+    const blob = new Blob([JSON.stringify(dataObjToWrite)], { type: "text/json" });
+    const link = document.createElement("a");
+
+    link.download = filename;
+    link.href = window.URL.createObjectURL(blob);
+    link.dataset.downloadurl = ["text/json", link.download, link.href].join(":");
+
+    link.click()
+    link.remove()
+};
 function copyObjectValue(valueRefObj, keyRefObj) {
     const copiedResult = {}
     for (let key in keyRefObj) {
