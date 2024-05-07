@@ -20,7 +20,8 @@
         </el-dialog>
 
         <Profile v-model="userForm.profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
-            @update:modelValue="onProfileChanged()"></Profile>
+            @upload="hanldeUserFormImport($event, { showMessage: true })" @update:modelValue="onProfileChanged()">
+        </Profile>
 
         <h2 id="_我可以FIRE嗎？" tabindex="-1">我可以FIRE嗎？<a class="header-anchor" href="#我可以FIRE嗎？"
                 aria-label="Permalink to &quot;我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
@@ -117,7 +118,7 @@ async function initializeApp() {
     firebase.auth().onAuthStateChanged(async (firebaseUser) => {
         if (!firebaseUser) {
             await setIdToken(false)
-            await getUserFormSync(false)
+            await getUserFromServer(false)
             return
         }
         const { displayName, email, photoURL, uid } = firebaseUser
@@ -127,8 +128,8 @@ async function initializeApp() {
         user.email = email || ''
         user.displayName = displayName || '註冊用戶'
         ProfileRef.value?.toggleSignInDialog(false)
-        await getUserFormSync(firebaseUser)
-        initializeCalculator()
+        await getUserFromServer(firebaseUser)
+        // initializeCalculator()
     })
 }
 const idToken = ref()
@@ -248,10 +249,25 @@ async function setSelecOptionSync() {
 function backToCalendar() {
     window?.location.replace('/calendar')
 }
-async function getUserFormSync(firebaseUser) {
+function hanldeUserFormImport(form, { showMessage = false }) {
+    for (let key in form) {
+        if (userForm[key]) {
+            Object.assign(userForm[key], form[key])
+        }
+    }
+    nextTick(async () => {
+        await initializeCalculator()
+        if (showMessage) {
+            ElMessage('載入成功')
+        }
+        window.scrollTo(0, 0)
+    })
+}
+async function getUserFromServer(firebaseUser) {
     let responseForm = {
         id: ''
     }
+    let showMessage = false
     try {
         if (firebaseUser) {
             const { uid } = firebaseUser
@@ -259,6 +275,7 @@ async function getUserFormSync(firebaseUser) {
                 method: 'post'
             })
             responseForm = await res?.json()
+            showMessage = true
         }
     } catch (error) {
         ElMessage(error.message || error)
@@ -266,13 +283,12 @@ async function getUserFormSync(firebaseUser) {
             method: 'post'
         })
         responseForm = await res?.json()
+        showMessage = true
     } finally {
         user.id = responseForm.id
-        for (let key in responseForm) {
-            if (userForm[key]) {
-                Object.assign(userForm[key], responseForm[key])
-            }
-        }
+        hanldeUserFormImport(responseForm, {
+            showMessage
+        })
     }
     return userForm
 }
@@ -590,11 +606,6 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 onMounted(async () => {
     await initializeApp()
     await setSelecOptionSync()
-    await getUserFormSync(false)
-    nextTick(() => {
-        initializeCalculator()
-        window.scrollTo(0, 0)
-    })
 })
 </script>
 <style lang="scss" scoped>

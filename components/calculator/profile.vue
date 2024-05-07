@@ -8,8 +8,11 @@
             <template #header>
                 <div class="card-header card-header--custom">
                     <span>基本資料與參數</span>
-                    <div>
-                        <el-button :disabled="true">匯入</el-button>
+                    <div class="header__btnGroup">
+                        <el-upload v-model:file-list="fileList" :limit="1" :show-file-list="false"
+                            @success="handleChange">
+                            <el-button>匯入</el-button>
+                        </el-upload>
                         <el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
                         <el-button v-else @click="emits('signOut')">登出</el-button>
                     </div>
@@ -127,7 +130,7 @@ const { VITE_BASE_URL } = import.meta.env
 import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
 import firebase from 'firebase/compat/app';
 import econSelect from '../econSelect.vue'
-const emits = defineEmits(['update:modelValue', 'signOut'])
+const emits = defineEmits(['update:modelValue', 'signOut', 'upload'])
 const loginDialogVisible = ref(false)
 const props = defineProps({
     modelValue: {
@@ -207,6 +210,18 @@ const profile = computed(() => {
     return props.modelValue
 })
 // methods
+const fileList = ref([])
+function handleChange(undefined, uploadedRes) {
+    const { raw } = uploadedRes
+    const userFormFile: File = raw
+    var fileReader = new FileReader();
+    fileReader.onload = function (evt) {
+        const userFormString: string = evt.target.result as string
+        const userForm = JSON.parse(userFormString)
+        emits('upload', userForm)
+    };
+    fileReader.readAsText(userFormFile);
+}
 function setMarriageYears() {
     const currentYear = new Date().getFullYear()
     const beforeYears = []
@@ -328,6 +343,11 @@ defineExpose({
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .header__btnGroup {
+        display: flex;
+        gap: 8px;
+    }
 }
 
 .table {
