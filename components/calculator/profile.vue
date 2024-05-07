@@ -37,7 +37,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="試算年齡">
+                        <el-form-item v-if="profile.age" label="試算年齡">
                             <el-text>{{ profile.age }} 歲</el-text>
                         </el-form-item>
                     </el-col>
@@ -53,7 +53,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="預估餘命">
+                        <el-form-item v-if="profile.lifeExpectancy" label="預估餘命">
                             <el-text>{{ profile.lifeExpectancy }} 年</el-text>
                         </el-form-item>
                     </el-col>
@@ -300,6 +300,9 @@ async function calculateProfile() {
         profile.value.lifeExpectancy = Number(lifeExpectancy)
 
         emits('update:modelValue', profile.value)
+    } else {
+        profile.value.age = 0
+        profile.value.lifeExpectancy = 0
     }
 }
 
