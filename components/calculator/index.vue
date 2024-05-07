@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="500">
-            <div>此為免費服務，伺服器開機5秒左右來準備以下必須資料。</div>
+            <div>此為免費服務，伺服器開機5秒~10秒左右來準備以下必須資料。</div>
             <ul>
                 <li>餘命運算</li>
                 <li>2023聯徵房地資料契約</li>
