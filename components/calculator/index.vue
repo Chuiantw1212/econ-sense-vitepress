@@ -446,6 +446,9 @@ function onCareerChanged() {
     InvestmentRef.value.calculateAsset({
         propagate: false,
     })
+    MortgageRef.value.calculateMortgage({
+        propagate: false,
+    })
 }
 // 退休試算
 function onRetirementChanged() {
