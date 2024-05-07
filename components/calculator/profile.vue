@@ -132,6 +132,7 @@ import firebase from 'firebase/compat/app';
 import econSelect from '../econSelect.vue'
 const emits = defineEmits(['update:modelValue', 'signOut', 'upload'])
 const loginDialogVisible = ref(false)
+const firebaseUI = ref()
 const props = defineProps({
     modelValue: {
         type: Object,
@@ -196,6 +197,7 @@ const insuranceTypeOptions = ref([
 const isFullScreen = ref(false)
 // hooks
 onMounted(async () => {
+    firebaseUI.value = await import('firebaseui')
     setBirthYearOptions()
     setMarriageYears()
     window?.addEventListener('resize', onResize)
@@ -287,11 +289,11 @@ function openSignInDialog() {
          * 避免FirebaseUI重複初始化錯誤
          * https://stackoverflow.com/questions/47589209/error-in-mounted-hook-error-an-authui-instance-already-exists
          */
-        if (firebaseui.auth.AuthUI.getInstance()) {
-            const ui = firebaseui.auth.AuthUI.getInstance()
+        if (firebaseUI.value.auth.AuthUI.getInstance()) {
+            const ui = firebaseUI.value.auth.AuthUI.getInstance()
             ui?.start('#firebaseui-auth-container', uiConfig)
         } else {
-            const ui = new firebaseui.auth.AuthUI(firebase.auth())
+            const ui = new firebaseUI.value.auth.AuthUI(firebase.auth())
             ui?.start('#firebaseui-auth-container', uiConfig)
         }
     })
