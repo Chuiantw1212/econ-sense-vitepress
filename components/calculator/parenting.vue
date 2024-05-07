@@ -44,7 +44,7 @@
                     <el-col :span="12">
                         <el-form-item label="第二隻西元年">
                             <el-input-number v-model="parenting.secondBornYear" :min="0"
-                                @change="calculateParenting($event)" />
+                                :disabled="!parenting.firstBornYear" @change="calculateParenting($event)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">

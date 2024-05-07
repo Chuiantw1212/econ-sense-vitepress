@@ -46,7 +46,7 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-collapse>
+                <!-- <el-collapse>
                     <el-collapse-item title="點此快速調整目標(日期&支出)" :border="true" :disabled="isFormDisabled">
                         <el-row>
                             <el-col :span="12">
@@ -78,14 +78,14 @@
                             <el-col :span="12">
                                 <el-form-item label="第二隻西元年">
                                     <el-input-number v-model="parenting.secondBornYear" :min="0"
-                                        @change="calculateAsset($event)" />
+                                        :disabled="!parenting.firstBornYear" @change="calculateAsset($event)" />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                             </el-col>
                         </el-row>
                     </el-collapse-item>
-                </el-collapse>
+                </el-collapse> -->
                 <!-- <el-row>
                     <el-col :span="12">
                     </el-col>
