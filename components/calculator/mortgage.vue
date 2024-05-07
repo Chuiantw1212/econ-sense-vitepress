@@ -361,7 +361,7 @@ function calculateDownpayGoalPercent() {
     if (price) {
         if (downpayGoal) {
             const downpayPercent = downpayGoal / price * 100
-            mortgage.value.downpayPercent = Math.floor(downpayPercent)
+            mortgage.value.downpayPercent = Math.ceil(downpayPercent)
         } else {
             mortgage.value.downpayPercent = 0
         }
