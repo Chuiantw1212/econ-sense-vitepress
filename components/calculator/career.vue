@@ -16,19 +16,19 @@
                 <el-row v-if="profile.insuranceType === 'entrepreneur'">
                     <el-col :span="12">
                         <el-form-item label="投保單位">
-                            <econSelect v-model="laborInsurace.type" :options="laborInsuranceTypeOptions"
+                            <econSelect v-model="career.laborInsuranceType" :options="laborInsuranceTypeOptions"
                                 :disabled="!career.headCount || career.headCount >= 5"
                                 @change="calculateCareer($event)">
                             </econSelect>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'union'" :label="`職業災害費率`">
+                        <el-form-item v-if="career.laborInsuranceType === 'union'" :label="`職業災害費率`">
                             <el-text>目前皆以{{ accidentInsurance.premiumRate }}%計算</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row v-if="laborInsurace.type === 'company'">
+                <el-row v-if="career.laborInsuranceType === 'company'">
                     <el-col :span="12">
                         <el-form-item label="本薪" required>
                             <el-input-number v-model="career.monthlyBasicSalary" :min="0" :step="1000"
@@ -37,11 +37,11 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="+ 伙食津貼">
-                            <el-text>{{ Number(career.foodExpense).toLocaleString() }} (免稅)</el-text>
+                            <el-text>{{ Number(foodExpense).toLocaleString() }} (免稅)</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row v-if="laborInsurace.type === 'company'">
+                <el-row v-if="career.laborInsuranceType === 'company'">
                     <el-col :span="12">
                     </el-col>
                     <el-col :span="12">
@@ -50,9 +50,9 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row>
+                <el-row v-if="career.laborInsuranceType === 'union'">
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'union'" label="本薪" required>
+                        <el-form-item label="本薪" required>
                             <el-input-number v-model="career.monthlyBasicSalary" :min="0" :step="1000"
                                 @change="calculateCareer($event)" />
                         </el-form-item>
@@ -69,20 +69,20 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <!-- <el-form-item v-if="laborInsurace.type === 'company'" label="勞退提繳工資">
+                        <!-- <el-form-item v-if="career.laborInsuranceType === 'company'" label="勞退提繳工資">
                             <el-text> {{ Number(laborPension.salary).toLocaleString() }}</el-text>
                         </el-form-item> -->
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'company'" label="勞退自提率(%)">
-                            <el-input-number v-model="career.pension.rate" @change="calculateCareer($event)" :min="0"
-                                :max="6" />
+                        <el-form-item v-if="career.laborInsuranceType === 'company'" label="勞退自提率(%)">
+                            <el-input-number v-model="career.pension.rate" :disabled="!career.monthlyBasicSalary"
+                                @change="calculateCareer($event)" :min="0" :max="6" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item v-if="laborInsurace.type === 'company'" label="- 勞退月提繳">
+                        <el-form-item v-if="career.laborInsuranceType === 'company'" label="- 勞退月提繳">
                             <el-text>{{ Number(career.pension.monthlyContribution).toLocaleString() }}</el-text>
                         </el-form-item>
                     </el-col>
@@ -95,8 +95,8 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item :label="`- 勞保自付額`">
-                            <el-text>{{ Number(career.insurance.expense).toLocaleString() }} (負擔率{{
-                                laborInsurace.premiumRate[laborInsurace.type] }}%)</el-text>
+                            <el-text>{{ Number(career.insurance?.expense).toLocaleString() }} (負擔率{{
+                    laborInsurace.premiumRate[career.laborInsuranceType] }}%)</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -113,7 +113,7 @@
                     <el-col :span="12">
                         <el-form-item label="年實領 / 12">
                             <el-input-number v-model="career.monthlyNetPay" :min="0"
-                                @change="calculateCareer($event)" />
+                                :disabled="!career.monthlyBasicSalary" @change="calculateCareer($event)" />
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -172,7 +172,6 @@ const laborInsuranceTypeOptions = [
     }
 ]
 const laborInsurace = reactive({
-    type: 'company',
     ordinaryAccidentRate: 11,
     employeementRate: 1,
     accidentRate: 0.11,
@@ -181,6 +180,7 @@ const laborInsurace = reactive({
         union: 60
     }
 })
+const foodExpense = 3000
 const laborPension = reactive({
     salary: 0,
 })
@@ -276,33 +276,36 @@ function calculateCareer(options: any = { propagate: true }) {
     }
 }
 function calculateInsuranceType() {
+    const { monthlyBasicSalary } = career.value
+    if (!monthlyBasicSalary) {
+        career.value.pension.rate = 0
+    }
     const { insuranceType } = props.profile
     if (!insuranceType) {
         return
     }
     switch (insuranceType) {
         case 'employee':
-            laborInsurace.type = 'company'
+            career.value.laborInsuranceType = 'company'
             break;
         case 'entrepreneur':
             const { headCount, } = career.value
             if (headCount === 0) {
-                laborInsurace.type = 'union'
+                career.value.laborInsuranceType = 'union'
                 career.value.pension.rate = 0
             }
             if (headCount >= 5) {
-                laborInsurace.type = 'company'
+                career.value.laborInsuranceType = 'company'
             }
             break;
-        // default: {
-        //     alert(`InsuranceType Exception:${props.profile.insuranceType}`)
-        //     break;
-        // }
+        default: {
+            break;
+        }
     }
 }
 // 減項計算
 function calculateEmployeeWelfareFund() {
-    if (laborInsurace.type === 'company') {
+    if (career.value.laborInsuranceType === 'company') {
         const { monthlyBasicSalary, } = career.value
         career.value.employeeWelfareFund = Math.floor(monthlyBasicSalary * 0.5 / 100)
     } else {
@@ -310,9 +313,10 @@ function calculateEmployeeWelfareFund() {
     }
 }
 function calculateHealthPremium() {
-    const { monthlyBasicSalary, foodExpense, headCount } = career.value
+    const { monthlyBasicSalary, headCount } = career.value
+    const { laborInsuranceType } = career.value
     let healthSalaryMin = monthlyBasicSalary
-    if (laborInsurace.type === 'company') {
+    if (laborInsuranceType === 'company') {
         healthSalaryMin += foodExpense
     }
     const insuranceSalaryLevel = [
@@ -320,7 +324,7 @@ function calculateHealthPremium() {
         ...onlyHealthInsurance,
     ]
     if (props.profile.insuranceType === 'entrepreneur') {
-        if (laborInsurace.type === 'company') {
+        if (laborInsuranceType === 'company') {
             const healthLevel = entrepreneurHealthLevel[headCount] - 1// 記得從0索引
             const legalMinSalary = insuranceSalaryLevel[healthLevel]
             healthSalaryMin = Math.max(healthSalaryMin, legalMinSalary)
@@ -337,12 +341,16 @@ function calculateHealthPremium() {
     let healthInsuranceContribution = healthInsuranceSalary
     const { premiumRate, contributionShare } = healInsurance
     healthInsuranceContribution *= premiumRate / 100
-    healthInsuranceContribution *= contributionShare[laborInsurace.type] / 100
+    healthInsuranceContribution *= contributionShare[laborInsuranceType] / 100
     healInsurance.contribution = Math.ceil(healthInsuranceContribution)
 }
 // 勞保計算
 function calculateInsuranceSalary() {
     const { monthlyBasicSalary } = career.value
+    if (!monthlyBasicSalary) {
+        career.value.insurance.salary = 0
+        return
+    }
     const insuranceSalary = laborInsuranceLevels.find((value: number) => {
         return monthlyBasicSalary <= value
     })
@@ -355,24 +363,25 @@ function calculateInsuranceSalary() {
 function calculateInsuranceExpense() {
     const { salary = 0, } = career.value.insurance
     if (!salary) {
+        career.value.insurance.expense = 0
         return
     }
     const { ordinaryAccidentRate, employeementRate, accidentRate } = laborInsurace
     let insuranceRate = ordinaryAccidentRate
-    if (laborInsurace.type === 'union') {
+    if (career.value.laborInsuranceType === 'union') {
         insuranceRate += accidentRate
     } else {
         insuranceRate += employeementRate
     }
     insuranceRate /= 100
-    const premiumRate = laborInsurace.premiumRate[laborInsurace.type] / 100
+    const premiumRate = laborInsurace.premiumRate[career.value.laborInsuranceType] / 100
     career.value.insurance.expense = Math.ceil(salary * insuranceRate * premiumRate) // 無條件進位?
 }
 // 勞退計算
 function calculatePensionSalary() {
-    const { monthlyBasicSalary, foodExpense, } = career.value
+    const { monthlyBasicSalary, } = career.value
     let pensionSalaryMin = monthlyBasicSalary
-    if (laborInsurace.type === 'company') {
+    if (career.value.laborInsuranceType === 'company') {
         pensionSalaryMin += foodExpense
     }
     const insuranceSalaryLevel = [
@@ -393,21 +402,19 @@ function calculateCareerPensionContribution() {
     const { salary } = laborPension
     const { insuranceType } = props.profile
     if (!salary || !insuranceType) {
+        career.value.pension.monthlyContribution = 0
         return
     }
     const maxLaborInsuranceSalary = laborAndHealthInsurance[laborAndHealthInsurance.length - 1]
     const laborInsuranceSalary = Math.min(salary, maxLaborInsuranceSalary)
     career.value.pension.monthlyContributionEmployee = Math.floor(laborInsuranceSalary * rate / 100)
-    switch (props.profile.insuranceType) {
+    switch (insuranceType) {
         case 'employee':
             career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (6 + rate) / 100)
             break;
         case 'entrepreneur':
             career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (rate) / 100)
             break;
-        // default:
-        //     alert(`型別錯誤:${props.profile.insuranceType}`,)
-        //     break;
     }
 }
 // 投資計算
@@ -418,20 +425,21 @@ function calculateMonthlySaving() {
 }
 // 畫圖
 function drawChartAndCalculateIncome(propagate = false) {
+    const { monthlyBasicSalary, laborInsuranceType, employeeWelfareFund, insurance, pension } = career.value
     // 繪製圖表
     let pv = 0
     let fv = 0
     const dataAndDataIndex: any[] = []
-    fv = career.value.monthlyBasicSalary
+    fv = monthlyBasicSalary
     dataAndDataIndex.push({
         label: '本薪',
         data: [pv, fv],
         datasetIndex: 0,
     })
 
-    if (laborInsurace.type === 'company') {
+    if (laborInsuranceType === 'company') {
         pv = fv
-        fv += career.value.foodExpense
+        fv += foodExpense
         dataAndDataIndex.push({
             label: '伙食津貼',
             data: [pv, fv],
@@ -439,9 +447,9 @@ function drawChartAndCalculateIncome(propagate = false) {
         })
     }
 
-    if (career.value.employeeWelfareFund) {
+    if (employeeWelfareFund) {
         pv = fv
-        fv -= career.value.employeeWelfareFund
+        fv -= employeeWelfareFund
         dataAndDataIndex.push({
             label: '職工福利金',
             data: [pv, fv],
@@ -458,7 +466,7 @@ function drawChartAndCalculateIncome(propagate = false) {
     })
 
     pv = fv
-    fv -= career.value.insurance.expense
+    fv -= insurance.expense
     dataAndDataIndex.push({
         label: '勞保',
         data: [pv, fv],
@@ -466,17 +474,19 @@ function drawChartAndCalculateIncome(propagate = false) {
     })
 
     pv = fv
-    if (career.value.pension.monthlyContributionEmployee) {
-        fv -= career.value.pension.monthlyContributionEmployee
+    if (pension.monthlyContributionEmployee) {
+        fv -= pension.monthlyContributionEmployee
         dataAndDataIndex.push({
             label: '勞退',
             data: [pv, fv],
             datasetIndex: 1,
         })
     }
-
-    career.value.monthlyNetPayEstimated = fv
+    if (monthlyBasicSalary) {
+        career.value.monthlyNetPayEstimated = fv
+    }
     calculateMonthlySaving()
+
     fv = career.value.monthlyNetPay || fv
     dataAndDataIndex.push({
         label: '月實領',

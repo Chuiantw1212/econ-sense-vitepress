@@ -1,15 +1,21 @@
 <template>
     <div>
-        <h2 id="_1. 基本資料" tabindex="-1">
-            1. 基本資料
-            <a class="header-anchor" href="#1. 基本資料" aria-label="Permalink to &quot;1. 基本資料&quot;">&ZeroWidthSpace;</a>
+        <h2 id="_基本資料" tabindex="-1">
+            基本資料
+            <a class="header-anchor" href="#基本資料" aria-label="Permalink to &quot;基本資料&quot;">&ZeroWidthSpace;</a>
         </h2>
         <el-card>
             <template #header>
                 <div class="card-header card-header--custom">
                     <span>基本資料與參數</span>
-                    <el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
-                    <el-button v-else @click="emits('signOut')">登出</el-button>
+                    <div class="header__btnGroup">
+                        <el-upload v-model:file-list="fileList" :limit="1" :show-file-list="false"
+                            @success="handleChange">
+                            <el-button>匯入</el-button>
+                        </el-upload>
+                        <el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
+                        <el-button v-else @click="emits('signOut')">登出</el-button>
+                    </div>
                 </div>
             </template>
             <el-form ref="ruleFormRef" label-width="auto">
@@ -124,7 +130,7 @@ const { VITE_BASE_URL } = import.meta.env
 import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
 import firebase from 'firebase/compat/app';
 import econSelect from '../econSelect.vue'
-const emits = defineEmits(['update:modelValue', 'signOut'])
+const emits = defineEmits(['update:modelValue', 'signOut', 'upload'])
 const loginDialogVisible = ref(false)
 const props = defineProps({
     modelValue: {
@@ -167,22 +173,22 @@ const insuranceTypeOptions = ref([
         disabled: false,
     },
     {
-        label: '軍職人員(軍保)',
+        label: '軍職人員(未完成)',
         value: 'military',
         disabled: true,
     },
     {
-        label: '公教人員(公保)',
+        label: '公教人員(未完成)',
         value: 'civilServant',
         disabled: true,
     },
     {
-        label: '農民(農保)',
+        label: '農民(未完成)',
         value: 'farmer',
         disabled: true,
     },
     {
-        label: '國民(國保)',
+        label: '國民(未完成)',
         value: 'national',
         disabled: true,
     }
@@ -204,6 +210,18 @@ const profile = computed(() => {
     return props.modelValue
 })
 // methods
+const fileList = ref([])
+function handleChange(undefined, uploadedRes) {
+    const { raw } = uploadedRes
+    const userFormFile: File = raw
+    var fileReader = new FileReader();
+    fileReader.onload = function (evt) {
+        const userFormString: string = evt.target.result as string
+        const userForm = JSON.parse(userFormString)
+        emits('upload', userForm)
+    };
+    fileReader.readAsText(userFormFile);
+}
 function setMarriageYears() {
     const currentYear = new Date().getFullYear()
     const beforeYears = []
@@ -297,6 +315,9 @@ async function calculateProfile() {
         profile.value.lifeExpectancy = Number(lifeExpectancy)
 
         emits('update:modelValue', profile.value)
+    } else {
+        profile.value.age = 0
+        profile.value.lifeExpectancy = 0
     }
 }
 
@@ -322,6 +343,11 @@ defineExpose({
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .header__btnGroup {
+        display: flex;
+        gap: 8px;
+    }
 }
 
 .table {

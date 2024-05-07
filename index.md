@@ -15,7 +15,7 @@ hero:
       link: /calendar
     - theme: brand
       text: 開源財務規劃表
-      link: /engineer/plan
+      link: /plan
     # - theme: alt
     #   text: Line社群
     #   link: https://line.me/ti/g2/w2xjp79QxMO76vVw_aQuEqeH2ahdcn7uY7lQAg

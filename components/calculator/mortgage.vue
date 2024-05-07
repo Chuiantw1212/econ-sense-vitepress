@@ -5,8 +5,8 @@
                 <el-col :span="18">
                     <el-form-item label="房屋總價">
                         <el-text v-if="mortgage.totalPriceEstimated">= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
-                            estateSize.floorSize }}坪) = {{
-                                Number(mortgage.totalPriceEstimated).toLocaleString() }} NTD</el-text>
+                    estateSize.floorSize }}坪) = {{
+                    Number(mortgage.totalPriceEstimated).toLocaleString() }} NTD</el-text>
                         <el-input-number v-else v-model="mortgage.totalPrice" :min="0" :step="1000000"
                             @change="calculateMortgage({ setDownpay: true })" />
                     </el-form-item>
@@ -31,7 +31,7 @@
                 <el-col :span="12">
                     <el-form-item label="預估頭期款">
                         <el-input-number v-model="mortgage.downpayGoal" :min="0" :step="mortgage.downpayGoalStep"
-                            @change="calculateMortgage({ setTotalPrice: true })" />
+                            required @change="calculateMortgage({ setTotalPrice: true })" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -42,8 +42,8 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item :label="downpayTitle">
-                        <el-input-number v-model="mortgage.downpay" :min="0" :step="200000"
+                    <el-form-item label="已備頭期款">
+                        <el-input-number v-model="mortgage.downpay" :min="0" :step="200000" required
                             @change="calculateMortgage({ setTotalPrice: true })" />
                     </el-form-item>
                 </el-col>
@@ -274,14 +274,6 @@ const props = defineProps({
     }
 })
 // hooks
-const downpayTitle = computed(() => {
-    const { downpayYear } = mortgage.value
-    if (downpayYear) {
-        return `頭期款`
-    } else {
-        return `已備頭期款`
-    }
-})
 const downpayMarks = ref({})
 onMounted(() => {
     setTotalPriceMarks()
@@ -361,7 +353,7 @@ function calculateDownpayGoalPercent() {
     if (price) {
         if (downpayGoal) {
             const downpayPercent = downpayGoal / price * 100
-            mortgage.value.downpayPercent = Math.floor(downpayPercent)
+            mortgage.value.downpayPercent = Math.ceil(downpayPercent)
         } else {
             mortgage.value.downpayPercent = 0
         }
@@ -404,20 +396,21 @@ function drawDownpayChart(propagate = false) {
     const { irr, } = props.investment
     const { inflationRate, currentYear } = props.config
     const { downpay, downpayGoal } = mortgage.value
-    const { monthlyBasicSalary, monthlySaving } = props.career
+    const { monthlySaving } = props.career
     const irrModifier: number = 1 + irr / 100
     const inflationRatio: number = 1 + inflationRate / 100
 
     let pv: number = downpay
     let pmt: number = 0
-    if (monthlyBasicSalary) {
+    if (monthlySaving) {
         pmt = monthlySaving * 12
     }
     let fv: number = 0
     let goal: number = downpayGoal
 
     const labels: string[] = []
-    const dataSetData: number[] = []
+    const preparedDownpayData: number[] = []
+    const annualSavingData: number[] = []
     const estateTotalPrice: number[] = []
 
     let period = 0
@@ -425,25 +418,47 @@ function drawDownpayChart(propagate = false) {
         pmt *= inflationRatio
         goal *= inflationRatio
 
-        fv = pv * irrModifier + pmt
+        fv = pv * irrModifier
+        preparedDownpayData.push(Math.floor(fv))
+        fv += pmt
+        annualSavingData.push(Math.floor(pmt))
         labels.push(currentYear + ++period)
-        dataSetData.push(Math.floor(fv))
         estateTotalPrice.push(Math.floor(goal))
         pv = fv
     } while (fv < goal)
     calculateYearsToDownpay(period)
+    const datasets = [
+        {
+            label: '已備增值',
+            data: preparedDownpayData,
+            stack: '已備',
+        },
+        {
+            label: '預估頭期款',
+            data: estateTotalPrice,
+            stack: '應備',
+        }
+    ]
+    if (monthlySaving) {
+        datasets.push({
+            label: '儲蓄投資',
+            data: annualSavingData,
+            stack: '已備',
+        })
+    }
     const chartData = {
         labels,
-        datasets: [
-            {
-                label: '已備頭期款',
-                data: dataSetData,
-            },
-            {
-                label: '預估頭期款',
-                data: estateTotalPrice,
+        datasets,
+        options: {
+            scales: {
+                // x: {
+                //     stacked: true,
+                // },
+                y: { // 要部份stacked，部分overlap
+                    stacked: true,
+                },
             }
-        ],
+        }
     }
 
     if (downPayChartInstance.value) {

@@ -8,7 +8,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="parenting.headCount" label="家庭成員數">
+                    <el-form-item label="家庭成員數">
                         <el-text>{{ parenting.headCount }} 人</el-text>
                     </el-form-item>
                 </el-col>
@@ -21,14 +21,15 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="房屋可容納人數">
-                        <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
+                        <el-text :type="sizeType">{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }}
+                            人</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="客廳+餐廳">
-                        <el-input-number v-model="estateSize.livingRoom" :min="1" @change="calculateEstateSize()" />
+                        <el-input-number v-model="estateSize.livingRoom" :min="0" @change="calculateEstateSize()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -37,7 +38,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="衛浴數量">
-                        <el-input-number v-model="estateSize.bathroom" :min="1" @change="calculateEstateSize()" />
+                        <el-input-number v-model="estateSize.bathroom" :min="0" @change="calculateEstateSize()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -117,6 +118,16 @@ const props = defineProps({
 })
 const estateSize = computed(() => {
     return props.modelValue
+})
+const sizeType = computed(() => {
+    const { headCount } = props.parenting
+    const { doubleBedRoom, singleBedRoom } = estateSize.value
+    const size = doubleBedRoom * 2 + singleBedRoom
+    if (size >= headCount) {
+        return ''
+    } else {
+        return 'danger'
+    }
 })
 function calculateEstateSize(options: any = { propagate: true, skipDebounce: false }) {
     const { propagate = true, } = options

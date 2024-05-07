@@ -44,12 +44,13 @@
                     <el-col :span="12">
                         <el-form-item label="第二隻西元年">
                             <el-input-number v-model="parenting.secondBornYear" :min="0"
-                                @change="calculateParenting($event)" />
+                                :disabled="!parenting.firstBornYear" @change="calculateParenting($event)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item v-if="mortgage.totalPriceEstimated" label="房屋可容納人數">
-                            <el-text>{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }} 人</el-text>
+                            <el-text :type="sizeType">{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }}
+                                人</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -190,9 +191,21 @@ const props = defineProps({
         required: true,
     },
 })
+// hooks
 const parenting = computed(() => {
     return props.modelValue
 })
+const sizeType = computed(() => {
+    const { headCount } = parenting.value
+    const { doubleBedRoom, singleBedRoom } = props.estateSize
+    const size = doubleBedRoom * 2 + singleBedRoom
+    if (size >= headCount) {
+        return ''
+    } else {
+        return 'danger'
+    }
+})
+// methods
 function calculateParenting(options: any = { propagate: true }) {
     const { propagate = true } = options
     calculateHeadCount()

@@ -2,7 +2,6 @@
     <div>
         <h3 id="_投資資產試算" tabindex="-1">投資資產試算<a class="header-anchor" href="#投資資產試算"
                 aria-label="Permalink to &quot;投資資產試算&quot;">&ZeroWidthSpace;</a></h3>
-
         <el-card>
             <el-form label-width="auto">
                 <el-row>
@@ -28,7 +27,7 @@
                     <el-col :span="12">
                         <el-form-item label="已備資產">
                             <el-input-number v-model="investment.presentAsset" :min="0" :step="100000"
-                                @change="calculateAsset()" />
+                                :disabled="isFormDisabled" @change="calculateAsset()" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -37,8 +36,17 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-collapse>
-                    <el-collapse-item title="點此快速調整目標(日期&支出)" :border="true">
+                <el-row v-if="isFormDisabled">
+                    <el-col>
+                        <el-form-item label="圖表繪製前提">
+                            <el-text type="danger">
+                                填寫基本資料、職業試算、退休試算
+                            </el-text>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <!-- <el-collapse>
+                    <el-collapse-item title="點此快速調整目標(日期&支出)" :border="true" :disabled="isFormDisabled">
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="購屋西元年">
@@ -69,14 +77,14 @@
                             <el-col :span="12">
                                 <el-form-item label="第二隻西元年">
                                     <el-input-number v-model="parenting.secondBornYear" :min="0"
-                                        @change="calculateAsset($event)" />
+                                        :disabled="!parenting.firstBornYear" @change="calculateAsset($event)" />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                             </el-col>
                         </el-row>
                     </el-collapse-item>
-                </el-collapse>
+                </el-collapse> -->
                 <!-- <el-row>
                     <el-col :span="12">
                     </el-col>
@@ -197,9 +205,16 @@ const props = defineProps({
     }
 })
 const allocationQuartileMarks = reactive({})
+// hooks
 const investment = computed(() => {
     return props.modelValue
 })
+const isFormDisabled = computed(() => {
+    const { yearToRetirement } = props.retirement
+    const { monthlyBasicSalary } = props.career
+    return !yearToRetirement || !monthlyBasicSalary
+})
+// methods
 function calculateAsset(options: any = { propagate: true }) {
     calculateInvestmentPeriod()
     calculatePortfolio()
@@ -324,14 +339,15 @@ function drawLifeAssetChart(propagate = true) {
         mortgageData.push(Math.floor(-mortgagePmt))
 
         // 計算複利終值
-        fv = pv * irrModifier + calculatedPmt
+        fv = pv * irrModifier
         datasetData.push(Math.floor(fv))
+        fv += calculatedPmt
         labels.push(year)
         pv = fv
     }
     const datasets = [
         {
-            label: '資產存量',
+            label: '資產增值',
             data: datasetData,
         },
     ]
@@ -347,7 +363,7 @@ function drawLifeAssetChart(propagate = true) {
             data: childExpenseData,
         })
     }
-    if (downpayYear) {
+    if (downpayYear && downpayYear < currentYear + period) {
         datasets.push({
             label: '房貸支出',
             data: mortgageData,

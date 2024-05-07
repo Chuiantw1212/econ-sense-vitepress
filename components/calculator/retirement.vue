@@ -4,10 +4,19 @@
                 aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
         <el-card>
             <el-form label-width="auto">
+                <el-row v-if="isFormDisabled">
+                    <el-col>
+                        <el-form-item label="表單開放前提">
+                            <el-text type="danger">
+                                填寫基本資料、職業試算
+                            </el-text>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="計畫退休年齡">
-                            <el-input-number v-model="retirement.age" :min="60" :max="70"
+                            <el-input-number v-model="retirement.age" :min="60" :max="70" :disabled="isFormDisabled"
                                 @change="calculateRetirement($event)" />
                         </el-form-item>
                     </el-col>
@@ -27,7 +36,7 @@
                     </el-col>
                 </el-row>
                 <el-collapse>
-                    <el-collapse-item title="查詢勞保局E化服務系統後設定" :border="true">
+                    <el-collapse-item title="查詢勞保局E化服務系統後設定" :border="true" :disabled="isFormDisabled">
 
                         <el-row>
                             <el-col :span="12">
@@ -127,10 +136,11 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="退休品質">
-                            <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)">
+                            <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
+                                :disabled="isFormDisabled">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                        item.label
-                    }}</el-radio>
+                    item.label
+                }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -244,10 +254,16 @@ const props = defineProps({
     }
 })
 const expenseQuartileMarks = reactive({})
-
+// hooks
 const retirement = computed(() => {
     return props.modelValue
 })
+const isFormDisabled = computed(() => {
+    const { lifeExpectancy } = props.profile
+    const { monthlyBasicSalary } = props.career
+    return !lifeExpectancy || !monthlyBasicSalary
+})
+// methods
 function calculateRetirement(options: any = { propagate: true }) {
     const { propagate = true } = options
     calculateExpenseQuartileMarks()

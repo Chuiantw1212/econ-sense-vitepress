@@ -40,6 +40,7 @@ export default defineConfig({
         text: '講座排程&FAQ',
         link: '/calendar',
       },
+      { text: '開源財務規劃表', link: '/plan' },
       {
         text: '金融理財',
         link: '/finance/outline',
@@ -78,7 +79,7 @@ export default defineConfig({
         link: '/engineer/outline',
         collapsed: false,
         items: [
-          { text: '開源財務規劃表', link: '/engineer/plan' },
+          // { text: '開源財務規劃表', link: '/engineer/plan' },
           { text: '電腦DIY', link: '/engineer/computer' },
           { text: 'VitePress無本部落格(待驗證)', link: '/engineer/blog' },
           // { text: '網站技術架構(未完成)', link: '/engineer/web' },
