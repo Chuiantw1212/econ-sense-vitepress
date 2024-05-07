@@ -8,8 +8,11 @@
             <template #header>
                 <div class="card-header card-header--custom">
                     <span>基本資料與參數</span>
-                    <el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
-                    <el-button v-else @click="emits('signOut')">登出</el-button>
+                    <div>
+                        <el-button :disabled="true">匯入</el-button>
+                        <el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
+                        <el-button v-else @click="emits('signOut')">登出</el-button>
+                    </div>
                 </div>
             </template>
             <el-form ref="ruleFormRef" label-width="auto">

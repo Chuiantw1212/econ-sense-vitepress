@@ -19,51 +19,59 @@
             </template>
         </el-dialog>
 
-        <Profile v-model="profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
+        <Profile v-model="userForm.profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
             @update:modelValue="onProfileChanged()"></Profile>
 
         <h2 id="_2. 我可以FIRE嗎？" tabindex="-1">2. 我可以FIRE嗎？<a class="header-anchor" href="#2. 我可以FIRE嗎？"
                 aria-label="Permalink to &quot;2. 我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
 
-        <Career v-model="career" :user="user" :config="config" :profile="profile" ref="CareerRef"
+        <Career v-model="userForm.career" :user="user" :config="config" :profile="userForm.profile" ref="CareerRef"
             @update:modelValue="onCareerChanged()">
         </Career>
 
-        <Retirement v-model="retirement" :config="config" :career="career" :profile="profile" ref="RetirementRef"
-            @update:modelValue="onRetirementChanged()">
+        <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career" :profile="userForm.profile"
+            ref="RetirementRef" @update:modelValue="onRetirementChanged()">
         </Retirement>
 
         <h2 id="_3. 五子登科" tabindex="-1">3. 五子登科<a class="header-anchor" href="#3. 五子登科"
                 aria-label="Permalink to &quot;3. 五子登科&quot;">&ZeroWidthSpace;</a></h2>
 
-        <Investment v-model="investment" :config="config" :profile="profile" :career="career" :spouse="spouse"
-            :parenting="parenting" :mortgage="mortgage" :retirement="retirement" ref="InvestmentRef"
-            @update:model-value="onInvestmentChanged()">
+        <Investment v-model="userForm.investment" :config="config" :profile="userForm.profile" :career="userForm.career"
+            :spouse="userForm.spouse" :parenting="userForm.parenting" :mortgage="userForm.mortgage"
+            :retirement="userForm.retirement" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
         </Investment>
 
         <h3 id="_結婚試算" tabindex="-1">配偶試算<a class="header-anchor" href="#配偶試算"
                 aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Spouse v-model="spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()"></Spouse>
+        <Spouse v-model="userForm.spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()">
+        </Spouse>
 
-        <Parenting v-model="parenting" :config="config" :career="career" :retirement="retirement" :spouse="spouse"
-            :investment="investment" :estateSize="estateSize" :mortgage="mortgage" ref="ParentingRef"
+        <Parenting v-model="userForm.parenting" :config="config" :career="userForm.career"
+            :retirement="userForm.retirement" :spouse="userForm.spouse" :investment="userForm.investment"
+            :estateSize="userForm.estateSize" :mortgage="userForm.mortgage" ref="ParentingRef"
             @update:model-value="onParentingChanged()">
         </Parenting>
 
         <h3 id="_購屋試算" tabindex="-1">購屋試算<a class="header-anchor" href="#購屋試算"
                 aria-label="Permalink to &quot;購屋試算&quot;">&ZeroWidthSpace;</a></h3>
 
-        <Mortgage v-model="mortgage" :config="config" :career="career" :estateSize="estateSize" :investment="investment"
-            :estatePrice="estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
-            @open="openEstateCalculator()" @reset="resetTotalPrice()">
+        <Mortgage v-model="userForm.mortgage" :config="config" :career="userForm.career"
+            :estateSize="userForm.estateSize" :investment="userForm.investment" :estatePrice="userForm.estatePrice"
+            ref="MortgageRef" @update:model-value="onMortgageChanged()" @open="openEstateCalculator()"
+            @reset="resetTotalPrice()">
         </Mortgage>
 
         <el-dialog :modelValue="estateCalculatorVisiable" title="估算總價" :lock-scroll="true"
             @close="estateCalculatorVisiable = false">
-            <EstateDialogContent :config="config" :estateSize="estateSize" :estatePrice="estatePrice"
-                :parenting="parenting" ref="EstateRef" @confirm="onDialogConfirm($event)">
+            <EstateDialogContent :config="config" :estateSize="userForm.estateSize" :estatePrice="userForm.estatePrice"
+                :parenting="userForm.parenting" ref="EstateRef" @confirm="onDialogConfirm($event)">
             </EstateDialogContent>
         </el-dialog>
+
+        <h2 id="_資料匯出" tabindex="-1">資料匯出<a class="header-anchor" href="#資料匯出"
+                aria-label="Permalink to &quot;資料匯出&quot;">&ZeroWidthSpace;</a></h2>
+
+        <DataCenter @export="exportUserForm()"></DataCenter>
     </div>
 </template>
 <script setup lang="ts">
@@ -78,6 +86,7 @@ import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
 import EstateDialogContent from './estateDialog.vue'
+import DataCenter from './dataCenter.vue'
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
@@ -217,7 +226,7 @@ async function setSelecOptionSync() {
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
         const interestRate = await bankConfigRes[1].json()
-        mortgage.interestRate = interestRate
+        userForm.mortgage.interestRate = interestRate
         const ishareCoreETFs = await bankConfigRes[2].json()
         const portfolioIRR = {}
         ishareCoreETFs.forEach(etf => {
@@ -328,7 +337,7 @@ async function getUserFormSync(firebaseUser) {
             loanAmount: 0,
         },
     }
-    let userForm = {
+    let responseForm = {
         id: ''
     }
     try {
@@ -337,26 +346,26 @@ async function getUserFormSync(firebaseUser) {
             const res = await authFetch(`/user/${uid}`, {
                 method: 'post'
             })
-            userForm = await res?.json()
+            responseForm = await res?.json()
         }
     } catch (error) {
         ElMessage(error.message || error)
         const res = await authFetch(`/user/new`, {
             method: 'post'
         })
-        userForm = await res?.json()
+        responseForm = await res?.json()
     } finally {
-        user.id = userForm.id
-        Object.assign(initForm, userForm)
-        Object.assign(profile, initForm.profile)
-        Object.assign(career, initForm.career)
-        Object.assign(retirement, initForm.retirement)
-        Object.assign(investment, initForm.investment)
-        Object.assign(spouse, initForm.spouse)
-        Object.assign(estatePrice, initForm.estatePrice)
-        Object.assign(estateSize, initForm.estateSize)
-        Object.assign(mortgage, initForm.mortgage)
-        Object.assign(parenting, initForm.parenting)
+        user.id = responseForm.id
+        Object.assign(initForm, responseForm)
+        Object.assign(userForm.profile, initForm.profile)
+        Object.assign(userForm.career, initForm.career)
+        Object.assign(userForm.retirement, initForm.retirement)
+        Object.assign(userForm.investment, initForm.investment)
+        Object.assign(userForm.spouse, initForm.spouse)
+        Object.assign(userForm.estatePrice, initForm.estatePrice)
+        Object.assign(userForm.estateSize, initForm.estateSize)
+        Object.assign(userForm.mortgage, initForm.mortgage)
+        Object.assign(userForm.parenting, initForm.parenting)
     }
     return userForm
 }
@@ -383,20 +392,79 @@ async function initializeCalculator() {
         propagate: true,
     })
 }
-// 基本資料
-let profile = reactive({
-    id: '', // 避免登入判斷錯誤
-    yearOfBirth: '',
-    dateOfBirth: '',
-    gender: '',
-    age: 0,
-    lifeExpectancy: 0,
-    yearOfMarriage: '',
+// 使用者表單集成匯出使用
+const userForm = reactive({
+    profile: {
+        id: '', // 避免登入判斷錯誤
+        yearOfBirth: '',
+        dateOfBirth: '',
+        gender: '',
+        age: 0,
+        lifeExpectancy: 0,
+        yearOfMarriage: '',
+    },
+    career: {
+        pension: {},
+        insurance: {},
+    },
+    retirement: {
+        insurance: {},
+        pension: {},
+        expenseQuartileMarks: {},
+    },
+    investment: {
+        allocationETF: '',
+        irr: 0,
+        stockPercentage: 0,
+        presentAsset: 0,
+        averaging: 0,
+        period: 0,
+    },
+    spouse: {},
+    parenting: {
+        childAnnualExpense: 0,
+        spouseMonthlyContribution: 0,
+        independantAge: 0,
+        firstBornYear: 0,
+        secondBornYear: 0,
+        insurance: 0,
+        headCount: 0,
+    },
+    mortgage: {
+        totalPriceEstimated: 0,
+        interestRate: 0,
+    },
+    estatePrice: {
+        county: '',
+        town: '',
+        buildingType: '',
+        buildingAge: '',
+        hasParking: '',
+        count: 0,
+        pr25: 0,
+        pr75: 100,
+        average: 0,
+        unitPrice: 0,
+    },
+    estateSize: {
+        doubleBedRoom: 0,
+        singleBedRoom: 1,
+        bathroom: 0,
+        livingRoom: 0,
+        publicRatio: 0,
+        mainBuilding: 0,
+        balcany: 0,
+        outBuilding: 0,
+        floorSize: 0,
+        parkingSpace: 0,
+        parkingSize: 0,
+        headCount: 0,
+    }
 })
 async function onProfileChanged() {
     authFetch(`/user/profile`, {
         method: 'put',
-        body: profile,
+        body: userForm.profile,
     })
     await CareerRef.value.calculateCareer({
         propagate: true,
@@ -409,14 +477,10 @@ async function onProfileChanged() {
     })
 }
 // 職業試算
-let career = reactive({
-    pension: {},
-    insurance: {},
-})
 function onCareerChanged() {
     authFetch(`/user/career`, {
         method: 'put',
-        body: career,
+        body: userForm.career,
     })
     RetirementRef.value.calculateRetirement({
         propagate: false,
@@ -426,33 +490,20 @@ function onCareerChanged() {
     })
 }
 // 退休試算
-let retirement = reactive({
-    insurance: {},
-    pension: {},
-    expenseQuartileMarks: {},
-})
 function onRetirementChanged() {
     authFetch(`/user/retirement`, {
         method: 'put',
-        body: retirement,
+        body: userForm.retirement,
     })
     InvestmentRef.value.calculateAsset({
         propagate: true,
     })
 }
 // 投資試算
-let investment = reactive({
-    allocationETF: '',
-    irr: 0,
-    stockPercentage: 0,
-    presentAsset: 0,
-    averaging: 0,
-    period: 0,
-})
 function onInvestmentChanged() {
     authFetch(`/user/investment`, {
         method: 'put',
-        body: investment,
+        body: userForm.investment,
     })
     ParentingRef.value.calculateParenting({
         propagate: false,
@@ -462,11 +513,10 @@ function onInvestmentChanged() {
     })
 }
 // 配偶試算
-let spouse = reactive({})
 function onSpouseChanged() {
     authFetch(`/user/spouse`, {
         method: 'put',
-        body: spouse,
+        body: userForm.spouse,
     })
     ParentingRef.value.calculateParenting({
         propagate: false,
@@ -476,19 +526,10 @@ function onSpouseChanged() {
     })
 }
 // 育兒試算
-let parenting = reactive({
-    childAnnualExpense: 0,
-    spouseMonthlyContribution: 0,
-    independantAge: 0,
-    firstBornYear: 0,
-    secondBornYear: 0,
-    insurance: 0,
-    headCount: 0,
-})
 function onParentingChanged() {
     authFetch(`/user/parenting`, {
         method: 'put',
-        body: parenting,
+        body: userForm.parenting,
     })
     InvestmentRef.value.calculateAsset({
         propagate: false,
@@ -496,59 +537,35 @@ function onParentingChanged() {
 }
 // 購屋單價與總價
 const estateCalculatorVisiable = ref(false)
-let estatePrice = reactive({
-    county: '',
-    town: '',
-    buildingType: '',
-    buildingAge: '',
-    hasParking: '',
-    count: 0,
-    pr25: 0,
-    pr75: 100,
-    average: 0,
-    unitPrice: 0,
-})
 function resetTotalPrice() {
-    estatePrice.county = ''
-    estatePrice.town = ''
-    estatePrice.pr25 = 0
-    estatePrice.pr75 = 100
-    estatePrice.average = 0
-    estatePrice.unitPrice = 0
-    mortgage.totalPriceEstimated = 0
+    Object.assign(userForm.estatePrice, {
+        county: '',
+        town: '',
+        pr25: 0,
+        pr75: 100,
+        average: 0,
+        unitPrice: 0,
+    })
+    userForm.mortgage.totalPriceEstimated = 0
     authFetch(`/user/estatePrice`, {
         method: 'put',
-        body: estatePrice,
+        body: userForm.estatePrice,
     })
 }
-let estateSize = reactive({
-    doubleBedRoom: 0,
-    singleBedRoom: 1,
-    bathroom: 0,
-    livingRoom: 0,
-    publicRatio: 0,
-    mainBuilding: 0,
-    balcany: 0,
-    outBuilding: 0,
-    floorSize: 0,
-    parkingSpace: 0,
-    parkingSize: 0,
-    headCount: 0,
-})
 function openEstateCalculator() {
     estateCalculatorVisiable.value = true
 }
 function onDialogConfirm(newValue) {
     estateCalculatorVisiable.value = false
-    Object.assign(estatePrice, newValue.estatePrice)
-    Object.assign(estateSize, newValue.estateSize)
+    Object.assign(userForm.estatePrice, newValue.estatePrice)
+    Object.assign(userForm.estateSize, newValue.estateSize)
     authFetch(`/user/estatePrice`, {
         method: 'put',
-        body: estatePrice,
+        body: userForm.estatePrice,
     })
     authFetch(`/user/estateSize`, {
         method: 'put',
-        body: estateSize,
+        body: userForm.estateSize,
     })
     MortgageRef.value.calculateMortgage({
         propagate: true,
@@ -556,18 +573,22 @@ function onDialogConfirm(newValue) {
     })
 }
 // 房屋貸款試算
-let mortgage = reactive({
-    totalPriceEstimated: 0,
-    interestRate: 0,
-})
 function onMortgageChanged() {
     authFetch(`/user/mortgage`, {
         method: 'put',
-        body: mortgage,
+        body: userForm.mortgage,
     })
     InvestmentRef.value.calculateAsset({
         propagate: false,
     })
+}
+// 資料匯出
+async function exportUserForm() {
+    const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
+        method: 'get',
+    })
+    const userForm = await res.json()
+
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
