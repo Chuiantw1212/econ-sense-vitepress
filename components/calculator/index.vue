@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="500">
-            <div>此為免費服務，伺服器開機5秒左右來準備以下必須資料。</div>
+            <div>此為免費服務，伺服器開機5秒~10秒左右來準備以下必須資料。</div>
             <ul>
                 <li>餘命運算</li>
                 <li>2023聯徵房地資料契約</li>
@@ -106,7 +106,7 @@ const user = reactive({
     id: '',
 })
 async function initializeApp() {
-    await firebase.initializeApp({
+    const firebaseApp: any = await firebase.initializeApp({
         apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
         authDomain: "econ-sense-9a250.firebaseapp.com",
         projectId: "econ-sense-9a250",
@@ -115,7 +115,7 @@ async function initializeApp() {
         appId: "1:449033690264:web:f5e419118030eb3afe44ed",
         measurementId: "G-19NFT8GVCZ"
     })
-    firebase.auth().onAuthStateChanged(async (firebaseUser) => {
+    firebaseApp.firebase.auth().onAuthStateChanged(async (firebaseUser) => {
         if (!firebaseUser) {
             await setIdToken(false)
             await getUserFromServer(false)
@@ -604,6 +604,7 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
+    await import('firebaseui')
     await initializeApp()
     await setSelecOptionSync()
 })
