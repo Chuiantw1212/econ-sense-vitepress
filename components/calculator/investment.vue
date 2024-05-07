@@ -2,14 +2,23 @@
     <div>
         <h3 id="_投資資產試算" tabindex="-1">投資資產試算<a class="header-anchor" href="#投資資產試算"
                 aria-label="Permalink to &quot;投資資產試算&quot;">&ZeroWidthSpace;</a></h3>
-
         <el-card>
             <el-form label-width="auto">
+                <el-row v-if="isFormDisabled">
+                    <el-col>
+                        <el-form-item label="表單前提">
+                            <el-text type="danger">
+                                須填寫基本資料、職業試算、退休試算
+                            </el-text>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="資產配置">
                             <el-radio-group v-model="investment.allocationETF" @change="calculateAsset()">
-                                <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label
+                                <el-radio v-for="(label, key) in config.porfolioLabels" :disabled="isFormDisabled"
+                                    :value="key">{{ label
                                     }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
@@ -28,7 +37,7 @@
                     <el-col :span="12">
                         <el-form-item label="已備資產">
                             <el-input-number v-model="investment.presentAsset" :min="0" :step="100000"
-                                @change="calculateAsset()" />
+                                :disabled="isFormDisabled" @change="calculateAsset()" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -38,7 +47,7 @@
                     </el-col>
                 </el-row>
                 <el-collapse>
-                    <el-collapse-item title="點此快速調整目標(日期&支出)" :border="true">
+                    <el-collapse-item title="點此快速調整目標(日期&支出)" :border="true" :disabled="isFormDisabled">
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="購屋西元年">
@@ -197,9 +206,16 @@ const props = defineProps({
     }
 })
 const allocationQuartileMarks = reactive({})
+// hooks
 const investment = computed(() => {
     return props.modelValue
 })
+const isFormDisabled = computed(() => {
+    const { yearToRetirement } = props.retirement
+    const { monthlyBasicSalary } = props.career
+    return !yearToRetirement || !monthlyBasicSalary
+})
+// methods
 function calculateAsset(options: any = { propagate: true }) {
     calculateInvestmentPeriod()
     calculatePortfolio()

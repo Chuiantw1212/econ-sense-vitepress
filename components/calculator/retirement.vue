@@ -36,7 +36,7 @@
                     </el-col>
                 </el-row>
                 <el-collapse>
-                    <el-collapse-item title="查詢勞保局E化服務系統後設定" :border="true">
+                    <el-collapse-item title="查詢勞保局E化服務系統後設定" :border="true" :disabled="isFormDisabled">
 
                         <el-row>
                             <el-col :span="12">

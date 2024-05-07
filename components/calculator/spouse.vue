@@ -4,12 +4,8 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="結婚年">
-                        <select v-model="spouse.yearOfMarriage" class="form__select" placeholder="請選擇"
-                            @change="calculatecSpouse()" style="width: 130px">
-                            <option label="無配偶" value=""></option>
-                            <option v-for="year in marriageYearOptions" :key="year" :label="String(year)"
-                                :value="year" />
-                        </select>
+                        <econSelect v-model="spouse.yearOfMarriage" placeholder="無配偶" :options="marriageYearOptions"
+                            @change="calculatecSpouse()"></econSelect>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -20,25 +16,22 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item v-if="spouse.yearOfMarriage" label="出生年">
-                        <select v-model="spouse.yearOfBirth" class="form__select" placeholder="請選擇"
-                            :disabled="!spouse.yearOfMarriage" @change="calculatecSpouse()" style="width: 130px">
-                            <option label="無配偶" value=""></option>
-                            <option v-for="year in birthYearOptions" :key="year" :label="String(year)" :value="year" />
-                        </select>
+                    <el-form-item label="出生年">
+                        <econSelect v-model="spouse.yearOfBirth" placeholder="無配偶" :options="marriageYearOptions"
+                            :disabled="!spouse.yearOfMarriage" @change="calculatecSpouse()"></econSelect>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="spouse.yearOfMarriage" label="試算年齡">
+                    <el-form-item label="試算年齡">
                         <el-text>{{ spouse.age }} 歲</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item v-if="spouse.yearOfMarriage" label="家庭貢獻/月">
+                    <el-form-item label="家庭貢獻/月">
                         <el-input-number v-model="spouse.monthlyContribution" :min="0" :step="1000"
-                            @change="calculatecSpouse($event)" />
+                            :disabled="!spouse.yearOfMarriage" @change="calculatecSpouse($event)" />
                     </el-form-item>
                     <!-- <el-form-item label="婚禮預算">
                         <el-input-number v-model="spouse.weddingExpense" @change="calculatecSpouse()" />
@@ -53,7 +46,8 @@
 </template>
 <script setup lang="ts">
 import { computed, ref, shallowRef, onMounted } from 'vue'
-import Chart from 'chart.js/auto';
+import Chart from 'chart.js/auto'
+import econSelect from '../econSelect.vue'
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
     modelValue: {
@@ -69,8 +63,8 @@ const props = defineProps({
         }
     },
 })
-const birthYearOptions = ref<number[]>([])
-const marriageYearOptions = ref<number[]>([])
+const birthYearOptions = ref<any[]>([])
+const marriageYearOptions = ref<any[]>([])
 // hooks
 onMounted(() => {
     setBirthYearOptions()
@@ -94,7 +88,11 @@ const unableToDraw = computed(() => {
 function setBirthYearOptions() {
     const year = new Date().getFullYear()
     for (let i = 0; i < 60; i++) {
-        birthYearOptions.value.push(Number(year) - i - 18)
+        const calculateYear = Number(year) - i - 18
+        birthYearOptions.value.push({
+            label: calculateYear,
+            value: calculateYear
+        })
     }
 }
 function setMarriageYears() {
@@ -102,9 +100,17 @@ function setMarriageYears() {
     const beforeYears = []
     const afterYears = []
     for (let i = 0; i < 20; i++) {
-        afterYears.push(currentYear + i)
+        const afterYear = currentYear + i
+        afterYears.push({
+            label: afterYear,
+            value: afterYear
+        })
         if (i !== 0) {
-            beforeYears.push(currentYear - i)
+            const beforeYear = currentYear - i
+            beforeYears.push({
+                label: beforeYear,
+                value: beforeYear
+            })
         }
     }
     marriageYearOptions.value = [...afterYears.reverse(), ...beforeYears,]
@@ -135,7 +141,11 @@ function calculateYearOfMarriage() {
 }
 function calculateMarriageAge() {
     const { yearOfBirth } = spouse.value
-    spouse.value.age = props.config.currentYear - yearOfBirth
+    if (yearOfBirth) {
+        spouse.value.age = props.config.currentYear - yearOfBirth
+    } else {
+        spouse.value.age = 0
+    }
 }
 
 let spouseChartInstance = ref<Chart>()
@@ -197,18 +207,6 @@ defineExpose({
 })
 </script>
 <style lang="scss" scoped>
-.form__select {
-    all: unset;
-    border: 1px solid #dcdfe6;
-    border-radius: 4px;
-    width: 130px;
-    padding: 0 15px;
-
-    &:disabled {
-        background-color: rgb(245, 247, 250);
-    }
-}
-
 .card-header--custom {
     display: flex;
     align-items: center;
