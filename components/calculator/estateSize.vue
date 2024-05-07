@@ -28,7 +28,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="客廳+餐廳">
-                        <el-input-number v-model="estateSize.livingRoom" :min="1" @change="calculateEstateSize()" />
+                        <el-input-number v-model="estateSize.livingRoom" :min="0" @change="calculateEstateSize()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -37,7 +37,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="衛浴數量">
-                        <el-input-number v-model="estateSize.bathroom" :min="1" @change="calculateEstateSize()" />
+                        <el-input-number v-model="estateSize.bathroom" :min="0" @change="calculateEstateSize()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
