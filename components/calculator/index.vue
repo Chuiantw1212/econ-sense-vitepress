@@ -250,93 +250,6 @@ function backToCalendar() {
     window?.location.replace('/calendar')
 }
 async function getUserFormSync(firebaseUser) {
-    const initForm = {
-        profile: {
-            age: 0,
-            lifeExpectancy: 0,
-            insuranceType: '',
-            yearOfMarriage: '',
-        },
-        career: {
-            headCount: 0,
-            monthlyBasicSalary: 0,
-            foodExpense: 3000,
-            employeeWelfareFund: 0,
-            insurance: {
-                salary: 0,
-                presentSeniority: 0, // 6.9
-                futureSeniority: 0,
-                expense: 0,
-            },
-            pension: {
-                salary: 0,
-                rate: 0,
-                monthlyContribution: 0,
-                monthlyContributionEmployee: 0,
-            },
-            healthInsutancePremium: 0,
-            monthlyNetPayEstimated: 0,
-            monthlyNetPay: 0,
-            monthlyExpense: 0,
-            monthlySaving: 0,
-        },
-        retirement: {
-            age: 65,
-            lifeExpectancy: 0,
-            yearToRetirement: 0,
-            pension: {
-                employeeContrubution: 0,
-                employeeContrubutionIncome: 0,
-                employerContribution: 0,
-                employerContributionIncome: 0,
-                irrOverDecade: 4.76,
-                totalValue: 0,
-            },
-            insurance: {
-                annuitySum: 0,
-                monthlyAnnuity: 0,
-                presentSeniority: 0,
-                futureSeniority: 0
-            },
-            percentileRank: 50,
-            qualityLevel: 3,
-            expenseQuartileMarks: {}
-        },
-        spouse: {
-            yearOfMarriage: '',
-            marriageLength: 0,
-            monthlyContribution: 0,
-            weddingExpense: 0,
-            yearOfBirth: '',
-        },
-        parenting: {
-            childAnnualExpense: 212767,
-            independantAge: 18,
-            lifeInsurance: 0,
-        },
-        investment: {
-            allocationETF: 'aok',
-            stockPercentage: 20,
-        },
-        estatePrice: {},
-        estateSize: {
-            publicRatio: 35,
-            bathroom: 1,
-            livingRoom: 1,
-            balcany: 1,
-            parkingSpace: 1,
-        },
-        mortgage: {
-            loanTerm: 20,
-            totalPrice: 0,
-            downpay: 0,
-            downpayPercent: 20,
-            downpayGoal: 0,
-            monthlyRepay: 0,
-            downpayYear: 0,
-            loanAmount: 0,
-        },
-    }
     let responseForm = {
         id: ''
     }
@@ -356,16 +269,7 @@ async function getUserFormSync(firebaseUser) {
         responseForm = await res?.json()
     } finally {
         user.id = responseForm.id
-        Object.assign(initForm, responseForm)
-        Object.assign(userForm.profile, initForm.profile)
-        Object.assign(userForm.career, initForm.career)
-        Object.assign(userForm.retirement, initForm.retirement)
-        Object.assign(userForm.investment, initForm.investment)
-        Object.assign(userForm.spouse, initForm.spouse)
-        Object.assign(userForm.estatePrice, initForm.estatePrice)
-        Object.assign(userForm.estateSize, initForm.estateSize)
-        Object.assign(userForm.mortgage, initForm.mortgage)
-        Object.assign(userForm.parenting, initForm.parenting)
+        Object.assign(userForm, responseForm)
     }
     return userForm
 }
@@ -392,7 +296,7 @@ async function initializeCalculator() {
         propagate: true,
     })
 }
-// 使用者表單集成匯出使用
+// 使用者表單集成匯出使用 - 有許多參數是只有前端會使用，後端不紀錄
 const userForm = reactive({
     profile: {
         id: '', // 避免登入判斷錯誤
@@ -404,35 +308,84 @@ const userForm = reactive({
         yearOfMarriage: '',
     },
     career: {
-        pension: {},
-        insurance: {},
+        headCount: 0,
+        monthlyBasicSalary: 0,
+        employeeWelfareFund: 0,
+        insurance: {
+            salary: 0,
+            presentSeniority: 0, // 6.9
+            futureSeniority: 0,
+            expense: 0,
+        },
+        pension: {
+            salary: 0,
+            rate: 0,
+            monthlyContribution: 0,
+            monthlyContributionEmployee: 0,
+        },
+        healthInsutancePremium: 0,
+        monthlyNetPayEstimated: 0,
+        monthlyNetPay: 0,
+        monthlyExpense: 0,
+        monthlySaving: 0,
     },
     retirement: {
-        insurance: {},
-        pension: {},
+        age: 65,
+        lifeExpectancy: 0,
+        yearToRetirement: 0,
+        insurance: {
+            annuitySum: 0,
+            monthlyAnnuity: 0,
+            presentSeniority: 0,
+            futureSeniority: 0
+        },
+        pension: {
+            employeeContrubution: 0,
+            employeeContrubutionIncome: 0,
+            employerContribution: 0,
+            employerContributionIncome: 0,
+            irrOverDecade: 4.76,
+            totalValue: 0,
+        },
+        percentileRank: 50,
+        qualityLevel: 3,
         expenseQuartileMarks: {},
     },
     investment: {
-        allocationETF: '',
+        allocationETF: 'aok',
+        stockPercentage: 20,
         irr: 0,
-        stockPercentage: 0,
         presentAsset: 0,
         averaging: 0,
         period: 0,
     },
-    spouse: {},
+    spouse: {
+        yearOfMarriage: '',
+        marriageLength: 0,
+        monthlyContribution: 0,
+        weddingExpense: 0,
+        yearOfBirth: '',
+    },
     parenting: {
-        childAnnualExpense: 0,
+        childAnnualExpense: 212767,
         spouseMonthlyContribution: 0,
-        independantAge: 0,
+        independantAge: 18,
         firstBornYear: 0,
         secondBornYear: 0,
         insurance: 0,
         headCount: 0,
     },
     mortgage: {
+        downpayPercent: 20,
+        loanTerm: 20,
         totalPriceEstimated: 0,
         interestRate: 0,
+        loanAmount: 0,
+        totalPrice: 0,
+        downpay: 0,
+        downpayGoal: 0,
+        monthlyRepay: 0,
+        downpayYear: 0,
     },
     estatePrice: {
         county: '',
@@ -447,16 +400,16 @@ const userForm = reactive({
         unitPrice: 0,
     },
     estateSize: {
-        doubleBedRoom: 0,
-        singleBedRoom: 1,
+        publicRatio: 0,
         bathroom: 0,
         livingRoom: 0,
-        publicRatio: 0,
-        mainBuilding: 0,
         balcany: 0,
+        parkingSpace: 0,
+        doubleBedRoom: 0,
+        singleBedRoom: 1,
+        mainBuilding: 0,
         outBuilding: 0,
         floorSize: 0,
-        parkingSpace: 0,
         parkingSize: 0,
         headCount: 0,
     }

@@ -37,7 +37,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="+ 伙食津貼">
-                            <el-text>{{ Number(career.foodExpense).toLocaleString() }} (免稅)</el-text>
+                            <el-text>{{ Number(foodExpense).toLocaleString() }} (免稅)</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -96,7 +96,7 @@
                     <el-col :span="12">
                         <el-form-item :label="`- 勞保自付額`">
                             <el-text>{{ Number(career.insurance.expense).toLocaleString() }} (負擔率{{
-                                laborInsurace.premiumRate[laborInsurace.type] }}%)</el-text>
+                    laborInsurace.premiumRate[laborInsurace.type] }}%)</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -181,6 +181,7 @@ const laborInsurace = reactive({
         union: 60
     }
 })
+const foodExpense = 3000
 const laborPension = reactive({
     salary: 0,
 })
@@ -310,7 +311,7 @@ function calculateEmployeeWelfareFund() {
     }
 }
 function calculateHealthPremium() {
-    const { monthlyBasicSalary, foodExpense, headCount } = career.value
+    const { monthlyBasicSalary, headCount } = career.value
     let healthSalaryMin = monthlyBasicSalary
     if (laborInsurace.type === 'company') {
         healthSalaryMin += foodExpense
@@ -370,7 +371,7 @@ function calculateInsuranceExpense() {
 }
 // 勞退計算
 function calculatePensionSalary() {
-    const { monthlyBasicSalary, foodExpense, } = career.value
+    const { monthlyBasicSalary, } = career.value
     let pensionSalaryMin = monthlyBasicSalary
     if (laborInsurace.type === 'company') {
         pensionSalaryMin += foodExpense
@@ -431,7 +432,7 @@ function drawChartAndCalculateIncome(propagate = false) {
 
     if (laborInsurace.type === 'company') {
         pv = fv
-        fv += career.value.foodExpense
+        fv += foodExpense
         dataAndDataIndex.push({
             label: '伙食津貼',
             data: [pv, fv],
