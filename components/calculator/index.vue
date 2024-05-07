@@ -54,7 +54,6 @@
 
         <h3 id="_購屋試算" tabindex="-1">購屋試算<a class="header-anchor" href="#購屋試算"
                 aria-label="Permalink to &quot;購屋試算&quot;">&ZeroWidthSpace;</a></h3>
-
         <Mortgage v-model="userForm.mortgage" :config="config" :career="userForm.career"
             :estateSize="userForm.estateSize" :investment="userForm.investment" :estatePrice="userForm.estatePrice"
             ref="MortgageRef" @update:model-value="onMortgageChanged()" @open="openEstateCalculator()"
@@ -118,7 +117,6 @@ async function initializeApp() {
         if (!firebaseUser) {
             await setIdToken(false)
             await getUserFormSync(false)
-            // await initializeCalculator()
             return
         }
         const { displayName, email, photoURL, uid } = firebaseUser
@@ -269,7 +267,11 @@ async function getUserFormSync(firebaseUser) {
         responseForm = await res?.json()
     } finally {
         user.id = responseForm.id
-        Object.assign(userForm, responseForm)
+        for (let key in responseForm) {
+            if (userForm[key]) {
+                Object.assign(userForm[key], responseForm[key])
+            }
+        }
     }
     return userForm
 }
@@ -306,6 +308,7 @@ const userForm = reactive({
         age: 0,
         lifeExpectancy: 0,
         yearOfMarriage: '',
+        insuranceType: '',
     },
     career: {
         headCount: 0,

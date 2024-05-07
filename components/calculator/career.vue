@@ -95,7 +95,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item :label="`- 勞保自付額`">
-                            <el-text>{{ Number(career.insurance.expense).toLocaleString() }} (負擔率{{
+                            <el-text>{{ Number(career.insurance?.expense).toLocaleString() }} (負擔率{{
                     laborInsurace.premiumRate[laborInsurace.type] }}%)</el-text>
                         </el-form-item>
                     </el-col>
@@ -399,16 +399,13 @@ function calculateCareerPensionContribution() {
     const maxLaborInsuranceSalary = laborAndHealthInsurance[laborAndHealthInsurance.length - 1]
     const laborInsuranceSalary = Math.min(salary, maxLaborInsuranceSalary)
     career.value.pension.monthlyContributionEmployee = Math.floor(laborInsuranceSalary * rate / 100)
-    switch (props.profile.insuranceType) {
+    switch (insuranceType) {
         case 'employee':
             career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (6 + rate) / 100)
             break;
         case 'entrepreneur':
             career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (rate) / 100)
             break;
-        // default:
-        //     alert(`型別錯誤:${props.profile.insuranceType}`,)
-        //     break;
     }
 }
 // 投資計算
