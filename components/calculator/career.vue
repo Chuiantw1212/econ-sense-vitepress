@@ -77,8 +77,8 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item v-if="career.laborInsuranceType === 'company'" label="勞退自提率(%)">
-                            <el-input-number v-model="career.pension.rate" @change="calculateCareer($event)" :min="0"
-                                :max="6" />
+                            <el-input-number v-model="career.pension.rate" :disabled="!career.monthlyBasicSalary"
+                                @change="calculateCareer($event)" :min="0" :max="6" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">

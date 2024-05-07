@@ -42,7 +42,7 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item :label="downpayTitle">
+                    <el-form-item label="已備頭期款">
                         <el-input-number v-model="mortgage.downpay" :min="0" :step="200000"
                             @change="calculateMortgage({ setTotalPrice: true })" />
                     </el-form-item>
@@ -274,14 +274,6 @@ const props = defineProps({
     }
 })
 // hooks
-const downpayTitle = computed(() => {
-    const { downpayYear } = mortgage.value
-    if (downpayYear) {
-        return `頭期款`
-    } else {
-        return `已備頭期款`
-    }
-})
 const downpayMarks = ref({})
 onMounted(() => {
     setTotalPriceMarks()

@@ -378,6 +378,7 @@ const userForm = reactive({
         secondBornYear: 0,
         insurance: 0,
         headCount: 0,
+        lifeInsurance: 0,
     },
     mortgage: {
         downpayPercent: 20,

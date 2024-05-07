@@ -127,7 +127,11 @@ function calculatecSpouse(options: any = { propagate: true }) {
 
 function calculateYearOfMarriage() {
     const { yearOfMarriage } = spouse.value
-    spouse.value.marriageLength = props.config.currentYear - yearOfMarriage
+    if (yearOfMarriage) {
+        spouse.value.marriageLength = props.config.currentYear - yearOfMarriage
+    } else {
+        spouse.value.marriageLength = 0
+    }
 }
 function calculateMarriageAge() {
     const { yearOfBirth } = spouse.value
