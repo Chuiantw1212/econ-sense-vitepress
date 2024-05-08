@@ -77,7 +77,7 @@
 </template>
 <script setup lang="ts">
 import firebase from 'firebase/compat/app';
-import { onMounted, ref, reactive, nextTick, onBeforeUnmount, watch } from 'vue'
+import { onMounted, ref, reactive, nextTick, } from 'vue'
 import { ElMessage, ElMessageBox, } from 'element-plus'
 import Profile from './profile.vue'
 import Career from './career.vue'
@@ -88,6 +88,8 @@ import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
 import EstateDialogContent from './estateDialog.vue'
 import DataCenter from './dataCenter.vue'
+const meta: any = import.meta
+const { VITE_BASE_URL } = meta.env
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
@@ -96,7 +98,6 @@ const SpouseRef = ref()
 const ParentingRef = ref()
 const EstateRef = ref()
 const MortgageRef = ref()
-const { VITE_BASE_URL } = import.meta.env
 // 用戶與權限
 const user = reactive({
     displayName: '註冊用戶',
