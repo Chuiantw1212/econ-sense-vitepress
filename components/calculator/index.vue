@@ -33,7 +33,7 @@
             @update:modelValue="onCareerChanged()">
         </CareerLabor>
         <CareerGovernment v-if="userForm.profile.careerInsuranceType === 'civilServant'" v-model="userForm.career"
-            :config="config" :profile="userForm.profile" ref="CareerRef">
+            :config="config" :profile="userForm.profile" ref="CareerRef" @update:modelValue="onCareerChanged()">
         </CareerGovernment>
 
         <h3 id="_退休試算" tabindex="-1">退休試算<a class="header-anchor" href="#退休試算"

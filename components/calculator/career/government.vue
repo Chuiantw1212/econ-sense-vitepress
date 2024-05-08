@@ -3,13 +3,14 @@
         <el-form label-width="auto">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="薪俸點" required>
-                        <econSelect v-model="career.payPoint" :options="pointOfPayOptions" @change="calculateCareer()">
+                    <el-form-item label="年功俸點" required>
+                        <econSelect v-model="career.seniorityPayPoint" :options="pointOfPayOptions"
+                            @change="calculateCareer()">
                         </econSelect>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="薪俸額">
+                    <el-form-item label="年功俸額">
                         <el-text>{{ Number(career.monthlyBasicSalary).toLocaleString() }}</el-text>
                     </el-form-item>
                 </el-col>
@@ -57,15 +58,54 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="健保提繳工資">
-                        <el-text> {{ Number(healInsurance.salary).toLocaleString() }}</el-text>
+                    <el-form-item label="本俸點" required>
+                        <econSelect v-model="career.payPoint" :options="pointOfPayOptions" @change="calculateCareer()">
+                        </econSelect>
                     </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <!-- <el-form-item label="本俸額">
+                        <el-text>{{ Number(career.pension.monthlyContributionEmployee).toLocaleString() }}</el-text>
+                    </el-form-item> -->
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="退撫自提率(%)">
+                        <el-input-number v-model="career.pension.rate" @change="calculateCareer($event)" :min="0"
+                            :max="5.25" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="- 退撫自提">
+                        <el-text>{{ Number(career.pension.monthlyContributionEmployee).toLocaleString() }}</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <!-- <el-form-item label="健保提繳工資">
+                        <el-text> {{ Number(healInsurance.salary).toLocaleString() }}</el-text>
+                    </el-form-item> -->
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="- 健保自付額">
                         <el-text> {{ Number(healInsurance.contribution).toLocaleString() }}</el-text>
                     </el-form-item>
 
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <!-- <el-form-item label="勞保提繳工資">
+                            <el-text> {{ Number(career.insurance.salary).toLocaleString() }}</el-text>
+                        </el-form-item> -->
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item :label="`- 公保自付額`">
+                        <el-text>{{ Number(civilServantInsurance.expense).toLocaleString() }} (負擔率{{
+                    civilServantInsurance.employeeContributionRate }}%)</el-text>
+                    </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
@@ -108,6 +148,7 @@ import {
     // entrepreneurHealthInsuranceLevel,
 } from './config.js'
 import econSelect from '../../econSelect.vue'
+const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
     modelValue: {
         type: Object,
@@ -131,6 +172,11 @@ const props = defineProps({
         required: true,
     },
 })
+const civilServantInsurance = reactive({
+    premiumRate: 7.83,
+    employeeContributionRate: 35,
+    expense: 0,
+})
 const healInsurance = reactive({
     salaryRate: 87.04,
     salary: 0,
@@ -152,22 +198,54 @@ function calculateCareer(options: any = { propagate: true }) {
         calculateMonthlyBasic()
         calculateAllowance()
         calculateHealthInsurance()
+        calculateCareerInsurance()
+        calculatePension()
+        calculateNetPay()
         debounce(() => {
-            // drawChartAndCalculateIncome(propagate)
+            drawChartAndCalculateIncome(propagate)
         })(propagate)
     } catch (error) {
         console.log(error.message || error)
     }
 }
+function calculateNetPay() {
+    const { monthlyBasicSalary, pension, supervisorAllowance, professionalAllowance, regionalAllowance } = career.value
+    const { monthlyContribution } = pension
+    const { contribution } = healInsurance
+    const { expense } = civilServantInsurance
+    career.value.monthlyNetPayEstimated = monthlyBasicSalary
+        + supervisorAllowance + professionalAllowance + regionalAllowance
+        - monthlyContribution - contribution - expense
+}
 function calculateMonthlyBasic() {
-    const { payPoint } = career.value
-    if (payPoint) {
+    const { seniorityPayPoint } = career.value
+    if (seniorityPayPoint) {
         const index = pointOfPayOptions.findIndex(item => {
-            return item.value === payPoint
+            return item.value === seniorityPayPoint
         })
         career.value.monthlyBasicSalary = payRanks[index]
     } else {
         career.value.monthlyBasicSalary = 0
+    }
+}
+function calculateCareerInsurance() {
+    const { monthlyBasicSalary, } = career.value
+    const { premiumRate, employeeContributionRate } = civilServantInsurance
+    civilServantInsurance.expense = Math.round(monthlyBasicSalary * premiumRate / 100 * employeeContributionRate / 100)
+}
+function calculatePension() {
+    const { payPoint, pension } = career.value
+    if (payPoint) {
+        const index = pointOfPayOptions.findIndex(item => {
+            return item.value === payPoint
+        })
+        const pensionBaseSalary = payRanks[index]
+        const monthlyContributionEmployee = Math.round(pensionBaseSalary * 2 * pension.rate / 100)
+        const monthlyContributionGovernment = Math.round(pensionBaseSalary * 2 * 0.15 * 0.35)
+        career.value.pension.monthlyContributionEmployee = monthlyContributionEmployee
+        career.value.pension.monthlyContribution = monthlyContributionEmployee + monthlyContributionGovernment
+    } else {
+        career.value.pension.monthlyContribution = 0
     }
 }
 function calculateHealthInsurance() {
@@ -210,6 +288,11 @@ function calculateAllowance() {
         career.value.professionalAllowance = professoinalAllowanceRanks[index]
     } else {
         career.value.professionalAllowance = 0
+    }
+}
+function drawChartAndCalculateIncome(propagate = false) {
+    if (propagate) {
+        emits('update:modelValue', career.value)
     }
 }
 
