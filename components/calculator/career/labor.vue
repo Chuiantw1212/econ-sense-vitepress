@@ -274,7 +274,7 @@ function calculateInsuranceType() {
 function calculateEmployeeWelfareFund() {
     if (career.value.insuredUnit === 'company') {
         const { monthlyBasicSalary, } = career.value
-        career.value.employeeWelfareFund = Math.floor(monthlyBasicSalary * 0.5 / 100)
+        career.value.employeeWelfareFund = Math.floor((monthlyBasicSalary + foodExpense) * 0.5 / 100)
     } else {
         career.value.employeeWelfareFund = 0
     }
