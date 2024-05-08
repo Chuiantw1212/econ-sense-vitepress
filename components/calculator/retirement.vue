@@ -137,7 +137,7 @@
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
                                 item.label
-                            }}</el-radio>
+                                }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -407,9 +407,10 @@ async function drawRetirementAssetChart(propagate = false) {
         const pmt = annutalAnnuity - inflatedAnnualExpense
 
         fv = Math.floor(pv * pensionIrr + pmt)
+        fv = Math.max(0, fv)
+        pensionData.push([0, Math.floor(fv)])
         const calculatedYear = props.config.currentYear + n + i
         labels.push(calculatedYear)
-        pensionData.push([0, Math.floor(fv)])
         pv = fv
     }
     // 繪圖
