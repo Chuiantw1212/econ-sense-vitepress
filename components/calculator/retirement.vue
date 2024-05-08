@@ -310,8 +310,8 @@ function calculateInsuranceMonthlyAnnuity() { // presentSeniority
     }
     if (lifeExpectancy) { // 勞保年金請領總和
         const inflationRate = 1 + props.config.inflationRate / 100
-        const pvModifier = Math.pow(inflationRate, futureSeniority)
-        retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy)) / pvModifier
+        const pvModifier = Math.pow(inflationRate, age - 60)
+        retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
     }
 }
 function calculateRetirementExpense() {
