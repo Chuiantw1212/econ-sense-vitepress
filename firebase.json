@@ -4,6 +4,16 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/engineer/plan.html",
+                "destination": "/plan.html",
+                "type": 301
+            },
+            {
+                "source": "/engineer/plan.html",
+                "destination": "/plan.html",
+                "type": 404
+            },
+            {
                 "source": "/life/single.html",
                 "destination": "/finance/single.html",
                 "type": 301
