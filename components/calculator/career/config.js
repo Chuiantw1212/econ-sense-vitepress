@@ -72,6 +72,10 @@ pointOfPayOptions.push(
 )
 pointOfPayOptions.reverse()
 /**
+ * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0040001&flno=7
+ * 甲等︰晉本俸一級，並給與一個月俸給總額之一次獎金；
+ * 已達所敘職等本俸最高俸級或已敘年功俸級者，晉年功俸一級，並給與一個月俸給總額之一次獎金；
+ * 已敘年功俸最高俸級者，給與二個月俸給總額之一次獎金。
  * https://www.dgpa.gov.tw/informationlist?uid=15&cid=53
  * 各等級俸點折算俸額之數額係分段累計：
  * 按其應得俸點在160點以下之部分每俸點按81.1元折算；

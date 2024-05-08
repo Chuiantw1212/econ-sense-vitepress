@@ -9,8 +9,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="薪俸額" required>
-                        <el-text>{{ career.monthlyBasicSalary }}</el-text>
+                    <el-form-item label="薪俸額">
+                        <el-text>{{ Number(career.monthlyBasicSalary).toLocaleString() }}</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
