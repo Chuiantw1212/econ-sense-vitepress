@@ -5,8 +5,8 @@
                 <el-col :span="18">
                     <el-form-item label="房屋總價">
                         <el-text v-if="mortgage.totalPriceEstimated">= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
-                    estateSize.floorSize }}坪) = {{
-                    Number(mortgage.totalPriceEstimated).toLocaleString() }} NTD</el-text>
+                            estateSize.floorSize }}坪) = {{
+                                Number(mortgage.totalPriceEstimated).toLocaleString() }} NTD</el-text>
                         <el-input-number v-else v-model="mortgage.totalPrice" :min="0" :step="1000000"
                             @change="calculateMortgage({ setDownpay: true })" />
                     </el-form-item>
@@ -282,15 +282,14 @@ const mortgage = computed(() => {
     return props.modelValue
 })
 const unableToDrawChart = computed(() => {
-    const { monthlyBasicSalary } = props.career
+    const { monthlySaving } = props.career
     const { irr, } = props.investment
     const { downpay, downpayGoal } = mortgage.value
     const noPv = !downpay
-    const noPmt = !monthlyBasicSalary
+    const negativePmt = monthlySaving <= 0
     const noN = !irr
     const noFv = !downpayGoal
-
-    return (noPv && noPmt) || noN || noFv
+    return noPv || negativePmt || noN || noFv
 })
 // methods
 function resetTotalPrice() {
@@ -310,6 +309,7 @@ function calculateMortgage(options: any = { propagate: true }) {
     calculateMonthlyRepay()
     // draw chart
     debounce(() => {
+        console.trace('Infinite loop checker.')
         drawDownpayChart(propagate)
         if (setDownpay || setTotalPrice) {
             calculateDownpayYear()
