@@ -96,7 +96,7 @@
                     <el-col :span="12">
                         <el-form-item :label="`- 勞保自付額`">
                             <el-text>{{ Number(career.insurance?.expense).toLocaleString() }} (負擔率{{
-                    laborInsurace.premiumRate[career.laborInsuranceType] }}%)</el-text>
+                                laborInsurace.premiumRate[career.laborInsuranceType] }}%)</el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -306,8 +306,8 @@ function calculateInsuranceType() {
 // 減項計算
 function calculateEmployeeWelfareFund() {
     if (career.value.laborInsuranceType === 'company') {
-        const { monthlyBasicSalary, } = career.value
-        career.value.employeeWelfareFund = Math.floor(monthlyBasicSalary * 0.5 / 100)
+        const { monthlyBasicSalary } = career.value
+        career.value.employeeWelfareFund = Math.floor((monthlyBasicSalary + foodExpense) * 0.5 / 100)
     } else {
         career.value.employeeWelfareFund = 0
     }
