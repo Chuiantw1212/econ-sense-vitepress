@@ -100,7 +100,12 @@ import {
     supervisorAllowanceOptins,
     professionalAllowanceOptions,
     supervisorAllowanceRanks,
-    professoinalAllowanceRanks
+    professoinalAllowanceRanks,
+    // laborInsuranceLevels,
+    // onlyLaborInsurance,
+    laborAndHealthInsurance,
+    onlyHealthInsurance,
+    // entrepreneurHealthInsuranceLevel,
 } from './config.js'
 import econSelect from '../../econSelect.vue'
 const props = defineProps({
@@ -130,12 +135,10 @@ const healInsurance = reactive({
     salaryRate: 87.04,
     salary: 0,
     contribution: 0,
-    // premiumRate: 5.17, // 健保費用率
-    // contributionShare: {
-    //     company: 30,
-    //     union: 60,
-    // },
-    // employeeContributionRate: 30,
+    premiumRate: 5.17, // 健保費用率
+    contributionShare: {
+        company: 30,
+    },
 })
 Object.assign(healInsurance, healthInsuranceConfig)
 // hooks
@@ -168,7 +171,26 @@ function calculateMonthlyBasic() {
     }
 }
 function calculateHealthInsurance() {
-    const { supervisorRank, professionalRank } = career.value
+    const { monthlyBasicSalary, supervisorAllowance, professionalAllowance } = career.value
+    const { salaryRate } = healInsurance
+    const healthSalaryMin = Math.round((monthlyBasicSalary + supervisorAllowance + professionalAllowance) * salaryRate / 100)
+    const insuranceSalaryLevel = [
+        ...laborAndHealthInsurance,
+        ...onlyHealthInsurance,
+    ]
+    let healthInsuranceSalary = insuranceSalaryLevel.find(salaryLevel => {
+        return salaryLevel >= healthSalaryMin
+    })
+    if (!healthInsuranceSalary) {
+        healthInsuranceSalary = insuranceSalaryLevel.slice(-1)[0]
+    }
+    healInsurance.salary = healthInsuranceSalary
+    // 計算健保支出
+    let healthInsuranceContribution = healthInsuranceSalary
+    const { premiumRate, contributionShare } = healInsurance
+    healthInsuranceContribution *= premiumRate / 100
+    healthInsuranceContribution *= contributionShare.company / 100
+    healInsurance.contribution = Math.ceil(healthInsuranceContribution)
 }
 
 function calculateAllowance() {
