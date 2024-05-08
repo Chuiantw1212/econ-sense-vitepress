@@ -284,7 +284,7 @@ function calculateRetireLife() {
         retirement.value.yearToRetirement = retireAge - currentAge
         const rawNumber = lifeExpectancy - retirement.value.yearToRetirement
         const maxZero = Math.max(0, rawNumber)
-        retirement.value.lifeExpectancy = props.config.toFixed(maxZero)
+        retirement.value.lifeExpectancy = Number(Number(maxZero).toFixed(2))
     }
 }
 function calculateFutureSeniority() {

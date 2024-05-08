@@ -129,9 +129,6 @@ const config = reactive({
         aor: '股6債4',
         aoa: '股8債2',
     },
-    toFixed: (value, digit = 2) => { // deprecated
-        return Number(Number(value).toFixed(digit))
-    }
 })
 const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
