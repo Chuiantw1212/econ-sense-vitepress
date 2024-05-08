@@ -1,3 +1,12 @@
+export const healthInsuranceConfig = reactive({
+    premiumRate: 5.17, // 健保費用率
+    contributionShare: {
+        company: 30,
+        union: 60,
+    },
+    employeeContributionRate: 30,
+})
+
 export const laborInsuranceLevels = [
     27470, 27600, 28800,
     30300, 31800, 33300, 34800, 36300, 38200,
@@ -130,5 +139,39 @@ export const payOptions = pointOfPayOptions.map(payPointOption => {
             label: payPointOption.value,
             value: Math.ceil(pay) * 10
         }
+    }
+})
+
+const civilServantTitle = [
+    '簡14', '簡13', '簡12', '簡11', '簡10', '薦9', '薦8', '薦7', '薦6', '委5', '委4', '委3', '委2', '委1', '雇員'
+]
+// export const civilServantTitleOptions = 
+/**
+ * 公務人員主管職務加給表
+ * https://www.dgpa.gov.tw/informationlist?uid=108
+ * post supplements, technical or
+ * professional supplements, and regional supplements
+ */
+export const supervisorAllowanceRanks = [
+    40410, 32740, 29520, 19130, 13110, 9710, 7520, 5750, 4720, 4190,
+]
+export const supervisorAllowanceOptins = supervisorAllowanceRanks.map((value, index) => {
+    return {
+        label: civilServantTitle[index],
+        value: civilServantTitle[index],
+    }
+})
+/**
+ * 公務人員專業加給表
+ * https://www.dgpa.gov.tw/uploads/dgpa/files/202401/6bd6fa4b-66f1-435b-b3d4-ff10a2330a96.pdf
+ */
+export const professoinalAllowanceRanks = [
+    46250, 43350, 42090, 38040, 35590, 30020, 28980, 26040, 25130, 22060, 21460, 21110, 21050, 20870, 20870
+]
+export const professionalAllowanceOptions = professoinalAllowanceRanks.map((value, index) => {
+
+    return {
+        label: civilServantTitle[index],
+        value: civilServantTitle[index],
     }
 })
