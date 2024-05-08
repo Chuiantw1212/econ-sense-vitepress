@@ -157,7 +157,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, shallowRef, reactive } from 'vue'
+import { ref, computed, shallowRef, reactive, watch } from 'vue'
 import Chart from 'chart.js/auto';
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
@@ -214,7 +214,19 @@ const isFormDisabled = computed(() => {
     const { monthlyBasicSalary } = props.career
     return !yearToRetirement || !monthlyBasicSalary
 })
+watch(() => props.config.portfolioIRR, () => {
+    setPortfolioMarks()
+}, { deep: true })
 // methods
+function setPortfolioMarks() {
+    const { portfolioIRR, porfolioLabels } = props.config
+    const allocationLabels = Object.keys(porfolioLabels)
+    allocationLabels.forEach((label, index) => {
+        const irr = portfolioIRR[label]
+        const stockPercentage = Math.floor((index + 1) * 20)
+        allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
+    })
+}
 function calculateAsset(options: any = { propagate: true }) {
     calculateInvestmentPeriod()
     calculatePortfolio()
@@ -231,11 +243,7 @@ function calculatePortfolio() {
     const stockPercentage = Math.floor((allocationIndex + 1) * 20)
     investment.value.stockPercentage = stockPercentage
     investment.value.irr = portfolioIRR[allocationETF]
-    allocationLabels.forEach((label, index) => {
-        const irr = portfolioIRR[label]
-        const stockPercentage = Math.floor((index + 1) * 20)
-        allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
-    })
+
 }
 function calculateInvestmentPeriod() {
     investment.value.period = props.retirement.yearToRetirement

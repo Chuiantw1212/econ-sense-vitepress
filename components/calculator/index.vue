@@ -20,7 +20,7 @@
         </el-dialog>
 
         <Profile v-model="userForm.profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
-            @upload="hanldeUserFormImport($event, { showMessage: true })" @update:modelValue="onProfileChanged()">
+            @upload="setUserAndInitialize($event, { showMessage: true })" @update:modelValue="onProfileChanged()">
         </Profile>
 
         <h2 id="_我可以FIRE嗎？" tabindex="-1">我可以FIRE嗎？<a class="header-anchor" href="#我可以FIRE嗎？"
@@ -129,7 +129,6 @@ async function initializeApp() {
         user.displayName = displayName || '註冊用戶'
         ProfileRef.value?.toggleSignInDialog(false)
         await getUserFromServer(firebaseUser)
-        // initializeCalculator()
     })
 }
 const idToken = ref()
@@ -249,20 +248,6 @@ async function setSelecOptionSync() {
 function backToCalendar() {
     window?.location.replace('/calendar')
 }
-function hanldeUserFormImport(form, { showMessage = false }) {
-    for (let key in form) {
-        if (userForm[key]) {
-            Object.assign(userForm[key], form[key])
-        }
-    }
-    nextTick(async () => {
-        await initializeCalculator()
-        if (showMessage) {
-            ElMessage('載入成功')
-        }
-        window.scrollTo(0, 0)
-    })
-}
 async function getUserFromServer(firebaseUser) {
     let responseForm = {
         id: ''
@@ -286,35 +271,47 @@ async function getUserFromServer(firebaseUser) {
         showMessage = true
     } finally {
         user.id = responseForm.id
-        hanldeUserFormImport(responseForm, {
+        setUserAndInitialize(responseForm, {
             showMessage
         })
     }
     return userForm
 }
-async function initializeCalculator() {
-    await ProfileRef.value.calculateProfile({
-        propagate: true,
-    })
-    await CareerRef.value.calculateCareer({
-        propagate: true,
-    })
-    await RetirementRef.value.calculateRetirement({
-        propagate: true,
-    })
-    await InvestmentRef.value.calculateAsset({
-        propagate: true,
-    })
-    await SpouseRef.value.calculatecSpouse({
-        propagate: true,
-    })
-    await ParentingRef.value.calculateParenting({
-        propagate: true,
-    })
-    await MortgageRef.value.calculateMortgage({
-        propagate: true,
+function setUserAndInitialize(form, { showMessage = false }) {
+    for (let key in form) {
+        if (userForm[key]) {
+            Object.assign(userForm[key], form[key])
+        }
+    }
+    nextTick(async () => {
+        await ProfileRef.value.calculateProfile({
+            propagate: true,
+        })
+        await CareerRef.value.calculateCareer({
+            propagate: true,
+        })
+        await RetirementRef.value.calculateRetirement({
+            propagate: true,
+        })
+        await InvestmentRef.value.calculateAsset({
+            propagate: true,
+        })
+        await SpouseRef.value.calculatecSpouse({
+            propagate: true,
+        })
+        await ParentingRef.value.calculateParenting({
+            propagate: true,
+        })
+        await MortgageRef.value.calculateMortgage({
+            propagate: true,
+        })
+        if (showMessage) {
+            ElMessage('載入成功')
+        }
+        window.scrollTo(0, 0)
     })
 }
+
 // 使用者表單集成匯出使用 - 有許多參數是只有前端會使用，後端不紀錄
 const userForm = reactive({
     profile: {
