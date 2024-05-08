@@ -26,17 +26,22 @@
         <h2 id="_我可以FIRE嗎？" tabindex="-1">我可以FIRE嗎？<a class="header-anchor" href="#我可以FIRE嗎？"
                 aria-label="Permalink to &quot;我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
 
-        <Career v-model="userForm.career" :user="user" :config="config" :profile="userForm.profile" ref="CareerRef"
+        <h3 id="_職業試算" tabindex="-1">職業試算<a class="header-anchor" href="#職業試算"
+                aria-label="Permalink to &quot;職業試算&quot;">&ZeroWidthSpace;</a></h3>
+        <CareerLabor v-model="userForm.career" :config="config" :profile="userForm.profile" ref="CareerRef"
             @update:modelValue="onCareerChanged()">
-        </Career>
+        </CareerLabor>
 
+        <h3 id="_退休試算" tabindex="-1">退休試算<a class="header-anchor" href="#退休試算"
+                aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
         <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career" :profile="userForm.profile"
             ref="RetirementRef" @update:modelValue="onRetirementChanged()">
         </Retirement>
 
         <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
                 aria-label="Permalink to &quot;五子登科&quot;">&ZeroWidthSpace;</a></h2>
-
+        <h3 id="_投資資產試算" tabindex="-1">投資資產試算<a class="header-anchor" href="#投資資產試算"
+                aria-label="Permalink to &quot;投資資產試算&quot;">&ZeroWidthSpace;</a></h3>
         <Investment v-model="userForm.investment" :config="config" :profile="userForm.profile" :career="userForm.career"
             :spouse="userForm.spouse" :parenting="userForm.parenting" :mortgage="userForm.mortgage"
             :retirement="userForm.retirement" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
@@ -47,6 +52,8 @@
         <Spouse v-model="userForm.spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()">
         </Spouse>
 
+        <h3 id="_育兒試算" tabindex="-1">育兒試算<a class="header-anchor" href="#育兒試算"
+                aria-label="Permalink to &quot;育兒試算&quot;">&ZeroWidthSpace;</a></h3>
         <Parenting v-model="userForm.parenting" :config="config" :career="userForm.career"
             :retirement="userForm.retirement" :spouse="userForm.spouse" :investment="userForm.investment"
             :estateSize="userForm.estateSize" :mortgage="userForm.mortgage" ref="ParentingRef"
@@ -80,7 +87,7 @@ import firebase from 'firebase/compat/app';
 import { onMounted, ref, reactive, nextTick, } from 'vue'
 import { ElMessage, ElMessageBox, } from 'element-plus'
 import Profile from './profile.vue'
-import Career from './career.vue'
+import CareerLabor from './career/labor.vue'
 import Retirement from './retirement.vue'
 import Investment from './investment.vue'
 import Spouse from './spouse.vue'
