@@ -365,13 +365,13 @@ async function onProfileChanged() {
         body: userForm.profile,
     })
     await CareerRef.value.calculateCareer({
-        propagate: true,
+        propagate: false,
     })
     await RetirementRef.value.calculateRetirement({
-        propagate: true,
+        propagate: false,
     })
     await InvestmentRef.value.calculateAsset({
-        propagate: true,
+        propagate: false,
     })
 }
 // 職業試算
@@ -397,7 +397,7 @@ function onRetirementChanged() {
         body: userForm.retirement,
     })
     InvestmentRef.value.calculateAsset({
-        propagate: true,
+        propagate: false,
     })
 }
 // 投資試算
@@ -410,7 +410,7 @@ function onInvestmentChanged() {
         propagate: false,
     })
     MortgageRef.value.calculateMortgage({
-        propagate: true,
+        propagate: false,
     })
 }
 // 配偶試算
@@ -469,7 +469,7 @@ function onDialogConfirm(newValue) {
         body: userForm.estateSize,
     })
     MortgageRef.value.calculateMortgage({
-        propagate: true,
+        propagate: false,
         setDownpay: true,
     })
 }
