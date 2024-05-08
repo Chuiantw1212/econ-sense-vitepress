@@ -1,11 +1,11 @@
-export const healthInsuranceConfig = reactive({
+export const healthInsuranceConfig = {
     premiumRate: 5.17, // 健保費用率
     contributionShare: {
         company: 30,
         union: 60,
     },
     employeeContributionRate: 30,
-})
+}
 
 export const laborInsuranceLevels = [
     27470, 27600, 28800,
@@ -92,7 +92,7 @@ pointOfPayOptions.reverse()
  * 221點至790點之部分每俸點按74.3元折算；
  * 791點以上之部分每俸點按318.1元折算。 如有不足10元之畸零數均以10元計。
  */
-export const payOptions = pointOfPayOptions.map(payPointOption => {
+export const payRanks = pointOfPayOptions.map(payPointOption => {
     let payPoint = payPointOption.value
     // 除以10計算零點用
     const below160pay = 81.1 / 10
@@ -102,19 +102,13 @@ export const payOptions = pointOfPayOptions.map(payPointOption => {
     let pay = 0
     if (payPoint <= 160) {
         pay += payPoint * below160pay
-        return {
-            label: payPointOption.value,
-            value: Math.ceil(pay) * 10
-        }
+        return Math.ceil(pay) * 10
     }
     if (payPoint <= 220) {
         pay += 160 * below160pay
         payPoint -= 160
         pay += payPoint * from160to220pay
-        return {
-            label: payPointOption.value,
-            value: Math.ceil(pay) * 10
-        }
+        return Math.ceil(pay) * 10
     }
     if (payPoint <= 790) {
         pay += 160 * below160pay
@@ -122,10 +116,7 @@ export const payOptions = pointOfPayOptions.map(payPointOption => {
         pay += (220 - 160) * from160to220pay
         payPoint -= (220 - 160)
         pay += payPoint * from220to790pay
-        return {
-            label: payPointOption.value,
-            value: Math.ceil(pay) * 10
-        }
+        return Math.ceil(pay) * 10
     }
     if (payPoint > 790) {
         pay += 160 * below160pay
@@ -135,10 +126,7 @@ export const payOptions = pointOfPayOptions.map(payPointOption => {
         pay += (790 - 220) * from220to790pay
         payPoint -= (790 - 220)
         pay += payPoint * above790pay
-        return {
-            label: payPointOption.value,
-            value: Math.ceil(pay) * 10
-        }
+        return Math.ceil(pay) * 10
     }
 })
 

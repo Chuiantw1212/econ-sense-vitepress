@@ -164,7 +164,6 @@ function debounceCalculate(propagate = false) {
     // 權狀坪數
     let floorSize = (mainBuilding + outBuilding) * publicRatioPercent
     // 停車位權狀
-    // console.log()
     if (props.estatePrice.hasParking) {
         const miumumParkingSpace = Math.max(1, parkingSpace)
         estateSize.value.parkingSpace = miumumParkingSpace

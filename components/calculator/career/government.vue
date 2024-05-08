@@ -4,8 +4,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="薪俸點" required>
-                        <econSelect v-model="career.monthlyBasicSalary" :options="payOptions"
-                            @change="calculateCareer()">
+                        <econSelect v-model="career.payPoint" :options="pointOfPayOptions" @change="calculateCareer()">
                         </econSelect>
                     </el-form-item>
                 </el-col>
@@ -96,7 +95,8 @@
 import { ref, computed, shallowRef, reactive } from 'vue'
 import {
     healthInsuranceConfig,
-    payOptions,
+    pointOfPayOptions,
+    payRanks,
     supervisorAllowanceOptins,
     professionalAllowanceOptions,
     supervisorAllowanceRanks,
@@ -146,13 +146,29 @@ const career = computed(() => {
 function calculateCareer(options: any = { propagate: true }) {
     const { propagate = true } = options
     try {
+        calculateMonthlyBasic()
         calculateAllowance()
+        calculateHealthInsurance()
         debounce(() => {
             // drawChartAndCalculateIncome(propagate)
         })(propagate)
     } catch (error) {
         console.log(error.message || error)
     }
+}
+function calculateMonthlyBasic() {
+    const { payPoint } = career.value
+    if (payPoint) {
+        const index = pointOfPayOptions.findIndex(item => {
+            return item.value === payPoint
+        })
+        career.value.monthlyBasicSalary = payRanks[index]
+    } else {
+        career.value.monthlyBasicSalary = 0
+    }
+}
+function calculateHealthInsurance() {
+    const { supervisorRank, professionalRank } = career.value
 }
 
 function calculateAllowance() {
