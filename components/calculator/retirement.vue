@@ -65,7 +65,7 @@
                             <el-col :span="12">
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="餘命 x 年金">
+                                <el-form-item label="餘命 x 年金現值">
                                     <el-text>{{ Number(retirement.insurance.annuitySum).toLocaleString() }}</el-text>
                                 </el-form-item>
                             </el-col>
@@ -139,8 +139,8 @@
                             <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                                 :disabled="isFormDisabled">
                                 <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                    item.label
-                }}</el-radio>
+                                    item.label
+                                    }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -314,8 +314,10 @@ function calculateInsuranceMonthlyAnnuity() { // presentSeniority
     } else {
         retirement.value.insurance.survivorPension = 0
     }
-    if (lifeExpectancy) { // 勞保年金請領總和
-        retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy))
+    if (lifeExpectancy) {
+        const inflationRate = 1 + props.config.inflationRate / 100
+        const pvModifier = Math.pow(inflationRate, age - 60)
+        retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
     }
 }
 function calculateRetirementExpense() {
