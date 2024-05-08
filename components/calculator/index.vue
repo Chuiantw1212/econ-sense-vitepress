@@ -106,7 +106,7 @@ const user = reactive({
     id: '',
 })
 async function initializeApp() {
-    const firebaseApp: any = await firebase.initializeApp({
+    await firebase.initializeApp({
         apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
         authDomain: "econ-sense-9a250.firebaseapp.com",
         projectId: "econ-sense-9a250",
@@ -115,7 +115,7 @@ async function initializeApp() {
         appId: "1:449033690264:web:f5e419118030eb3afe44ed",
         measurementId: "G-19NFT8GVCZ"
     })
-    firebaseApp.firebase.auth().onAuthStateChanged(async (firebaseUser) => {
+    firebase.auth().onAuthStateChanged(async (firebaseUser) => {
         if (!firebaseUser) {
             await setIdToken(false)
             await getUserFromServer(false)
@@ -604,7 +604,6 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
-    await import('firebaseui')
     await initializeApp()
     await setSelecOptionSync()
 })
