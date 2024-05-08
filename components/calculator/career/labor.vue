@@ -155,6 +155,13 @@ import { ref, computed, shallowRef, reactive } from 'vue'
 import Chart from 'chart.js/auto';
 import econSelect from '../../econSelect.vue'
 let incomeChartInstance = ref<Chart>()
+import {
+    laborInsuranceLevels,
+    onlyLaborInsurance,
+    laborAndHealthInsurance,
+    entrepreneurHealthInsuranceLevel,
+    onlyHealthInsurance
+} from './insurance.js'
 const emits = defineEmits(['update:modelValue'])
 const laborInsuranceTypeOptions = [
     {
@@ -182,41 +189,6 @@ const laborPension = reactive({
 const accidentInsurance = {
     premiumRate: 0.11 // 職業災害保險費率
 }
-const laborInsuranceLevels = [
-    27470, 27600, 28800,
-    30300, 31800, 33300, 34800, 36300, 38200,
-    40100, 42000, 43900, 45800
-]
-const onlyLaborInsurance = [
-    1500, 3000, 4500, 6000, 7500, 8700, 9900, 11100, 12540, 13500, 15840, 16500, 17280, 17880, 19047,
-    20008, 21009, 22000, 23100, 24000, 25250, 26400,
-]
-const laborAndHealthInsurance = [
-    27470, 27600, 28800,
-    30300, 31800, 33300, 34800, 36300, 38200,
-    40100, 42000, 43900, 45800, 48200,
-    50600, 53000, 55400, 57800,
-    60800, 63800, 66800, 69800,
-    72800, 76500,
-    80200, 83900, 87600,
-    92100, 96600,
-    10110, 105600, 110100, 115500,
-    120900, 126300, 131700, 137100, 142500, 147900, 150000,
-]
-const entrepreneurHealthLevel = {
-    0: 6, // 33300
-    1: 6, // 33300
-    2: 6, // 33300
-    3: 6, // 33300
-    4: 8, // 36300
-    5: 13, // 45800
-}
-const onlyHealthInsurance = [
-    156400, 162800, 169200,
-    175600, 182000, 189500,
-    197000, 204500, 212000,
-    219500,
-]
 const healInsurance = reactive({
     salary: 0,
     premiumRate: 5.17, // 健保費用率
@@ -320,7 +292,7 @@ function calculateHealthPremium() {
     ]
     if (props.profile.careerInsuranceType === 'entrepreneur') {
         if (insuredUnit === 'company') {
-            const healthLevel = entrepreneurHealthLevel[headCount] - 1// 記得從0索引
+            const healthLevel = entrepreneurHealthInsuranceLevel[headCount] - 1// 記得從0索引
             const legalMinSalary = insuranceSalaryLevel[healthLevel]
             healthSalaryMin = Math.max(healthSalaryMin, legalMinSalary)
         }

@@ -28,7 +28,8 @@
 
         <h3 id="_職業試算" tabindex="-1">職業試算<a class="header-anchor" href="#職業試算"
                 aria-label="Permalink to &quot;職業試算&quot;">&ZeroWidthSpace;</a></h3>
-        <CareerLabor v-model="userForm.career" :config="config" :profile="userForm.profile" ref="CareerRef"
+        <CareerLabor v-if="['employee', 'entrepreneur'].includes(userForm.profile.careerInsuranceType)"
+            v-model="userForm.career" :config="config" :profile="userForm.profile" ref="CareerRef"
             @update:modelValue="onCareerChanged()">
         </CareerLabor>
 
@@ -95,8 +96,7 @@ import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
 import EstateDialogContent from './estateDialog.vue'
 import DataCenter from './dataCenter.vue'
-const meta: any = import.meta
-const { VITE_BASE_URL } = meta.env
+const { VITE_BASE_URL } = import.meta.env
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
