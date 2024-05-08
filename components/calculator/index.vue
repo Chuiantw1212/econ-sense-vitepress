@@ -322,13 +322,13 @@ const userForm = reactive({
         age: 0,
         lifeExpectancy: 0,
         yearOfMarriage: '',
-        insuranceType: 'employee',
+        careerInsuranceType: 'employee',
     },
     career: {
         headCount: 0,
         monthlyBasicSalary: 0,
         employeeWelfareFund: 0,
-        laborInsuranceType: 'company',
+        insuredUnit: 'company',
         insurance: {
             salary: 0,
             presentSeniority: 0, // 6.9

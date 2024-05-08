@@ -64,10 +64,10 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="職業保險別" required>
-                            <econSelect v-model="profile.insuranceType" @change="calculateProfile()"
+                            <econSelect v-model="profile.careerInsuranceType" @change="calculateProfile()"
                                 style="width: 130px" :options="insuranceTypeOptions">
                             </econSelect>
-                            <!-- <el-radio-group v-model="profile.insuranceType" @change="calculateProfile()">
+                            <!-- <el-radio-group v-model="profile.careerInsuranceType" @change="calculateProfile()">
                                 <el-radio v-for="(item) in insuranceTypeOptions" :value="item.value">
                                     {{ item.label }}
                                 </el-radio>
