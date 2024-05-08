@@ -32,6 +32,9 @@
             v-model="userForm.career" :config="config" :profile="userForm.profile" ref="CareerRef"
             @update:modelValue="onCareerChanged()">
         </CareerLabor>
+        <CareerGovernment v-if="userForm.profile.careerInsuranceType === 'civilServant'" v-model="userForm.career"
+            :config="config" :profile="userForm.profile" ref="CareerRef">
+        </CareerGovernment>
 
         <h3 id="_退休試算" tabindex="-1">退休試算<a class="header-anchor" href="#退休試算"
                 aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
@@ -89,6 +92,7 @@ import { onMounted, ref, reactive, nextTick, } from 'vue'
 import { ElMessage, ElMessageBox, } from 'element-plus'
 import Profile from './profile.vue'
 import CareerLabor from './career/labor.vue'
+import CareerGovernment from './career/government.vue'
 import Retirement from './retirement.vue'
 import Investment from './investment.vue'
 import Spouse from './spouse.vue'
@@ -105,89 +109,6 @@ const SpouseRef = ref()
 const ParentingRef = ref()
 const EstateRef = ref()
 const MortgageRef = ref()
-// 用戶與權限
-const user = reactive({
-    displayName: '註冊用戶',
-    email: '',
-    photoURL: '',
-    uid: '',
-    id: '',
-})
-async function initializeApp() {
-    const firebaseApp: any = await firebase.initializeApp({
-        apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
-        authDomain: "econ-sense-9a250.firebaseapp.com",
-        projectId: "econ-sense-9a250",
-        storageBucket: "econ-sense-9a250.appspot.com",
-        messagingSenderId: "449033690264",
-        appId: "1:449033690264:web:f5e419118030eb3afe44ed",
-        measurementId: "G-19NFT8GVCZ"
-    })
-    firebaseApp.firebase.auth().onAuthStateChanged(async (firebaseUser) => {
-        if (!firebaseUser) {
-            await setIdToken(false)
-            await getUserFromServer(false)
-            return
-        }
-        const { displayName, email, photoURL, uid } = firebaseUser
-        await setIdToken(firebaseUser)
-        user.photoURL = photoURL || ''
-        user.uid = uid
-        user.email = email || ''
-        user.displayName = displayName || '註冊用戶'
-        ProfileRef.value?.toggleSignInDialog(false)
-        await getUserFromServer(firebaseUser)
-    })
-}
-const idToken = ref()
-async function setIdToken(currentUser) {
-    if (currentUser) {
-        idToken.value = await currentUser.getIdToken(true)
-    } else {
-        idToken.value = null
-    }
-}
-async function authFetch(appendUrl, options) {
-    const currentUser = await firebase.auth().currentUser
-    if (!currentUser) {
-        return // 離線使用或未登入
-    }
-    if (options.body && !user.id) {
-        return // 避免初始化資料覆蓋回noSQL
-    }
-    const defaultOptions: any = {
-        method: 'get',
-        headers: {
-            Authorization: `Bearer ${idToken.value}`,
-        }
-    }
-
-    defaultOptions.method = options.method
-    if (options.body) {
-        defaultOptions.body = JSON.stringify(options.body)
-        Object.assign(defaultOptions.headers, {
-            'Content-Type': 'application/json'
-        })
-    }
-    Object.assign(defaultOptions.headers, options.headers)
-    const res = await fetch(VITE_BASE_URL + appendUrl, defaultOptions)
-    if (res.status !== 200) {
-        const result = await res.text()
-        if (result.includes('auth/id-token-expired')) {
-            const currentUser = await firebase.auth()?.currentUser
-            await setIdToken(currentUser)
-            authFetch(appendUrl, options)
-        } else {
-            ElMessage(result || res.statusText)
-        }
-        return
-    }
-    return res
-}
-async function signOut() {
-    await firebase.auth().signOut()
-    location.reload()
-}
 // 主要從資料庫來的設定檔案
 const config = reactive({
     // primitive types
@@ -330,7 +251,7 @@ const userForm = reactive({
         age: 0,
         lifeExpectancy: 0,
         yearOfMarriage: '',
-        careerInsuranceType: 'employee',
+        careerInsuranceType: 'civilServant',
     },
     career: {
         headCount: 0,
@@ -613,6 +534,89 @@ onMounted(async () => {
     await initializeApp()
     await setSelecOptionSync()
 })
+// 用戶與權限
+const user = reactive({
+    displayName: '註冊用戶',
+    email: '',
+    photoURL: '',
+    uid: '',
+    id: '',
+})
+async function initializeApp() {
+    const firebaseApp: any = await firebase.initializeApp({
+        apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
+        authDomain: "econ-sense-9a250.firebaseapp.com",
+        projectId: "econ-sense-9a250",
+        storageBucket: "econ-sense-9a250.appspot.com",
+        messagingSenderId: "449033690264",
+        appId: "1:449033690264:web:f5e419118030eb3afe44ed",
+        measurementId: "G-19NFT8GVCZ"
+    })
+    firebaseApp.firebase.auth().onAuthStateChanged(async (firebaseUser) => {
+        if (!firebaseUser) {
+            await setIdToken(false)
+            await getUserFromServer(false)
+            return
+        }
+        const { displayName, email, photoURL, uid } = firebaseUser
+        await setIdToken(firebaseUser)
+        user.photoURL = photoURL || ''
+        user.uid = uid
+        user.email = email || ''
+        user.displayName = displayName || '註冊用戶'
+        ProfileRef.value?.toggleSignInDialog(false)
+        await getUserFromServer(firebaseUser)
+    })
+}
+const idToken = ref()
+async function setIdToken(currentUser) {
+    if (currentUser) {
+        idToken.value = await currentUser.getIdToken(true)
+    } else {
+        idToken.value = null
+    }
+}
+async function authFetch(appendUrl, options) {
+    const currentUser = await firebase.auth().currentUser
+    if (!currentUser) {
+        return // 離線使用或未登入
+    }
+    if (options.body && !user.id) {
+        return // 避免初始化資料覆蓋回noSQL
+    }
+    const defaultOptions: any = {
+        method: 'get',
+        headers: {
+            Authorization: `Bearer ${idToken.value}`,
+        }
+    }
+
+    defaultOptions.method = options.method
+    if (options.body) {
+        defaultOptions.body = JSON.stringify(options.body)
+        Object.assign(defaultOptions.headers, {
+            'Content-Type': 'application/json'
+        })
+    }
+    Object.assign(defaultOptions.headers, options.headers)
+    const res = await fetch(VITE_BASE_URL + appendUrl, defaultOptions)
+    if (res.status !== 200) {
+        const result = await res.text()
+        if (result.includes('auth/id-token-expired')) {
+            const currentUser = await firebase.auth()?.currentUser
+            await setIdToken(currentUser)
+            authFetch(appendUrl, options)
+        } else {
+            ElMessage(result || res.statusText)
+        }
+        return
+    }
+    return res
+}
+async function signOut() {
+    await firebase.auth().signOut()
+    location.reload()
+}
 </script>
 <style lang="scss" scoped>
 .form__select {

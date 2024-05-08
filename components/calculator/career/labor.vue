@@ -161,7 +161,7 @@ import {
     laborAndHealthInsurance,
     entrepreneurHealthInsuranceLevel,
     onlyHealthInsurance
-} from './insurance.js'
+} from './config.js'
 const emits = defineEmits(['update:modelValue'])
 const laborInsuranceTypeOptions = [
     {
@@ -565,4 +565,4 @@ function debounce(func, delay = 100) {
 defineExpose({
     calculateCareer,
 })
-</script>
+</script>./config.js

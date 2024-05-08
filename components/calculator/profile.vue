@@ -174,13 +174,13 @@ const insuranceTypeOptions = ref([
         disabled: false,
     },
     {
-        label: '軍職人員(未完成)',
-        value: 'military',
-        disabled: true,
-    },
-    {
         label: '公教人員(未完成)',
         value: 'civilServant',
+        disabled: false,
+    },
+    {
+        label: '軍職人員(未完成)',
+        value: 'military',
         disabled: true,
     },
     {
