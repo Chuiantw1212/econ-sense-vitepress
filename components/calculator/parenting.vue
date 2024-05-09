@@ -3,7 +3,7 @@
         <el-form label-width="auto">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="年開支/隻" required>
+                    <el-form-item label="育兒年開支/隻" required>
                         <el-input-number v-model="parenting.childAnnualExpense" :min="0"
                             @change="calculateParenting($event)" />
                     </el-form-item>
@@ -59,6 +59,19 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
+                    <el-form-item label="失能險建議保額">
+                        <el-text>{{ Number(parenting.disabledInsurance).toLocaleString() }} / 年</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <!-- <el-form-item label="壽險已備">
+                        <el-input-number v-model="parenting.lifeInsurance" :min="0" :step="100000"
+                            @change="calculateParenting($event)" />
+                    </el-form-item> -->
+                </el-col>
+                <el-col :span="12">
                     <el-form-item label="資產投報率">
                         <el-text>{{ config.portfolioIRR[investment.allocationETF] }} %</el-text>
                     </el-form-item>
@@ -89,6 +102,9 @@
                             <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
                                 主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
                             </a>
+                        </li>
+                        <li>
+                            假設失能聘僱全職外籍看護，每月費用約30,000，身障生活補助5,065，身障者照顧津貼3,000，勞保失能年金4,000，稅務扣除額用稅率5%計算約1.6萬，合理覆蓋失能者的支出，故失能保額直接用家庭支出計算即可。
                         </li>
                     </ul>
                     <table class="table">
@@ -205,6 +221,7 @@ const sizeType = computed(() => {
 function calculateParenting(options: any = { propagate: true }) {
     const { propagate = true } = options
     calculateHeadCount()
+    calculateDiabledInsurance()
     debounce(() => {
         drawParentingChart(propagate)
     })(propagate)
@@ -223,6 +240,21 @@ function calculateHeadCount() {
         headCount += 1
     }
     parenting.value.headCount = headCount
+}
+function calculateDiabledInsurance() {
+    const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, } = parenting.value
+    const { monthlyContribution } = props.spouse
+    let disabledInsurance = -monthlyContribution * 12
+    if (firstBornYear) {
+        disabledInsurance += childAnnualExpense
+    }
+    if (secondBornYear) {
+        disabledInsurance += childAnnualExpense
+    }
+    disabledInsurance /= 10000
+    disabledInsurance = Math.floor(disabledInsurance)
+    disabledInsurance = Math.max(0, disabledInsurance)
+    parenting.value.disabledInsurance = disabledInsurance * 10000
 }
 function drawParentingChart(propagate = true) {
     // 繪製圖
@@ -276,7 +308,7 @@ function drawParentingChart(propagate = true) {
         } else {
             secondBornData.push([0, 0])
         }
-        if (hasFirstBorn && hasSecondBorn) {
+        if (hasFirstBorn || hasSecondBorn) {
             const inflatedSpouseContribution = Math.floor(spouseAnnualContribution * inflationModifier)
             pmt += inflatedSpouseContribution
             spouseContributionData.push([0, inflatedSpouseContribution])
