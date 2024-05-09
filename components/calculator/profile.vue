@@ -64,10 +64,10 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="職業保險別" required>
-                            <econSelect v-model="profile.insuranceType" @change="calculateProfile()"
+                            <econSelect v-model="profile.careerInsuranceType" @change="calculateProfile()"
                                 style="width: 130px" :options="insuranceTypeOptions">
                             </econSelect>
-                            <!-- <el-radio-group v-model="profile.insuranceType" @change="calculateProfile()">
+                            <!-- <el-radio-group v-model="profile.careerInsuranceType" @change="calculateProfile()">
                                 <el-radio v-for="(item) in insuranceTypeOptions" :value="item.value">
                                     {{ item.label }}
                                 </el-radio>
@@ -126,7 +126,7 @@
  * FirebaseUI for Web — Auth
  * https://firebaseopensource.com/projects/firebase/firebaseui-web/
  */
-const { VITE_BASE_URL } = import.meta.env
+ const { VITE_BASE_URL } = import.meta.env
 import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
 import firebase from 'firebase/compat/app';
 import econSelect from '../econSelect.vue'
@@ -173,13 +173,13 @@ const insuranceTypeOptions = ref([
         disabled: false,
     },
     {
-        label: '軍職人員(未完成)',
-        value: 'military',
-        disabled: true,
+        label: '公教人員(公保)',
+        value: 'civilServant',
+        disabled: false,
     },
     {
-        label: '公教人員(未完成)',
-        value: 'civilServant',
+        label: '軍職人員(未完成)',
+        value: 'military',
         disabled: true,
     },
     {

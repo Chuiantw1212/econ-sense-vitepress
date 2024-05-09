@@ -149,13 +149,15 @@ function debounceCalculate(propagate = false) {
     const diningTableSize = Math.max(2, headCount) * livingRoom * fortmatRatio
 
     // 主建物只包含室內空間
-    const mainBuilding = props.config.toFixed(baseInteriorSize + doubleRoomSize + singleRoomSize + bathRoomSize + diningTableSize)
-    estateSize.value.mainBuilding = mainBuilding
+    const mainBuilding = baseInteriorSize + doubleRoomSize + singleRoomSize + bathRoomSize + diningTableSize
+    const formatmMinBuilding = Number(Number(mainBuilding).toFixed(2))
+    estateSize.value.mainBuilding = formatmMinBuilding
 
     // 附屬建築比如陽台
     const balcanyPercent = 0.1 * balcany // 10%
-    const outBuilding = props.config.toFixed(mainBuilding * balcanyPercent)
-    estateSize.value.outBuilding = outBuilding
+    const outBuilding = mainBuilding * balcanyPercent
+    const formatOutBuilding = Number(Number(outBuilding).toFixed(2))
+    estateSize.value.outBuilding = formatOutBuilding
 
     // 公設比計算
     const publicRatioPercent = 1 + publicRatio / 100
@@ -164,7 +166,6 @@ function debounceCalculate(propagate = false) {
     // 權狀坪數
     let floorSize = (mainBuilding + outBuilding) * publicRatioPercent
     // 停車位權狀
-    // console.log()
     if (props.estatePrice.hasParking) {
         const miumumParkingSpace = Math.max(1, parkingSpace)
         estateSize.value.parkingSpace = miumumParkingSpace

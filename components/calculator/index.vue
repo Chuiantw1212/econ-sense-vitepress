@@ -26,17 +26,26 @@
         <h2 id="_我可以FIRE嗎？" tabindex="-1">我可以FIRE嗎？<a class="header-anchor" href="#我可以FIRE嗎？"
                 aria-label="Permalink to &quot;我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
 
-        <Career v-model="userForm.career" :user="user" :config="config" :profile="userForm.profile" ref="CareerRef"
+        <h3 id="_職業試算" tabindex="-1">職業試算<a class="header-anchor" href="#職業試算"
+                aria-label="Permalink to &quot;職業試算&quot;">&ZeroWidthSpace;</a></h3>
+        <CareerLabor v-if="['', 'employee', 'entrepreneur'].includes(userForm.profile.careerInsuranceType)"
+            v-model="userForm.career" :config="config" :profile="userForm.profile" ref="CareerRef"
             @update:modelValue="onCareerChanged()">
-        </Career>
+        </CareerLabor>
+        <CareerGovernment v-if="userForm.profile.careerInsuranceType === 'civilServant'" v-model="userForm.career"
+            :config="config" :profile="userForm.profile" ref="CareerRef" @update:modelValue="onCareerChanged()">
+        </CareerGovernment>
 
+        <h3 id="_退休試算" tabindex="-1">退休試算<a class="header-anchor" href="#退休試算"
+                aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
         <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career" :profile="userForm.profile"
             ref="RetirementRef" @update:modelValue="onRetirementChanged()">
         </Retirement>
 
         <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
                 aria-label="Permalink to &quot;五子登科&quot;">&ZeroWidthSpace;</a></h2>
-
+        <h3 id="_投資資產試算" tabindex="-1">投資資產試算<a class="header-anchor" href="#投資資產試算"
+                aria-label="Permalink to &quot;投資資產試算&quot;">&ZeroWidthSpace;</a></h3>
         <Investment v-model="userForm.investment" :config="config" :profile="userForm.profile" :career="userForm.career"
             :spouse="userForm.spouse" :parenting="userForm.parenting" :mortgage="userForm.mortgage"
             :retirement="userForm.retirement" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
@@ -47,6 +56,8 @@
         <Spouse v-model="userForm.spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()">
         </Spouse>
 
+        <h3 id="_家庭責任試算" tabindex="-1">家庭責任試算<a class="header-anchor" href="#家庭責任試算"
+                aria-label="Permalink to &quot;家庭責任試算&quot;">&ZeroWidthSpace;</a></h3>
         <Parenting v-model="userForm.parenting" :config="config" :career="userForm.career"
             :retirement="userForm.retirement" :spouse="userForm.spouse" :investment="userForm.investment"
             :estateSize="userForm.estateSize" :mortgage="userForm.mortgage" ref="ParentingRef"
@@ -77,10 +88,11 @@
 </template>
 <script setup lang="ts">
 import firebase from 'firebase/compat/app';
-import { onMounted, ref, reactive, nextTick, onBeforeUnmount, watch } from 'vue'
+import { onMounted, ref, reactive, nextTick, } from 'vue'
 import { ElMessage, ElMessageBox, } from 'element-plus'
 import Profile from './profile.vue'
-import Career from './career.vue'
+import CareerLabor from './career/labor.vue'
+import CareerGovernment from './career/government.vue'
 import Retirement from './retirement.vue'
 import Investment from './investment.vue'
 import Spouse from './spouse.vue'
@@ -88,6 +100,7 @@ import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
 import EstateDialogContent from './estateDialog.vue'
 import DataCenter from './dataCenter.vue'
+const { VITE_BASE_URL } = import.meta.env
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
@@ -96,90 +109,6 @@ const SpouseRef = ref()
 const ParentingRef = ref()
 const EstateRef = ref()
 const MortgageRef = ref()
-const { VITE_BASE_URL } = import.meta.env
-// 用戶與權限
-const user = reactive({
-    displayName: '註冊用戶',
-    email: '',
-    photoURL: '',
-    uid: '',
-    id: '',
-})
-async function initializeApp() {
-    await firebase.initializeApp({
-        apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
-        authDomain: "econ-sense-9a250.firebaseapp.com",
-        projectId: "econ-sense-9a250",
-        storageBucket: "econ-sense-9a250.appspot.com",
-        messagingSenderId: "449033690264",
-        appId: "1:449033690264:web:f5e419118030eb3afe44ed",
-        measurementId: "G-19NFT8GVCZ"
-    })
-    firebase.auth().onAuthStateChanged(async (firebaseUser) => {
-        if (!firebaseUser) {
-            await setIdToken(false)
-            await getUserFromServer(false)
-            return
-        }
-        const { displayName, email, photoURL, uid } = firebaseUser
-        await setIdToken(firebaseUser)
-        user.photoURL = photoURL || ''
-        user.uid = uid
-        user.email = email || ''
-        user.displayName = displayName || '註冊用戶'
-        ProfileRef.value?.toggleSignInDialog(false)
-        await getUserFromServer(firebaseUser)
-    })
-}
-const idToken = ref()
-async function setIdToken(currentUser) {
-    if (currentUser) {
-        idToken.value = await currentUser.getIdToken(true)
-    } else {
-        idToken.value = null
-    }
-}
-async function authFetch(appendUrl, options) {
-    const currentUser = await firebase.auth().currentUser
-    if (!currentUser) {
-        return // 離線使用或未登入
-    }
-    if (options.body && !user.id) {
-        return // 避免初始化資料覆蓋回noSQL
-    }
-    const defaultOptions: any = {
-        method: 'get',
-        headers: {
-            Authorization: `Bearer ${idToken.value}`,
-        }
-    }
-
-    defaultOptions.method = options.method
-    if (options.body) {
-        defaultOptions.body = JSON.stringify(options.body)
-        Object.assign(defaultOptions.headers, {
-            'Content-Type': 'application/json'
-        })
-    }
-    Object.assign(defaultOptions.headers, options.headers)
-    const res = await fetch(VITE_BASE_URL + appendUrl, defaultOptions)
-    if (res.status !== 200) {
-        const result = await res.text()
-        if (result.includes('auth/id-token-expired')) {
-            const currentUser = await firebase.auth()?.currentUser
-            await setIdToken(currentUser)
-            authFetch(appendUrl, options)
-        } else {
-            ElMessage(result || res.statusText)
-        }
-        return
-    }
-    return res
-}
-async function signOut() {
-    await firebase.auth().signOut()
-    location.reload()
-}
 // 主要從資料庫來的設定檔案
 const config = reactive({
     // primitive types
@@ -200,9 +129,6 @@ const config = reactive({
         aor: '股6債4',
         aoa: '股8債2',
     },
-    toFixed: (value, digit = 2) => { // deprecated
-        return Number(Number(value).toFixed(digit))
-    }
 })
 const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
@@ -322,13 +248,14 @@ const userForm = reactive({
         age: 0,
         lifeExpectancy: 0,
         yearOfMarriage: '',
-        insuranceType: 'employee',
+        careerInsuranceType: '',
     },
     career: {
         headCount: 0,
         monthlyBasicSalary: 0,
         employeeWelfareFund: 0,
-        laborInsuranceType: 'company',
+        insuredUnit: 'company',
+        regionalAllowance: 0,
         insurance: {
             salary: 0,
             presentSeniority: 0, // 6.9
@@ -351,8 +278,8 @@ const userForm = reactive({
         age: 65,
         lifeExpectancy: 0,
         yearToRetirement: 0,
+        annuitySum: 0,
         insurance: {
-            annuitySum: 0,
             monthlyAnnuity: 0,
             presentSeniority: 0,
             futureSeniority: 0
@@ -363,7 +290,7 @@ const userForm = reactive({
             employerContribution: 0,
             employerContributionIncome: 0,
             irrOverDecade: 4.76,
-            totalValue: 0,
+            lumpSum: 0,
         },
         percentileRank: 50,
         qualityLevel: 3,
@@ -500,7 +427,7 @@ function onSpouseChanged() {
         propagate: false,
     })
 }
-// 育兒試算
+// 家庭責任試算
 function onParentingChanged() {
     authFetch(`/user/parenting`, {
         method: 'put',
@@ -604,6 +531,89 @@ onMounted(async () => {
     await initializeApp()
     await setSelecOptionSync()
 })
+// 用戶與權限
+const user = reactive({
+    displayName: '註冊用戶',
+    email: '',
+    photoURL: '',
+    uid: '',
+    id: '',
+})
+async function initializeApp() {
+    const firebaseApp: any = await firebase.initializeApp({
+        apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
+        authDomain: "econ-sense-9a250.firebaseapp.com",
+        projectId: "econ-sense-9a250",
+        storageBucket: "econ-sense-9a250.appspot.com",
+        messagingSenderId: "449033690264",
+        appId: "1:449033690264:web:f5e419118030eb3afe44ed",
+        measurementId: "G-19NFT8GVCZ"
+    })
+    firebaseApp.firebase.auth().onAuthStateChanged(async (firebaseUser) => {
+        if (!firebaseUser) {
+            await setIdToken(false)
+            await getUserFromServer(false)
+            return
+        }
+        const { displayName, email, photoURL, uid } = firebaseUser
+        await setIdToken(firebaseUser)
+        user.photoURL = photoURL || ''
+        user.uid = uid
+        user.email = email || ''
+        user.displayName = displayName || '註冊用戶'
+        ProfileRef.value?.toggleSignInDialog(false)
+        await getUserFromServer(firebaseUser)
+    })
+}
+const idToken = ref()
+async function setIdToken(currentUser) {
+    if (currentUser) {
+        idToken.value = await currentUser.getIdToken(true)
+    } else {
+        idToken.value = null
+    }
+}
+async function authFetch(appendUrl, options) {
+    const currentUser = await firebase.auth().currentUser
+    if (!currentUser) {
+        return // 離線使用或未登入
+    }
+    if (options.body && !user.id) {
+        return // 避免初始化資料覆蓋回noSQL
+    }
+    const defaultOptions: any = {
+        method: 'get',
+        headers: {
+            Authorization: `Bearer ${idToken.value}`,
+        }
+    }
+
+    defaultOptions.method = options.method
+    if (options.body) {
+        defaultOptions.body = JSON.stringify(options.body)
+        Object.assign(defaultOptions.headers, {
+            'Content-Type': 'application/json'
+        })
+    }
+    Object.assign(defaultOptions.headers, options.headers)
+    const res = await fetch(VITE_BASE_URL + appendUrl, defaultOptions)
+    if (res.status !== 200) {
+        const result = await res.text()
+        if (result.includes('auth/id-token-expired')) {
+            const currentUser = await firebase.auth()?.currentUser
+            await setIdToken(currentUser)
+            authFetch(appendUrl, options)
+        } else {
+            ElMessage(result || res.statusText)
+        }
+        return
+    }
+    return res
+}
+async function signOut() {
+    await firebase.auth().signOut()
+    location.reload()
+}
 </script>
 <style lang="scss" scoped>
 .form__select {
