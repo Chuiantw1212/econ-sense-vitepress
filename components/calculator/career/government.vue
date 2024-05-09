@@ -18,7 +18,7 @@
                 <el-col :span="12">
                     <el-form-item label="主管加給">
                         <econSelect v-model="career.supervisorRank" :options="supervisorAllowanceOptins"
-                            placeholder="無加給" @change="calculateCareer">
+                            :disabled="!career.payPoint" placeholder="無加給" @change="calculateCareer">
                         </econSelect>
                     </el-form-item>
                 </el-col>
@@ -32,7 +32,7 @@
                 <el-col :span="12">
                     <el-form-item label="專業加給">
                         <econSelect v-model="career.professionalRank" :options="professionalAllowanceOptions"
-                            placeholder="無加給" @change="calculateCareer">
+                            :disabled="!career.payPoint" placeholder="無加給" @change="calculateCareer">
                         </econSelect>
                     </el-form-item>
                 </el-col>
@@ -45,7 +45,8 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="地域加給">
-                        <el-input-number v-model="career.regionalAllowance" :min="0" @change="calculateCareer">
+                        <el-input-number v-model="career.regionalAllowance" :min="0" :disabled="!career.payPoint"
+                            @change="calculateCareer">
                         </el-input-number>
                     </el-form-item>
                 </el-col>
@@ -72,8 +73,8 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="退撫自提率(%)">
-                        <el-input-number v-model="career.pension.rate" @change="calculateCareer($event)" :min="0"
-                            :max="5.25" />
+                        <el-input-number v-model="career.pension.rate" :disabled="!career.payPoint" :min="0" :max="5.25"
+                            @change="calculateCareer($event)" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -278,6 +279,10 @@ function calculateHealthInsurance() {
      * https://www.houli.taichung.gov.tw/media/782793/%E5%85%AC%E6%95%99%E4%BA%BA%E5%93%A1%E7%B5%A6%E8%88%87%E7%B0%A1%E6%98%8E%E8%A1%A8-%E5%AE%9A%E7%89%88.pdf
      */
     const { monthlyBasicSalary, supervisorAllowance, professionalAllowance } = career.value
+    if (!monthlyBasicSalary) {
+        healInsurance.salary = 0
+        healInsurance.contribution = 0
+    }
     const { salaryRate } = healInsurance
     const healthSalaryMin = Math.round((monthlyBasicSalary + supervisorAllowance + professionalAllowance) * salaryRate / 100)
     const insuranceSalaryLevel = [

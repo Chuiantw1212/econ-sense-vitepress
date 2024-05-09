@@ -28,7 +28,7 @@
 
         <h3 id="_職業試算" tabindex="-1">職業試算<a class="header-anchor" href="#職業試算"
                 aria-label="Permalink to &quot;職業試算&quot;">&ZeroWidthSpace;</a></h3>
-        <CareerLabor v-if="['employee', 'entrepreneur'].includes(userForm.profile.careerInsuranceType)"
+        <CareerLabor v-if="['', 'employee', 'entrepreneur'].includes(userForm.profile.careerInsuranceType)"
             v-model="userForm.career" :config="config" :profile="userForm.profile" ref="CareerRef"
             @update:modelValue="onCareerChanged()">
         </CareerLabor>
@@ -248,7 +248,7 @@ const userForm = reactive({
         age: 0,
         lifeExpectancy: 0,
         yearOfMarriage: '',
-        careerInsuranceType: 'civilServant',
+        careerInsuranceType: '',
     },
     career: {
         headCount: 0,
