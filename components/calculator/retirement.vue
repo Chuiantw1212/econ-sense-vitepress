@@ -99,33 +99,35 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="強制提繳收益">
-                                <el-input-number v-model="retirement.pension.employerContributionIncome" :min="0"
-                                    @change="calculateRetirement($event)" />
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="個人提繳收益">
-                                <el-input-number v-model="retirement.pension.employeeContrubutionIncome" :min="0"
-                                    @change="calculateRetirement($event)" />
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="勞退十年收益率">
-                                <el-input-number v-model="retirement.pension.irrOverDecade" :min="0"
-                                    @change="calculateRetirement($event)" />
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="預估一次退總額">
-                                <el-text>{{ Number(retirement.pension.lumpSum).toLocaleString() }}</el-text>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
+                    <template v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="強制提繳收益">
+                                    <el-input-number v-model="retirement.pension.employerContributionIncome" :min="0"
+                                        @change="calculateRetirement($event)" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="個人提繳收益">
+                                    <el-input-number v-model="retirement.pension.employeeContrubutionIncome" :min="0"
+                                        @change="calculateRetirement($event)" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="勞退十年收益率">
+                                    <el-input-number v-model="retirement.pension.irrOverDecade" :min="0"
+                                        @change="calculateRetirement($event)" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="預估一次退總額">
+                                    <el-text>{{ Number(retirement.pension.lumpSum).toLocaleString() }}</el-text>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </template>
                     <el-row>
                         <el-col :span="12">
                         </el-col>
@@ -459,7 +461,8 @@ async function drawRetirementAssetChart(propagate = false) {
         employeeContrubution,
         employerContributionIncome,
         employeeContrubutionIncome,
-        irrOverDecade
+        irrOverDecade,
+        lumpSum,
     } = retirement.value.pension
     const { monthlyContribution } = props.career.pension
     const {
@@ -473,36 +476,43 @@ async function drawRetirementAssetChart(propagate = false) {
     const inflationRate = 1 + props.config.inflationRate / 100
     let inflationModifier = 1
 
-    let pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
+    let pv = 0
     const n = yearToRetirement
     const pensionContribution = monthlyContribution * 12
     const pensionIrr = 1 + (irrOverDecade / 100)
     let fv = 0 // fv = pv * n + pmt
 
     const labels: number[] = []
-    const pensionData: number[][] = []
+    const pensionLumpSumData: number[][] = []
     const annualAnnuityData: number[][] = []
     const retirementAnnualExpenseData: number[][] = []
 
-    // 退休前資產累積
-    for (let i = 0; i < n; i++) {
-        const calculatedYear = props.config.currentYear + i
-        labels.push(calculatedYear)
-        annualAnnuityData.push([0, 0])
-        retirementAnnualExpenseData.push([0, 0])
-
-        const pmt = pensionContribution * inflationModifier
-        fv = Math.floor(pv * pensionIrr + pmt)
-        pensionData.push([0, Math.floor(fv)])
-
-        pv = fv
-        inflationModifier *= inflationRate
-    }
-
     const { careerInsuranceType } = props.profile
     if (['employee', 'entrepreneur'].includes(careerInsuranceType)) {
+        pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
+        // 退休前資產累積
+        for (let i = 0; i < n; i++) {
+            const calculatedYear = props.config.currentYear + i
+            labels.push(calculatedYear)
+            annualAnnuityData.push([0, 0])
+            retirementAnnualExpenseData.push([0, 0])
+
+            const pmt = pensionContribution * inflationModifier
+            fv = Math.floor(pv * pensionIrr + pmt)
+            pensionLumpSumData.push([0, Math.floor(fv)])
+
+            pv = fv
+            inflationModifier *= inflationRate
+        }
         calculateLaborPensionLumpSum(fv)
     }
+    if (['civilServant',].includes(careerInsuranceType)) {
+        pv = lumpSum
+    }
+    console.log({
+        careerInsuranceType,
+        pv
+    })
 
     // 退休後退休支出
     let insuranceAnnuityInflationModifier = 1
@@ -515,10 +525,17 @@ async function drawRetirementAssetChart(propagate = false) {
         const inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
         retirementAnnualExpenseData.push([0, -inflatedAnnualExpense])
         const pmt = annutalAnnuity - inflatedAnnualExpense
+        console.log({
+            annutalAnnuity,
+            inflatedAnnualExpense
+        })
 
         fv = Math.floor(pv * pensionIrr + pmt)
         fv = Math.max(0, fv)
-        pensionData.push([0, Math.floor(fv)])
+        pensionLumpSumData.push([0, Math.floor(fv)])
+        console.log({
+            fv
+        })
         const calculatedYear = props.config.currentYear + n + i
         labels.push(calculatedYear)
         pv = fv
@@ -529,7 +546,7 @@ async function drawRetirementAssetChart(propagate = false) {
         datasets: [
             {
                 label: '勞退一次領+投資',
-                data: pensionData,
+                data: pensionLumpSumData,
                 fill: true,
                 tension,
             },
