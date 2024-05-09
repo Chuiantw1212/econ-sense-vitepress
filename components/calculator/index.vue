@@ -289,7 +289,7 @@ const userForm = reactive({
             employerContribution: 0,
             employerContributionIncome: 0,
             irrOverDecade: 4.76,
-            totalValue: 0,
+            lumpSum: 0,
         },
         percentileRank: 50,
         qualityLevel: 3,

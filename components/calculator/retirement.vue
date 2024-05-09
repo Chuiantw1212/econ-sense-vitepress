@@ -38,7 +38,7 @@
                         <el-col :span="12">
                             <el-form-item label="目前投保年資">
                                 <el-input-number v-model="retirement.insurance.presentSeniority" :min="0"
-                                    @change="calculateRetirement($event)" />
+                                    @change="calculateRetirement()" />
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
@@ -49,9 +49,14 @@
                     </el-row>
                     <el-row>
                         <el-col :span="12">
+                            <el-form-item label="請領方式">
+                                <econSelect v-model="retirement.pension.type" @change="calculateRetirement()"
+                                    style="width: 130px" :options="cilvilServantRetireOptions">
+                                </econSelect>
+                            </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="預估老年年金">
+                            <el-form-item label="">
                                 <el-text>{{ Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
@@ -112,8 +117,8 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="預估勞退總額">
-                                <el-text>{{ Number(retirement.pension.totalValue).toLocaleString() }}</el-text>
+                            <el-form-item label="預估一次退總額">
+                                <el-text>{{ Number(retirement.pension.lumpSum).toLocaleString() }}</el-text>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -121,7 +126,7 @@
                         <el-col :span="12">
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item v-if="retirement.pension.tax" label="預估勞退稅基">
+                            <el-form-item v-if="retirement.pension.tax" label="預估一次退稅基">
                                 <el-text>{{ Number(retirement.pension.tax).toLocaleString() }}</el-text>
                             </el-form-item>
                         </el-col>
@@ -214,6 +219,7 @@
 <script setup lang="ts">
 import { ref, computed, shallowRef, reactive } from 'vue'
 import Chart from 'chart.js/auto';
+import econSelect from '../econSelect.vue'
 interface IOptionItem {
     label: string,
     value: string | number | boolean,
@@ -253,6 +259,20 @@ const detailTitle = {
     'employee': '查詢勞保局E化服務系統後設定',
     'entrepreneur': '查詢勞保局E化服務系統後設定',
 }
+const cilvilServantRetireOptions = [
+    {
+        label: '一次退休金',
+        value: 'lumpSum',
+    },
+    {
+        label: '月退休金',
+        value: 'annuity',
+    },
+    {
+        label: '兼領',
+        value: 'halfAndHalf',
+    }
+]
 // hooks
 const retirement = computed(() => {
     return props.modelValue
@@ -292,7 +312,7 @@ function calculateRetirement(options: any = { propagate: true }) {
             break;
         }
         case "civilServant": {
-            calculateCivilServantPension()
+            calculateCivilServantRetirement()
             break;
         }
     }
@@ -303,26 +323,52 @@ function calculateRetirement(options: any = { propagate: true }) {
         drawRetirementAssetChart(propagate)
     })(propagate)
 }
-function calculateCivilServantPension() {
+function calculateCivilServantRetirement() {
     const { futureSeniority, } = retirement.value.insurance
+    const { type, } = retirement.value.pension
     const { salary } = props.career.insurance
     if (!futureSeniority || !salary) {
         return
     }
     /**
-     * 先計算上限與撫卹退休金
-     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=39
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=29
+     * 公務人員所具退撫新制實施後任職年資應給與之退休金，依第二十七條所定退休金計算基準與基數內涵，按下列標準計給：
+     * 一、一次退休金：按照任職年資，每任職一年，給與一又二分之一個基數，最高三十五年，給與五十三個基數；退休審定總年資超過三十五年者，自第三十六年起，每增加一年，增給一個基數，最高給與六十個基數。其退休年資未滿一年之畸零月數，按畸零月數比率計給；未滿一個月者，以一個月計。
+     * 二、月退休金：按照任職年資，每任職一年，照基數內涵百分之二給與，最高三十五年，給與百分之七十；退休審定總年資超過三十五年者，自第三十六年起，每增一年，照基數內涵百分之一給與，最高給與百分之七十五。其退休年資未滿一年之畸零月數，按畸零月數比率計給；未滿一個月者，以一個月計。
      */
+    const baseSalary = salary * 2
+    let lumpSum = 0
+    if (futureSeniority <= 35) {
+        lumpSum = 1.5 * futureSeniority
+        lumpSum = Math.min(53, lumpSum)
+    } else {
+        lumpSum = 1.5 * 35
+        lumpSum += 1 * (lumpSum - 35)
+        lumpSum = Math.min(60, lumpSum)
+    }
+
     let percentage = 0
     let incomeReplacementMaxRatio = 0
     if (futureSeniority <= 35) {
-        percentage += 2 * futureSeniority
-        incomeReplacementMaxRatio = 30 + 1.5 * (futureSeniority - 15)
+        percentage += 1. * futureSeniority
+        // incomeReplacementMaxRatio = 30 + 1.5 * (futureSeniority - 15)
     } else {
         percentage += 2 * 35
         percentage += (futureSeniority - 35)
         percentage = Math.min(75, percentage)
     }
+
+    /**
+     * 再計算月退休金
+     */
+    retirement.value.insurance.monthlyAnnuity = 0
+    if (type === 'lumpSum') {
+        retirement.value.pension.lumpSum = Math.floor(lumpSum * baseSalary)
+    }
+    /**
+     * 先計算上限與撫卹退休金
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=39
+     */
     // incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
     // incomeReplacementMaxRatio = Math.min(62.5, incomeReplacementMaxRatio)
     //  30 +  (futureSeniority - 30)
@@ -517,11 +563,11 @@ async function drawRetirementAssetChart(propagate = false) {
     pensionChartInstance = shallowRef(chartInstance)
 }
 function calculatePensionFinalValue(fv = 0) {
-    retirement.value.pension.totalValue = Number(fv)
+    retirement.value.pension.lumpSum = Number(fv)
     const { futureSeniority } = retirement.value.insurance
     const taxFreeLevel = 19.8 * 10000 * futureSeniority
     const taxHalfLevel = 39.8 * 10000 * futureSeniority
-    let taxBasis = retirement.value.pension.totalValue
+    let taxBasis = retirement.value.pension.lumpSum
     taxBasis -= taxFreeLevel
     const taxHalf = Math.max(0, taxBasis) / 2
     taxBasis -= taxHalfLevel
