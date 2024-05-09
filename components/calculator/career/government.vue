@@ -4,8 +4,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="俸點" required>
-                        <econSelect v-model="career.payPoint" :options="pointOfPayOptions"
-                            @change="calculateCareer()">
+                        <econSelect v-model="career.payPoint" :options="pointOfPayOptions" @change="calculateCareer()">
                         </econSelect>
                     </el-form-item>
                 </el-col>
@@ -121,8 +120,8 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="年實領 / 12">
-                        <el-input-number v-model="career.monthlyNetPay" :min="0" :disabled="!career.monthlyBasicSalary"
-                            @change="calculateCareer($event)" />
+                        <el-input-number v-model="career.monthlyNetPay" :min="0" :step="1000"
+                            :disabled="!career.monthlyBasicSalary" @change="calculateCareer($event)" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -224,7 +223,7 @@ function calculateCareer(options: any = { propagate: true }) {
         calculateHealthInsurance()
         calculateCareerInsurance()
         calculatePension()
-        calculateNetPay()
+        calculateMonthlySaving()
         debounce(() => {
             drawChartAndCalculateIncome(propagate)
         })(propagate)
@@ -232,14 +231,10 @@ function calculateCareer(options: any = { propagate: true }) {
         console.log(error.message || error)
     }
 }
-function calculateNetPay() {
-    const { monthlyBasicSalary, pension, supervisorAllowance, professionalAllowance, regionalAllowance } = career.value
-    const { monthlyContribution } = pension
-    const { contribution } = healInsurance
-    const { expense } = civilServantInsurance
-    career.value.monthlyNetPayEstimated = monthlyBasicSalary
-        + supervisorAllowance + professionalAllowance + regionalAllowance
-        - monthlyContribution - contribution - expense
+function calculateMonthlySaving() {
+    const { monthlyNetPay = 0, monthlyExpense = 0, monthlyNetPayEstimated } = career.value
+    const monthlyNetPayBasis = monthlyNetPay || monthlyNetPayEstimated
+    career.value.monthlySaving = Math.floor(monthlyNetPayBasis - monthlyExpense)
 }
 function calculateMonthlyBasic() {
     const { payPoint } = career.value
@@ -370,7 +365,11 @@ function drawChartAndCalculateIncome(propagate = false) {
         datasetIndex: 1,
     })
 
+    if (monthlyBasicSalary) {
+        career.value.monthlyNetPayEstimated = fv
+    }
     fv = career.value.monthlyNetPay || fv
+
     dataAndDataIndex.push({
         label: '月實領',
         data: [0, fv],

@@ -109,7 +109,7 @@
                 <el-col :span="12">
                     <el-form-item label="年實領 / 12">
                         <el-input-number v-model="career.monthlyNetPay" :min="0" :disabled="!career.monthlyBasicSalary"
-                            @change="calculateCareer($event)" />
+                            :step="1000" @change="calculateCareer($event)" />
                     </el-form-item>
                 </el-col>
             </el-row>

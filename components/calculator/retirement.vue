@@ -49,7 +49,7 @@
                     </el-row>
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item label="請領方式">
+                            <el-form-item v-if="['civilServant'].includes(profile.careerInsuranceType)" label="請領方式">
                                 <econSelect v-model="retirement.pension.type" @change="calculateRetirement()"
                                     style="width: 130px" :options="cilvilServantRetireOptions">
                                 </econSelect>
@@ -85,21 +85,21 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="強制提繳累計">
-                                <el-input-number v-model="retirement.pension.employerContribution" :min="0"
-                                    @change="calculateRetirement($event)" />
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="個人提繳累計">
-                                <el-input-number v-model="retirement.pension.employeeContrubution" :min="0"
-                                    @change="calculateRetirement($event)" />
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
                     <template v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="強制提繳累計">
+                                    <el-input-number v-model="retirement.pension.employerContribution" :min="0"
+                                        @change="calculateRetirement($event)" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="個人提繳累計">
+                                    <el-input-number v-model="retirement.pension.employeeContrubution" :min="0"
+                                        @change="calculateRetirement($event)" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="強制提繳收益">
@@ -114,25 +114,26 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="勞退十年收益率">
-                                    <el-input-number v-model="retirement.pension.irrOverDecade" :min="0"
-                                        @change="calculateRetirement($event)" />
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="預估一次退總額">
-                                    <el-text>{{ Number(retirement.pension.lumpSum).toLocaleString() }}</el-text>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
                     </template>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)"
+                                label="勞退十年收益率">
+                                <el-input-number v-model="retirement.pension.irrOverDecade" :min="0"
+                                    @change="calculateRetirement($event)" />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="一次領總額">
+                                <el-text>{{ Number(retirement.pension.lumpSum).toLocaleString() }}</el-text>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
                     <el-row>
                         <el-col :span="12">
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item v-if="retirement.pension.tax" label="預估一次退稅基">
+                            <el-form-item v-if="retirement.pension.tax" label="一次領稅基">
                                 <el-text>{{ Number(retirement.pension.tax).toLocaleString() }}</el-text>
                             </el-form-item>
                         </el-col>
@@ -370,7 +371,8 @@ function calculateCivilServantRetirement() {
     switch (type) {
         case 'lumpSum': {
             retirement.value.pension.lumpSum = Math.floor(lumpSum)
-            retirement.value.pension.monthlyAnnuity = 0
+            monthlyAnnuity = 0
+            retirement.value.pension.monthlyAnnuity = monthlyAnnuity
             break;
         }
         case 'annuity': {
@@ -508,11 +510,10 @@ async function drawRetirementAssetChart(propagate = false) {
     }
     if (['civilServant',].includes(careerInsuranceType)) {
         pv = lumpSum
+        for (let i = 0; i < n; i++) {
+            inflationModifier *= inflationRate
+        }
     }
-    console.log({
-        careerInsuranceType,
-        pv
-    })
 
     // 退休後退休支出
     let insuranceAnnuityInflationModifier = 1
@@ -525,17 +526,10 @@ async function drawRetirementAssetChart(propagate = false) {
         const inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
         retirementAnnualExpenseData.push([0, -inflatedAnnualExpense])
         const pmt = annutalAnnuity - inflatedAnnualExpense
-        console.log({
-            annutalAnnuity,
-            inflatedAnnualExpense
-        })
 
         fv = Math.floor(pv * pensionIrr + pmt)
         fv = Math.max(0, fv)
         pensionLumpSumData.push([0, Math.floor(fv)])
-        console.log({
-            fv
-        })
         const calculatedYear = props.config.currentYear + n + i
         labels.push(calculatedYear)
         pv = fv
@@ -545,13 +539,13 @@ async function drawRetirementAssetChart(propagate = false) {
     const chartData: any = {
         datasets: [
             {
-                label: '勞退一次領+投資',
+                label: '一次領+投資',
                 data: pensionLumpSumData,
                 fill: true,
                 tension,
             },
             {
-                label: '勞保年金',
+                label: '年金',
                 data: annualAnnuityData,
                 fill: true,
                 tension,

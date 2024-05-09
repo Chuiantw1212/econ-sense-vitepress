@@ -174,7 +174,7 @@ const insuranceTypeOptions = ref([
         disabled: false,
     },
     {
-        label: '公教人員(未完成)',
+        label: '公教人員(公保)',
         value: 'civilServant',
         disabled: false,
     },
