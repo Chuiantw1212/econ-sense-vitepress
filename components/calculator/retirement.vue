@@ -75,12 +75,12 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row v-if="retirement.insurance.survivorPension">
+                    <el-row v-if="parenting.firstBornYear">
                         <el-col :span="12">
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="預估遺囑年金">
-                                <el-text>{{ Number(retirement.insurance.survivorPension).toLocaleString() }} /
+                                <el-text>{{ Number(retirement.insurance.survivorAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -232,32 +232,42 @@ interface IOptionItem {
     value: string | number | boolean,
 }
 let pensionChartInstance = ref<Chart>()
-const activeNames = ref(['1'])
 const emits = defineEmits(['update:modelValue', 'change'])
 const props = defineProps({
     modelValue: {
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true
     },
     config: {
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true
     },
     profile: {
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true
     },
     career: {
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true
+    },
+    parenting: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true
     }
 })
 const expenseQuartileMarks = reactive({})
@@ -290,7 +300,6 @@ const isFormDisabled = computed(() => {
     return !lifeExpectancy || !monthlyBasicSalary
 })
 const unableToDraw = computed(() => {
-    const { monthlyContribution } = props.career.pension
     const {
         irrOverDecade
     } = retirement.value.pension
@@ -299,12 +308,13 @@ const unableToDraw = computed(() => {
         lifeExpectancy,
         annualExpense,
     } = retirement.value
-    const noBefore = !monthlyContribution || !irrOverDecade || !yearToRetirement
+    const noBefore = !irrOverDecade || !yearToRetirement
     const noAfter = !lifeExpectancy || !annualExpense
     return noBefore || noAfter
 })
 // methods
 function calculateRetirement(options: any = { propagate: true }) {
+    resetData()
     calculateExpenseQuartileMarks()
     calculateRetireLife()
     calculateFutureSeniority()
@@ -313,6 +323,7 @@ function calculateRetirement(options: any = { propagate: true }) {
         case "employee":
         case "entrepreneur": {
             calculateLaborInsuranceMonthlyAnnuity()
+            calculateLaborSurvivorAnnuity()
             break;
         }
         case "civilServant": {
@@ -326,6 +337,12 @@ function calculateRetirement(options: any = { propagate: true }) {
     debounce(() => {
         drawRetirementAssetChart(propagate)
     })(propagate)
+}
+function resetData() {
+    // 避免資料干擾
+    retirement.value.insurance.annuity = 0
+    retirement.value.pension.tax = 0
+    retirement.value.insurance.survivorAnnuity = 0
 }
 function calculateCivilServantRetirement() {
     const { futureSeniority, } = retirement.value.insurance
@@ -395,9 +412,6 @@ function calculateCivilServantRetirement() {
     const inflationRate = 1 + props.config.inflationRate / 100
     const pvModifier = Math.pow(inflationRate, age - 60)
     retirement.value.annuitySum = Math.floor(monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
-    // 避免勞保資料干擾
-    retirement.value.insurance.annuity = 0
-    retirement.value.pension.tax = 0
 }
 function calculateExpenseQuartileMarks() {
     props.config.retirementQuartile.forEach((item, index) => {
@@ -424,7 +438,7 @@ function calculateFutureSeniority() { // 退休時年資
 }
 function calculateLaborInsuranceMonthlyAnnuity() {
     const { lifeExpectancy, age } = retirement.value
-    const { presentSeniority, futureSeniority, } = retirement.value.insurance
+    const { futureSeniority, } = retirement.value.insurance
     const { salary } = props.career.insurance
     if (!age || !futureSeniority || !salary) {
         return
@@ -433,16 +447,21 @@ function calculateLaborInsuranceMonthlyAnnuity() {
     const formulaOne: number = (Number(salary) * Number(futureSeniority) * 0.775 / 100 + 3000) * ageModifier
     const formulaTwo: number = (Number(salary) * Number(futureSeniority) * 1.55 / 100) * ageModifier
     retirement.value.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
-    if (presentSeniority >= 15) { // 遺囑年金 https://www.bli.gov.tw/0007867.html
-        retirement.value.insurance.survivorPension = Math.floor(retirement.value.insurance.monthlyAnnuity / 2)
-    } else {
-        retirement.value.insurance.survivorPension = 0
-    }
     if (lifeExpectancy) { // 勞保年金請領總和
         const inflationRate = 1 + props.config.inflationRate / 100
         const pvModifier = Math.pow(inflationRate, age - 60)
         retirement.value.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
     }
+}
+function calculateLaborSurvivorAnnuity() {
+    const { presentSeniority, } = retirement.value.insurance
+    const { salary } = props.career.insurance
+    if (!presentSeniority || !salary) {
+        return
+    }
+    let survivorAnnuity: number = (Number(salary) * Number(presentSeniority) * 1.55 / 100)
+    survivorAnnuity = Math.max(3000, survivorAnnuity)
+    retirement.value.insurance.survivorAnnuity = Math.floor(survivorAnnuity)
 }
 function calculateRetirementExpense() {
     const { qualityLevel } = retirement.value

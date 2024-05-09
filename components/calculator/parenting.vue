@@ -262,8 +262,8 @@ function drawParentingChart(propagate = true) {
     const inflationRatio = 1 + inflationRate / 100
     let inflationModifier: number = 1
     const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, } = parenting.value
-    const { monthlyContribution } = props.spouse
-    const { survivorPension } = props.retirement.insurance
+    const { monthlyContribution = 0, marriageLength, age: spouseAge } = props.spouse
+    const { survivorAnnuity } = props.retirement.insurance
 
     // 計算投資報酬率
     const investmentIrr = 1 + props.investment.irr / 100
@@ -271,7 +271,7 @@ function drawParentingChart(propagate = true) {
     const secondBornEndYear: number = secondBornYear + independantAge
     const parentingDuration: number = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
     const spouseAnnualContribution: number = monthlyContribution * 12
-    const annualInsuranceSurvivorPension: number = survivorPension * 12
+    const annualInsuranceSurvivorPension: number = survivorAnnuity * 12
     // 輸出資料
     const labels: number[] = []
     const firstBornData: number[][] = []
@@ -286,7 +286,7 @@ function drawParentingChart(propagate = true) {
 
     for (let i = 0; i < parentingDuration; i++) {
         inflationModifier *= inflationRatio
-        const simYear: number = firstBornYear + i
+        const simYear: number = firstBornYear + i + 1
         labels.push(simYear)
         /**
          * 計算PMT
@@ -308,18 +308,33 @@ function drawParentingChart(propagate = true) {
         } else {
             secondBornData.push([0, 0])
         }
+        let inflatedSpouseContribution = Math.floor(spouseAnnualContribution * inflationModifier)
         if (hasFirstBorn || hasSecondBorn) {
-            const inflatedSpouseContribution = Math.floor(spouseAnnualContribution * inflationModifier)
             pmt += inflatedSpouseContribution
             spouseContributionData.push([0, inflatedSpouseContribution])
         } else {
             spouseContributionData.push([0, 0])
         }
         // 遺囑年金
-        if (survivorPension) {
-            const inflatedSurvivorPension = Math.floor(annualInsuranceSurvivorPension * inflationModifier)
+        /**
+         * 配偶：符合下列情形之一。
+         * 年滿 55 歲，且婚姻關係存續一年以上。
+         * 年滿 45 歲且婚姻關係存續一年以上，且每月工作收入未超過投保薪資分級表第一級。
+         * 無謀生能力
+         * 扶養無謀生能力之子女
+         */
+        const survivor1 = spouseAge + i + 1 >= 55 && marriageLength >= 1
+        const survivor3 = (hasFirstBorn || hasSecondBorn)
+        if (survivor1 || survivor3) {
+            let inflatedSurvivorPension = Math.floor(annualInsuranceSurvivorPension * inflationModifier)
+            if (hasFirstBorn && hasSecondBorn) {
+                inflatedSurvivorPension = inflatedSurvivorPension * 1.5
+            } else if (hasFirstBorn) {
+                inflatedSurvivorPension = inflatedSurvivorPension * 1.25
+            }
             pmt += inflatedSurvivorPension
-            survivorPensionData.push([0, inflatedSurvivorPension])
+            inflatedSurvivorPension = Math.floor(inflatedSurvivorPension)
+            survivorPensionData.push([inflatedSpouseContribution, inflatedSpouseContribution + inflatedSurvivorPension])
         } else {
             survivorPensionData.push([0, 0])
         }
@@ -364,7 +379,7 @@ function drawParentingChart(propagate = true) {
             tension,
         })
     }
-    if (survivorPension) {
+    if (survivorAnnuity) {
         datasets.push({
             label: '遺囑年金',
             data: survivorPensionData,
@@ -431,6 +446,7 @@ function showChildAge(tooltipItems) {
     const { raw, dataIndex, dataset, } = tooltipItems
     const { label } = dataset
     const { independantAge } = parenting.value
+    const firstValue = raw[0]
     const secondValue = raw[1]
     if (label.includes('子')) {
         const zeros = dataset.data.slice(0, independantAge).filter(value => value[1] === 0)
@@ -442,7 +458,7 @@ function showChildAge(tooltipItems) {
             return '未出生'
         }
     } else {
-        const formatValue = Number(secondValue).toLocaleString()
+        const formatValue = Number(secondValue - firstValue).toLocaleString()
         return `${label}：${formatValue}`
     }
 }

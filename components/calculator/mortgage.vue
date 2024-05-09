@@ -96,7 +96,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="還款金額" prop="floorSize">
+                    <el-form-item label="房貸利息" prop="floorSize">
                         <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
                     </el-form-item>
                 </el-col>
@@ -309,7 +309,6 @@ function calculateMortgage(options: any = { propagate: true }) {
     calculateMonthlyRepay()
     // draw chart
     debounce(() => {
-        console.trace('Infinite loop checker.')
         drawDownpayChart(propagate)
         if (setDownpay || setTotalPrice) {
             calculateDownpayYear()
