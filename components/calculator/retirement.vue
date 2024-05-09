@@ -56,7 +56,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item>
+                            <el-form-item label="每月年金">
                                 <el-text v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">{{
                 Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
@@ -71,7 +71,7 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="餘命 x 年金現值">
-                                <el-text>{{ Number(retirement.insurance.annuitySum).toLocaleString() }}</el-text>
+                                <el-text>{{ Number(retirement.annuitySum).toLocaleString() }}</el-text>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -296,9 +296,7 @@ const unableToDraw = computed(() => {
         lifeExpectancy,
         annualExpense,
     } = retirement.value
-    const {
-        monthlyAnnuity,
-    } = retirement.value.insurance
+    const monthlyAnnuity = retirement.value.insurance.monthlyAnnuity || retirement.value.pension.monthlyAnnuity
     const noBefore = !monthlyContribution || !irrOverDecade || !yearToRetirement
     const noAfter = !lifeExpectancy || !annualExpense || !monthlyAnnuity
     return noBefore || noAfter
@@ -342,10 +340,6 @@ function calculateCivilServantRetirement() {
      */
     const baseSalary = salary * 2
     let lumpSum = 0
-    console.log({
-        lumpSum,
-        futureSeniority
-    })
     if (futureSeniority <= 35) {
         lumpSum = 1.5 * futureSeniority
         lumpSum = Math.min(53, lumpSum)
@@ -372,7 +366,6 @@ function calculateCivilServantRetirement() {
     /**
      * 再計算月退休金
      */
-    // retirement.value.insurance.monthlyAnnuity = 0
     switch (type) {
         case 'lumpSum': {
             retirement.value.pension.lumpSum = Math.floor(lumpSum)
@@ -388,9 +381,6 @@ function calculateCivilServantRetirement() {
         }
         case 'halfAndHalf': {
             incomeReplacementMaxRatio /= 2
-            console.log({
-                incomeReplacementMaxRatio
-            })
             monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
             monthlyAnnuity *= baseSalary / 100
             retirement.value.pension.lumpSum = Math.floor(lumpSum / 2)
@@ -398,24 +388,11 @@ function calculateCivilServantRetirement() {
             break;
         }
     }
-    /**
-     * 先計算上限與撫卹退休金
-     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=39
-     */
-    // incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
-    // incomeReplacementMaxRatio = Math.min(62.5, incomeReplacementMaxRatio)
-    //  30 +  (futureSeniority - 30)
-    // console.log({
-    //     futureSeniority,
-    //     salary,
-    //     percentage,
-    // })
-    // /**
-    //  * 新制年資
-    //  * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=27
-    //  */
-    // const monthlyAnnuity = Math.floor(salary * 2 * percentage / 100)
-    // retirement.value.insurance.monthlyAnnuity = monthlyAnnuity
+    const { lifeExpectancy, age } = retirement.value
+    const inflationRate = 1 + props.config.inflationRate / 100
+    const pvModifier = Math.pow(inflationRate, age - 60)
+    retirement.value.annuitySum = Math.floor(monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
+    retirement.value.insurance.annuity = 0 // 避免勞保資料干擾
 }
 function calculateExpenseQuartileMarks() {
     props.config.retirementQuartile.forEach((item, index) => {
@@ -459,7 +436,7 @@ function calculateLaborInsuranceMonthlyAnnuity() {
     if (lifeExpectancy) { // 勞保年金請領總和
         const inflationRate = 1 + props.config.inflationRate / 100
         const pvModifier = Math.pow(inflationRate, age - 60)
-        retirement.value.insurance.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
+        retirement.value.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
     }
 }
 function calculateRetirementExpense() {
@@ -489,9 +466,7 @@ async function drawRetirementAssetChart(propagate = false) {
         lifeExpectancy,
         annualExpense,
     } = retirement.value
-    const {
-        monthlyAnnuity,
-    } = retirement.value.insurance
+    const monthlyAnnuity = retirement.value.insurance.monthlyAnnuity || retirement.value.pension.monthlyAnnuity
 
     // 計算資料
     const inflationRate = 1 + props.config.inflationRate / 100
@@ -522,7 +497,11 @@ async function drawRetirementAssetChart(propagate = false) {
         pv = fv
         inflationModifier *= inflationRate
     }
-    calculatePensionFinalValue(fv)
+
+    const { careerInsuranceType } = props.profile
+    if (['employee', 'entrepreneur'].includes(careerInsuranceType)) {
+        calculateLaborPensionLumpSum(fv)
+    }
 
     // 退休後退休支出
     let insuranceAnnuityInflationModifier = 1
@@ -595,7 +574,7 @@ async function drawRetirementAssetChart(propagate = false) {
     })
     pensionChartInstance = shallowRef(chartInstance)
 }
-function calculatePensionFinalValue(fv = 0) {
+function calculateLaborPensionLumpSum(fv = 0) {
     retirement.value.pension.lumpSum = Number(fv)
     const { futureSeniority } = retirement.value.insurance
     const taxFreeLevel = 19.8 * 10000 * futureSeniority
