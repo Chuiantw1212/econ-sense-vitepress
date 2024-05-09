@@ -1,51 +1,48 @@
 <template>
-    <div>
-        <h3 id="_投資資產試算" tabindex="-1">投資資產試算<a class="header-anchor" href="#投資資產試算"
-                aria-label="Permalink to &quot;投資資產試算&quot;">&ZeroWidthSpace;</a></h3>
-        <el-card>
-            <el-form label-width="auto">
-                <el-row>
-                    <el-col :span="24">
-                        <el-form-item label="資產配置">
-                            <el-radio-group v-model="investment.allocationETF" @change="calculateAsset()">
-                                <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label
-                                    }}</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="23">
-                        <el-form-item label="投資報酬率">
-                            <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks"
-                                :disabled="true" />
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <br />
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="已備資產">
-                            <el-input-number v-model="investment.presentAsset" :min="0" :step="100000"
-                                :disabled="isFormDisabled" @change="calculateAsset()" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="儲蓄投資">
-                            <el-text>{{ Number(career.monthlySaving).toLocaleString() }} NTD / 月</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row v-if="isFormDisabled">
-                    <el-col>
-                        <el-form-item label="圖表繪製前提">
-                            <el-text type="danger">
-                                填寫基本資料、職業試算、退休試算
-                            </el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <!-- <el-collapse>
+    <el-card>
+        <el-form label-width="auto">
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item label="資產配置">
+                        <el-radio-group v-model="investment.allocationETF" @change="calculateAsset()">
+                            <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label
+                                }}</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="23">
+                    <el-form-item label="投資報酬率">
+                        <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks"
+                            :disabled="true" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <br />
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="已備資產">
+                        <el-input-number v-model="investment.presentAsset" :min="0" :step="100000"
+                            :disabled="isFormDisabled" @change="calculateAsset()" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="儲蓄投資">
+                        <el-text>{{ Number(career.monthlySaving).toLocaleString() }} NTD / 月</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row v-if="isFormDisabled">
+                <el-col>
+                    <el-form-item label="圖表繪製前提">
+                        <el-text type="danger">
+                            填寫基本資料、職業試算、退休試算
+                        </el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <!-- <el-collapse>
                     <el-collapse-item title="點此快速調整目標(日期&支出)" :border="true" :disabled="isFormDisabled">
                         <el-row>
                             <el-col :span="12">
@@ -85,7 +82,7 @@
                         </el-row>
                     </el-collapse-item>
                 </el-collapse> -->
-                <!-- <el-row>
+            <!-- <el-row>
                     <el-col :span="12">
                     </el-col>
                     <el-col :span="12">
@@ -94,67 +91,66 @@
                         </el-form-item>
                     </el-col>
                 </el-row> -->
-                <canvas v-show="!unableToDraw" id="assetChart"></canvas>
-            </el-form>
-            <template #footer>
-                <el-collapse>
-                    <el-collapse-item title="試算說明" name="1" :border="true">
-                        <ul>
-                            <li>將日期歸零，則視同取消計算項目。</li>
-                            <li>因版面有限，只計算退休前資產累積。</li>
-                        </ul>
-                        <table class="table">
-                            <tr>
-                                <th>參考標的</th>
-                                <th>資產配置</th>
-                                <th>來源網址</th>
-                            </tr>
-                            <tr>
-                                <td>AOA</td>
-                                <td>股8債2</td>
-                                <td>
-                                    <a href="https://www.ishares.com/us/products/239729/ishares-aggressive-allocation-etf"
-                                        target="_blank">
-                                        來源網址
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>AOR</td>
-                                <td>股6債4</td>
-                                <td>
-                                    <a href="https://www.ishares.com/us/products/239756/ishares-growth-allocation-etf"
-                                        target="_blank">
-                                        來源網址
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>AOM</td>
-                                <td>股4債6</td>
-                                <td>
-                                    <a href="https://www.ishares.com/us/products/239765/ishares-moderate-allocation-etf"
-                                        target="_blank">
-                                        來源網址
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>AOK</td>
-                                <td>股2債8</td>
-                                <td>
-                                    <a href="https://www.ishares.com/us/products/239733/ishares-conservative-allocation-etf"
-                                        target="_blank">
-                                        來源網址
-                                    </a>
-                                </td>
-                            </tr>
-                        </table>
-                    </el-collapse-item>
-                </el-collapse>
-            </template>
-        </el-card>
-    </div>
+            <canvas v-show="!unableToDraw" id="assetChart"></canvas>
+        </el-form>
+        <template #footer>
+            <el-collapse>
+                <el-collapse-item title="試算說明" name="1" :border="true">
+                    <ul>
+                        <li>將日期歸零，則視同取消計算項目。</li>
+                        <li>因版面有限，只計算退休前資產累積。</li>
+                    </ul>
+                    <table class="table">
+                        <tr>
+                            <th>參考標的</th>
+                            <th>資產配置</th>
+                            <th>來源網址</th>
+                        </tr>
+                        <tr>
+                            <td>AOA</td>
+                            <td>股8債2</td>
+                            <td>
+                                <a href="https://www.ishares.com/us/products/239729/ishares-aggressive-allocation-etf"
+                                    target="_blank">
+                                    來源網址
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>AOR</td>
+                            <td>股6債4</td>
+                            <td>
+                                <a href="https://www.ishares.com/us/products/239756/ishares-growth-allocation-etf"
+                                    target="_blank">
+                                    來源網址
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>AOM</td>
+                            <td>股4債6</td>
+                            <td>
+                                <a href="https://www.ishares.com/us/products/239765/ishares-moderate-allocation-etf"
+                                    target="_blank">
+                                    來源網址
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>AOK</td>
+                            <td>股2債8</td>
+                            <td>
+                                <a href="https://www.ishares.com/us/products/239733/ishares-conservative-allocation-etf"
+                                    target="_blank">
+                                    來源網址
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </el-collapse-item>
+            </el-collapse>
+        </template>
+    </el-card>
 </template>
 <script setup lang="ts">
 import { ref, computed, shallowRef, reactive, watch } from 'vue'

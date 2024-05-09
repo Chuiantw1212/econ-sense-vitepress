@@ -99,7 +99,7 @@ function setMarriageYears() {
     const currentYear = new Date().getFullYear()
     const beforeYears = []
     const afterYears = []
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 40; i++) {
         const afterYear = currentYear + i
         afterYears.push({
             label: afterYear,
