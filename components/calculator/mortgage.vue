@@ -309,7 +309,6 @@ function calculateMortgage(options: any = { propagate: true }) {
     calculateMonthlyRepay()
     // draw chart
     debounce(() => {
-        console.trace('Infinite loop checker.')
         drawDownpayChart(propagate)
         if (setDownpay || setTotalPrice) {
             calculateDownpayYear()
