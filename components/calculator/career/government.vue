@@ -66,6 +66,7 @@
                 <el-col :span="12">
                     <el-form-item label="= 奉給">
                         <el-text>{{ Number(career.monthlyTotalSalary).toLocaleString() }}</el-text>
+                        <!-- <el-text>{{ Number(civilServantPension.salary).toLocaleString() }}</el-text> -->
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -319,6 +320,19 @@ function drawChartAndCalculateIncome(propagate = false) {
     })
 
     pv = fv
+    if (pension.monthlyContributionEmployee) {
+        fv -= pension.monthlyContributionEmployee
+        dataAndDataIndex.push({
+            label: '退撫',
+            data: [pv, fv],
+            datasetIndex: 1,
+        })
+    }
+    if (monthlyBasicSalary) {
+        career.value.monthlyNetPayEstimated = fv
+    }
+
+    pv = fv
     fv -= healInsurance.contribution
     dataAndDataIndex.push({
         label: '健保',
@@ -333,19 +347,6 @@ function drawChartAndCalculateIncome(propagate = false) {
         data: [pv, fv],
         datasetIndex: 1,
     })
-
-    pv = fv
-    if (pension.monthlyContributionEmployee) {
-        fv -= pension.monthlyContributionEmployee
-        dataAndDataIndex.push({
-            label: '退撫',
-            data: [pv, fv],
-            datasetIndex: 1,
-        })
-    }
-    if (monthlyBasicSalary) {
-        career.value.monthlyNetPayEstimated = fv
-    }
 
     fv = career.value.monthlyNetPay || fv
     dataAndDataIndex.push({

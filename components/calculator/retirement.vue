@@ -32,9 +32,8 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-collapse>
+            <el-collapse v-if="['employee', 'entrepreneur'].includes(profile.insuranceType)">
                 <el-collapse-item title="查詢勞保局E化服務系統後設定" :border="true" :disabled="isFormDisabled">
-
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="目前勞保投保年資">
@@ -136,8 +135,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                                item.label
-                                }}</el-radio>
+                item.label
+            }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
