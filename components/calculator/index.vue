@@ -105,7 +105,6 @@ import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
 import EstateDialogContent from './estateDialog.vue'
 import DataCenter from './dataCenter.vue'
-import Disability from './career/disability.vue'
 const { VITE_BASE_URL } = import.meta.env
 const ProfileRef = ref()
 const CareerRef = ref()

@@ -19,7 +19,7 @@
                 <el-col :span="12">
                     <el-form-item label="主管加給">
                         <econSelect v-model="career.supervisorRank" :options="supervisorAllowanceOptins"
-                            @change="calculateCareer">
+                            placeholder="無加給" @change="calculateCareer">
                         </econSelect>
                     </el-form-item>
                 </el-col>
@@ -33,7 +33,7 @@
                 <el-col :span="12">
                     <el-form-item label="專業加給">
                         <econSelect v-model="career.professionalRank" :options="professionalAllowanceOptions"
-                            @change="calculateCareer">
+                            placeholder="無加給" @change="calculateCareer">
                         </econSelect>
                     </el-form-item>
                 </el-col>
@@ -46,7 +46,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="地域加給">
-                        <el-input-number v-model="career.regionalAllowance" @change="calculateCareer">
+                        <el-input-number v-model="career.regionalAllowance" :min="0" @change="calculateCareer">
                         </el-input-number>
                     </el-form-item>
                 </el-col>
@@ -64,9 +64,9 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <!-- <el-form-item label="本俸額">
-                        <el-text>{{ Number(career.pension.monthlyContributionEmployee).toLocaleString() }}</el-text>
-                    </el-form-item> -->
+                    <el-form-item label="本俸額">
+                        <el-text>{{ Number(civilServantPension.salary).toLocaleString() }}</el-text>
+                    </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
@@ -123,12 +123,15 @@
                 <el-collapse-item title="試算說明" name="1" :border="true">
                     <ul>
                         <li>
-                            資料更新日期113(2024)年
+                            資料更新日期113(2024)年: <a href="https://www.dgpa.gov.tw/information?uid=108&pid=11768"
+                                target="_blank">歷年全國軍公教員工待遇支給要點</a>
                         </li>
+
                     </ul>
                 </el-collapse-item>
             </el-collapse>
         </template>
+        <canvas v-show="career.monthlyBasicSalary" id="governmentIncomeChart"></canvas>
     </el-card>
 </template>
 <script setup lang="ts">
@@ -141,12 +144,10 @@ import {
     professionalAllowanceOptions,
     supervisorAllowanceRanks,
     professoinalAllowanceRanks,
-    // laborInsuranceLevels,
-    // onlyLaborInsurance,
     laborAndHealthInsurance,
     onlyHealthInsurance,
-    // entrepreneurHealthInsuranceLevel,
 } from './config.js'
+import Chart from 'chart.js/auto';
 import econSelect from '../../econSelect.vue'
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
@@ -171,6 +172,9 @@ const props = defineProps({
         },
         required: true,
     },
+})
+const civilServantPension = reactive({
+    salary: 0,
 })
 const civilServantInsurance = reactive({
     premiumRate: 7.83,
@@ -240,6 +244,7 @@ function calculatePension() {
             return item.value === payPoint
         })
         const pensionBaseSalary = payRanks[index]
+        civilServantPension.salary = Math.round(pensionBaseSalary)
         const monthlyContributionEmployee = Math.round(pensionBaseSalary * 2 * pension.rate / 100)
         const monthlyContributionGovernment = Math.round(pensionBaseSalary * 2 * 0.15 * 0.35)
         career.value.pension.monthlyContributionEmployee = monthlyContributionEmployee
@@ -290,10 +295,144 @@ function calculateAllowance() {
         career.value.professionalAllowance = 0
     }
 }
+// 畫圖
+let governmentChatInstance = ref<Chart>()
 function drawChartAndCalculateIncome(propagate = false) {
     if (propagate) {
         emits('update:modelValue', career.value)
     }
+    const { monthlyBasicSalary, insurance, pension, supervisorAllowance, professionalAllowance } = career.value
+    // 繪製圖表
+    let pv = 0
+    let fv = 0
+    const dataAndDataIndex: any[] = []
+    fv = monthlyBasicSalary + supervisorAllowance + professionalAllowance
+    dataAndDataIndex.push({
+        label: '本薪',
+        data: [pv, fv],
+        datasetIndex: 0,
+    })
+
+    pv = fv
+    fv -= healInsurance.contribution
+    dataAndDataIndex.push({
+        label: '健保',
+        data: [pv, fv],
+        datasetIndex: 1,
+    })
+
+    pv = fv
+    fv -= civilServantInsurance.expense
+    dataAndDataIndex.push({
+        label: '公保',
+        data: [pv, fv],
+        datasetIndex: 1,
+    })
+
+    pv = fv
+    if (pension.monthlyContributionEmployee) {
+        fv -= pension.monthlyContributionEmployee
+        dataAndDataIndex.push({
+            label: '退撫',
+            data: [pv, fv],
+            datasetIndex: 1,
+        })
+    }
+    if (monthlyBasicSalary) {
+        career.value.monthlyNetPayEstimated = fv
+    }
+
+    fv = career.value.monthlyNetPay || fv
+    dataAndDataIndex.push({
+        label: '月實領',
+        data: [0, fv],
+        datasetIndex: 0,
+    })
+
+    if (career.value.monthlyExpense) {
+        pv = fv
+        fv -= career.value.monthlyExpense
+        dataAndDataIndex.push({
+            label: '月支出',
+            data: [pv, fv],
+            datasetIndex: 1,
+        })
+    }
+
+    if (0 <= fv) {
+        dataAndDataIndex.push({
+            label: '定期定額',
+            data: [0, fv],
+            datasetIndex: 0,
+        })
+    }
+
+    const labels = dataAndDataIndex.map(item => item.label)
+    const data0 = dataAndDataIndex.map(item => {
+        if (item.datasetIndex === 0) {
+            return item.data
+        } else {
+            return [0, 0]
+        }
+    })
+    const data1 = dataAndDataIndex.map(item => {
+        if (item.datasetIndex === 1) {
+            return item.data
+        } else {
+            return [0, 0]
+        }
+    })
+
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: '應付月薪',
+                data: data0,
+            },
+            {
+                label: '應扣項目',
+                data: data1
+            },
+        ]
+    }
+    // if (propagate) {
+    //     emits('update:modelValue', career.value)
+    // }
+
+    if (governmentChatInstance.value) {
+        governmentChatInstance.value.data = data
+        governmentChatInstance.value.update()
+        return
+    }
+    const ctx: any = document.getElementById('governmentIncomeChart')
+    const chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: tooltipFormat,
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true
+                }
+            }
+        }
+    })
+    governmentChatInstance = shallowRef(chartInstance)
+}
+function tooltipFormat(tooltipItems) {
+    const { raw } = tooltipItems
+    const variedValue = raw[1] - raw[0]
+    return Number(variedValue).toLocaleString()
 }
 
 const debounceId = ref()

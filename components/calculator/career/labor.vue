@@ -154,7 +154,6 @@
 import { ref, computed, shallowRef, reactive } from 'vue'
 import Chart from 'chart.js/auto';
 import econSelect from '../../econSelect.vue'
-let incomeChartInstance = ref<Chart>()
 import {
     laborInsuranceLevels,
     onlyLaborInsurance,
@@ -391,6 +390,7 @@ function calculateMonthlySaving() {
     career.value.monthlySaving = Math.floor(monthlyNetPayBasis - monthlyExpense)
 }
 // 畫圖
+let incomeChartInstance = ref<Chart>()
 function drawChartAndCalculateIncome(propagate = false) {
     const { monthlyBasicSalary, insuredUnit, employeeWelfareFund, insurance, pension } = career.value
     // 繪製圖表

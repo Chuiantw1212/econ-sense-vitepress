@@ -127,7 +127,6 @@ function calculatecSpouse(options: any = { propagate: true }) {
 
     const { propagate = true } = options
     debounce(() => {
-        console.trace('Infinite loop checker.')
         drawMarriageChart(propagate)
     })(propagate)
 }
