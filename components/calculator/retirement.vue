@@ -232,7 +232,6 @@ interface IOptionItem {
     value: string | number | boolean,
 }
 let pensionChartInstance = ref<Chart>()
-const activeNames = ref(['1'])
 const emits = defineEmits(['update:modelValue', 'change'])
 const props = defineProps({
     modelValue: {
@@ -301,7 +300,6 @@ const isFormDisabled = computed(() => {
     return !lifeExpectancy || !monthlyBasicSalary
 })
 const unableToDraw = computed(() => {
-    const { monthlyContribution } = props.career.pension
     const {
         irrOverDecade
     } = retirement.value.pension
@@ -310,7 +308,7 @@ const unableToDraw = computed(() => {
         lifeExpectancy,
         annualExpense,
     } = retirement.value
-    const noBefore = !monthlyContribution || !irrOverDecade || !yearToRetirement
+    const noBefore = !irrOverDecade || !yearToRetirement
     const noAfter = !lifeExpectancy || !annualExpense
     return noBefore || noAfter
 })
