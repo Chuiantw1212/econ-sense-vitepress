@@ -56,8 +56,12 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="">
-                                <el-text>{{ Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                            <el-form-item>
+                                <el-text v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">{{
+                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                                    月</el-text>
+                                <el-text v-if="['civilServant',].includes(profile.careerInsuranceType)">{{
+                Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -338,32 +342,61 @@ function calculateCivilServantRetirement() {
      */
     const baseSalary = salary * 2
     let lumpSum = 0
+    console.log({
+        lumpSum,
+        futureSeniority
+    })
     if (futureSeniority <= 35) {
         lumpSum = 1.5 * futureSeniority
         lumpSum = Math.min(53, lumpSum)
     } else {
         lumpSum = 1.5 * 35
-        lumpSum += 1 * (lumpSum - 35)
+        lumpSum += 1 * (futureSeniority - 35)
         lumpSum = Math.min(60, lumpSum)
     }
+    lumpSum *= baseSalary
 
-    let percentage = 0
+    let monthlyAnnuity = 0
     let incomeReplacementMaxRatio = 0
     if (futureSeniority <= 35) {
-        percentage += 1. * futureSeniority
-        // incomeReplacementMaxRatio = 30 + 1.5 * (futureSeniority - 15)
+        monthlyAnnuity += 2 * futureSeniority
+        // 替代率天花板
+        incomeReplacementMaxRatio = 30 + (futureSeniority - 15) * 1.5
     } else {
-        percentage += 2 * 35
-        percentage += (futureSeniority - 35)
-        percentage = Math.min(75, percentage)
+        monthlyAnnuity += 2 * 35
+        monthlyAnnuity += (futureSeniority - 35)
+        monthlyAnnuity = Math.min(75, monthlyAnnuity)
+        // 替代率天花板
+        incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
     }
-
     /**
      * 再計算月退休金
      */
-    retirement.value.insurance.monthlyAnnuity = 0
-    if (type === 'lumpSum') {
-        retirement.value.pension.lumpSum = Math.floor(lumpSum * baseSalary)
+    // retirement.value.insurance.monthlyAnnuity = 0
+    switch (type) {
+        case 'lumpSum': {
+            retirement.value.pension.lumpSum = Math.floor(lumpSum)
+            retirement.value.pension.monthlyAnnuity = 0
+            break;
+        }
+        case 'annuity': {
+            retirement.value.pension.lumpSum = 0
+            monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
+            monthlyAnnuity *= baseSalary / 100
+            retirement.value.pension.monthlyAnnuity = Math.floor(monthlyAnnuity)
+            break;
+        }
+        case 'halfAndHalf': {
+            incomeReplacementMaxRatio /= 2
+            console.log({
+                incomeReplacementMaxRatio
+            })
+            monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
+            monthlyAnnuity *= baseSalary / 100
+            retirement.value.pension.lumpSum = Math.floor(lumpSum / 2)
+            retirement.value.pension.monthlyAnnuity = Math.floor(monthlyAnnuity)
+            break;
+        }
     }
     /**
      * 先計算上限與撫卹退休金
@@ -402,12 +435,12 @@ function calculateRetireLife() {
         retirement.value.lifeExpectancy = Number(Number(maxZero).toFixed(2))
     }
 }
-function calculateFutureSeniority() {
+function calculateFutureSeniority() { // 退休時年資
     const { presentSeniority } = retirement.value.insurance
     const rawNumber = presentSeniority + retirement.value.age - props.profile.age
-    retirement.value.insurance.futureSeniority = Math.floor(rawNumber)
+    retirement.value.insurance.futureSeniority = rawNumber.toFixed(2)
 }
-function calculateLaborInsuranceMonthlyAnnuity() { // presentSeniority
+function calculateLaborInsuranceMonthlyAnnuity() {
     const { lifeExpectancy, age } = retirement.value
     const { presentSeniority, futureSeniority, } = retirement.value.insurance
     const { salary } = props.career.insurance
