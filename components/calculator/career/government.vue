@@ -64,8 +64,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="本俸額">
-                        <el-text>{{ Number(civilServantPension.salary).toLocaleString() }}</el-text>
+                    <el-form-item label="= 奉給">
+                        <el-text>{{ Number(career.monthlyTotalSalary).toLocaleString() }}</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -201,6 +201,7 @@ function calculateCareer(options: any = { propagate: true }) {
     try {
         calculateMonthlyBasic()
         calculateAllowance()
+        calculateMonthlyTotal()
         calculateHealthInsurance()
         calculateCareerInsurance()
         calculatePension()
@@ -231,6 +232,10 @@ function calculateMonthlyBasic() {
     } else {
         career.value.monthlyBasicSalary = 0
     }
+}
+function calculateMonthlyTotal() {
+    const { monthlyBasicSalary, insurance, pension, supervisorAllowance, professionalAllowance } = career.value
+    career.value.monthlyTotalSalary = monthlyBasicSalary + supervisorAllowance + professionalAllowance
 }
 function calculateCareerInsurance() {
     const { monthlyBasicSalary, } = career.value
@@ -308,7 +313,7 @@ function drawChartAndCalculateIncome(propagate = false) {
     const dataAndDataIndex: any[] = []
     fv = monthlyBasicSalary + supervisorAllowance + professionalAllowance
     dataAndDataIndex.push({
-        label: '本薪',
+        label: '奉給',
         data: [pv, fv],
         datasetIndex: 0,
     })
