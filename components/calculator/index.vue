@@ -19,6 +19,12 @@
             </template>
         </el-dialog>
 
+        <h3 id="_退休試算" tabindex="-1">退休試算<a class="header-anchor" href="#退休試算"
+            aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
+            <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career" :profile="userForm.profile"
+            ref="RetirementRef" @update:modelValue="onRetirementChanged()">
+        </Retirement>
+
         <Profile v-model="userForm.profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
             @upload="setUserAndInitialize($event, { showMessage: true })" @update:modelValue="onProfileChanged()">
         </Profile>
@@ -35,17 +41,6 @@
         <CareerGovernment v-if="userForm.profile.careerInsuranceType === 'civilServant'" v-model="userForm.career"
             :config="config" :profile="userForm.profile" ref="CareerRef" @update:modelValue="onCareerChanged()">
         </CareerGovernment>
-
-        
-        <h3 id="_退休試算" tabindex="-1">退休試算<a class="header-anchor" href="#退休試算"
-            aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
-            <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career" :profile="userForm.profile"
-            ref="RetirementRef" @update:modelValue="onRetirementChanged()">
-        </Retirement>
-        
-        <!-- <h3 id="_失能與長照試算" tabindex="-1">失能與長照試算<a class="header-anchor" href="#失能與長照試算"
-                aria-label="Permalink to &quot;失能與長照試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Disability v-model="userForm.career" :config="config"></Disability> -->
 
         <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
                 aria-label="Permalink to &quot;五子登科&quot;">&ZeroWidthSpace;</a></h2>
