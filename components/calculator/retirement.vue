@@ -296,9 +296,8 @@ const unableToDraw = computed(() => {
         lifeExpectancy,
         annualExpense,
     } = retirement.value
-    const monthlyAnnuity = retirement.value.insurance.monthlyAnnuity || retirement.value.pension.monthlyAnnuity
     const noBefore = !monthlyContribution || !irrOverDecade || !yearToRetirement
-    const noAfter = !lifeExpectancy || !annualExpense || !monthlyAnnuity
+    const noAfter = !lifeExpectancy || !annualExpense
     return noBefore || noAfter
 })
 // methods
@@ -392,7 +391,9 @@ function calculateCivilServantRetirement() {
     const inflationRate = 1 + props.config.inflationRate / 100
     const pvModifier = Math.pow(inflationRate, age - 60)
     retirement.value.annuitySum = Math.floor(monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
-    retirement.value.insurance.annuity = 0 // 避免勞保資料干擾
+    // 避免勞保資料干擾
+    retirement.value.insurance.annuity = 0
+    retirement.value.pension.tax = 0
 }
 function calculateExpenseQuartileMarks() {
     props.config.retirementQuartile.forEach((item, index) => {
