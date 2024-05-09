@@ -36,11 +36,16 @@
             :config="config" :profile="userForm.profile" ref="CareerRef" @update:modelValue="onCareerChanged()">
         </CareerGovernment>
 
+        
         <h3 id="_退休試算" tabindex="-1">退休試算<a class="header-anchor" href="#退休試算"
-                aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career" :profile="userForm.profile"
+            aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
+            <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career" :profile="userForm.profile"
             ref="RetirementRef" @update:modelValue="onRetirementChanged()">
         </Retirement>
+        
+        <!-- <h3 id="_失能與長照試算" tabindex="-1">失能與長照試算<a class="header-anchor" href="#失能與長照試算"
+                aria-label="Permalink to &quot;失能與長照試算&quot;">&ZeroWidthSpace;</a></h3>
+        <Disability v-model="userForm.career" :config="config"></Disability> -->
 
         <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
                 aria-label="Permalink to &quot;五子登科&quot;">&ZeroWidthSpace;</a></h2>
@@ -56,8 +61,8 @@
         <Spouse v-model="userForm.spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()">
         </Spouse>
 
-        <h3 id="_育兒試算" tabindex="-1">育兒試算<a class="header-anchor" href="#育兒試算"
-                aria-label="Permalink to &quot;育兒試算&quot;">&ZeroWidthSpace;</a></h3>
+        <h3 id="_家庭責任試算" tabindex="-1">家庭責任試算<a class="header-anchor" href="#家庭責任試算"
+                aria-label="Permalink to &quot;家庭責任試算&quot;">&ZeroWidthSpace;</a></h3>
         <Parenting v-model="userForm.parenting" :config="config" :career="userForm.career"
             :retirement="userForm.retirement" :spouse="userForm.spouse" :investment="userForm.investment"
             :estateSize="userForm.estateSize" :mortgage="userForm.mortgage" ref="ParentingRef"
@@ -100,6 +105,7 @@ import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
 import EstateDialogContent from './estateDialog.vue'
 import DataCenter from './dataCenter.vue'
+import Disability from './career/disability.vue'
 const { VITE_BASE_URL } = import.meta.env
 const ProfileRef = ref()
 const CareerRef = ref()
@@ -426,7 +432,7 @@ function onSpouseChanged() {
         propagate: false,
     })
 }
-// 育兒試算
+// 家庭責任試算
 function onParentingChanged() {
     authFetch(`/user/parenting`, {
         method: 'put',
