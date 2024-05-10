@@ -42,9 +42,10 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="已備頭期款">
-                        <el-input-number v-model="mortgage.downpay" :min="0" :step="200000" required
-                            @change="calculateMortgage({ setTotalPrice: true })" />
+                    <el-form-item label="已備資產">
+                        <el-text>
+                            {{ Number(asset.presentAsset).toLocaleString() }}
+                        </el-text>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -291,8 +292,9 @@ const mortgage = computed(() => {
 const unableToDrawChart = computed(() => {
     const { monthlySaving } = props.career
     const { irr, } = props.asset
-    const { downpay, downpayGoal } = mortgage.value
-    const noPv = !downpay
+    const { downpayGoal } = mortgage.value
+    const { presentAsset } = props.asset
+    const noPv = !presentAsset
     const negativePmt = monthlySaving <= 0
     const noN = !irr
     const noFv = !downpayGoal
@@ -333,7 +335,6 @@ function calculateTotalPrice() {
     const { downpayPercent, downpayGoal } = mortgage.value
     if (downpayPercent) {
         mortgage.value.totalPrice = Math.floor(downpayGoal / downpayPercent * 100)
-        // mortgage.value.downpayGoalStep = Math.floor(mortgage.value.totalPrice / 10)
     }
 }
 function calculateTotalPriceEstimated() {
@@ -373,11 +374,11 @@ function calculateDownpayGoalPercent() {
     }
 }
 function calculateLoanAmount() {
-    const { totalPrice, downpay } = mortgage.value
-    if (!totalPrice || !downpay) {
+    const { totalPrice, downpayGoal } = mortgage.value
+    if (!totalPrice || !downpayGoal) {
         return
     }
-    const loanAmount = totalPrice - downpay
+    const loanAmount = totalPrice - downpayGoal
     mortgage.value.loanAmount = Math.floor(loanAmount)
 }
 function calculateMonthlyRepay() {
@@ -408,12 +409,13 @@ function drawDownpayChart(propagate = false) {
     }
     const { irr, } = props.asset
     const { inflationRate, currentYear } = props.config
-    const { downpay, downpayGoal } = mortgage.value
+    const { downpayGoal } = mortgage.value
+    const { presentAsset } = props.asset
     const { monthlySaving } = props.career
     const irrModifier: number = 1 + irr / 100
     const inflationRatio: number = 1 + inflationRate / 100
 
-    let pv: number = downpay
+    let pv: number = presentAsset
     let pmt: number = 0
     if (monthlySaving) {
         pmt = monthlySaving * 12

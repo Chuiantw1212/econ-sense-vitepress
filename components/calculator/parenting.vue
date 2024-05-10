@@ -55,7 +55,7 @@
                 <el-col :span="12">
                     <el-form-item label="壽險已備">
                         <el-input-number v-model="parenting.lifeInsurance" :min="0" :step="100000"
-                            @change="calculateParenting($event)" />
+                            :disabled="!parenting.firstBornYear" @change="calculateParenting($event)" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
