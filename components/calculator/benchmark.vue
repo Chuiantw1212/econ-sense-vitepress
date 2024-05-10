@@ -4,31 +4,24 @@
             <div class="card-header card-header--custom">
                 <span>財務回顧
                 </span>
+                <el-button v-loading="storyLoading" @click="generatStory">回顧</el-button>
             </div>
         </template>
         <el-form label-width="auto">
-            <!-- {{config.counties}} -->
-            {{ meetChatGpt() }}
-            <!-- <p>你享壽{{ userForm.profile.age + userForm.profile.lifeExpectancy }}歲，</p>
-            <p>在{{ userForm.spouse.yearOfMarriage }}年時，遇見你的真愛，</p>
-            <p></p> -->
-            <!-- <el-row>
-                <el-col :span="12">
-                    <el-form-item label="享壽">
-                        {{ userForm.profile.age + userForm.profile.lifeExpectancy }} 歲
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item>
+            <div v-html="chatGptStory">
 
-                    </el-form-item>
-                </el-col>
-            </el-row> -->
+            </div>
         </el-form>
+        <!-- <template #footer>
+            <button @click="generatStory">看總結故事</button>
+        </template> -->
     </el-card>
 </template>
 <script setup lang="ts">
 import { ref, computed, shallowRef, reactive, watch } from 'vue'
+const { VITE_BASE_URL } = import.meta.env
+const emits = defineEmits(['update:modelValue'])
+const storyLoading = ref(false)
 const props = defineProps({
     modelValue: {
         type: Object,
@@ -43,11 +36,27 @@ const props = defineProps({
         }
     },
 })
+const chatGptStory = ref('點選右上角，讓我們回顧......')
 const userForm = computed(() => {
     return props.modelValue
 })
 
-function meetChatGpt() {
+async function generatStory() {
+    storyLoading.value = true
+    const humanStory = getHumanStory()
+    const res = await fetch(`${VITE_BASE_URL}/chat/story`, {
+        method: 'post',
+        body: JSON.stringify(humanStory),
+        headers: { 'Content-Type': 'application/json' }
+    })
+    const resJson = await res.text()
+    storyLoading.value = false
+    chatGptStory.value = resJson
+    userForm.value.profile.story = resJson
+    emits('update:modelValue', userForm.value)
+}
+
+function getHumanStory() {
     const { profile, spouse, parenting, mortgage, estatePrice, career, retirement } = userForm.value
     const { counties = [], insuranceTypes = [], townMap = {} } = props.config
 
@@ -64,8 +73,8 @@ function meetChatGpt() {
     const totalAge = profileAge + profilelifeExpectancy
     let story = ``
     // profile
-    story += `你於${yearOfBirth}年，來到個世界上，`
-    story += `於${yearOfBirth + totalAge}年時，悄悄的離開，`
+    story += `你於${Math.floor(yearOfBirth)}年，來到個世界上，`
+    story += `於${Math.floor(yearOfBirth + totalAge)}年時，悄悄的離開，`
     story += `在這${totalAge}間，你有著屬於自己的故事。`
     // career
     const insuranceTypeItem = insuranceTypes.find(item => item.value === careerInsuranceType)
@@ -76,7 +85,7 @@ function meetChatGpt() {
         story += `成立了${careerHeadCount}人公司，`
     }
     if (insurance.futureSeniority) {
-        story += `競競業業的工作了${insurance.futureSeniority}年，並在${retireAge}歲時選擇退休。`
+        story += `競競業業的工作持續了${Math.floor(insurance.futureSeniority)}年。`
     }
     // spouse
     if (yearOfMarriage) {
@@ -107,7 +116,19 @@ function meetChatGpt() {
         story += `為你提供了一切生活所需。`
     }
     const qualityLevelLabel = ['清貧', '尚可', '普通', '不錯', '優渥']
-    story += `你維持著${qualityLevelLabel[qualityLevel - 1]}的退休生活，直到生命的最後一天。`
+    story += `你在${retireAge}歲時選擇退休，並維持著${qualityLevelLabel[qualityLevel - 1]}的退休生活，直到生命的最後一天。`
     return story
 }
 </script>
+<style lang="scss">
+.card-header--custom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .header__btnGroup {
+        display: flex;
+        gap: 8px;
+    }
+}
+</style>

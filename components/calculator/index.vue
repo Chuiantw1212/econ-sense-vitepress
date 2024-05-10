@@ -87,7 +87,7 @@
 
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
-        <Bechmark v-model="userForm" :config="config"></Bechmark>
+        <Bechmark v-model="userForm" :config="config" @update:model-value="onProfileChanged()"></Bechmark>
         <br>
         <DataCenter @export="exportUserForm()"></DataCenter>
     </div>
