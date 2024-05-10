@@ -28,7 +28,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="定期定額">
-                        <el-text>{{ Number(career.monthlySaving).toLocaleString() }} NTD / 月</el-text>
+                        <el-text>{{ Number(career.monthlySaving).toLocaleString() }} / 月</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -157,9 +157,9 @@ const asset = computed(() => {
     return props.modelValue
 })
 const isFormDisabled = computed(() => {
-    const { yearToRetirement } = props.retirement
+    const { yearsToRetirement } = props.retirement
     const { monthlyBasicSalary } = props.career
-    return !yearToRetirement || !monthlyBasicSalary
+    return !yearsToRetirement || !monthlyBasicSalary
 })
 watch(() => props.config.portfolioIRR, () => {
     setPortfolioMarks()
@@ -194,7 +194,7 @@ function calculatePortfolio() {
 
 }
 function calculateInvestmentPeriod() {
-    asset.value.period = props.retirement.yearToRetirement
+    asset.value.period = props.retirement.yearsToRetirement
 }
 
 const unableToDraw = computed(() => {
@@ -235,7 +235,7 @@ function drawLifeAssetChart(propagate = true) {
     const spouseContribution: number[] = []
     const childExpenseData: number[] = []
 
-    for (let year = currentYear; year < currentYear + period; year++) {
+    for (let year = currentYear + 1; year <= currentYear + period; year++) {
         valueModifier *= inflatoinRatio
         /**
          * 影響存量重大事件
@@ -248,14 +248,33 @@ function drawLifeAssetChart(propagate = true) {
         } else {
             downpayData.push(0)
         }
+
+        let calculatedPmt = 0
+        /**
+         * 不受到通膨影響的PMT
+         */
+        // 房貸利息影響每月儲蓄
+        const mortgageStartYear = downpayYear
+        const mortgageEndYear = downpayYear + loanTerm
+        let mortgagePmt = 0
+        let inflatedTotalPrice = 0
+        if (mortgageStartYear <= year && fv > 0) {
+            if (year < mortgageEndYear) {
+                mortgagePmt = monthlyRepay * 12
+            }
+            inflatedTotalPrice = Math.floor(totalPrice * valueModifier)
+        }
+        estateData.push(inflatedTotalPrice)
+        mortgageData.push(Math.floor(-mortgagePmt))
+        calculatedPmt -= mortgagePmt
         /**
          * 會受到通膨影響的PMT
          */
         // 執業收支 
         const { monthlySaving } = props.career
-        const annualSaving = monthlySaving * 12
-        let calculatedPmt = annualSaving * valueModifier
-        investingData.push(calculatedPmt)
+        const annualSaving = monthlySaving * 12 * valueModifier
+        investingData.push(Math.floor(annualSaving))
+        calculatedPmt += annualSaving
 
         // 育兒開支影響每月儲蓄
         const { firstBornYear, secondBornYear, independantAge, childAnnualExpense } = props.parenting
@@ -280,25 +299,6 @@ function drawLifeAssetChart(propagate = true) {
             spouseContribution.push(0)
             childExpenseData.push(0)
         }
-        // 加計通貨膨脹
-        calculatedPmt *= valueModifier
-        /**
-         * 不受到通膨影響的PMT
-         */
-        // 房貸利息影響每月儲蓄
-        const mortgageStartYear = downpayYear
-        const mortgageEndYear = downpayYear + loanTerm
-        let mortgagePmt = 0
-        let inflatedTotalPrice = 0
-        if (mortgageStartYear <= year && fv > 0) {
-            if (year < mortgageEndYear) {
-                mortgagePmt = monthlyRepay * 12
-            }
-            inflatedTotalPrice = Math.floor(totalPrice * valueModifier)
-        }
-        estateData.push(inflatedTotalPrice)
-        mortgageData.push(Math.floor(-mortgagePmt))
-        calculatedPmt -= mortgagePmt
 
         // 計算複利終值
         fv = pv * irrModifier
@@ -331,7 +331,7 @@ function drawLifeAssetChart(propagate = true) {
     const hasChildExpense = childExpenseData.some(value => value !== 0)
     if (hasChildExpense) {
         datasets.push({
-            label: '育兒支出',
+            label: '育兒收支',
             data: childExpenseData,
         })
     }

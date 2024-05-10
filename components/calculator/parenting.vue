@@ -10,7 +10,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item v-if="spouse.monthlyContribution" label="配偶貢獻">
-                        <el-text>{{ Number(spouse.monthlyContribution).toLocaleString() }} NTD / 月</el-text>
+                        <el-text>{{ Number(spouse.monthlyContribution * 12).toLocaleString() }} / 年</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -73,7 +73,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="資產投報率">
-                        <el-text>{{ config.portfolioIRR[asset.allocationETF] }} %</el-text>
+                        <el-text>{{ config.portfolioIRR[asset.allocationETF] }} % / 年</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>

@@ -18,8 +18,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="距離退休">
-                        <el-text>{{ retirement.yearToRetirement }} 年</el-text>
+                    <el-form-item label="退休年">
+                        <el-text>{{ retirement.yearOfRetire }} ({{ retirement.yearsToRetirement }} 年後)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -58,10 +58,10 @@
                         <el-col :span="12">
                             <el-form-item label="每月年金">
                                 <el-text v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">{{
-                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                                    Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                                 <el-text v-if="['civilServant',].includes(profile.careerInsuranceType)">{{
-                Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
+                                    Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -147,8 +147,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                item.label
-            }}</el-radio>
+                                item.label
+                                }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -312,12 +312,12 @@ const unableToDraw = computed(() => {
         irrOverDecade
     } = retirement.value.pension
     const {
-        yearToRetirement,
+        yearsToRetirement,
         lifeExpectancy,
         annualExpense,
     } = retirement.value
     const noIncome = !monthlyBasicSalary
-    const noBefore = !irrOverDecade || !yearToRetirement
+    const noBefore = !irrOverDecade || !yearsToRetirement
     const noAfter = !lifeExpectancy || !annualExpense
     return noIncome || noBefore || noAfter
 })
@@ -442,9 +442,11 @@ function calculateExpenseQuartileMarks() {
 function calculateRetireLife() {
     const { age: currentAge, lifeExpectancy } = props.profile
     const { age: retireAge } = retirement.value
+    const { currentYear } = props.config
     if (currentAge && lifeExpectancy && retireAge) {
-        retirement.value.yearToRetirement = retireAge - currentAge
-        const rawNumber = lifeExpectancy - retirement.value.yearToRetirement
+        retirement.value.yearsToRetirement = retireAge - currentAge
+        retirement.value.yearOfRetire = currentYear + retirement.value.yearsToRetirement
+        const rawNumber = lifeExpectancy - retirement.value.yearsToRetirement
         const maxZero = Math.max(0, rawNumber)
         retirement.value.lifeExpectancy = Number(Number(maxZero).toFixed(2))
     }
@@ -506,7 +508,7 @@ async function drawRetirementAssetChart(propagate = false) {
     const { monthlyContribution } = props.career.pension
     const { currentYear } = props.config
     const {
-        yearToRetirement,
+        yearsToRetirement,
         lifeExpectancy,
         annualExpense,
     } = retirement.value
@@ -518,7 +520,7 @@ async function drawRetirementAssetChart(propagate = false) {
     let inflationModifier = 1
 
     let pv = 0
-    const n = yearToRetirement
+    const n = yearsToRetirement
     const pensionContribution = monthlyContribution * 12
     const pensionIrr = 1 + (irrOverDecade / 100)
     let fv = 0 // fv = pv * n + pmt
@@ -533,7 +535,7 @@ async function drawRetirementAssetChart(propagate = false) {
     if (['employee', 'entrepreneur'].includes(careerInsuranceType)) {
         pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
         // 退休前資產累積
-        for (let i = 0; i < n; i++) {
+        for (let i = 1; i <= n; i++) {
             const calculatedYear = currentYear + i
             labels.push(calculatedYear)
             annualAnnuityData.push([0, 0])
@@ -559,7 +561,7 @@ async function drawRetirementAssetChart(propagate = false) {
     let insuranceAnnuityInflationModifier = 1
     let pmt = 0
     let inflatedAnnualExpense = 0
-    for (let i = 0; i < lifeExpectancy; i++) {
+    for (let i = 1; i <= lifeExpectancy; i++) {
         inflationModifier *= inflationRate
         insuranceAnnuityInflationModifier *= inflationRate
         // 年金收入計算
@@ -569,7 +571,7 @@ async function drawRetirementAssetChart(propagate = false) {
         retirementAnnualExpenseData.push([0, -inflatedAnnualExpense])
         pmt = annutalAnnuity - inflatedAnnualExpense
         // 未還完的房貸支出
-        const simYear = currentYear + yearToRetirement + i
+        const simYear = currentYear + yearsToRetirement + i
         const annualRepay = monthlyRepay * 12
         if (loanEndYear >= simYear) {
             pmt -= annualRepay

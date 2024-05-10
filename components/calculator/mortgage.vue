@@ -5,8 +5,8 @@
                 <el-col :span="18">
                     <el-form-item label="房屋總價">
                         <el-text v-if="mortgage.totalPriceEstimated">= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
-                    estateSize.floorSize }}坪) = {{
-                    Number(mortgage.totalPriceEstimated).toLocaleString() }} NTD</el-text>
+                            estateSize.floorSize }}坪) = {{
+                                Number(mortgage.totalPriceEstimated).toLocaleString() }} NTD</el-text>
                         <el-input-number v-else v-model="mortgage.totalPrice" :min="0" :step="1000000"
                             @change="calculateMortgage({ setDownpay: true })" />
                     </el-form-item>
@@ -98,7 +98,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="房貸利息" prop="floorSize">
-                        <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
+                        <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} / 月</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -409,7 +409,7 @@ function drawDownpayChart(propagate = false) {
     }
     const { irr, } = props.asset
     const { inflationRate, currentYear } = props.config
-    const { downpayGoal } = mortgage.value
+    const { downpayGoal, downpayYear } = mortgage.value
     const { presentAsset } = props.asset
     const { monthlySaving } = props.career
     const irrModifier: number = 1 + irr / 100
@@ -441,7 +441,24 @@ function drawDownpayChart(propagate = false) {
         estateTotalPrice.push(Math.floor(goal))
         pv = fv
     } while (fv < goal)
-    calculateYearsToDownpay(period)
+
+    mortgage.value.yearsToDownpay = period
+    mortgage.value.downpayYearEstimated = props.config.currentYear + period
+    if (downpayYear > mortgage.value.downpayYearEstimated) {
+        for (let i = 0; i < downpayYear - mortgage.value.downpayYearEstimated; i++) {
+            pmt *= inflationRatio
+            goal *= inflationRatio
+
+            fv = pv * irrModifier
+            preparedDownpayData.push(Math.floor(fv))
+            fv += pmt
+            annualSavingData.push(Math.floor(pmt))
+            labels.push(currentYear + ++period)
+            estateTotalPrice.push(Math.floor(goal))
+            pv = fv
+        }
+    }
+
     const datasets = [
         {
             label: '已備增值',
@@ -490,7 +507,6 @@ function drawDownpayChart(propagate = false) {
     downPayChartInstance = shallowRef(chartInstance)
 }
 function calculateYearsToDownpay(years) {
-    mortgage.value.yearsToDownpay = years
 
 }
 function calculateDownpayYear() {
