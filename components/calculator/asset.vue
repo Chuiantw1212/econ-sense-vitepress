@@ -313,11 +313,9 @@ function drawLifeAssetChart(propagate = true) {
         labels.push(year)
         pv = fv
     }
-    if (fv <= 0) {
-        ElMessage.error('財務危機！')
-    } else {
-        ElMessage.closeAll()
-    }
+    // if (fv <= 0) {
+    //     ElMessage.error('資產：財務危機！')
+    // }
     const datasets = [
         {
             label: 'ETF增值',

@@ -227,6 +227,7 @@
 import { ref, computed, shallowRef, reactive } from 'vue'
 import Chart from 'chart.js/auto';
 import econSelect from '../econSelect.vue'
+import { ElMessage, } from 'element-plus'
 interface IOptionItem {
     label: string,
     value: string | number | boolean,
@@ -580,6 +581,9 @@ async function drawRetirementAssetChart(propagate = false) {
         labels.push(calculatedYear)
         pv = fv
     }
+    // if (fv <= 0) {
+    //     ElMessage.error('退休，晚節不保！')
+    // }
     // 繪圖
     const tension = 0.5
     const datasets = [
