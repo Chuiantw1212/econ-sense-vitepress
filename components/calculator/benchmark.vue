@@ -1,19 +1,18 @@
 <template>
-    <el-card>
+    <el-card v-loading="storyLoading">
         <template #header>
             <div class="card-header card-header--custom">
                 <span>回顧與匯出
                 </span>
                 <div>
-                    <el-button v-if="!modelValue.profile.story" v-loading="storyLoading"
-                        @click="generatStory">回顧</el-button>
+                    <el-button v-if="!profile.story" @click="generatStory">用15秒產生回顧</el-button>
                     <el-button v-else @click="generatStory">重新產生回顧</el-button>
                     <el-button @click="exportUserForm()">匯出</el-button>
                 </div>
             </div>
         </template>
         <el-form label-width="auto">
-            <div v-if="modelValue.profile.story" v-html="modelValue.profile.story">
+            <div v-if="profile.story" v-html="profile.story">
 
             </div>
             <div v-else>
@@ -34,7 +33,7 @@
     </el-card>
 </template>
 <script setup lang="ts">
-import { ref, computed, shallowRef, reactive, watch } from 'vue'
+import { ref, computed, } from 'vue'
 const { VITE_BASE_URL } = import.meta.env
 const emits = defineEmits(['update:modelValue', 'export'])
 const storyLoading = ref(false)
@@ -43,16 +42,60 @@ const props = defineProps({
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true
     },
     config: {
         type: Object,
         default: () => {
             return {}
-        }
+        },
+        required: true
+    },
+    career: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true
+    },
+    spouse: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true
+    },
+    mortgage: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true
+    },
+    parenting: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true
+    },
+    retirement: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true
+    },
+    estatePrice: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true
     },
 })
-const userForm = computed(() => {
+const profile = computed(() => {
     return props.modelValue
 })
 
@@ -66,19 +109,16 @@ async function generatStory() {
     })
     const resJson = await res.text()
     storyLoading.value = false
-    userForm.value.profile.story = resJson
-    emits('update:modelValue', userForm.value)
+    profile.value.story = resJson
+    emits('update:modelValue', profile.value)
 }
 
 function getHumanStory() {
-    const { profile, spouse, parenting, mortgage, estatePrice, career, retirement } = userForm.value
+    const { spouse, parenting, mortgage, estatePrice, career, retirement } = props
     const { counties = [], insuranceTypes = [], townMap = {} } = props.config
-
-    const { yearOfBirth, age: profileAge, lifeExpectancy: profilelifeExpectancy, careerInsuranceType } = profile
-
+    const { yearOfBirth, age: profileAge, lifeExpectancy: profilelifeExpectancy, careerInsuranceType } = profile.value
     const { careerHeadCount, } = career
-    const { age: retireAge, qualityLevel, futureSeniority, insurance } = retirement
-
+    const { age: retireAge, qualityLevel, insurance } = retirement
     const { yearOfMarriage } = spouse
     const { headCount, independantAge } = parenting
     const { downpayYear } = mortgage
@@ -87,7 +127,7 @@ function getHumanStory() {
     const totalAge = profileAge + profilelifeExpectancy
     let story = ``
     // profile
-    story += `你於${Math.floor(yearOfBirth)}年，來到個世界上，`
+    story += `你於${Math.floor(yearOfBirth)}年，誕生到個世界上，`
     story += `於${Math.floor(yearOfBirth + totalAge)}年時，悄悄的離開，`
     story += `在這${Math.floor(totalAge)}間，你有著屬於自己的故事。`
     // career

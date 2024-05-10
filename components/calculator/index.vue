@@ -87,8 +87,10 @@
 
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
-        <Bechmark v-model="userForm" :config="config" @update:model-value="onProfileChanged()"
-            @export="exportUserForm()">
+        <Bechmark v-model="userForm.profile" :config="config" :career="userForm.career"
+            :retirement="userForm.retirement" :spouse="userForm.spouse" :asset="userForm.asset"
+            :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
+            :mortgage="userForm.mortgage" @update:model-value="onProfileChanged()" @export="exportUserForm()">
         </Bechmark>
         <br>
     </div>
