@@ -235,7 +235,11 @@ function calculateCareer(options: any = { propagate: true }) {
 function calculateMonthlySaving() {
     const { monthlyNetPay = 0, monthlyExpense = 0, monthlyNetPayEstimated } = career.value
     const monthlyNetPayBasis = monthlyNetPay || monthlyNetPayEstimated
-    career.value.monthlySaving = Math.floor(monthlyNetPayBasis - monthlyExpense)
+    if (monthlyNetPayBasis) {
+        career.value.monthlySaving = Math.floor(monthlyNetPayBasis - monthlyExpense)
+    } else {
+        career.value.monthlySaving = 0
+    }
 }
 function calculateMonthlyBasic() {
     const { payPoint } = career.value
@@ -282,6 +286,7 @@ function calculateHealthInsurance() {
     if (!monthlyBasicSalary) {
         healInsurance.salary = 0
         healInsurance.contribution = 0
+        return
     }
     const { salaryRate } = healInsurance
     const healthSalaryMin = Math.round((monthlyBasicSalary + supervisorAllowance + professionalAllowance) * salaryRate / 100)
@@ -352,6 +357,8 @@ function drawChartAndCalculateIncome(propagate = false) {
     }
     if (monthlyBasicSalary) {
         career.value.monthlyNetPayEstimated = fv
+    } else {
+        career.value.monthlyNetPayEstimated = 0
     }
 
     pv = fv

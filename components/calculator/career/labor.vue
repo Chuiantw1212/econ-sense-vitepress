@@ -271,8 +271,8 @@ function calculateInsuranceType() {
 }
 // 減項計算
 function calculateEmployeeWelfareFund() {
-    if (career.value.insuredUnit === 'company') {
-        const { monthlyBasicSalary, } = career.value
+    const { monthlyBasicSalary, } = career.value
+    if (career.value.insuredUnit === 'company' && monthlyBasicSalary) {
         career.value.employeeWelfareFund = Math.floor((monthlyBasicSalary + foodExpense) * 0.5 / 100)
     } else {
         career.value.employeeWelfareFund = 0
@@ -451,6 +451,8 @@ function drawChartAndCalculateIncome(propagate = false) {
     }
     if (monthlyBasicSalary) {
         career.value.monthlyNetPayEstimated = fv
+    } else {
+        career.value.monthlyNetPayEstimated = 0
     }
     calculateMonthlySaving()
 
