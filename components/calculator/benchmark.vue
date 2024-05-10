@@ -5,7 +5,9 @@
                 <span>回顧與匯出
                 </span>
                 <div>
-                    <el-button v-loading="storyLoading" @click="generatStory">回顧</el-button>
+                    <el-button v-if="!modelValue.profile.story" v-loading="storyLoading"
+                        @click="generatStory">回顧</el-button>
+                    <el-button v-else @click="generatStory">重新產生回顧</el-button>
                     <el-button @click="exportUserForm()">匯出</el-button>
                 </div>
             </div>
