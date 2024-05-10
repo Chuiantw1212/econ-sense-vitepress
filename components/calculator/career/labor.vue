@@ -92,7 +92,7 @@
                 <el-col :span="12">
                     <el-form-item :label="`- 勞保自付額`">
                         <el-text>{{ Number(career.insurance?.expense).toLocaleString() }} (負擔率{{
-                laborInsurace.premiumRate[career.insuredUnit] }}%)</el-text>
+                            laborInsurace.premiumRate[career.insuredUnit] }}%)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -147,7 +147,7 @@
                 </el-collapse-item>
             </el-collapse>
         </template>
-        <canvas v-show="career.monthlyBasicSalary" id="incomeChart"></canvas>
+        <canvas v-show="!isUnableToDraw" id="incomeChart"></canvas>
     </el-card>
 </template>
 <script setup lang="ts">
@@ -221,9 +221,14 @@ const props = defineProps({
         required: true,
     },
 })
+const isUnableToDraw = computed(() => {
+    const { monthlyBasicSalary } = career.value
+    return !monthlyBasicSalary
+})
 const career = computed(() => {
     return props.modelValue
 })
+// methods
 function calculateCareer(options: any = { propagate: true }) {
     const { propagate = true } = options
     try {
@@ -271,8 +276,8 @@ function calculateInsuranceType() {
 }
 // 減項計算
 function calculateEmployeeWelfareFund() {
-    if (career.value.insuredUnit === 'company') {
-        const { monthlyBasicSalary, } = career.value
+    const { monthlyBasicSalary, } = career.value
+    if (career.value.insuredUnit === 'company' && monthlyBasicSalary) {
         career.value.employeeWelfareFund = Math.floor((monthlyBasicSalary + foodExpense) * 0.5 / 100)
     } else {
         career.value.employeeWelfareFund = 0
@@ -393,6 +398,9 @@ function calculateMonthlySaving() {
 let incomeChartInstance = ref<Chart>()
 function drawChartAndCalculateIncome(propagate = false) {
     const { monthlyBasicSalary, insuredUnit, employeeWelfareFund, insurance, pension } = career.value
+    if (isUnableToDraw.value) {
+        return
+    }
     // 繪製圖表
     let pv = 0
     let fv = 0
@@ -451,6 +459,8 @@ function drawChartAndCalculateIncome(propagate = false) {
     }
     if (monthlyBasicSalary) {
         career.value.monthlyNetPayEstimated = fv
+    } else {
+        career.value.monthlyNetPayEstimated = 0
     }
     calculateMonthlySaving()
 
@@ -477,6 +487,10 @@ function drawChartAndCalculateIncome(propagate = false) {
             data: [0, fv],
             datasetIndex: 0,
         })
+    } else {
+        if (!errorMssage.pending()) {
+            errorMssage()
+        }
     }
 
     const labels = dataAndDataIndex.map(item => item.label)
@@ -546,6 +560,13 @@ function tooltipFormat(tooltipItems) {
     const variedValue = raw[1] - raw[0]
     return Number(variedValue).toLocaleString()
 }
+
+import { ElMessage, } from 'element-plus'
+import { throttle, debounce } from '../lodash.js'
+const errorMssage = throttle(() => {
+    ElMessage.error('收入：兩袖清風！')
+}, 4000)
+
 
 const debounceId = ref()
 function debounce(func, delay = 100) {

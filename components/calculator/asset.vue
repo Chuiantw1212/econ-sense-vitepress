@@ -3,8 +3,8 @@
         <el-form label-width="auto">
             <el-row>
                 <el-col :span="24">
-                    <el-form-item label="資產配置">
-                        <el-radio-group v-model="investment.allocationETF" @change="calculateAsset()">
+                    <el-form-item label="ETF配置">
+                        <el-radio-group v-model="asset.allocationETF" @change="calculateAsset()">
                             <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label
                                 }}</el-radio>
                         </el-radio-group>
@@ -14,8 +14,7 @@
             <el-row>
                 <el-col :span="23">
                     <el-form-item label="投資報酬率">
-                        <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks"
-                            :disabled="true" />
+                        <el-slider v-model="asset.stockPercentage" :marks="allocationQuartileMarks" :disabled="true" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -23,13 +22,13 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="已備資產">
-                        <el-input-number v-model="investment.presentAsset" :min="0" :step="100000"
-                            :disabled="isFormDisabled" @change="calculateAsset()" />
+                        <el-input-number v-model="asset.presentAsset" :min="0" :step="100000" :disabled="isFormDisabled"
+                            @change="calculateAsset()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="儲蓄投資">
-                        <el-text>{{ Number(career.monthlySaving).toLocaleString() }} NTD / 月</el-text>
+                    <el-form-item label="定期定額">
+                        <el-text>{{ Number(career.monthlySaving).toLocaleString() }} / 月</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -42,55 +41,6 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <!-- <el-collapse>
-                    <el-collapse-item title="點此快速調整目標(日期&支出)" :border="true" :disabled="isFormDisabled">
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="購屋西元年">
-                                    <el-input-number v-model="mortgage.downpayYear" @change="calculateAsset()" />
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="房貸利息">
-                                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="第一隻西元年">
-                                    <el-input-number v-model="parenting.firstBornYear" :min="0"
-                                        @change="calculateAsset($event)" />
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="月開支(隻/每年)">
-                                    <el-input-number v-model="parenting.childAnnualExpense" :min="0"
-                                        @change="calculateAsset($event)" />
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="第二隻西元年">
-                                    <el-input-number v-model="parenting.secondBornYear" :min="0"
-                                        :disabled="!parenting.firstBornYear" @change="calculateAsset($event)" />
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                            </el-col>
-                        </el-row>
-                    </el-collapse-item>
-                </el-collapse> -->
-            <!-- <el-row>
-                    <el-col :span="12">
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="房貸利息" @change="calculateAsset()">
-                            <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row> -->
             <canvas v-show="!unableToDraw" id="assetChart"></canvas>
         </el-form>
         <template #footer>
@@ -201,14 +151,15 @@ const props = defineProps({
     }
 })
 const allocationQuartileMarks = reactive({})
+const legalInterestRate = 16
 // hooks
-const investment = computed(() => {
+const asset = computed(() => {
     return props.modelValue
 })
 const isFormDisabled = computed(() => {
-    const { yearToRetirement } = props.retirement
+    const { yearsToRetirement } = props.retirement
     const { monthlyBasicSalary } = props.career
-    return !yearToRetirement || !monthlyBasicSalary
+    return !yearsToRetirement || !monthlyBasicSalary
 })
 watch(() => props.config.portfolioIRR, () => {
     setPortfolioMarks()
@@ -224,29 +175,30 @@ function setPortfolioMarks() {
     })
 }
 function calculateAsset(options: any = { propagate: true }) {
+    setPortfolioMarks()
     calculateInvestmentPeriod()
     calculatePortfolio()
     const { propagate = true } = options
-    debounce(() => {
+    customDebounce(() => {
         drawLifeAssetChart(propagate)
     })(propagate)
 }
 function calculatePortfolio() {
-    const { allocationETF } = investment.value
+    const { allocationETF } = asset.value
     const { portfolioIRR, porfolioLabels } = props.config
     const allocationLabels = Object.keys(porfolioLabels)
     const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
     const stockPercentage = Math.floor((allocationIndex + 1) * 20)
-    investment.value.stockPercentage = stockPercentage
-    investment.value.irr = portfolioIRR[allocationETF]
+    asset.value.stockPercentage = stockPercentage
+    asset.value.irr = portfolioIRR[allocationETF]
 
 }
 function calculateInvestmentPeriod() {
-    investment.value.period = props.retirement.yearToRetirement
+    asset.value.period = props.retirement.yearsToRetirement
 }
 
 const unableToDraw = computed(() => {
-    const { presentAsset, irr, period } = investment.value
+    const { presentAsset, irr, period } = asset.value
     const { monthlySaving } = props.career
     const noPv = !presentAsset
     const noPmt = !monthlySaving
@@ -255,22 +207,22 @@ const unableToDraw = computed(() => {
     return (noPv && noPmt) || noIY || noN
 })
 
-let investmentChartInstance = ref<Chart>()
+let assetChartInstance = ref<Chart>()
 function drawLifeAssetChart(propagate = true) {
     if (propagate) {
-        emits('update:modelValue', investment.value)
+        emits('update:modelValue', asset.value)
     }
     if (unableToDraw.value) {
         return
     }
-    const { presentAsset, irr, period } = investment.value
-    const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal } = props.mortgage
+    const { presentAsset, irr, period } = asset.value
+    const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.mortgage
     const { currentYear, inflationRate } = props.config
     const { monthlyContribution } = props.spouse
     const spouseAnnualContribution = monthlyContribution * 12
     const irrModifier = 1 + irr / 100
     const inflatoinRatio = 1 + inflationRate / 100
-    let inflationModifier = 1
+    let valueModifier = 1
 
     let pv = presentAsset
     let fv = 0
@@ -279,30 +231,50 @@ function drawLifeAssetChart(propagate = true) {
     const investingData: number[] = []
     const mortgageData: number[] = []
     const downpayData: number[] = []
+    const estateData: number[] = []
     const spouseContribution: number[] = []
     const childExpenseData: number[] = []
 
-    for (let year = currentYear; year < currentYear + period; year++) {
-        inflationModifier *= inflatoinRatio
+    for (let year = currentYear + 1; year <= currentYear + period; year++) {
+        valueModifier *= inflatoinRatio
         /**
          * 影響存量重大事件
          */
         if (year === downpayYear) {
             const calculatedDownpay = downpayGoal || downpay
-            const inflatedDownpay = calculatedDownpay * inflationModifier
+            const inflatedDownpay = calculatedDownpay * valueModifier
             pv -= inflatedDownpay
             downpayData.push(Math.floor(-inflatedDownpay))
         } else {
             downpayData.push(0)
         }
+
+        let calculatedPmt = 0
+        /**
+         * 不受到通膨影響的PMT
+         */
+        // 房貸利息影響每月儲蓄
+        const mortgageStartYear = downpayYear
+        const mortgageEndYear = downpayYear + loanTerm
+        let mortgagePmt = 0
+        let inflatedTotalPrice = 0
+        if (mortgageStartYear <= year && fv > 0) {
+            if (year < mortgageEndYear) {
+                mortgagePmt = monthlyRepay * 12
+            }
+            inflatedTotalPrice = Math.floor(totalPrice * valueModifier)
+        }
+        estateData.push(inflatedTotalPrice)
+        mortgageData.push(Math.floor(-mortgagePmt))
+        calculatedPmt -= mortgagePmt
         /**
          * 會受到通膨影響的PMT
          */
         // 執業收支 
         const { monthlySaving } = props.career
-        const annualSaving = monthlySaving * 12
-        let calculatedPmt = annualSaving * inflationModifier
-        investingData.push(calculatedPmt)
+        const annualSaving = monthlySaving * 12 * valueModifier
+        investingData.push(Math.floor(annualSaving))
+        calculatedPmt += annualSaving
 
         // 育兒開支影響每月儲蓄
         const { firstBornYear, secondBornYear, independantAge, childAnnualExpense } = props.parenting
@@ -312,13 +284,13 @@ function drawLifeAssetChart(propagate = true) {
         const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
         let childExpense = 0
         if (hasFirstBorn) {
-            childExpense += childAnnualExpense * inflationModifier
+            childExpense += childAnnualExpense * valueModifier
         }
         if (hasSecondBorn) {
-            childExpense += childAnnualExpense * inflationModifier
+            childExpense += childAnnualExpense * valueModifier
         }
         if (hasFirstBorn || hasSecondBorn) {
-            const inflatedContribution = Math.floor(spouseAnnualContribution * inflationModifier)
+            const inflatedContribution = Math.floor(spouseAnnualContribution * valueModifier)
             childExpense -= inflatedContribution
             calculatedPmt -= childExpense
             spouseContribution.push(inflatedContribution)
@@ -327,31 +299,27 @@ function drawLifeAssetChart(propagate = true) {
             spouseContribution.push(0)
             childExpenseData.push(0)
         }
-        // 加計通貨膨脹
-        calculatedPmt *= inflationModifier
-        /**
-         * 不受到通膨影響的PMT
-         */
-        // 房貸利息影響每月儲蓄
-        const mortgageStartYear = downpayYear
-        const mortgageEndYear = downpayYear + loanTerm
-        let mortgagePmt = 0
-        if (mortgageStartYear <= year && year < mortgageEndYear) {
-            mortgagePmt = monthlyRepay * 12
-        }
-        calculatedPmt -= mortgagePmt
-        mortgageData.push(Math.floor(-mortgagePmt))
 
         // 計算複利終值
         fv = pv * irrModifier
         datasetData.push(Math.floor(fv))
         fv += calculatedPmt
+        if (fv <= 0) {
+            fv = 0
+            valueModifier = 0
+        }
+
         labels.push(year)
         pv = fv
     }
+    if (fv <= 0) {
+        if (!errorMssage.pending()) {
+            errorMssage()
+        }
+    }
     const datasets = [
         {
-            label: '資產增值',
+            label: 'ETF增值',
             data: datasetData,
         },
     ]
@@ -363,7 +331,7 @@ function drawLifeAssetChart(propagate = true) {
     const hasChildExpense = childExpenseData.some(value => value !== 0)
     if (hasChildExpense) {
         datasets.push({
-            label: '育兒支出',
+            label: '育兒收支',
             data: childExpenseData,
         })
     }
@@ -376,15 +344,19 @@ function drawLifeAssetChart(propagate = true) {
             label: '頭期款',
             data: downpayData,
         })
+        // datasets.push({
+        //     label: '房地產',
+        //     data: estateData,
+        // })
     }
     const chartData = {
         datasets,
         labels
     }
 
-    if (investmentChartInstance.value) {
-        investmentChartInstance.value.data = chartData
-        investmentChartInstance.value.update()
+    if (assetChartInstance.value) {
+        assetChartInstance.value.data = chartData
+        assetChartInstance.value.update()
         return
     }
     const ctx: any = document.getElementById('assetChart')
@@ -402,11 +374,17 @@ function drawLifeAssetChart(propagate = true) {
             }
         }
     })
-    investmentChartInstance = shallowRef(chartInstance)
+    assetChartInstance = shallowRef(chartInstance)
 }
 
+import { ElMessage, } from 'element-plus'
+import { throttle, debounce } from './lodash.js'
+const errorMssage = throttle(() => {
+    ElMessage.error('資產：一貧如洗！')
+}, 4000)
+
 const debounceId = ref()
-function debounce(func, delay = 100) {
+function customDebounce(func, delay = 100) {
     return (immediate) => {
         clearTimeout(debounceId.value)
         if (immediate) {
