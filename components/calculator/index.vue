@@ -19,6 +19,10 @@
             </template>
         </el-dialog>
 
+        <h2 id="_基本資料" tabindex="-1">
+            基本資料
+            <a class="header-anchor" href="#基本資料" aria-label="Permalink to &quot;基本資料&quot;">&ZeroWidthSpace;</a>
+        </h2>
         <Profile v-model="userForm.profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
             @upload="setUserAndInitialize($event, { showMessage: true })" @update:modelValue="onProfileChanged()">
         </Profile>
@@ -83,7 +87,7 @@
 
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
-        <Bechmark></Bechmark>
+        <Bechmark v-model="userForm" :config="config"></Bechmark>
         <br>
         <DataCenter @export="exportUserForm()"></DataCenter>
     </div>
@@ -123,6 +127,7 @@ const config = reactive({
     buildingTypes: [],
     buildingAges: [],
     retirementQuartile: [],
+    insuranceTypes: [],
     // object types
     townMap: {},
     portfolioIRR: {},
@@ -151,6 +156,7 @@ async function setSelecOptionSync() {
         config.buildingAges = selectResJson.buildingAges || []
         config.genders = selectResJson.genders || []
         config.retirementQuartile = selectResJson.retirementQuartile || []
+        config.insuranceTypes = selectResJson.insuranceTypes || []
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
         const interestRate = await bankConfigRes[1].json()
