@@ -307,6 +307,7 @@ const isFormDisabled = computed(() => {
     return !lifeExpectancy || !monthlyBasicSalary
 })
 const unableToDraw = computed(() => {
+    const { monthlyBasicSalary } = props.career
     const {
         irrOverDecade
     } = retirement.value.pension
@@ -315,9 +316,10 @@ const unableToDraw = computed(() => {
         lifeExpectancy,
         annualExpense,
     } = retirement.value
+    const noIncome = !monthlyBasicSalary
     const noBefore = !irrOverDecade || !yearToRetirement
     const noAfter = !lifeExpectancy || !annualExpense
-    return noBefore || noAfter
+    return noIncome || noBefore || noAfter
 })
 // methods
 function calculateRetirement(options: any = { propagate: true }) {
@@ -355,8 +357,16 @@ function calculateCivilServantRetirement() {
     const { futureSeniority, } = retirement.value.insurance
     const { type, } = retirement.value.pension
     const { salary } = props.career.insurance
+    console.log({
+        name: 'why?',
+        futureSeniority,
+        type,
+        salary,
+        test: retirement.value.pension.monthlyAnnuity
+    })
     if (!futureSeniority || !salary || !type) {
         retirement.value.pension.monthlyAnnuity = 0
+        // career.value.insurance.salary = 0
         return
     }
     /**

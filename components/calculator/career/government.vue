@@ -275,6 +275,7 @@ function calculatePension() {
         career.value.pension.monthlyContribution = monthlyContributionEmployee + monthlyContributionGovernment
     } else {
         career.value.pension.monthlyContribution = 0
+        career.value.insurance.salary = 0
     }
 }
 function calculateHealthInsurance() {
