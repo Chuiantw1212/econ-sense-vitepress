@@ -3,7 +3,7 @@
         <el-form label-width="auto">
             <el-row>
                 <el-col :span="24">
-                    <el-form-item label="資產配置">
+                    <el-form-item label="ETF配置">
                         <el-radio-group v-model="asset.allocationETF" @change="calculateAsset()">
                             <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label
                                 }}</el-radio>
@@ -14,8 +14,7 @@
             <el-row>
                 <el-col :span="23">
                     <el-form-item label="投資報酬率">
-                        <el-slider v-model="asset.stockPercentage" :marks="allocationQuartileMarks"
-                            :disabled="true" />
+                        <el-slider v-model="asset.stockPercentage" :marks="allocationQuartileMarks" :disabled="true" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -23,8 +22,8 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="已備資產">
-                        <el-input-number v-model="asset.presentAsset" :min="0" :step="100000"
-                            :disabled="isFormDisabled" @change="calculateAsset()" />
+                        <el-input-number v-model="asset.presentAsset" :min="0" :step="100000" :disabled="isFormDisabled"
+                            @change="calculateAsset()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -42,55 +41,6 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <!-- <el-collapse>
-                    <el-collapse-item title="點此快速調整目標(日期&支出)" :border="true" :disabled="isFormDisabled">
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="購屋西元年">
-                                    <el-input-number v-model="mortgage.downpayYear" @change="calculateAsset()" />
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="房貸利息">
-                                    <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="第一隻西元年">
-                                    <el-input-number v-model="parenting.firstBornYear" :min="0"
-                                        @change="calculateAsset($event)" />
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="月開支(隻/每年)">
-                                    <el-input-number v-model="parenting.childAnnualExpense" :min="0"
-                                        @change="calculateAsset($event)" />
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="第二隻西元年">
-                                    <el-input-number v-model="parenting.secondBornYear" :min="0"
-                                        :disabled="!parenting.firstBornYear" @change="calculateAsset($event)" />
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                            </el-col>
-                        </el-row>
-                    </el-collapse-item>
-                </el-collapse> -->
-            <!-- <el-row>
-                    <el-col :span="12">
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="房貸利息" @change="calculateAsset()">
-                            <el-text>{{ Number(mortgage.monthlyRepay).toLocaleString() }} NTD / 月</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row> -->
             <canvas v-show="!unableToDraw" id="assetChart"></canvas>
         </el-form>
         <template #footer>
@@ -201,6 +151,7 @@ const props = defineProps({
     }
 })
 const allocationQuartileMarks = reactive({})
+const legalInterestRate = 16
 // hooks
 const asset = computed(() => {
     return props.modelValue
@@ -357,7 +308,7 @@ function drawLifeAssetChart(propagate = true) {
     }
     const datasets = [
         {
-            label: '資產增值',
+            label: 'ETF增值',
             data: datasetData,
         },
     ]
@@ -383,7 +334,7 @@ function drawLifeAssetChart(propagate = true) {
             data: downpayData,
         })
         datasets.push({
-            label: '房地增值',
+            label: '房地產',
             data: estateData,
         })
     }
