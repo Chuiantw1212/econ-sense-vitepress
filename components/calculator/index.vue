@@ -45,12 +45,12 @@
 
         <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
                 aria-label="Permalink to &quot;五子登科&quot;">&ZeroWidthSpace;</a></h2>
-        <h3 id="_投資資產試算" tabindex="-1">投資資產試算<a class="header-anchor" href="#投資資產試算"
-                aria-label="Permalink to &quot;投資資產試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Investment v-model="userForm.investment" :config="config" :profile="userForm.profile" :career="userForm.career"
+        <h3 id="_資產試算" tabindex="-1">資產試算<a class="header-anchor" href="#資產試算"
+                aria-label="Permalink to &quot;資產試算&quot;">&ZeroWidthSpace;</a></h3>
+        <Asset v-model="userForm.asset" :config="config" :profile="userForm.profile" :career="userForm.career"
             :spouse="userForm.spouse" :parenting="userForm.parenting" :mortgage="userForm.mortgage"
             :retirement="userForm.retirement" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
-        </Investment>
+        </Asset>
 
         <h3 id="_結婚試算" tabindex="-1">配偶試算<a class="header-anchor" href="#配偶試算"
                 aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
@@ -60,7 +60,7 @@
         <h3 id="_家庭責任試算" tabindex="-1">家庭責任試算<a class="header-anchor" href="#家庭責任試算"
                 aria-label="Permalink to &quot;家庭責任試算&quot;">&ZeroWidthSpace;</a></h3>
         <Parenting v-model="userForm.parenting" :config="config" :career="userForm.career"
-            :retirement="userForm.retirement" :spouse="userForm.spouse" :investment="userForm.investment"
+            :retirement="userForm.retirement" :spouse="userForm.spouse" :asset="userForm.asset"
             :estateSize="userForm.estateSize" :mortgage="userForm.mortgage" ref="ParentingRef"
             @update:model-value="onParentingChanged()">
         </Parenting>
@@ -68,7 +68,7 @@
         <h3 id="_購屋試算" tabindex="-1">購屋試算<a class="header-anchor" href="#購屋試算"
                 aria-label="Permalink to &quot;購屋試算&quot;">&ZeroWidthSpace;</a></h3>
         <Mortgage v-model="userForm.mortgage" :config="config" :career="userForm.career"
-            :estateSize="userForm.estateSize" :investment="userForm.investment" :estatePrice="userForm.estatePrice"
+            :estateSize="userForm.estateSize" :asset="userForm.asset" :estatePrice="userForm.estatePrice"
             ref="MortgageRef" @update:model-value="onMortgageChanged()" @open="openEstateCalculator()"
             @reset="resetTotalPrice()">
         </Mortgage>
@@ -95,7 +95,7 @@ import Profile from './profile.vue'
 import CareerLabor from './career/labor.vue'
 import CareerGovernment from './career/government.vue'
 import Retirement from './retirement.vue'
-import Investment from './investment.vue'
+import Asset from './asset.vue'
 import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
@@ -209,6 +209,10 @@ function setUserAndInitialize(form, { showMessage = false }) {
         if (userForm[key]) {
             Object.assign(userForm[key], form[key])
         }
+        // Backward compatible since 2024/05/10
+        if (form.investment) {
+            Object.assign(userForm.asset, form.investment)
+        }
     }
     nextTick(async () => {
         await ProfileRef.value.calculateProfile({
@@ -297,7 +301,7 @@ const userForm = reactive({
         qualityLevel: 3,
         expenseQuartileMarks: {},
     },
-    investment: {
+    asset: {
         allocationETF: 'aok',
         stockPercentage: 20,
         irr: 0,
@@ -404,9 +408,9 @@ function onRetirementChanged() {
 }
 // 投資試算
 function onInvestmentChanged() {
-    authFetch(`/user/investment`, {
+    authFetch(`/user/asset`, {
         method: 'put',
-        body: userForm.investment,
+        body: userForm.asset,
     })
     ParentingRef.value.calculateParenting({
         propagate: false,

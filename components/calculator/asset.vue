@@ -4,7 +4,7 @@
             <el-row>
                 <el-col :span="24">
                     <el-form-item label="資產配置">
-                        <el-radio-group v-model="investment.allocationETF" @change="calculateAsset()">
+                        <el-radio-group v-model="asset.allocationETF" @change="calculateAsset()">
                             <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label
                                 }}</el-radio>
                         </el-radio-group>
@@ -14,7 +14,7 @@
             <el-row>
                 <el-col :span="23">
                     <el-form-item label="投資報酬率">
-                        <el-slider v-model="investment.stockPercentage" :marks="allocationQuartileMarks"
+                        <el-slider v-model="asset.stockPercentage" :marks="allocationQuartileMarks"
                             :disabled="true" />
                     </el-form-item>
                 </el-col>
@@ -23,7 +23,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="已備資產">
-                        <el-input-number v-model="investment.presentAsset" :min="0" :step="100000"
+                        <el-input-number v-model="asset.presentAsset" :min="0" :step="100000"
                             :disabled="isFormDisabled" @change="calculateAsset()" />
                     </el-form-item>
                 </el-col>
@@ -202,7 +202,7 @@ const props = defineProps({
 })
 const allocationQuartileMarks = reactive({})
 // hooks
-const investment = computed(() => {
+const asset = computed(() => {
     return props.modelValue
 })
 const isFormDisabled = computed(() => {
@@ -232,21 +232,21 @@ function calculateAsset(options: any = { propagate: true }) {
     })(propagate)
 }
 function calculatePortfolio() {
-    const { allocationETF } = investment.value
+    const { allocationETF } = asset.value
     const { portfolioIRR, porfolioLabels } = props.config
     const allocationLabels = Object.keys(porfolioLabels)
     const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
     const stockPercentage = Math.floor((allocationIndex + 1) * 20)
-    investment.value.stockPercentage = stockPercentage
-    investment.value.irr = portfolioIRR[allocationETF]
+    asset.value.stockPercentage = stockPercentage
+    asset.value.irr = portfolioIRR[allocationETF]
 
 }
 function calculateInvestmentPeriod() {
-    investment.value.period = props.retirement.yearToRetirement
+    asset.value.period = props.retirement.yearToRetirement
 }
 
 const unableToDraw = computed(() => {
-    const { presentAsset, irr, period } = investment.value
+    const { presentAsset, irr, period } = asset.value
     const { monthlySaving } = props.career
     const noPv = !presentAsset
     const noPmt = !monthlySaving
@@ -255,16 +255,16 @@ const unableToDraw = computed(() => {
     return (noPv && noPmt) || noIY || noN
 })
 
-let investmentChartInstance = ref<Chart>()
+let assetChartInstance = ref<Chart>()
 function drawLifeAssetChart(propagate = true) {
     if (propagate) {
-        emits('update:modelValue', investment.value)
+        emits('update:modelValue', asset.value)
     }
     if (unableToDraw.value) {
         return
     }
-    const { presentAsset, irr, period } = investment.value
-    const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal } = props.mortgage
+    const { presentAsset, irr, period } = asset.value
+    const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.mortgage
     const { currentYear, inflationRate } = props.config
     const { monthlyContribution } = props.spouse
     const spouseAnnualContribution = monthlyContribution * 12
@@ -279,6 +279,7 @@ function drawLifeAssetChart(propagate = true) {
     const investingData: number[] = []
     const mortgageData: number[] = []
     const downpayData: number[] = []
+    const estateData: number[] = []
     const spouseContribution: number[] = []
     const childExpenseData: number[] = []
 
@@ -336,11 +337,16 @@ function drawLifeAssetChart(propagate = true) {
         const mortgageStartYear = downpayYear
         const mortgageEndYear = downpayYear + loanTerm
         let mortgagePmt = 0
-        if (mortgageStartYear <= year && year < mortgageEndYear) {
-            mortgagePmt = monthlyRepay * 12
+        let inflatedTotalPrice = 0
+        if (mortgageStartYear <= year) {
+            if (year < mortgageEndYear) {
+                mortgagePmt = monthlyRepay * 12
+            }
+            inflatedTotalPrice = Math.floor(totalPrice * inflationModifier)
         }
-        calculatedPmt -= mortgagePmt
+        estateData.push(inflatedTotalPrice)
         mortgageData.push(Math.floor(-mortgagePmt))
+        calculatedPmt -= mortgagePmt
 
         // 計算複利終值
         fv = pv * irrModifier
@@ -376,15 +382,19 @@ function drawLifeAssetChart(propagate = true) {
             label: '頭期款',
             data: downpayData,
         })
+        datasets.push({
+            label: '房地增值',
+            data: estateData,
+        })
     }
     const chartData = {
         datasets,
         labels
     }
 
-    if (investmentChartInstance.value) {
-        investmentChartInstance.value.data = chartData
-        investmentChartInstance.value.update()
+    if (assetChartInstance.value) {
+        assetChartInstance.value.data = chartData
+        assetChartInstance.value.update()
         return
     }
     const ctx: any = document.getElementById('assetChart')
@@ -402,7 +412,7 @@ function drawLifeAssetChart(propagate = true) {
             }
         }
     })
-    investmentChartInstance = shallowRef(chartInstance)
+    assetChartInstance = shallowRef(chartInstance)
 }
 
 const debounceId = ref()

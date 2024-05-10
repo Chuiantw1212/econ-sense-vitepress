@@ -258,7 +258,7 @@ const props = defineProps({
         },
         required: true,
     },
-    investment: {
+    asset: {
         type: Object,
         default: () => {
             return {}
@@ -283,7 +283,7 @@ const mortgage = computed(() => {
 })
 const unableToDrawChart = computed(() => {
     const { monthlySaving } = props.career
-    const { irr, } = props.investment
+    const { irr, } = props.asset
     const { downpay, downpayGoal } = mortgage.value
     const noPv = !downpay
     const negativePmt = monthlySaving <= 0
@@ -392,7 +392,7 @@ function drawDownpayChart(propagate = false) {
     if (unableToDrawChart.value) {
         return
     }
-    const { irr, } = props.investment
+    const { irr, } = props.asset
     const { inflationRate, currentYear } = props.config
     const { downpay, downpayGoal } = mortgage.value
     const { monthlySaving } = props.career

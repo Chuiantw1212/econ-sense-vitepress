@@ -33,7 +33,7 @@ const digitalDocumentItems = [
         rating: 2
     },
     {
-        url: './investment',
+        url: './asset',
         name: '投資進階管道',
         keywords: ['證券', '太陽能', '加密貨幣', '天使投資'],
         audience: ['對純被動收入好奇的人', '想遠離看盤或沒時間看盤的人', '怕被騙或是歸零的人'],

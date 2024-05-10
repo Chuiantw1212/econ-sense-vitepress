@@ -75,7 +75,7 @@ const spouse = computed(() => {
     return props.modelValue
 })
 const unableToDraw = computed(() => {
-    // const { presentAsset, irr, period } = investment.value
+    // const { presentAsset, irr, period } = asset.value
     // const { monthlySaving } = props.career
     // const noPv = !presentAsset
     // const noPmt = !monthlySaving
