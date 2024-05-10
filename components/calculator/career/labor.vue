@@ -477,6 +477,10 @@ function drawChartAndCalculateIncome(propagate = false) {
             data: [0, fv],
             datasetIndex: 0,
         })
+    } else {
+        if (!errorMssage.pending()) {
+            errorMssage()
+        }
     }
 
     const labels = dataAndDataIndex.map(item => item.label)
@@ -546,6 +550,13 @@ function tooltipFormat(tooltipItems) {
     const variedValue = raw[1] - raw[0]
     return Number(variedValue).toLocaleString()
 }
+
+import { ElMessage, } from 'element-plus'
+import { throttle, debounce } from '../lodash.js'
+const errorMssage = throttle(() => {
+    ElMessage.error('收入：兩袖清風！')
+}, 4000)
+
 
 const debounceId = ref()
 function debounce(func, delay = 100) {

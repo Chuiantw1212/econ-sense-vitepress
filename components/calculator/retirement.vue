@@ -227,8 +227,6 @@
 import { ref, computed, shallowRef, reactive } from 'vue'
 import Chart from 'chart.js/auto';
 import econSelect from '../econSelect.vue'
-import { ElMessage, } from 'element-plus'
-import { throttle, debounce } from './lodash.js'
 interface IOptionItem {
     label: string,
     value: string | number | boolean,
@@ -644,9 +642,7 @@ async function drawRetirementAssetChart(propagate = false) {
     })
     pensionChartInstance = shallowRef(chartInstance)
 }
-const errorMssage = throttle(() => {
-    ElMessage.warning('退休，晚節不保！')
-}, 4000)
+
 function calculateLaborPensionLumpSum(fv = 0) {
     retirement.value.pension.lumpSum = Number(fv)
     const { futureSeniority } = retirement.value.insurance
@@ -659,6 +655,12 @@ function calculateLaborPensionLumpSum(fv = 0) {
     const taxFull = Math.max(0, taxBasis) / 2
     retirement.value.pension.tax = Math.floor(taxHalf + taxFull)
 }
+
+import { ElMessage, } from 'element-plus'
+import { throttle, debounce } from './lodash.js'
+const errorMssage = throttle(() => {
+    ElMessage.error('退休：晚節不保！')
+}, 4000)
 
 const debounceId = ref()
 function customDebounce(func, delay = 100) {

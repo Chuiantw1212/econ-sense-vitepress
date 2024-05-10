@@ -77,7 +77,6 @@ const root = freeGlobalThis || freeGlobal || freeSelf || Function('return this')
  * const status = debounced.pending() ? "Pending..." : "Ready"
  */
 export function debounce(func, wait, options) {
-    console.log(func, wait)
     let lastArgs;
     let lastThis;
     let maxWait;

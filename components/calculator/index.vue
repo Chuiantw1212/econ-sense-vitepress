@@ -68,9 +68,9 @@
         <h3 id="_購屋試算" tabindex="-1">購屋試算<a class="header-anchor" href="#購屋試算"
                 aria-label="Permalink to &quot;購屋試算&quot;">&ZeroWidthSpace;</a></h3>
         <Mortgage v-model="userForm.mortgage" :config="config" :career="userForm.career"
-            :estateSize="userForm.estateSize" :asset="userForm.asset" :estatePrice="userForm.estatePrice"
-            ref="MortgageRef" @update:model-value="onMortgageChanged()" @open="openEstateCalculator()"
-            @reset="resetTotalPrice()">
+            :estateSize="userForm.estateSize" :asset="userForm.asset" :parenting="userForm.parenting"
+            :estatePrice="userForm.estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
+            @open="openEstateCalculator()" @reset="resetTotalPrice()">
         </Mortgage>
 
         <el-dialog :modelValue="estateCalculatorVisiable" title="估算總價" :lock-scroll="true"
@@ -217,7 +217,7 @@ function setUserAndInitialize(form, { showMessage = false }) {
         }
     }
     if (showMessage) {
-        ElMessage.success('載入成功')
+        ElMessage.info('載入成功')
     }
     nextTick(async () => {
         await ProfileRef.value.calculateProfile({
@@ -494,6 +494,7 @@ function onMortgageChanged() {
         propagate: false,
     })
 }
+
 // 資料匯出
 async function exportUserForm() {
     const res = await fetch(`${VITE_BASE_URL}/user/type`, {

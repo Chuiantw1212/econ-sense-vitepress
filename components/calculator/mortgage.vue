@@ -5,8 +5,8 @@
                 <el-col :span="18">
                     <el-form-item label="房屋總價">
                         <el-text v-if="mortgage.totalPriceEstimated">= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
-                            estateSize.floorSize }}坪) = {{
-                                Number(mortgage.totalPriceEstimated).toLocaleString() }} NTD</el-text>
+                    estateSize.floorSize }}坪) = {{
+                    Number(mortgage.totalPriceEstimated).toLocaleString() }} NTD</el-text>
                         <el-input-number v-else v-model="mortgage.totalPrice" :min="0" :step="1000000"
                             @change="calculateMortgage({ setDownpay: true })" />
                     </el-form-item>
@@ -271,6 +271,13 @@ const props = defineProps({
             return {}
         },
         required: true,
+    },
+    parenting: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true,
     }
 })
 // hooks
@@ -310,6 +317,13 @@ function calculateMortgage(options: any = { propagate: true }) {
     // draw chart
     debounce(() => {
         drawDownpayChart(propagate)
+        const { headCount } = props.parenting
+        const { singleBedRoom, doubleBedRoom } = props.estateSize
+        if (headCount > singleBedRoom + doubleBedRoom * 2) {
+            if (!errorMssage.pending()) {
+                errorMssage()
+            }
+        }
         if (setDownpay || setTotalPrice) {
             calculateDownpayYear()
         }
@@ -484,6 +498,12 @@ function calculateDownpayYear() {
         mortgage.value.downpayYear = Math.max(minBuyHouseYear, mortgage.value.downpayYear)
     }
 }
+
+import { ElMessage, } from 'element-plus'
+import { throttle, debounce } from './lodash.js'
+const errorMssage = throttle(() => {
+    ElMessage.error('房屋：家徒四壁！')
+}, 4000)
 
 const debounceId = ref()
 function debounce(func, delay = 100) {

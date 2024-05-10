@@ -105,7 +105,6 @@
 <script setup lang="ts">
 import { ref, computed, shallowRef, reactive, watch } from 'vue'
 import Chart from 'chart.js/auto';
-import { ElMessage, } from 'element-plus'
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
     modelValue: {
@@ -180,7 +179,7 @@ function calculateAsset(options: any = { propagate: true }) {
     calculateInvestmentPeriod()
     calculatePortfolio()
     const { propagate = true } = options
-    debounce(() => {
+    customDebounce(() => {
         drawLifeAssetChart(propagate)
     })(propagate)
 }
@@ -313,9 +312,11 @@ function drawLifeAssetChart(propagate = true) {
         labels.push(year)
         pv = fv
     }
-    // if (fv <= 0) {
-    //     ElMessage.error('資產：財務危機！')
-    // }
+    if (fv <= 0) {
+        if (!errorMssage.pending()) {
+            errorMssage()
+        }
+    }
     const datasets = [
         {
             label: 'ETF增值',
@@ -376,8 +377,14 @@ function drawLifeAssetChart(propagate = true) {
     assetChartInstance = shallowRef(chartInstance)
 }
 
+import { ElMessage, } from 'element-plus'
+import { throttle, debounce } from './lodash.js'
+const errorMssage = throttle(() => {
+    ElMessage.error('資產：一貧如洗！')
+}, 4000)
+
 const debounceId = ref()
-function debounce(func, delay = 100) {
+function customDebounce(func, delay = 100) {
     return (immediate) => {
         clearTimeout(debounceId.value)
         if (immediate) {
