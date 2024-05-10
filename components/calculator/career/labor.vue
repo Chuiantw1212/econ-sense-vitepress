@@ -92,7 +92,7 @@
                 <el-col :span="12">
                     <el-form-item :label="`- 勞保自付額`">
                         <el-text>{{ Number(career.insurance?.expense).toLocaleString() }} (負擔率{{
-                laborInsurace.premiumRate[career.insuredUnit] }}%)</el-text>
+                            laborInsurace.premiumRate[career.insuredUnit] }}%)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -147,7 +147,7 @@
                 </el-collapse-item>
             </el-collapse>
         </template>
-        <canvas v-show="career.monthlyBasicSalary" id="incomeChart"></canvas>
+        <canvas v-show="!isUnableToDraw" id="incomeChart"></canvas>
     </el-card>
 </template>
 <script setup lang="ts">
@@ -221,9 +221,14 @@ const props = defineProps({
         required: true,
     },
 })
+const isUnableToDraw = computed(() => {
+    const { monthlyBasicSalary } = career.value
+    return !monthlyBasicSalary
+})
 const career = computed(() => {
     return props.modelValue
 })
+// methods
 function calculateCareer(options: any = { propagate: true }) {
     const { propagate = true } = options
     try {
@@ -393,6 +398,9 @@ function calculateMonthlySaving() {
 let incomeChartInstance = ref<Chart>()
 function drawChartAndCalculateIncome(propagate = false) {
     const { monthlyBasicSalary, insuredUnit, employeeWelfareFund, insurance, pension } = career.value
+    if (isUnableToDraw.value) {
+        return
+    }
     // 繪製圖表
     let pv = 0
     let fv = 0

@@ -58,10 +58,6 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <!-- <el-form-item label="本俸點" required>
-                        <econSelect v-model="career.payPoint" :options="pointOfPayOptions" @change="calculateCareer()">
-                        </econSelect>
-                    </el-form-item> -->
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="= 奉給總額">
@@ -85,9 +81,6 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <!-- <el-form-item label="健保提繳工資">
-                        <el-text> {{ Number(healInsurance.salary).toLocaleString() }}</el-text>
-                    </el-form-item> -->
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="- 健保自付額">
@@ -98,14 +91,11 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <!-- <el-form-item label="勞保提繳工資">
-                            <el-text> {{ Number(career.insurance.salary).toLocaleString() }}</el-text>
-                        </el-form-item> -->
                 </el-col>
                 <el-col :span="12">
                     <el-form-item :label="`- 公保自付額`">
                         <el-text>{{ Number(civilServantInsurance.expense).toLocaleString() }} (負擔率{{
-                    civilServantInsurance.employeeContributionRate }}%)</el-text>
+                            civilServantInsurance.employeeContributionRate }}%)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
