@@ -104,7 +104,7 @@
         </el-form>
         <template #footer>
             <el-collapse>
-                <el-collapse-item title="試算說明" name="1" :border="true">
+                <el-collapse-item title="試算說明" name="1">
                     <ul>
                         <li>
                             假設依靠投資籌措頭期款

@@ -87,9 +87,10 @@
 
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
-        <Bechmark v-model="userForm" :config="config" @update:model-value="onProfileChanged()"></Bechmark>
+        <Bechmark v-model="userForm" :config="config" @update:model-value="onProfileChanged()"
+            @export="exportUserForm()">
+        </Bechmark>
         <br>
-        <DataCenter @export="exportUserForm()"></DataCenter>
     </div>
 </template>
 <script setup lang="ts">
@@ -106,7 +107,6 @@ import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
 import EstateDialogContent from './estateDialog.vue'
 import Bechmark from './benchmark.vue'
-import DataCenter from './dataCenter.vue'
 const { VITE_BASE_URL } = import.meta.env
 const ProfileRef = ref()
 const CareerRef = ref()
@@ -265,6 +265,7 @@ const userForm = reactive({
         lifeExpectancy: 0,
         yearOfMarriage: '',
         careerInsuranceType: '',
+        story: '',
     },
     career: {
         headCount: 0,
