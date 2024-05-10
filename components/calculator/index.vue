@@ -83,7 +83,8 @@
 
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
-
+        <Bechmark></Bechmark>
+        <br>
         <DataCenter @export="exportUserForm()"></DataCenter>
     </div>
 </template>
@@ -100,6 +101,7 @@ import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
 import EstateDialogContent from './estateDialog.vue'
+import Bechmark from './benchmark.vue'
 import DataCenter from './dataCenter.vue'
 const { VITE_BASE_URL } = import.meta.env
 const ProfileRef = ref()

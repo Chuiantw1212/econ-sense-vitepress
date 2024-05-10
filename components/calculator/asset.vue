@@ -27,7 +27,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="儲蓄投資">
+                    <el-form-item label="定期定額">
                         <el-text>{{ Number(career.monthlySaving).toLocaleString() }} NTD / 月</el-text>
                     </el-form-item>
                 </el-col>
@@ -175,6 +175,7 @@ function setPortfolioMarks() {
     })
 }
 function calculateAsset(options: any = { propagate: true }) {
+    setPortfolioMarks()
     calculateInvestmentPeriod()
     calculatePortfolio()
     const { propagate = true } = options
@@ -221,7 +222,7 @@ function drawLifeAssetChart(propagate = true) {
     const spouseAnnualContribution = monthlyContribution * 12
     const irrModifier = 1 + irr / 100
     const inflatoinRatio = 1 + inflationRate / 100
-    let inflationModifier = 1
+    let valueModifier = 1
 
     let pv = presentAsset
     let fv = 0
@@ -235,13 +236,13 @@ function drawLifeAssetChart(propagate = true) {
     const childExpenseData: number[] = []
 
     for (let year = currentYear; year < currentYear + period; year++) {
-        inflationModifier *= inflatoinRatio
+        valueModifier *= inflatoinRatio
         /**
          * 影響存量重大事件
          */
         if (year === downpayYear) {
             const calculatedDownpay = downpayGoal || downpay
-            const inflatedDownpay = calculatedDownpay * inflationModifier
+            const inflatedDownpay = calculatedDownpay * valueModifier
             pv -= inflatedDownpay
             downpayData.push(Math.floor(-inflatedDownpay))
         } else {
@@ -253,7 +254,7 @@ function drawLifeAssetChart(propagate = true) {
         // 執業收支 
         const { monthlySaving } = props.career
         const annualSaving = monthlySaving * 12
-        let calculatedPmt = annualSaving * inflationModifier
+        let calculatedPmt = annualSaving * valueModifier
         investingData.push(calculatedPmt)
 
         // 育兒開支影響每月儲蓄
@@ -264,13 +265,13 @@ function drawLifeAssetChart(propagate = true) {
         const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
         let childExpense = 0
         if (hasFirstBorn) {
-            childExpense += childAnnualExpense * inflationModifier
+            childExpense += childAnnualExpense * valueModifier
         }
         if (hasSecondBorn) {
-            childExpense += childAnnualExpense * inflationModifier
+            childExpense += childAnnualExpense * valueModifier
         }
         if (hasFirstBorn || hasSecondBorn) {
-            const inflatedContribution = Math.floor(spouseAnnualContribution * inflationModifier)
+            const inflatedContribution = Math.floor(spouseAnnualContribution * valueModifier)
             childExpense -= inflatedContribution
             calculatedPmt -= childExpense
             spouseContribution.push(inflatedContribution)
@@ -280,7 +281,7 @@ function drawLifeAssetChart(propagate = true) {
             childExpenseData.push(0)
         }
         // 加計通貨膨脹
-        calculatedPmt *= inflationModifier
+        calculatedPmt *= valueModifier
         /**
          * 不受到通膨影響的PMT
          */
@@ -289,11 +290,11 @@ function drawLifeAssetChart(propagate = true) {
         const mortgageEndYear = downpayYear + loanTerm
         let mortgagePmt = 0
         let inflatedTotalPrice = 0
-        if (mortgageStartYear <= year) {
+        if (mortgageStartYear <= year && fv > 0) {
             if (year < mortgageEndYear) {
                 mortgagePmt = monthlyRepay * 12
             }
-            inflatedTotalPrice = Math.floor(totalPrice * inflationModifier)
+            inflatedTotalPrice = Math.floor(totalPrice * valueModifier)
         }
         estateData.push(inflatedTotalPrice)
         mortgageData.push(Math.floor(-mortgagePmt))
@@ -303,6 +304,11 @@ function drawLifeAssetChart(propagate = true) {
         fv = pv * irrModifier
         datasetData.push(Math.floor(fv))
         fv += calculatedPmt
+        if (fv <= 0) {
+            fv = 0
+            valueModifier = 0
+        }
+
         labels.push(year)
         pv = fv
     }
