@@ -120,12 +120,6 @@ function confirmUpdate() {
     })
 }
 
-import { ElMessage, } from 'element-plus'
-import { throttle, debounce } from './lodash.js'
-const errorMssage = throttle(() => {
-    ElMessage.error('房屋：家徒四壁！')
-}, 4000)
-
 onMounted(() => {
     estatePrice.value = JSON.parse(JSON.stringify(props.estatePrice))
     estateSize.value = JSON.parse(JSON.stringify(props.estateSize))

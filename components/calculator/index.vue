@@ -215,6 +215,9 @@ function setUserAndInitialize(form, { showMessage = false }) {
         if (form.investment) {
             Object.assign(userForm.asset, form.investment)
         }
+        if (form.asset) {
+            Object.assign(userForm.asset, form.asset)
+        }
     }
     if (showMessage) {
         ElMessage.info('載入成功')
