@@ -228,6 +228,7 @@ import { ref, computed, shallowRef, reactive } from 'vue'
 import Chart from 'chart.js/auto';
 import econSelect from '../econSelect.vue'
 import { ElMessage, } from 'element-plus'
+import { throttle, debounce } from './lodash.js'
 interface IOptionItem {
     label: string,
     value: string | number | boolean,
@@ -342,7 +343,7 @@ function calculateRetirement(options: any = { propagate: true }) {
     calculateRetirementExpense()
 
     const { propagate = true } = options
-    debounce(() => {
+    customDebounce(() => {
         drawRetirementAssetChart(propagate)
     })(propagate)
 }
@@ -562,11 +563,6 @@ async function drawRetirementAssetChart(propagate = false) {
         // 未還完的房貸支出
         const simYear = currentYear + yearToRetirement + i
         const annualRepay = monthlyRepay * 12
-        console.log({
-            downpayYear,
-            loanTerm,
-            simYear
-        })
         if (loanEndYear >= simYear) {
             pmt -= annualRepay
             mortgageData.push([0, -annualRepay])
@@ -581,9 +577,11 @@ async function drawRetirementAssetChart(propagate = false) {
         labels.push(calculatedYear)
         pv = fv
     }
-    // if (fv <= 0) {
-    //     ElMessage.error('退休，晚節不保！')
-    // }
+    if (fv <= 0) {
+        if (!errorMssage.pending()) {
+            errorMssage()
+        }
+    }
     // 繪圖
     const tension = 0.5
     const datasets = [
@@ -607,10 +605,6 @@ async function drawRetirementAssetChart(propagate = false) {
         }
     ]
     const hasMortgage = mortgageData.some(data => data[1])
-    console.log({
-        mortgageData,
-        hasMortgage
-    })
     if (hasMortgage) {
         datasets.push({
             label: '房貸剩餘利息',
@@ -650,6 +644,9 @@ async function drawRetirementAssetChart(propagate = false) {
     })
     pensionChartInstance = shallowRef(chartInstance)
 }
+const errorMssage = throttle(() => {
+    ElMessage.warning('退休，晚節不保！')
+}, 4000)
 function calculateLaborPensionLumpSum(fv = 0) {
     retirement.value.pension.lumpSum = Number(fv)
     const { futureSeniority } = retirement.value.insurance
@@ -664,7 +661,7 @@ function calculateLaborPensionLumpSum(fv = 0) {
 }
 
 const debounceId = ref()
-function debounce(func, delay = 100) {
+function customDebounce(func, delay = 100) {
     return (immediate) => {
         clearTimeout(debounceId.value)
         if (immediate) {

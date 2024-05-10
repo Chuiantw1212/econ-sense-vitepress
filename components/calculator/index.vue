@@ -216,6 +216,9 @@ function setUserAndInitialize(form, { showMessage = false }) {
             Object.assign(userForm.asset, form.investment)
         }
     }
+    if (showMessage) {
+        ElMessage.success('載入成功')
+    }
     nextTick(async () => {
         await ProfileRef.value.calculateProfile({
             propagate: true,
@@ -238,9 +241,6 @@ function setUserAndInitialize(form, { showMessage = false }) {
         await MortgageRef.value.calculateMortgage({
             propagate: true,
         })
-        if (showMessage) {
-            ElMessage.success('載入成功')
-        }
         window.scrollTo(0, 0)
     })
 }
