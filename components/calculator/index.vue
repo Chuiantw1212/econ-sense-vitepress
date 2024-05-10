@@ -39,8 +39,8 @@
         <h3 id="_退休試算" tabindex="-1">退休試算<a class="header-anchor" href="#退休試算"
                 aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
         <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career"
-            :parenting="userForm.parenting" :profile="userForm.profile" ref="RetirementRef"
-            @update:modelValue="onRetirementChanged()">
+            :parenting="userForm.parenting" :profile="userForm.profile" :mortgage="userForm.mortgage"
+            ref="RetirementRef" @update:modelValue="onRetirementChanged()">
         </Retirement>
 
         <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
@@ -239,7 +239,7 @@ function setUserAndInitialize(form, { showMessage = false }) {
             propagate: true,
         })
         if (showMessage) {
-            ElMessage('載入成功')
+            ElMessage.success('載入成功')
         }
         window.scrollTo(0, 0)
     })
@@ -486,6 +486,9 @@ function onMortgageChanged() {
     authFetch(`/user/mortgage`, {
         method: 'put',
         body: userForm.mortgage,
+    })
+    RetirementRef.value.calculateRetirement({
+        propagate: false,
     })
     InvestmentRef.value.calculateAsset({
         propagate: false,

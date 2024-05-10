@@ -4,21 +4,19 @@
             <div class="card-header card-header--custom">
                 <span>非專業建議
                 </span>
-                <div>
-                    <!-- <el-button @click="exportUserForm()">匯出</el-button> -->
-                    <!-- <el-button>但你怎麼知道左邊這顆按鈕不是強制登入？</el-button> -->
-                </div>
             </div>
         </template>
-        <el-form label-width="auto">
-            <!-- <ul>
+        <el-form label-width="auto">    
+            <!-- <p>你破產了lol</p>
+            <ul>
+                若需專業建議請洽以下機構
                 <li>
-                    買房的最佳時機：未來六年都會在同一個地點居住。
+                    <a href="https://www.azsinopro.com.tw/" target="_blank">Azimut Sinopro 安睿宏觀｜全生涯理財規劃</a>
                 </li>
             </ul> -->
             <el-row>
                 <el-col>
-                     
+
                 </el-col>
             </el-row>
         </el-form>

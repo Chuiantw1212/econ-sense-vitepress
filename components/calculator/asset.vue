@@ -105,6 +105,7 @@
 <script setup lang="ts">
 import { ref, computed, shallowRef, reactive, watch } from 'vue'
 import Chart from 'chart.js/auto';
+import { ElMessage, } from 'element-plus'
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
     modelValue: {
@@ -312,6 +313,11 @@ function drawLifeAssetChart(propagate = true) {
         labels.push(year)
         pv = fv
     }
+    if (fv <= 0) {
+        ElMessage.error('財務危機！')
+    } else {
+        ElMessage.closeAll()
+    }
     const datasets = [
         {
             label: 'ETF增值',
@@ -339,10 +345,10 @@ function drawLifeAssetChart(propagate = true) {
             label: '頭期款',
             data: downpayData,
         })
-        datasets.push({
-            label: '房地產',
-            data: estateData,
-        })
+        // datasets.push({
+        //     label: '房地產',
+        //     data: estateData,
+        // })
     }
     const chartData = {
         datasets,

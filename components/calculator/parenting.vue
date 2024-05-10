@@ -286,7 +286,7 @@ function drawParentingChart(propagate = true) {
 
     for (let i = 0; i < parentingDuration; i++) {
         inflationModifier *= inflationRatio
-        const simYear: number = firstBornYear + i + 1
+        const simYear: number = firstBornYear + i
         labels.push(simYear)
         /**
          * 計算PMT

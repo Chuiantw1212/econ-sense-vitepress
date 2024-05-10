@@ -268,6 +268,13 @@ const props = defineProps({
             return {}
         },
         required: true
+    },
+    mortgage: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true
     }
 })
 const expenseQuartileMarks = reactive({})
@@ -486,13 +493,16 @@ async function drawRetirementAssetChart(propagate = false) {
         lumpSum,
     } = retirement.value.pension
     const { monthlyContribution } = props.career.pension
+    const { currentYear } = props.config
     const {
         yearToRetirement,
         lifeExpectancy,
         annualExpense,
+        age: retireAge,
     } = retirement.value
     const monthlyAnnuity = retirement.value.insurance.monthlyAnnuity || retirement.value.pension.monthlyAnnuity
-
+    const { downpayYear, loanTerm, monthlyRepay } = props.mortgage
+    const loanEndYear = downpayYear + loanTerm
     // 計算資料
     const inflationRate = 1 + props.config.inflationRate / 100
     let inflationModifier = 1
@@ -507,13 +517,14 @@ async function drawRetirementAssetChart(propagate = false) {
     const pensionLumpSumData: number[][] = []
     const annualAnnuityData: number[][] = []
     const retirementAnnualExpenseData: number[][] = []
+    const mortgageData: number[][] = []
 
     const { careerInsuranceType } = props.profile
     if (['employee', 'entrepreneur'].includes(careerInsuranceType)) {
         pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
         // 退休前資產累積
         for (let i = 0; i < n; i++) {
-            const calculatedYear = props.config.currentYear + i
+            const calculatedYear = currentYear + i
             labels.push(calculatedYear)
             annualAnnuityData.push([0, 0])
             retirementAnnualExpenseData.push([0, 0])
@@ -521,7 +532,7 @@ async function drawRetirementAssetChart(propagate = false) {
             const pmt = pensionContribution * inflationModifier
             fv = Math.floor(pv * pensionIrr + pmt)
             pensionLumpSumData.push([0, Math.floor(fv)])
-
+            mortgageData.push([0, 0])
             pv = fv
             inflationModifier *= inflationRate
         }
@@ -536,46 +547,76 @@ async function drawRetirementAssetChart(propagate = false) {
 
     // 退休後退休支出
     let insuranceAnnuityInflationModifier = 1
+    let pmt = 0
+    let inflatedAnnualExpense = 0
     for (let i = 0; i < lifeExpectancy; i++) {
         inflationModifier *= inflationRate
         insuranceAnnuityInflationModifier *= inflationRate
-
+        // 年金收入計算
         const annutalAnnuity = Math.floor(monthlyAnnuity * 12 * insuranceAnnuityInflationModifier)
         annualAnnuityData.push([0, annutalAnnuity])
-        const inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
+        inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
         retirementAnnualExpenseData.push([0, -inflatedAnnualExpense])
-        const pmt = annutalAnnuity - inflatedAnnualExpense
-
+        pmt = annutalAnnuity - inflatedAnnualExpense
+        // 未還完的房貸支出
+        const simYear = currentYear + yearToRetirement + i
+        const annualRepay = monthlyRepay * 12
+        console.log({
+            downpayYear,
+            loanTerm,
+            simYear
+        })
+        if (loanEndYear >= simYear) {
+            pmt -= annualRepay
+            mortgageData.push([0, -annualRepay])
+        } else {
+            mortgageData.push([0, 0])
+        }
+        // fv
         fv = Math.floor(pv * pensionIrr + pmt)
         fv = Math.max(0, fv)
         pensionLumpSumData.push([0, Math.floor(fv)])
-        const calculatedYear = props.config.currentYear + n + i
+        const calculatedYear = currentYear + n + i
         labels.push(calculatedYear)
         pv = fv
     }
     // 繪圖
     const tension = 0.5
+    const datasets = [
+        {
+            label: '一次領+投資',
+            data: pensionLumpSumData,
+            fill: true,
+            tension,
+        },
+        {
+            label: '年金',
+            data: annualAnnuityData,
+            fill: true,
+            tension,
+        },
+        {
+            label: '退休支出',
+            data: retirementAnnualExpenseData,
+            fill: true,
+            tension,
+        }
+    ]
+    const hasMortgage = mortgageData.some(data => data[1])
+    console.log({
+        mortgageData,
+        hasMortgage
+    })
+    if (hasMortgage) {
+        datasets.push({
+            label: '房貸剩餘利息',
+            data: mortgageData,
+            fill: true,
+            tension,
+        })
+    }
     const chartData: any = {
-        datasets: [
-            {
-                label: '一次領+投資',
-                data: pensionLumpSumData,
-                fill: true,
-                tension,
-            },
-            {
-                label: '年金',
-                data: annualAnnuityData,
-                fill: true,
-                tension,
-            },
-            {
-                label: '退休支出',
-                data: retirementAnnualExpenseData,
-                fill: true,
-                tension,
-            }
-        ],
+        datasets,
         labels
     }
     // 儲存參數
