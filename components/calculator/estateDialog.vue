@@ -8,21 +8,23 @@
             ref="EstateSizeRef">
         </EstateSize>
         <br />
+        <!-- <el-card> -->
         <el-row>
-            <el-col :span="18">
+            <el-col :span="20">
                 <el-form-item label="房屋總價">
                     <el-text>= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
             estateSize.floorSize }}坪) = {{
             Number(tempTotalPrice).toLocaleString() }} NTD</el-text>
                 </el-form-item>
             </el-col>
-            <el-col :span="6">
-                <el-form-item>
-                    <el-button @click="emits('close')">取消</el-button>
-                    <el-button @click="confirmUpdate()">確認帶回</el-button>
-                </el-form-item>
+            <!-- <el-col :span="3">
+                <el-button @click="emits('close')">取消</el-button>
+            </el-col> -->
+            <el-col :span="4">
+                <el-button @click="confirmUpdate()">確認帶回</el-button>
             </el-col>
         </el-row>
+        <!-- </el-card> -->
     </div>
 </template>
 <script setup lang="ts">
@@ -117,6 +119,7 @@ function confirmUpdate() {
         estateSize: estateSize.value,
     })
 }
+
 onMounted(() => {
     estatePrice.value = JSON.parse(JSON.stringify(props.estatePrice))
     estateSize.value = JSON.parse(JSON.stringify(props.estateSize))

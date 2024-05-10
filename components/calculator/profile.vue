@@ -1,120 +1,97 @@
 <template>
-    <div>
-        <h2 id="_基本資料" tabindex="-1">
-            基本資料
-            <a class="header-anchor" href="#基本資料" aria-label="Permalink to &quot;基本資料&quot;">&ZeroWidthSpace;</a>
-        </h2>
-        <el-card>
-            <template #header>
-                <div class="card-header card-header--custom">
-                    <span>基本資料與參數</span>
-                    <div class="header__btnGroup">
-                        <el-upload v-model:file-list="fileList" :limit="1" :show-file-list="false"
-                            @success="handleChange">
-                            <el-button>匯入</el-button>
-                        </el-upload>
-                        <el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
-                        <el-button v-else @click="emits('signOut')">登出</el-button>
-                    </div>
+    <el-card>
+        <template #header>
+            <div class="card-header card-header--custom">
+                <span>基本資料與參數</span>
+                <div class="header__btnGroup">
+                    <el-upload v-model:file-list="fileList" :limit="1" :show-file-list="false" @success="handleChange">
+                        <el-button>匯入</el-button>
+                    </el-upload>
+                    <el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
+                    <el-button v-else @click="emits('signOut')">登出</el-button>
                 </div>
-            </template>
-            <el-form ref="ruleFormRef" label-width="auto">
-                <el-row>
-                    <el-col v-if="user.photoURL" :span="12">
-                        <el-form-item :label="user.displayName">
-                            <el-avatar :src="user.photoURL"></el-avatar>
-                        </el-form-item>
-                    </el-col>
-                    <el-col v-if="user.email" :span="12">
-                        <el-form-item label="註冊信箱">
-                            <el-text>{{ user.email }}</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="出生年" required>
-                            <econSelect v-model="profile.yearOfBirth" @change="calculateProfile()" style="width: 130px"
-                                :options="birthYearOptions">
-                            </econSelect>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="試算年齡">
-                            <el-text>{{ profile.age }} 歲</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="性別" required>
-                            <el-radio-group v-model="profile.gender" @change="calculateProfile()">
-                                <el-radio v-for="(item, key) in config.genders" :value="item.value">
-                                    {{ item.label }}
-                                </el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="預估餘命">
-                            <el-text>{{ profile.lifeExpectancy }} 年</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="職業保險別" required>
-                            <econSelect v-model="profile.careerInsuranceType" @change="calculateProfile()"
-                                style="width: 130px" :options="insuranceTypeOptions">
-                            </econSelect>
-                            <!-- <el-radio-group v-model="profile.careerInsuranceType" @change="calculateProfile()">
-                                <el-radio v-for="(item) in insuranceTypeOptions" :value="item.value">
-                                    {{ item.label }}
-                                </el-radio>
-                            </el-radio-group> -->
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="通貨膨脹">
-                            <el-text>{{ config.inflationRate }}%</el-text>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <!-- <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="配偶婚年" required>
-                            <econSelect v-model="profile.yearOfMarriage" @change="calculateProfile()"
-                                style="width: 130px" :items="marriageYearOptions" placeholder="未婚">
-                            </econSelect>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                    </el-col>
-                </el-row> -->
-            </el-form>
-            <template #footer>
-                <el-collapse>
-                    <el-collapse-item title="試算說明" name="1" :border="true">
-                        <ul>
-                            <li>
-                                預期餘命：<a href="https://data.gov.tw/dataset/39493" target="_blank">預期壽命推估</a>
-                            </li>
-                            <li>
-                                通貨膨脹(消費者物價指數年增率)：<a href="https://www.stat.gov.tw/Point.aspx?sid=t.2&n=3581&sms=11480"
-                                    target="_blank">中華民國統計資訊網</a>
-                            </li>
-                        </ul>
-                    </el-collapse-item>
-                </el-collapse>
-            </template>
-        </el-card>
-        <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
-            <p>
-                歡迎您使用我們的服務！註冊後，您可以輕鬆使用我們的平台，因為您的資料將被安全儲存，包括電子郵件地址和填寫的表單內容。這樣做是為了方便您下次登入時無需重新輸入表單資料，提供更順暢的使用體驗。我們十分尊重您的隱私，您的資料將受到保護並嚴格保密。
-            </p>
-            <div id="firebaseui-auth-container"></div>
-        </el-dialog>
-    </div>
+            </div>
+        </template>
+        <el-form ref="ruleFormRef" label-width="auto">
+            <el-row>
+                <el-col v-if="user.photoURL" :span="12">
+                    <el-form-item :label="user.displayName">
+                        <el-avatar :src="user.photoURL"></el-avatar>
+                    </el-form-item>
+                </el-col>
+                <el-col v-if="user.email" :span="12">
+                    <el-form-item label="註冊信箱">
+                        <el-text>{{ user.email }}</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="出生年" required>
+                        <econSelect v-model="profile.yearOfBirth" @change="calculateProfile()" style="width: 130px"
+                            :options="birthYearOptions">
+                        </econSelect>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="試算年齡">
+                        <el-text>{{ profile.age }} 歲</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="性別" required>
+                        <el-radio-group v-model="profile.gender" @change="calculateProfile()">
+                            <el-radio v-for="(item, key) in config.genders" :value="item.value">
+                                {{ item.label }}
+                            </el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="預估餘命">
+                        <el-text>{{ profile.lifeExpectancy }} 年</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="職業保險別" required>
+                        <econSelect v-model="profile.careerInsuranceType" @change="calculateProfile()"
+                            style="width: 130px" :options="config.insuranceTypes">
+                        </econSelect>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="通貨膨脹">
+                        <el-text>{{ config.inflationRate }}%</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <template #footer>
+            <el-collapse>
+                <el-collapse-item title="試算說明" name="1" :border="true">
+                    <ul>
+                        <li>
+                            預期餘命：<a href="https://data.gov.tw/dataset/39493" target="_blank">預期壽命推估</a>
+                        </li>
+                        <li>
+                            通貨膨脹(消費者物價指數年增率)：<a href="https://www.stat.gov.tw/Point.aspx?sid=t.2&n=3581&sms=11480"
+                                target="_blank">中華民國統計資訊網</a>
+                        </li>
+                    </ul>
+                </el-collapse-item>
+            </el-collapse>
+        </template>
+    </el-card>
+    <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
+        <p>
+            歡迎您使用我們的服務！註冊後，您可以輕鬆使用我們的平台，因為您的資料將被安全儲存，包括電子郵件地址和填寫的表單內容。這樣做是為了方便您下次登入時無需重新輸入表單資料，提供更順暢的使用體驗。我們十分尊重您的隱私，您的資料將受到保護並嚴格保密。
+        </p>
+        <div id="firebaseui-auth-container"></div>
+    </el-dialog>
 </template>
 <script setup lang="ts">
 /**
@@ -126,7 +103,7 @@
  * FirebaseUI for Web — Auth
  * https://firebaseopensource.com/projects/firebase/firebaseui-web/
  */
- const { VITE_BASE_URL } = import.meta.env
+const { VITE_BASE_URL } = import.meta.env
 import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
 import firebase from 'firebase/compat/app';
 import econSelect from '../econSelect.vue'
@@ -161,38 +138,6 @@ const props = defineProps({
 })
 const birthYearOptions = ref<any[]>([])
 const marriageYearOptions = ref<any[]>([])
-const insuranceTypeOptions = ref([
-    {
-        label: '勞工(勞保)',
-        value: 'employee',
-        disabled: false,
-    },
-    {
-        label: '企業主/自營(勞保)',
-        value: 'entrepreneur',
-        disabled: false,
-    },
-    {
-        label: '公教人員(公保)',
-        value: 'civilServant',
-        disabled: false,
-    },
-    {
-        label: '軍職人員(未完成)',
-        value: 'military',
-        disabled: true,
-    },
-    {
-        label: '農民(未完成)',
-        value: 'farmer',
-        disabled: true,
-    },
-    {
-        label: '國民(未完成)',
-        value: 'national',
-        disabled: true,
-    }
-])
 const isFullScreen = ref(false)
 // hooks
 onMounted(async () => {

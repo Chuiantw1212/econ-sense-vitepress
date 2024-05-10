@@ -58,10 +58,6 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <!-- <el-form-item label="本俸點" required>
-                        <econSelect v-model="career.payPoint" :options="pointOfPayOptions" @change="calculateCareer()">
-                        </econSelect>
-                    </el-form-item> -->
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="= 奉給總額">
@@ -85,9 +81,6 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <!-- <el-form-item label="健保提繳工資">
-                        <el-text> {{ Number(healInsurance.salary).toLocaleString() }}</el-text>
-                    </el-form-item> -->
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="- 健保自付額">
@@ -98,14 +91,11 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <!-- <el-form-item label="勞保提繳工資">
-                            <el-text> {{ Number(career.insurance.salary).toLocaleString() }}</el-text>
-                        </el-form-item> -->
                 </el-col>
                 <el-col :span="12">
                     <el-form-item :label="`- 公保自付額`">
                         <el-text>{{ Number(civilServantInsurance.expense).toLocaleString() }} (負擔率{{
-                    civilServantInsurance.employeeContributionRate }}%)</el-text>
+                            civilServantInsurance.employeeContributionRate }}%)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -235,7 +225,11 @@ function calculateCareer(options: any = { propagate: true }) {
 function calculateMonthlySaving() {
     const { monthlyNetPay = 0, monthlyExpense = 0, monthlyNetPayEstimated } = career.value
     const monthlyNetPayBasis = monthlyNetPay || monthlyNetPayEstimated
-    career.value.monthlySaving = Math.floor(monthlyNetPayBasis - monthlyExpense)
+    if (monthlyNetPayBasis) {
+        career.value.monthlySaving = Math.floor(monthlyNetPayBasis - monthlyExpense)
+    } else {
+        career.value.monthlySaving = 0
+    }
 }
 function calculateMonthlyBasic() {
     const { payPoint } = career.value
@@ -271,6 +265,7 @@ function calculatePension() {
         career.value.pension.monthlyContribution = monthlyContributionEmployee + monthlyContributionGovernment
     } else {
         career.value.pension.monthlyContribution = 0
+        career.value.insurance.salary = 0
     }
 }
 function calculateHealthInsurance() {
@@ -282,6 +277,7 @@ function calculateHealthInsurance() {
     if (!monthlyBasicSalary) {
         healInsurance.salary = 0
         healInsurance.contribution = 0
+        return
     }
     const { salaryRate } = healInsurance
     const healthSalaryMin = Math.round((monthlyBasicSalary + supervisorAllowance + professionalAllowance) * salaryRate / 100)
@@ -352,6 +348,8 @@ function drawChartAndCalculateIncome(propagate = false) {
     }
     if (monthlyBasicSalary) {
         career.value.monthlyNetPayEstimated = fv
+    } else {
+        career.value.monthlyNetPayEstimated = 0
     }
 
     pv = fv

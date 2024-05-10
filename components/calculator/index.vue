@@ -19,6 +19,10 @@
             </template>
         </el-dialog>
 
+        <h2 id="_基本資料" tabindex="-1">
+            基本資料
+            <a class="header-anchor" href="#基本資料" aria-label="Permalink to &quot;基本資料&quot;">&ZeroWidthSpace;</a>
+        </h2>
         <Profile v-model="userForm.profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
             @upload="setUserAndInitialize($event, { showMessage: true })" @update:modelValue="onProfileChanged()">
         </Profile>
@@ -39,18 +43,18 @@
         <h3 id="_退休試算" tabindex="-1">退休試算<a class="header-anchor" href="#退休試算"
                 aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
         <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career"
-            :parenting="userForm.parenting" :profile="userForm.profile" ref="RetirementRef"
-            @update:modelValue="onRetirementChanged()">
+            :parenting="userForm.parenting" :profile="userForm.profile" :mortgage="userForm.mortgage"
+            ref="RetirementRef" @update:modelValue="onRetirementChanged()">
         </Retirement>
 
         <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
                 aria-label="Permalink to &quot;五子登科&quot;">&ZeroWidthSpace;</a></h2>
-        <h3 id="_投資資產試算" tabindex="-1">投資資產試算<a class="header-anchor" href="#投資資產試算"
-                aria-label="Permalink to &quot;投資資產試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Investment v-model="userForm.investment" :config="config" :profile="userForm.profile" :career="userForm.career"
+        <h3 id="_資產試算" tabindex="-1">資產試算<a class="header-anchor" href="#資產試算"
+                aria-label="Permalink to &quot;資產試算&quot;">&ZeroWidthSpace;</a></h3>
+        <Asset v-model="userForm.asset" :config="config" :profile="userForm.profile" :career="userForm.career"
             :spouse="userForm.spouse" :parenting="userForm.parenting" :mortgage="userForm.mortgage"
             :retirement="userForm.retirement" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
-        </Investment>
+        </Asset>
 
         <h3 id="_結婚試算" tabindex="-1">配偶試算<a class="header-anchor" href="#配偶試算"
                 aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
@@ -60,7 +64,7 @@
         <h3 id="_家庭責任試算" tabindex="-1">家庭責任試算<a class="header-anchor" href="#家庭責任試算"
                 aria-label="Permalink to &quot;家庭責任試算&quot;">&ZeroWidthSpace;</a></h3>
         <Parenting v-model="userForm.parenting" :config="config" :career="userForm.career"
-            :retirement="userForm.retirement" :spouse="userForm.spouse" :investment="userForm.investment"
+            :retirement="userForm.retirement" :spouse="userForm.spouse" :asset="userForm.asset"
             :estateSize="userForm.estateSize" :mortgage="userForm.mortgage" ref="ParentingRef"
             @update:model-value="onParentingChanged()">
         </Parenting>
@@ -68,9 +72,9 @@
         <h3 id="_購屋試算" tabindex="-1">購屋試算<a class="header-anchor" href="#購屋試算"
                 aria-label="Permalink to &quot;購屋試算&quot;">&ZeroWidthSpace;</a></h3>
         <Mortgage v-model="userForm.mortgage" :config="config" :career="userForm.career"
-            :estateSize="userForm.estateSize" :investment="userForm.investment" :estatePrice="userForm.estatePrice"
-            ref="MortgageRef" @update:model-value="onMortgageChanged()" @open="openEstateCalculator()"
-            @reset="resetTotalPrice()">
+            :estateSize="userForm.estateSize" :asset="userForm.asset" :parenting="userForm.parenting"
+            :estatePrice="userForm.estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
+            @open="openEstateCalculator()" @reset="resetTotalPrice()">
         </Mortgage>
 
         <el-dialog :modelValue="estateCalculatorVisiable" title="估算總價" :lock-scroll="true"
@@ -83,8 +87,10 @@
 
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
-
-        <DataCenter @export="exportUserForm()"></DataCenter>
+        <Bechmark v-model="userForm" :config="config" @update:model-value="onProfileChanged()"
+            @export="exportUserForm()">
+        </Bechmark>
+        <br>
     </div>
 </template>
 <script setup lang="ts">
@@ -95,12 +101,12 @@ import Profile from './profile.vue'
 import CareerLabor from './career/labor.vue'
 import CareerGovernment from './career/government.vue'
 import Retirement from './retirement.vue'
-import Investment from './investment.vue'
+import Asset from './asset.vue'
 import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
 import EstateDialogContent from './estateDialog.vue'
-import DataCenter from './dataCenter.vue'
+import Bechmark from './benchmark.vue'
 const { VITE_BASE_URL } = import.meta.env
 const ProfileRef = ref()
 const CareerRef = ref()
@@ -121,6 +127,7 @@ const config = reactive({
     buildingTypes: [],
     buildingAges: [],
     retirementQuartile: [],
+    insuranceTypes: [],
     // object types
     townMap: {},
     portfolioIRR: {},
@@ -149,6 +156,7 @@ async function setSelecOptionSync() {
         config.buildingAges = selectResJson.buildingAges || []
         config.genders = selectResJson.genders || []
         config.retirementQuartile = selectResJson.retirementQuartile || []
+        config.insuranceTypes = selectResJson.insuranceTypes || []
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
         const interestRate = await bankConfigRes[1].json()
@@ -209,6 +217,16 @@ function setUserAndInitialize(form, { showMessage = false }) {
         if (userForm[key]) {
             Object.assign(userForm[key], form[key])
         }
+        // Backward compatible since 2024/05/10
+        if (form.investment) {
+            Object.assign(userForm.asset, form.investment)
+        }
+        if (form.asset) {
+            Object.assign(userForm.asset, form.asset)
+        }
+    }
+    if (showMessage) {
+        ElMessage.info('載入成功')
     }
     nextTick(async () => {
         await ProfileRef.value.calculateProfile({
@@ -232,9 +250,6 @@ function setUserAndInitialize(form, { showMessage = false }) {
         await MortgageRef.value.calculateMortgage({
             propagate: true,
         })
-        if (showMessage) {
-            ElMessage('載入成功')
-        }
         window.scrollTo(0, 0)
     })
 }
@@ -250,6 +265,7 @@ const userForm = reactive({
         lifeExpectancy: 0,
         yearOfMarriage: '',
         careerInsuranceType: '',
+        story: '',
     },
     career: {
         headCount: 0,
@@ -278,7 +294,7 @@ const userForm = reactive({
     retirement: {
         age: 65,
         lifeExpectancy: 0,
-        yearToRetirement: 0,
+        yearsToRetirement: 0,
         annuitySum: 0,
         insurance: {
             monthlyAnnuity: 0,
@@ -297,7 +313,7 @@ const userForm = reactive({
         qualityLevel: 3,
         expenseQuartileMarks: {},
     },
-    investment: {
+    asset: {
         allocationETF: 'aok',
         stockPercentage: 20,
         irr: 0,
@@ -404,9 +420,9 @@ function onRetirementChanged() {
 }
 // 投資試算
 function onInvestmentChanged() {
-    authFetch(`/user/investment`, {
+    authFetch(`/user/asset`, {
         method: 'put',
-        body: userForm.investment,
+        body: userForm.asset,
     })
     ParentingRef.value.calculateParenting({
         propagate: false,
@@ -481,10 +497,14 @@ function onMortgageChanged() {
         method: 'put',
         body: userForm.mortgage,
     })
+    RetirementRef.value.calculateRetirement({
+        propagate: false,
+    })
     InvestmentRef.value.calculateAsset({
         propagate: false,
     })
 }
+
 // 資料匯出
 async function exportUserForm() {
     const res = await fetch(`${VITE_BASE_URL}/user/type`, {

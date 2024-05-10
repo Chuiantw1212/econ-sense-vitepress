@@ -10,7 +10,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item v-if="spouse.monthlyContribution" label="配偶貢獻">
-                        <el-text>{{ Number(spouse.monthlyContribution).toLocaleString() }} NTD / 月</el-text>
+                        <el-text>{{ Number(spouse.monthlyContribution * 12).toLocaleString() }} / 年</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -55,7 +55,7 @@
                 <el-col :span="12">
                     <el-form-item label="壽險已備">
                         <el-input-number v-model="parenting.lifeInsurance" :min="0" :step="100000"
-                            @change="calculateParenting($event)" />
+                            :disabled="!parenting.firstBornYear" @change="calculateParenting($event)" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -73,7 +73,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="資產投報率">
-                        <el-text>{{ config.portfolioIRR[investment.allocationETF] }} %</el-text>
+                        <el-text>{{ config.portfolioIRR[asset.allocationETF] }} % / 年</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -181,7 +181,7 @@ const props = defineProps({
         },
         required: true,
     },
-    investment: {
+    asset: {
         type: Object,
         default: () => {
             return {}
@@ -266,7 +266,7 @@ function drawParentingChart(propagate = true) {
     const { survivorAnnuity } = props.retirement.insurance
 
     // 計算投資報酬率
-    const investmentIrr = 1 + props.investment.irr / 100
+    const assetIrr = 1 + props.asset.irr / 100
     const firstBornEndYear: number = firstBornYear + independantAge
     const secondBornEndYear: number = secondBornYear + independantAge
     const parentingDuration: number = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
@@ -286,7 +286,7 @@ function drawParentingChart(propagate = true) {
 
     for (let i = 0; i < parentingDuration; i++) {
         inflationModifier *= inflationRatio
-        const simYear: number = firstBornYear + i + 1
+        const simYear: number = firstBornYear + i
         labels.push(simYear)
         /**
          * 計算PMT
@@ -340,7 +340,7 @@ function drawParentingChart(propagate = true) {
         }
 
         // 儲存資料
-        fv = pv * investmentIrr + pmt
+        fv = pv * assetIrr + pmt
         const floorPmt = Math.floor(pmt)
         lifeInsuranceEquity.push([floorPmt, Math.floor(Math.max(0, fv))])
         cash = cash + pmt

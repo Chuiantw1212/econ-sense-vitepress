@@ -18,8 +18,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="距離退休">
-                        <el-text>{{ retirement.yearToRetirement }} 年</el-text>
+                    <el-form-item label="退休年">
+                        <el-text>{{ retirement.yearOfRetire }} ({{ retirement.yearsToRetirement }} 年後)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -58,10 +58,10 @@
                         <el-col :span="12">
                             <el-form-item label="每月年金">
                                 <el-text v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">{{
-                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                                    Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                                 <el-text v-if="['civilServant',].includes(profile.careerInsuranceType)">{{
-                Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
+                                    Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -147,8 +147,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                item.label
-            }}</el-radio>
+                                item.label
+                                }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -268,6 +268,13 @@ const props = defineProps({
             return {}
         },
         required: true
+    },
+    mortgage: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true
     }
 })
 const expenseQuartileMarks = reactive({})
@@ -300,17 +307,19 @@ const isFormDisabled = computed(() => {
     return !lifeExpectancy || !monthlyBasicSalary
 })
 const unableToDraw = computed(() => {
+    const { monthlyBasicSalary } = props.career
     const {
         irrOverDecade
     } = retirement.value.pension
     const {
-        yearToRetirement,
+        yearsToRetirement,
         lifeExpectancy,
         annualExpense,
     } = retirement.value
-    const noBefore = !irrOverDecade || !yearToRetirement
+    const noIncome = !monthlyBasicSalary
+    const noBefore = !irrOverDecade || !yearsToRetirement
     const noAfter = !lifeExpectancy || !annualExpense
-    return noBefore || noAfter
+    return noIncome || noBefore || noAfter
 })
 // methods
 function calculateRetirement(options: any = { propagate: true }) {
@@ -334,7 +343,7 @@ function calculateRetirement(options: any = { propagate: true }) {
     calculateRetirementExpense()
 
     const { propagate = true } = options
-    debounce(() => {
+    customDebounce(() => {
         drawRetirementAssetChart(propagate)
     })(propagate)
 }
@@ -348,7 +357,16 @@ function calculateCivilServantRetirement() {
     const { futureSeniority, } = retirement.value.insurance
     const { type, } = retirement.value.pension
     const { salary } = props.career.insurance
-    if (!futureSeniority || !salary) {
+    console.log({
+        name: 'why?',
+        futureSeniority,
+        type,
+        salary,
+        test: retirement.value.pension.monthlyAnnuity
+    })
+    if (!futureSeniority || !salary || !type) {
+        retirement.value.pension.monthlyAnnuity = 0
+        // career.value.insurance.salary = 0
         return
     }
     /**
@@ -424,9 +442,11 @@ function calculateExpenseQuartileMarks() {
 function calculateRetireLife() {
     const { age: currentAge, lifeExpectancy } = props.profile
     const { age: retireAge } = retirement.value
+    const { currentYear } = props.config
     if (currentAge && lifeExpectancy && retireAge) {
-        retirement.value.yearToRetirement = retireAge - currentAge
-        const rawNumber = lifeExpectancy - retirement.value.yearToRetirement
+        retirement.value.yearsToRetirement = retireAge - currentAge
+        retirement.value.yearOfRetire = currentYear + retirement.value.yearsToRetirement
+        const rawNumber = lifeExpectancy - retirement.value.yearsToRetirement
         const maxZero = Math.max(0, rawNumber)
         retirement.value.lifeExpectancy = Number(Number(maxZero).toFixed(2))
     }
@@ -486,19 +506,21 @@ async function drawRetirementAssetChart(propagate = false) {
         lumpSum,
     } = retirement.value.pension
     const { monthlyContribution } = props.career.pension
+    const { currentYear } = props.config
     const {
-        yearToRetirement,
+        yearsToRetirement,
         lifeExpectancy,
         annualExpense,
     } = retirement.value
     const monthlyAnnuity = retirement.value.insurance.monthlyAnnuity || retirement.value.pension.monthlyAnnuity
-
+    const { downpayYear, loanTerm, monthlyRepay } = props.mortgage
+    const loanEndYear = downpayYear + loanTerm
     // 計算資料
     const inflationRate = 1 + props.config.inflationRate / 100
     let inflationModifier = 1
 
     let pv = 0
-    const n = yearToRetirement
+    const n = yearsToRetirement
     const pensionContribution = monthlyContribution * 12
     const pensionIrr = 1 + (irrOverDecade / 100)
     let fv = 0 // fv = pv * n + pmt
@@ -507,13 +529,14 @@ async function drawRetirementAssetChart(propagate = false) {
     const pensionLumpSumData: number[][] = []
     const annualAnnuityData: number[][] = []
     const retirementAnnualExpenseData: number[][] = []
+    const mortgageData: number[][] = []
 
     const { careerInsuranceType } = props.profile
     if (['employee', 'entrepreneur'].includes(careerInsuranceType)) {
         pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
         // 退休前資產累積
-        for (let i = 0; i < n; i++) {
-            const calculatedYear = props.config.currentYear + i
+        for (let i = 1; i <= n; i++) {
+            const calculatedYear = currentYear + i
             labels.push(calculatedYear)
             annualAnnuityData.push([0, 0])
             retirementAnnualExpenseData.push([0, 0])
@@ -521,7 +544,7 @@ async function drawRetirementAssetChart(propagate = false) {
             const pmt = pensionContribution * inflationModifier
             fv = Math.floor(pv * pensionIrr + pmt)
             pensionLumpSumData.push([0, Math.floor(fv)])
-
+            mortgageData.push([0, 0])
             pv = fv
             inflationModifier *= inflationRate
         }
@@ -536,46 +559,72 @@ async function drawRetirementAssetChart(propagate = false) {
 
     // 退休後退休支出
     let insuranceAnnuityInflationModifier = 1
-    for (let i = 0; i < lifeExpectancy; i++) {
+    let pmt = 0
+    let inflatedAnnualExpense = 0
+    for (let i = 1; i <= lifeExpectancy; i++) {
         inflationModifier *= inflationRate
         insuranceAnnuityInflationModifier *= inflationRate
-
+        // 年金收入計算
         const annutalAnnuity = Math.floor(monthlyAnnuity * 12 * insuranceAnnuityInflationModifier)
         annualAnnuityData.push([0, annutalAnnuity])
-        const inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
+        inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
         retirementAnnualExpenseData.push([0, -inflatedAnnualExpense])
-        const pmt = annutalAnnuity - inflatedAnnualExpense
-
+        pmt = annutalAnnuity - inflatedAnnualExpense
+        // 未還完的房貸支出
+        const simYear = currentYear + yearsToRetirement + i
+        const annualRepay = monthlyRepay * 12
+        if (loanEndYear >= simYear) {
+            pmt -= annualRepay
+            mortgageData.push([0, -annualRepay])
+        } else {
+            mortgageData.push([0, 0])
+        }
+        // fv
         fv = Math.floor(pv * pensionIrr + pmt)
         fv = Math.max(0, fv)
         pensionLumpSumData.push([0, Math.floor(fv)])
-        const calculatedYear = props.config.currentYear + n + i
+        const calculatedYear = currentYear + n + i
         labels.push(calculatedYear)
         pv = fv
     }
+    if (fv <= 0) {
+        if (!errorMssage.pending()) {
+            errorMssage()
+        }
+    }
     // 繪圖
     const tension = 0.5
+    const datasets = [
+        {
+            label: '一次領+投資',
+            data: pensionLumpSumData,
+            fill: true,
+            tension,
+        },
+        {
+            label: '年金',
+            data: annualAnnuityData,
+            fill: true,
+            tension,
+        },
+        {
+            label: '退休支出',
+            data: retirementAnnualExpenseData,
+            fill: true,
+            tension,
+        }
+    ]
+    const hasMortgage = mortgageData.some(data => data[1])
+    if (hasMortgage) {
+        datasets.push({
+            label: '房貸剩餘利息',
+            data: mortgageData,
+            fill: true,
+            tension,
+        })
+    }
     const chartData: any = {
-        datasets: [
-            {
-                label: '一次領+投資',
-                data: pensionLumpSumData,
-                fill: true,
-                tension,
-            },
-            {
-                label: '年金',
-                data: annualAnnuityData,
-                fill: true,
-                tension,
-            },
-            {
-                label: '退休支出',
-                data: retirementAnnualExpenseData,
-                fill: true,
-                tension,
-            }
-        ],
+        datasets,
         labels
     }
     // 儲存參數
@@ -605,6 +654,7 @@ async function drawRetirementAssetChart(propagate = false) {
     })
     pensionChartInstance = shallowRef(chartInstance)
 }
+
 function calculateLaborPensionLumpSum(fv = 0) {
     retirement.value.pension.lumpSum = Number(fv)
     const { futureSeniority } = retirement.value.insurance
@@ -618,8 +668,14 @@ function calculateLaborPensionLumpSum(fv = 0) {
     retirement.value.pension.tax = Math.floor(taxHalf + taxFull)
 }
 
+import { ElMessage, } from 'element-plus'
+import { throttle, debounce } from './lodash.js'
+const errorMssage = throttle(() => {
+    ElMessage.error('退休：晚節不保！')
+}, 4000)
+
 const debounceId = ref()
-function debounce(func, delay = 100) {
+function customDebounce(func, delay = 100) {
     return (immediate) => {
         clearTimeout(debounceId.value)
         if (immediate) {
