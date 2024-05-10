@@ -355,7 +355,8 @@ function calculateCivilServantRetirement() {
     const { futureSeniority, } = retirement.value.insurance
     const { type, } = retirement.value.pension
     const { salary } = props.career.insurance
-    if (!futureSeniority || !salary) {
+    if (!futureSeniority || !salary || !type) {
+        retirement.value.pension.monthlyAnnuity = 0
         return
     }
     /**
@@ -498,7 +499,6 @@ async function drawRetirementAssetChart(propagate = false) {
         yearToRetirement,
         lifeExpectancy,
         annualExpense,
-        age: retireAge,
     } = retirement.value
     const monthlyAnnuity = retirement.value.insurance.monthlyAnnuity || retirement.value.pension.monthlyAnnuity
     const { downpayYear, loanTerm, monthlyRepay } = props.mortgage
