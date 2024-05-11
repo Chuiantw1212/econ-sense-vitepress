@@ -18,7 +18,7 @@
             <div v-else>
                 點選右上角，讓我們回顧......
             </div>
-            <canvas id="assetChart"></canvas>
+            <canvas id="lifeAssetChart"></canvas>
         </el-form>
         <template #footer>
             <el-collapse>
@@ -114,64 +114,91 @@ function calculateLifeAssetChart(payload) {
         retirementAsset,
         secutiryAsset,
     } = payload
-    // console.log({
-    //     retirementAsset,
-    //     secutiryAsset
-    // })
+
+    console.log({
+        retirementAsset,
+        secutiryAsset
+    })
+
     const { irr } = props.asset
     const { currentYear, inflationRate } = props.config
     const { downpayTotalPrice, debtData = [], downpayYear } = props.mortgage
     const { irrOverDecade } = props.retirement.pension
-    const { longevity } = profile.value
-    const chartData = {
-        datasets: {},
-        labels: []
-    }
+    const { yearsToRetirement } = props.retirement
+    const { lifeExpectancy } = profile.value
 
 
+    const datasets = []
     const assetData: number[] = []
     const estateAsset: number[] = []
     const estateDebtData: number[] = []
+    const labels: number[] = []
     const inflationModifier = 1 + inflationRate / 100
     let inflatedEstateAsset = downpayTotalPrice
 
-    for (let i = 0; i < longevity; i++) {
-        const year = currentYear + 1
+    for (let i = 0; i < lifeExpectancy; i++) {
+        const year = currentYear + 1 + i
+        labels.push(year)
+        // data
         const secutiryValue = secutiryAsset[i]
         assetData.push(secutiryValue)
-
         inflatedEstateAsset *= inflationModifier
-
-        if (year === downpayYear) {
-            estateAsset.push(inflatedEstateAsset)
+        // 
+        if (year >= downpayYear) {
+            estateAsset.push(Math.floor(inflatedEstateAsset))
             const debtValue = debtData.shift()
-            estateDebtData.push(debtValue)
+            estateDebtData.push(-debtValue)
         } else {
             estateAsset.push(0)
             estateDebtData.push(0)
         }
     }
-    // if (assetChartInstance.value) {
-    //     assetChartInstance.value.data = chartData
-    //     assetChartInstance.value.update()
-    // } else {
-    //     const ctx: any = document.getElementById('assetChart')
-    //     const chartInstance = new Chart(ctx, {
-    //         type: 'bar',
-    //         data: chartData,
-    //         options: {
-    //             scales: {
-    //                 x: {
-    //                     stacked: true,
-    //                 },
-    //                 y: {
-    //                     stacked: true
-    //                 }
-    //             }
-    //         }
-    //     })
-    //     assetChartInstance = shallowRef(chartInstance)
-    // }
+    //
+    const tension = 0.5
+    datasets.push({
+        label: '證券資產',
+        data: assetData,
+        fill: true,
+        tension,
+    })
+    datasets.push({
+        label: '房貸負債',
+        data: estateDebtData,
+        fill: true,
+        tension,
+    })
+    datasets.push({
+        label: '房地產',
+        data: estateAsset,
+        fill: true,
+        tension,
+    })
+    //
+    const chartData = {
+        datasets,
+        labels,
+    }
+    if (assetChartInstance.value) {
+        assetChartInstance.value.data = chartData
+        assetChartInstance.value.update()
+    } else {
+        const ctx: any = document.getElementById('lifeAssetChart')
+        const chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+        })
+        assetChartInstance = shallowRef(chartInstance)
+    }
 }
 async function generatStory() {
     storyLoading.value = true

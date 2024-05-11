@@ -246,7 +246,7 @@ function drawLifeAssetChart(propagate = true) {
     const spouseContribution: number[] = []
     const childExpenseData: number[] = []
 
-    for (let i = 1; i <= lifeExpectancy; i++) {
+    for (let i = 1; i <= lifeExpectancy + 1; i++) {
         const simYear = currentYear + i
         valueModifier *= inflatoinRatio
         /**
