@@ -229,6 +229,7 @@ function drawLifeAssetChart(propagate = true) {
     const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.mortgage
     const { currentYear, inflationRate } = props.config
     const { monthlyContribution } = props.spouse
+    const { yearOfRetire } = props.retirement
     const spouseAnnualContribution = monthlyContribution * 12
     const irrModifier = 1 + irr / 100
     const inflatoinRatio = 1 + inflationRate / 100
@@ -283,9 +284,11 @@ function drawLifeAssetChart(propagate = true) {
          */
         // 執業收支 
         const { monthlySaving } = props.career
-        const annualSaving = monthlySaving * 12 * valueModifier
-        investingData.push(Math.floor(annualSaving))
-        calculatedPmt += annualSaving
+        if (simYear <= yearOfRetire) {
+            const annualSaving = monthlySaving * 12 * valueModifier
+            investingData.push(Math.floor(annualSaving))
+            calculatedPmt += annualSaving
+        }
 
         // 育兒開支影響每月儲蓄
         const { firstBornYear, secondBornYear, independantAge, childAnnualExpense } = props.parenting
@@ -331,7 +334,7 @@ function drawLifeAssetChart(propagate = true) {
     const datasets = [
         {
             label: 'ETF增值',
-            data: etfData,
+            data: etfData.slice(0, yearsToRetirement),
         },
     ]
 
@@ -343,13 +346,13 @@ function drawLifeAssetChart(propagate = true) {
     if (hasChildExpense) {
         datasets.push({
             label: '育兒收支',
-            data: childExpenseData,
+            data: childExpenseData.slice(0, yearsToRetirement),
         })
     }
-    if (downpayYear && downpayYear < currentYear + yearsToRetirement) {
+    if (downpayYear && downpayYear < yearOfRetire) {
         datasets.push({
             label: '房貸支出',
-            data: mortgageData,
+            data: mortgageData.slice(0, yearsToRetirement),
         })
         datasets.push({
             label: '頭期款',
@@ -362,7 +365,7 @@ function drawLifeAssetChart(propagate = true) {
     }
     const chartData = {
         datasets,
-        labels
+        labels: labels.slice(0, yearsToRetirement)
     }
     if (assetChartInstance.value) {
         assetChartInstance.value.data = chartData
