@@ -5,8 +5,8 @@
                 <el-col :span="18">
                     <el-form-item label="房屋總價">
                         <el-text v-if="mortgage.totalPriceEstimated">= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
-                            estateSize.floorSize }}坪) = {{
-                                Number(Math.floor(mortgage.totalPriceEstimated / 10000)).toLocaleString() }} 萬</el-text>
+                    estateSize.floorSize }}坪) = {{
+                    Number(Math.floor(mortgage.totalPriceEstimated / 10000)).toLocaleString() }} 萬</el-text>
                         <el-input-number v-else v-model="mortgage.totalPrice" :min="0" :step="1000000"
                             @change="calculateMortgage({ setDownpay: true })" />
                     </el-form-item>
@@ -310,7 +310,6 @@ function calculateMortgage(options: any = { propagate: true }) {
     // draw chart
     debounce(() => {
         drawDownpayChart(propagate)
-        calculateLoanAmount()
         calculateMonthlyRepay()
         const { headCount } = props.parenting
         const { singleBedRoom, doubleBedRoom } = props.estateSize
@@ -464,9 +463,10 @@ function drawDownpayChart(propagate = false) {
         }
     }
     mortgage.value.downpayTotalPrice = Math.floor(downpayTotalPrice)
+    calculateLoanAmount()
 
     // 計算房貸債務
-    let loanRemains = loanAmount
+    let loanRemains = mortgage.value.loanAmount
     const monthlyInterestRate = interestRate / 100 / 12
     const monthCount = loanTerm * 12
     for (let i = 0; i < monthCount; i++) {

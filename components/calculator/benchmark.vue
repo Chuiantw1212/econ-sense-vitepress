@@ -18,6 +18,7 @@
             <div v-else>
                 點選右上角，讓我們回顧......
             </div>
+            <!-- assetSum:{{ assetSum }} -->
             <canvas id="lifeAssetChart"></canvas>
         </el-form>
         <template #footer>
@@ -107,6 +108,7 @@ const props = defineProps({
 const profile = computed(() => {
     return props.modelValue
 })
+const assetSum = ref(0)
 // methods
 let assetChartInstance = ref<Chart>()
 function calculateLifeAssetChart(payload) {
@@ -137,31 +139,38 @@ function calculateLifeAssetChart(payload) {
     const inflationModifier = 1 + inflationRate / 100
     let inflatedEstateAsset = downpayTotalPrice
 
-    for (let i = 0; i < lifeExpectancy - 1; i++) {
+    for (let i = 0; i < lifeExpectancy; i++) {
         const year = currentYear + 1 + i
         labels.push(year)
         // data
         const secutiryValue = secutiryAsset[i]
-        assetData.push(secutiryValue)
+        if (secutiryValue) {
+            assetData.push(secutiryValue)
+        }
         inflatedEstateAsset *= inflationModifier
         // retirement
         if (year > yearOfRetire) {
             const retireAssetValue = retirementAsset.shift()
-            retireAssetData.push(Math.floor(retireAssetValue))
+            if (retireAssetValue) {
+                retireAssetData.push(Math.floor(retireAssetValue))
+            }
         } else {
             retireAssetData.push(0)
         }
         // estate
-        if (year > downpayYear) {
+        if (year >= downpayYear) {
             estateAsset.push(Math.floor(inflatedEstateAsset))
             const debtValue = debtData.shift()
-            estateDebtData.push(-debtValue)
+            if (debtValue) {
+                estateDebtData.push(-debtValue)
+            }
         } else {
             estateAsset.push(0)
             estateDebtData.push(0)
         }
     }
     //
+    console.log(estateDebtData)
     const tension = 0.5
     datasets.push({
         label: '證券資產',
@@ -187,6 +196,12 @@ function calculateLifeAssetChart(payload) {
         fill: true,
         tension,
     })
+    // asset sum 
+    const finalAsset = assetData.pop()
+    const finalDebt = estateDebtData.pop()
+    const finalEstate = estateAsset.pop()
+    const finalPension = retireAssetData.pop()
+    assetSum.value = finalAsset + finalEstate + finalPension - finalDebt
     //
     const chartData = {
         datasets,

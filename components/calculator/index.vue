@@ -242,7 +242,7 @@ function setUserAndInitialize(form, { showMessage = false }) {
         await RetirementRef.value.calculateRetirement({
             propagate: true,
         })
-        await AssetRef.value.calculateAsset({
+        const retirementAsset = await AssetRef.value.calculateAsset({
             propagate: true,
         })
         await SpouseRef.value.calculatecSpouse({
@@ -251,8 +251,12 @@ function setUserAndInitialize(form, { showMessage = false }) {
         await ParentingRef.value.calculateParenting({
             propagate: true,
         })
-        await MortgageRef.value.calculateMortgage({
+        const secutiryAsset = await MortgageRef.value.calculateMortgage({
             propagate: true,
+        })
+        BenchmarkRef.value.calculateLifeAssetChart({
+            retirementAsset,
+            secutiryAsset,
         })
         window.scrollTo(0, 0)
     })
@@ -423,7 +427,7 @@ function onRetirementChanged() {
     })
 }
 // 投資試算
-function onInvestmentChanged() {
+async function onInvestmentChanged() {
     authFetch(`/user/asset`, {
         method: 'put',
         body: userForm.asset,
@@ -431,8 +435,15 @@ function onInvestmentChanged() {
     ParentingRef.value.calculateParenting({
         propagate: false,
     })
-    MortgageRef.value.calculateMortgage({
+    const retirementAsset = await RetirementRef.value.calculateRetirement({
         propagate: false,
+    })
+    const secutiryAsset = await AssetRef.value.calculateAsset({
+        propagate: false,
+    })
+    BenchmarkRef.value.calculateLifeAssetChart({
+        retirementAsset,
+        secutiryAsset,
     })
 }
 // 配偶試算
@@ -512,7 +523,6 @@ async function onMortgageChanged() {
         secutiryAsset,
     })
 }
-
 // 資料匯出
 async function exportUserForm() {
     const res = await fetch(`${VITE_BASE_URL}/user/type`, {
