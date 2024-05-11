@@ -58,10 +58,10 @@
                         <el-col :span="12">
                             <el-form-item label="每月年金">
                                 <el-text v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">{{
-                                    Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                                 <el-text v-if="['civilServant',].includes(profile.careerInsuranceType)">{{
-                                    Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
+                Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -147,8 +147,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                                item.label
-                            }}</el-radio>
+                item.label
+            }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -535,9 +535,8 @@ async function drawRetirementAssetChart(propagate = false) {
         // 退休前資產累積
         for (let i = 1; i <= n; i++) {
             const pmt = pensionContribution * inflationModifier
-            fv = Math.floor(pv * pensionIrr + pmt)
-            pv = fv
-            inflationModifier *= inflationRate
+            pv *= pensionIrr
+            fv = Math.floor(pv + pmt)
             /** 驗算勞動退休金累積可用 */
             // pensionLumpSumData.push(Math.floor(fv))
             // mortgageData.push(0)
@@ -545,6 +544,9 @@ async function drawRetirementAssetChart(propagate = false) {
             // labels.push(calculatedYear)
             // annualAnnuityData.push(0)
             // retirementAnnualExpenseData.push(0)
+            // 更新變數
+            inflationModifier *= inflationRate
+            pv = fv
         }
         calculateLaborPensionLumpSum(fv)
     }
