@@ -179,7 +179,7 @@ function setPortfolioMarks() {
         allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
     })
 }
-async function calculateAsset(options: any = { propagate: false }) {
+async function calculateAsset(options: any = { propagate: true }) {
     setPortfolioMarks()
     calculateInvestmentPeriod()
     calculatePortfolio()

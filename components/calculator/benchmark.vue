@@ -19,7 +19,7 @@
                 點選右上角，讓我們回顧......
             </div>
             <!-- assetSum:{{ assetSum }} -->
-            <canvas id="lifeAssetChart"></canvas>
+            <!-- <canvas id="lifeAssetChart"></canvas> -->
         </el-form>
         <template #footer>
             <el-collapse>

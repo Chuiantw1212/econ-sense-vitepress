@@ -397,7 +397,7 @@ function onSecurityChanged() {
         body: userForm.asset,
     })
     changeAllCards({
-        secutiry: true
+        security: true
     })
 }
 // 配偶試算
@@ -480,7 +480,6 @@ async function changeAllCards(from) {
             propagate,
         })
     }
-    console.trace('retirement')
     if (!from.retirement) {
         await RetirementRef.value.calculateRetirement({
             propagate,
