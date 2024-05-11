@@ -260,6 +260,7 @@ async function calculateProfile() {
         const lifeExpectancy = await res.json()
         profile.value.age = calculateAge
         profile.value.lifeExpectancy = Number(lifeExpectancy)
+        profile.value.longevity = calculateAge + lifeExpectancy
 
         emits('update:modelValue', profile.value)
     } else {

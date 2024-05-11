@@ -112,18 +112,44 @@ let assetChartInstance = ref<Chart>()
 function calculateLifeAssetChart(payload) {
     const {
         retirementAsset,
-        etfAsset,
+        secutiryAsset,
     } = payload
     // console.log({
     //     retirementAsset,
-    //     etfAsset
+    //     secutiryAsset
     // })
     const { irr } = props.asset
-    const { downpayTotalPrice, debtData, downpayYear } = props.mortgage
+    const { currentYear, inflationRate } = props.config
+    const { downpayTotalPrice, debtData = [], downpayYear } = props.mortgage
     const { irrOverDecade } = props.retirement.pension
+    const { longevity } = profile.value
     const chartData = {
         datasets: {},
         labels: []
+    }
+
+
+    const assetData: number[] = []
+    const estateAsset: number[] = []
+    const estateDebtData: number[] = []
+    const inflationModifier = 1 + inflationRate / 100
+    let inflatedEstateAsset = downpayTotalPrice
+
+    for (let i = 0; i < longevity; i++) {
+        const year = currentYear + 1
+        const secutiryValue = secutiryAsset[i]
+        assetData.push(secutiryValue)
+
+        inflatedEstateAsset *= inflationModifier
+
+        if (year === downpayYear) {
+            estateAsset.push(inflatedEstateAsset)
+            const debtValue = debtData.shift()
+            estateDebtData.push(debtValue)
+        } else {
+            estateAsset.push(0)
+            estateDebtData.push(0)
+        }
     }
     // if (assetChartInstance.value) {
     //     assetChartInstance.value.data = chartData
@@ -164,7 +190,7 @@ async function generatStory() {
 function getHumanStory() {
     const { spouse, parenting, mortgage, estatePrice, career, retirement } = props
     const { counties = [], insuranceTypes = [], townMap = {} } = props.config
-    const { yearOfBirth, age: profileAge, lifeExpectancy: profilelifeExpectancy, careerInsuranceType } = profile.value
+    const { longevity, yearOfBirth, careerInsuranceType } = profile.value
     const { careerHeadCount, } = career
     const { age: retireAge, qualityLevel, insurance } = retirement
     const { yearOfMarriage } = spouse
@@ -172,12 +198,11 @@ function getHumanStory() {
     const { downpayYear } = mortgage
     const { county, town } = estatePrice
 
-    const totalAge = profileAge + profilelifeExpectancy
     let story = ``
     // profile
     story += `你於${Math.floor(yearOfBirth)}年，誕生到個世界上，`
-    story += `於${Math.floor(yearOfBirth + totalAge)}年時，悄悄的離開，`
-    story += `在這${Math.floor(totalAge)}間，你有著屬於自己的故事。`
+    story += `於${Math.floor(yearOfBirth + longevity)}年時，悄悄的離開，`
+    story += `在這${Math.floor(longevity)}間，你有著屬於自己的故事。`
     // career
     const insuranceTypeItem = insuranceTypes.find(item => item.value === careerInsuranceType)
     if (insuranceTypeItem) {

@@ -125,6 +125,12 @@ const props = defineProps({
             return {}
         }
     },
+    profile: {
+        type: Object,
+        default: () => {
+            return {}
+        }
+    },
     spouse: {
         type: Object,
         default: () => {
@@ -197,16 +203,16 @@ function calculatePortfolio() {
 
 }
 function calculateInvestmentPeriod() {
-    asset.value.period = props.retirement.yearsToRetirement
+    asset.value.yearsToRetirement = props.retirement.yearsToRetirement
 }
 
 const unableToDraw = computed(() => {
-    const { presentAsset, irr, period } = asset.value
+    const { presentAsset, irr, yearsToRetirement } = asset.value
     const { monthlySaving } = props.career
     const noPv = !presentAsset
     const noPmt = !monthlySaving
     const noIY = !irr
-    const noN = !period
+    const noN = !yearsToRetirement
     return (noPv && noPmt) || noIY || noN
 })
 
@@ -218,7 +224,8 @@ function drawLifeAssetChart(propagate = true) {
     if (unableToDraw.value) {
         return
     }
-    const { presentAsset, irr, period } = asset.value
+    const { lifeExpectancy } = props.profile
+    const { presentAsset, irr, yearsToRetirement } = asset.value
     const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.mortgage
     const { currentYear, inflationRate } = props.config
     const { monthlyContribution } = props.spouse
@@ -238,12 +245,13 @@ function drawLifeAssetChart(propagate = true) {
     const spouseContribution: number[] = []
     const childExpenseData: number[] = []
 
-    for (let year = currentYear + 1; year <= currentYear + period; year++) {
+    for (let i = 1; i <= lifeExpectancy; i++) {
+        const simYear = currentYear + i
         valueModifier *= inflatoinRatio
         /**
          * 影響存量重大事件
          */
-        if (year === downpayYear) {
+        if (simYear === downpayYear) {
             const calculatedDownpay = downpayGoal || downpay
             const inflatedDownpay = calculatedDownpay * valueModifier
             pv -= inflatedDownpay
@@ -261,8 +269,8 @@ function drawLifeAssetChart(propagate = true) {
         const mortgageEndYear = downpayYear + loanTerm
         let mortgagePmt = 0
         let downpayTotalPrice = 0
-        if (mortgageStartYear <= year && fv > 0) {
-            if (year < mortgageEndYear) {
+        if (mortgageStartYear <= simYear && fv > 0) {
+            if (simYear < mortgageEndYear) {
                 mortgagePmt = monthlyRepay * 12
             }
             downpayTotalPrice = Math.floor(totalPrice * valueModifier)
@@ -283,8 +291,8 @@ function drawLifeAssetChart(propagate = true) {
         const { firstBornYear, secondBornYear, independantAge, childAnnualExpense } = props.parenting
         const firstBornEndYear = firstBornYear + independantAge
         const secondBornEndYear = secondBornYear + independantAge
-        const hasFirstBorn = currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear
-        const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
+        const hasFirstBorn = currentYear <= firstBornYear && firstBornYear <= simYear && simYear < firstBornEndYear
+        const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= simYear && simYear < secondBornEndYear
         let childExpense = 0
         if (hasFirstBorn) {
             childExpense += childAnnualExpense * valueModifier
@@ -312,7 +320,7 @@ function drawLifeAssetChart(propagate = true) {
             valueModifier = 0
         }
 
-        labels.push(year)
+        labels.push(simYear)
         pv = fv
     }
     if (fv <= 0) {
@@ -338,7 +346,7 @@ function drawLifeAssetChart(propagate = true) {
             data: childExpenseData,
         })
     }
-    if (downpayYear && downpayYear < currentYear + period) {
+    if (downpayYear && downpayYear < currentYear + yearsToRetirement) {
         datasets.push({
             label: '房貸支出',
             data: mortgageData,

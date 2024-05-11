@@ -615,7 +615,7 @@ async function drawRetirementAssetChart(propagate = false) {
     const hasMortgage = mortgageData.some(data => data)
     if (hasMortgage) {
         datasets.push({
-            label: '房貸剩餘利息',
+            label: '房貸利息',
             data: mortgageData,
             fill: true,
             tension,
