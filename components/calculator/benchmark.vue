@@ -119,7 +119,7 @@ function calculateLifeAssetChart(payload) {
     //     etfAsset
     // })
     const { irr } = props.asset
-    const { downpayTotalPrice } = props.mortgage
+    const { downpayTotalPrice, debtData, downpayYear } = props.mortgage
     const { irrOverDecade } = props.retirement.pension
     const chartData = {
         datasets: {},

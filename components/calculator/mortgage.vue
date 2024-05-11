@@ -307,11 +307,11 @@ function calculateMortgage(options: any = { propagate: true }) {
         calculateTotalPrice()
         calculateDownpayGoalPercent()
     }
-    calculateMonthlyRepay()
     // draw chart
     debounce(() => {
         drawDownpayChart(propagate)
         calculateLoanAmount()
+        calculateMonthlyRepay()
         const { headCount } = props.parenting
         const { singleBedRoom, doubleBedRoom } = props.estateSize
         if (headCount > singleBedRoom + doubleBedRoom * 2) {
@@ -337,7 +337,6 @@ function calculateTotalPriceEstimated() {
         const totalPriceEstimated = Math.floor(Number(unitPrice) * Number(floorSize) * 10000)
         mortgage.value.totalPriceEstimated = totalPriceEstimated
         mortgage.value.totalPrice = totalPriceEstimated
-        // mortgage.value.downpayGoalStep = Math.floor(totalPriceEstimated / 10)
     }
 }
 function setTotalPriceMarks() {
