@@ -14,7 +14,8 @@
             <el-row>
                 <el-col :span="23">
                     <el-form-item label="投資報酬率">
-                        <el-slider v-model="security.stockPercentage" :marks="allocationQuartileMarks" :disabled="true" />
+                        <el-slider v-model="security.stockPercentage" :marks="allocationQuartileMarks"
+                            :disabled="true" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -22,8 +23,8 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="已備資產">
-                        <el-input-number v-model="security.presentAsset" :min="0" :step="100000" :disabled="isFormDisabled"
-                            @change="calculateAsset()" />
+                        <el-input-number v-model="security.presentAsset" :min="0" :step="100000"
+                            :disabled="isFormDisabled" @change="calculateAsset()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -186,8 +187,8 @@ async function calculateAsset(options: any = { propagate: true }) {
     const { propagate = true } = options
     const promise = new Promise((resolve) => {
         customDebounce(async () => {
-            const etfData = await drawLifeAssetChart(propagate)
-            resolve(etfData)
+            const principleData = await drawLifeAssetChart(propagate)
+            resolve(principleData)
         })(propagate)
     })
     return await promise
@@ -238,7 +239,9 @@ function drawLifeAssetChart(propagate = true) {
     let pv = presentAsset
     let fv = 0
     const labels: number[] = []
-    const etfData: number[] = []
+    const principleData: number[] = []
+    const appreciationData: number[] = []
+    const securitySumData: number[] = []
     const investingData: number[] = []
     const mortgageData: number[] = []
     const downpayData: number[] = []
@@ -315,8 +318,12 @@ function drawLifeAssetChart(propagate = true) {
         }
 
         // 計算複利終值
-        fv = pv * irrModifier
-        etfData.push(Math.floor(fv))
+        const principle = pv
+        principleData.push(Math.floor(principle))
+        const appreciation = principle * irr / 100
+        appreciationData.push(Math.floor(appreciation))
+        fv = principle + appreciation
+        securitySumData.push(Math.floor(fv))
         fv += calculatedPmt
         if (fv <= 0) {
             fv = 0
@@ -333,9 +340,13 @@ function drawLifeAssetChart(propagate = true) {
     }
     const datasets = [
         {
-            label: 'ETF增值',
-            data: etfData.slice(0, yearsToRetirement),
+            label: 'ETF',
+            data: securitySumData.slice(0, yearsToRetirement),
         },
+        // {
+        //     label: '增值',
+        //     data: appreciationData.slice(0, yearsToRetirement),
+        // },
     ]
 
     datasets.push({
@@ -345,7 +356,7 @@ function drawLifeAssetChart(propagate = true) {
     const hasChildExpense = childExpenseData.some(value => value !== 0)
     if (hasChildExpense) {
         datasets.push({
-            label: '育兒收支',
+            label: '育兒支出',
             data: childExpenseData.slice(0, yearsToRetirement),
         })
     }
@@ -388,7 +399,7 @@ function drawLifeAssetChart(propagate = true) {
         })
         securityChartInstance = shallowRef(chartInstance)
     }
-    return etfData
+    return principleData
 }
 
 import { ElMessage, } from 'element-plus'
