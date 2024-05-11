@@ -269,7 +269,7 @@ const props = defineProps({
         },
         required: true
     },
-    mortgage: {
+    estate: {
         type: Object,
         default: () => {
             return {}
@@ -511,7 +511,7 @@ async function drawRetirementAssetChart(propagate = false) {
         annualExpense,
     } = retirement.value
     const monthlyAnnuity = retirement.value.insurance.monthlyAnnuity || retirement.value.pension.monthlyAnnuity
-    const { downpayYear, loanTerm, monthlyRepay } = props.mortgage
+    const { downpayYear, loanTerm, monthlyRepay } = props.estate
     const loanEndYear = downpayYear + loanTerm
     // 計算資料
     const inflationRate = 1 + props.config.inflationRate / 100
@@ -527,7 +527,7 @@ async function drawRetirementAssetChart(propagate = false) {
     const pensionLumpSumData: number[] = []
     const annualAnnuityData: number[] = []
     const retirementAnnualExpenseData: number[] = []
-    const mortgageData: number[] = []
+    const estateData: number[] = []
 
     const { careerInsuranceType } = props.profile
     if (['employee', 'entrepreneur'].includes(careerInsuranceType)) {
@@ -539,7 +539,7 @@ async function drawRetirementAssetChart(propagate = false) {
             fv = Math.floor(pv + pmt)
             /** 驗算勞動退休金累積可用 */
             // pensionLumpSumData.push(Math.floor(fv))
-            // mortgageData.push(0)
+            // estateData.push(0)
             // const calculatedYear = currentYear + i
             // labels.push(calculatedYear)
             // annualAnnuityData.push(0)
@@ -575,9 +575,9 @@ async function drawRetirementAssetChart(propagate = false) {
         const annualRepay = monthlyRepay * 12
         if (loanEndYear >= simYear) {
             pmt -= annualRepay
-            mortgageData.push(-annualRepay)
+            estateData.push(-annualRepay)
         } else {
-            mortgageData.push(0)
+            estateData.push(0)
         }
         // fv
         fv = Math.floor(pv * pensionIrr)
@@ -619,11 +619,11 @@ async function drawRetirementAssetChart(propagate = false) {
             tension,
         }
     ]
-    const hasMortgage = mortgageData.some(data => data)
+    const hasMortgage = estateData.some(data => data)
     if (hasMortgage) {
         datasets.push({
             label: '房貸支出',
-            data: mortgageData,
+            data: estateData,
             fill: true,
             tension,
         })

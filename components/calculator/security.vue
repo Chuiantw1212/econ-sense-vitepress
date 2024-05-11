@@ -138,7 +138,7 @@ const props = defineProps({
             return {}
         }
     },
-    mortgage: {
+    estate: {
         type: Object,
         default: () => {
             return {}
@@ -227,12 +227,11 @@ function drawLifeAssetChart(propagate = true) {
     }
     const { lifeExpectancy } = props.profile
     const { presentAsset, irr, yearsToRetirement } = security.value
-    const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.mortgage
+    const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.estate
     const { currentYear, inflationRate } = props.config
     const { monthlyContribution } = props.spouse
     const { yearOfRetire } = props.retirement
     const spouseAnnualContribution = monthlyContribution * 12
-    const irrModifier = 1 + irr / 100
     const inflatoinRatio = 1 + inflationRate / 100
     let valueModifier = 1
 
@@ -243,9 +242,9 @@ function drawLifeAssetChart(propagate = true) {
     const securityAppreciationData: number[] = []
     const securityAssetData: number[] = []
     const investingData: number[] = []
-    const mortgageData: number[] = []
-    const downpayData: number[] = []
     const estateData: number[] = []
+    const downpayData: number[] = []
+    const mortgageData: number[] = []
     const spouseContribution: number[] = []
     const childExpenseData: number[] = []
 

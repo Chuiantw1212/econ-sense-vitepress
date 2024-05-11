@@ -45,7 +45,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="mortgage.totalPriceEstimated" label="房屋可容納人數">
+                    <el-form-item v-if="estate.totalPriceEstimated" label="房屋可容納人數">
                         <el-text :type="sizeType">{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }}
                             人</el-text>
                     </el-form-item>
@@ -195,7 +195,7 @@ const props = defineProps({
         },
         required: true,
     },
-    mortgage: {
+    estate: {
         type: Object,
         default: () => {
             return {}

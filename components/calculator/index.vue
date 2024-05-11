@@ -43,8 +43,8 @@
         <h3 id="_退休試算" tabindex="-1">退休試算<a class="header-anchor" href="#退休試算"
                 aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
         <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career"
-            :parenting="userForm.parenting" :profile="userForm.profile" :mortgage="userForm.mortgage"
-            ref="RetirementRef" @update:modelValue="onRetirementChanged()">
+            :parenting="userForm.parenting" :profile="userForm.profile" :estate="userForm.estate" ref="RetirementRef"
+            @update:modelValue="onRetirementChanged()">
         </Retirement>
 
         <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
@@ -52,7 +52,7 @@
         <h3 id="_資產試算" tabindex="-1">證券資產試算<a class="header-anchor" href="#證券資產試算"
                 aria-label="Permalink to &quot;證券資產試算&quot;">&ZeroWidthSpace;</a></h3>
         <Asset v-model="userForm.security" :config="config" :profile="userForm.profile" :career="userForm.career"
-            :spouse="userForm.spouse" :parenting="userForm.parenting" :mortgage="userForm.mortgage"
+            :spouse="userForm.spouse" :parenting="userForm.parenting" :estate="userForm.estate"
             :retirement="userForm.retirement" ref="SecurityRef" @update:model-value="onSecurityChanged()">
         </Asset>
 
@@ -65,16 +65,16 @@
                 aria-label="Permalink to &quot;家庭責任試算&quot;">&ZeroWidthSpace;</a></h3>
         <Parenting v-model="userForm.parenting" :config="config" :career="userForm.career"
             :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
-            :estateSize="userForm.estateSize" :mortgage="userForm.mortgage" ref="ParentingRef"
+            :estateSize="userForm.estateSize" :estate="userForm.estate" ref="ParentingRef"
             @update:model-value="onParentingChanged()">
         </Parenting>
 
         <h3 id="_購屋試算" tabindex="-1">房地產試算<a class="header-anchor" href="#房地產試算"
                 aria-label="Permalink to &quot;房地產試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Mortgage v-model="userForm.mortgage" :config="config" :career="userForm.career"
-            :estateSize="userForm.estateSize" :security="userForm.security" :parenting="userForm.parenting"
-            :estatePrice="userForm.estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
-            @open="openEstateCalculator()" @reset="resetTotalPrice()">
+        <Mortgage v-model="userForm.estate" :config="config" :career="userForm.career" :estateSize="userForm.estateSize"
+            :security="userForm.security" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
+            ref="MortgageRef" @update:model-value="onMortgageChanged()" @open="openEstateCalculator()"
+            @reset="resetTotalPrice()">
         </Mortgage>
 
         <el-dialog :modelValue="estateCalculatorVisiable" title="估算總價" :lock-scroll="true"
@@ -90,7 +90,7 @@
         <Benchmark v-model="userForm.profile" :config="config" :career="userForm.career"
             :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
             :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
-            :mortgage="userForm.mortgage" ref="BenchmarkRef" @export="exportUserForm()">
+            :estate="userForm.estate" ref="BenchmarkRef" @export="exportUserForm()">
         </Benchmark>
         <br>
     </div>
@@ -106,7 +106,7 @@ import Retirement from './retirement.vue'
 import Asset from './security.vue'
 import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
-import Mortgage from './mortgage.vue'
+import Mortgage from './estate.vue'
 import EstateDialogContent from './estateDialog.vue'
 import Benchmark from './benchmark.vue'
 const { VITE_BASE_URL } = import.meta.env
@@ -163,7 +163,7 @@ async function setSelecOptionSync() {
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
         const interestRate = await bankConfigRes[1].json()
-        userForm.mortgage.interestRate = interestRate
+        userForm.estate.interestRate = interestRate
         const ishareCoreETFs = await bankConfigRes[2].json()
         const portfolioIRR = {}
         ishareCoreETFs.forEach(etf => {
@@ -229,6 +229,12 @@ function setUserAndInitialize(form, { showMessage = false }) {
         }
         if (form.security) {
             Object.assign(userForm.security, form.security)
+        }
+        if (form.mortgage) {
+            Object.assign(userForm.security, form.mortgage)
+        }
+        if (form.estate) {
+            Object.assign(userForm.security, form.estate)
         }
     }
     if (showMessage) {
@@ -325,7 +331,7 @@ const userForm = reactive({
         headCount: 0,
         lifeInsurance: 0,
     },
-    mortgage: {
+    estate: {
         downpayPercent: 20,
         loanTerm: 20,
         totalPriceEstimated: 0,
@@ -437,7 +443,7 @@ function resetTotalPrice() {
     userForm.estatePrice.county = ''
     userForm.estatePrice.town = ''
     userForm.estatePrice.unitPrice = 0
-    userForm.mortgage.totalPriceEstimated = 0
+    userForm.estate.totalPriceEstimated = 0
     authFetch(`/user/estatePrice`, {
         method: 'put',
         body: userForm.estatePrice,
@@ -464,12 +470,12 @@ function onDialogConfirm(newValue) {
 }
 // 房屋貸款試算
 function onMortgageChanged() {
-    authFetch(`/user/mortgage`, {
+    authFetch(`/user/estate`, {
         method: 'put',
-        body: userForm.mortgage,
+        body: userForm.estate,
     })
     changeAllCards({
-        mortgage: true
+        estate: true
     })
 }
 async function changeAllCards(from) {
@@ -507,7 +513,7 @@ async function changeAllCards(from) {
             propagate,
         })
     }
-    if (!from.mortgage) {
+    if (!from.estate) {
         await MortgageRef.value.calculateMortgage({
             propagate,
             setDownpay: true,

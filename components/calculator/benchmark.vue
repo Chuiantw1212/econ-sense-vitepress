@@ -76,7 +76,7 @@ const props = defineProps({
         },
         required: true
     },
-    mortgage: {
+    estate: {
         type: Object,
         default: () => {
             return {}
@@ -124,7 +124,7 @@ function calculateLifeAssetChart(payload) {
 
     const { irr } = props.security
     const { currentYear, inflationRate } = props.config
-    const { downpayTotalPrice, debtData = [], downpayYear } = props.mortgage
+    const { downpayTotalPrice, debtData = [], downpayYear } = props.estate
     const { irrOverDecade } = props.retirement.pension
     const { yearsToRetirement, yearOfRetire } = props.retirement
     const { lifeExpectancy } = profile.value
@@ -244,14 +244,14 @@ async function generatStory() {
 }
 
 function getHumanStory() {
-    const { spouse, parenting, mortgage, estatePrice, career, retirement } = props
+    const { spouse, parenting, estate, estatePrice, career, retirement } = props
     const { counties = [], insuranceTypes = [], townMap = {} } = props.config
     const { longevity, yearOfBirth, careerInsuranceType } = profile.value
     const { careerHeadCount, } = career
     const { age: retireAge, qualityLevel, insurance } = retirement
     const { yearOfMarriage } = spouse
     const { headCount, independantAge } = parenting
-    const { downpayYear } = mortgage
+    const { downpayYear } = estate
     const { county, town } = estatePrice
 
     let story = ``
@@ -280,7 +280,7 @@ function getHumanStory() {
     if (independantAge) {
         story += `並將照顧子女的責任，延續到他們${independantAge}歲了為止。`
     }
-    // mortgage
+    // estate
     if (downpayYear) {
         story += `${downpayYear}年是你置產的時間，這得來不易的安居地`
         if (county) {
