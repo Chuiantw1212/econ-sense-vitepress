@@ -2,11 +2,11 @@
     <el-card v-loading="storyLoading">
         <template #header>
             <div class="card-header card-header--custom">
-                <span>回顧與匯出
+                <span>財務報告與匯出
                 </span>
                 <div>
-                    <el-button v-if="!profile.story" @click="generatStory">用15秒產生回顧</el-button>
-                    <el-button v-else @click="generatStory">重新產生回顧</el-button>
+                    <el-button v-if="!profile.story" @click="generatStory">用15秒產生財務報告</el-button>
+                    <el-button v-else @click="generatStory">重新產生財務報告</el-button>
                     <el-button @click="exportUserForm()">匯出</el-button>
                 </div>
             </div>
@@ -16,7 +16,7 @@
 
             </div>
             <div v-else>
-                點選右上角，讓我們回顧......
+                點選右上角，讓我們產生專屬於你的財務報告......
             </div>
             <!-- securitySum:{{ securitySum }} -->
             <!-- <canvas id="lifeAssetChart"></canvas> -->
