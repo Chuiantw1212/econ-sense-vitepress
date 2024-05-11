@@ -124,7 +124,7 @@ function calculateLifeAssetChart(payload) {
     const { currentYear, inflationRate } = props.config
     const { downpayTotalPrice, debtData = [], downpayYear } = props.mortgage
     const { irrOverDecade } = props.retirement.pension
-    const { yearsToRetirement } = props.retirement
+    const { yearsToRetirement, yearOfRetire } = props.retirement
     const { lifeExpectancy } = profile.value
 
 
@@ -132,19 +132,27 @@ function calculateLifeAssetChart(payload) {
     const assetData: number[] = []
     const estateAsset: number[] = []
     const estateDebtData: number[] = []
+    const retireAssetData: number[] = []
     const labels: number[] = []
     const inflationModifier = 1 + inflationRate / 100
     let inflatedEstateAsset = downpayTotalPrice
 
-    for (let i = 0; i < lifeExpectancy; i++) {
+    for (let i = 0; i < lifeExpectancy - 1; i++) {
         const year = currentYear + 1 + i
         labels.push(year)
         // data
         const secutiryValue = secutiryAsset[i]
         assetData.push(secutiryValue)
         inflatedEstateAsset *= inflationModifier
-        // 
-        if (year >= downpayYear) {
+        // retirement
+        if (year > yearOfRetire) {
+            const retireAssetValue = retirementAsset.shift()
+            retireAssetData.push(Math.floor(retireAssetValue))
+        } else {
+            retireAssetData.push(0)
+        }
+        // estate
+        if (year > downpayYear) {
             estateAsset.push(Math.floor(inflatedEstateAsset))
             const debtValue = debtData.shift()
             estateDebtData.push(-debtValue)
@@ -170,6 +178,12 @@ function calculateLifeAssetChart(payload) {
     datasets.push({
         label: '房地產',
         data: estateAsset,
+        fill: true,
+        tension,
+    })
+    datasets.push({
+        label: '退休金',
+        data: retireAssetData,
         fill: true,
         tension,
     })

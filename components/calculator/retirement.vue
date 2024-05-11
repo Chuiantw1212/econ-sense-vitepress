@@ -561,7 +561,7 @@ async function drawRetirementAssetChart(propagate = false) {
     let insuranceAnnuityInflationModifier = 1
     let pmt = 0
     let inflatedAnnualExpense = 0
-    for (let i = 1; i <= lifeExpectancy; i++) {
+    for (let i = 1; i <= lifeExpectancy + 1; i++) {
         inflationModifier *= inflationRate
         insuranceAnnuityInflationModifier *= inflationRate
         // 年金收入計算
