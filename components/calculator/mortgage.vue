@@ -5,8 +5,8 @@
                 <el-col :span="18">
                     <el-form-item label="房屋總價">
                         <el-text v-if="mortgage.totalPriceEstimated">= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
-                    estateSize.floorSize }}坪) = {{
-                    Number(Math.floor(mortgage.totalPriceEstimated / 10000)).toLocaleString() }} 萬</el-text>
+                            estateSize.floorSize }}坪) = {{
+                                Number(Math.floor(mortgage.totalPriceEstimated / 10000)).toLocaleString() }} 萬</el-text>
                         <el-input-number v-else v-model="mortgage.totalPrice" :min="0" :step="1000000"
                             @change="calculateMortgage({ setDownpay: true })" />
                     </el-form-item>
@@ -44,7 +44,7 @@
                 <el-col :span="12">
                     <el-form-item label="已備資產">
                         <el-text>
-                            {{ Number(asset.presentAsset).toLocaleString() }}
+                            {{ Number(Math.floor(asset.presentAsset / 10000)).toLocaleString() }} 萬
                         </el-text>
                     </el-form-item>
                 </el-col>
@@ -502,13 +502,6 @@ function drawDownpayChart(propagate = false) {
     const chartData = {
         labels,
         datasets,
-        options: {
-            scales: {
-                y: {
-                    stacked: true,
-                },
-            }
-        }
     }
 
     if (downPayChartInstance.value) {
@@ -518,11 +511,26 @@ function drawDownpayChart(propagate = false) {
         const ctx: any = document.getElementById('savingDownpayChart')
         const chartInstance = new Chart(ctx, {
             type: 'bar',
-            data: chartData
+            data: chartData,
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: formatNumber,
+                        }
+                    }
+                },
+            }
         })
         downPayChartInstance = shallowRef(chartInstance)
     }
     return mortgageDebtData
+}
+function formatNumber(tooltipItems) {
+    const { raw, } = tooltipItems
+    let formatRaw: string | number = Math.ceil(raw / 10000)
+    formatRaw = Number(formatRaw).toLocaleString()
+    return `${formatRaw}萬`
 }
 function calculateDownpayYear() {
     const { yearsToDownpay } = mortgage.value

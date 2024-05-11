@@ -503,6 +503,7 @@ async function changeAllCards(from) {
     if (!from.mortgage) {
         await MortgageRef.value.calculateMortgage({
             propagate,
+            setDownpay: true,
         })
     }
 }

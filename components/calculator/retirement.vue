@@ -58,10 +58,10 @@
                         <el-col :span="12">
                             <el-form-item label="每月年金">
                                 <el-text v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">{{
-                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                                    Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                                 <el-text v-if="['civilServant',].includes(profile.careerInsuranceType)">{{
-                Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
+                                    Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -147,8 +147,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                item.label
-            }}</el-radio>
+                                item.label
+                            }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -583,6 +583,11 @@ async function drawRetirementAssetChart(propagate = false) {
         fv = Math.floor(pv * pensionIrr)
         pensionLumpSumData.push(Math.floor(fv))
         fv = Math.max(0, fv + pmt)
+        if (fv <= 0) {
+            fv = 0
+            inflationModifier = 0
+            insuranceAnnuityInflationModifier = 0
+        }
         const calculatedYear = currentYear + n + i
         labels.push(calculatedYear)
         pv = fv

@@ -1,7 +1,7 @@
 <template>
     <div>
         <EstatePrice v-model="estatePrice" :config="config" :estateSize="estateSize" ref="EstatePriceRef"
-            @update:model-value="onEstatePriceChanged()">
+            @update:model-value="onEstatePriceChanged()" @toggleLoader="confirmLoader = $event">
         </EstatePrice>
         <br />
         <EstateSize v-model="estateSize" :config="config" :parenting="parenting" :estatePrice="estatePrice"
@@ -21,7 +21,7 @@
                 <el-button @click="emits('close')">取消</el-button>
             </el-col> -->
             <el-col :span="4">
-                <el-button @click="confirmUpdate()">確認帶回</el-button>
+                <el-button v-loading="confirmLoader" @click="confirmUpdate()">確認帶回</el-button>
             </el-col>
         </el-row>
         <!-- </el-card> -->
@@ -32,6 +32,7 @@ import { computed, ref, reactive, onMounted, nextTick, watch } from 'vue'
 import EstateSize from './estateSize.vue'
 import EstatePrice from './estatePrice.vue'
 const emits = defineEmits(['update:modelValue', 'confirm', 'close'])
+const confirmLoader = ref(false)
 const EstateSizeRef = ref()
 const EstatePriceRef = ref()
 const props = defineProps({
@@ -68,14 +69,14 @@ const props = defineProps({
         required: true,
     },
 })
+const estatePrice = ref({
+    hasParking: '',
+    unitPrice: 0,
+})
 const estateSize = ref({
     floorSize: 0,
     parkingSpace: 0,
     hasParking: ''
-})
-const estatePrice = ref({
-    hasParking: '',
-    unitPrice: 0,
 })
 
 async function onEstatePriceChanged() {
