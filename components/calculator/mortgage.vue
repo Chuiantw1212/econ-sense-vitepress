@@ -2,7 +2,7 @@
     <el-card>
         <el-form label-width="auto">
             <el-row>
-                <el-col :span="18">
+                <el-col :span="17">
                     <el-form-item label="房屋總價">
                         <el-text v-if="mortgage.totalPriceEstimated">= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
                             estateSize.floorSize }}坪) = {{
@@ -11,10 +11,10 @@
                             @change="calculateMortgage({ setDownpay: true })" />
                     </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="7">
                     <el-form-item>
                         <el-button v-if="!mortgage.totalPriceEstimated" @click="emits('open')">點此估算總價</el-button>
-                        <el-button v-if="mortgage.totalPriceEstimated" @click="resetTotalPrice()">取消並自行調整</el-button>
+                        <el-button v-if="mortgage.totalPriceEstimated" @click="resetTotalPrice()">取消估價並自行調整</el-button>
                     </el-form-item>
                 </el-col>
             </el-row>

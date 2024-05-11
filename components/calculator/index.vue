@@ -434,6 +434,9 @@ function resetTotalPrice() {
         average: 0,
         unitPrice: 0,
     })
+    userForm.estatePrice.county = ''
+    userForm.estatePrice.town = ''
+    userForm.estatePrice.unitPrice = 0
     userForm.mortgage.totalPriceEstimated = 0
     authFetch(`/user/estatePrice`, {
         method: 'put',

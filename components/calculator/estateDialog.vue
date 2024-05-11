@@ -70,6 +70,8 @@ const props = defineProps({
     },
 })
 const estatePrice = ref({
+    county: '',
+    town: '',
     hasParking: '',
     unitPrice: 0,
 })
