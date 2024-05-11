@@ -53,7 +53,7 @@
                 aria-label="Permalink to &quot;證券資產試算&quot;">&ZeroWidthSpace;</a></h3>
         <Asset v-model="userForm.asset" :config="config" :profile="userForm.profile" :career="userForm.career"
             :spouse="userForm.spouse" :parenting="userForm.parenting" :mortgage="userForm.mortgage"
-            :retirement="userForm.retirement" ref="AssetRef" @update:model-value="onInvestmentChanged()">
+            :retirement="userForm.retirement" ref="SecurityRef" @update:model-value="onSecurityChanged()">
         </Asset>
 
         <h3 id="_結婚試算" tabindex="-1">配偶試算<a class="header-anchor" href="#配偶試算"
@@ -90,8 +90,7 @@
         <Benchmark v-model="userForm.profile" :config="config" :career="userForm.career"
             :retirement="userForm.retirement" :spouse="userForm.spouse" :asset="userForm.asset"
             :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
-            :mortgage="userForm.mortgage" ref="BenchmarkRef" @update:model-value="onProfileChanged()"
-            @export="exportUserForm()">
+            :mortgage="userForm.mortgage" ref="BenchmarkRef" @export="exportUserForm()">
         </Benchmark>
         <br>
     </div>
@@ -114,7 +113,7 @@ const { VITE_BASE_URL } = import.meta.env
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
-const AssetRef = ref()
+const SecurityRef = ref()
 const SpouseRef = ref()
 const ParentingRef = ref()
 const EstateRef = ref()
@@ -233,30 +232,8 @@ function setUserAndInitialize(form, { showMessage = false }) {
         ElMessage.info('載入成功')
     }
     nextTick(async () => {
-        await ProfileRef.value.calculateProfile({
-            propagate: true,
-        })
-        await CareerRef.value.calculateCareer({
-            propagate: true,
-        })
-        await RetirementRef.value.calculateRetirement({
-            propagate: true,
-        })
-        const retirementAsset = await AssetRef.value.calculateAsset({
-            propagate: true,
-        })
-        await SpouseRef.value.calculatecSpouse({
-            propagate: true,
-        })
-        await ParentingRef.value.calculateParenting({
-            propagate: true,
-        })
-        const secutiryAsset = await MortgageRef.value.calculateMortgage({
-            propagate: true,
-        })
-        BenchmarkRef.value.calculateLifeAssetChart({
-            retirementAsset,
-            secutiryAsset,
+        changeAllCards({
+            propagate: true
         })
         window.scrollTo(0, 0)
     })
@@ -327,7 +304,6 @@ const userForm = reactive({
         irr: 0,
         presentAsset: 0,
         averaging: 0,
-        yearsToRetirement: 0,
     },
     spouse: {
         yearOfMarriage: '',
@@ -390,14 +366,8 @@ async function onProfileChanged() {
         method: 'put',
         body: userForm.profile,
     })
-    CareerRef.value.calculateCareer({
-        propagate: false,
-    })
-    RetirementRef.value.calculateRetirement({
-        propagate: false,
-    })
-    AssetRef.value.calculateAsset({
-        propagate: false,
+    changeAllCards({
+        profile: true
     })
 }
 // 職業試算
@@ -406,14 +376,8 @@ function onCareerChanged() {
         method: 'put',
         body: userForm.career,
     })
-    RetirementRef.value.calculateRetirement({
-        propagate: false,
-    })
-    AssetRef.value.calculateAsset({
-        propagate: false,
-    })
-    MortgageRef.value.calculateMortgage({
-        propagate: false,
+    changeAllCards({
+        career: true
     })
 }
 // 退休試算
@@ -422,28 +386,18 @@ function onRetirementChanged() {
         method: 'put',
         body: userForm.retirement,
     })
-    AssetRef.value.calculateAsset({
-        propagate: false,
+    changeAllCards({
+        retirement: true
     })
 }
 // 投資試算
-async function onInvestmentChanged() {
+function onSecurityChanged() {
     authFetch(`/user/asset`, {
         method: 'put',
         body: userForm.asset,
     })
-    ParentingRef.value.calculateParenting({
-        propagate: false,
-    })
-    const retirementAsset = await RetirementRef.value.calculateRetirement({
-        propagate: false,
-    })
-    const secutiryAsset = await AssetRef.value.calculateAsset({
-        propagate: false,
-    })
-    BenchmarkRef.value.calculateLifeAssetChart({
-        retirementAsset,
-        secutiryAsset,
+    changeAllCards({
+        secutiry: true
     })
 }
 // 配偶試算
@@ -452,11 +406,8 @@ function onSpouseChanged() {
         method: 'put',
         body: userForm.spouse,
     })
-    ParentingRef.value.calculateParenting({
-        propagate: false,
-    })
-    AssetRef.value.calculateAsset({
-        propagate: false,
+    changeAllCards({
+        spouse: true
     })
 }
 // 家庭責任試算
@@ -465,8 +416,8 @@ function onParentingChanged() {
         method: 'put',
         body: userForm.parenting,
     })
-    AssetRef.value.calculateAsset({
-        propagate: false,
+    changeAllCards({
+        parenting: true
     })
 }
 // 購屋單價與總價
@@ -501,27 +452,60 @@ function onDialogConfirm(newValue) {
         method: 'put',
         body: userForm.estateSize,
     })
-    MortgageRef.value.calculateMortgage({
-        propagate: false,
-        setDownpay: true,
+    changeAllCards({
+        dialog: true
     })
 }
 // 房屋貸款試算
-async function onMortgageChanged() {
+function onMortgageChanged() {
     authFetch(`/user/mortgage`, {
         method: 'put',
         body: userForm.mortgage,
     })
-    const retirementAsset = await RetirementRef.value.calculateRetirement({
-        propagate: false,
+    changeAllCards({
+        mortgage: true
     })
-    const secutiryAsset = await AssetRef.value.calculateAsset({
-        propagate: false,
-    })
-    BenchmarkRef.value.calculateLifeAssetChart({
-        retirementAsset,
-        secutiryAsset,
-    })
+}
+async function changeAllCards(from) {
+    const {
+        propagate = false,
+    } = from
+    if (!from.profile) {
+        await ProfileRef.value.calculateProfile({
+            propagate,
+        })
+    }
+    if (!from.career) {
+        await CareerRef.value.calculateCareer({
+            propagate,
+        })
+    }
+    console.trace('retirement')
+    if (!from.retirement) {
+        await RetirementRef.value.calculateRetirement({
+            propagate,
+        })
+    }
+    if (!from.security) {
+        await SecurityRef.value.calculateAsset({
+            propagate,
+        })
+    }
+    if (!from.spouse) {
+        await SpouseRef.value.calculatecSpouse({
+            propagate,
+        })
+    }
+    if (!from.parenting) {
+        await ParentingRef.value.calculateParenting({
+            propagate,
+        })
+    }
+    if (!from.mortgage) {
+        await MortgageRef.value.calculateMortgage({
+            propagate,
+        })
+    }
 }
 // 資料匯出
 async function exportUserForm() {
