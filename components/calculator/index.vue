@@ -49,11 +49,11 @@
 
         <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
                 aria-label="Permalink to &quot;五子登科&quot;">&ZeroWidthSpace;</a></h2>
-        <h3 id="_資產試算" tabindex="-1">資產試算<a class="header-anchor" href="#資產試算"
-                aria-label="Permalink to &quot;資產試算&quot;">&ZeroWidthSpace;</a></h3>
+        <h3 id="_資產試算" tabindex="-1">證券試算<a class="header-anchor" href="#證券試算"
+                aria-label="Permalink to &quot;證券試算&quot;">&ZeroWidthSpace;</a></h3>
         <Asset v-model="userForm.asset" :config="config" :profile="userForm.profile" :career="userForm.career"
             :spouse="userForm.spouse" :parenting="userForm.parenting" :mortgage="userForm.mortgage"
-            :retirement="userForm.retirement" ref="InvestmentRef" @update:model-value="onInvestmentChanged()">
+            :retirement="userForm.retirement" ref="AssetRef" @update:model-value="onInvestmentChanged()">
         </Asset>
 
         <h3 id="_結婚試算" tabindex="-1">配偶試算<a class="header-anchor" href="#配偶試算"
@@ -69,8 +69,8 @@
             @update:model-value="onParentingChanged()">
         </Parenting>
 
-        <h3 id="_購屋試算" tabindex="-1">購屋試算<a class="header-anchor" href="#購屋試算"
-                aria-label="Permalink to &quot;購屋試算&quot;">&ZeroWidthSpace;</a></h3>
+        <h3 id="_購屋試算" tabindex="-1">房地產試算<a class="header-anchor" href="#房地產試算"
+                aria-label="Permalink to &quot;房地產試算&quot;">&ZeroWidthSpace;</a></h3>
         <Mortgage v-model="userForm.mortgage" :config="config" :career="userForm.career"
             :estateSize="userForm.estateSize" :asset="userForm.asset" :parenting="userForm.parenting"
             :estatePrice="userForm.estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
@@ -87,11 +87,12 @@
 
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
-        <Bechmark v-model="userForm.profile" :config="config" :career="userForm.career"
+        <Benchmark v-model="userForm.profile" :config="config" :career="userForm.career"
             :retirement="userForm.retirement" :spouse="userForm.spouse" :asset="userForm.asset"
             :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
-            :mortgage="userForm.mortgage" @update:model-value="onProfileChanged()" @export="exportUserForm()">
-        </Bechmark>
+            :mortgage="userForm.mortgage" ref="BenchmarkRef" @update:model-value="onProfileChanged()"
+            @export="exportUserForm()">
+        </Benchmark>
         <br>
     </div>
 </template>
@@ -108,16 +109,17 @@ import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
 import EstateDialogContent from './estateDialog.vue'
-import Bechmark from './benchmark.vue'
+import Benchmark from './benchmark.vue'
 const { VITE_BASE_URL } = import.meta.env
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
-const InvestmentRef = ref()
+const AssetRef = ref()
 const SpouseRef = ref()
 const ParentingRef = ref()
 const EstateRef = ref()
 const MortgageRef = ref()
+const BenchmarkRef = ref()
 // 主要從資料庫來的設定檔案
 const config = reactive({
     // primitive types
@@ -240,7 +242,7 @@ function setUserAndInitialize(form, { showMessage = false }) {
         await RetirementRef.value.calculateRetirement({
             propagate: true,
         })
-        await InvestmentRef.value.calculateAsset({
+        await AssetRef.value.calculateAsset({
             propagate: true,
         })
         await SpouseRef.value.calculatecSpouse({
@@ -384,13 +386,13 @@ async function onProfileChanged() {
         method: 'put',
         body: userForm.profile,
     })
-    await CareerRef.value.calculateCareer({
+    CareerRef.value.calculateCareer({
         propagate: false,
     })
-    await RetirementRef.value.calculateRetirement({
+    RetirementRef.value.calculateRetirement({
         propagate: false,
     })
-    await InvestmentRef.value.calculateAsset({
+    AssetRef.value.calculateAsset({
         propagate: false,
     })
 }
@@ -403,7 +405,7 @@ function onCareerChanged() {
     RetirementRef.value.calculateRetirement({
         propagate: false,
     })
-    InvestmentRef.value.calculateAsset({
+    AssetRef.value.calculateAsset({
         propagate: false,
     })
     MortgageRef.value.calculateMortgage({
@@ -416,7 +418,7 @@ function onRetirementChanged() {
         method: 'put',
         body: userForm.retirement,
     })
-    InvestmentRef.value.calculateAsset({
+    AssetRef.value.calculateAsset({
         propagate: false,
     })
 }
@@ -442,7 +444,7 @@ function onSpouseChanged() {
     ParentingRef.value.calculateParenting({
         propagate: false,
     })
-    InvestmentRef.value.calculateAsset({
+    AssetRef.value.calculateAsset({
         propagate: false,
     })
 }
@@ -452,7 +454,7 @@ function onParentingChanged() {
         method: 'put',
         body: userForm.parenting,
     })
-    InvestmentRef.value.calculateAsset({
+    AssetRef.value.calculateAsset({
         propagate: false,
     })
 }
@@ -494,16 +496,20 @@ function onDialogConfirm(newValue) {
     })
 }
 // 房屋貸款試算
-function onMortgageChanged() {
+async function onMortgageChanged() {
     authFetch(`/user/mortgage`, {
         method: 'put',
         body: userForm.mortgage,
     })
-    RetirementRef.value.calculateRetirement({
+    const retirementAsset = await RetirementRef.value.calculateRetirement({
         propagate: false,
     })
-    InvestmentRef.value.calculateAsset({
+    const etfAsset = await AssetRef.value.calculateAsset({
         propagate: false,
+    })
+    BenchmarkRef.value.calculateLifeAssetChart({
+        retirementAsset,
+        etfAsset,
     })
 }
 

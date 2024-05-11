@@ -148,7 +148,7 @@
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
                                 item.label
-                                }}</el-radio>
+                            }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -322,7 +322,7 @@ const unableToDraw = computed(() => {
     return noIncome || noBefore || noAfter
 })
 // methods
-function calculateRetirement(options: any = { propagate: true }) {
+async function calculateRetirement(options: any = { propagate: true }) {
     resetData()
     calculateExpenseQuartileMarks()
     calculateRetireLife()
@@ -343,9 +343,14 @@ function calculateRetirement(options: any = { propagate: true }) {
     calculateRetirementExpense()
 
     const { propagate = true } = options
-    customDebounce(() => {
-        drawRetirementAssetChart(propagate)
-    })(propagate)
+    const pensionLumpSumDataPromise = new Promise((resolve) => {
+        customDebounce(async () => {
+            const pensionLumpSumData = await drawRetirementAssetChart(propagate)
+            resolve(pensionLumpSumData)
+        })(propagate)
+    })
+    const result = await pensionLumpSumDataPromise
+    return result
 }
 function resetData() {
     // 避免資料干擾
@@ -357,13 +362,6 @@ function calculateCivilServantRetirement() {
     const { futureSeniority, } = retirement.value.insurance
     const { type, } = retirement.value.pension
     const { salary } = props.career.insurance
-    console.log({
-        name: 'why?',
-        futureSeniority,
-        type,
-        salary,
-        test: retirement.value.pension.monthlyAnnuity
-    })
     if (!futureSeniority || !salary || !type) {
         retirement.value.pension.monthlyAnnuity = 0
         // career.value.insurance.salary = 0
@@ -526,27 +524,27 @@ async function drawRetirementAssetChart(propagate = false) {
     let fv = 0 // fv = pv * n + pmt
 
     const labels: number[] = []
-    const pensionLumpSumData: number[][] = []
-    const annualAnnuityData: number[][] = []
-    const retirementAnnualExpenseData: number[][] = []
-    const mortgageData: number[][] = []
+    const pensionLumpSumData: number[] = []
+    const annualAnnuityData: number[] = []
+    const retirementAnnualExpenseData: number[] = []
+    const mortgageData: number[] = []
 
     const { careerInsuranceType } = props.profile
     if (['employee', 'entrepreneur'].includes(careerInsuranceType)) {
         pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
         // 退休前資產累積
         for (let i = 1; i <= n; i++) {
-            const calculatedYear = currentYear + i
-            labels.push(calculatedYear)
-            annualAnnuityData.push([0, 0])
-            retirementAnnualExpenseData.push([0, 0])
-
             const pmt = pensionContribution * inflationModifier
             fv = Math.floor(pv * pensionIrr + pmt)
-            pensionLumpSumData.push([0, Math.floor(fv)])
-            mortgageData.push([0, 0])
             pv = fv
             inflationModifier *= inflationRate
+            /** 驗算勞動退休金累積可用 */
+            // pensionLumpSumData.push(Math.floor(fv))
+            // mortgageData.push(0)
+            // const calculatedYear = currentYear + i
+            // labels.push(calculatedYear)
+            // annualAnnuityData.push(0)
+            // retirementAnnualExpenseData.push(0)
         }
         calculateLaborPensionLumpSum(fv)
     }
@@ -566,23 +564,23 @@ async function drawRetirementAssetChart(propagate = false) {
         insuranceAnnuityInflationModifier *= inflationRate
         // 年金收入計算
         const annutalAnnuity = Math.floor(monthlyAnnuity * 12 * insuranceAnnuityInflationModifier)
-        annualAnnuityData.push([0, annutalAnnuity])
+        annualAnnuityData.push(annutalAnnuity)
         inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
-        retirementAnnualExpenseData.push([0, -inflatedAnnualExpense])
+        retirementAnnualExpenseData.push(-inflatedAnnualExpense)
         pmt = annutalAnnuity - inflatedAnnualExpense
         // 未還完的房貸支出
         const simYear = currentYear + yearsToRetirement + i
         const annualRepay = monthlyRepay * 12
         if (loanEndYear >= simYear) {
             pmt -= annualRepay
-            mortgageData.push([0, -annualRepay])
+            mortgageData.push(-annualRepay)
         } else {
-            mortgageData.push([0, 0])
+            mortgageData.push(0)
         }
         // fv
-        fv = Math.floor(pv * pensionIrr + pmt)
-        fv = Math.max(0, fv)
-        pensionLumpSumData.push([0, Math.floor(fv)])
+        fv = Math.floor(pv * pensionIrr)
+        pensionLumpSumData.push(Math.floor(fv))
+        fv = Math.max(0, fv + pmt)
         const calculatedYear = currentYear + n + i
         labels.push(calculatedYear)
         pv = fv
@@ -614,7 +612,7 @@ async function drawRetirementAssetChart(propagate = false) {
             tension,
         }
     ]
-    const hasMortgage = mortgageData.some(data => data[1])
+    const hasMortgage = mortgageData.some(data => data)
     if (hasMortgage) {
         datasets.push({
             label: '房貸剩餘利息',
@@ -635,24 +633,25 @@ async function drawRetirementAssetChart(propagate = false) {
     if (pensionChartInstance.value) {
         pensionChartInstance.value.data = chartData
         pensionChartInstance.value.update()
-        return
-    }
-    const ctx: any = document.getElementById('pensionChart')
-    const chartInstance = new Chart(ctx, {
-        type: 'line',
-        data: chartData,
-        options: {
-            scales: {
-                x: {
-                    stacked: true,
-                },
-                // y: { // 要部份stacked，部分overlap
-                //     stacked: true,
-                // },
+    } else {
+        const ctx: any = document.getElementById('pensionChart')
+        const chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: { // 要部份stacked，部分overlap
+                        stacked: true,
+                    },
+                }
             }
-        }
-    })
-    pensionChartInstance = shallowRef(chartInstance)
+        })
+        pensionChartInstance = shallowRef(chartInstance)
+    }
+    return pensionLumpSumData
 }
 
 function calculateLaborPensionLumpSum(fv = 0) {

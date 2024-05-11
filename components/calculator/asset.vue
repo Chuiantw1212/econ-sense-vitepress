@@ -151,7 +151,6 @@ const props = defineProps({
     }
 })
 const allocationQuartileMarks = reactive({})
-const legalInterestRate = 16
 // hooks
 const asset = computed(() => {
     return props.modelValue
@@ -174,14 +173,18 @@ function setPortfolioMarks() {
         allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
     })
 }
-function calculateAsset(options: any = { propagate: true }) {
+async function calculateAsset(options: any = { propagate: true }) {
     setPortfolioMarks()
     calculateInvestmentPeriod()
     calculatePortfolio()
     const { propagate = true } = options
-    customDebounce(() => {
-        drawLifeAssetChart(propagate)
-    })(propagate)
+    const promise = new Promise((resolve) => {
+        customDebounce(async () => {
+            const etfData = await drawLifeAssetChart(propagate)
+            resolve(etfData)
+        })(propagate)
+    })
+    return await promise
 }
 function calculatePortfolio() {
     const { allocationETF } = asset.value
@@ -227,7 +230,7 @@ function drawLifeAssetChart(propagate = true) {
     let pv = presentAsset
     let fv = 0
     const labels: number[] = []
-    const datasetData: number[] = []
+    const etfData: number[] = []
     const investingData: number[] = []
     const mortgageData: number[] = []
     const downpayData: number[] = []
@@ -257,14 +260,14 @@ function drawLifeAssetChart(propagate = true) {
         const mortgageStartYear = downpayYear
         const mortgageEndYear = downpayYear + loanTerm
         let mortgagePmt = 0
-        let inflatedTotalPrice = 0
+        let downpayTotalPrice = 0
         if (mortgageStartYear <= year && fv > 0) {
             if (year < mortgageEndYear) {
                 mortgagePmt = monthlyRepay * 12
             }
-            inflatedTotalPrice = Math.floor(totalPrice * valueModifier)
+            downpayTotalPrice = Math.floor(totalPrice * valueModifier)
         }
-        estateData.push(inflatedTotalPrice)
+        estateData.push(downpayTotalPrice)
         mortgageData.push(Math.floor(-mortgagePmt))
         calculatedPmt -= mortgagePmt
         /**
@@ -302,7 +305,7 @@ function drawLifeAssetChart(propagate = true) {
 
         // 計算複利終值
         fv = pv * irrModifier
-        datasetData.push(Math.floor(fv))
+        etfData.push(Math.floor(fv))
         fv += calculatedPmt
         if (fv <= 0) {
             fv = 0
@@ -320,7 +323,7 @@ function drawLifeAssetChart(propagate = true) {
     const datasets = [
         {
             label: 'ETF增值',
-            data: datasetData,
+            data: etfData,
         },
     ]
 
@@ -353,28 +356,28 @@ function drawLifeAssetChart(propagate = true) {
         datasets,
         labels
     }
-
     if (assetChartInstance.value) {
         assetChartInstance.value.data = chartData
         assetChartInstance.value.update()
-        return
-    }
-    const ctx: any = document.getElementById('assetChart')
-    const chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: chartData,
-        options: {
-            scales: {
-                x: {
-                    stacked: true,
-                },
-                y: {
-                    stacked: true
+    } else {
+        const ctx: any = document.getElementById('assetChart')
+        const chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
                 }
             }
-        }
-    })
-    assetChartInstance = shallowRef(chartInstance)
+        })
+        assetChartInstance = shallowRef(chartInstance)
+    }
+    return etfData
 }
 
 import { ElMessage, } from 'element-plus'
@@ -400,5 +403,5 @@ function customDebounce(func, delay = 100) {
 
 defineExpose({
     calculateAsset,
-});
+})
 </script>

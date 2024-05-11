@@ -18,6 +18,7 @@
             <div v-else>
                 點選右上角，讓我們回顧......
             </div>
+            <canvas id="assetChart"></canvas>
         </el-form>
         <template #footer>
             <el-collapse>
@@ -33,7 +34,8 @@
     </el-card>
 </template>
 <script setup lang="ts">
-import { ref, computed, } from 'vue'
+import { ref, computed, shallowRef } from 'vue'
+import Chart from 'chart.js/auto';
 const { VITE_BASE_URL } = import.meta.env
 const emits = defineEmits(['update:modelValue', 'export'])
 const storyLoading = ref(false)
@@ -53,6 +55,13 @@ const props = defineProps({
         required: true
     },
     career: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true
+    },
+    asset: {
         type: Object,
         default: () => {
             return {}
@@ -98,7 +107,46 @@ const props = defineProps({
 const profile = computed(() => {
     return props.modelValue
 })
-
+// methods
+let assetChartInstance = ref<Chart>()
+function calculateLifeAssetChart(payload) {
+    const {
+        retirementAsset,
+        etfAsset,
+    } = payload
+    // console.log({
+    //     retirementAsset,
+    //     etfAsset
+    // })
+    const { irr } = props.asset
+    const { downpayTotalPrice } = props.mortgage
+    const { irrOverDecade } = props.retirement.pension
+    const chartData = {
+        datasets: {},
+        labels: []
+    }
+    // if (assetChartInstance.value) {
+    //     assetChartInstance.value.data = chartData
+    //     assetChartInstance.value.update()
+    // } else {
+    //     const ctx: any = document.getElementById('assetChart')
+    //     const chartInstance = new Chart(ctx, {
+    //         type: 'bar',
+    //         data: chartData,
+    //         options: {
+    //             scales: {
+    //                 x: {
+    //                     stacked: true,
+    //                 },
+    //                 y: {
+    //                     stacked: true
+    //                 }
+    //             }
+    //         }
+    //     })
+    //     assetChartInstance = shallowRef(chartInstance)
+    // }
+}
 async function generatStory() {
     storyLoading.value = true
     const humanStory = getHumanStory()
@@ -176,6 +224,10 @@ function getHumanStory() {
 async function exportUserForm() {
     emits('export')
 }
+
+defineExpose({
+    calculateLifeAssetChart,
+})
 </script>
 <style lang="scss">
 .card-header--custom {

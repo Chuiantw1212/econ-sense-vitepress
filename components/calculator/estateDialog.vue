@@ -13,8 +13,8 @@
             <el-col :span="20">
                 <el-form-item label="房屋總價">
                     <el-text>= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
-            estateSize.floorSize }}坪) = {{
-            Number(tempTotalPrice).toLocaleString() }} NTD</el-text>
+                        estateSize.floorSize }}坪) = {{
+                            Number(Math.floor(tempTotalPrice / 10000)).toLocaleString() }} 萬</el-text>
                 </el-form-item>
             </el-col>
             <!-- <el-col :span="3">
