@@ -491,8 +491,9 @@ async function changeAllCards(from) {
             propagate,
         })
     }
+    let securityRes = null
     if (!from.security) {
-        await SecurityRef.value.calculateAsset({
+        securityRes = await SecurityRef.value.calculateSecurity({
             propagate,
         })
     }

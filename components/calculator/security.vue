@@ -4,7 +4,7 @@
             <el-row>
                 <el-col :span="24">
                     <el-form-item label="ETF配置">
-                        <el-radio-group v-model="security.allocationETF" @change="calculateAsset()">
+                        <el-radio-group v-model="security.allocationETF" @change="calculateSecurity()">
                             <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label
                                 }}</el-radio>
                         </el-radio-group>
@@ -24,7 +24,7 @@
                 <el-col :span="12">
                     <el-form-item label="已備資產">
                         <el-input-number v-model="security.presentAsset" :min="0" :step="100000"
-                            :disabled="isFormDisabled" @change="calculateAsset()" />
+                            :disabled="isFormDisabled" @change="calculateSecurity()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -180,7 +180,7 @@ function setPortfolioMarks() {
         allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
     })
 }
-async function calculateAsset(options: any = { propagate: true }) {
+async function calculateSecurity(options: any = { propagate: true }) {
     setPortfolioMarks()
     calculateInvestmentPeriod()
     calculatePortfolio()
@@ -240,8 +240,8 @@ function drawLifeAssetChart(propagate = true) {
     let fv = 0
     const labels: number[] = []
     const principleData: number[] = []
-    const appreciationData: number[] = []
-    const securitySumData: number[] = []
+    const securityAppreciationData: number[] = []
+    const securityAssetData: number[] = []
     const investingData: number[] = []
     const mortgageData: number[] = []
     const downpayData: number[] = []
@@ -321,9 +321,9 @@ function drawLifeAssetChart(propagate = true) {
         const principle = pv
         principleData.push(Math.floor(principle))
         const appreciation = principle * irr / 100
-        appreciationData.push(Math.floor(appreciation))
+        securityAppreciationData.push(Math.floor(appreciation))
         fv = principle + appreciation
-        securitySumData.push(Math.floor(fv))
+        securityAssetData.push(Math.floor(fv))
         fv += calculatedPmt
         if (fv <= 0) {
             fv = 0
@@ -341,11 +341,11 @@ function drawLifeAssetChart(propagate = true) {
     const datasets = [
         {
             label: 'ETF',
-            data: securitySumData.slice(0, yearsToRetirement),
+            data: securityAssetData.slice(0, yearsToRetirement),
         },
         // {
         //     label: '增值',
-        //     data: appreciationData.slice(0, yearsToRetirement),
+        //     data: securityAppreciationData.slice(0, yearsToRetirement),
         // },
     ]
 
@@ -399,7 +399,10 @@ function drawLifeAssetChart(propagate = true) {
         })
         securityChartInstance = shallowRef(chartInstance)
     }
-    return principleData
+    return {
+        securityAppreciationData,
+        securityAssetData,
+    }
 }
 
 import { ElMessage, } from 'element-plus'
@@ -424,6 +427,6 @@ function customDebounce(func, delay = 100) {
 }
 
 defineExpose({
-    calculateAsset,
+    calculateSecurity,
 })
 </script>
