@@ -44,7 +44,7 @@
                 <el-col :span="12">
                     <el-form-item label="已備資產">
                         <el-text>
-                            {{ Number(Math.floor(asset.presentAsset / 10000)).toLocaleString() }} 萬
+                            {{ Number(Math.floor(security.presentAsset / 10000)).toLocaleString() }} 萬
                         </el-text>
                     </el-form-item>
                 </el-col>
@@ -252,7 +252,7 @@ const props = defineProps({
         },
         required: true,
     },
-    asset: {
+    security: {
         type: Object,
         default: () => {
             return {}
@@ -284,9 +284,9 @@ const mortgage = computed(() => {
 })
 const unableToDrawChart = computed(() => {
     const { monthlySaving } = props.career
-    const { irr, } = props.asset
+    const { irr, } = props.security
     const { downpayGoal } = mortgage.value
-    const { presentAsset } = props.asset
+    const { presentAsset } = props.security
     const noPv = !presentAsset
     const negativePmt = monthlySaving <= 0
     const noN = !irr
@@ -398,7 +398,7 @@ function drawDownpayChart(propagate = false) {
     if (unableToDrawChart.value) {
         return
     }
-    const { irr, } = props.asset
+    const { irr, } = props.security
     const { inflationRate, currentYear } = props.config
     const {
         downpayGoal,
@@ -410,7 +410,7 @@ function drawDownpayChart(propagate = false) {
         loanTerm,
         interestRate
     } = mortgage.value
-    const { presentAsset } = props.asset
+    const { presentAsset } = props.security
     const { monthlySaving } = props.career
     const irrModifier: number = 1 + irr / 100
     const inflationRatio: number = 1 + inflationRate / 100

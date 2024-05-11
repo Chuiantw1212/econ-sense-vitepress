@@ -73,7 +73,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="資產投報率">
-                        <el-text>{{ config.portfolioIRR[asset.allocationETF] }} % / 年</el-text>
+                        <el-text>{{ config.portfolioIRR[security.allocationETF] }} % / 年</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -181,7 +181,7 @@ const props = defineProps({
         },
         required: true,
     },
-    asset: {
+    security: {
         type: Object,
         default: () => {
             return {}
@@ -266,7 +266,7 @@ function drawParentingChart(propagate = true) {
     const { survivorAnnuity } = props.retirement.insurance
 
     // 計算投資報酬率
-    const assetIrr = 1 + props.asset.irr / 100
+    const securityIrr = 1 + props.security.irr / 100
     const firstBornEndYear: number = firstBornYear + independantAge
     const secondBornEndYear: number = secondBornYear + independantAge
     const parentingDuration: number = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
@@ -340,7 +340,7 @@ function drawParentingChart(propagate = true) {
         }
 
         // 儲存資料
-        fv = pv * assetIrr + pmt
+        fv = pv * securityIrr + pmt
         const floorPmt = Math.floor(pmt)
         lifeInsuranceEquity.push([floorPmt, Math.floor(Math.max(0, fv))])
         cash = cash + pmt

@@ -18,7 +18,7 @@
             <div v-else>
                 點選右上角，讓我們回顧......
             </div>
-            <!-- assetSum:{{ assetSum }} -->
+            <!-- securitySum:{{ securitySum }} -->
             <!-- <canvas id="lifeAssetChart"></canvas> -->
         </el-form>
         <template #footer>
@@ -62,7 +62,7 @@ const props = defineProps({
         },
         required: true
     },
-    asset: {
+    security: {
         type: Object,
         default: () => {
             return {}
@@ -108,9 +108,9 @@ const props = defineProps({
 const profile = computed(() => {
     return props.modelValue
 })
-const assetSum = ref(0)
+const securitySum = ref(0)
 // methods
-let assetChartInstance = ref<Chart>()
+let securityChartInstance = ref<Chart>()
 function calculateLifeAssetChart(payload) {
     const {
         retirementAsset,
@@ -122,7 +122,7 @@ function calculateLifeAssetChart(payload) {
         secutiryAsset
     })
 
-    const { irr } = props.asset
+    const { irr } = props.security
     const { currentYear, inflationRate } = props.config
     const { downpayTotalPrice, debtData = [], downpayYear } = props.mortgage
     const { irrOverDecade } = props.retirement.pension
@@ -131,7 +131,7 @@ function calculateLifeAssetChart(payload) {
 
 
     const datasets = []
-    const assetData: number[] = []
+    const securityData: number[] = []
     const estateAsset: number[] = []
     const estateDebtData: number[] = []
     const retireAssetData: number[] = []
@@ -145,7 +145,7 @@ function calculateLifeAssetChart(payload) {
         // data
         const secutiryValue = secutiryAsset[i]
         if (secutiryValue) {
-            assetData.push(secutiryValue)
+            securityData.push(secutiryValue)
         }
         inflatedEstateAsset *= inflationModifier
         // retirement
@@ -174,7 +174,7 @@ function calculateLifeAssetChart(payload) {
     const tension = 0.5
     datasets.push({
         label: '證券資產',
-        data: assetData,
+        data: securityData,
         fill: true,
         tension,
     })
@@ -196,20 +196,20 @@ function calculateLifeAssetChart(payload) {
         fill: true,
         tension,
     })
-    // asset sum 
-    const finalAsset = assetData.pop()
+    // security sum 
+    const finalAsset = securityData.pop()
     const finalDebt = estateDebtData.pop()
     const finalEstate = estateAsset.pop()
     const finalPension = retireAssetData.pop()
-    assetSum.value = finalAsset + finalEstate + finalPension - finalDebt
+    securitySum.value = finalAsset + finalEstate + finalPension - finalDebt
     //
     const chartData = {
         datasets,
         labels,
     }
-    if (assetChartInstance.value) {
-        assetChartInstance.value.data = chartData
-        assetChartInstance.value.update()
+    if (securityChartInstance.value) {
+        securityChartInstance.value.data = chartData
+        securityChartInstance.value.update()
     } else {
         const ctx: any = document.getElementById('lifeAssetChart')
         const chartInstance = new Chart(ctx, {
@@ -226,7 +226,7 @@ function calculateLifeAssetChart(payload) {
                 }
             }
         })
-        assetChartInstance = shallowRef(chartInstance)
+        securityChartInstance = shallowRef(chartInstance)
     }
 }
 async function generatStory() {

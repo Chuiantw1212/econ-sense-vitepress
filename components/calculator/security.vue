@@ -4,7 +4,7 @@
             <el-row>
                 <el-col :span="24">
                     <el-form-item label="ETF配置">
-                        <el-radio-group v-model="asset.allocationETF" @change="calculateAsset()">
+                        <el-radio-group v-model="security.allocationETF" @change="calculateAsset()">
                             <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label
                                 }}</el-radio>
                         </el-radio-group>
@@ -14,7 +14,7 @@
             <el-row>
                 <el-col :span="23">
                     <el-form-item label="投資報酬率">
-                        <el-slider v-model="asset.stockPercentage" :marks="allocationQuartileMarks" :disabled="true" />
+                        <el-slider v-model="security.stockPercentage" :marks="allocationQuartileMarks" :disabled="true" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -22,7 +22,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="已備資產">
-                        <el-input-number v-model="asset.presentAsset" :min="0" :step="100000" :disabled="isFormDisabled"
+                        <el-input-number v-model="security.presentAsset" :min="0" :step="100000" :disabled="isFormDisabled"
                             @change="calculateAsset()" />
                     </el-form-item>
                 </el-col>
@@ -41,7 +41,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <canvas v-show="!unableToDraw" id="assetChart"></canvas>
+            <canvas v-show="!unableToDraw" id="securityChart"></canvas>
         </el-form>
         <template #footer>
             <el-collapse>
@@ -158,7 +158,7 @@ const props = defineProps({
 })
 const allocationQuartileMarks = reactive({})
 // hooks
-const asset = computed(() => {
+const security = computed(() => {
     return props.modelValue
 })
 const isFormDisabled = computed(() => {
@@ -193,21 +193,21 @@ async function calculateAsset(options: any = { propagate: true }) {
     return await promise
 }
 function calculatePortfolio() {
-    const { allocationETF } = asset.value
+    const { allocationETF } = security.value
     const { portfolioIRR, porfolioLabels } = props.config
     const allocationLabels = Object.keys(porfolioLabels)
     const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
     const stockPercentage = Math.floor((allocationIndex + 1) * 20)
-    asset.value.stockPercentage = stockPercentage
-    asset.value.irr = portfolioIRR[allocationETF]
+    security.value.stockPercentage = stockPercentage
+    security.value.irr = portfolioIRR[allocationETF]
 
 }
 function calculateInvestmentPeriod() {
-    asset.value.yearsToRetirement = props.retirement.yearsToRetirement
+    security.value.yearsToRetirement = props.retirement.yearsToRetirement
 }
 
 const unableToDraw = computed(() => {
-    const { presentAsset, irr, yearsToRetirement } = asset.value
+    const { presentAsset, irr, yearsToRetirement } = security.value
     const { monthlySaving } = props.career
     const noPv = !presentAsset
     const noPmt = !monthlySaving
@@ -216,16 +216,16 @@ const unableToDraw = computed(() => {
     return (noPv && noPmt) || noIY || noN
 })
 
-let assetChartInstance = ref<Chart>()
+let securityChartInstance = ref<Chart>()
 function drawLifeAssetChart(propagate = true) {
     if (propagate) {
-        emits('update:modelValue', asset.value)
+        emits('update:modelValue', security.value)
     }
     if (unableToDraw.value) {
         return
     }
     const { lifeExpectancy } = props.profile
-    const { presentAsset, irr, yearsToRetirement } = asset.value
+    const { presentAsset, irr, yearsToRetirement } = security.value
     const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.mortgage
     const { currentYear, inflationRate } = props.config
     const { monthlyContribution } = props.spouse
@@ -367,11 +367,11 @@ function drawLifeAssetChart(propagate = true) {
         datasets,
         labels: labels.slice(0, yearsToRetirement)
     }
-    if (assetChartInstance.value) {
-        assetChartInstance.value.data = chartData
-        assetChartInstance.value.update()
+    if (securityChartInstance.value) {
+        securityChartInstance.value.data = chartData
+        securityChartInstance.value.update()
     } else {
-        const ctx: any = document.getElementById('assetChart')
+        const ctx: any = document.getElementById('securityChart')
         const chartInstance = new Chart(ctx, {
             type: 'bar',
             data: chartData,
@@ -386,7 +386,7 @@ function drawLifeAssetChart(propagate = true) {
                 }
             }
         })
-        assetChartInstance = shallowRef(chartInstance)
+        securityChartInstance = shallowRef(chartInstance)
     }
     return etfData
 }

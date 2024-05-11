@@ -51,7 +51,7 @@
                 aria-label="Permalink to &quot;五子登科&quot;">&ZeroWidthSpace;</a></h2>
         <h3 id="_資產試算" tabindex="-1">證券資產試算<a class="header-anchor" href="#證券資產試算"
                 aria-label="Permalink to &quot;證券資產試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Asset v-model="userForm.asset" :config="config" :profile="userForm.profile" :career="userForm.career"
+        <Asset v-model="userForm.security" :config="config" :profile="userForm.profile" :career="userForm.career"
             :spouse="userForm.spouse" :parenting="userForm.parenting" :mortgage="userForm.mortgage"
             :retirement="userForm.retirement" ref="SecurityRef" @update:model-value="onSecurityChanged()">
         </Asset>
@@ -64,7 +64,7 @@
         <h3 id="_家庭責任試算" tabindex="-1">家庭責任試算<a class="header-anchor" href="#家庭責任試算"
                 aria-label="Permalink to &quot;家庭責任試算&quot;">&ZeroWidthSpace;</a></h3>
         <Parenting v-model="userForm.parenting" :config="config" :career="userForm.career"
-            :retirement="userForm.retirement" :spouse="userForm.spouse" :asset="userForm.asset"
+            :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
             :estateSize="userForm.estateSize" :mortgage="userForm.mortgage" ref="ParentingRef"
             @update:model-value="onParentingChanged()">
         </Parenting>
@@ -72,7 +72,7 @@
         <h3 id="_購屋試算" tabindex="-1">房地產試算<a class="header-anchor" href="#房地產試算"
                 aria-label="Permalink to &quot;房地產試算&quot;">&ZeroWidthSpace;</a></h3>
         <Mortgage v-model="userForm.mortgage" :config="config" :career="userForm.career"
-            :estateSize="userForm.estateSize" :asset="userForm.asset" :parenting="userForm.parenting"
+            :estateSize="userForm.estateSize" :security="userForm.security" :parenting="userForm.parenting"
             :estatePrice="userForm.estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
             @open="openEstateCalculator()" @reset="resetTotalPrice()">
         </Mortgage>
@@ -88,7 +88,7 @@
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
         <Benchmark v-model="userForm.profile" :config="config" :career="userForm.career"
-            :retirement="userForm.retirement" :spouse="userForm.spouse" :asset="userForm.asset"
+            :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
             :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
             :mortgage="userForm.mortgage" ref="BenchmarkRef" @export="exportUserForm()">
         </Benchmark>
@@ -103,7 +103,7 @@ import Profile from './profile.vue'
 import CareerLabor from './career/labor.vue'
 import CareerGovernment from './career/government.vue'
 import Retirement from './retirement.vue'
-import Asset from './asset.vue'
+import Asset from './security.vue'
 import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
@@ -222,10 +222,13 @@ function setUserAndInitialize(form, { showMessage = false }) {
         }
         // Backward compatible since 2024/05/10
         if (form.investment) {
-            Object.assign(userForm.asset, form.investment)
+            Object.assign(userForm.security, form.investment)
         }
         if (form.asset) {
-            Object.assign(userForm.asset, form.asset)
+            Object.assign(userForm.security, form.asset)
+        }
+        if (form.security) {
+            Object.assign(userForm.security, form.security)
         }
     }
     if (showMessage) {
@@ -298,7 +301,7 @@ const userForm = reactive({
         qualityLevel: 3,
         expenseQuartileMarks: {},
     },
-    asset: {
+    security: {
         allocationETF: 'aok',
         stockPercentage: 20,
         irr: 0,
@@ -392,9 +395,9 @@ function onRetirementChanged() {
 }
 // 投資試算
 function onSecurityChanged() {
-    authFetch(`/user/asset`, {
+    authFetch(`/user/security`, {
         method: 'put',
-        body: userForm.asset,
+        body: userForm.security,
     })
     changeAllCards({
         security: true
