@@ -148,7 +148,7 @@
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
                                 item.label
-                            }}</el-radio>
+                                }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -658,7 +658,9 @@ async function drawRetirementAssetChart(propagate = false) {
         })
         pensionChartInstance = shallowRef(chartInstance)
     }
-    return pensionLumpSumData
+    return {
+        pensionLumpSumData
+    }
 }
 
 function calculateLaborPensionLumpSum(fv = 0) {

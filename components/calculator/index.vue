@@ -87,11 +87,23 @@
 
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
-        <Benchmark v-model="userForm.profile" :config="config" :career="userForm.career"
+
+        <h3 id="_一生資產負債" tabindex="-1">一生資產負債<a class="header-anchor" href="#一生資產負債"
+                aria-label="Permalink to &quot;一生資產負債&quot;">&ZeroWidthSpace;</a></h3>
+        <h3 id="_一生資產負債" tabindex="-1">一生資產負債<a class="header-anchor" href="#一生資產負債"
+                aria-label="Permalink to &quot;一生資產負債&quot;">&ZeroWidthSpace;</a></h3>
+        <LifeAsset v-model="userForm.profile" :config="config" :career="userForm.career"
             :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
             :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
-            :estate="userForm.estate" ref="BenchmarkRef" @export="exportUserForm()">
-        </Benchmark>
+            :estate="userForm.estate" ref="LifeAssetRef">
+        </LifeAsset>
+        <h3 id="_報告與資料匯出" tabindex="-1">報告與資料匯出<a class="header-anchor" href="#報告與資料匯出"
+                aria-label="Permalink to &quot;報告與資料匯出&quot;">&ZeroWidthSpace;</a></h3>
+        <Story v-model="userForm.profile" :config="config" :career="userForm.career" :retirement="userForm.retirement"
+            :spouse="userForm.spouse" :security="userForm.security" :estateSize="userForm.estateSize"
+            :parenting="userForm.parenting" :estatePrice="userForm.estatePrice" :estate="userForm.estate" ref="StoryRef"
+            @export="exportUserForm()">
+        </Story>
         <br>
     </div>
 </template>
@@ -108,7 +120,10 @@ import Spouse from './spouse.vue'
 import Parenting from './parenting.vue'
 import Mortgage from './estate.vue'
 import EstateDialogContent from './estateDialog.vue'
-import Benchmark from './benchmark.vue'
+// 財務報告區
+import FreedomRate from './report/freedomRate.vue'
+import LifeAsset from './report/lifeAsset.vue'
+import Story from './report/story.vue'
 const { VITE_BASE_URL } = import.meta.env
 const ProfileRef = ref()
 const CareerRef = ref()
@@ -118,7 +133,8 @@ const SpouseRef = ref()
 const ParentingRef = ref()
 const EstateRef = ref()
 const MortgageRef = ref()
-const BenchmarkRef = ref()
+const LifeAssetRef = ref()
+const StoryRef = ref()
 // 主要從資料庫來的設定檔案
 const config = reactive({
     // primitive types
@@ -492,12 +508,17 @@ async function changeAllCards(from) {
             propagate,
         })
     }
+    let retirementRes = {
+        pensionLumpSumData: []
+    }
     if (!from.retirement) {
-        await RetirementRef.value.calculateRetirement({
+        retirementRes = await RetirementRef.value.calculateRetirement({
             propagate,
         })
     }
-    let securityRes = null
+    let securityRes = {
+        securityAssetData: []
+    }
     if (!from.security) {
         securityRes = await SecurityRef.value.calculateSecurity({
             propagate,
@@ -519,6 +540,14 @@ async function changeAllCards(from) {
             setDownpay: true,
         })
     }
+    LifeAssetRef.value.calculateLifeAsset({
+        retirementAsset: retirementRes.pensionLumpSumData,
+        securityAssetData: securityRes.securityAssetData,
+    })
+    // StoryRef.value.calculateStory({
+    //     retirementAsset: retirementRes.pensionLumpSumData,
+    //     securityAssetData: securityRes.securityAssetData,
+    // })
 }
 // 資料匯出
 async function exportUserForm() {

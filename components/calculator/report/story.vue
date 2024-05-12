@@ -2,7 +2,7 @@
     <el-card v-loading="storyLoading">
         <template #header>
             <div class="card-header card-header--custom">
-                <span>財務報告與匯出
+                <span>
                 </span>
                 <div>
                     <el-button v-if="!profile.story" @click="generatStory">用15秒產生財務報告</el-button>
@@ -12,14 +12,13 @@
             </div>
         </template>
         <el-form label-width="auto">
+            <!-- <canvas id="lifeAssetChart"></canvas> -->
             <div v-if="profile.story" v-html="profile.story">
 
             </div>
             <div v-else>
                 點選右上角，讓我們產生專屬於你的財務報告......
             </div>
-            <!-- securitySum:{{ securitySum }} -->
-            <!-- <canvas id="lifeAssetChart"></canvas> -->
         </el-form>
         <template #footer>
             <el-collapse>
@@ -35,8 +34,7 @@
     </el-card>
 </template>
 <script setup lang="ts">
-import { ref, computed, shallowRef } from 'vue'
-import Chart from 'chart.js/auto';
+import { ref, computed, } from 'vue'
 const { VITE_BASE_URL } = import.meta.env
 const emits = defineEmits(['update:modelValue', 'export'])
 const storyLoading = ref(false)
@@ -108,127 +106,6 @@ const props = defineProps({
 const profile = computed(() => {
     return props.modelValue
 })
-const securitySum = ref(0)
-// methods
-let securityChartInstance = ref<Chart>()
-function calculateLifeAssetChart(payload) {
-    const {
-        retirementAsset,
-        secutiryAsset,
-    } = payload
-
-    console.log({
-        retirementAsset,
-        secutiryAsset
-    })
-
-    const { irr } = props.security
-    const { currentYear, inflationRate } = props.config
-    const { downpayTotalPrice, debtData = [], downpayYear } = props.estate
-    const { irrOverDecade } = props.retirement.pension
-    const { yearsToRetirement, yearOfRetire } = props.retirement
-    const { lifeExpectancy } = profile.value
-
-
-    const datasets = []
-    const securityData: number[] = []
-    const estateAsset: number[] = []
-    const estateDebtData: number[] = []
-    const retireAssetData: number[] = []
-    const labels: number[] = []
-    const inflationModifier = 1 + inflationRate / 100
-    let inflatedEstateAsset = downpayTotalPrice
-
-    for (let i = 0; i < lifeExpectancy; i++) {
-        const year = currentYear + 1 + i
-        labels.push(year)
-        // data
-        const secutiryValue = secutiryAsset[i]
-        if (secutiryValue) {
-            securityData.push(secutiryValue)
-        }
-        inflatedEstateAsset *= inflationModifier
-        // retirement
-        if (year > yearOfRetire) {
-            const retireAssetValue = retirementAsset.shift()
-            if (retireAssetValue) {
-                retireAssetData.push(Math.floor(retireAssetValue))
-            }
-        } else {
-            retireAssetData.push(0)
-        }
-        // estate
-        if (year >= downpayYear) {
-            estateAsset.push(Math.floor(inflatedEstateAsset))
-            const debtValue = debtData.shift()
-            if (debtValue) {
-                estateDebtData.push(-debtValue)
-            }
-        } else {
-            estateAsset.push(0)
-            estateDebtData.push(0)
-        }
-    }
-    //
-    console.log(estateDebtData)
-    const tension = 0.5
-    datasets.push({
-        label: '證券資產',
-        data: securityData,
-        fill: true,
-        tension,
-    })
-    datasets.push({
-        label: '房貸負債',
-        data: estateDebtData,
-        fill: true,
-        tension,
-    })
-    datasets.push({
-        label: '房地產',
-        data: estateAsset,
-        fill: true,
-        tension,
-    })
-    datasets.push({
-        label: '退休金',
-        data: retireAssetData,
-        fill: true,
-        tension,
-    })
-    // security sum 
-    const finalAsset = securityData.pop()
-    const finalDebt = estateDebtData.pop()
-    const finalEstate = estateAsset.pop()
-    const finalPension = retireAssetData.pop()
-    securitySum.value = finalAsset + finalEstate + finalPension - finalDebt
-    //
-    const chartData = {
-        datasets,
-        labels,
-    }
-    if (securityChartInstance.value) {
-        securityChartInstance.value.data = chartData
-        securityChartInstance.value.update()
-    } else {
-        const ctx: any = document.getElementById('lifeAssetChart')
-        const chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: {
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true
-                    }
-                }
-            }
-        })
-        securityChartInstance = shallowRef(chartInstance)
-    }
-}
 async function generatStory() {
     storyLoading.value = true
     const humanStory = getHumanStory()
@@ -305,10 +182,6 @@ function getHumanStory() {
 async function exportUserForm() {
     emits('export')
 }
-
-defineExpose({
-    calculateLifeAssetChart,
-})
 </script>
 <style lang="scss">
 .card-header--custom {
