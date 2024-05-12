@@ -252,6 +252,9 @@ function calculateCareer(options: any = { propagate: true }) {
         debounce(() => {
             drawChartAndCalculateIncome(propagate)
         })(propagate)
+        if (propagate) {
+            emits('update:modelValue', career.value)
+        }
     } catch (error) {
         console.log(error.message || error)
     }
@@ -553,9 +556,6 @@ function drawChartAndCalculateIncome(propagate = false) {
                 data: data1
             },
         ]
-    }
-    if (propagate) {
-        emits('update:modelValue', career.value)
     }
 
     if (incomeChartInstance.value) {

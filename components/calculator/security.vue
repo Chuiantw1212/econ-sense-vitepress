@@ -180,18 +180,18 @@ function setPortfolioMarks() {
         allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
     })
 }
+
+const debounceId = ref()
 async function calculateSecurity(options: any = { propagate: true }) {
     setPortfolioMarks()
     calculateInvestmentPeriod()
     calculatePortfolio()
+    const principleData = await drawLifeAssetChart()
     const { propagate = true } = options
-    const promise = new Promise((resolve) => {
-        customDebounce(async () => {
-            const principleData = await drawLifeAssetChart(propagate)
-            resolve(principleData)
-        })(propagate)
-    })
-    return await promise
+    if (propagate) {
+        emits('update:modelValue', security.value)
+    }
+    return await principleData
 }
 function calculatePortfolio() {
     const { allocationETF } = security.value
@@ -218,10 +218,7 @@ const unableToDraw = computed(() => {
 })
 
 let securityChartInstance = ref<Chart>()
-function drawLifeAssetChart(propagate = true) {
-    if (propagate) {
-        emits('update:modelValue', security.value)
-    }
+function drawLifeAssetChart() {
     if (unableToDraw.value) {
         return
     }
@@ -378,8 +375,15 @@ function drawLifeAssetChart(propagate = true) {
         labels: labels.slice(0, yearsToRetirement)
     }
     if (securityChartInstance.value) {
-        securityChartInstance.value.data = chartData
-        securityChartInstance.value.update()
+        const promise = new Promise(async (resolve) => {
+            clearTimeout(debounceId.value)
+            debounceId.value = setTimeout(async () => {
+                debounceId.value = undefined
+                securityChartInstance.value.data = chartData
+                // resolve(principleData)
+                securityChartInstance.value.update()
+            }, 150)
+        })
     } else {
         const ctx: any = document.getElementById('securityChart')
         const chartInstance = new Chart(ctx, {
@@ -409,21 +413,6 @@ import { throttle, debounce } from './lodash.js'
 const errorMssage = throttle(() => {
     ElMessage.error('資產：一貧如洗！')
 }, 4000)
-
-const debounceId = ref()
-function customDebounce(func, delay = 100) {
-    return (immediate) => {
-        clearTimeout(debounceId.value)
-        if (immediate) {
-            func()
-        } else {
-            debounceId.value = setTimeout(() => {
-                debounceId.value = undefined
-                func()
-            }, delay)
-        }
-    }
-}
 
 defineExpose({
     calculateSecurity,

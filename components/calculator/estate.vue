@@ -308,23 +308,21 @@ function calculateMortgage(options: any = { propagate: true }) {
         calculateDownpayGoalPercent()
     }
     // draw chart
-    const dataRes = new Promise((resolve) => {
-        debounce(async () => {
-            const res = drawDownpayChart(propagate)
-            resolve(res)
-            calculateMonthlyRepay()
-            const { headCount } = props.parenting
-            const { singleBedRoom, doubleBedRoom } = props.estateSize
-            if (headCount > singleBedRoom + doubleBedRoom * 2) {
-                if (!errorMssage.pending()) {
-                    errorMssage()
-                }
-            }
-            if (setDownpay || setTotalPrice) {
-                calculateDownpayYear()
-            }
-        })(propagate)
-    })
+    const dataRes = drawDownpayChart()
+    calculateMonthlyRepay()
+    const { headCount } = props.parenting
+    const { singleBedRoom, doubleBedRoom } = props.estateSize
+    if (headCount > singleBedRoom + doubleBedRoom * 2) {
+        if (!errorMssage.pending()) {
+            errorMssage()
+        }
+    }
+    if (setDownpay || setTotalPrice) {
+        calculateDownpayYear()
+    }
+    if (propagate) {
+        emits('update:modelValue', estate.value)
+    }
     return dataRes
 }
 function calculateTotalPrice() {
@@ -376,7 +374,7 @@ function calculateLoanAmount() {
     const loanAmount = downpayTotalPrice - downpayGoal
     estate.value.loanAmount = Math.ceil(loanAmount)
 }
-function calculateMonthlyRepay() {
+function calculateMonthlyRepay(): number {
     /**
      * 本息平均攤還
      * https://zh.wikipedia.org/zh-tw/%E6%9C%AC%E6%81%AF%E5%B9%B3%E5%9D%87%E6%94%A4%E9%82%84
@@ -391,14 +389,14 @@ function calculateMonthlyRepay() {
     const fraction = part * monthlyInterestRate
     const deno = part - 1
     const averageRepayRate = fraction / deno
-    estate.value.monthlyRepay = Math.ceil(loanAmount * averageRepayRate)
+    const monthlyRepay = Math.ceil(loanAmount * averageRepayRate)
+    estate.value.monthlyRepay = monthlyRepay
+    return monthlyRepay
 }
 
 let downPayChartInstance = ref<Chart>()
-function drawDownpayChart(propagate = false) {
-    if (propagate) {
-        emits('update:modelValue', estate.value)
-    }
+const debounceId = ref()
+function drawDownpayChart() {
     if (unableToDrawChart.value) {
         return
     }
@@ -409,8 +407,6 @@ function drawDownpayChart(propagate = false) {
         downpayYear,
         totalPrice,
         totalPriceEstimated,
-        monthlyRepay,
-        loanAmount,
         loanTerm,
         interestRate
     } = estate.value
@@ -470,12 +466,13 @@ function drawDownpayChart(propagate = false) {
     calculateLoanAmount()
 
     // 計算房貸債務
+    const calculatedMonthlyRepay = calculateMonthlyRepay()
     let loanRemains = estate.value.loanAmount
     const monthlyInterestRate = interestRate / 100 / 12
     const monthCount = loanTerm * 12
     for (let i = 0; i < monthCount; i++) {
         const monthlyRepayInterest = loanRemains * monthlyInterestRate
-        const monthlyRepayPrinciple = monthlyRepay - monthlyRepayInterest
+        const monthlyRepayPrinciple = calculatedMonthlyRepay - monthlyRepayInterest
         loanRemains -= monthlyRepayPrinciple
         if (i % 12 === 11) {
             loanRemains = Math.max(0, loanRemains)
@@ -508,8 +505,12 @@ function drawDownpayChart(propagate = false) {
     }
 
     if (downPayChartInstance.value) {
-        downPayChartInstance.value.data = chartData
-        downPayChartInstance.value.update()
+        clearTimeout(debounceId.value)
+        debounceId.value = setTimeout(() => {
+            debounceId.value = undefined
+            downPayChartInstance.value.data = chartData
+            downPayChartInstance.value.update()
+        }, 150)
     } else {
         const ctx: any = document.getElementById('savingDownpayChart')
         const chartInstance = new Chart(ctx, {
@@ -550,21 +551,6 @@ import { throttle, debounce } from './lodash.js'
 const errorMssage = throttle(() => {
     ElMessage.error('房屋：家徒四壁！')
 }, 4000)
-
-const debounceId = ref()
-function debounce(func, delay = 100) {
-    return (immediate) => {
-        clearTimeout(debounceId.value)
-        if (immediate) {
-            func()
-        } else {
-            debounceId.value = setTimeout(() => {
-                debounceId.value = undefined
-                func()
-            }, delay)
-        }
-    }
-}
 
 defineExpose({
     calculateMortgage,
