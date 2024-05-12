@@ -148,7 +148,7 @@
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
                                 item.label
-                            }}</el-radio>
+                                }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -336,12 +336,19 @@ function calculateRetirement(options: any = { propagate: true }) {
             break;
         }
         case "civilServant": {
-            calculateCivilServantRetirement()
+            /**
+             * 退休人員每月退休所得，依第三十六條規定調降優存利息後，仍超出附表三所定各年度替代率上限者，應依下列順序，扣減每月退休所得，至不超過其替代率上限所得金額止：
+             * 一、每月所領公保一次養老給付或一次退休金優存利息。 // 18%
+             * 二、退撫新制實施前年資所計得之月退休金（含月補償金）。
+             * 三、退撫新制實施後年資所計得之月退休金。
+             * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=39
+             */
+            calculateCivilServantPension()
+            calculateCivilServantInsurance()
             break;
         }
     }
     calculateRetirementExpense()
-
     const { propagate = true } = options
     const pensionLumpSumDataPromise = new Promise((resolve) => {
         customDebounce(async () => {
@@ -351,13 +358,28 @@ function calculateRetirement(options: any = { propagate: true }) {
     })
     return pensionLumpSumDataPromise
 }
-function resetData() {
-    // 避免資料干擾
-    retirement.value.insurance.annuity = 0
-    retirement.value.pension.tax = 0
-    retirement.value.insurance.survivorAnnuity = 0
+function calculateCivilServantInsurance() {
+    /**
+     * 上限百分比： 保險年資15年以下，每滿1年，以2%計；第16年起，每滿1年，以2.5%計， 最高增至80%；未滿6個月者，以6個月計；滿6個月以上未滿1年者，以1年計
+     */
+    // https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070002&flno=55
+    // https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=16#:~:text=%E4%B8%80%E3%80%81%E4%B8%80%E6%AC%A1%E9%A4%8A%E8%80%81%E7%B5%A6%E4%BB%98%EF%BC%9A%E4%BF%9D%E9%9A%AA,%E5%9B%9B%E5%8D%81%E4%BA%94%E9%BB%9E%E4%BA%94%E3%80%82
+    // https://www.taisugar.com.tw/Monthly/CPN.aspx?ms=1397&p=13385448&s=13385467
+    const { futureSeniority, } = retirement.value.insurance
+    const { monthlyAnnuity = 0, } = retirement.value.pension
+    let incomeReplacementMaxRatio = 0
+    if (futureSeniority <= 15) {
+
+    }
+    // 養老年金上限=退休年金給與上限－每月退休給與
+    // const insuranceAnnuityMax = monthlyAnnuity - 
+    if (futureSeniority <= 35) {
+        incomeReplacementMaxRatio = 30 + (futureSeniority - 15) * 1.5
+    } else {
+        incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
+    }
 }
-function calculateCivilServantRetirement() {
+function calculateCivilServantPension() {
     const { futureSeniority, } = retirement.value.insurance
     const { type, } = retirement.value.pension
     const { salary } = props.career.insurance
@@ -388,14 +410,14 @@ function calculateCivilServantRetirement() {
     let incomeReplacementMaxRatio = 0
     if (futureSeniority <= 35) {
         monthlyAnnuity += 2 * futureSeniority
-        // 替代率天花板
-        incomeReplacementMaxRatio = 30 + (futureSeniority - 15) * 1.5
+        // // 替代率天花板
+        // incomeReplacementMaxRatio = 30 + (futureSeniority - 15) * 1.5
     } else {
         monthlyAnnuity += 2 * 35
         monthlyAnnuity += (futureSeniority - 35)
         monthlyAnnuity = Math.min(75, monthlyAnnuity)
-        // 替代率天花板
-        incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
+        // // 替代率天花板
+        // incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
     }
     /**
      * 再計算月退休金
@@ -409,24 +431,30 @@ function calculateCivilServantRetirement() {
         }
         case 'annuity': {
             retirement.value.pension.lumpSum = 0
-            monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
+            // monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
             monthlyAnnuity *= baseSalary / 100
             retirement.value.pension.monthlyAnnuity = Math.floor(monthlyAnnuity)
             break;
         }
         case 'halfAndHalf': {
             incomeReplacementMaxRatio /= 2
-            monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
+            // monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
             monthlyAnnuity *= baseSalary / 100
             retirement.value.pension.lumpSum = Math.floor(lumpSum / 2)
             retirement.value.pension.monthlyAnnuity = Math.floor(monthlyAnnuity)
             break;
         }
     }
-    const { lifeExpectancy, age } = retirement.value
-    const inflationRate = 1 + props.config.inflationRate / 100
-    const pvModifier = Math.pow(inflationRate, age - 60)
-    retirement.value.annuitySum = Math.floor(monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
+    // const { lifeExpectancy, age } = retirement.value
+    // const inflationRate = 1 + props.config.inflationRate / 100
+    // const pvModifier = Math.pow(inflationRate, age - 60)
+    // retirement.value.annuitySum = Math.floor(monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
+}
+function resetData() {
+    // 避免資料干擾
+    retirement.value.insurance.annuity = 0
+    retirement.value.pension.tax = 0
+    retirement.value.insurance.survivorAnnuity = 0
 }
 function calculateExpenseQuartileMarks() {
     props.config.retirementQuartile.forEach((item, index) => {
@@ -536,7 +564,7 @@ async function drawRetirementAssetChart(propagate = false) {
             const pmt = pensionContribution * inflationModifier
             pv *= pensionIrr
             fv = Math.floor(pv + pmt)
-            /** 驗算勞動退休金累積可用 */
+            // /** 驗算勞動退休金累積可用 */
             // pensionLumpSumData.push(Math.floor(fv))
             // estateData.push(0)
             // const calculatedYear = currentYear + i
