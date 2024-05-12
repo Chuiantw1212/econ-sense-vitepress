@@ -77,18 +77,26 @@ const props = defineProps({
 const profile = computed(() => {
     return props.modelValue
 })
-const securitySum = ref(0)
 // methods
-let securityChartInstance = ref<Chart>()
-function calculateLifeAsset(payload) {
+function calculateLifeAsset(options: any = { propagate: true }) {
+    const { propagate = true } = options
+    customDebounce(() => {
+        drawLifeAsset(options)
+    })(propagate)
+}
+
+let lifeAssetChartInstance = ref<Chart>()
+function drawLifeAsset(payload) {
     const {
         retirementAsset,
         securityAssetData,
+        estateDebtData,
+        propagate,
     } = payload
 
     const { irr } = props.security
     const { currentYear, inflationRate } = props.config
-    const { downpayTotalPrice, debtData = [], downpayYear } = props.estate
+    const { downpayTotalPrice, downpayYear } = props.estate
     const { irrOverDecade } = props.retirement.pension
     const { yearsToRetirement, yearOfRetire } = props.retirement
     const { lifeExpectancy } = profile.value
@@ -97,7 +105,6 @@ function calculateLifeAsset(payload) {
     const datasets = []
     const securityData: number[] = []
     const estateAsset: number[] = []
-    const estateDebtData: number[] = []
     const retireAssetData: number[] = []
     const labels: number[] = []
     const inflationModifier = 1 + inflationRate / 100
@@ -124,16 +131,11 @@ function calculateLifeAsset(payload) {
         // estate
         if (year >= downpayYear) {
             estateAsset.push(Math.floor(inflatedEstateAsset))
-            const debtValue = debtData.shift()
-            if (debtValue) {
-                estateDebtData.push(-debtValue)
-            }
         } else {
             estateAsset.push(0)
-            estateDebtData.push(0)
+            estateDebtData.unshift(0)
         }
     }
-
     const tension = 0.5
     datasets.push({
         label: '證券資產',
@@ -159,20 +161,24 @@ function calculateLifeAsset(payload) {
         fill: true,
         tension,
     })
+
     // security sum 
-    const finalAsset = securityData.pop()
+    const finalSecurity = securityData.pop()
     const finalDebt = estateDebtData.pop()
     const finalEstate = estateAsset.pop()
     const finalPension = retireAssetData.pop()
-    securitySum.value = finalAsset + finalEstate + finalPension - finalDebt
-    //
+    profile.value.finalAsset = finalSecurity + finalEstate + finalPension - finalDebt
+    if (propagate) {
+        emits('update:modelValue', profile.value)
+    }
+    // 繪圖
     const chartData = {
         datasets,
         labels,
     }
-    if (securityChartInstance.value) {
-        securityChartInstance.value.data = chartData
-        securityChartInstance.value.update()
+    if (lifeAssetChartInstance.value) {
+        lifeAssetChartInstance.value.data = chartData
+        lifeAssetChartInstance.value.update()
     } else {
         const ctx: any = document.getElementById('lifeAssetChart')
         const chartInstance = new Chart(ctx, {
@@ -189,9 +195,25 @@ function calculateLifeAsset(payload) {
                 }
             }
         })
-        securityChartInstance = shallowRef(chartInstance)
+        lifeAssetChartInstance = shallowRef(chartInstance)
     }
 }
+
+const debounceId = ref()
+function customDebounce(func, delay = 100) {
+    return (immediate) => {
+        clearTimeout(debounceId.value)
+        if (immediate) {
+            func()
+        } else {
+            debounceId.value = setTimeout(() => {
+                debounceId.value = undefined
+                func()
+            }, delay)
+        }
+    }
+}
+
 defineExpose({
     calculateLifeAsset,
 })

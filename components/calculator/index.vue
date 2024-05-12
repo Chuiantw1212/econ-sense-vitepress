@@ -87,9 +87,6 @@
 
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
-
-        <h3 id="_一生資產負債" tabindex="-1">一生資產負債<a class="header-anchor" href="#一生資產負債"
-                aria-label="Permalink to &quot;一生資產負債&quot;">&ZeroWidthSpace;</a></h3>
         <h3 id="_一生資產負債" tabindex="-1">一生資產負債<a class="header-anchor" href="#一生資產負債"
                 aria-label="Permalink to &quot;一生資產負債&quot;">&ZeroWidthSpace;</a></h3>
         <LifeAsset v-model="userForm.profile" :config="config" :career="userForm.career"
@@ -97,12 +94,12 @@
             :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
             :estate="userForm.estate" ref="LifeAssetRef">
         </LifeAsset>
-        <h3 id="_報告與資料匯出" tabindex="-1">報告與資料匯出<a class="header-anchor" href="#報告與資料匯出"
-                aria-label="Permalink to &quot;報告與資料匯出&quot;">&ZeroWidthSpace;</a></h3>
+        <h3 id="_報告與資料匯出" tabindex="-1">故事與匯出<a class="header-anchor" href="#故事與匯出"
+                aria-label="Permalink to &quot;故事與匯出&quot;">&ZeroWidthSpace;</a></h3>
         <Story v-model="userForm.profile" :config="config" :career="userForm.career" :retirement="userForm.retirement"
             :spouse="userForm.spouse" :security="userForm.security" :estateSize="userForm.estateSize"
             :parenting="userForm.parenting" :estatePrice="userForm.estatePrice" :estate="userForm.estate" ref="StoryRef"
-            @export="exportUserForm()">
+            @update:modelValue="onProfileChanged()" @export="exportUserForm()">
         </Story>
         <br>
     </div>
@@ -516,6 +513,7 @@ async function changeAllCards(from) {
             propagate,
         })
     }
+    console.log({ retirementRes })
     let securityRes = {
         securityAssetData: []
     }
@@ -534,20 +532,20 @@ async function changeAllCards(from) {
             propagate,
         })
     }
+    let estateRes = {
+        estateDebtData: []
+    }
     if (!from.estate) {
-        await MortgageRef.value.calculateMortgage({
+        estateRes = await MortgageRef.value.calculateMortgage({
             propagate,
             setDownpay: true,
         })
     }
     LifeAssetRef.value.calculateLifeAsset({
-        retirementAsset: retirementRes.pensionLumpSumData,
-        securityAssetData: securityRes.securityAssetData,
+        retirementAsset: retirementRes?.pensionLumpSumData,
+        securityAssetData: securityRes?.securityAssetData,
+        estateDebtData: estateRes?.estateDebtData
     })
-    // StoryRef.value.calculateStory({
-    //     retirementAsset: retirementRes.pensionLumpSumData,
-    //     securityAssetData: securityRes.securityAssetData,
-    // })
 }
 // 資料匯出
 async function exportUserForm() {

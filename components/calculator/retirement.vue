@@ -148,7 +148,7 @@
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
                                 item.label
-                                }}</el-radio>
+                            }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -322,7 +322,7 @@ const unableToDraw = computed(() => {
     return noIncome || noBefore || noAfter
 })
 // methods
-async function calculateRetirement(options: any = { propagate: true }) {
+function calculateRetirement(options: any = { propagate: true }) {
     resetData()
     calculateExpenseQuartileMarks()
     calculateRetireLife()
@@ -349,8 +349,7 @@ async function calculateRetirement(options: any = { propagate: true }) {
             resolve(pensionLumpSumData)
         })(propagate)
     })
-    const result = await pensionLumpSumDataPromise
-    return result
+    return pensionLumpSumDataPromise
 }
 function resetData() {
     // 避免資料干擾

@@ -5,19 +5,18 @@
                 <span>
                 </span>
                 <div>
-                    <el-button v-if="!profile.story" @click="generatStory">用15秒產生財務報告</el-button>
-                    <el-button v-else @click="generatStory">重新產生財務報告</el-button>
+                    <el-button v-if="!profile.story" @click="generatStory">用15秒產生故事</el-button>
+                    <el-button v-else @click="generatStory">重新產生故事</el-button>
                     <el-button @click="exportUserForm()">匯出</el-button>
                 </div>
             </div>
         </template>
         <el-form label-width="auto">
-            <!-- <canvas id="lifeAssetChart"></canvas> -->
             <div v-if="profile.story" v-html="profile.story">
 
             </div>
             <div v-else>
-                點選右上角，讓我們產生專屬於你的財務報告......
+                點選右上角，讓我們產生專屬於你的故事......
             </div>
         </el-form>
         <template #footer>
@@ -123,7 +122,7 @@ async function generatStory() {
 function getHumanStory() {
     const { spouse, parenting, estate, estatePrice, career, retirement } = props
     const { counties = [], insuranceTypes = [], townMap = {} } = props.config
-    const { longevity, yearOfBirth, careerInsuranceType } = profile.value
+    const { longevity, yearOfBirth, careerInsuranceType, finalAsset } = profile.value
     const { careerHeadCount, } = career
     const { age: retireAge, qualityLevel, insurance } = retirement
     const { yearOfMarriage } = spouse
@@ -146,6 +145,15 @@ function getHumanStory() {
     }
     if (insurance.futureSeniority) {
         story += `競競業業的工作持續了${Math.floor(insurance.futureSeniority)}年。`
+    }
+    if (finalAsset) {
+        let formatAsset = finalAsset
+        if (finalAsset >= 100000) {
+            formatAsset /= 10000
+            formatAsset = Math.floor(formatAsset)
+        }
+        formatAsset = `${Number(formatAsset).toLocaleString()}萬`
+        story += `並為下一代累積了${formatAsset}的資產。`
     }
     // spouse
     if (yearOfMarriage) {

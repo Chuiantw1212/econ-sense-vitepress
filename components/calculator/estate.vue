@@ -30,8 +30,8 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="預估頭期款">
-                        <el-input-number v-model="estate.downpayGoal" :min="0" :step="estate.downpayGoalStep"
-                            required @change="calculateMortgage({ setTotalPrice: true })" />
+                        <el-input-number v-model="estate.downpayGoal" :min="0" :step="estate.downpayGoalStep" required
+                            @change="calculateMortgage({ setTotalPrice: true })" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -308,20 +308,24 @@ function calculateMortgage(options: any = { propagate: true }) {
         calculateDownpayGoalPercent()
     }
     // draw chart
-    debounce(() => {
-        drawDownpayChart(propagate)
-        calculateMonthlyRepay()
-        const { headCount } = props.parenting
-        const { singleBedRoom, doubleBedRoom } = props.estateSize
-        if (headCount > singleBedRoom + doubleBedRoom * 2) {
-            if (!errorMssage.pending()) {
-                errorMssage()
+    const dataRes = new Promise((resolve) => {
+        debounce(async () => {
+            const res = drawDownpayChart(propagate)
+            resolve(res)
+            calculateMonthlyRepay()
+            const { headCount } = props.parenting
+            const { singleBedRoom, doubleBedRoom } = props.estateSize
+            if (headCount > singleBedRoom + doubleBedRoom * 2) {
+                if (!errorMssage.pending()) {
+                    errorMssage()
+                }
             }
-        }
-        if (setDownpay || setTotalPrice) {
-            calculateDownpayYear()
-        }
-    })(propagate)
+            if (setDownpay || setTotalPrice) {
+                calculateDownpayYear()
+            }
+        })(propagate)
+    })
+    return dataRes
 }
 function calculateTotalPrice() {
     const { downpayPercent, downpayGoal } = estate.value
@@ -475,10 +479,9 @@ function drawDownpayChart(propagate = false) {
         loanRemains -= monthlyRepayPrinciple
         if (i % 12 === 11) {
             loanRemains = Math.max(0, loanRemains)
-            estateDebtData.push(Math.ceil(loanRemains))
+            estateDebtData.push(Math.ceil(-loanRemains))
         }
     }
-    estate.value.debtData = estateDebtData
 
     const datasets = [
         {
@@ -524,7 +527,9 @@ function drawDownpayChart(propagate = false) {
         })
         downPayChartInstance = shallowRef(chartInstance)
     }
-    return estateDebtData
+    return {
+        estateDebtData
+    }
 }
 function formatNumber(tooltipItems) {
     const { raw, } = tooltipItems
