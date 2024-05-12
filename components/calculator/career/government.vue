@@ -213,7 +213,7 @@ function calculateCareer(options: any = { propagate: true }) {
         calculateMonthlyTotal()
         calculateHealthInsurance()
         calculateCareerInsurance()
-        calculatePension()
+        calculateGovernmentPension()
         calculateMonthlySaving()
         debounce(() => {
             drawChartAndCalculateIncome(propagate)
@@ -251,7 +251,7 @@ function calculateCareerInsurance() {
     const { premiumRate, employeeContributionRate } = civilServantInsurance
     civilServantInsurance.expense = Math.round(monthlyBasicSalary * premiumRate / 100 * employeeContributionRate / 100)
 }
-function calculatePension() {
+function calculateGovernmentPension() {
     const { payPoint, pension } = career.value
     if (payPoint) {
         const index = pointOfPayOptions.findIndex(item => {

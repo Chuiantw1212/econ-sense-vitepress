@@ -29,8 +29,8 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="家庭貢獻/月">
-                        <el-input-number v-model="spouse.monthlyContribution" :min="0" :step="1000"
+                    <el-form-item label="年實領 / 12">
+                        <el-input-number v-model="spouse.monthlyNetPay" :min="0" :step="1000"
                             :disabled="!spouse.yearOfMarriage" @change="calculatecSpouse($event)" />
                     </el-form-item>
                     <!-- <el-form-item label="婚禮預算">
@@ -38,6 +38,24 @@
                     </el-form-item> -->
                 </el-col>
                 <el-col :span="12">
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="月支出">
+                        <el-input-number v-model="spouse.monthlyExpense" :min="0" :step="1000"
+                            :disabled="!spouse.yearOfMarriage" @change="calculatecSpouse($event)" />
+                    </el-form-item>
+                    <!-- <el-form-item label="婚禮預算">
+                        <el-input-number v-model="spouse.weddingExpense" @change="calculatecSpouse()" />
+                    </el-form-item> -->
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="家庭貢獻/月">
+                        <el-text>{{ Number(spouse.monthlyContribution).toLocaleString() }}</el-text>
+                        <!-- <el-input-number v-model="spouse.monthlyContribution" :min="0" :step="1000"
+                            :disabled="!spouse.yearOfMarriage" @change="calculatecSpouse($event)" /> -->
+                    </el-form-item>
                 </el-col>
             </el-row>
             <!-- <canvas v-show="!unableToDraw" id="spouseChart"></canvas> -->
@@ -75,12 +93,12 @@ const spouse = computed(() => {
     return props.modelValue
 })
 const unableToDraw = computed(() => {
-    // const { presentAsset, irr, period } = asset.value
+    // const { presentAsset, irr, yearsToRetirement } = security.value
     // const { monthlySaving } = props.career
     // const noPv = !presentAsset
     // const noPmt = !monthlySaving
     // const noIY = !irr
-    // const noN = !period
+    // const noN = !yearsToRetirement
     // return (noPv && noPmt) || noIY || noN
     return false
 })
@@ -122,6 +140,7 @@ function calculatecSpouse(options: any = { propagate: true }) {
         spouse.value.monthlyContribution = 0
         spouse.value.yearOfBirth = ''
     }
+    calculateMonthlyContribution()
     calculateYearOfMarriage()
     calculateMarriageAge()
 
@@ -130,7 +149,10 @@ function calculatecSpouse(options: any = { propagate: true }) {
         drawMarriageChart(propagate)
     })(propagate)
 }
-
+function calculateMonthlyContribution() {
+    const { monthlyNetPay, monthlyExpense } = spouse.value
+    spouse.value.monthlyContribution = monthlyNetPay - monthlyExpense
+}
 function calculateYearOfMarriage() {
     const { yearOfMarriage } = spouse.value
     if (yearOfMarriage) {

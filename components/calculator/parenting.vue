@@ -45,7 +45,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="mortgage.totalPriceEstimated" label="房屋可容納人數">
+                    <el-form-item v-if="estate.totalPriceEstimated" label="房屋可容納人數">
                         <el-text :type="sizeType">{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }}
                             人</el-text>
                     </el-form-item>
@@ -64,19 +64,15 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
+            <!-- <el-row>
                 <el-col :span="12">
-                    <!-- <el-form-item label="壽險已備">
-                        <el-input-number v-model="parenting.lifeInsurance" :min="0" :step="100000"
-                            @change="calculateParenting($event)" />
-                    </el-form-item> -->
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="資產投報率">
-                        <el-text>{{ config.portfolioIRR[asset.allocationETF] }} % / 年</el-text>
+                        <el-text>{{ config.portfolioIRR[security.allocationETF] }} % / 年</el-text>
                     </el-form-item>
                 </el-col>
-            </el-row>
+            </el-row> -->
             <canvas v-show="parenting.firstBornYear" id="parentingChart"></canvas>
         </el-form>
         <template #footer>
@@ -181,7 +177,7 @@ const props = defineProps({
         },
         required: true,
     },
-    asset: {
+    security: {
         type: Object,
         default: () => {
             return {}
@@ -195,7 +191,7 @@ const props = defineProps({
         },
         required: true,
     },
-    mortgage: {
+    estate: {
         type: Object,
         default: () => {
             return {}
@@ -266,7 +262,7 @@ function drawParentingChart(propagate = true) {
     const { survivorAnnuity } = props.retirement.insurance
 
     // 計算投資報酬率
-    const assetIrr = 1 + props.asset.irr / 100
+    const securityIrr = 1 + props.security.irr / 100
     const firstBornEndYear: number = firstBornYear + independantAge
     const secondBornEndYear: number = secondBornYear + independantAge
     const parentingDuration: number = Math.max(firstBornYear, secondBornYear) - firstBornYear + independantAge
@@ -340,7 +336,7 @@ function drawParentingChart(propagate = true) {
         }
 
         // 儲存資料
-        fv = pv * assetIrr + pmt
+        fv = pv * securityIrr + pmt
         const floorPmt = Math.floor(pmt)
         lifeInsuranceEquity.push([floorPmt, Math.floor(Math.max(0, fv))])
         cash = cash + pmt

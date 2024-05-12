@@ -4,7 +4,7 @@
             <el-row>
                 <el-col :span="24">
                     <el-form-item label="ETF配置">
-                        <el-radio-group v-model="asset.allocationETF" @change="calculateAsset()">
+                        <el-radio-group v-model="security.allocationETF" @change="calculateSecurity()">
                             <el-radio v-for="(label, key) in config.porfolioLabels" :value="key">{{ label
                                 }}</el-radio>
                         </el-radio-group>
@@ -14,7 +14,8 @@
             <el-row>
                 <el-col :span="23">
                     <el-form-item label="投資報酬率">
-                        <el-slider v-model="asset.stockPercentage" :marks="allocationQuartileMarks" :disabled="true" />
+                        <el-slider v-model="security.stockPercentage" :marks="allocationQuartileMarks"
+                            :disabled="true" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -22,8 +23,8 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="已備資產">
-                        <el-input-number v-model="asset.presentAsset" :min="0" :step="100000" :disabled="isFormDisabled"
-                            @change="calculateAsset()" />
+                        <el-input-number v-model="security.presentAsset" :min="0" :step="100000"
+                            :disabled="isFormDisabled" @change="calculateSecurity()" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -41,7 +42,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <canvas v-show="!unableToDraw" id="assetChart"></canvas>
+            <canvas v-show="!unableToDraw" id="securityChart"></canvas>
         </el-form>
         <template #footer>
             <el-collapse>
@@ -125,13 +126,19 @@ const props = defineProps({
             return {}
         }
     },
+    profile: {
+        type: Object,
+        default: () => {
+            return {}
+        }
+    },
     spouse: {
         type: Object,
         default: () => {
             return {}
         }
     },
-    mortgage: {
+    estate: {
         type: Object,
         default: () => {
             return {}
@@ -151,9 +158,8 @@ const props = defineProps({
     }
 })
 const allocationQuartileMarks = reactive({})
-const legalInterestRate = 16
 // hooks
-const asset = computed(() => {
+const security = computed(() => {
     return props.modelValue
 })
 const isFormDisabled = computed(() => {
@@ -174,73 +180,78 @@ function setPortfolioMarks() {
         allocationQuartileMarks[stockPercentage] = `IRR: ${irr}`
     })
 }
-function calculateAsset(options: any = { propagate: true }) {
+
+const debounceId = ref()
+async function calculateSecurity(options: any = { propagate: true }) {
     setPortfolioMarks()
     calculateInvestmentPeriod()
     calculatePortfolio()
+    const principleData = await drawLifeAssetChart()
     const { propagate = true } = options
-    customDebounce(() => {
-        drawLifeAssetChart(propagate)
-    })(propagate)
+    if (propagate) {
+        emits('update:modelValue', security.value)
+    }
+    return await principleData
 }
 function calculatePortfolio() {
-    const { allocationETF } = asset.value
+    const { allocationETF } = security.value
     const { portfolioIRR, porfolioLabels } = props.config
     const allocationLabels = Object.keys(porfolioLabels)
     const allocationIndex = allocationLabels.findIndex(label => label === allocationETF)
     const stockPercentage = Math.floor((allocationIndex + 1) * 20)
-    asset.value.stockPercentage = stockPercentage
-    asset.value.irr = portfolioIRR[allocationETF]
+    security.value.stockPercentage = stockPercentage
+    security.value.irr = portfolioIRR[allocationETF]
 
 }
 function calculateInvestmentPeriod() {
-    asset.value.period = props.retirement.yearsToRetirement
+    security.value.yearsToRetirement = props.retirement.yearsToRetirement
 }
 
 const unableToDraw = computed(() => {
-    const { presentAsset, irr, period } = asset.value
+    const { presentAsset, irr, yearsToRetirement } = security.value
     const { monthlySaving } = props.career
     const noPv = !presentAsset
     const noPmt = !monthlySaving
     const noIY = !irr
-    const noN = !period
+    const noN = !yearsToRetirement
     return (noPv && noPmt) || noIY || noN
 })
 
-let assetChartInstance = ref<Chart>()
-function drawLifeAssetChart(propagate = true) {
-    if (propagate) {
-        emits('update:modelValue', asset.value)
-    }
+let securityChartInstance = ref<Chart>()
+function drawLifeAssetChart() {
     if (unableToDraw.value) {
         return
     }
-    const { presentAsset, irr, period } = asset.value
-    const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.mortgage
+    const { lifeExpectancy } = props.profile
+    const { presentAsset, irr, yearsToRetirement } = security.value
+    const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.estate
     const { currentYear, inflationRate } = props.config
     const { monthlyContribution } = props.spouse
+    const { yearOfRetire } = props.retirement
     const spouseAnnualContribution = monthlyContribution * 12
-    const irrModifier = 1 + irr / 100
     const inflatoinRatio = 1 + inflationRate / 100
     let valueModifier = 1
 
     let pv = presentAsset
     let fv = 0
     const labels: number[] = []
-    const datasetData: number[] = []
+    const principleData: number[] = []
+    const securityAppreciationData: number[] = []
+    const securityAssetData: number[] = []
     const investingData: number[] = []
-    const mortgageData: number[] = []
-    const downpayData: number[] = []
     const estateData: number[] = []
+    const downpayData: number[] = []
+    const mortgageData: number[] = []
     const spouseContribution: number[] = []
     const childExpenseData: number[] = []
 
-    for (let year = currentYear + 1; year <= currentYear + period; year++) {
+    for (let i = 1; i <= lifeExpectancy + 1; i++) {
+        const simYear = currentYear + i
         valueModifier *= inflatoinRatio
         /**
          * 影響存量重大事件
          */
-        if (year === downpayYear) {
+        if (simYear === downpayYear) {
             const calculatedDownpay = downpayGoal || downpay
             const inflatedDownpay = calculatedDownpay * valueModifier
             pv -= inflatedDownpay
@@ -257,14 +268,14 @@ function drawLifeAssetChart(propagate = true) {
         const mortgageStartYear = downpayYear
         const mortgageEndYear = downpayYear + loanTerm
         let mortgagePmt = 0
-        let inflatedTotalPrice = 0
-        if (mortgageStartYear <= year && fv > 0) {
-            if (year < mortgageEndYear) {
+        let downpayTotalPrice = 0
+        if (mortgageStartYear <= simYear && fv > 0) {
+            if (simYear < mortgageEndYear) {
                 mortgagePmt = monthlyRepay * 12
             }
-            inflatedTotalPrice = Math.floor(totalPrice * valueModifier)
+            downpayTotalPrice = Math.floor(totalPrice * valueModifier)
         }
-        estateData.push(inflatedTotalPrice)
+        estateData.push(downpayTotalPrice)
         mortgageData.push(Math.floor(-mortgagePmt))
         calculatedPmt -= mortgagePmt
         /**
@@ -272,16 +283,18 @@ function drawLifeAssetChart(propagate = true) {
          */
         // 執業收支 
         const { monthlySaving } = props.career
-        const annualSaving = monthlySaving * 12 * valueModifier
-        investingData.push(Math.floor(annualSaving))
-        calculatedPmt += annualSaving
+        if (simYear <= yearOfRetire) {
+            const annualSaving = monthlySaving * 12 * valueModifier
+            investingData.push(Math.floor(annualSaving))
+            calculatedPmt += annualSaving
+        }
 
         // 育兒開支影響每月儲蓄
         const { firstBornYear, secondBornYear, independantAge, childAnnualExpense } = props.parenting
         const firstBornEndYear = firstBornYear + independantAge
         const secondBornEndYear = secondBornYear + independantAge
-        const hasFirstBorn = currentYear <= firstBornYear && firstBornYear <= year && year < firstBornEndYear
-        const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= year && year < secondBornEndYear
+        const hasFirstBorn = currentYear <= firstBornYear && firstBornYear <= simYear && simYear < firstBornEndYear
+        const hasSecondBorn = currentYear <= secondBornYear && secondBornYear && secondBornYear <= simYear && simYear < secondBornEndYear
         let childExpense = 0
         if (hasFirstBorn) {
             childExpense += childAnnualExpense * valueModifier
@@ -301,15 +314,19 @@ function drawLifeAssetChart(propagate = true) {
         }
 
         // 計算複利終值
-        fv = pv * irrModifier
-        datasetData.push(Math.floor(fv))
+        const principle = pv
+        principleData.push(Math.floor(principle))
+        const appreciation = principle * irr / 100
+        securityAppreciationData.push(Math.floor(appreciation))
+        fv = principle + appreciation
+        securityAssetData.push(Math.floor(fv))
         fv += calculatedPmt
         if (fv <= 0) {
             fv = 0
             valueModifier = 0
         }
 
-        labels.push(year)
+        labels.push(simYear)
         pv = fv
     }
     if (fv <= 0) {
@@ -319,9 +336,13 @@ function drawLifeAssetChart(propagate = true) {
     }
     const datasets = [
         {
-            label: 'ETF增值',
-            data: datasetData,
+            label: 'ETF',
+            data: securityAssetData.slice(0, yearsToRetirement),
         },
+        // {
+        //     label: '增值',
+        //     data: securityAppreciationData.slice(0, yearsToRetirement),
+        // },
     ]
 
     datasets.push({
@@ -331,14 +352,14 @@ function drawLifeAssetChart(propagate = true) {
     const hasChildExpense = childExpenseData.some(value => value !== 0)
     if (hasChildExpense) {
         datasets.push({
-            label: '育兒收支',
-            data: childExpenseData,
+            label: '育兒支出',
+            data: childExpenseData.slice(0, yearsToRetirement),
         })
     }
-    if (downpayYear && downpayYear < currentYear + period) {
+    if (downpayYear && downpayYear < yearOfRetire) {
         datasets.push({
             label: '房貸支出',
-            data: mortgageData,
+            data: mortgageData.slice(0, yearsToRetirement),
         })
         datasets.push({
             label: '頭期款',
@@ -351,30 +372,40 @@ function drawLifeAssetChart(propagate = true) {
     }
     const chartData = {
         datasets,
-        labels
+        labels: labels.slice(0, yearsToRetirement)
     }
-
-    if (assetChartInstance.value) {
-        assetChartInstance.value.data = chartData
-        assetChartInstance.value.update()
-        return
-    }
-    const ctx: any = document.getElementById('assetChart')
-    const chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: chartData,
-        options: {
-            scales: {
-                x: {
-                    stacked: true,
-                },
-                y: {
-                    stacked: true
+    if (securityChartInstance.value) {
+        const promise = new Promise(async (resolve) => {
+            clearTimeout(debounceId.value)
+            debounceId.value = setTimeout(async () => {
+                debounceId.value = undefined
+                securityChartInstance.value.data = chartData
+                // resolve(principleData)
+                securityChartInstance.value.update()
+            }, 150)
+        })
+    } else {
+        const ctx: any = document.getElementById('securityChart')
+        const chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
                 }
             }
-        }
-    })
-    assetChartInstance = shallowRef(chartInstance)
+        })
+        securityChartInstance = shallowRef(chartInstance)
+    }
+    return {
+        securityAppreciationData,
+        securityAssetData,
+    }
 }
 
 import { ElMessage, } from 'element-plus'
@@ -383,22 +414,7 @@ const errorMssage = throttle(() => {
     ElMessage.error('資產：一貧如洗！')
 }, 4000)
 
-const debounceId = ref()
-function customDebounce(func, delay = 100) {
-    return (immediate) => {
-        clearTimeout(debounceId.value)
-        if (immediate) {
-            func()
-        } else {
-            debounceId.value = setTimeout(() => {
-                debounceId.value = undefined
-                func()
-            }, delay)
-        }
-    }
-}
-
 defineExpose({
-    calculateAsset,
-});
+    calculateSecurity,
+})
 </script>

@@ -2,11 +2,11 @@
     <el-card v-loading="storyLoading">
         <template #header>
             <div class="card-header card-header--custom">
-                <span>回顧與匯出
+                <span>
                 </span>
                 <div>
-                    <el-button v-if="!profile.story" @click="generatStory">用15秒產生回顧</el-button>
-                    <el-button v-else @click="generatStory">重新產生回顧</el-button>
+                    <el-button v-if="!profile.story" @click="generatStory">用15秒產生故事</el-button>
+                    <el-button v-else @click="generatStory">重新產生故事</el-button>
                     <el-button @click="exportUserForm()">匯出</el-button>
                 </div>
             </div>
@@ -16,7 +16,7 @@
 
             </div>
             <div v-else>
-                點選右上角，讓我們回顧......
+                點選右上角，讓我們產生專屬於你的故事......
             </div>
         </el-form>
         <template #footer>
@@ -59,6 +59,13 @@ const props = defineProps({
         },
         required: true
     },
+    security: {
+        type: Object,
+        default: () => {
+            return {}
+        },
+        required: true
+    },
     spouse: {
         type: Object,
         default: () => {
@@ -66,7 +73,7 @@ const props = defineProps({
         },
         required: true
     },
-    mortgage: {
+    estate: {
         type: Object,
         default: () => {
             return {}
@@ -98,7 +105,6 @@ const props = defineProps({
 const profile = computed(() => {
     return props.modelValue
 })
-
 async function generatStory() {
     storyLoading.value = true
     const humanStory = getHumanStory()
@@ -114,22 +120,21 @@ async function generatStory() {
 }
 
 function getHumanStory() {
-    const { spouse, parenting, mortgage, estatePrice, career, retirement } = props
+    const { spouse, parenting, estate, estatePrice, career, retirement } = props
     const { counties = [], insuranceTypes = [], townMap = {} } = props.config
-    const { yearOfBirth, age: profileAge, lifeExpectancy: profilelifeExpectancy, careerInsuranceType } = profile.value
+    const { longevity, yearOfBirth, careerInsuranceType, finalAsset } = profile.value
     const { careerHeadCount, } = career
     const { age: retireAge, qualityLevel, insurance } = retirement
     const { yearOfMarriage } = spouse
     const { headCount, independantAge } = parenting
-    const { downpayYear } = mortgage
+    const { downpayYear } = estate
     const { county, town } = estatePrice
 
-    const totalAge = profileAge + profilelifeExpectancy
     let story = ``
     // profile
     story += `你於${Math.floor(yearOfBirth)}年，誕生到個世界上，`
-    story += `於${Math.floor(yearOfBirth + totalAge)}年時，悄悄的離開，`
-    story += `在這${Math.floor(totalAge)}間，你有著屬於自己的故事。`
+    story += `於${Math.floor(yearOfBirth + longevity)}年時，悄悄的離開，`
+    story += `在這${Math.floor(longevity)}間，你有著屬於自己的故事。`
     // career
     const insuranceTypeItem = insuranceTypes.find(item => item.value === careerInsuranceType)
     if (insuranceTypeItem) {
@@ -141,6 +146,15 @@ function getHumanStory() {
     if (insurance.futureSeniority) {
         story += `競競業業的工作持續了${Math.floor(insurance.futureSeniority)}年。`
     }
+    if (finalAsset) {
+        let formatAsset = finalAsset
+        if (finalAsset >= 100000) {
+            formatAsset /= 10000
+            formatAsset = Math.floor(formatAsset)
+        }
+        formatAsset = `${Number(formatAsset).toLocaleString()}萬`
+        story += `並為下一代累積了${formatAsset}的資產。`
+    }
     // spouse
     if (yearOfMarriage) {
         story += `感情方面，你在${yearOfMarriage}年時，遇見你的真愛，`
@@ -151,7 +165,7 @@ function getHumanStory() {
     if (independantAge) {
         story += `並將照顧子女的責任，延續到他們${independantAge}歲了為止。`
     }
-    // mortgage
+    // estate
     if (downpayYear) {
         story += `${downpayYear}年是你置產的時間，這得來不易的安居地`
         if (county) {

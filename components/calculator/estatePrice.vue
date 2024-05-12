@@ -69,13 +69,27 @@
                 </el-col>
             </el-row>
         </el-form>
+        <template #footer>
+            <el-collapse>
+                <el-collapse-item title="試算說明">
+                    <ul>
+                        <li>
+                            單價資料來源：<a href="https://www.jcic.org.tw/openapi/swagger/index.html"
+                                target="_blank">財團法人金融聯合徵信中心
+                                OpenAPI
+                            </a>
+                        </li>
+                    </ul>
+                </el-collapse-item>
+            </el-collapse>
+        </template>
     </el-card>
 </template>
 <script setup lang="ts">
 import { computed, ref, reactive } from 'vue'
 import { ElMessage, } from 'element-plus'
 const { VITE_BASE_URL } = import.meta.env
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'toggleLoader'])
 const towns = ref([])
 const hasParkingOptions = ref([
     { label: '含', value: true },
@@ -136,12 +150,14 @@ async function getUnitPriceSync(propagate = false) {
         return
     }
     estatePriceLoading.value = true
+    emits('toggleLoader', true)
     const res = await fetch(`${VITE_BASE_URL}/calculate/unitPrice`, {
         method: 'post',
         body: JSON.stringify(estatePrice.value),
         headers: { 'Content-Type': 'application/json' }
     })
     estatePriceLoading.value = false
+    emits('toggleLoader', false)
     const resJson = await res.json()
     Object.assign(estatePrice.value, resJson)
 
