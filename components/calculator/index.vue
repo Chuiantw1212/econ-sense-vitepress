@@ -508,19 +508,19 @@ async function changeAllCards(from) {
     let retirementRes = {
         pensionLumpSumData: []
     }
-    if (!from.retirement) {
-        retirementRes = await RetirementRef.value.calculateRetirement({
-            propagate,
-        })
-    }
+    // if (!from.retirement) {
+    retirementRes = await RetirementRef.value.calculateRetirement({
+        propagate,
+    })
+    // }
     let securityRes = {
         securityAssetData: []
     }
-    if (!from.security) {
-        securityRes = await SecurityRef.value.calculateSecurity({
-            propagate,
-        })
-    }
+    // if (!from.security) {
+    securityRes = await SecurityRef.value.calculateSecurity({
+        propagate,
+    })
+    // }
     if (!from.spouse) {
         await SpouseRef.value.calculatecSpouse({
             propagate,
@@ -534,12 +534,12 @@ async function changeAllCards(from) {
     let estateRes = {
         estateDebtData: []
     }
-    if (!from.estate) {
-        estateRes = await MortgageRef.value.calculateMortgage({
-            propagate,
-            setDownpay: true,
-        })
-    }
+    // if (!from.estate) {
+    estateRes = await MortgageRef.value.calculateMortgage({
+        propagate,
+        setDownpay: true,
+    })
+    // }
     LifeAssetRef.value.calculateLifeAsset({
         retirementAsset: retirementRes?.pensionLumpSumData,
         securityAssetData: securityRes?.securityAssetData,

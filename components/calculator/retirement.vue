@@ -354,7 +354,11 @@ function calculateRetirement(options: any = { propagate: true }) {
         customDebounce(async () => {
             const pensionLumpSumData = await drawRetirementAssetChart(propagate)
             resolve(pensionLumpSumData)
-        })(propagate)
+        })(false)
+        // 儲存參數
+        if (propagate) {
+            emits('update:modelValue', retirement.value)
+        }
     })
     return pensionLumpSumDataPromise
 }
@@ -658,10 +662,6 @@ async function drawRetirementAssetChart(propagate = false) {
     const chartData: any = {
         datasets,
         labels
-    }
-    // 儲存參數
-    if (propagate) {
-        emits('update:modelValue', retirement.value)
     }
     // 繪圖
     if (pensionChartInstance.value) {
