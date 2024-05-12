@@ -118,7 +118,7 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)"
-                                label="勞退十年收益率">
+                                label="退休金IRR">
                                 <el-input-number v-model="retirement.pension.irrOverDecade" :min="0"
                                     @change="calculateRetirement($event)" />
                             </el-form-item>
@@ -502,7 +502,7 @@ async function drawRetirementAssetChart(propagate = false) {
         irrOverDecade,
         lumpSum,
     } = retirement.value.pension
-    const { monthlyContribution } = props.career.pension
+    const { monthlyContribution = 0, monthlyContributionSelf = 0 } = props.career.pension
     const { currentYear } = props.config
     const {
         yearsToRetirement,
@@ -518,7 +518,7 @@ async function drawRetirementAssetChart(propagate = false) {
 
     let pv = 0
     const n = yearsToRetirement
-    const pensionContribution = monthlyContribution * 12
+    const pensionContribution = (monthlyContribution + monthlyContributionSelf) * 12
     const pensionIrr = 1 + (irrOverDecade / 100)
     let fv = 0 // fv = pv * n + pmt
 

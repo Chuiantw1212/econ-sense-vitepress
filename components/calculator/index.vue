@@ -513,7 +513,6 @@ async function changeAllCards(from) {
             propagate,
         })
     }
-    console.log({ retirementRes })
     let securityRes = {
         securityAssetData: []
     }

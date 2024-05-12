@@ -113,6 +113,16 @@
                     </el-form-item>
                 </el-col>
             </el-row>
+            <el-row v-if="profile.careerInsuranceType === 'entrepreneur'">
+                <el-col :span="12">
+                    <el-form-item label="自備退休金">
+                        <el-input-number v-model="career.pension.monthlyContributionSelf" :min="0"
+                            :disabled="!career.monthlyBasicSalary" :step="1000" @change="calculateCareer($event)" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                </el-col>
+            </el-row>
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="月支出" required>
@@ -121,7 +131,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="月實領 - 月支出">
+                    <el-form-item label="定期定額">
                         <el-text>{{ Number(career.monthlySaving).toLocaleString() }}</el-text>
                     </el-form-item>
                 </el-col>
@@ -386,17 +396,25 @@ function calculateCareerPensionContribution() {
     switch (careerInsuranceType) {
         case 'employee':
             career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (6 + rate) / 100)
+            career.value.pension.monthlyContributionSelf = 0
             break;
         case 'entrepreneur':
+            // 實際從事勞動之雇主僅得個人自願提繳退休金，事業單位不得為其提繳退休金，雇主自願提繳率不得高於薪資6％，自願提繳金額會存入退休金個人專戶。
             career.value.pension.monthlyContribution = Math.floor(laborInsuranceSalary * (rate) / 100)
             break;
     }
 }
 // 投資計算
 function calculateMonthlySaving() {
-    const { monthlyNetPay = 0, monthlyExpense = 0, monthlyNetPayEstimated } = career.value
+    const { monthlyNetPay = 0, monthlyExpense = 0, monthlyNetPayEstimated, pension } = career.value
+    const { careerInsuranceType } = props.profile
+
     const monthlyNetPayBasis = monthlyNetPay || monthlyNetPayEstimated
-    career.value.monthlySaving = Math.floor(monthlyNetPayBasis - monthlyExpense)
+    let monthlySaving = Math.floor(monthlyNetPayBasis - monthlyExpense)
+    if (careerInsuranceType === 'entrepreneur') {
+        monthlySaving -= pension.monthlyContributionSelf
+    }
+    career.value.monthlySaving = monthlySaving
 }
 // 畫圖
 let incomeChartInstance = ref<Chart>()
@@ -474,6 +492,16 @@ function drawChartAndCalculateIncome(propagate = false) {
         data: [0, fv],
         datasetIndex: 0,
     })
+
+    if (career.value.pension.monthlyContributionSelf) {
+        pv = fv
+        fv -= career.value.pension.monthlyContributionSelf
+        dataAndDataIndex.push({
+            label: '自備退休金',
+            data: [pv, fv],
+            datasetIndex: 1,
+        })
+    }
 
     if (career.value.monthlyExpense) {
         pv = fv

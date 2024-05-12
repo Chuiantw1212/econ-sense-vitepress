@@ -64,19 +64,15 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
+            <!-- <el-row>
                 <el-col :span="12">
-                    <!-- <el-form-item label="壽險已備">
-                        <el-input-number v-model="parenting.lifeInsurance" :min="0" :step="100000"
-                            @change="calculateParenting($event)" />
-                    </el-form-item> -->
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="資產投報率">
                         <el-text>{{ config.portfolioIRR[security.allocationETF] }} % / 年</el-text>
                     </el-form-item>
                 </el-col>
-            </el-row>
+            </el-row> -->
             <canvas v-show="parenting.firstBornYear" id="parentingChart"></canvas>
         </el-form>
         <template #footer>
