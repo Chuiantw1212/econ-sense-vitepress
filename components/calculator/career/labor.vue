@@ -285,6 +285,10 @@ function calculateEmployeeWelfareFund() {
 }
 function calculateHealthPremium() {
     const { monthlyBasicSalary, headCount } = career.value
+    if (!monthlyBasicSalary) {
+        healInsurance.contribution = 0
+        return
+    }
     const { insuredUnit } = career.value
     let healthSalaryMin = monthlyBasicSalary
     if (insuredUnit === 'company') {
