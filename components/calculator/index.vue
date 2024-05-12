@@ -87,8 +87,8 @@
 
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
-        <h3 id="_一生資產負債" tabindex="-1">一生資產負債<a class="header-anchor" href="#一生資產負債"
-                aria-label="Permalink to &quot;一生資產負債&quot;">&ZeroWidthSpace;</a></h3>
+        <h3 id="_一生資產負債" tabindex="-1">一生資產負債表<a class="header-anchor" href="#一生資產負債表"
+                aria-label="Permalink to &quot;一生資產負債表&quot;">&ZeroWidthSpace;</a></h3>
         <LifeAsset v-model="userForm.profile" :config="config" :career="userForm.career"
             :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
             :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
