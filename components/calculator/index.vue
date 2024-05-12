@@ -49,8 +49,8 @@
 
         <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
                 aria-label="Permalink to &quot;五子登科&quot;">&ZeroWidthSpace;</a></h2>
-        <h3 id="_資產試算" tabindex="-1">證券資產試算<a class="header-anchor" href="#證券資產試算"
-                aria-label="Permalink to &quot;證券資產試算&quot;">&ZeroWidthSpace;</a></h3>
+        <h3 id="_資產試算" tabindex="-1">證券試算<a class="header-anchor" href="#證券試算"
+                aria-label="Permalink to &quot;證券試算&quot;">&ZeroWidthSpace;</a></h3>
         <Asset v-model="userForm.security" :config="config" :profile="userForm.profile" :career="userForm.career"
             :spouse="userForm.spouse" :parenting="userForm.parenting" :estate="userForm.estate"
             :retirement="userForm.retirement" ref="SecurityRef" @update:model-value="onSecurityChanged()">
@@ -105,6 +105,11 @@
     </div>
 </template>
 <script setup lang="ts">
+/**
+ * 技術難點，卡片之間互相有交互資料連動，
+ * 要在避免無線迴圈的狀況下正確更新關聯資料。
+ * 目前卡片的debounce150ms，初始化的間隔抓200ms，看起來是正常的。
+ */
 import firebase from 'firebase/compat/app';
 import { onMounted, ref, reactive, nextTick, } from 'vue'
 import { ElMessage, ElMessageBox, } from 'element-plus'
@@ -254,9 +259,19 @@ function setUserAndInitialize(form, { showMessage = false }) {
         ElMessage.info('載入成功')
     }
     nextTick(async () => {
+        await ProfileRef.value.calculateProfile()
         changeAllCards({
             propagate: true
         })
+        setTimeout(() => {
+            changeAllCards({
+                propagate: false
+            })
+        }, 200);
+        // setTimeout(() => {
+        // })
+        // nextTick(() => {
+        // })
         window.scrollTo(0, 0)
     })
 }
@@ -493,11 +508,6 @@ async function changeAllCards(from) {
     const {
         propagate = false,
     } = from
-    if (!from.profile) {
-        await ProfileRef.value.calculateProfile({
-            propagate,
-        })
-    }
     if (!from.career) {
         await CareerRef.value.calculateCareer({
             propagate,

@@ -107,7 +107,6 @@ const { VITE_BASE_URL } = import.meta.env
 import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
 import firebase from 'firebase/compat/app';
 import econSelect from '../econSelect.vue'
-import { fa } from 'element-plus/es/locale';
 const emits = defineEmits(['update:modelValue', 'signOut', 'upload'])
 const loginDialogVisible = ref(false)
 const firebaseUI = ref()
@@ -244,6 +243,7 @@ function openSignInDialog() {
         }
     })
 }
+
 async function calculateProfile(options: any = { propagate: true }) {
     const { propagate = true } = options
     customDebounce(() => {
