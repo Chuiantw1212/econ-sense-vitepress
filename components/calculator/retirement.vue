@@ -57,33 +57,31 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
+                        </el-col>
+                    </el-row>
+                    <el-row v-if="retirement.pension.requestType !== 'annuity'">
+                        <el-col :span="12">
+                            <el-form-item label="一次領替代率">
+                                <el-text>{{
+                Number(retirement.pension.lumpsumIncomeReplacementRatio
+                ).toFixed(2) }} %
+                                </el-text>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
                             <el-form-item label="一次領總額">
-                                <el-text v-if="retirement.pension.requestType !== 'annuity'">{{
+                                <el-text>{{
                 Number(retirement.pension.lumpSum
                 ).toLocaleString() }}
                                 </el-text>
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row>
-                        <el-col :span="12">
-                            <!-- <el-form-item label="請領時餘命">
-                                <el-text>{{
-                Number(retirement.lifeExpectancy).toLocaleString() }} 年</el-text>
-                            </el-form-item> -->
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="一次領換算替代率">
-                                <el-text>{{
-                Number(retirement.pension.incomeReplacementRatio).toFixed(1) }} %</el-text>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
                     <el-row v-if="retirement.pension.requestType !== 'lumpSum'">
                         <el-col :span="12">
-                            <el-form-item label="退休金替代率上限">
+                            <el-form-item label="月退替代率">
                                 <el-text>{{
-                Number(retirement.pension.incomeReplacementMaxRatio).toLocaleString() }} %</el-text>
+                Number(retirement.pension.annuityRatio).toLocaleString() }} %</el-text>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
@@ -92,6 +90,16 @@
                 Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row v-if="retirement.pension.requestType === 'halfAndHalf'">
+                        <el-col :span="12">
+                            <el-form-item label="退休金替代率總和">
+                                <el-text>{{
+                Number(retirement.pension.incomeReplacementRatio).toFixed(2) }} %</el-text>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
                         </el-col>
                     </el-row>
                     <el-row>
@@ -109,7 +117,7 @@
                         <el-col :span="12">
                             <el-form-item label="公保替代率餘額">
                                 <el-text>{{
-                Number(retirement.insurance.incomeReplacementMaxRatio).toFixed(1) }}
+                Number(retirement.insurance.incomeReplacementMaxRatio).toFixed(2) }}
                                     %</el-text>
                             </el-form-item>
                         </el-col>
@@ -126,9 +134,9 @@
                             <el-form-item label="公保給付率">
                                 <el-text>
                                     {{
-                Number(retirement.insurance.benefitRatio).toFixed(1) }}
-                                    ({{ Number(retirement.insurance.benefitRatioEstimated).toFixed(1) }})
-                                    %</el-text>
+                Number(retirement.insurance.benefitRatio).toFixed(2) }} %
+                                    ({{ Number(retirement.insurance.benefitRatioEstimated).toFixed(2) }})
+                                </el-text>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
@@ -557,7 +565,6 @@ function calculateCivilServantPension() {
     const { futureSeniority, } = retirement.value.insurance
     const { requestType, } = retirement.value.pension
     const { salary } = props.career.insurance
-    const { lifeExpectancy } = retirement.value
     if (!futureSeniority || !salary || !requestType) {
         retirement.value.pension.monthlyAnnuity = 0
         return
@@ -605,53 +612,73 @@ function calculateCivilServantPension() {
     }
     lumpSum *= baseSalary
 
-    let monthlyAnnuity = 0
-    let incomeReplacementMaxRatio = 0
+    let annuityRatio = 0
+    let annuityRatioMax = 0
     if (futureSeniority <= 35) {
-        monthlyAnnuity += 2 * futureSeniority
+        annuityRatio += 2 * futureSeniority
         // 退休金替代率天花板
-        incomeReplacementMaxRatio = 30 + (futureSeniority - 15) * 1.5
+        annuityRatioMax = 30 + (futureSeniority - 15) * 1.5
     } else {
-        monthlyAnnuity += 2 * 35
-        monthlyAnnuity += (futureSeniority - 35)
-        monthlyAnnuity = Math.min(75, monthlyAnnuity)
+        annuityRatio += 2 * 35
+        annuityRatio += (futureSeniority - 35)
+        annuityRatio = Math.min(75, annuityRatio)
         // 退休金替代率天花板
-        incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
-        incomeReplacementMaxRatio = Math.min(62.5, incomeReplacementMaxRatio)
+        annuityRatioMax = 60 + (futureSeniority - 35) * 0.5
+        annuityRatioMax = Math.min(62.5, annuityRatioMax)
     }
     /**
      * 再計算月退休金
      */
     switch (requestType) {
         case 'lumpSum': {
+            retirement.value.pension.annuityRatioMax = 0
+            retirement.value.pension.annuityRatio = 0
+            retirement.value.pension.monthlyAnnuity = 0
+
             retirement.value.pension.lumpSum = Math.floor(lumpSum)
-            monthlyAnnuity = 0
-            retirement.value.pension.monthlyAnnuity = monthlyAnnuity
-            retirement.value.pension.incomeReplacementMaxRatio = 0
+            const lumpSumIncomeReplacementRatio = calculateLumpsumIncomeReplacementRatio()
+            retirement.value.pension.incomeReplacementRatio = lumpSumIncomeReplacementRatio
             break;
         }
         case 'annuity': {
+            retirement.value.pension.annuityRatioMax = annuityRatioMax
             retirement.value.pension.lumpSum = 0
-            monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
-            monthlyAnnuity *= baseSalary / 100
-            retirement.value.pension.monthlyAnnuity = Math.floor(monthlyAnnuity)
-            retirement.value.pension.incomeReplacementMaxRatio = incomeReplacementMaxRatio
+
+            annuityRatio = Math.min(annuityRatioMax, annuityRatio)
+            retirement.value.pension.annuityRatio = annuityRatio
+            retirement.value.pension.incomeReplacementRatio = annuityRatio
+
+            annuityRatio *= baseSalary / 100
+            retirement.value.pension.monthlyAnnuity = Math.floor(annuityRatio)
             break;
         }
         case 'halfAndHalf': {
-            incomeReplacementMaxRatio /= 2
-            monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
-            monthlyAnnuity *= baseSalary / 100
+            annuityRatioMax /= 2
+            retirement.value.pension.annuityRatioMax = annuityRatioMax
+            annuityRatio = Math.min(annuityRatioMax, annuityRatio)
+            retirement.value.pension.annuityRatio = annuityRatio
+
             lumpSum /= 2
             retirement.value.pension.lumpSum = Math.floor(lumpSum)
-            retirement.value.pension.monthlyAnnuity = Math.floor(monthlyAnnuity)
-            retirement.value.pension.incomeReplacementMaxRatio = incomeReplacementMaxRatio
+            const lumpSumIncomeReplacementRatio = calculateLumpsumIncomeReplacementRatio()
+            retirement.value.pension.incomeReplacementRatio = lumpSumIncomeReplacementRatio + annuityRatio
+
+            annuityRatio *= baseSalary / 100
+            retirement.value.pension.monthlyAnnuity = Math.floor(annuityRatio)
             break;
         }
     }
+}
+function calculateLumpsumIncomeReplacementRatio() {
+    const { lumpSum } = retirement.value.pension
+    const { salary } = props.career.insurance
+    const { lifeExpectancy } = retirement.value
+    const baseSalary = salary * 2
     const lifeExpectancyMonths = lifeExpectancy * 12
-    lumpSum /= lifeExpectancyMonths
-    retirement.value.pension.incomeReplacementRatio = lumpSum / baseSalary * 100
+    const lumpSumPerMonth = lumpSum / lifeExpectancyMonths
+    const lumpsumIncomeReplacementRatio = lumpSumPerMonth / baseSalary * 100
+    retirement.value.pension.lumpsumIncomeReplacementRatio = lumpsumIncomeReplacementRatio
+    return lumpsumIncomeReplacementRatio
 }
 function resetData() {
     // 避免資料干擾
