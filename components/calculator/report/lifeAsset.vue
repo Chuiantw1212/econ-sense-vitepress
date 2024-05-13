@@ -88,10 +88,10 @@ function calculateLifeAsset(options: any = { propagate: true }) {
 let lifeAssetChartInstance = ref<Chart>()
 function drawLifeAsset(payload) {
     const {
-        retirementAsset,
-        securityAssetData,
-        estateDebtData,
-        propagate,
+        retirementAsset = [],
+        securityAssetData = [],
+        estateDebtData = [],
+        propagate = [],
     } = payload
 
     const { irr } = props.security
