@@ -328,11 +328,6 @@ function drawLifeAssetChart() {
         labels.push(simYear)
         pv = fv
     }
-    if (fv <= 0) {
-        if (!errorMssage.pending()) {
-            errorMssage()
-        }
-    }
     const datasets = [
         {
             label: 'ETF',
@@ -373,31 +368,38 @@ function drawLifeAssetChart() {
         datasets,
         labels: labels.slice(0, yearsToRetirement)
     }
-    if (securityChartInstance.value) {
-        clearTimeout(debounceId.value)
-        debounceId.value = setTimeout(async () => {
+    clearTimeout(debounceId.value)
+    debounceId.value = setTimeout(async () => {
+        // 派送訊息
+        if (fv <= 0) {
+            if (!errorMssage.pending()) {
+                errorMssage()
+            }
+        }
+        // 繪圖
+        if (securityChartInstance.value) {
             debounceId.value = undefined
             securityChartInstance.value.data = chartData
             securityChartInstance.value.update()
-        }, 250)
-    } else {
-        const ctx: any = document.getElementById('securityChart')
-        const chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: {
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true
+        } else {
+            const ctx: any = document.getElementById('securityChart')
+            const chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            stacked: true
+                        }
                     }
                 }
-            }
-        })
-        securityChartInstance = shallowRef(chartInstance)
-    }
+            })
+            securityChartInstance = shallowRef(chartInstance)
+        }
+    }, 250)
     const exportData = {
         securityAppreciationData,
         securityAssetData,
@@ -406,9 +408,9 @@ function drawLifeAssetChart() {
 }
 
 import { ElMessage, } from 'element-plus'
-import { throttle, debounce } from './lodash.js'
+import { throttle } from './lodash.js'
 const errorMssage = throttle(() => {
-    // ElMessage.error('資產：一貧如洗！')
+    ElMessage.error('資產：一貧如洗！')
 }, 4000)
 
 defineExpose({
