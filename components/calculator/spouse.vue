@@ -210,7 +210,7 @@ function drawMarriageChart(propagate = true) {
 }
 
 const debounceId = ref()
-function debounce(func, delay = 100) {
+function debounce(func, delay = 150) {
     return (immediate) => {
         clearTimeout(debounceId.value)
         if (immediate) {

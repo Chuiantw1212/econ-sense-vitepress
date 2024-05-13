@@ -244,9 +244,7 @@ function openSignInDialog() {
 
 async function calculateProfile(options: any = { propagate: true }) {
     const { propagate = true } = options
-    customDebounce(() => {
-        drawProfileChart(propagate)
-    })(propagate)
+    drawProfileChart(propagate)
 }
 
 async function drawProfileChart(propagate = false) {
@@ -273,21 +271,6 @@ async function drawProfileChart(propagate = false) {
     } else {
         profile.value.age = 0
         profile.value.lifeExpectancy = 0
-    }
-}
-
-const debounceId = ref()
-function customDebounce(func, delay = 100) {
-    return (immediate) => {
-        clearTimeout(debounceId.value)
-        if (immediate) {
-            func()
-        } else {
-            debounceId.value = setTimeout(() => {
-                debounceId.value = undefined
-                func()
-            }, delay)
-        }
     }
 }
 

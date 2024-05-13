@@ -374,15 +374,12 @@ function drawLifeAssetChart() {
         labels: labels.slice(0, yearsToRetirement)
     }
     if (securityChartInstance.value) {
-        const promise = new Promise(async (resolve) => {
-            clearTimeout(debounceId.value)
-            debounceId.value = setTimeout(async () => {
-                debounceId.value = undefined
-                securityChartInstance.value.data = chartData
-                // resolve(principleData)
-                securityChartInstance.value.update()
-            }, 150)
-        })
+        clearTimeout(debounceId.value)
+        debounceId.value = setTimeout(async () => {
+            debounceId.value = undefined
+            securityChartInstance.value.data = chartData
+            securityChartInstance.value.update()
+        }, 150)
     } else {
         const ctx: any = document.getElementById('securityChart')
         const chartInstance = new Chart(ctx, {

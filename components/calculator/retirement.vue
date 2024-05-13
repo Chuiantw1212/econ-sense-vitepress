@@ -334,17 +334,11 @@ async function calculateRetirement(options: any = { propagate: true }) {
     }
     calculateRetirementExpense()
     const { propagate = true } = options
-    const pensionLumpSumDataPromise = new Promise((resolve) => {
-        customDebounce(async () => {
-            const pensionLumpSumData = await drawRetirementAssetChart(propagate)
-            resolve(pensionLumpSumData)
-        })(false)
-        // 儲存參數
-        if (propagate) {
-            emits('update:modelValue', retirement.value)
-        }
-    })
-    return pensionLumpSumDataPromise
+    const pensionLumpSumData = await drawRetirementAssetChart()
+    if (propagate) {
+        emits('update:modelValue', retirement.value)
+    }
+    return pensionLumpSumData
 }
 function resetData() {
     retirement.value.insurance.annuity = 0
@@ -549,6 +543,8 @@ function calculateRetirementExpense() {
     const selectedItem: IOptionItem = props.config.retirementQuartile[qualityLevel - 1]
     retirement.value.annualExpense = Number(selectedItem.value)
 }
+
+const debounceId = ref()
 async function drawRetirementAssetChart() {
     if (unableToDraw.value) {
         return
@@ -590,8 +586,6 @@ async function drawRetirementAssetChart() {
     const retirementAnnualExpenseData: number[] = []
     const estateData: number[] = []
 
-    const { careerInsuranceType } = props.profile
-    // if (['employee', 'entrepreneur'].includes(careerInsuranceType)) {
     pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
     // 退休前資產累積
     for (let i = 1; i <= n; i++) {
@@ -611,7 +605,6 @@ async function drawRetirementAssetChart() {
     }
 
     calculatePensionLumpsumTax(fv)
-    pv += insurance.lumpsum
 
     // 退休後退休支出
     let insuranceAnnuityInflationModifier = 1
@@ -690,8 +683,11 @@ async function drawRetirementAssetChart() {
     }
     // 繪圖
     if (pensionChartInstance.value) {
-        pensionChartInstance.value.data = chartData
-        pensionChartInstance.value.update()
+        clearTimeout(debounceId.value)
+        debounceId.value = setTimeout(() => {
+            pensionChartInstance.value.data = chartData
+            pensionChartInstance.value.update()
+        }, 150)
     } else {
         const ctx: any = document.getElementById('pensionChart')
         const chartInstance = new Chart(ctx, {
@@ -733,21 +729,6 @@ import { throttle, debounce } from './lodash.js'
 const errorMssage = throttle(() => {
     // ElMessage.error('退休：晚節不保！')
 }, 4000)
-
-const debounceId = ref()
-function customDebounce(func, delay = 100) {
-    return (immediate) => {
-        clearTimeout(debounceId.value)
-        if (immediate) {
-            func()
-        } else {
-            debounceId.value = setTimeout(() => {
-                debounceId.value = undefined
-                func()
-            }, delay)
-        }
-    }
-}
 
 defineExpose({
     calculateRetirement,
