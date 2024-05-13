@@ -161,7 +161,6 @@ const config = reactive({
 })
 const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
-    loadingDialogVisible.value = true
     try {
         const bankConfigPromises = [
             fetch(`${VITE_BASE_URL}/select`),
@@ -197,8 +196,6 @@ async function setSelecOptionSync() {
                 backToCalendar()
             },
         })
-    } finally {
-        loadingDialogVisible.value = false
     }
 }
 function backToCalendar() {
@@ -255,9 +252,6 @@ function setUserAndInitialize(form, { showMessage = false }) {
             Object.assign(userForm.security, form.estate)
         }
     }
-    if (showMessage) {
-        ElMessage.info('載入成功')
-    }
     nextTick(async () => {
         await ProfileRef.value.calculateProfile()
         changeAllCards({
@@ -267,6 +261,10 @@ function setUserAndInitialize(form, { showMessage = false }) {
             changeAllCards({
                 propagate: false
             })
+            if (showMessage) {
+                ElMessage.info('載入成功')
+            }
+            loadingDialogVisible.value = false
         }, 200)
         window.scrollTo(0, 0)
     })
@@ -591,6 +589,7 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
+    loadingDialogVisible.value = true
     await import('firebaseui')
     await initializeApp()
     await setSelecOptionSync()
