@@ -23,7 +23,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
+            <!-- <el-row>
                 <el-col :span="12">
                 </el-col>
                 <el-col :span="12">
@@ -31,7 +31,7 @@
                         <el-text>{{ retirement.lifeExpectancy }} 年</el-text>
                     </el-form-item>
                 </el-col>
-            </el-row>
+            </el-row> -->
             <el-collapse>
                 <el-collapse-item :title="detailTitle[profile.careerInsuranceType]" :disabled="isFormDisabled">
                     <el-row>
@@ -55,15 +55,6 @@
                                 <el-text>{{
                 Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="12">
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="餘命 x 年金現值">
-                                <el-text>{{ Number(retirement.annuitySum).toLocaleString() }}</el-text>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -641,11 +632,6 @@ async function drawRetirementAssetChart() {
         labels.push(calculatedYear)
         pv = fv
     }
-    if (fv <= 0) {
-        if (!errorMssage.pending()) {
-            errorMssage()
-        }
-    }
     // 繪圖
     const tension = 0.5
     const datasets = [
@@ -681,31 +667,37 @@ async function drawRetirementAssetChart() {
         datasets,
         labels
     }
-    // 繪圖
-    if (pensionChartInstance.value) {
-        clearTimeout(debounceId.value)
-        debounceId.value = setTimeout(() => {
+    clearTimeout(debounceId.value)
+    debounceId.value = setTimeout(() => {
+        // 錯誤訊息
+        if (fv <= 0) {
+            if (!errorMssage.pending()) {
+                errorMssage()
+            }
+        }
+        // 繪圖
+        if (pensionChartInstance.value) {
             pensionChartInstance.value.data = chartData
             pensionChartInstance.value.update()
-        }, 250)
-    } else {
-        const ctx: any = document.getElementById('pensionChart')
-        const chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: {
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: { // 要部份stacked，部分overlap
-                        stacked: true,
-                    },
+        } else {
+            const ctx: any = document.getElementById('pensionChart')
+            const chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: { // 要部份stacked，部分overlap
+                            stacked: true,
+                        },
+                    }
                 }
-            }
-        })
-        pensionChartInstance = shallowRef(chartInstance)
-    }
+            })
+            pensionChartInstance = shallowRef(chartInstance)
+        }
+    }, 250)
     return {
         pensionLumpSumData: JSON.parse(JSON.stringify(pensionLumpSumData))
     }
@@ -725,9 +717,9 @@ function calculatePensionLumpsumTax(fv = 0) {
 }
 
 import { ElMessage, } from 'element-plus'
-import { throttle, debounce } from './lodash.js'
+import { throttle, } from './lodash.js'
 const errorMssage = throttle(() => {
-    // ElMessage.error('退休：晚節不保！')
+    ElMessage.error('退休：晚節不保！')
 }, 4000)
 
 defineExpose({
