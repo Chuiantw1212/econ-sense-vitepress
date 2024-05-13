@@ -49,7 +49,7 @@ const members = [
             </th>
             <th>
             <a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a>,
-            VitePress, Element Plus, Typescript, firebaseui, chart.js,</th>
+            VitePress, Element Plus, Typescript, FirebaseUI, chart.js,</th>
         </tr>
         <tr>
            <th>
@@ -57,7 +57,7 @@ const members = [
             </th>
             <th>
             <a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">後端開源</a>,
-            Fastify.js, Typescript, jsdom, </th>
+            Fastify.js, Typescript, jsdom, Google Firestore,</th>
         </tr>
         <tr>
             <th>
