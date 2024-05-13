@@ -406,7 +406,7 @@ function drawDownpayChart() {
             debounceId.value = undefined
             downPayChartInstance.value.data = chartData
             downPayChartInstance.value.update()
-        }, 150)
+        }, 250)
     } else {
         const ctx: any = document.getElementById('savingDownpayChart')
         const chartInstance = new Chart(ctx, {

@@ -379,7 +379,7 @@ function drawLifeAssetChart() {
             debounceId.value = undefined
             securityChartInstance.value.data = chartData
             securityChartInstance.value.update()
-        }, 150)
+        }, 250)
     } else {
         const ctx: any = document.getElementById('securityChart')
         const chartInstance = new Chart(ctx, {

@@ -252,19 +252,7 @@ async function drawProfileChart(propagate = false) {
     if (yearOfBirth && gender) {
         const ceYear = new Date().getFullYear()
         const calculateAge = ceYear - Number(yearOfBirth)
-        // const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
-        //     method: 'post',
-        //     body: JSON.stringify({
-        //         ceYear,
-        //         age: calculateAge,
-        //         gender,
-        //     }),
-        //     headers: { 'Content-Type': 'application/json' }
-        // })
-        // const lifeExpectancy = await res.json()
         profile.value.age = calculateAge
-        // profile.value.lifeExpectancy = Number(lifeExpectancy)
-        // profile.value.longevity = calculateAge + lifeExpectancy
         if (propagate) {
             emits('update:modelValue', profile.value)
         }

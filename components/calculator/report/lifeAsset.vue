@@ -199,7 +199,7 @@ function drawLifeAsset(payload) {
 }
 
 const debounceId = ref()
-function customDebounce(func, delay = 100) {
+function customDebounce(func, delay = 250) {
     return (immediate) => {
         clearTimeout(debounceId.value)
         if (immediate) {

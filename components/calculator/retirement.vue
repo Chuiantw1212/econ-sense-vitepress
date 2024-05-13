@@ -687,7 +687,7 @@ async function drawRetirementAssetChart() {
         debounceId.value = setTimeout(() => {
             pensionChartInstance.value.data = chartData
             pensionChartInstance.value.update()
-        }, 150)
+        }, 250)
     } else {
         const ctx: any = document.getElementById('pensionChart')
         const chartInstance = new Chart(ctx, {
