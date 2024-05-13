@@ -49,7 +49,7 @@ const members = [
             </th>
             <th>
             <a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a>,
-            VitePress, Element Plus, Typescript, FirebaseUI, chart.js,</th>
+            VitePress, Element Plus, Typescript, FirebaseUI, Chart.js,</th>
         </tr>
         <tr>
            <th>
@@ -112,7 +112,7 @@ const members = [
             <th>
                 其他
             </th>
-            <th>ChatGpt, SEO、Google Workspace、綠界金流、演算法</th>
+            <th>ChatGpt, SEO, Google Workspace, 綠界金流, 演算法</th>
         </tr>
     </tbody>
 </table>

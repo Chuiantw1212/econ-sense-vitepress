@@ -61,6 +61,15 @@
                     </el-row>
                     <el-row>
                         <el-col :span="12">
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="餘命x年金現值">
+                                <el-text>{{ Number(retirement.annuitySum).toLocaleString() }}</el-text>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
                             <el-form-item label="雇主提繳累計">
                                 <el-input-number v-model="retirement.pension.employerContribution" :min="0"
                                     @change="calculateRetirement($event)" />
@@ -140,7 +149,7 @@
                             假設勞退皆為一次領，且領後的再投資報酬率打平相關職業退休基金
                         </li>
                         <li>
-                            公教退撫皆為專戶制一次領，且領後的再投資報酬率打平相關職業退休基金
+                            餘命x年金現值是為了讓大家理解延後退休並不如第一印象中的"賺"，只有提早領的年金才會被通膨調整
                         </li>
                         <li>
                             勞保勞退查詢：<a href="https://edesk.bli.gov.tw/me/#/na/login">勞保局E化服務系統</a>
