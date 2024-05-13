@@ -585,6 +585,7 @@ async function drawRetirementAssetChart() {
     const labels: number[] = []
     const pensionLumpSumData: number[] = []
     const annualAnnuityData: number[] = []
+    const annuityAveragingData: number[] = []
     const retirementAnnualExpenseData: number[] = []
     const estateData: number[] = []
 
@@ -612,15 +613,25 @@ async function drawRetirementAssetChart() {
     let insuranceAnnuityInflationModifier = 1
     let pmt = 0
     let inflatedAnnualExpense = 0
+    let averagingFV = pv
     for (let i = 1; i <= lifeExpectancy + 1; i++) {
+        // 更新參數
         inflationModifier *= inflationRate
         insuranceAnnuityInflationModifier *= inflationRate
+        // 現值增值
+        fv = Math.floor(pv * pensionIrr)
+        averagingFV *= pensionIrr
+        pensionLumpSumData.push(Math.floor(fv))
         // 年金收入計算
         const annutalAnnuity = Math.floor(monthlyAnnuity * 12 * insuranceAnnuityInflationModifier)
+        pmt += annutalAnnuity
+        averagingFV += annutalAnnuity
         annualAnnuityData.push(annutalAnnuity)
+        annuityAveragingData.push(Math.floor(averagingFV))
+        // 退休生活計算
         inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
         retirementAnnualExpenseData.push(-inflatedAnnualExpense)
-        pmt = annutalAnnuity - inflatedAnnualExpense
+        pmt -= inflatedAnnualExpense
         // 未還完的房貸支出
         const simYear = currentYear + yearsToRetirement + i
         const annualRepay = monthlyRepay * 12
@@ -630,9 +641,7 @@ async function drawRetirementAssetChart() {
         } else {
             estateData.push(0)
         }
-        // fv
-        fv = Math.floor(pv * pensionIrr)
-        pensionLumpSumData.push(Math.floor(fv))
+        // 更新參數
         fv = Math.max(0, fv + pmt)
         if (fv <= 0) {
             fv = 0
@@ -647,7 +656,7 @@ async function drawRetirementAssetChart() {
     const tension = 0.5
     const datasets = [
         {
-            label: '一次領+投資',
+            label: '一次領',
             data: pensionLumpSumData,
             fill: true,
             tension,
@@ -661,6 +670,12 @@ async function drawRetirementAssetChart() {
         {
             label: '退休支出',
             data: retirementAnnualExpenseData,
+            fill: true,
+            tension,
+        },
+        {
+            label: '一次領且無支出',
+            data: annuityAveragingData,
             fill: true,
             tension,
         }
