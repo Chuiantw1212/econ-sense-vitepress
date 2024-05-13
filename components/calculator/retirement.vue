@@ -28,7 +28,8 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="退休後餘命">
-                        <el-text>{{ retirement.lifeExpectancy }} 年</el-text>
+                        <el-text>{{ retirement.lifeExpectancy }} 年
+                            ({{ Math.ceil(retirement.yearOfRetire + retirement.lifeExpectancy) }})</el-text>
                     </el-form-item>
                 </el-col>
             </el-row> -->
@@ -285,8 +286,9 @@ const retirement = computed(() => {
     return props.modelValue
 })
 const isFormDisabled = computed(() => {
-    const { monthlyBasicSalary } = props.career
-    return !monthlyBasicSalary
+    const { monthlyBasicSalary, } = props.career
+    const { careerInsuranceType } = props.profile
+    return !monthlyBasicSalary || !careerInsuranceType
 })
 const unableToDraw = computed(() => {
     const { monthlyBasicSalary } = props.career

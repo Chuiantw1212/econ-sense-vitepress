@@ -344,6 +344,8 @@ const userForm = reactive({
         monthlyContribution: 0,
         weddingExpense: 0,
         yearOfBirth: '',
+        monthlyNetPay: 0,
+        monthlyExpense: 0,
     },
     parenting: {
         childAnnualExpense: 212767,
@@ -366,6 +368,7 @@ const userForm = reactive({
         downpayGoal: 0,
         monthlyRepay: 0,
         downpayYear: 0,
+        downpayTotalPrice: 0,
     },
     estatePrice: {
         county: '',

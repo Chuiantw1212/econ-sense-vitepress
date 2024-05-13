@@ -92,7 +92,7 @@
                 <el-col :span="12">
                     <el-form-item :label="`- 勞保自付額`">
                         <el-text>{{ Number(career.insurance?.expense).toLocaleString() }} (負擔率{{
-                            laborInsurace.premiumRate[career.insuredUnit] }}%)</el-text>
+                laborInsurace.premiumRate[career.insuredUnit] }}%)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -125,7 +125,7 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="月支出" required>
+                    <el-form-item label="月支出">
                         <el-input-number v-model="career.monthlyExpense" :min="0" :step="1000"
                             @change="calculateCareer($event)" />
                     </el-form-item>
@@ -249,9 +249,7 @@ function calculateCareer(options: any = { propagate: true }) {
         calculatePensionSalary()
         calculateCareerPensionContribution()
         calculateHealthPremium()
-        debounce(() => {
-            drawChartAndCalculateIncome(propagate)
-        })(propagate)
+        drawChartAndCalculateIncome(propagate)
         if (propagate) {
             emits('update:modelValue', career.value)
         }
@@ -421,6 +419,7 @@ function calculateMonthlySaving() {
 }
 // 畫圖
 let incomeChartInstance = ref<Chart>()
+const debounceId = ref()
 function drawChartAndCalculateIncome(propagate = false) {
     const { monthlyBasicSalary, insuredUnit, employeeWelfareFund, insurance, pension } = career.value
     if (isUnableToDraw.value) {
@@ -516,16 +515,12 @@ function drawChartAndCalculateIncome(propagate = false) {
         })
     }
 
-    if (0 <= fv) {
+    if (0 < fv) {
         dataAndDataIndex.push({
             label: '定期定額',
             data: [0, fv],
             datasetIndex: 0,
         })
-    } else {
-        if (!errorMssage.pending()) {
-            errorMssage()
-        }
     }
 
     const labels = dataAndDataIndex.map(item => item.label)
@@ -558,34 +553,44 @@ function drawChartAndCalculateIncome(propagate = false) {
         ]
     }
 
-    if (incomeChartInstance.value) {
-        incomeChartInstance.value.data = data
-        incomeChartInstance.value.update()
-        return
-    }
-    const ctx: any = document.getElementById('incomeChart')
-    const chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: data,
-        options: {
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: tooltipFormat,
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    stacked: true,
-                },
-                y: {
-                    stacked: true
-                }
+    clearTimeout(debounceId.value)
+    debounceId.value = setTimeout(() => {
+        // 錯誤訊息
+        if (fv <= 0) {
+            if (!errorMssage.pending()) {
+                errorMssage()
             }
         }
-    })
-    incomeChartInstance = shallowRef(chartInstance)
+        // 繪圖
+        if (incomeChartInstance.value) {
+            incomeChartInstance.value.data = data
+            incomeChartInstance.value.update()
+        } else {
+            const ctx: any = document.getElementById('incomeChart')
+            const chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: tooltipFormat,
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            stacked: true
+                        }
+                    }
+                }
+            })
+            incomeChartInstance = shallowRef(chartInstance)
+        }
+    }, 250)
 }
 function tooltipFormat(tooltipItems) {
     const { raw } = tooltipItems
@@ -594,26 +599,10 @@ function tooltipFormat(tooltipItems) {
 }
 
 import { ElMessage, } from 'element-plus'
-import { throttle, debounce } from '../lodash.js'
+import { throttle, } from '../lodash.js'
 const errorMssage = throttle(() => {
-    // ElMessage.error('收入：兩袖清風！')
+    ElMessage.error('收入：兩袖清風！')
 }, 4000)
-
-
-const debounceId = ref()
-function debounce(func, delay = 250) {
-    return (immediate) => {
-        clearTimeout(debounceId.value)
-        if (immediate) {
-            func()
-        } else {
-            debounceId.value = setTimeout(() => {
-                debounceId.value = undefined
-                func()
-            }, delay)
-        }
-    }
-}
 
 defineExpose({
     calculateCareer,
