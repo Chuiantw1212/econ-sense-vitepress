@@ -402,10 +402,11 @@ function drawLifeAssetChart() {
         })
         securityChartInstance = shallowRef(chartInstance)
     }
-    return {
+    const exportData = {
         securityAppreciationData,
         securityAssetData,
     }
+    return JSON.parse(JSON.stringify(exportData))
 }
 
 import { ElMessage, } from 'element-plus'
