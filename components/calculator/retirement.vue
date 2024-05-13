@@ -85,7 +85,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="每月退休金">
+                            <el-form-item label="退休金">
                                 <el-text>{{
                 Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
@@ -122,11 +122,6 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="每月養老給付">
-                                <el-text>{{
-                Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
-                                    月</el-text>
-                            </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row>
@@ -134,15 +129,15 @@
                             <el-form-item label="公保給付率">
                                 <el-text>
                                     {{
-                Number(retirement.insurance.benefitRatio).toFixed(2) }} %
-                                    ({{ Number(retirement.insurance.benefitRatioEstimated).toFixed(2) }})
+                Number(retirement.insurance.benefitRatio).toFixed(2) }}%
+                                    ({{ Number(retirement.insurance.benefitRatioEstimated).toFixed(2) }}%)
                                 </el-text>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="每月養老給付">
+                            <el-form-item label="養老給付">
                                 <el-text>{{
-                Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
+                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -535,9 +530,6 @@ function calculateCivilServantInsurance() {
     retirement.value.insurance.benefitRatioEstimated = benefitRatio
     benefitRatio = Math.max(0.75, benefitRatio)
     benefitRatio = Math.min(1.3, benefitRatio)
-    retirement.value.insurance.benefitRatio = benefitRatio
-    // 際可領年金給付率=養老年金上限÷10年平均保俸÷公保年資
-
     /**
      * 公保法第18條
      * 被保險人保險年資滿十五年，未符合第十六條養老年金給付請領資格者，得提前五年請領養老年金給付，每提前一年，依第十六條規定計算之給付金額減給百分之四，最多減給百分之二十。
@@ -547,19 +539,8 @@ function calculateCivilServantInsurance() {
      * 依第十七條規定計得之每月可領養老年金給付，其保險年資每滿一年之給付率低於基本年金率時，仍應按基本年金率計給；超過上限年金率時，應按上限年金率計給。
      * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=19
      */
-    // const { futureSeniority, } = retirement.value.insurance
-    // const { monthlyAnnuity = 0, } = retirement.value.pension
-    // let incomeReplacementMaxRatio = 0
-    // if (futureSeniority <= 15) {
-
-    // }
-    // // 養老年金上限=退休年金給與上限－每月退休給與
-    // // const insuranceAnnuityMax = monthlyAnnuity - 
-    // if (futureSeniority <= 35) {
-    //     incomeReplacementMaxRatio = 30 + (futureSeniority - 15) * 1.5
-    // } else {
-    //     incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
-    // }
+    retirement.value.insurance.benefitRatio = benefitRatio
+    retirement.value.insurance.monthlyAnnuity = Math.round(baseSalary * futureSeniority * benefitRatio / 100)
 }
 function calculateCivilServantPension() {
     const { futureSeniority, } = retirement.value.insurance
