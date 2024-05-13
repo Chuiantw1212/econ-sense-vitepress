@@ -498,6 +498,7 @@ async function calculateRetireLife() {
     })
     const lifeExpectancy = await res.json()
     retirement.value.lifeExpectancy = lifeExpectancy
+    retirement.value.longevity = currentAge + yearsToRetirement + lifeExpectancy
 }
 function calculateFutureSeniority() { // 退休時年資
     const { presentSeniority } = retirement.value.insurance
@@ -548,7 +549,7 @@ function calculateRetirementExpense() {
     const selectedItem: IOptionItem = props.config.retirementQuartile[qualityLevel - 1]
     retirement.value.annualExpense = Number(selectedItem.value)
 }
-async function drawRetirementAssetChart(propagate = false) {
+async function drawRetirementAssetChart() {
     if (unableToDraw.value) {
         return
     }
