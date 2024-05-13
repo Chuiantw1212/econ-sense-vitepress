@@ -88,18 +88,17 @@ function calculateLifeAsset(options: any = { propagate: true }) {
 let lifeAssetChartInstance = ref<Chart>()
 function drawLifeAsset(payload) {
     const {
-        retirementAsset,
-        securityAssetData,
-        estateDebtData,
-        propagate,
+        retirementAsset = [],
+        securityAssetData = [],
+        estateDebtData = [],
+        propagate = [],
     } = payload
 
     const { irr } = props.security
     const { currentYear, inflationRate } = props.config
     const { downpayTotalPrice, downpayYear } = props.estate
     const { irrOverDecade } = props.retirement.pension
-    const { yearsToRetirement, yearOfRetire } = props.retirement
-    const { lifeExpectancy } = profile.value
+    const { yearsToRetirement, yearOfRetire, lifeExpectancy } = props.retirement
 
 
     const datasets = []
@@ -110,7 +109,7 @@ function drawLifeAsset(payload) {
     const inflationModifier = 1 + inflationRate / 100
     let inflatedEstateAsset = downpayTotalPrice
 
-    for (let i = 0; i < lifeExpectancy; i++) {
+    for (let i = 0; i < yearsToRetirement + lifeExpectancy; i++) {
         const year = currentYear + 1 + i
         labels.push(year)
         // data
@@ -200,7 +199,7 @@ function drawLifeAsset(payload) {
 }
 
 const debounceId = ref()
-function customDebounce(func, delay = 100) {
+function customDebounce(func, delay = 250) {
     return (immediate) => {
         clearTimeout(debounceId.value)
         if (immediate) {

@@ -122,9 +122,9 @@ async function generatStory() {
 function getHumanStory() {
     const { spouse, parenting, estate, estatePrice, career, retirement } = props
     const { counties = [], insuranceTypes = [], townMap = {} } = props.config
-    const { longevity, yearOfBirth, careerInsuranceType, finalAsset } = profile.value
+    const { yearOfBirth, careerInsuranceType, finalAsset } = profile.value
     const { careerHeadCount, } = career
-    const { age: retireAge, qualityLevel, insurance } = retirement
+    const { age: retireAge, qualityLevel, insurance, longevity } = retirement
     const { yearOfMarriage } = spouse
     const { headCount, independantAge } = parenting
     const { downpayYear } = estate

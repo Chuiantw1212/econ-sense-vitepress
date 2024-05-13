@@ -23,15 +23,16 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
+            <!-- <el-row>
                 <el-col :span="12">
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="退休後餘命">
-                        <el-text>{{ retirement.lifeExpectancy }} 年</el-text>
+                        <el-text>{{ retirement.lifeExpectancy }} 年
+                            ({{ Math.ceil(retirement.yearOfRetire + retirement.lifeExpectancy) }})</el-text>
                     </el-form-item>
                 </el-col>
-            </el-row>
+            </el-row> -->
             <el-collapse>
                 <el-collapse-item :title="detailTitle[profile.careerInsuranceType]" :disabled="isFormDisabled">
                     <el-row>
@@ -49,83 +50,53 @@
                     </el-row>
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item v-if="['civilServant'].includes(profile.careerInsuranceType)" label="請領方式">
-                                <econSelect v-model="retirement.pension.type" @change="calculateRetirement()"
-                                    style="width: 130px" :options="cilvilServantRetireOptions">
-                                </econSelect>
-                            </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="每月年金">
-                                <el-text v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">{{
-                                    Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
-                                    月</el-text>
-                                <el-text v-if="['civilServant',].includes(profile.careerInsuranceType)">{{
-                                    Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
+                                <el-text>{{
+                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="12">
+                            <el-form-item label="雇主提繳累計">
+                                <el-input-number v-model="retirement.pension.employerContribution" :min="0"
+                                    @change="calculateRetirement($event)" />
+                            </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="餘命 x 年金現值">
-                                <el-text>{{ Number(retirement.annuitySum).toLocaleString() }}</el-text>
+                            <el-form-item label="個人提繳累計">
+                                <el-input-number v-model="retirement.pension.employeeContrubution" :min="0"
+                                    @change="calculateRetirement($event)" />
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row v-if="parenting.firstBornYear">
-                        <el-col :span="12">
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="預估遺囑年金">
-                                <el-text>{{ Number(retirement.insurance.survivorAnnuity).toLocaleString() }} /
-                                    月</el-text>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <template v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="強制提繳累計">
-                                    <el-input-number v-model="retirement.pension.employerContribution" :min="0"
-                                        @change="calculateRetirement($event)" />
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="個人提繳累計">
-                                    <el-input-number v-model="retirement.pension.employeeContrubution" :min="0"
-                                        @change="calculateRetirement($event)" />
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="強制提繳收益">
-                                    <el-input-number v-model="retirement.pension.employerContributionIncome" :min="0"
-                                        @change="calculateRetirement($event)" />
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="個人提繳收益">
-                                    <el-input-number v-model="retirement.pension.employeeContrubutionIncome" :min="0"
-                                        @change="calculateRetirement($event)" />
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                    </template>
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)"
-                                label="退休金IRR">
+                            <el-form-item label="雇主提繳收益">
+                                <el-input-number v-model="retirement.pension.employerContributionIncome" :min="0"
+                                    @change="calculateRetirement($event)" />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="個人提繳收益">
+                                <el-input-number v-model="retirement.pension.employeeContrubutionIncome" :min="0"
+                                    @change="calculateRetirement($event)" />
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="退休金IRR">
                                 <el-input-number v-model="retirement.pension.irrOverDecade" :min="0"
                                     @change="calculateRetirement($event)" />
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="一次領總額">
-                                <el-text>{{ Number(retirement.pension.lumpSum).toLocaleString() }}</el-text>
+                                <el-text>{{ Number(retirement.pension.lumpsum).toLocaleString() }}</el-text>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -133,7 +104,7 @@
                         <el-col :span="12">
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item v-if="retirement.pension.tax" label="一次領稅基">
+                            <el-form-item label="一次領稅基">
                                 <el-text>{{ Number(retirement.pension.tax).toLocaleString() }}</el-text>
                             </el-form-item>
                         </el-col>
@@ -147,8 +118,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                                item.label
-                                }}</el-radio>
+                item.label
+            }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -166,7 +137,10 @@
                 <el-collapse-item title="試算說明" name="1" :border="true">
                     <ul>
                         <li>
-                            假設勞退皆為一次領，且領後的再投資報酬率打平勞動基金
+                            假設勞退皆為一次領，且領後的再投資報酬率打平相關職業退休基金
+                        </li>
+                        <li>
+                            公教退撫皆為專戶制一次領，且領後的再投資報酬率打平相關職業退休基金
                         </li>
                         <li>
                             勞保勞退查詢：<a href="https://edesk.bli.gov.tw/me/#/na/login">勞保局E化服務系統</a>
@@ -283,10 +257,10 @@ const detailTitle = {
     'employee': '查詢勞保局E化服務系統後設定',
     'entrepreneur': '查詢勞保局E化服務系統後設定',
 }
-const cilvilServantRetireOptions = [
+const cilvilServantPensionOptions = [
     {
         label: '一次退休金',
-        value: 'lumpSum',
+        value: 'lumpsum',
     },
     {
         label: '月退休金',
@@ -297,14 +271,24 @@ const cilvilServantRetireOptions = [
         value: 'halfAndHalf',
     }
 ]
+const cilvilServantInsuranceOptions = [
+    {
+        label: '一次養老給付',
+        value: 'lumpsum',
+    },
+    {
+        label: '養老年金',
+        value: 'annuity',
+    },
+]
 // hooks
 const retirement = computed(() => {
     return props.modelValue
 })
 const isFormDisabled = computed(() => {
-    const { lifeExpectancy } = props.profile
-    const { monthlyBasicSalary } = props.career
-    return !lifeExpectancy || !monthlyBasicSalary
+    const { monthlyBasicSalary, } = props.career
+    const { careerInsuranceType } = props.profile
+    return !monthlyBasicSalary || !careerInsuranceType
 })
 const unableToDraw = computed(() => {
     const { monthlyBasicSalary } = props.career
@@ -313,152 +297,162 @@ const unableToDraw = computed(() => {
     } = retirement.value.pension
     const {
         yearsToRetirement,
-        lifeExpectancy,
         annualExpense,
     } = retirement.value
     const noIncome = !monthlyBasicSalary
     const noBefore = !irrOverDecade || !yearsToRetirement
-    const noAfter = !lifeExpectancy || !annualExpense
+    const noAfter = !annualExpense
     return noIncome || noBefore || noAfter
 })
 // methods
-function calculateRetirement(options: any = { propagate: true }) {
+async function calculateRetirement(options: any = { propagate: true }) {
     resetData()
     calculateExpenseQuartileMarks()
-    calculateRetireLife()
+    await calculateRetireLife()
     calculateFutureSeniority()
     const { careerInsuranceType } = props.profile
     switch (careerInsuranceType) {
         case "employee":
         case "entrepreneur": {
             calculateLaborInsuranceMonthlyAnnuity()
+            calculateAnnuitySum()
             calculateLaborSurvivorAnnuity()
             break;
         }
         case "civilServant": {
-            /**
-             * 退休人員每月退休所得，依第三十六條規定調降優存利息後，仍超出附表三所定各年度替代率上限者，應依下列順序，扣減每月退休所得，至不超過其替代率上限所得金額止：
-             * 一、每月所領公保一次養老給付或一次退休金優存利息。 // 18%
-             * 二、退撫新制實施前年資所計得之月退休金（含月補償金）。
-             * 三、退撫新制實施後年資所計得之月退休金。
-             * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=39
-             */
-            calculateCivilServantPension()
             calculateCivilServantInsurance()
+            calculateAnnuitySum()
             break;
         }
     }
     calculateRetirementExpense()
     const { propagate = true } = options
-    const pensionLumpSumDataPromise = new Promise((resolve) => {
-        customDebounce(async () => {
-            const pensionLumpSumData = await drawRetirementAssetChart(propagate)
-            resolve(pensionLumpSumData)
-        })(false)
-        // 儲存參數
-        if (propagate) {
-            emits('update:modelValue', retirement.value)
-        }
-    })
-    return pensionLumpSumDataPromise
-}
-function calculateCivilServantInsurance() {
-    /**
-     * 上限百分比： 保險年資15年以下，每滿1年，以2%計；第16年起，每滿1年，以2.5%計， 最高增至80%；未滿6個月者，以6個月計；滿6個月以上未滿1年者，以1年計
-     */
-    // https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070002&flno=55
-    // https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=16#:~:text=%E4%B8%80%E3%80%81%E4%B8%80%E6%AC%A1%E9%A4%8A%E8%80%81%E7%B5%A6%E4%BB%98%EF%BC%9A%E4%BF%9D%E9%9A%AA,%E5%9B%9B%E5%8D%81%E4%BA%94%E9%BB%9E%E4%BA%94%E3%80%82
-    // https://www.taisugar.com.tw/Monthly/CPN.aspx?ms=1397&p=13385448&s=13385467
-    const { futureSeniority, } = retirement.value.insurance
-    const { monthlyAnnuity = 0, } = retirement.value.pension
-    let incomeReplacementMaxRatio = 0
-    if (futureSeniority <= 15) {
-
+    const pensionLumpSumData = await drawRetirementAssetChart()
+    if (propagate) {
+        emits('update:modelValue', retirement.value)
     }
-    // 養老年金上限=退休年金給與上限－每月退休給與
-    // const insuranceAnnuityMax = monthlyAnnuity - 
-    if (futureSeniority <= 35) {
-        incomeReplacementMaxRatio = 30 + (futureSeniority - 15) * 1.5
-    } else {
-        incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
-    }
-}
-function calculateCivilServantPension() {
-    const { futureSeniority, } = retirement.value.insurance
-    const { type, } = retirement.value.pension
-    const { salary } = props.career.insurance
-    if (!futureSeniority || !salary || !type) {
-        retirement.value.pension.monthlyAnnuity = 0
-        // career.value.insurance.salary = 0
-        return
-    }
-    /**
-     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=29
-     * 公務人員所具退撫新制實施後任職年資應給與之退休金，依第二十七條所定退休金計算基準與基數內涵，按下列標準計給：
-     * 一、一次退休金：按照任職年資，每任職一年，給與一又二分之一個基數，最高三十五年，給與五十三個基數；退休審定總年資超過三十五年者，自第三十六年起，每增加一年，增給一個基數，最高給與六十個基數。其退休年資未滿一年之畸零月數，按畸零月數比率計給；未滿一個月者，以一個月計。
-     * 二、月退休金：按照任職年資，每任職一年，照基數內涵百分之二給與，最高三十五年，給與百分之七十；退休審定總年資超過三十五年者，自第三十六年起，每增一年，照基數內涵百分之一給與，最高給與百分之七十五。其退休年資未滿一年之畸零月數，按畸零月數比率計給；未滿一個月者，以一個月計。
-     */
-    const baseSalary = salary * 2
-    let lumpSum = 0
-    if (futureSeniority <= 35) {
-        lumpSum = 1.5 * futureSeniority
-        lumpSum = Math.min(53, lumpSum)
-    } else {
-        lumpSum = 1.5 * 35
-        lumpSum += 1 * (futureSeniority - 35)
-        lumpSum = Math.min(60, lumpSum)
-    }
-    lumpSum *= baseSalary
-
-    let monthlyAnnuity = 0
-    let incomeReplacementMaxRatio = 0
-    if (futureSeniority <= 35) {
-        monthlyAnnuity += 2 * futureSeniority
-        // // 替代率天花板
-        // incomeReplacementMaxRatio = 30 + (futureSeniority - 15) * 1.5
-    } else {
-        monthlyAnnuity += 2 * 35
-        monthlyAnnuity += (futureSeniority - 35)
-        monthlyAnnuity = Math.min(75, monthlyAnnuity)
-        // // 替代率天花板
-        // incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
-    }
-    /**
-     * 再計算月退休金
-     */
-    switch (type) {
-        case 'lumpSum': {
-            retirement.value.pension.lumpSum = Math.floor(lumpSum)
-            monthlyAnnuity = 0
-            retirement.value.pension.monthlyAnnuity = monthlyAnnuity
-            break;
-        }
-        case 'annuity': {
-            retirement.value.pension.lumpSum = 0
-            // monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
-            monthlyAnnuity *= baseSalary / 100
-            retirement.value.pension.monthlyAnnuity = Math.floor(monthlyAnnuity)
-            break;
-        }
-        case 'halfAndHalf': {
-            incomeReplacementMaxRatio /= 2
-            // monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
-            monthlyAnnuity *= baseSalary / 100
-            retirement.value.pension.lumpSum = Math.floor(lumpSum / 2)
-            retirement.value.pension.monthlyAnnuity = Math.floor(monthlyAnnuity)
-            break;
-        }
-    }
-    // const { lifeExpectancy, age } = retirement.value
-    // const inflationRate = 1 + props.config.inflationRate / 100
-    // const pvModifier = Math.pow(inflationRate, age - 60)
-    // retirement.value.annuitySum = Math.floor(monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
+    return pensionLumpSumData
 }
 function resetData() {
-    // 避免資料干擾
     retirement.value.insurance.annuity = 0
-    retirement.value.pension.tax = 0
     retirement.value.insurance.survivorAnnuity = 0
+    retirement.value.insurance.incomeReplacementMaxRatio = 0
+    retirement.value.insurance.benefitRatioEstimated = 0
+    retirement.value.insurance.benefitRatio = 0
+    retirement.value.insurance.monthlyAnnuity = 0
+    retirement.value.insurance.lumpsum = 0
+    retirement.value.pension.tax = 0
+    retirement.value.pension.monthlyAnnuity = 0
+    retirement.value.pension.lumpsum = 0
+}
+function calculateCivilServantInsurance(): number {
+    /**
+     * 公保法第16條
+     * 第二項
+     * 一、一次養老給付：保險年資每滿一年，給付一點二個月；最高以給付四十二個月為限。但辦理優惠存款者，最高以三十六個月為限。
+     * 二、養老年金給付：保險年資每滿一年，在給付率百分之零點七五（以下簡稱基本年金率）至百分之一點三（以下簡稱上限年金率）之間核給養老年金給付，
+     * 最高採計三十五年；其總給付率最高為百分之四十五點五。但中華民國一百十二年七月一日以後初次參加本保險者，最高採計四十年；其總給付率最高為百分之五十二。
+     *     
+     * 第三項
+     * 依第一項規定請領養老給付之被保險人符合下列條件之一者，給與養老年金給付：
+     * 一、繳付本保險保險費滿十五年以上且年滿六十五歲。
+     * 二、繳付本保險保險費滿二十年以上且年滿六十歲。
+     * 三、繳付本保險保險費滿三十年以上且年滿五十五歲。
+     * 
+     * 第八項
+     * 依第四項規定按基本年金率計給養老年金給付之被保險人，其每月退休（職、伍）給與，加計每月可領養老年金給付之總和，
+     * 不得超過其最後在職加保投保俸（薪）額二倍之百分之八十；
+     * 超過者，應調降公保養老年金給付，或得選擇不請領養老年金給付而請領一次養老給付；一經領受，不得變更。
+     *
+     * 第十三項
+     * 第八項之給付率自公務人員及公立學校教職員退撫法律制定通過後，另行調整。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=16
+     */
+    /**
+     * 公保法第17條
+     * 
+     * 第一項
+     * 被保險人依前條第三項規定請領養老年金給付者，其每月退休（職、伍）給與，加計每月可領養老年金給付之總和，
+     * 不得超過其最後在職加保投保俸（薪）額二倍之一定百分比（以下簡稱退休年金給與上限）。
+     * 一、保險年資十五年以下，每滿一年，以百分之二計；第十六年起，每滿一年，以百分之二點五計，最高增至百分之八十。
+     * 二、保險年資未滿六個月者，以六個月計；滿六個月以上未滿一年者，以一年計。
+     * 
+     * 第四項 (EN：月退一次領仍可能吃掉養老給付)
+     * 第一項所定每月退休（職、伍）給與，包含下列內涵：
+     * 一、被保險人支（兼）領之月退休（職、伍）給與或類此之非一次性離退給與。
+     * 二、被保險人支（兼）領之一次性退休（職、伍）給與、資遣給與、年資結算金或類此之一次性離退給與，應依平均餘命，按月攤提併入每月退休給與計算。
+     * 三、被保險人依規定領有其支（兼）領一次退休（職、伍）給與之每月優惠存款利息。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=17
+     */
+    /**
+     * 公保法第18條
+     * 被保險人保險年資滿十五年，未符合第十六條養老年金給付請領資格者，得提前五年請領養老年金給付，每提前一年，依第十六條規定計算之給付金額減給百分之四，最多減給百分之二十。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=18
+     */
+    /**
+     * 公保法第19條
+     * 依第十七條規定計得之每月可領養老年金給付，其保險年資每滿一年之給付率低於基本年金率時，仍應按基本年金率計給；超過上限年金率時，應按上限年金率計給。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=19
+     */
+    const { age, yearsToRetirement } = retirement.value
+    const { salary } = props.career.insurance
+    const { futureSeniority, } = retirement.value.insurance
+    const {
+        employerContribution,
+        employeeContrubution,
+        employerContributionIncome,
+        employeeContrubutionIncome,
+        irrOverDecade,
+    } = retirement.value.pension
+    if (futureSeniority < 15) {
+        return 0
+    }
+    let monthlyAnnuity = 0
+    // 計算公保一次領或年金
+    const baseSalary = salary * 2
+    const seniorityOptions = [30, 20, 15]
+    const ageIndex = seniorityOptions.find(seniority => {
+        return seniority >= futureSeniority
+    }) || 2
+    const ageOptions = [55, 60, 65]
+    const standardAge = ageOptions[ageIndex]
+    let ageModifier: number = 1 + (Number(age) - standardAge) * 0.04
+    ageModifier = Math.min(1.2, ageModifier)
+    ageModifier = Math.max(0.8, ageModifier)
+    // 計算年金替代率上限
+    let incomeReplacementMaxRatio = 0
+    if (futureSeniority <= 15) {
+        incomeReplacementMaxRatio = futureSeniority * 2
+    } else {
+        const maxFutureSeniority = Math.min(40, futureSeniority)
+        incomeReplacementMaxRatio = 30 + (maxFutureSeniority - 15) * 2.5
+    }
+    // 用退休金一次領推估公保年金給付上限
+    const pensionPV = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
+    const endPerformance = Math.pow((1 + irrOverDecade / 100), yearsToRetirement)
+    const pensionFV = pensionPV * endPerformance
+    const pensionIncomeReplacementRatio = calculateLumpsumIncomeReplacementRatio(pensionFV)
+    incomeReplacementMaxRatio -= pensionIncomeReplacementRatio
+    retirement.value.insurance.incomeReplacementMaxRatio = incomeReplacementMaxRatio
+    // 用替代率上限回推給付率並增減給
+    const insuranceAnnuityMax = incomeReplacementMaxRatio * baseSalary
+    let benefitRatio = insuranceAnnuityMax / baseSalary / futureSeniority
+    retirement.value.insurance.benefitRatioEstimated = benefitRatio
+    benefitRatio = Math.max(0.75, benefitRatio)
+    benefitRatio = Math.min(1.3, benefitRatio)
+    retirement.value.insurance.benefitRatio = benefitRatio
+    monthlyAnnuity = Math.round(baseSalary * futureSeniority * benefitRatio / 100 * ageModifier)
+    retirement.value.insurance.monthlyAnnuity = monthlyAnnuity
+}
+function calculateLumpsumIncomeReplacementRatio(lumpsum) {
+    const { salary } = props.career.insurance
+    const { lifeExpectancy } = retirement.value
+    const baseSalary = salary * 2
+    const lifeExpectancyMonths = lifeExpectancy * 12
+    const lumpSumPerMonth = lumpsum / lifeExpectancyMonths
+    const lumpsumIncomeReplacementRatio = lumpSumPerMonth / baseSalary * 100
+    retirement.value.pension.lumpsumIncomeReplacementRatio = lumpsumIncomeReplacementRatio
+    return lumpsumIncomeReplacementRatio
 }
 function calculateExpenseQuartileMarks() {
     props.config.retirementQuartile.forEach((item, index) => {
@@ -468,39 +462,60 @@ function calculateExpenseQuartileMarks() {
         expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
     })
 }
-function calculateRetireLife() {
-    const { age: currentAge, lifeExpectancy } = props.profile
+async function calculateRetireLife() {
+    const { age: currentAge, gender } = props.profile
     const { age: retireAge } = retirement.value
     const { currentYear } = props.config
-    if (currentAge && lifeExpectancy && retireAge) {
-        retirement.value.yearsToRetirement = retireAge - currentAge
-        retirement.value.yearOfRetire = currentYear + retirement.value.yearsToRetirement
-        const rawNumber = lifeExpectancy - retirement.value.yearsToRetirement
-        const maxZero = Math.max(0, rawNumber)
-        retirement.value.lifeExpectancy = Number(Number(maxZero).toFixed(2))
+    if (!currentAge || !retireAge) {
+        return
     }
+    const yearsToRetirement = retireAge - currentAge
+    retirement.value.yearsToRetirement = yearsToRetirement
+    const yearOfRetire = currentYear + yearsToRetirement
+    retirement.value.yearOfRetire = yearOfRetire
+    const { VITE_BASE_URL } = import.meta.env
+    const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
+        method: 'post',
+        body: JSON.stringify({
+            ceYear: yearOfRetire,
+            age: retireAge,
+            gender,
+        }),
+        headers: { 'Content-Type': 'application/json' }
+    })
+    const lifeExpectancy = await res.json()
+    retirement.value.lifeExpectancy = lifeExpectancy
+    retirement.value.longevity = currentAge + yearsToRetirement + lifeExpectancy
 }
 function calculateFutureSeniority() { // 退休時年資
     const { presentSeniority } = retirement.value.insurance
-    const rawNumber = presentSeniority + retirement.value.age - props.profile.age
-    retirement.value.insurance.futureSeniority = rawNumber.toFixed(2)
+    const futureSeniority = presentSeniority + retirement.value.age - props.profile.age
+    retirement.value.insurance.futureSeniority = futureSeniority
 }
-function calculateLaborInsuranceMonthlyAnnuity() {
+function calculateLaborInsuranceMonthlyAnnuity(): number {
     const { lifeExpectancy, age } = retirement.value
     const { futureSeniority, } = retirement.value.insurance
     const { salary } = props.career.insurance
     if (!age || !futureSeniority || !salary) {
-        return
+        return 0
     }
-    const ageModifier: number = 1 + (Number(age) - 65) * 0.04
+    let ageModifier: number = 1 + (Number(age) - 65) * 0.04
+    ageModifier = Math.min(1.2, ageModifier)
+    ageModifier = Math.max(0.8, ageModifier)
     const formulaOne: number = (Number(salary) * Number(futureSeniority) * 0.775 / 100 + 3000) * ageModifier
     const formulaTwo: number = (Number(salary) * Number(futureSeniority) * 1.55 / 100) * ageModifier
-    retirement.value.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
+    const monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
+    retirement.value.insurance.monthlyAnnuity = monthlyAnnuity
+}
+function calculateAnnuitySum() {
+    const { lifeExpectancy, age } = retirement.value
+    const { monthlyAnnuity } = retirement.value.insurance
     if (lifeExpectancy) { // 勞保年金請領總和
         const inflationRate = 1 + props.config.inflationRate / 100
         const pvModifier = Math.pow(inflationRate, age - 60)
-        retirement.value.annuitySum = Math.floor(retirement.value.insurance.monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
+        retirement.value.annuitySum = Math.floor(monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
     }
+    return monthlyAnnuity
 }
 function calculateLaborSurvivorAnnuity() {
     const { presentSeniority, } = retirement.value.insurance
@@ -521,27 +536,31 @@ function calculateRetirementExpense() {
     const selectedItem: IOptionItem = props.config.retirementQuartile[qualityLevel - 1]
     retirement.value.annualExpense = Number(selectedItem.value)
 }
-async function drawRetirementAssetChart(propagate = false) {
+
+const debounceId = ref()
+async function drawRetirementAssetChart() {
     if (unableToDraw.value) {
         return
     }
     // 常數參數
-    const {
-        employerContribution,
-        employeeContrubution,
-        employerContributionIncome,
-        employeeContrubutionIncome,
-        irrOverDecade,
-        lumpSum,
-    } = retirement.value.pension
     const { monthlyContribution = 0, monthlyContributionSelf = 0 } = props.career.pension
     const { currentYear } = props.config
     const {
         yearsToRetirement,
         lifeExpectancy,
         annualExpense,
+        insurance,
+        pension,
     } = retirement.value
-    const monthlyAnnuity = retirement.value.insurance.monthlyAnnuity || retirement.value.pension.monthlyAnnuity
+    const {
+        employerContribution,
+        employeeContrubution,
+        employerContributionIncome,
+        employeeContrubutionIncome,
+        irrOverDecade,
+        // lumpsum,
+    } = retirement.value.pension
+    const monthlyAnnuity = Number(insurance.monthlyAnnuity) + Number(pension.monthlyAnnuity)
     const { downpayYear, loanTerm, monthlyRepay } = props.estate
     const loanEndYear = downpayYear + loanTerm
     // 計算資料
@@ -560,33 +579,25 @@ async function drawRetirementAssetChart(propagate = false) {
     const retirementAnnualExpenseData: number[] = []
     const estateData: number[] = []
 
-    const { careerInsuranceType } = props.profile
-    if (['employee', 'entrepreneur'].includes(careerInsuranceType)) {
-        pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
-        // 退休前資產累積
-        for (let i = 1; i <= n; i++) {
-            const pmt = pensionContribution * inflationModifier
-            pv *= pensionIrr
-            fv = Math.floor(pv + pmt)
-            // /** 驗算勞動退休金累積可用 */
-            // pensionLumpSumData.push(Math.floor(fv))
-            // estateData.push(0)
-            // const calculatedYear = currentYear + i
-            // labels.push(calculatedYear)
-            // annualAnnuityData.push(0)
-            // retirementAnnualExpenseData.push(0)
-            // 更新變數
-            inflationModifier *= inflationRate
-            pv = fv
-        }
-        calculateLaborPensionLumpSum(fv)
+    pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
+    // 退休前資產累積
+    for (let i = 1; i <= n; i++) {
+        const pmt = pensionContribution * inflationModifier
+        pv *= pensionIrr
+        fv = Math.floor(pv + pmt)
+        // /** 驗算勞動退休金累積可用 */
+        // pensionLumpSumData.push(Math.floor(fv))
+        // estateData.push(0)
+        // const calculatedYear = currentYear + i
+        // labels.push(calculatedYear)
+        // annualAnnuityData.push(0)
+        // retirementAnnualExpenseData.push(0)
+        // 更新變數
+        inflationModifier *= inflationRate
+        pv = fv
     }
-    if (['civilServant',].includes(careerInsuranceType)) {
-        pv = lumpSum
-        for (let i = 0; i < n; i++) {
-            inflationModifier *= inflationRate
-        }
-    }
+
+    calculatePensionLumpsumTax(fv)
 
     // 退休後退休支出
     let insuranceAnnuityInflationModifier = 1
@@ -623,11 +634,6 @@ async function drawRetirementAssetChart(propagate = false) {
         labels.push(calculatedYear)
         pv = fv
     }
-    if (fv <= 0) {
-        if (!errorMssage.pending()) {
-            errorMssage()
-        }
-    }
     // 繪圖
     const tension = 0.5
     const datasets = [
@@ -663,39 +669,48 @@ async function drawRetirementAssetChart(propagate = false) {
         datasets,
         labels
     }
-    // 繪圖
-    if (pensionChartInstance.value) {
-        pensionChartInstance.value.data = chartData
-        pensionChartInstance.value.update()
-    } else {
-        const ctx: any = document.getElementById('pensionChart')
-        const chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: {
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: { // 要部份stacked，部分overlap
-                        stacked: true,
-                    },
-                }
+    clearTimeout(debounceId.value)
+    debounceId.value = setTimeout(() => {
+        // 錯誤訊息
+        if (fv <= 0) {
+            if (!errorMssage.pending()) {
+                errorMssage()
             }
-        })
-        pensionChartInstance = shallowRef(chartInstance)
-    }
+        }
+        // 繪圖
+        if (pensionChartInstance.value) {
+            pensionChartInstance.value.data = chartData
+            pensionChartInstance.value.update()
+        } else {
+            const ctx: any = document.getElementById('pensionChart')
+            const chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: { // 要部份stacked，部分overlap
+                            stacked: true,
+                        },
+                    }
+                }
+            })
+            pensionChartInstance = shallowRef(chartInstance)
+        }
+    }, 250)
     return {
-        pensionLumpSumData
+        pensionLumpSumData: JSON.parse(JSON.stringify(pensionLumpSumData))
     }
 }
 
-function calculateLaborPensionLumpSum(fv = 0) {
-    retirement.value.pension.lumpSum = Number(fv)
+function calculatePensionLumpsumTax(fv = 0) {
+    retirement.value.pension.lumpsum = Number(fv)
     const { futureSeniority } = retirement.value.insurance
     const taxFreeLevel = 19.8 * 10000 * futureSeniority
     const taxHalfLevel = 39.8 * 10000 * futureSeniority
-    let taxBasis = retirement.value.pension.lumpSum
+    let taxBasis = retirement.value.pension.lumpsum
     taxBasis -= taxFreeLevel
     const taxHalf = Math.max(0, taxBasis) / 2
     taxBasis -= taxHalfLevel
@@ -704,25 +719,10 @@ function calculateLaborPensionLumpSum(fv = 0) {
 }
 
 import { ElMessage, } from 'element-plus'
-import { throttle, debounce } from './lodash.js'
+import { throttle, } from './lodash.js'
 const errorMssage = throttle(() => {
     ElMessage.error('退休：晚節不保！')
 }, 4000)
-
-const debounceId = ref()
-function customDebounce(func, delay = 100) {
-    return (immediate) => {
-        clearTimeout(debounceId.value)
-        if (immediate) {
-            func()
-        } else {
-            debounceId.value = setTimeout(() => {
-                debounceId.value = undefined
-                func()
-            }, delay)
-        }
-    }
-}
 
 defineExpose({
     calculateRetirement,

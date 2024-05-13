@@ -222,12 +222,11 @@ function drawLifeAssetChart() {
     if (unableToDraw.value) {
         return
     }
-    const { lifeExpectancy } = props.profile
-    const { presentAsset, irr, yearsToRetirement } = security.value
+    const { presentAsset, irr } = security.value
     const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.estate
     const { currentYear, inflationRate } = props.config
     const { monthlyContribution } = props.spouse
-    const { yearOfRetire } = props.retirement
+    const { yearsToRetirement, yearOfRetire, lifeExpectancy } = props.retirement
     const spouseAnnualContribution = monthlyContribution * 12
     const inflatoinRatio = 1 + inflationRate / 100
     let valueModifier = 1
@@ -245,7 +244,7 @@ function drawLifeAssetChart() {
     const spouseContribution: number[] = []
     const childExpenseData: number[] = []
 
-    for (let i = 1; i <= lifeExpectancy + 1; i++) {
+    for (let i = 1; i <= yearsToRetirement + lifeExpectancy + 1; i++) {
         const simYear = currentYear + i
         valueModifier *= inflatoinRatio
         /**
@@ -329,11 +328,6 @@ function drawLifeAssetChart() {
         labels.push(simYear)
         pv = fv
     }
-    if (fv <= 0) {
-        if (!errorMssage.pending()) {
-            errorMssage()
-        }
-    }
     const datasets = [
         {
             label: 'ETF',
@@ -374,42 +368,47 @@ function drawLifeAssetChart() {
         datasets,
         labels: labels.slice(0, yearsToRetirement)
     }
-    if (securityChartInstance.value) {
-        const promise = new Promise(async (resolve) => {
-            clearTimeout(debounceId.value)
-            debounceId.value = setTimeout(async () => {
-                debounceId.value = undefined
-                securityChartInstance.value.data = chartData
-                // resolve(principleData)
-                securityChartInstance.value.update()
-            }, 150)
-        })
-    } else {
-        const ctx: any = document.getElementById('securityChart')
-        const chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: {
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true
+    clearTimeout(debounceId.value)
+    debounceId.value = setTimeout(async () => {
+        // 派送訊息
+        if (fv <= 0) {
+            if (!errorMssage.pending()) {
+                errorMssage()
+            }
+        }
+        // 繪圖
+        if (securityChartInstance.value) {
+            debounceId.value = undefined
+            securityChartInstance.value.data = chartData
+            securityChartInstance.value.update()
+        } else {
+            const ctx: any = document.getElementById('securityChart')
+            const chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            stacked: true
+                        }
                     }
                 }
-            }
-        })
-        securityChartInstance = shallowRef(chartInstance)
-    }
-    return {
+            })
+            securityChartInstance = shallowRef(chartInstance)
+        }
+    }, 250)
+    const exportData = {
         securityAppreciationData,
         securityAssetData,
     }
+    return JSON.parse(JSON.stringify(exportData))
 }
 
 import { ElMessage, } from 'element-plus'
-import { throttle, debounce } from './lodash.js'
+import { throttle } from './lodash.js'
 const errorMssage = throttle(() => {
     ElMessage.error('資產：一貧如洗！')
 }, 4000)

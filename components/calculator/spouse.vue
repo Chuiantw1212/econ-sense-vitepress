@@ -151,7 +151,11 @@ function calculatecSpouse(options: any = { propagate: true }) {
 }
 function calculateMonthlyContribution() {
     const { monthlyNetPay, monthlyExpense } = spouse.value
-    spouse.value.monthlyContribution = monthlyNetPay - monthlyExpense
+    if (monthlyNetPay) {
+        spouse.value.monthlyContribution = monthlyNetPay - monthlyExpense
+    } else {
+        spouse.value.monthlyContribution = 0
+    }
 }
 function calculateYearOfMarriage() {
     const { yearOfMarriage } = spouse.value
@@ -210,7 +214,7 @@ function drawMarriageChart(propagate = true) {
 }
 
 const debounceId = ref()
-function debounce(func, delay = 100) {
+function debounce(func, delay = 250) {
     return (immediate) => {
         clearTimeout(debounceId.value)
         if (immediate) {

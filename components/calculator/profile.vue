@@ -49,11 +49,6 @@
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12">
-                    <el-form-item label="預估餘命">
-                        <el-text>{{ profile.lifeExpectancy }} 年</el-text>
-                    </el-form-item>
-                </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
@@ -80,6 +75,9 @@
                         <li>
                             通貨膨脹(消費者物價指數年增率)：<a href="https://www.stat.gov.tw/Point.aspx?sid=t.2&n=3581&sms=11480"
                                 target="_blank">中華民國統計資訊網</a>
+                        </li>
+                        <li>
+                            公教人員年金改革到一半，目前沒人知道公保會怎麼調整。
                         </li>
                     </ul>
                 </el-collapse-item>
@@ -244,9 +242,7 @@ function openSignInDialog() {
 
 async function calculateProfile(options: any = { propagate: true }) {
     const { propagate = true } = options
-    customDebounce(() => {
-        drawProfileChart(propagate)
-    })(propagate)
+    drawProfileChart(propagate)
 }
 
 async function drawProfileChart(propagate = false) {
@@ -254,40 +250,13 @@ async function drawProfileChart(propagate = false) {
     if (yearOfBirth && gender) {
         const ceYear = new Date().getFullYear()
         const calculateAge = ceYear - Number(yearOfBirth)
-        const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
-            method: 'post',
-            body: JSON.stringify({
-                ceYear,
-                age: calculateAge,
-                gender,
-            }),
-            headers: { 'Content-Type': 'application/json' }
-        })
-        const lifeExpectancy = await res.json()
         profile.value.age = calculateAge
-        profile.value.lifeExpectancy = Number(lifeExpectancy)
-        profile.value.longevity = calculateAge + lifeExpectancy
         if (propagate) {
             emits('update:modelValue', profile.value)
         }
     } else {
         profile.value.age = 0
         profile.value.lifeExpectancy = 0
-    }
-}
-
-const debounceId = ref()
-function customDebounce(func, delay = 100) {
-    return (immediate) => {
-        clearTimeout(debounceId.value)
-        if (immediate) {
-            func()
-        } else {
-            debounceId.value = setTimeout(() => {
-                debounceId.value = undefined
-                func()
-            }, delay)
-        }
     }
 }
 

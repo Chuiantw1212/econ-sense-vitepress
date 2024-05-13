@@ -159,7 +159,7 @@ function calculateFreedomRate(payload) {
         fill: true,
         tension,
     })
-    // security sum 
+    // security sum
     const finalAsset = securityData.pop()
     const finalDebt = estateDebtData.pop()
     const finalEstate = estateAsset.pop()

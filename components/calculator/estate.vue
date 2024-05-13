@@ -5,8 +5,8 @@
                 <el-col :span="17">
                     <el-form-item label="房屋總價">
                         <el-text v-if="estate.totalPriceEstimated">= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
-                            estateSize.floorSize }}坪) = {{
-                                Number(Math.floor(estate.totalPriceEstimated / 10000)).toLocaleString() }} 萬</el-text>
+                    estateSize.floorSize }}坪) = {{
+                    Number(Math.floor(estate.totalPriceEstimated / 10000)).toLocaleString() }} 萬</el-text>
                         <el-input-number v-else v-model="estate.totalPrice" :min="0" :step="1000000"
                             @change="calculateMortgage({ setDownpay: true })" />
                     </el-form-item>
@@ -406,7 +406,7 @@ function drawDownpayChart() {
             debounceId.value = undefined
             downPayChartInstance.value.data = chartData
             downPayChartInstance.value.update()
-        }, 150)
+        }, 250)
     } else {
         const ctx: any = document.getElementById('savingDownpayChart')
         const chartInstance = new Chart(ctx, {
@@ -424,9 +424,10 @@ function drawDownpayChart() {
         })
         downPayChartInstance = shallowRef(chartInstance)
     }
-    return {
+    const exportData = {
         estateDebtData
     }
+    return JSON.parse(JSON.stringify(exportData))
 }
 function formatNumber(tooltipItems) {
     const { raw, } = tooltipItems
@@ -443,7 +444,7 @@ function calculateDownpayYear() {
 }
 
 import { ElMessage, } from 'element-plus'
-import { throttle, debounce } from './lodash.js'
+import { throttle } from './lodash.js'
 const errorMssage = throttle(() => {
     ElMessage.error('房屋：家徒四壁！')
 }, 4000)
