@@ -210,10 +210,10 @@ function calculateCareer(options: any = { propagate: true }) {
     try {
         calculateMonthlyBasic()
         calculateAllowance()
-        calculateMonthlyTotal()
+        calculateMonthlyTotalSalary()
         calculateHealthInsurance()
-        calculateCareerInsurance()
         calculateGovernmentPension()
+        calculateCareerInsurance()
         calculateMonthlySaving()
         debounce(() => {
             drawChartAndCalculateIncome(propagate)
@@ -242,7 +242,7 @@ function calculateMonthlyBasic() {
         career.value.monthlyBasicSalary = 0
     }
 }
-function calculateMonthlyTotal() {
+function calculateMonthlyTotalSalary() {
     const { monthlyBasicSalary, insurance, pension, supervisorAllowance, professionalAllowance } = career.value
     career.value.monthlyTotalSalary = monthlyBasicSalary + supervisorAllowance + professionalAllowance
 }

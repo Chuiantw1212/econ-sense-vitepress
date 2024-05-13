@@ -58,10 +58,10 @@
                         <el-col :span="12">
                             <el-form-item label="每月年金">
                                 <el-text v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">{{
-                                    Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                                 <el-text v-if="['civilServant',].includes(profile.careerInsuranceType)">{{
-                                    Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
+                Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -147,8 +147,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                                item.label
-                                }}</el-radio>
+                item.label
+            }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -364,11 +364,37 @@ function calculateRetirement(options: any = { propagate: true }) {
 }
 function calculateCivilServantInsurance() {
     /**
-     * 上限百分比： 保險年資15年以下，每滿1年，以2%計；第16年起，每滿1年，以2.5%計， 最高增至80%；未滿6個月者，以6個月計；滿6個月以上未滿1年者，以1年計
+     * 公保法第16條第二項
+     * 養老給付之請領方式及給與標準如下：
+     * 一、一次養老給付：保險年資每滿一年，給付一點二個月；最高以給付四十二個月為限。但辦理優惠存款者，最高以三十六個月為限。
+     * 二、養老年金給付：保險年資每滿一年，在給付率百分之零點七五（以下簡稱基本年金率）至百分之一點三（以下簡稱上限年金率）之間核給養老年金給付，
+     * 最高採計三十五年；其總給付率最高為百分之四十五點五。但中華民國一百十二年七月一日以後初次參加本保險者，最高採計四十年；其總給付率最高為百分之五十二。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=16#:~:text=%E4%B8%80%E3%80%81%E4%B8%80%E6%AC%A1%E9%A4%8A%E8%80%81%E7%B5%A6%E4%BB%98%EF%BC%9A%E4%BF%9D%E9%9A%AA,%E5%9B%9B%E5%8D%81%E4%BA%94%E9%BB%9E%E4%BA%94%E3%80%82
      */
-    // https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070002&flno=55
-    // https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=16#:~:text=%E4%B8%80%E3%80%81%E4%B8%80%E6%AC%A1%E9%A4%8A%E8%80%81%E7%B5%A6%E4%BB%98%EF%BC%9A%E4%BF%9D%E9%9A%AA,%E5%9B%9B%E5%8D%81%E4%BA%94%E9%BB%9E%E4%BA%94%E3%80%82
-    // https://www.taisugar.com.tw/Monthly/CPN.aspx?ms=1397&p=13385448&s=13385467
+    /**
+     * 公保法第16條
+     * 
+     * 第八項
+     * 依第四項規定按基本年金率計給養老年金給付之被保險人，其每月退休（職、伍）給與，加計每月可領養老年金給付之總和，
+     * 不得超過其最後在職加保投保俸（薪）額二倍之百分之八十；
+     * 超過者，應調降公保養老年金給付，或得選擇不請領養老年金給付而請領一次養老給付；一經領受，不得變更。
+     *
+     * 第十三項
+     * 第八項之給付率自公務人員及公立學校教職員退撫法律制定通過後，另行調整。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=16
+     */
+    /**
+     * 公保法第17條
+     * 被保險人依前條第三項規定請領養老年金給付者，其每月退休（職、伍）給與，加計每月可領養老年金給付之總和，
+     * 不得超過其最後在職加保投保俸（薪）額二倍之一定百分比（以下簡稱退休年金給與上限）。
+     * 一、保險年資十五年以下，每滿一年，以百分之二計；第十六年起，每滿一年，以百分之二點五計，最高增至百分之八十。
+     * 二、保險年資未滿六個月者，以六個月計；滿六個月以上未滿一年者，以一年計。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=17
+     */
+    /**
+     * 公保法第18條
+     * 被保險人保險年資滿十五年，未符合第十六條養老年金給付請領資格者，得提前五年請領養老年金給付，每提前一年，依第十六條規定計算之給付金額減給百分之四，最多減給百分之二十。
+     */
     const { futureSeniority, } = retirement.value.insurance
     const { monthlyAnnuity = 0, } = retirement.value.pension
     let incomeReplacementMaxRatio = 0
@@ -393,11 +419,22 @@ function calculateCivilServantPension() {
         return
     }
     /**
-     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=29
+     * 退撫法第29條
      * 公務人員所具退撫新制實施後任職年資應給與之退休金，依第二十七條所定退休金計算基準與基數內涵，按下列標準計給：
      * 一、一次退休金：按照任職年資，每任職一年，給與一又二分之一個基數，最高三十五年，給與五十三個基數；退休審定總年資超過三十五年者，自第三十六年起，每增加一年，增給一個基數，最高給與六十個基數。其退休年資未滿一年之畸零月數，按畸零月數比率計給；未滿一個月者，以一個月計。
      * 二、月退休金：按照任職年資，每任職一年，照基數內涵百分之二給與，最高三十五年，給與百分之七十；退休審定總年資超過三十五年者，自第三十六年起，每增一年，照基數內涵百分之一給與，最高給與百分之七十五。其退休年資未滿一年之畸零月數，按畸零月數比率計給；未滿一個月者，以一個月計。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=29
      */
+    /**
+     * 退撫法第39條
+     * 退休人員每月退休所得，依第三十六條規定調降優存利息後，仍超出附表三所定各年度替代率上限者，應依下列順序，扣減每月退休所得，至不超過其替代率上限所得金額止：
+     * 一、每月所領公保一次養老給付或一次退休金"優存利息"。
+     * 二、退撫新制實施前年資所計得之月退休金（含月補償金）。
+     * 三、退撫新制實施後年資所計得之月退休金。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=39
+     * 年資十五年：30.0% ~ 年資四十年：62.5%
+     */
+
     const baseSalary = salary * 2
     let lumpSum = 0
     if (futureSeniority <= 35) {
