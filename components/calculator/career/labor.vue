@@ -596,7 +596,7 @@ function tooltipFormat(tooltipItems) {
 import { ElMessage, } from 'element-plus'
 import { throttle, debounce } from '../lodash.js'
 const errorMssage = throttle(() => {
-    ElMessage.error('收入：兩袖清風！')
+    // ElMessage.error('收入：兩袖清風！')
 }, 4000)
 
 

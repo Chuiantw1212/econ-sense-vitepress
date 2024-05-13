@@ -267,11 +267,7 @@ function setUserAndInitialize(form, { showMessage = false }) {
             changeAllCards({
                 propagate: false
             })
-        }, 200);
-        // setTimeout(() => {
-        // })
-        // nextTick(() => {
-        // })
+        }, 200)
         window.scrollTo(0, 0)
     })
 }

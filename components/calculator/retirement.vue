@@ -71,13 +71,13 @@
                         <el-col :span="12">
                             <el-form-item label="一次領總額">
                                 <el-text>{{
-                Number(retirement.pension.lumpSum
+                Number(retirement.pension.lumpsum
                 ).toLocaleString() }}
                                 </el-text>
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row v-if="retirement.pension.requestType !== 'lumpSum'">
+                    <el-row v-if="retirement.pension.requestType !== 'lumpsum'">
                         <el-col :span="12">
                             <el-form-item label="月退替代率">
                                 <el-text>{{
@@ -111,9 +111,13 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
+                            <el-form-item v-if="retirement.insurance.requestType === 'lumpsum'" label="一次養老給付">
+                                <el-text>{{
+                Number(retirement.insurance.lumpsum).toLocaleString() }}</el-text>
+                            </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row>
+                    <el-row v-if="retirement.insurance.requestType === 'annuity'">
                         <el-col :span="12">
                             <el-form-item label="公保替代率餘額">
                                 <el-text>{{
@@ -124,7 +128,7 @@
                         <el-col :span="12">
                         </el-col>
                     </el-row>
-                    <el-row>
+                    <el-row v-if="retirement.insurance.requestType === 'annuity'">
                         <el-col :span="12">
                             <el-form-item label="公保給付率">
                                 <el-text>
@@ -135,7 +139,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="養老給付">
+                            <el-form-item label="養老年金">
                                 <el-text>{{
                 Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
@@ -228,7 +232,7 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="一次領總額">
-                                <el-text>{{ Number(retirement.pension.lumpSum).toLocaleString() }}</el-text>
+                                <el-text>{{ Number(retirement.pension.lumpsum).toLocaleString() }}</el-text>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -389,7 +393,7 @@ const detailTitle = {
 const cilvilServantPensionOptions = [
     {
         label: '一次退休金',
-        value: 'lumpSum',
+        value: 'lumpsum',
     },
     {
         label: '月退休金',
@@ -403,7 +407,7 @@ const cilvilServantPensionOptions = [
 const cilvilServantInsuranceOptions = [
     {
         label: '一次養老給付',
-        value: 'lumpSum',
+        value: 'lumpsum',
     },
     {
         label: '養老年金',
@@ -470,17 +474,26 @@ async function calculateRetirement(options: any = { propagate: true }) {
     })
     return pensionLumpSumDataPromise
 }
+function resetData() {
+    retirement.value.insurance.annuity = 0
+    retirement.value.insurance.survivorAnnuity = 0
+    retirement.value.insurance.incomeReplacementMaxRatio = 0
+    retirement.value.insurance.benefitRatioEstimated = 0
+    retirement.value.insurance.benefitRatio = 0
+    retirement.value.insurance.monthlyAnnuity = 0
+    retirement.value.insurance.lumpsum = 0
+    retirement.value.pension.tax = 0
+    retirement.value.pension.monthlyAnnuity = 0
+    retirement.value.pension.lumpsum = 0
+}
 function calculateCivilServantInsurance() {
     /**
-     * 公保法第16條第二項
-     * 養老給付之請領方式及給與標準如下：
+     * 公保法第16條
+     * 第二項
      * 一、一次養老給付：保險年資每滿一年，給付一點二個月；最高以給付四十二個月為限。但辦理優惠存款者，最高以三十六個月為限。
      * 二、養老年金給付：保險年資每滿一年，在給付率百分之零點七五（以下簡稱基本年金率）至百分之一點三（以下簡稱上限年金率）之間核給養老年金給付，
      * 最高採計三十五年；其總給付率最高為百分之四十五點五。但中華民國一百十二年七月一日以後初次參加本保險者，最高採計四十年；其總給付率最高為百分之五十二。
-     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=16#:~:text=%E4%B8%80%E3%80%81%E4%B8%80%E6%AC%A1%E9%A4%8A%E8%80%81%E7%B5%A6%E4%BB%98%EF%BC%9A%E4%BF%9D%E9%9A%AA,%E5%9B%9B%E5%8D%81%E4%BA%94%E9%BB%9E%E4%BA%94%E3%80%82
-     */
-    /**
-     * 公保法第16條
+     *     
      * 第三項
      * 依第一項規定請領養老給付之被保險人符合下列條件之一者，給與養老年金給付：
      * 一、繳付本保險保險費滿十五年以上且年滿六十五歲。
@@ -512,35 +525,55 @@ function calculateCivilServantInsurance() {
      * 三、被保險人依規定領有其支（兼）領一次退休（職、伍）給與之每月優惠存款利息。
      * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=17
      */
-    const { futureSeniority, } = retirement.value.insurance
-    const { incomeReplacementRatio: pensionIncomeReplacementRatio } = retirement.value.pension
-    let incomeReplacementMaxRatio = 0
-    if (futureSeniority <= 15) {
-        incomeReplacementMaxRatio = futureSeniority * 2
-    } else {
-        incomeReplacementMaxRatio = 30 + (futureSeniority - 15) * 2.5
-    }
-    incomeReplacementMaxRatio -= pensionIncomeReplacementRatio
-    retirement.value.insurance.incomeReplacementMaxRatio = incomeReplacementMaxRatio
-
-    const { salary } = props.career.insurance
-    const baseSalary = salary * 2
-    const insuranceAnnuityMax = incomeReplacementMaxRatio * baseSalary
-    let benefitRatio = insuranceAnnuityMax / baseSalary / futureSeniority
-    retirement.value.insurance.benefitRatioEstimated = benefitRatio
-    benefitRatio = Math.max(0.75, benefitRatio)
-    benefitRatio = Math.min(1.3, benefitRatio)
     /**
      * 公保法第18條
      * 被保險人保險年資滿十五年，未符合第十六條養老年金給付請領資格者，得提前五年請領養老年金給付，每提前一年，依第十六條規定計算之給付金額減給百分之四，最多減給百分之二十。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=18
      */
     /**
      * 公保法第19條
      * 依第十七條規定計得之每月可領養老年金給付，其保險年資每滿一年之給付率低於基本年金率時，仍應按基本年金率計給；超過上限年金率時，應按上限年金率計給。
      * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=19
      */
-    retirement.value.insurance.benefitRatio = benefitRatio
-    retirement.value.insurance.monthlyAnnuity = Math.round(baseSalary * futureSeniority * benefitRatio / 100)
+    const { age } = retirement.value
+    const { salary, futureSeniority, requestType } = retirement.value.insurance
+    const { incomeReplacementRatio: pensionIncomeReplacementRatio } = retirement.value.pension
+    if (futureSeniority < 15) {
+        return
+    }
+    // 計算公保一次領或年金
+    const baseSalary = salary * 2
+    if (requestType == 'annuity') {
+        // 計算請領年齡
+        const seniorityOptions = [30, 20, 15]
+        const ageIndex = seniorityOptions.find(seniority => {
+            return seniority >= futureSeniority
+        }) || 2
+        const ageOptions = [55, 60, 65]
+        const standardAge = ageOptions[ageIndex]
+        const ageModifier: number = 1 + Math.min(5, (Number(age) - standardAge)) * 0.04
+        // 計算年金替代率上限
+        let incomeReplacementMaxRatio = 0
+        if (futureSeniority <= 15) {
+            incomeReplacementMaxRatio = futureSeniority * 2
+        } else {
+            const maxFutureSeniority = Math.min(40, futureSeniority)
+            incomeReplacementMaxRatio = 30 + (maxFutureSeniority - 15) * 2.5
+        }
+        incomeReplacementMaxRatio -= pensionIncomeReplacementRatio
+        retirement.value.insurance.incomeReplacementMaxRatio = incomeReplacementMaxRatio
+        // 用替代率上限回推給付率並增減給
+        const insuranceAnnuityMax = incomeReplacementMaxRatio * baseSalary
+        let benefitRatio = insuranceAnnuityMax / baseSalary / futureSeniority
+        retirement.value.insurance.benefitRatioEstimated = benefitRatio
+        benefitRatio = Math.max(0.75, benefitRatio)
+        benefitRatio = Math.min(1.3, benefitRatio)
+        retirement.value.insurance.benefitRatio = benefitRatio
+        retirement.value.insurance.monthlyAnnuity = Math.round(baseSalary * futureSeniority * benefitRatio / 100 * ageModifier)
+    } else {
+        // 一次養老給付：保險年資每滿一年，給付一點二個月；最高以給付四十二個月為限。但辦理優惠存款者，最高以三十六個月為限。
+        retirement.value.insurance.lumpsum = Math.min(42, futureSeniority * 1.2) * baseSalary
+    }
 }
 function calculateCivilServantPension() {
     const { futureSeniority, } = retirement.value.insurance
@@ -582,16 +615,16 @@ function calculateCivilServantPension() {
      */
 
     const baseSalary = salary * 2
-    let lumpSum = 0
+    let lumpsum = 0
     if (futureSeniority <= 35) {
-        lumpSum = 1.5 * futureSeniority
-        lumpSum = Math.min(53, lumpSum)
+        lumpsum = 1.5 * futureSeniority
+        lumpsum = Math.min(53, lumpsum)
     } else {
-        lumpSum = 1.5 * 35
-        lumpSum += 1 * (futureSeniority - 35)
-        lumpSum = Math.min(60, lumpSum)
+        lumpsum = 1.5 * 35
+        lumpsum += 1 * (futureSeniority - 35)
+        lumpsum = Math.min(60, lumpsum)
     }
-    lumpSum *= baseSalary
+    lumpsum *= baseSalary
 
     let annuityRatio = 0
     let annuityRatioMax = 0
@@ -611,19 +644,19 @@ function calculateCivilServantPension() {
      * 再計算月退休金
      */
     switch (requestType) {
-        case 'lumpSum': {
+        case 'lumpsum': {
             retirement.value.pension.annuityRatioMax = 0
             retirement.value.pension.annuityRatio = 0
             retirement.value.pension.monthlyAnnuity = 0
 
-            retirement.value.pension.lumpSum = Math.floor(lumpSum)
+            retirement.value.pension.lumpsum = Math.floor(lumpsum)
             const lumpSumIncomeReplacementRatio = calculateLumpsumIncomeReplacementRatio()
             retirement.value.pension.incomeReplacementRatio = lumpSumIncomeReplacementRatio
             break;
         }
         case 'annuity': {
             retirement.value.pension.annuityRatioMax = annuityRatioMax
-            retirement.value.pension.lumpSum = 0
+            retirement.value.pension.lumpsum = 0
 
             annuityRatio = Math.min(annuityRatioMax, annuityRatio)
             retirement.value.pension.annuityRatio = annuityRatio
@@ -639,8 +672,8 @@ function calculateCivilServantPension() {
             annuityRatio = Math.min(annuityRatioMax, annuityRatio)
             retirement.value.pension.annuityRatio = annuityRatio
 
-            lumpSum /= 2
-            retirement.value.pension.lumpSum = Math.floor(lumpSum)
+            lumpsum /= 2
+            retirement.value.pension.lumpsum = Math.floor(lumpsum)
             const lumpSumIncomeReplacementRatio = calculateLumpsumIncomeReplacementRatio()
             retirement.value.pension.incomeReplacementRatio = lumpSumIncomeReplacementRatio + annuityRatio
 
@@ -651,21 +684,15 @@ function calculateCivilServantPension() {
     }
 }
 function calculateLumpsumIncomeReplacementRatio() {
-    const { lumpSum } = retirement.value.pension
+    const { lumpsum } = retirement.value.pension
     const { salary } = props.career.insurance
     const { lifeExpectancy } = retirement.value
     const baseSalary = salary * 2
     const lifeExpectancyMonths = lifeExpectancy * 12
-    const lumpSumPerMonth = lumpSum / lifeExpectancyMonths
+    const lumpSumPerMonth = lumpsum / lifeExpectancyMonths
     const lumpsumIncomeReplacementRatio = lumpSumPerMonth / baseSalary * 100
     retirement.value.pension.lumpsumIncomeReplacementRatio = lumpsumIncomeReplacementRatio
     return lumpsumIncomeReplacementRatio
-}
-function resetData() {
-    // 避免資料干擾
-    retirement.value.insurance.annuity = 0
-    retirement.value.pension.tax = 0
-    retirement.value.insurance.survivorAnnuity = 0
 }
 function calculateExpenseQuartileMarks() {
     props.config.retirementQuartile.forEach((item, index) => {
@@ -711,7 +738,7 @@ function calculateLaborInsuranceMonthlyAnnuity() {
     if (!age || !futureSeniority || !salary) {
         return
     }
-    const ageModifier: number = 1 + (Number(age) - 65) * 0.04
+    const ageModifier: number = 1 + Math.min(5, (Number(age) - 65)) * 0.04
     const formulaOne: number = (Number(salary) * Number(futureSeniority) * 0.775 / 100 + 3000) * ageModifier
     const formulaTwo: number = (Number(salary) * Number(futureSeniority) * 1.55 / 100) * ageModifier
     retirement.value.insurance.monthlyAnnuity = Math.floor(Math.max(formulaOne, formulaTwo))
@@ -745,22 +772,24 @@ async function drawRetirementAssetChart(propagate = false) {
         return
     }
     // 常數參數
-    const {
-        employerContribution,
-        employeeContrubution,
-        employerContributionIncome,
-        employeeContrubutionIncome,
-        irrOverDecade,
-        lumpSum,
-    } = retirement.value.pension
     const { monthlyContribution = 0, monthlyContributionSelf = 0 } = props.career.pension
     const { currentYear } = props.config
     const {
         yearsToRetirement,
         lifeExpectancy,
         annualExpense,
+        insurance,
+        pension,
     } = retirement.value
-    const monthlyAnnuity = retirement.value.insurance.monthlyAnnuity || retirement.value.pension.monthlyAnnuity
+    const {
+        employerContribution,
+        employeeContrubution,
+        employerContributionIncome,
+        employeeContrubutionIncome,
+        irrOverDecade,
+        // lumpsum,
+    } = retirement.value.pension
+    const monthlyAnnuity = Number(insurance.monthlyAnnuity) + Number(pension.monthlyAnnuity)
     const { downpayYear, loanTerm, monthlyRepay } = props.estate
     const loanEndYear = downpayYear + loanTerm
     // 計算資料
@@ -801,7 +830,7 @@ async function drawRetirementAssetChart(propagate = false) {
         calculateLaborPensionLumpSum(fv)
     }
     if (['civilServant',].includes(careerInsuranceType)) {
-        pv = lumpSum
+        pv = pension.lumpsum + insurance.lumpsum
         for (let i = 0; i < n; i++) {
             inflationModifier *= inflationRate
         }
@@ -910,11 +939,11 @@ async function drawRetirementAssetChart(propagate = false) {
 }
 
 function calculateLaborPensionLumpSum(fv = 0) {
-    retirement.value.pension.lumpSum = Number(fv)
+    retirement.value.pension.lumpsum = Number(fv)
     const { futureSeniority } = retirement.value.insurance
     const taxFreeLevel = 19.8 * 10000 * futureSeniority
     const taxHalfLevel = 39.8 * 10000 * futureSeniority
-    let taxBasis = retirement.value.pension.lumpSum
+    let taxBasis = retirement.value.pension.lumpsum
     taxBasis -= taxFreeLevel
     const taxHalf = Math.max(0, taxBasis) / 2
     taxBasis -= taxHalfLevel
@@ -925,7 +954,7 @@ function calculateLaborPensionLumpSum(fv = 0) {
 import { ElMessage, } from 'element-plus'
 import { throttle, debounce } from './lodash.js'
 const errorMssage = throttle(() => {
-    ElMessage.error('退休：晚節不保！')
+    // ElMessage.error('退休：晚節不保！')
 }, 4000)
 
 const debounceId = ref()

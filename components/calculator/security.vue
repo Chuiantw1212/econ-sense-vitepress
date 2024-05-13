@@ -411,7 +411,7 @@ function drawLifeAssetChart() {
 import { ElMessage, } from 'element-plus'
 import { throttle, debounce } from './lodash.js'
 const errorMssage = throttle(() => {
-    ElMessage.error('資產：一貧如洗！')
+    // ElMessage.error('資產：一貧如洗！')
 }, 4000)
 
 defineExpose({
