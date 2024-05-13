@@ -33,7 +33,8 @@
                 </el-col>
             </el-row>
             <el-collapse>
-                <el-collapse-item :title="detailTitle[profile.careerInsuranceType]" :disabled="isFormDisabled">
+                <el-collapse-item v-if="['civilServant',].includes(profile.careerInsuranceType)" title="查詢人事服務網ECPA後設定"
+                    :disabled="isFormDisabled">
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="目前投保年資">
@@ -49,19 +50,53 @@
                     </el-row>
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item v-if="['civilServant'].includes(profile.careerInsuranceType)" label="請領方式">
+                            <el-form-item label="請領方式">
                                 <econSelect v-model="retirement.pension.type" @change="calculateRetirement()"
                                     style="width: 130px" :options="cilvilServantRetireOptions">
                                 </econSelect>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="每月年金">
-                                <el-text v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">{{
-                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
-                                    月</el-text>
-                                <el-text v-if="['civilServant',].includes(profile.careerInsuranceType)">{{
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="退撫所得替代率上限">
+                                <el-text>{{
+                Number(retirement.pension.incomeReplacementMaxRatio).toLocaleString() }} %</el-text>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="每月退休金">
+                                <el-text>{{
                 Number(retirement.pension.monthlyAnnuity).toLocaleString() }} /
+                                    月</el-text>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-collapse-item>
+                <el-collapse-item v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)"
+                    title="查詢勞保局E化服務系統後設定" :disabled="isFormDisabled">
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="目前投保年資">
+                                <el-input-number v-model="retirement.insurance.presentSeniority" :min="0"
+                                    @change="calculateRetirement()" />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="預估屆退年資">
+                                <el-text>{{ retirement.insurance.futureSeniority }} 年</el-text>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="每月年金">
+                                <el-text>{{
+                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -85,10 +120,10 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <template v-if="['employee', 'entrepreneur'].includes(profile.careerInsuranceType)">
+                    <template>
                         <el-row>
                             <el-col :span="12">
-                                <el-form-item label="強制提繳累計">
+                                <el-form-item label="雇主提繳累計">
                                     <el-input-number v-model="retirement.pension.employerContribution" :min="0"
                                         @change="calculateRetirement($event)" />
                                 </el-form-item>
@@ -102,7 +137,7 @@
                         </el-row>
                         <el-row>
                             <el-col :span="12">
-                                <el-form-item label="強制提繳收益">
+                                <el-form-item label="雇主提繳收益">
                                     <el-input-number v-model="retirement.pension.employerContributionIncome" :min="0"
                                         @change="calculateRetirement($event)" />
                                 </el-form-item>
@@ -322,10 +357,10 @@ const unableToDraw = computed(() => {
     return noIncome || noBefore || noAfter
 })
 // methods
-function calculateRetirement(options: any = { propagate: true }) {
+async function calculateRetirement(options: any = { propagate: true }) {
     resetData()
     calculateExpenseQuartileMarks()
-    calculateRetireLife()
+    await calculateRetireLife()
     calculateFutureSeniority()
     const { careerInsuranceType } = props.profile
     switch (careerInsuranceType) {
@@ -336,7 +371,10 @@ function calculateRetirement(options: any = { propagate: true }) {
             break;
         }
         case "civilServant": {
-            // 公教退休金計算，先算退撫所得，再算職業保險年金給付
+            /**
+             * 台糖試算專題 (EN：公教人員的退撫有多重天花板)
+             * https://www.taisugar.com.tw/Monthly/CPN.aspx?ms=1397&p=13385448&s=13385467
+             */
             calculateCivilServantPension()
             calculateCivilServantInsurance()
             break;
@@ -367,6 +405,11 @@ function calculateCivilServantInsurance() {
      */
     /**
      * 公保法第16條
+     * 第三項
+     * 依第一項規定請領養老給付之被保險人符合下列條件之一者，給與養老年金給付：
+     * 一、繳付本保險保險費滿十五年以上且年滿六十五歲。
+     * 二、繳付本保險保險費滿二十年以上且年滿六十歲。
+     * 三、繳付本保險保險費滿三十年以上且年滿五十五歲。
      * 
      * 第八項
      * 依第四項規定按基本年金率計給養老年金給付之被保險人，其每月退休（職、伍）給與，加計每月可領養老年金給付之總和，
@@ -374,20 +417,33 @@ function calculateCivilServantInsurance() {
      * 超過者，應調降公保養老年金給付，或得選擇不請領養老年金給付而請領一次養老給付；一經領受，不得變更。
      *
      * 第十三項
-     * 第八項之給付率自公務人員及公立學校教職員退撫法律制定通過後，另行調整。(EN：尚未調整)
+     * 第八項之給付率自公務人員及公立學校教職員退撫法律制定通過後，另行調整。
      * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=16
      */
     /**
      * 公保法第17條
+     * 
+     * 第一項
      * 被保險人依前條第三項規定請領養老年金給付者，其每月退休（職、伍）給與，加計每月可領養老年金給付之總和，
      * 不得超過其最後在職加保投保俸（薪）額二倍之一定百分比（以下簡稱退休年金給與上限）。
      * 一、保險年資十五年以下，每滿一年，以百分之二計；第十六年起，每滿一年，以百分之二點五計，最高增至百分之八十。
      * 二、保險年資未滿六個月者，以六個月計；滿六個月以上未滿一年者，以一年計。
+     * 
+     * 第四項 (EN：月退一次領仍可能吃掉養老給付)
+     * 第一項所定每月退休（職、伍）給與，包含下列內涵：
+     * 一、被保險人支（兼）領之月退休（職、伍）給與或類此之非一次性離退給與。
+     * 二、被保險人支（兼）領之一次性退休（職、伍）給與、資遣給與、年資結算金或類此之一次性離退給與，應依平均餘命，按月攤提併入每月退休給與計算。
+     * 三、被保險人依規定領有其支（兼）領一次退休（職、伍）給與之每月優惠存款利息。
      * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=17
      */
     /**
      * 公保法第18條
      * 被保險人保險年資滿十五年，未符合第十六條養老年金給付請領資格者，得提前五年請領養老年金給付，每提前一年，依第十六條規定計算之給付金額減給百分之四，最多減給百分之二十。
+     */
+    /**
+     * 公保法第19條
+     * 依第十七條規定計得之每月可領養老年金給付，其保險年資每滿一年之給付率低於基本年金率時，仍應按基本年金率計給；超過上限年金率時，應按上限年金率計給。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0070001&flno=19
      */
     const { futureSeniority, } = retirement.value.insurance
     const { monthlyAnnuity = 0, } = retirement.value.pension
@@ -425,12 +481,13 @@ function calculateCivilServantPension() {
      * 前項替代率應依退休人員審定之退休年資，照附表三所定替代率計算，
      * 任職滿十五年者，替代率為百分之四十五，其後每增加一年，替代率增給百分之一點五，最高增至三十五年，為百分之七十五。
      * 未滿一年之畸零年資，按比率計算；未滿一個月者，以一個月計。
+     * https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=37
      */
     /**
      * 退撫法第38條
      * 本法公布"施行後"退休生效者之每月退休所得，不得超過依替代率上限計算之金額。
-     * 前項替代率應依退休人員審定之退休年資，照附表三所定替代率計算；任職滿十五年至第三十五年者，照前條第二項規定辦理；
-     * 超過第三十五年者，每增加一年，增給百分之零點五，最高增至四十年止。未滿一年之畸零年資，按比率計算；未滿一個月者，以一個月計。
+     * 前項替代率應依退休人員審定之退休年資，照附表三所定替代率計算；任職滿十五年至第三十五年者，照前條第二項規定辦理；(EN：就是75%)
+     * 超過第三十五年者，每增加一年，增給百分之零點五，最高增至四十年止。未滿一年之畸零年資，按比率計算；未滿一個月者，以一個月計。(EN：這邊是給延後退休的選擇)
      */
     /**
      * 退撫法第39條
@@ -458,14 +515,14 @@ function calculateCivilServantPension() {
     let incomeReplacementMaxRatio = 0
     if (futureSeniority <= 35) {
         monthlyAnnuity += 2 * futureSeniority
-        // // 替代率天花板
-        // incomeReplacementMaxRatio = 30 + (futureSeniority - 15) * 1.5
+        // 替代率天花板
+        incomeReplacementMaxRatio = 30 + (futureSeniority - 15) * 1.5
     } else {
         monthlyAnnuity += 2 * 35
         monthlyAnnuity += (futureSeniority - 35)
         monthlyAnnuity = Math.min(75, monthlyAnnuity)
-        // // 替代率天花板
-        // incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
+        // 替代率天花板
+        incomeReplacementMaxRatio = 60 + (futureSeniority - 35) * 0.5
     }
     /**
      * 再計算月退休金
@@ -475,21 +532,26 @@ function calculateCivilServantPension() {
             retirement.value.pension.lumpSum = Math.floor(lumpSum)
             monthlyAnnuity = 0
             retirement.value.pension.monthlyAnnuity = monthlyAnnuity
+            retirement.value.pension.incomeReplacementMaxRatio = 0
+            getLifeRemains()
             break;
         }
         case 'annuity': {
             retirement.value.pension.lumpSum = 0
-            // monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
+            monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
             monthlyAnnuity *= baseSalary / 100
             retirement.value.pension.monthlyAnnuity = Math.floor(monthlyAnnuity)
+            retirement.value.pension.incomeReplacementMaxRatio = incomeReplacementMaxRatio
             break;
         }
         case 'halfAndHalf': {
             incomeReplacementMaxRatio /= 2
-            // monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
+            monthlyAnnuity = Math.min(incomeReplacementMaxRatio, monthlyAnnuity)
             monthlyAnnuity *= baseSalary / 100
             retirement.value.pension.lumpSum = Math.floor(lumpSum / 2)
             retirement.value.pension.monthlyAnnuity = Math.floor(monthlyAnnuity)
+            retirement.value.pension.incomeReplacementMaxRatio = incomeReplacementMaxRatio
+            getLifeRemains()
             break;
         }
     }
@@ -497,6 +559,22 @@ function calculateCivilServantPension() {
     // const inflationRate = 1 + props.config.inflationRate / 100
     // const pvModifier = Math.pow(inflationRate, age - 60)
     // retirement.value.annuitySum = Math.floor(monthlyAnnuity * 12 * Number(lifeExpectancy) / pvModifier)
+}
+async function getLifeRemains() {
+    const { gender } = props.profile
+    const { age: retireAge, yearOfRetire } = retirement.value
+    const { VITE_BASE_URL } = import.meta.env
+    const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
+        method: 'post',
+        body: JSON.stringify({
+            ceYear: yearOfRetire,
+            age: retireAge,
+            gender,
+        }),
+        headers: { 'Content-Type': 'application/json' }
+    })
+    const lifeExpectancy = await res.json()
+
 }
 function resetData() {
     // 避免資料干擾
@@ -512,17 +590,29 @@ function calculateExpenseQuartileMarks() {
         expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
     })
 }
-function calculateRetireLife() {
-    const { age: currentAge, lifeExpectancy } = props.profile
+async function calculateRetireLife() {
+    const { age: currentAge, gender } = props.profile
     const { age: retireAge } = retirement.value
     const { currentYear } = props.config
-    if (currentAge && lifeExpectancy && retireAge) {
-        retirement.value.yearsToRetirement = retireAge - currentAge
-        retirement.value.yearOfRetire = currentYear + retirement.value.yearsToRetirement
-        const rawNumber = lifeExpectancy - retirement.value.yearsToRetirement
-        const maxZero = Math.max(0, rawNumber)
-        retirement.value.lifeExpectancy = Number(Number(maxZero).toFixed(2))
+    if (!currentAge || !retireAge) {
+        return
     }
+    const yearsToRetirement = retireAge - currentAge
+    retirement.value.yearsToRetirement = yearsToRetirement
+    const yearOfRetire = currentYear + yearsToRetirement
+    retirement.value.yearOfRetire = yearOfRetire
+    const { VITE_BASE_URL } = import.meta.env
+    const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
+        method: 'post',
+        body: JSON.stringify({
+            ceYear: yearOfRetire,
+            age: retireAge,
+            gender,
+        }),
+        headers: { 'Content-Type': 'application/json' }
+    })
+    const lifeExpectancy = await res.json()
+    retirement.value.lifeExpectancy = lifeExpectancy
 }
 function calculateFutureSeniority() { // 退休時年資
     const { presentSeniority } = retirement.value.insurance
