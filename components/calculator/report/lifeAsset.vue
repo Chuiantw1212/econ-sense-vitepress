@@ -149,7 +149,7 @@ function drawLifeAsset(payload) {
         tension,
     })
     datasets.push({
-        label: '房地產',
+        label: '房地增值',
         data: estateAsset,
         fill: true,
         tension,

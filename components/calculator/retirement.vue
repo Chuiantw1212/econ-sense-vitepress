@@ -13,8 +13,8 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="計畫退休年齡">
-                        <el-input-number v-model="retirement.age" :min="60" :max="70" :disabled="isFormDisabled"
-                            @change="calculateRetirement($event)" />
+                        <el-input-number v-model="retirement.age" :min="Math.max(60, profile.age)" :max="70"
+                            :disabled="isFormDisabled" @change="calculateRetirement($event)" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -54,11 +54,20 @@
                         <el-col :span="12">
                             <el-form-item label="每月年金">
                                 <el-text>{{
-                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                                    Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
                     </el-row>
+                    <!-- <el-row>
+                        <el-col :span="12">
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="餘命x年金現值">
+                                <el-text>{{ Number(retirement.annuitySum).toLocaleString() }}</el-text>
+                            </el-form-item>
+                        </el-col>
+                    </el-row> -->
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="雇主提繳累計">
@@ -118,8 +127,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                item.label
-            }}</el-radio>
+                                item.label
+                                }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -139,9 +148,9 @@
                         <li>
                             假設勞退皆為一次領，且領後的再投資報酬率打平相關職業退休基金
                         </li>
-                        <li>
-                            公教退撫皆為專戶制一次領，且領後的再投資報酬率打平相關職業退休基金
-                        </li>
+                        <!-- <li>
+                            餘命x年金現值是為了讓大家理解延後退休並不如第一印象中的"賺"，只有提早領的年金才會被通膨調整
+                        </li> -->
                         <li>
                             勞保勞退查詢：<a href="https://edesk.bli.gov.tw/me/#/na/login">勞保局E化服務系統</a>
                         </li>
@@ -296,11 +305,10 @@ const unableToDraw = computed(() => {
         irrOverDecade
     } = retirement.value.pension
     const {
-        yearsToRetirement,
         annualExpense,
     } = retirement.value
     const noIncome = !monthlyBasicSalary
-    const noBefore = !irrOverDecade || !yearsToRetirement
+    const noBefore = !irrOverDecade
     const noAfter = !annualExpense
     return noIncome || noBefore || noAfter
 })
@@ -571,7 +579,7 @@ async function drawRetirementAssetChart() {
     const n = yearsToRetirement
     const pensionContribution = (monthlyContribution + monthlyContributionSelf) * 12
     const pensionIrr = 1 + (irrOverDecade / 100)
-    let fv = 0 // fv = pv * n + pmt
+    let fv = 0
 
     const labels: number[] = []
     const pensionLumpSumData: number[] = []
@@ -604,14 +612,20 @@ async function drawRetirementAssetChart() {
     let pmt = 0
     let inflatedAnnualExpense = 0
     for (let i = 1; i <= lifeExpectancy + 1; i++) {
+        // 更新參數
         inflationModifier *= inflationRate
         insuranceAnnuityInflationModifier *= inflationRate
+        // 現值增值
+        fv = Math.floor(pv * pensionIrr)
+        pensionLumpSumData.push(Math.floor(fv))
         // 年金收入計算
         const annutalAnnuity = Math.floor(monthlyAnnuity * 12 * insuranceAnnuityInflationModifier)
+        pmt = annutalAnnuity
         annualAnnuityData.push(annutalAnnuity)
+        // 退休生活計算
         inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
         retirementAnnualExpenseData.push(-inflatedAnnualExpense)
-        pmt = annutalAnnuity - inflatedAnnualExpense
+        pmt -= inflatedAnnualExpense
         // 未還完的房貸支出
         const simYear = currentYear + yearsToRetirement + i
         const annualRepay = monthlyRepay * 12
@@ -621,9 +635,7 @@ async function drawRetirementAssetChart() {
         } else {
             estateData.push(0)
         }
-        // fv
-        fv = Math.floor(pv * pensionIrr)
-        pensionLumpSumData.push(Math.floor(fv))
+        // 更新參數
         fv = Math.max(0, fv + pmt)
         if (fv <= 0) {
             fv = 0
@@ -638,7 +650,7 @@ async function drawRetirementAssetChart() {
     const tension = 0.5
     const datasets = [
         {
-            label: '一次領+投資',
+            label: '一次領',
             data: pensionLumpSumData,
             fill: true,
             tension,
@@ -654,7 +666,7 @@ async function drawRetirementAssetChart() {
             data: retirementAnnualExpenseData,
             fill: true,
             tension,
-        }
+        },
     ]
     const hasMortgage = estateData.some(data => data)
     if (hasMortgage) {
