@@ -238,8 +238,12 @@ function calculateHeadCount() {
     parenting.value.headCount = headCount
 }
 function calculateDiabledInsurance() {
-    const { firstBornYear, secondBornYear, independantAge, childAnnualExpense, lifeInsurance, } = parenting.value
+    const { firstBornYear, secondBornYear, childAnnualExpense, } = parenting.value
     const { monthlyContribution } = props.spouse
+    if (!monthlyContribution) {
+        parenting.value.disabledInsurance = 0
+        return
+    }
     let disabledInsurance = -monthlyContribution * 12
     if (firstBornYear) {
         disabledInsurance += childAnnualExpense

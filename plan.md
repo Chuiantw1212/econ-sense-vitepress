@@ -4,7 +4,7 @@ outline: deep
 head:
   - - meta
     - name: og:image
-      content: https://econ-sense.com/plan/lifeAsset.png
+      content: https://econ-sense.com/plan/download.png
 ---
 
 # 開源財務規劃表
