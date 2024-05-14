@@ -1,6 +1,10 @@
 ---
 description: 台灣唯一開源的線上財務規劃表，工程師可學習Javascript，民眾建立財務觀念，並提供回饋意見。
 outline: deep
+head:
+  - - meta
+    - name: og:image
+      content: ./public/lifeAsset.png
 ---
 
 # 開源財務規劃表
