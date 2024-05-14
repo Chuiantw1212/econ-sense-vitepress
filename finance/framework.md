@@ -22,7 +22,9 @@ webkitallowfullscreen="true"></iframe>
 
 ### 開源
 
-從認知開源，請參考匱乏心理學
+<a href="https://www.facebook.com/groups/304681766894402/?locale=zh_CN&paipv=0&eav=AfZ7Ar35pFTgqoKyjSGAHwVwHCGxNqPOqLo_z_AM60_VWapVmoQcj9VOWAhOKHZQBRY&_rdr" target="_blank" title="提供一份學習平台，讓更多人能夠學習接觸不同的知識，有機會找到適合自己的人生方向">
+    <img alt="tazze" width="100%" src="/public/finance/notSchool.jpg"/>
+</a>
 
 ### 節流
 
