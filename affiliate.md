@@ -7,19 +7,6 @@ outline: deep
 
 那些讓EN變得更好的人與社群。
 
-## Job Pair
-
-<a href="https://job-pair.com" target="_blank">
-    <img src="/affiliate/Top1.webp" alt=job-pair>
-</a>
-
-多元職涯時代，你擁有多種可能性，不論是正職、兼職或接案，這裡都能滿足所需。
-現在，只要三分鐘就能設計適合自己的工作，讓工作主動上門！
-
-### 團隊成員
-
-<VPTeamMembers size="small" :members="jobPairMembers" />
-
 ## 學校學不到的事
 
 <a href="https://reurl.cc/V4qLjn" target="_blank">
@@ -76,34 +63,6 @@ const patreonMembers = [
       { icon: 'facebook', link: 'https://www.facebook.com/profile.php?id=100069740545113' },
       { icon: 'github', link: 'https://github.com/Chuiantw1212' },
     ]
-  },
-]
-
-const jobPairMembers = [
-  {
-    avatar: `/affiliate/sandy.jpg`,
-    name: 'Sandy',
-    title: 'CEO',
-    desc: 'Live like you mean it！',
-    links: [
-      { icon: 'facebook', link: 'https://www.facebook.com/sandyylchiu/' },
-    ]
-  },
-  {
-    avatar: `/affiliate/1700901417115.jpg`,
-    name: '朱奕安',
-    title: '全端工程師',
-    desc: '我禿了，也變強了',
-    links: [
-      { icon: 'facebook', link: 'https://www.facebook.com/profile.php?id=100069740545113' },
-      { icon: 'github', link: 'https://github.com/Chuiantw1212' },
-    ]
-  },
-  {
-    avatar: `/affiliate/jun.png`,
-    name: '陸盈君',
-    desc: '如果沒有夢想，那跟叉燒有什麼區別',
-    title: 'UIUX Designer',
   },
 ]
 
