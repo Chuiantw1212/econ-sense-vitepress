@@ -603,30 +603,34 @@ const user = reactive({
     id: '',
 })
 async function initializeApp() {
-    const firebaseApp: any = await firebase.initializeApp({
-        apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
-        authDomain: "econ-sense-9a250.firebaseapp.com",
-        projectId: "econ-sense-9a250",
-        storageBucket: "econ-sense-9a250.appspot.com",
-        messagingSenderId: "449033690264",
-        appId: "1:449033690264:web:f5e419118030eb3afe44ed",
-        measurementId: "G-19NFT8GVCZ"
-    })
-    firebaseApp.firebase.auth().onAuthStateChanged(async (firebaseUser) => {
-        if (!firebaseUser) {
-            await setIdToken(false)
-            await getUserFromServer(false)
-            return
-        }
-        const { displayName, email, photoURL, uid } = firebaseUser
-        await setIdToken(firebaseUser)
-        user.photoURL = photoURL || ''
-        user.uid = uid
-        user.email = email || ''
-        user.displayName = displayName || '註冊用戶'
-        ProfileRef.value?.toggleSignInDialog(false)
-        await getUserFromServer(firebaseUser)
-    })
+    try {
+        await firebase.initializeApp({
+            apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
+            authDomain: "econ-sense-9a250.firebaseapp.com",
+            projectId: "econ-sense-9a250",
+            storageBucket: "econ-sense-9a250.appspot.com",
+            messagingSenderId: "449033690264",
+            appId: "1:449033690264:web:f5e419118030eb3afe44ed",
+            measurementId: "G-19NFT8GVCZ"
+        })
+        firebase.auth().onAuthStateChanged(async (firebaseUser) => {
+            if (!firebaseUser) {
+                await setIdToken(false)
+                await getUserFromServer(false)
+                return
+            }
+            const { displayName, email, photoURL, uid } = firebaseUser
+            await setIdToken(firebaseUser)
+            user.photoURL = photoURL || ''
+            user.uid = uid
+            user.email = email || ''
+            user.displayName = displayName || '註冊用戶'
+            ProfileRef.value?.toggleSignInDialog(false)
+            await getUserFromServer(firebaseUser)
+        })
+    } catch (error) {
+        console.log(error.message || error)
+    }
 }
 const idToken = ref()
 async function setIdToken(currentUser) {
