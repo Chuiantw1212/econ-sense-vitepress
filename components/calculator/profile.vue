@@ -101,9 +101,9 @@
  * FirebaseUI for Web — Auth
  * https://firebaseopensource.com/projects/firebase/firebaseui-web/
  */
-const { VITE_BASE_URL } = import.meta.env
 import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
-import firebase from 'firebase/compat/app';
+import firebase from 'firebase/compat/app'
+import "firebase/compat/auth";
 import econSelect from '../econSelect.vue'
 const emits = defineEmits(['update:modelValue', 'signOut', 'upload'])
 const loginDialogVisible = ref(false)
@@ -295,5 +295,9 @@ defineExpose({
         color: var(--el-text-color-regular);
         background: white !important;
     }
+}
+
+:deep(.firebaseui-container) {
+    max-width: inherit;
 }
 </style>

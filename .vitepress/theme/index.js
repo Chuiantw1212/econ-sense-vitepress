@@ -4,7 +4,6 @@ import Theme from 'vitepress/theme'
 import { install } from 'element-plus'
 import 'element-plus/dist/index.css'
 import './custom.css'
-import 'firebaseui/dist/firebaseui.css'
 export default {
   extends: Theme,
   Layout: () => {
