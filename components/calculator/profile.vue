@@ -140,7 +140,7 @@ const marriageYearOptions = ref<any[]>([])
 const isFullScreen = ref(false)
 // hooks
 onMounted(async () => {
-    firebaseUI.value = await import('firebaseui')
+    // firebaseUI.value = await import('firebaseui')
     setBirthYearOptions()
     setMarriageYears()
     window?.addEventListener('resize', onResize)
@@ -202,6 +202,8 @@ function toggleSignInDialog(value) {
 }
 function openSignInDialog() {
     toggleSignInDialog(true)
+    firebaseUI.value = window.firebaseui
+    // console.log(window.firebaseui)
     nextTick(() => {
         // https://firebase.google.com/docs/auth/web/firebaseui
         const uiConfig = {
