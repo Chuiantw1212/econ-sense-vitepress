@@ -628,8 +628,8 @@ async function initializeApp() {
             user.email = email || ''
             user.displayName = displayName || '註冊用戶'
             ProfileRef.value?.toggleSignInDialog(false)
+            await getUserFromServer(firebaseUser)
         })
-        // await getUserFromServer(false)
     } catch (error) {
         console.log(error.message || error)
     }
