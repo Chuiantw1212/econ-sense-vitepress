@@ -17,7 +17,7 @@ export default defineConfig({
 
       gtag('config', 'G-19NFT8GVCZ');`
     ],
-    // // Firebase https://github.com/firebase/firebaseui-web?tab=readme-ov-file#localized-widget
+    // Firebase https://github.com/firebase/firebaseui-web?tab=readme-ov-file#localized-widget
     ['script', { src: 'https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth__zh_tw.js' }],
     ['link', { href: 'https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.css', rel: 'stylesheet', type: 'text/css' }],
   ],
