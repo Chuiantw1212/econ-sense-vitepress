@@ -110,8 +110,8 @@
  * 要在避免無線迴圈的狀況下正確更新關聯資料。
  * 目前卡片的debounce150ms，初始化的間隔抓200ms，看起來是正常的。
  */
- import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app'
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { onMounted, ref, reactive, nextTick, } from 'vue'
 import { ElMessage, ElMessageBox, } from 'element-plus'
 import Profile from './profile.vue'
@@ -590,6 +590,7 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
+    window.firebase = firebase
     loadingDialogVisible.value = true
     await initializeApp()
     await setSelecOptionSync()
@@ -613,8 +614,8 @@ async function initializeApp() {
             appId: "1:449033690264:web:f5e419118030eb3afe44ed",
             measurementId: "G-19NFT8GVCZ"
         })
-        window.firebase = firebase
-        firebase.auth().onAuthStateChanged(async (firebaseUser) => {
+        const auth = getAuth()
+        onAuthStateChanged(auth, async (firebaseUser) => {
             if (!firebaseUser) {
                 await setIdToken(false)
                 await getUserFromServer(false)
@@ -628,7 +629,7 @@ async function initializeApp() {
             user.displayName = displayName || '註冊用戶'
             ProfileRef.value?.toggleSignInDialog(false)
         })
-            // await getUserFromServer(false)
+        // await getUserFromServer(false)
     } catch (error) {
         console.log(error.message || error)
     }
@@ -642,7 +643,8 @@ async function setIdToken(currentUser) {
     }
 }
 async function authFetch(appendUrl, options) {
-    const currentUser = await firebase.auth().currentUser
+    const auth = getAuth()
+    const currentUser = auth.currentUser
     if (!currentUser) {
         return // 離線使用或未登入
     }
@@ -668,7 +670,8 @@ async function authFetch(appendUrl, options) {
     if (res.status !== 200) {
         const result = await res.text()
         if (result.includes('auth/id-token-expired')) {
-            const currentUser = await firebase.auth()?.currentUser
+            const auth = getAuth();
+            const currentUser = auth.currentUser
             await setIdToken(currentUser)
             authFetch(appendUrl, options)
         } else {

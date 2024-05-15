@@ -103,12 +103,11 @@
  */
 const { VITE_BASE_URL } = import.meta.env
 import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app'
+import "firebase/compat/auth";
 import econSelect from '../econSelect.vue'
 const emits = defineEmits(['update:modelValue', 'signOut', 'upload'])
 const loginDialogVisible = ref(false)
-const firebaseUI = ref()
 const props = defineProps({
     modelValue: {
         type: Object,
@@ -141,7 +140,6 @@ const marriageYearOptions = ref<any[]>([])
 const isFullScreen = ref(false)
 // hooks
 onMounted(async () => {
-    // firebaseUI.value = await import('firebaseui')
     setBirthYearOptions()
     setMarriageYears()
     window?.addEventListener('resize', onResize)
@@ -203,8 +201,6 @@ function toggleSignInDialog(value) {
 }
 function openSignInDialog() {
     toggleSignInDialog(true)
-    firebaseUI.value = window.firebaseui
-    console.log('test',window.firebaseui)
     nextTick(() => {
         // https://firebase.google.com/docs/auth/web/firebaseui
         const uiConfig = {
@@ -235,11 +231,11 @@ function openSignInDialog() {
          * 避免FirebaseUI重複初始化錯誤
          * https://stackoverflow.com/questions/47589209/error-in-mounted-hook-error-an-authui-instance-already-exists
          */
-        if (firebaseUI.value.auth.AuthUI.getInstance()) {
-            const ui = firebaseUI.value.auth.AuthUI.getInstance()
+        if (firebaseui.auth.AuthUI.getInstance()) {
+            const ui = firebaseui.auth.AuthUI.getInstance()
             ui?.start('#firebaseui-auth-container', uiConfig)
         } else {
-            const ui = new firebaseUI.value.auth.AuthUI(firebase.auth())
+            const ui = new firebaseui.auth.AuthUI(firebase.auth())
             ui?.start('#firebaseui-auth-container', uiConfig)
         }
     })
@@ -300,5 +296,9 @@ defineExpose({
         color: var(--el-text-color-regular);
         background: white !important;
     }
+}
+
+:deep(.firebaseui-container) {
+    max-width: inherit;
 }
 </style>
