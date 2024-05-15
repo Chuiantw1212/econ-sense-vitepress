@@ -103,7 +103,8 @@
  */
 const { VITE_BASE_URL } = import.meta.env
 import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
-import firebase from 'firebase/compat/app';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import econSelect from '../econSelect.vue'
 const emits = defineEmits(['update:modelValue', 'signOut', 'upload'])
 const loginDialogVisible = ref(false)
@@ -203,7 +204,7 @@ function toggleSignInDialog(value) {
 function openSignInDialog() {
     toggleSignInDialog(true)
     firebaseUI.value = window.firebaseui
-    // console.log(window.firebaseui)
+    console.log('test',window.firebaseui)
     nextTick(() => {
         // https://firebase.google.com/docs/auth/web/firebaseui
         const uiConfig = {
