@@ -591,7 +591,6 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
     window.firebase = firebase
-    loadingDialogVisible.value = true
     await initializeApp()
     await setSelecOptionSync()
 })
@@ -616,6 +615,7 @@ async function initializeApp() {
         })
         const auth = getAuth()
         onAuthStateChanged(auth, async (firebaseUser) => {
+            loadingDialogVisible.value = true
             if (!firebaseUser) {
                 await setIdToken(false)
                 await getUserFromServer(false)
