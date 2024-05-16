@@ -1,7 +1,7 @@
 <template>
     <el-card>
         <el-form label-width="auto">
-            <el-row v-if="profile.careerInsuranceType === 'entrepreneur'">
+            <el-row v-show="profile.careerInsuranceType === 'entrepreneur'">
                 <el-col :span="12">
                     <el-form-item label="僱傭員工數" required>
                         <el-input-number v-model="career.headCount" :min="0" @change="calculateCareer($event)" />
@@ -10,7 +10,7 @@
                 <el-col :span="12">
                 </el-col>
             </el-row>
-            <el-row v-if="profile.careerInsuranceType === 'entrepreneur'">
+            <el-row v-show="profile.careerInsuranceType === 'entrepreneur'">
                 <el-col :span="12">
                     <el-form-item label="投保單位">
                         <econSelect v-model="career.insuredUnit" :options="laborInsuranceTypeOptions"
@@ -19,12 +19,12 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="career.insuredUnit === 'union'" :label="`職業災害費率`">
+                    <el-form-item v-show="career.insuredUnit === 'union'" :label="`職業災害費率`">
                         <el-text>目前皆以{{ accidentInsurance.premiumRate }}%計算</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="career.insuredUnit === 'company'">
+            <el-row v-show="career.insuredUnit === 'company'">
                 <el-col :span="12">
                     <el-form-item label="本薪" required>
                         <el-input-number v-model="career.monthlyBasicSalary" :min="0" :step="1000"
@@ -37,7 +37,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="career.insuredUnit === 'company'">
+            <el-row v-show="career.insuredUnit === 'company'">
                 <el-col :span="12">
                 </el-col>
                 <el-col :span="12">
@@ -46,7 +46,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="career.insuredUnit === 'union'">
+            <el-row v-show="career.insuredUnit === 'union'">
                 <el-col :span="12">
                     <el-form-item label="本薪" required>
                         <el-input-number v-model="career.monthlyBasicSalary" :min="0" :step="1000"
@@ -65,20 +65,20 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <!-- <el-form-item v-if="career.insuredUnit === 'company'" label="勞退提繳工資">
+                    <!-- <el-form-item v-show="career.insuredUnit === 'company'" label="勞退提繳工資">
                             <el-text> {{ Number(laborPension.salary).toLocaleString() }}</el-text>
                         </el-form-item> -->
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item v-if="career.insuredUnit === 'company'" label="勞退自提率(%)">
+                    <el-form-item v-show="career.insuredUnit === 'company'" label="勞退自提率(%)">
                         <el-input-number v-model="career.pension.rate" :disabled="!career.monthlyBasicSalary"
                             @change="calculateCareer($event)" :min="0" :max="6" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="career.insuredUnit === 'company'" label="- 勞退月提繳">
+                    <el-form-item v-show="career.insuredUnit === 'company'" label="- 勞退月提繳">
                         <el-text>{{ Number(career.pension.monthlyContribution).toLocaleString() }}</el-text>
                     </el-form-item>
                 </el-col>
@@ -92,7 +92,7 @@
                 <el-col :span="12">
                     <el-form-item :label="`- 勞保自付額`">
                         <el-text>{{ Number(career.insurance?.expense).toLocaleString() }} (負擔率{{
-                laborInsurace.premiumRate[career.insuredUnit] }}%)</el-text>
+                            laborInsurace.premiumRate[career.insuredUnit] }}%)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -113,7 +113,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="profile.careerInsuranceType === 'entrepreneur'">
+            <el-row v-show="profile.careerInsuranceType === 'entrepreneur'">
                 <el-col :span="12">
                     <el-form-item label="自備退休金">
                         <el-input-number v-model="career.pension.monthlyContributionSelf" :min="0"

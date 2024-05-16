@@ -5,17 +5,17 @@
                 <span>
                 </span>
                 <div>
-                    <el-button v-if="!profile.story" @click="generatStory">用15秒產生故事</el-button>
-                    <el-button v-else @click="generatStory">重新產生故事</el-button>
+                    <el-button v-show="!profile.story" @click="generatStory">用15秒產生故事</el-button>
+                    <el-button v-show="profile.story" @click="generatStory">重新產生故事</el-button>
                     <el-button @click="exportUserForm()">匯出</el-button>
                 </div>
             </div>
         </template>
         <el-form label-width="auto">
-            <div v-if="profile.story" v-html="profile.story">
+            <div v-show="profile.story" v-html="profile.story">
 
             </div>
-            <div v-else>
+            <div v-show="!profile.story">
                 點選右上角，讓我們產生專屬於你的故事......
             </div>
         </el-form>

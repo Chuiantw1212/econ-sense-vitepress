@@ -4,17 +4,17 @@
             <el-row>
                 <el-col :span="17">
                     <el-form-item label="房屋總價">
-                        <el-text v-if="estate.totalPriceEstimated">= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
-                    estateSize.floorSize }}坪) = {{
-                    Number(Math.floor(estate.totalPriceEstimated / 10000)).toLocaleString() }} 萬</el-text>
-                        <el-input-number v-else v-model="estate.totalPrice" :min="0" :step="1000000"
-                            @change="calculateMortgage({ setDownpay: true })" />
+                        <el-text v-show="estate.totalPriceEstimated">= 單價({{ estatePrice.unitPrice }}萬/坪) x 權狀({{
+                            estateSize.floorSize }}坪) = {{
+                                Number(Math.floor(estate.totalPriceEstimated / 10000)).toLocaleString() }} 萬</el-text>
+                        <el-input-number v-show="!estate.totalPriceEstimated" v-model="estate.totalPrice" :min="0"
+                            :step="1000000" @change="calculateMortgage({ setDownpay: true })" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="7">
                     <el-form-item>
-                        <el-button v-if="!estate.totalPriceEstimated" @click="emits('open')">點此估算總價</el-button>
-                        <el-button v-if="estate.totalPriceEstimated" @click="resetTotalPrice()">取消估價並自行調整</el-button>
+                        <el-button v-show="!estate.totalPriceEstimated" @click="emits('open')">點此估算總價</el-button>
+                        <el-button v-show="estate.totalPriceEstimated" @click="resetTotalPrice()">取消估價並自行調整</el-button>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -35,7 +35,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="career.monthlyBasicSalary" label="月實領 - 月支出">
+                    <el-form-item v-show="career.monthlyBasicSalary" label="月實領 - 月支出">
                         <el-text>{{ Number(career.monthlySaving).toLocaleString() }} / 月</el-text>
                     </el-form-item>
                 </el-col>
@@ -49,7 +49,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="!unableToDrawChart" label="預期籌措時間">
+                    <el-form-item v-show="!unableToDrawChart" label="預期籌措時間">
                         <el-text>{{ config.currentYear + estate.yearsToDownpay }}
                             ({{ estate.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
@@ -78,7 +78,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="estate.downpayYear" label="預估貸款">
+                    <el-form-item v-show="estate.downpayYear" label="預估貸款">
                         <el-text>{{ Number(Math.floor(estate.loanAmount / 10000)).toLocaleString() }} 萬</el-text>
                     </el-form-item>
                 </el-col>
@@ -208,7 +208,8 @@ function calculateMortgage(options: any = { propagate: true }) {
     calculateMonthlyRepay()
     const { headCount } = props.parenting
     const { singleBedRoom, doubleBedRoom } = props.estateSize
-    if (headCount > singleBedRoom + doubleBedRoom * 2) {
+    const hasPrice = !!estate.value.totalPriceEstimated
+    if (hasPrice && headCount > singleBedRoom + doubleBedRoom * 2) {
         if (!errorMssage.pending()) {
             errorMssage()
         }

@@ -1,7 +1,7 @@
 <template>
     <el-card>
         <el-form label-width="auto">
-            <el-row v-if="isFormDisabled">
+            <el-row v-show="isFormDisabled">
                 <el-col>
                     <el-form-item label="表單開放前提">
                         <el-text type="danger">
@@ -54,7 +54,7 @@
                         <el-col :span="12">
                             <el-form-item label="每月年金">
                                 <el-text>{{
-                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                                    Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -127,8 +127,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                item.label
-            }}</el-radio>
+                                item.label
+                                }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
