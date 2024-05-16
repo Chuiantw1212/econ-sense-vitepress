@@ -2,14 +2,14 @@
     <div class="courses">
         <div v-for="(item, index) in modelValue" class="course" :key="index">
             <!-- <hr> -->
-            <h3 class="course__header" v-if="item.name">
+            <h3 class="course__header" v-show="item.name">
                 {{ item.name }}
             </h3>
             <div class="course__body">
                 <a class="course__link" :href="item.url" target="_blank">
                     <img class="link__image" :src="item.image">
                 </a>
-                <div class="course__textGroup" v-if="item.description" v-html="item.description">
+                <div class="course__textGroup" v-show="item.description" v-html="item.description">
 
                 </div>
             </div>
@@ -17,7 +17,7 @@
                 <VPButton :href="item.url" text="前往學習">前往學習</VPButton>
             </div>
             <br>
-            <hr v-if="index !== modelValue.length - 1">
+            <hr v-show="index !== modelValue.length - 1">
         </div>
     </div>
 </template>

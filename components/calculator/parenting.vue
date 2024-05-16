@@ -9,7 +9,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="spouse.monthlyContribution" label="配偶貢獻">
+                    <el-form-item v-show="spouse.monthlyContribution" label="配偶貢獻">
                         <el-text>{{ Number(spouse.monthlyContribution * 12).toLocaleString() }} / 年</el-text>
                     </el-form-item>
                 </el-col>
@@ -45,7 +45,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="estate.totalPriceEstimated" label="房屋可容納人數">
+                    <el-form-item v-show="estate.totalPriceEstimated" label="房屋可容納人數">
                         <el-text :type="sizeType">{{ estateSize.doubleBedRoom * 2 + estateSize.singleBedRoom }}
                             人</el-text>
                     </el-form-item>

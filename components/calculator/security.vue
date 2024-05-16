@@ -33,7 +33,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="isFormDisabled">
+            <el-row v-show="isFormDisabled">
                 <el-col>
                     <el-form-item label="圖表繪製前提">
                         <el-text type="danger">

@@ -7,19 +7,19 @@
                     <el-upload v-model:file-list="fileList" :limit="1" :show-file-list="false" @success="handleChange">
                         <el-button>匯入</el-button>
                     </el-upload>
-                    <el-button v-if="!user.uid" @click="openSignInDialog()">登入</el-button>
-                    <el-button v-else @click="emits('signOut')">登出</el-button>
+                    <el-button v-show="!user.uid" @click="openSignInDialog()">登入</el-button>
+                    <el-button v-show="user.uid" @click="emits('signOut')">登出</el-button>
                 </div>
             </div>
         </template>
         <el-form ref="ruleFormRef" label-width="auto">
             <el-row>
-                <el-col v-if="user.photoURL" :span="12">
+                <el-col v-show="user.photoURL" :span="12">
                     <el-form-item :label="user.displayName">
                         <el-avatar :src="user.photoURL"></el-avatar>
                     </el-form-item>
                 </el-col>
-                <el-col v-if="user.email" :span="12">
+                <el-col v-show="user.email" :span="12">
                     <el-form-item label="註冊信箱">
                         <el-text>{{ user.email }}</el-text>
                     </el-form-item>

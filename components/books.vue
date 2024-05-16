@@ -1,7 +1,7 @@
 <template>
     <div class="books">
         <div v-for="(item, index) in modelValue" class="book" :key="index">
-            <h3 class="book__header" v-if="item.name">
+            <h3 class="book__header" v-show="item.name">
                 {{ item.name }}
             </h3>
             <div class="book__body">
@@ -9,7 +9,7 @@
                     <img class="link__image" :src="getImageLink(item)">
                 </a>
                 <div class="book__textGroup">
-                    <div v-if="item.desc" v-html="item.desc">
+                    <div v-show="item.desc" v-html="item.desc">
                     </div>
                 </div>
             </div>

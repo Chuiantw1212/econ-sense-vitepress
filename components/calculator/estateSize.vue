@@ -59,7 +59,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="estatePrice.hasParking">
+            <el-row v-show="estatePrice.hasParking">
                 <el-col :span="12">
                     <el-form-item label="車位數量">
                         <el-input-number v-model="estateSize.parkingSpace" :min="0" @change="calculateEstateSize()" />

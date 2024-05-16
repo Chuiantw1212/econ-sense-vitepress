@@ -9,7 +9,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-if="spouse.yearOfMarriage && spouse.marriageLength > 0" label="已婚年數">
+                    <el-form-item v-show="spouse.yearOfMarriage && spouse.marriageLength > 0" label="已婚年數">
                         <el-text>{{ spouse.marriageLength }} 歲</el-text>
                     </el-form-item>
                 </el-col>
