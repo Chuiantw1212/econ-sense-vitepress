@@ -54,7 +54,7 @@
                         <el-col :span="12">
                             <el-form-item label="每月年金">
                                 <el-text>{{
-                                    Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -127,8 +127,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                                item.label
-                                }}</el-radio>
+                item.label
+            }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -316,6 +316,7 @@ const unableToDraw = computed(() => {
 async function calculateRetirement(options: any = { propagate: true }) {
     resetData()
     calculateExpenseQuartileMarks()
+    const { propagate = true } = options
     await calculateRetireLife()
     calculateFutureSeniority()
     const { careerInsuranceType } = props.profile
@@ -334,7 +335,6 @@ async function calculateRetirement(options: any = { propagate: true }) {
         }
     }
     calculateRetirementExpense()
-    const { propagate = true } = options
     const pensionLumpSumData = await drawRetirementAssetChart()
     if (propagate) {
         emits('update:modelValue', retirement.value)
@@ -470,6 +470,10 @@ function calculateExpenseQuartileMarks() {
         expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
     })
 }
+
+const oldRetireAge = ref(0)
+const oldCurrentAge = ref(0)
+const oldGender = ref(null)
 async function calculateRetireLife() {
     const { age: currentAge, gender } = props.profile
     const { age: retireAge } = retirement.value
@@ -477,6 +481,17 @@ async function calculateRetireLife() {
     if (!currentAge || !retireAge) {
         return
     }
+    const sameAge = currentAge === oldCurrentAge.value
+    const sameRetire = retireAge === oldRetireAge.value
+    const sameGender = gender === oldGender.value
+    if (sameAge && sameRetire && sameGender) {
+        return
+    }
+    // debounce
+    oldRetireAge.value = retireAge
+    oldCurrentAge.value = currentAge
+    oldGender.value = gender
+    // debounce end
     const yearsToRetirement = retireAge - currentAge
     retirement.value.yearsToRetirement = yearsToRetirement
     const yearOfRetire = currentYear + yearsToRetirement
