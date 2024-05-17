@@ -209,9 +209,8 @@ async function getUserFromServer(firebaseUser) {
     let showMessage = false
     try {
         if (firebaseUser) {
-            const { uid } = firebaseUser
-            const res = await authFetch(`/user/${uid}`, {
-                method: 'post'
+            const res = await authFetch(`/user`, {
+                method: 'get'
             })
             responseForm = await res?.json()
             showMessage = true
@@ -232,6 +231,7 @@ async function getUserFromServer(firebaseUser) {
     return userForm
 }
 function setUserAndInitialize(form, { showMessage = false }) {
+    console.log({ form })
     for (let key in form) {
         if (userForm[key]) {
             Object.assign(userForm[key], form[key])
