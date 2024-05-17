@@ -231,7 +231,6 @@ async function getUserFromServer(firebaseUser) {
     return userForm
 }
 function setUserAndInitialize(form, { showMessage = false }) {
-    console.log({ form })
     for (let key in form) {
         if (userForm[key]) {
             Object.assign(userForm[key], form[key])
@@ -591,8 +590,8 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
     window.firebase = firebase
-    await initializeApp()
     await setSelecOptionSync()
+    await initializeApp()
 })
 // 用戶與權限
 const user = reactive({
