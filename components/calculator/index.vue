@@ -590,6 +590,7 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
     window.firebase = firebase
+    loadingDialogVisible.value = true
     await setSelecOptionSync()
     await initializeApp()
 })
