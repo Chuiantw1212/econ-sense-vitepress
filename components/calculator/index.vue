@@ -209,9 +209,8 @@ async function getUserFromServer(firebaseUser) {
     let showMessage = false
     try {
         if (firebaseUser) {
-            const { uid } = firebaseUser
-            const res = await authFetch(`/user/${uid}`, {
-                method: 'post'
+            const res = await authFetch(`/user`, {
+                method: 'get'
             })
             responseForm = await res?.json()
             showMessage = true
@@ -591,8 +590,9 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
     window.firebase = firebase
-    await initializeApp()
+    loadingDialogVisible.value = true
     await setSelecOptionSync()
+    await initializeApp()
 })
 // 用戶與權限
 const user = reactive({
