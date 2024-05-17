@@ -40,93 +40,100 @@ const members = [
 3. 如果還是擔心個資，也提供了表單離線匯出功能，不需註冊也可以保留試算結果。
 
 <a href="https://econ-sense.com/plan.html">
-    <img src="/plan/calculator.png" alt="finance-planner">
+    <img class="aobut__image--100" src="/plan/calculator.png" alt="finance-planner">
 </a>
 
-<!-- <ul>
-    <li>前端開源：<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">https://github.com/Chuiantw1212/econ-sense-vitepress</a></li>
-    <li>後端開源：<a href="https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript" target="_blank">https://github.com/Chuiantw1212/econ-sense-ap-fastify-typescript</a></li>
-</ul> -->
-
 ### Job Pair
+
 求職找工作可以很簡單！Job Pair媒合型人力銀行，勾選你理想的企業文化、工作環境、組織階段、管理模式、人際風格和工作模式，即刻為你配對最合適的職缺，開啟專屬於你的職場旅程。
 
 <a href="https://job-pair.com" target="_blank">
-    <img src="/about/job-pair.com_.webp" alt=job-pair>
+    <img class="aobut__image--100" src="/about/job-pair.com_.webp" alt=job-pair>
 </a>
 
 ## 技術棧
 
 ### 前端
 
-<img src="https://skillicons.dev/icons?i=js,html,css,ts,vue,pinia,vuetify,nuxtjs,vite,sass,bootstrap,md&theme=light">
+<img src="https://skillicons.dev/icons?i=js,html,css,ts,vue,pinia,vuetify,nuxtjs,vite,sass,bootstrap,md&theme=light" alt='frontEnd'>
 
 ### 後端
 
-<img src="https://skillicons.dev/icons?i=nodejs,ts,express,mongodb,postgres,postman&theme=light">
+<img src="https://skillicons.dev/icons?i=nodejs,ts,express,mongodb,postgres,postman&theme=light" alt='backEnd'>
 
 ### 雲服務與其他
 
-<img src="https://skillicons.dev/icons?i=firebase,gcp,git,github,githubactions,npm,vscode,regex,windows,linux,&theme=light">
+<img src="https://skillicons.dev/icons?i=firebase,gcp,git,github,githubactions,npm,vscode,regex,windows,linux,&theme=light" alt="cloud">
 
 ## 專業認證
 
 ### AFP理財規劃顧問
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/about/AFPI2300016_U121652155-1.png" alt=AFP理財規劃顧問>
+    <img class="aobut__image--100" src="/about/AFPI2300016_U121652155-1.png" alt=AFP理財規劃顧問>
 </div>
 
 ### PMP國際專案管理師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/about/pmp.jpg" alt=PMP國際專案管理師>
+    <img class="aobut__image--100" src="/about/pmp.jpg" alt=PMP國際專案管理師>
 </div>
 
 ### 其他金融證明書
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:50%" src="/about/161340_1.webp" alt=金融市場常識與職業道德>
-    <img style="width:50%" src="/about/201447_1.webp" alt=投信投顧相關法規(含自律規範)>
-    <img style="width:50%" src="/about/232309_1.webp" alt=信託業務專業>
-    <img style="width:50%" src="/about/311350_1.webp" alt=金融科技力>
-    <img style="width:50%" src="/about/082258_1.webp" alt=理財規劃人員>
+    <img class="aobut__image--50" src="/about/161340_1.webp" alt=金融市場常識與職業道德>
+    <img class="aobut__image--50" src="/about/201447_1.webp" alt=投信投顧相關法規(含自律規範)>
+    <img class="aobut__image--50" src="/about/232309_1.webp" alt=信託業務專業>
+    <img class="aobut__image--50" src="/about/311350_1.webp" alt=金融科技力>
+    <img class="aobut__image--50" src="/about/082258_1.webp" alt=理財規劃人員>
 </div>
 
 ## 教育背景
 
 ### Master in Informatics
 
-<img style="width:100%" src="/about/northeastern.jpg" alt=Northeastern>
+<img class="aobut__image--100" src="/about/northeastern.jpg" alt=Northeastern>
 
 ### 義務役預備軍官
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:50%" src="/about/military1.webp" alt=金融市場常識與職業道德>
-    <img style="width:50%" src="/about/military2.webp" alt=投信投顧相關法規(含自律規範)>
+    <img class="aobut__image--50" src="/about/military1.webp" alt=金融市場常識與職業道德>
+    <img class="aobut__image--50" src="/about/military2.webp" alt=投信投顧相關法規(含自律規範)>
 </div>
 
 ### 中興大學資訊科學學士
 
-<img style="width:100%" src="/about/bachelar.png" alt=nchu>
+<img class="aobut__image--100" src="/about/bachelar.png" alt=nchu>
 
 ## 興趣認證
 
 ### NLP專業執行師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/about/052019_1.webp" alt=NLP專業執行師>
+    <img class="aobut__image--100" src="/about/052019_1.webp" alt=NLP專業執行師>
 </div>
 
 ### Cafe Startups 認證講師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:100%" src="/about/Cafe.jpg" alt=精實創業咖啡館認證講師>
+    <img class="aobut__image--100" src="/about/Cafe.jpg" alt=精實創業咖啡館認證講師>
 </div>
 
 ### 新天鵝堡桌遊教師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img style="width:50%" src="/about/082258_2.webp" alt=新天鵝堡進階桌遊師>
-    <img style="width:50%" src="/about/082258_3.webp" alt=新天鵝堡初階桌遊師>
+    <img class="aobut__image--50" src="/about/082258_2.webp" alt=新天鵝堡進階桌遊師>
+    <img class="aobut__image--50" src="/about/082258_3.webp" alt=新天鵝堡初階桌遊師>
 </div>
+
+<style lang=scss>
+.aobut__image--100 {
+    width:100%;
+    border: 1px solid #e2e2e3;
+}
+.aobut__image--50 {
+    width:50%;
+    border: 1px solid #e2e2e3;
+}
+</style>
