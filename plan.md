@@ -5,6 +5,9 @@ head:
   - - meta
     - name: og:image
       content: https://econ-sense.com/plan/download.png
+  - - meta
+    - name: image
+      content: https://econ-sense.com/plan/download.png
 ---
 
 # 開源財務規劃表
