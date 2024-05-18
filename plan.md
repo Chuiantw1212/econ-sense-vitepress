@@ -4,11 +4,12 @@ outline: deep
 head:
   - - meta
     - name: og:image
-      content: https://econ-sense.com/plan/download.png
+      content: https://econ-sense.com/plan/calculator.png
   - - meta
     - name: image
-      content: https://econ-sense.com/plan/download.png
+      content: https://econ-sense.com/plan/calculator.png
 ---
+<!-- https://vitepress.dev/reference/frontmatter-config#head -->
 
 # 開源財務規劃表
 
