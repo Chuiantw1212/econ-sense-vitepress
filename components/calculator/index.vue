@@ -163,6 +163,7 @@ const LifeAssetRef = ref()
 const StoryRef = ref()
 // 主要從資料庫來的設定檔案
 const config = reactive({
+    isSelectReady: false,
     // primitive types
     currentYear: new Date().getFullYear(),
     inflationRate: 2,
@@ -185,6 +186,9 @@ const config = reactive({
 })
 const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
+    if (config.isSelectReady) {
+        return
+    }
     try {
         const bankConfigPromises = [
             fetch(`${VITE_BASE_URL}/select`),
@@ -211,6 +215,7 @@ async function setSelecOptionSync() {
             portfolioIRR[etf.label] = etf.value
         })
         Object.assign(config.portfolioIRR, portfolioIRR)
+        config.isSelectReady = true
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
@@ -226,6 +231,7 @@ function backToCalendar() {
     window?.location.replace('/calendar')
 }
 async function getUserFromServer(firebaseUser) {
+    const selectPromise = setSelecOptionSync()
     let responseForm = {
         id: ''
     }
@@ -247,6 +253,7 @@ async function getUserFromServer(firebaseUser) {
         showMessage = true
     } finally {
         user.id = responseForm.id
+        await selectPromise // 效能並行優化，等到select完成再進行下一步
         setUserAndInitialize(responseForm, {
             showMessage
         })
@@ -613,8 +620,6 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
     window.firebase = firebase
-    loadingDialogVisible.value = true
-    await setSelecOptionSync()
     await initializeApp()
 })
 // 用戶與權限
@@ -627,6 +632,7 @@ const user = reactive({
 })
 async function initializeApp() {
     try {
+        loadingDialogVisible.value = true
         await firebase.initializeApp({
             apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
             authDomain: "econ-sense-9a250.firebaseapp.com",
