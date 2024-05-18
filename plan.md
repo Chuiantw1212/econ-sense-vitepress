@@ -4,10 +4,12 @@ outline: deep
 head:
   - - meta
     - name: og:image
+      property: og:image
       content: https://econ-sense.com/plan/calculator.png
   - - meta
-    - name: image
-      content: https://econ-sense.com/plan/calculator.png
+    - name: og:url
+      property: og:url
+      content: https://econ-sense.com/plan.html
 ---
 <!-- https://vitepress.dev/reference/frontmatter-config#head -->
 
