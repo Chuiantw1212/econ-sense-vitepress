@@ -127,6 +127,13 @@ const members = [
     <img class="aobut__image--50" src="/about/082258_3.webp" alt=新天鵝堡初階桌遊師>
 </div>
 
+### 單車環島
+
+<div style="display:flex;flex-wrap:wrap;">
+    <img class="aobut__image--50" src="/about/191810_1.webp" alt=新天鵝堡進階桌遊師>
+    <img class="aobut__image--50" src="/about/191810_2.webp" alt=新天鵝堡初階桌遊師>
+</div>
+
 <style lang=scss>
 .aobut__image--100 {
     width:100%;
