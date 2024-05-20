@@ -37,7 +37,7 @@ export default defineConfig({
     ],
     sidebar: [
       {
-        text: '講座排程&FAQ',
+        text: '講座排程&地圖',
         link: '/calendar',
       },
       { text: '開源財務規劃表', link: '/plan' },
