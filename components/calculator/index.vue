@@ -1,106 +1,129 @@
 <template>
     <div>
-        <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="500">
-            <div>此為免費服務，伺服器開機5秒~12秒左右來準備以下必須資料。</div>
-            <ul>
-                <li>餘命運算</li>
-                <li>2023聯徵房地資料契約</li>
-                <li>央行擔保放款融通利率</li>
-                <li>而且有時候會故障卡死......╮（╯＿╰）╭</li>
-            </ul>
-            <div>當此提示順利地自動關閉。就可以開始使用了。</div>
-            <template #footer>
-                <div class="dialog-footer">
-                    <el-button @click="backToCalendar()">放棄使用</el-button>
-                    <el-button v-loading="true" :disabled="true" type="primary" @click="loadingDialogVisible = false">
-                        下一步
-                    </el-button>
-                </div>
-            </template>
-        </el-dialog>
+        <ClientOnly>
+            <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="500">
+                <div>此為免費服務，伺服器開機5秒~12秒左右來準備以下必須資料。</div>
+                <ul>
+                    <li>餘命運算</li>
+                    <li>2023聯徵房地資料契約</li>
+                    <li>央行擔保放款融通利率</li>
+                    <li>而且有時候會故障卡死......╮（╯＿╰）╭</li>
+                </ul>
+                <div>當此提示順利地自動關閉。就可以開始使用了。</div>
+                <template #footer>
+                    <div class="dialog-footer">
+                        <el-button @click="backToCalendar()">放棄使用</el-button>
+                        <el-button v-loading="true" :disabled="true" type="primary"
+                            @click="loadingDialogVisible = false">
+                            下一步
+                        </el-button>
+                    </div>
+                </template>
+            </el-dialog>
+        </ClientOnly>
 
         <h2 id="_基本資料" tabindex="-1">
             基本資料
             <a class="header-anchor" href="#基本資料" aria-label="Permalink to &quot;基本資料&quot;">&ZeroWidthSpace;</a>
         </h2>
-        <Profile v-model="userForm.profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
-            @upload="setUserAndInitialize($event, { showMessage: true })" @update:modelValue="onProfileChanged()">
-        </Profile>
+        <ClientOnly>
+            <Profile v-model="userForm.profile" :user="user" :config="config" ref="ProfileRef" @sign-out="signOut()"
+                @upload="setUserAndInitialize($event, { showMessage: true })" @update:modelValue="onProfileChanged()">
+            </Profile>
+        </ClientOnly>
 
         <h2 id="_我可以FIRE嗎？" tabindex="-1">我可以FIRE嗎？<a class="header-anchor" href="#我可以FIRE嗎？"
                 aria-label="Permalink to &quot;我可以FIRE嗎？&quot;">&ZeroWidthSpace;</a></h2>
 
         <h3 id="_職業試算" tabindex="-1">職業試算<a class="header-anchor" href="#職業試算"
                 aria-label="Permalink to &quot;職業試算&quot;">&ZeroWidthSpace;</a></h3>
-        <CareerLabor v-if="['', 'employee', 'entrepreneur'].includes(userForm.profile.careerInsuranceType)"
-            v-model="userForm.career" :config="config" :profile="userForm.profile" ref="CareerRef"
-            @update:modelValue="onCareerChanged()">
-        </CareerLabor>
-        <CareerGovernment v-if="userForm.profile.careerInsuranceType === 'civilServant'" v-model="userForm.career"
-            :config="config" :profile="userForm.profile" ref="CareerRef" @update:modelValue="onCareerChanged()">
-        </CareerGovernment>
+        <ClientOnly>
+            <CareerLabor v-if="['', 'employee', 'entrepreneur'].includes(userForm.profile.careerInsuranceType)"
+                v-model="userForm.career" :config="config" :profile="userForm.profile" ref="CareerRef"
+                @update:modelValue="onCareerChanged()">
+            </CareerLabor>
+            <CareerGovernment v-if="userForm.profile.careerInsuranceType === 'civilServant'" v-model="userForm.career"
+                :config="config" :profile="userForm.profile" ref="CareerRef" @update:modelValue="onCareerChanged()">
+            </CareerGovernment>
+        </ClientOnly>
 
         <h3 id="_退休試算" tabindex="-1">退休試算<a class="header-anchor" href="#退休試算"
                 aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career"
-            :parenting="userForm.parenting" :profile="userForm.profile" :estate="userForm.estate" ref="RetirementRef"
-            @update:modelValue="onRetirementChanged()">
-        </Retirement>
+        <ClientOnly>
+            <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career"
+                :parenting="userForm.parenting" :profile="userForm.profile" :estate="userForm.estate"
+                ref="RetirementRef" @update:modelValue="onRetirementChanged()">
+            </Retirement>
+        </ClientOnly>
 
         <h2 id="_五子登科" tabindex="-1">五子登科<a class="header-anchor" href="#五子登科"
                 aria-label="Permalink to &quot;五子登科&quot;">&ZeroWidthSpace;</a></h2>
         <h3 id="_資產試算" tabindex="-1">證券試算<a class="header-anchor" href="#證券試算"
                 aria-label="Permalink to &quot;證券試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Asset v-model="userForm.security" :config="config" :profile="userForm.profile" :career="userForm.career"
-            :spouse="userForm.spouse" :parenting="userForm.parenting" :estate="userForm.estate"
-            :retirement="userForm.retirement" ref="SecurityRef" @update:model-value="onSecurityChanged()">
-        </Asset>
+
+        <ClientOnly>
+            <Asset v-model="userForm.security" :config="config" :profile="userForm.profile" :career="userForm.career"
+                :spouse="userForm.spouse" :parenting="userForm.parenting" :estate="userForm.estate"
+                :retirement="userForm.retirement" ref="SecurityRef" @update:model-value="onSecurityChanged()">
+            </Asset>
+        </ClientOnly>
 
         <h3 id="_結婚試算" tabindex="-1">配偶試算<a class="header-anchor" href="#配偶試算"
                 aria-label="Permalink to &quot;結婚試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Spouse v-model="userForm.spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()">
-        </Spouse>
+        <ClientOnly>
+            <Spouse v-model="userForm.spouse" :config="config" ref="SpouseRef" @update:model-value="onSpouseChanged()">
+            </Spouse>
+        </ClientOnly>
 
         <h3 id="_家庭責任試算" tabindex="-1">家庭責任試算<a class="header-anchor" href="#家庭責任試算"
                 aria-label="Permalink to &quot;家庭責任試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Parenting v-model="userForm.parenting" :config="config" :career="userForm.career"
-            :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
-            :estateSize="userForm.estateSize" :estate="userForm.estate" ref="ParentingRef"
-            @update:model-value="onParentingChanged()">
-        </Parenting>
+        <ClientOnly>
+            <Parenting v-model="userForm.parenting" :config="config" :career="userForm.career"
+                :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
+                :estateSize="userForm.estateSize" :estate="userForm.estate" ref="ParentingRef"
+                @update:model-value="onParentingChanged()">
+            </Parenting>
+        </ClientOnly>
 
         <h3 id="_購屋試算" tabindex="-1">房地產試算<a class="header-anchor" href="#房地產試算"
                 aria-label="Permalink to &quot;房地產試算&quot;">&ZeroWidthSpace;</a></h3>
-        <Mortgage v-model="userForm.estate" :config="config" :career="userForm.career" :estateSize="userForm.estateSize"
-            :security="userForm.security" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
-            ref="MortgageRef" @update:model-value="onMortgageChanged()" @open="openEstateCalculator()"
-            @reset="resetTotalPrice()">
-        </Mortgage>
-
-        <el-dialog :modelValue="estateCalculatorVisiable" title="估算總價" :lock-scroll="true"
-            @close="estateCalculatorVisiable = false">
-            <EstateDialogContent :config="config" :estateSize="userForm.estateSize" :estatePrice="userForm.estatePrice"
-                :parenting="userForm.parenting" ref="EstateRef" @close="estateCalculatorVisiable = false"
-                @confirm="onDialogConfirm($event)">
-            </EstateDialogContent>
-        </el-dialog>
+        <ClientOnly>
+            <Mortgage v-model="userForm.estate" :config="config" :career="userForm.career"
+                :estateSize="userForm.estateSize" :security="userForm.security" :parenting="userForm.parenting"
+                :estatePrice="userForm.estatePrice" ref="MortgageRef" @update:model-value="onMortgageChanged()"
+                @open="openEstateCalculator()" @reset="resetTotalPrice()">
+            </Mortgage>
+            <el-dialog :modelValue="estateCalculatorVisiable" title="估算總價" :lock-scroll="true"
+                @close="estateCalculatorVisiable = false">
+                <EstateDialogContent :config="config" :estateSize="userForm.estateSize"
+                    :estatePrice="userForm.estatePrice" :parenting="userForm.parenting" ref="EstateRef"
+                    @close="estateCalculatorVisiable = false" @confirm="onDialogConfirm($event)">
+                </EstateDialogContent>
+            </el-dialog>
+        </ClientOnly>
 
         <h2 id="_試算結果" tabindex="-1">試算結果<a class="header-anchor" href="#試算結果"
                 aria-label="Permalink to &quot;試算結果&quot;">&ZeroWidthSpace;</a></h2>
         <h3 id="_一生資產負債" tabindex="-1">一生資產負債表<a class="header-anchor" href="#一生資產負債表"
                 aria-label="Permalink to &quot;一生資產負債表&quot;">&ZeroWidthSpace;</a></h3>
-        <LifeAsset v-model="userForm.profile" :config="config" :career="userForm.career"
-            :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
-            :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
-            :estate="userForm.estate" ref="LifeAssetRef">
-        </LifeAsset>
+        <ClientOnly>
+            <LifeAsset v-model="userForm.profile" :config="config" :career="userForm.career"
+                :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
+                :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
+                :estate="userForm.estate" ref="LifeAssetRef">
+            </LifeAsset>
+        </ClientOnly>
+
         <h3 id="_報告與資料匯出" tabindex="-1">故事與匯出<a class="header-anchor" href="#故事與匯出"
                 aria-label="Permalink to &quot;故事與匯出&quot;">&ZeroWidthSpace;</a></h3>
-        <Story v-model="userForm.profile" :config="config" :career="userForm.career" :retirement="userForm.retirement"
-            :spouse="userForm.spouse" :security="userForm.security" :estateSize="userForm.estateSize"
-            :parenting="userForm.parenting" :estatePrice="userForm.estatePrice" :estate="userForm.estate" ref="StoryRef"
-            @update:modelValue="onProfileChanged()" @export="exportUserForm()">
-        </Story>
+        <ClientOnly>
+            <Story v-model="userForm.profile" :config="config" :career="userForm.career"
+                :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
+                :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
+                :estate="userForm.estate" ref="StoryRef" @update:modelValue="onProfileChanged()"
+                @export="exportUserForm()">
+            </Story>
+        </ClientOnly>
         <br>
     </div>
 </template>
@@ -140,6 +163,7 @@ const LifeAssetRef = ref()
 const StoryRef = ref()
 // 主要從資料庫來的設定檔案
 const config = reactive({
+    isSelectReady: false,
     // primitive types
     currentYear: new Date().getFullYear(),
     inflationRate: 2,
@@ -162,6 +186,9 @@ const config = reactive({
 })
 const loadingDialogVisible = ref(false)
 async function setSelecOptionSync() {
+    if (config.isSelectReady) {
+        return
+    }
     try {
         const bankConfigPromises = [
             fetch(`${VITE_BASE_URL}/select`),
@@ -188,6 +215,7 @@ async function setSelecOptionSync() {
             portfolioIRR[etf.label] = etf.value
         })
         Object.assign(config.portfolioIRR, portfolioIRR)
+        config.isSelectReady = true
     }
     catch (error) {
         // https://element-plus.org/en-US/component/message-box.html#message-box
@@ -203,6 +231,7 @@ function backToCalendar() {
     window?.location.replace('/calendar')
 }
 async function getUserFromServer(firebaseUser) {
+    const selectPromise = setSelecOptionSync()
     let responseForm = {
         id: ''
     }
@@ -224,6 +253,7 @@ async function getUserFromServer(firebaseUser) {
         showMessage = true
     } finally {
         user.id = responseForm.id
+        await selectPromise // 效能並行優化，等到select完成再進行下一步
         setUserAndInitialize(responseForm, {
             showMessage
         })
@@ -590,8 +620,6 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
     window.firebase = firebase
-    loadingDialogVisible.value = true
-    await setSelecOptionSync()
     await initializeApp()
 })
 // 用戶與權限
@@ -604,6 +632,7 @@ const user = reactive({
 })
 async function initializeApp() {
     try {
+        loadingDialogVisible.value = true
         await firebase.initializeApp({
             apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
             authDomain: "econ-sense-9a250.firebaseapp.com",
