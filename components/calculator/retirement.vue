@@ -23,7 +23,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <!-- <el-row>
+            <el-row>
                 <el-col :span="12">
                 </el-col>
                 <el-col :span="12">
@@ -32,7 +32,7 @@
                             ({{ Math.ceil(retirement.yearOfRetire + retirement.lifeExpectancy) }})</el-text>
                     </el-form-item>
                 </el-col>
-            </el-row> -->
+            </el-row>
             <el-collapse>
                 <el-collapse-item :title="detailTitle[profile.careerInsuranceType]" :disabled="isFormDisabled">
                     <el-row>
@@ -59,7 +59,7 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <!-- <el-row>
+                    <el-row>
                         <el-col :span="12">
                         </el-col>
                         <el-col :span="12">
@@ -67,7 +67,7 @@
                                 <el-text>{{ Number(retirement.annuitySum).toLocaleString() }}</el-text>
                             </el-form-item>
                         </el-col>
-                    </el-row> -->
+                    </el-row>
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="雇主提繳累計">
