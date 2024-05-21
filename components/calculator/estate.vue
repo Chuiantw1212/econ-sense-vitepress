@@ -214,9 +214,9 @@ function calculateMortgage(options: any = { propagate: true }) {
             errorMssage()
         }
     }
-    if (setDownpay || setTotalPrice) {
-        calculateDownpayYear()
-    }
+    // if (setDownpay || setTotalPrice) {
+    //     calculateDownpayYear()
+    // }
     if (propagate) {
         emits('update:modelValue', estate.value)
     }

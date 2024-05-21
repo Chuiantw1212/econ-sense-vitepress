@@ -223,16 +223,17 @@ function calculateParenting(options: any = { propagate: true }) {
     })(propagate)
 }
 function calculateHeadCount() {
-    const { firstBornYear, secondBornYear, } = parenting.value
     const { monthlyContribution } = props.spouse
     let headCount = 1 // 自己
     if (monthlyContribution) {
         headCount += 1
     }
-    if (firstBornYear) {
+    if (parenting.value.firstBornYear) {
         headCount += 1
+    } else {
+        parenting.value.secondBornYear = 0
     }
-    if (secondBornYear) {
+    if (parenting.value.secondBornYear) {
         headCount += 1
     }
     parenting.value.headCount = headCount
