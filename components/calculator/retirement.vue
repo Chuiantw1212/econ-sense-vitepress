@@ -54,7 +54,7 @@
                         <el-col :span="12">
                             <el-form-item label="每月年金">
                                 <el-text>{{
-                                    Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -127,8 +127,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                                item.label
-                                }}</el-radio>
+                item.label
+            }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -495,7 +495,7 @@ async function calculateRetireLife() {
     const yearsToRetirement = retireAge - currentAge
     retirement.value.yearsToRetirement = yearsToRetirement
     const yearOfRetire = currentYear + yearsToRetirement
-    retirement.value.yearOfRetire = yearOfRetire
+    retirement.value.yearOfRetire = yearOfRetire || 0
     const { VITE_BASE_URL } = import.meta.env
     const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
         method: 'post',
