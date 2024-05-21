@@ -495,7 +495,7 @@ async function calculateRetireLife() {
     const yearsToRetirement = retireAge - currentAge
     retirement.value.yearsToRetirement = yearsToRetirement
     const yearOfRetire = currentYear + yearsToRetirement
-    retirement.value.yearOfRetire = yearOfRetire || 0
+    retirement.value.yearOfRetire = yearOfRetire
     const { VITE_BASE_URL } = import.meta.env
     const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
         method: 'post',

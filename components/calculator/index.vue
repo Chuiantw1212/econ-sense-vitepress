@@ -341,6 +341,7 @@ const userForm = reactive({
         age: 65,
         lifeExpectancy: 0,
         yearsToRetirement: 0,
+        yearOfRetire: 0,
         annuitySum: 0,
         insurance: {
             monthlyAnnuity: 0,
