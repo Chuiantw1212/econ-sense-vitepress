@@ -14,6 +14,7 @@ import {
   VPTeamMembers,
   VPTeamPageSection
 } from 'vitepress/theme'
+import SkillIcon from './components/skillIcons.vue'
 
 const members = [
   {
@@ -55,15 +56,15 @@ const members = [
 
 ### 前端
 
-<img src="https://skillicons.dev/icons?i=js,html,css,ts,vue,pinia,vuetify,nuxtjs,vite,sass,bootstrap,md&theme=light" alt='frontEnd'>
+<SkillIcon :modelValue="'js,html,css,ts,vue,pinia,vuetify,nuxtjs,vite,sass,bootstrap,md'"></SkillIcon>
 
 ### 後端
 
-<img src="https://skillicons.dev/icons?i=nodejs,ts,express,mongodb,postgres,postman&theme=light" alt='backEnd'>
+<SkillIcon :modelValue="'nodejs,ts,express,mongodb,postgres,postman'"></SkillIcon>
 
 ### 雲服務與其他
 
-<img src="https://skillicons.dev/icons?i=firebase,gcp,git,github,githubactions,npm,vscode,regex,windows,linux,&theme=light" alt="cloud">
+<SkillIcon :modelValue="'firebase,gcp,git,github,githubactions,npm,vscode,regex,windows,linux'"></SkillIcon>
 
 ## 專業認證
 
