@@ -49,7 +49,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item v-show="!unableToDrawChart" label="預期籌措時間">
+                    <el-form-item v-show="!unableToDrawChart" label="最早可購屋年">
                         <el-text>{{ config.currentYear + estate.yearsToDownpay }}
                             ({{ estate.yearsToDownpay }}年後)</el-text>
                     </el-form-item>
@@ -59,7 +59,7 @@
             <br />
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="購屋西元年">
+                    <el-form-item label="實際購屋年">
                         <el-input-number v-model="estate.downpayYear" @change="calculateMortgage()" />
                     </el-form-item>
                 </el-col>
