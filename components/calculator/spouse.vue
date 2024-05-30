@@ -17,7 +17,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="出生年">
-                        <econSelect v-model="spouse.yearOfBirth" placeholder="無配偶" :options="marriageYearOptions"
+                        <econSelect v-model="spouse.yearOfBirth" placeholder="無配偶" :options="birthYearOptions"
                             :disabled="!spouse.yearOfMarriage" @change="calculatecSpouse()"></econSelect>
                     </el-form-item>
                 </el-col>
@@ -117,12 +117,14 @@ function setMarriageYears() {
     const currentYear = new Date().getFullYear()
     const beforeYears = []
     const afterYears = []
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 10; i++) {
         const afterYear = currentYear + i
         afterYears.push({
             label: afterYear,
             value: afterYear
         })
+    }
+    for (let i = 0; i < 40; i++) {
         if (i !== 0) {
             const beforeYear = currentYear - i
             beforeYears.push({
