@@ -50,7 +50,7 @@ export default defineConfig({
           { text: '勞工退休規劃', link: '/finance/retirement' },
           { text: '投資進階管道', link: '/finance/investment' },
           { text: '單身狗地獄求生', link: '/finance/single' },
-          // { text: 'ESBI實踐(整理中)', link: '/finance/esbi' },
+          { text: '金錢整理術', link: '/finance/management' },
         ]
       },
       {
