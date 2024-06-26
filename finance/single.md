@@ -22,6 +22,10 @@ description: 探索《單身狗地獄求生》：獵殺女巫、台灣現況、�
 
 <iframe src="https://storage.googleapis.com/public.econ-sense.com/%E8%80%81%E4%BA%BA%E5%AE%89%E9%A4%8A%E4%BF%A1%E8%A8%97%E5%AE%9A%E5%9E%8B%E5%8C%96%E5%A5%91%E7%B4%84%E5%8F%83%E8%80%83%E7%AF%84%E6%9C%AC.pdf" width="100%" height="420"></iframe>
 
+## 日本新育兒福利，竟從單身人口找錢，單身稅究竟是怎麼回事？各國又有怎樣狀況？
+
+<iframe width="100%" height="420" src="https://www.youtube.com/embed/5MDvW7jgJZM?si=F_I4yh9SxlRc0Oir" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## 外部資源
 
 ### 獵殺女巫的歷史
@@ -165,8 +169,8 @@ description: 探索《單身狗地獄求生》：獵殺女巫、台灣現況、�
     </tbody>
 </table>
 
-
 ### 財務準備
+
 <table>
     <thead>
         <tr>

@@ -21,6 +21,13 @@ head:
 
 <Calculator></Calculator>
 
+## 專家諮詢
+<a href="https://www.azsinopro.com.tw/" target="_blank">Azimut Sinopro 安睿宏觀</a>是國際高端理財顧問領導品牌，提供個人及家庭全生涯理財規劃，與中高資產家族辦公室服務，團隊擁有如<a href="https://www.fpat.org.tw/Certification/List" target="_blank">CFP®、AFP等國際證照</a>，專注於為客戶達成理想生活品質。以超過27年的顧問經歷，服務超過5,000組台灣家庭，運用專業的理財觀點、客觀的投資建議，提供量身訂製財務解決方案，內容包含投資規劃、稅務規劃、風險管理、信用管理及現金流管理等專業規劃與諮詢服務。
+
+<a href="https://www.azsinopro.com.tw/" target="_blank">
+  <img src="/plan/Group175.png">
+</a>
+
 <script setup>
 import Calculator from './components/calculator/index.vue'
 </script>
