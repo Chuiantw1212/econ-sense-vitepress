@@ -3,7 +3,7 @@ description: 非專業講師，分享學校無法涵蓋的知識。曾講授於�
 outline: [2,3]
 ---
 
-# 關於 EN
+# 關於 EN (朱奕安)
 
 <VPTeamMembers size="medium" :members="members" />
 

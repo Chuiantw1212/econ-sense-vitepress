@@ -226,14 +226,6 @@ import Books from '../components/books.vue'
 
 const courseItems = [
     {
-        image: '/finance/pingho.jpeg',
-        description: `服務團隊專業、貼近客戶需求
-為全方位服務的綜合法律事務所，具良好溝通能力
-深耕於各專業領域，長期為客戶提供精品式法律服務`,
-        name: '品和法律事務所',
-        url: 'https://www.facebook.com/clclawofficetw',
-    },
-    {
         image: '/life/carer.png',
         description: `隨著年齡增長，老化不只生理上的變化而已，而是各種問題的開始，這堂課讓你聰明的應對老化問題，學會維護身體的機能，使自己保持最佳狀態，應對各種生活和工作的挑戰，正常扮演社會與家庭的角色。`,
         name: '老化全方位應對手冊 | 機能維持 X 聰明就醫 X 照護策略 X 風險規劃',
