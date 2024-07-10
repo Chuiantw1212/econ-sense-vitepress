@@ -75,7 +75,7 @@ export default defineConfig({
         ]
       },
       {
-        text: '資料、分析、工程師',
+        text: '工程師專區',
         link: '/engineer/outline',
         collapsed: false,
         items: [
