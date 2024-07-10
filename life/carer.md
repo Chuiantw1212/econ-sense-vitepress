@@ -15,12 +15,6 @@ outline: deep
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqIwBpXMcvWHTQy80NGRVuI3_lGx4UtVjhedci_cQDcx7iB3rO9qwn1LNQJSpmPpy0YOeykE_1wKmR/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
-## 自立支援的台灣實踐
-
-生活自立支援服務的概念與模式興起，逐漸在歐洲、美國、日本等國擴散與發展，這種顛覆以往的照護模式指的是「藉由回復其自主性，重新獲得與常人生活無異的由」，此一照顧的理念和範圍，讓照顧的面向不只侷限身體層面，開始更廣義的涵蓋社會層面及文化層面，更著重尊重其主體與意願的支援，促進精神層面的滿足感。
-
-<iframe src="https://storage.googleapis.com/public.econ-sense.com/%E5%90%8C%E9%AB%94%E5%85%B1%E5%AD%98%E7%9A%84%E9%95%B7%E6%9C%9F%E7%85%A7%E9%A1%A7.pdf" width="100%" height="420"></iframe>
-
 ## 外部資源
 
 ### 延遲老化
@@ -191,7 +185,13 @@ import Books from '../components/books.vue'
 
 const courseItems = [
     {
-        image: '/life/carer.png',
+        image: '/life/carer.jpg',
+        description: `中華民國家庭照顧者關懷總會(家總)成立於85年，其倡議目標為發展多元且充足的長照資源，讓家庭有選擇權，以及對自願選擇成為家庭照顧者，提供符合需求的支持性服務。`,
+        name: '中華民國家庭照顧者關懷總會',
+        url: 'https://www.youtube.com/@familycaretw/videos',
+    },
+    {
+        image: '/life/hiskio.png',
         description: `隨著年齡增長，老化不只生理上的變化而已，而是各種問題的開始，這堂課讓你聰明的應對老化問題，學會維護身體的機能，使自己保持最佳狀態，應對各種生活和工作的挑戰，正常扮演社會與家庭的角色。`,
         name: '老化全方位應對手冊 | 機能維持 X 聰明就醫 X 照護策略 X 風險規劃',
         url: 'https://hiskio.com/courses/2133/about',
