@@ -81,7 +81,7 @@ export default defineConfig({
         items: [
           // { text: '開源財務規劃表', link: '/engineer/plan' },
           { text: '電腦DIY', link: '/engineer/computer' },
-          { text: '網站初學須知', link: '/engineer/web' },
+          { text: '網站初學須知(未完成)', link: '/engineer/web' },
           { text: 'VitePress無本部落格(待驗證)', link: '/engineer/blog' },
           // { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
           // { text: '派遣軍團(未完成)', link: '/engineer/contractor' },
@@ -121,8 +121,8 @@ export default defineConfig({
      </g>
      </svg>` }
       },
-      // { icon: 'github', link: 'https://github.com/Chuiantw1212/econ-sense-vite-press' },
-      { icon: 'instagram', link: 'https://www.instagram.com/econ.sense' },
+      { icon: 'github', link: 'https://github.com/Chuiantw1212/econ-sense-vite-press' },
+      // { icon: 'instagram', link: 'https://www.instagram.com/econ.sense' },
       // { icon: 'linkedin', link: 'https://www.linkedin.com/in/chuiantw1212' },
     ],
     // i18n
