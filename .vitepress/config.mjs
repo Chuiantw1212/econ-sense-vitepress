@@ -81,7 +81,7 @@ export default defineConfig({
         items: [
           // { text: '開源財務規劃表', link: '/engineer/plan' },
           { text: '電腦DIY', link: '/engineer/computer' },
-          { text: '網站初學須知(未完成)', link: '/engineer/web' },
+          // { text: '網站初學須知(未完成)', link: '/engineer/web' },
           { text: 'VitePress無本部落格', link: '/engineer/blog' },
           // { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
           // { text: '派遣軍團(未完成)', link: '/engineer/contractor' },
