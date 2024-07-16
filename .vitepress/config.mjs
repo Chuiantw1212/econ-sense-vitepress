@@ -71,7 +71,7 @@ export default defineConfig({
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
           { text: '為什麼要讀書(未完成)', link: '/career/education' },
-          // { text: '進擊的POA(未完成)', link: '/career/poa' },
+          { text: '精實執行', link: '/career/lean' },
         ]
       },
       {
