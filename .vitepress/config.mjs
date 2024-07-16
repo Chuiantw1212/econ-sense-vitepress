@@ -50,7 +50,7 @@ export default defineConfig({
           { text: '勞工退休規劃', link: '/finance/retirement' },
           { text: '投資進階管道', link: '/finance/investment' },
           { text: '單身狗地獄求生', link: '/finance/single' },
-          { text: '金錢整理術', link: '/finance/management' },
+          { text: '金錢整理術(說書)', link: '/finance/management' },
         ]
       },
       {
@@ -70,8 +70,8 @@ export default defineConfig({
         items: [
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
-          { text: '為什麼要讀書(未完成)', link: '/career/education' },
-          { text: '精實執行', link: '/career/lean' },
+          // { text: '為什麼要讀書(未完成)', link: '/career/education' },
+          { text: '精實執行(說書)', link: '/career/lean' },
         ]
       },
       {
@@ -82,7 +82,7 @@ export default defineConfig({
           // { text: '開源財務規劃表', link: '/engineer/plan' },
           { text: '電腦DIY', link: '/engineer/computer' },
           { text: '網站初學須知(未完成)', link: '/engineer/web' },
-          { text: 'VitePress無本部落格(待驗證)', link: '/engineer/blog' },
+          { text: 'VitePress無本部落格', link: '/engineer/blog' },
           // { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
           // { text: '派遣軍團(未完成)', link: '/engineer/contractor' },
         ]
