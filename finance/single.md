@@ -78,7 +78,7 @@ description: 探索《單身狗地獄求生》：獵殺女巫、台灣現況、�
             <th>
                 <a href="https://www.moi.gov.tw/cl.aspx?n=12887" target="_blank">內政性別統計分析專輯</a>
             </th>
-            <th>這邊可以查歷年的性比例，就明顯知道女性獨立+慕強擇偶也是少子化的原因之一</th>
+            <th>這邊可以查歷年的性比例。</th>
         </tr>
         <tr>
             <th>
