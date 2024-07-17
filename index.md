@@ -4,8 +4,8 @@
 layout: home
 
 hero:
-  name: "常識經濟"
-  text: "econ-sense.com"
+  name: "常識經濟學"
+  text: "無為而治的財務思維"
   tagline: 理財就該如此簡單
   # image: /logo/常-白底.png
   actions:

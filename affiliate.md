@@ -102,5 +102,5 @@ const socialSchoolMembers = [
   },
 ]
 
-// You've been invited to join "常識經濟". Visit the link below to join the OpenChat. https://line.me/ti/g2/w2xjp79QxMO76vVw_aQuEqeH2ahdcn7uY7lQAg?utm_source=invitation&utm_medium=link_copy&utm_campaign=default
+// You've been invited to join "常識經濟學". Visit the link below to join the OpenChat. https://line.me/ti/g2/w2xjp79QxMO76vVw_aQuEqeH2ahdcn7uY7lQAg?utm_source=invitation&utm_medium=link_copy&utm_campaign=default
 </script>
