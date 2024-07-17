@@ -6,7 +6,7 @@ layout: home
 hero:
   name: "常識經濟學"
   text: "無為而治的財務思維"
-  tagline: 理財就該如此簡單
+  tagline: 生活就該簡單心安
   # image: /logo/常-白底.png
   actions:
     # alt  
