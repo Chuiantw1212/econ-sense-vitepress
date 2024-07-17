@@ -4,7 +4,7 @@
 layout: home
 
 hero:
-  name: "常識經濟學"
+  name: "常識經濟"
   text: "econ-sense.com"
   tagline: 無痛理財、專注本業、好好生活
   actions:
