@@ -31,7 +31,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: '金融理財', link: '/finance/outline' },
+      { text: '無痛理財', link: '/finance/outline' },
       { text: '好好生活', link: '/life/outline' },
       { text: '職涯發展', link: '/career/outline' },
     ],
@@ -42,7 +42,7 @@ export default defineConfig({
       },
       { text: '開源財務規劃表', link: '/plan' },
       {
-        text: '金融理財',
+        text: '無痛理財',
         link: '/finance/outline',
         collapsed: false,
         items: [
@@ -71,7 +71,7 @@ export default defineConfig({
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
           // { text: '為什麼要讀書(未完成)', link: '/career/education' },
-          { text: '精實執行(說書)', link: '/career/lean' },
+          { text: '精實執行(說書|付費)', },
         ]
       },
       {

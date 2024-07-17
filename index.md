@@ -5,8 +5,9 @@ layout: home
 
 hero:
   name: "常識經濟學"
-  text: "econ-sense.com"
-  tagline: 無痛理財、專注本業、好好生活
+  text: "無為而治的財務思維"
+  tagline: 生活就該簡單心安
+  # image: /logo/常-白底.png
   actions:
     # alt  
     # sponsor
