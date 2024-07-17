@@ -31,7 +31,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: '金融理財', link: '/finance/outline' },
+      { text: '無痛理財', link: '/finance/outline' },
       { text: '好好生活', link: '/life/outline' },
       { text: '職涯發展', link: '/career/outline' },
     ],
@@ -42,7 +42,7 @@ export default defineConfig({
       },
       { text: '開源財務規劃表', link: '/plan' },
       {
-        text: '金融理財',
+        text: '無痛理財',
         link: '/finance/outline',
         collapsed: false,
         items: [
