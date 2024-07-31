@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th class="d-md-none">
-                    <a :href="item.url">
+                    <a :href="`${item.url}.html`">
                         {{ item.name }}</a>
                 </th>
                 <th class="d-md-none" :style="`width:11em;text-align:center;`">
@@ -14,7 +14,7 @@
                 </th>
             </tr>
             <tr>
-                <th class="d-none d-md-table-cell"><a :href="item.url">
+                <th class="d-none d-md-table-cell"><a :href="`${item.url}.html`">
                         {{ item.name }}</a></th>
                 <th class="d-none d-md-table-cell">實踐度：
                     <template v-for="number in item.rating" :key="number">
