@@ -92,7 +92,7 @@ export default defineConfig({
         link: '/affiliate'
       },
       {
-        text: '關於EN',
+        text: '關於EN Chu',
         link: '/about'
       },
     ],
@@ -150,7 +150,7 @@ export default defineConfig({
     },
     footer: {
       message: 'Powered by <a href="https://vitepress.dev/" target="_blank">Vitepress</a>',
-      copyright: 'Copyright © 2023-present EN'
+      copyright: 'Copyright © 2023-present EN Chu'
     },
     logo: '/logo/常-白底.png',
   },
