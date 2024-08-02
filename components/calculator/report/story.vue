@@ -191,7 +191,7 @@ async function exportUserForm() {
     emits('export')
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .card-header--custom {
     display: flex;
     align-items: center;

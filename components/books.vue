@@ -52,7 +52,7 @@ function getImageLink(item) {
     return `${showThumbnailLink}?sc=${item.id}&height=${height}&width=${width}`
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .books {
     display: flex;
     gap: 40px;

@@ -51,8 +51,9 @@ function handleChange() {
     all: unset;
     border: 1px solid #dcdfe6;
     border-radius: 4px;
-    width: 118px;
+    min-width: 118px;
     padding: 0 15px;
+    white-space: pre-wrap;
 
     &:disabled {
         background-color: rgb(245, 247, 250);

@@ -454,7 +454,7 @@ defineExpose({
     calculateMortgage,
 })
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .table {
     * {
         border-color: var(--el-border-color-light);

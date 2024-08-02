@@ -41,6 +41,7 @@ export default defineConfig({
         link: '/calendar',
       },
       { text: '開源財務規劃表', link: '/plan' },
+      { text: '金錢性格測驗', link: '/personality' },
       {
         text: '無痛理財',
         link: '/finance/outline',
