@@ -481,10 +481,10 @@ onMounted(async () => {
 // methods
 function onSubmit() {
     const total = questionGroups.value.length
-    const d = answers.value.filter(value => value==='a').length
-    const i = answers.value.filter(value => value==='b').length
-    const s = answers.value.filter(value => value==='c').length
-    const c = answers.value.filter(value => value==='d').length
+    const d = answers.value.filter(value => value==='d').length
+    const i = answers.value.filter(value => value==='i').length
+    const s = answers.value.filter(value => value==='s').length
+    const c = answers.value.filter(value => value==='c').length
     result.value = [d,i,s,c]
     result.value = result.value.map(value => {
         return Number(value / total * 100).toFixed(1)
