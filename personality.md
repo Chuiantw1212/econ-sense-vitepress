@@ -6,8 +6,7 @@
         <el-row>
             <el-col>
                  <el-form-item label="出生年" required>
-                        <econSelect v-model="profile.yearOfBirth" @change="calculateProfile()" style="width: 130px"
-                            :options="birthYearOptions">
+                        <econSelect>
                         </econSelect>
                     </el-form-item>
             </el-col>
@@ -16,32 +15,11 @@
 </el-card>
 
 <script setup>
-const optionsGroups = [
-    {
-        options:{
-            {
-            text: '',
-            value: 'a'
-        },
-        {
+import { onMounted } from "vue";
 
-        },
-        {
-            text: '',
-            value: 'b'
-        },
-        {
-            
-        },
-        {
-            text: '',
-            value: 'c'
-        },
-        {
-            text: '',
-            value: 'd'
-        }
-        }
-    }
-]
+onMounted(async () => {
+  const response = await fetch("/personality.json");
+  const file = await response.json();
+  console.log("cool file", file);
+});
 </script>
