@@ -5,6 +5,8 @@ outline: deep
 
 # 金錢類型測驗
 
+內容取自金錢性格一書
+
 ## 題組
 <el-card>
     <el-form>
@@ -109,6 +111,87 @@ outline: deep
                 </td>
                 <td>
                     牛 — 耐力、勤奮
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</el-card>
+
+<h2 id="_創造者" tabindex="-1">創造者<a class="header-anchor" href="#創造者"
+                aria-label="Permalink to &quot;創造者&quot;">&ZeroWidthSpace;</a></h2>
+<el-card>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    財務態度
+                </td>
+                 <td>
+                    創造它，並加以體現
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    金錢特質
+                </td>
+                <td>
+                    理想主義
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    金錢口號
+                </td>
+                <td>
+                    如果我能夠夢想，我就能做到。我能展現自己的成功
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    信念體系
+                </td>
+                <td>
+                    如果我能夠夢想，我就能做到。我能展現自己的成功
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    優點
+                </td>
+                <td>
+                    思想開放、靈活、適應性強、果斷、樂觀、善於解決問題、敢冒險
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    缺點
+                </td>
+                <td>
+                    持否認態度、匆忙做出決定、容易受到快速致富計畫的影響、可能不喜歡處理資料、可能純粹基於情緒做出決定
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    你如何賺錢
+                </td>
+                <td>
+                    企業家精神、獨創性、身體力行、夢想生意和投資的新方法
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    遇到壓力時
+                </td>
+                <td>
+                    可能會超支，在沒有資料的情況下迅速做出決定，並陷入既定的思維方式
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    代表性精神動物
+                </td>
+                <td>
+                    猴子 — 詭計多端、投機取巧
                 </td>
             </tr>
         </tbody>
