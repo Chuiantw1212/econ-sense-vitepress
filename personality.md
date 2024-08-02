@@ -5,7 +5,7 @@ outline: deep
 
 # 金錢類型測驗
 
-內容取自金錢性格一書。並根據DISC理論進行調整。
+主要內容取自金錢性格一書，並根據DISC理論以及本人主觀解釋進行調整。
 1. DiSC所有類型和優先性都具有同等價值，每個人都是所有四種類型的混合體。
 2. 瞭解他人的DiSC類型可以幫助你了解他們的優先性以及他們與你有哪些不同。
 
@@ -17,7 +17,7 @@ outline: deep
                {{index+1}}. {{questionGroup.title}}:
             </el-col>
             <el-col>
-                <el-select v-model="answers[index]" placeholder="請選擇">
+                <el-select v-model="answers[index]" placeholder="請選擇" :disabled="result.length">
                     <el-option
                         v-for="item in questionGroup.options"
                         :key="item.value"
@@ -32,15 +32,43 @@ outline: deep
         </el-row>
         <el-form-item>
             <div>
-                <el-button type="primary" @click="onSubmit">送出</el-button>
+                <el-button type="primary" @click="onSubmit()" :disabled="result.length">送出</el-button>
             </div>
         </el-form-item>
     </el-form>
+     <table v-if="result.length" class="table">
+        <tbody>
+            <tr>
+                <td>
+                    D掌控型
+                </td>
+                <td>
+                    I影響型
+                </td>
+                <td>
+                    S沈穩型
+                </td>
+                <td>
+                    C嚴謹型
+                </td>
+            </tr>
+            <tr>
+                <td v-for="(precentage) in result">
+                    {{precentage}}%
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </el-card>
 
 <h2 id="_D掌控型" tabindex="-1">D掌控型<a class="header-anchor" href="#D掌控型"
                 aria-label="Permalink to &quot;D掌控型&quot;">&ZeroWidthSpace;</a></h2>
 <el-card>
+    <template #header>
+        <div class="card-header">
+            金錢類型
+        </div>
+    </template>
     <table class="table">
         <tbody>
             <tr>
@@ -104,7 +132,7 @@ outline: deep
                     遇到壓力時
                 </td>
                 <td>
-                    可能會因過度分析而力竭癱瘓，不願意放棄坐擁大量現金，可能會一直工作到倒下為止
+                    可能會縮限視野，忽視追逐財富所要付出的代價，一直工作到倒下為止
                 </td>
             </tr>
             <tr>
@@ -122,6 +150,11 @@ outline: deep
 <h2 id="_I影響型" tabindex="-1">I影響型<a class="header-anchor" href="#I影響型"
                 aria-label="Permalink to &quot;I影響型&quot;">&ZeroWidthSpace;</a></h2>
 <el-card>
+    <template #header>
+        <div class="card-header">
+            金錢類型
+        </div>
+    </template>
     <table class="table">
         <tbody>
             <tr>
@@ -185,7 +218,7 @@ outline: deep
                     遇到壓力時
                 </td>
                 <td>
-                    可能會超支，在沒有資料的情況下迅速做出決定，並陷入既定的思維方式
+                    可能會超支，在沒有深思的情況下衝動做出決定，並循環原有的行為模式
                 </td>
             </tr>
             <tr>
@@ -203,6 +236,11 @@ outline: deep
 <h2 id="_S沈穩型" tabindex="-1">S沈穩型<a class="header-anchor" href="#S沈穩型"
                 aria-label="Permalink to &quot;S沈穩型&quot;">&ZeroWidthSpace;</a></h2>
 <el-card>
+    <template #header>
+        <div class="card-header">
+            金錢類型
+        </div>
+    </template>
     <table class="table">
         <tbody>
             <tr>
@@ -266,7 +304,7 @@ outline: deep
                     遇到壓力時
                 </td>
                 <td>
-                    可能會在越來越安全的投資中尋求安全，可能會放棄或逃避所有財務決策責任
+                    可能會低估通膨的風險，放棄或逃避所有財務決策責任，並依賴錯誤的人
                 </td>
             </tr>
             <tr>
@@ -284,6 +322,11 @@ outline: deep
 <h2 id="_C嚴謹型" tabindex="-1">C嚴謹型<a class="header-anchor" href="#C嚴謹型"
                 aria-label="Permalink to &quot;C嚴謹型&quot;">&ZeroWidthSpace;</a></h2>
 <el-card>
+    <template #header>
+        <div class="card-header">
+            金錢類型
+        </div>
+    </template>
     <table class="table">
         <tbody>
             <tr>
@@ -347,7 +390,7 @@ outline: deep
                     遇到壓力時
                 </td>
                 <td>
-                    可能會不一致，因為過度考慮而不必要拖延和推遲決定
+                    可能會分析癱瘓，著迷於財務相關的完美公式，忽視了現實的千變萬化
                 </td>
             </tr>
             <tr>
@@ -360,17 +403,36 @@ outline: deep
             </tr>
         </tbody>
     </table>
+
+
 </el-card>
+
+## 延伸閱讀
+
+<Books :modelValue="bookItems"></Books>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import econSelect from './components/econSelect.vue'
+import Books from './components/books.vue'
+
 const questionGroups = ref([])
 const answers = ref([])
+const result = ref([])
 interface IQuestionGroup {
     title: string,
     options: any[]
 }
+const bookItems = [
+    {
+        id: '11100936637',
+        name: '金錢性格：找出你的生財天賦',
+        desc: `<p>試過各種投資理財法，仍然無法財務自由？
+不是你沒財運，而是不夠了解自己的「生財天賦」，
+其實，有些人適合存股，有些人卻適合創業，
+找出你的「金錢性格」，就能順勢致富！</p>`,
+    },
+]
 // hooks
 onMounted(async () => {
     const response = await fetch("/personality.json");
@@ -382,7 +444,15 @@ onMounted(async () => {
 });
 // methods
 function onSubmit() {
- //
+    const total = questionGroups.value.length
+    const d = answers.value.filter(value => value==='a').length
+    const i = answers.value.filter(value => value==='b').length
+    const s = answers.value.filter(value => value==='c').length
+    const c = answers.value.filter(value => value==='d').length
+    result.value = [d,i,s,c]
+    result.value = result.value.map(value => {
+        return Number(value / total * 100).toFixed(1)
+    })
 }
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
