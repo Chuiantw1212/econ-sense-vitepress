@@ -50,7 +50,7 @@ export default defineConfig({
           { text: '理財框架', link: '/finance/framework' },
           { text: '勞工退休規劃', link: '/finance/retirement' },
           { text: '投資進階管道', link: '/finance/investment' },
-          { text: '單身狗地獄求生', link: '/finance/single' },
+          // { text: '單身狗地獄求生', link: '/finance/single' },
           { text: '金錢整理術(說書)', link: '/finance/management' },
         ]
       },
