@@ -61,14 +61,11 @@ outline: deep
     </table>
 </el-card>
 
-<h2 id="_D掌控型" tabindex="-1">D掌控型<a class="header-anchor" href="#D掌控型"
-                aria-label="Permalink to &quot;D掌控型&quot;">&ZeroWidthSpace;</a></h2>
+## D掌控型
+
+### 金錢類型
+
 <el-card>
-    <template #header>
-        <div class="card-header">
-            金錢類型
-        </div>
-    </template>
     <table class="table">
         <tbody>
             <tr>
@@ -145,6 +142,54 @@ outline: deep
             </tr>
         </tbody>
     </table>
+</el-card>
+
+### 財務習慣建議
+
+<el-card>
+    <h4>1. 九宮格法</h4>
+    <p>用九宮格法拓展視野，在行動之前評估平衡的代價。</p>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    學習
+                </td>
+                <td>
+                    心靈
+                </td>
+                <td>
+                    社交
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    事業
+                </td>
+                <td>
+                    家庭
+                </td>
+                <td>
+                    休閒
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    理財
+                </td>
+                <td>
+                    健康
+                </td>
+                <td>
+                    公益
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>2. 主動休息</h4>
+    <p>把"不事生產"這件事情當成任務執行。</p>
+    <h4>3. 財務自動化</h4>
+    <p>讓自己更能後顧之憂得賺錢。</p>
 </el-card>
 
 <h2 id="_I影響型" tabindex="-1">I影響型<a class="header-anchor" href="#I影響型"
