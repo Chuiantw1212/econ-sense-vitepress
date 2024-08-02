@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 內容取自《金錢性格》，根據DiSC理論調整。DiSC類型均等價，了解他人類型幫助理解優先性及差異。
 ---
 
 # 金錢性格
@@ -138,7 +139,7 @@ outline: deep
 <el-card>
     <h4>1. 九宮格法</h4>
     <p>用九宮格法拓展視野，在行動之前評估平衡的代價。</p>
-    <table class="table">
+    <table class="table table--center">
         <tbody>
             <tr>
                 <td>
@@ -178,7 +179,7 @@ outline: deep
     <h4>2. 主動休息</h4>
     <p>把"不事生產"強制休息，當成任務執行。</p>
     <h4>3. 財務自動化</h4>
-    <p>擺脫繁瑣細節，讓自己更能無後顧之憂得賺錢。</p>
+    <p>擺脫繁瑣細節，讓自己更能無後顧之憂地賺錢。</p>
 </el-card>
 
 ## I影響型
@@ -447,6 +448,7 @@ import Books from './components/books.vue'
 const questionGroups = ref([])
 const answers = ref([])
 const result = ref([])
+
 interface IQuestionGroup {
     title: string,
     options: any[]
@@ -461,6 +463,7 @@ const bookItems = [
 找出你的「金錢性格」，就能順勢致富！</p>`,
     },
 ]
+
 // hooks
 onMounted(async () => {
     const response = await fetch("/personality.json");
@@ -470,6 +473,7 @@ onMounted(async () => {
     })
     questionGroups.value = jsonFile
 });
+
 // methods
 function onSubmit() {
     const total = questionGroups.value.length
@@ -483,10 +487,10 @@ function onSubmit() {
     })
 }
 function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -495,6 +499,12 @@ function shuffle(array) {
         border-color: var(--el-border-color-light);
         color: var(--el-text-color-regular) !important;
         background: white !important;
+    }
+}
+
+.table--center {
+    * {
+        text-align: center;
     }
 }
 </style>

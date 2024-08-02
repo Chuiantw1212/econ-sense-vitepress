@@ -147,7 +147,7 @@ export default defineConfig({
     sidebarMenuLabel: '選單',
     returnToTopLabel: '回到頂端',
     outline: {
-      label: '頁面大綱'
+      label: '大綱'
     },
     footer: {
       message: 'Powered by <a href="https://vitepress.dev/" target="_blank">Vitepress</a>',
