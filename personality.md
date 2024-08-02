@@ -125,7 +125,7 @@ description: 概念取自《金錢性格》，根據DiSC理論調整。DiSC類�
         </tr>
         <tr>
             <td>
-                代表性精神動物
+                代表動物
             </td>
             <td>
                 老虎
@@ -246,7 +246,7 @@ description: 概念取自《金錢性格》，根據DiSC理論調整。DiSC類�
         </tr>
         <tr>
             <td>
-                代表性精神動物
+                代表動物
             </td>
             <td>
                 孔雀
@@ -332,7 +332,7 @@ description: 概念取自《金錢性格》，根據DiSC理論調整。DiSC類�
         </tr>
         <tr>
             <td>
-                代表性精神動物
+                代表動物
             </td>
             <td>
                 無尾熊
@@ -416,7 +416,7 @@ description: 概念取自《金錢性格》，根據DiSC理論調整。DiSC類�
         </tr>
         <tr>
             <td>
-                代表性精神動物
+                代表動物
             </td>
             <td>
                 貓頭鷹
@@ -438,7 +438,7 @@ description: 概念取自《金錢性格》，根據DiSC理論調整。DiSC類�
 
 ## 意見回饋
 
-<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScBbn71sbRWIZSzsP8EXYBlqy7XxDcziy44daup4wiJVN3LoQ/viewform?embedded=true" width="640" height="500" marginheight="0" marginwidth="0">Loading…</iframe>
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScBbn71sbRWIZSzsP8EXYBlqy7XxDcziy44daup4wiJVN3LoQ/viewform?embedded=true" width="100%" height="500" marginheight="0" marginwidth="0">Loading…</iframe>
 
 ## 延伸閱讀
 
