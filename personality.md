@@ -6,10 +6,12 @@ description: 概念取自《金錢性格》，根據DiSC理論調整。DiSC類�
 # 金錢性格測驗
 
 概念取自金錢性格一書，並根據DISC理論以及本人理解進行調整。
+
 1. DiSC所有類型和優先性都具有同等價值，每個人都是所有四種類型的混合體。
 2. 瞭解他人的DiSC類型可以幫助你了解他們的優先性以及他們與你有哪些不同。
 
 ## 測驗題組
+
 <el-card>
     <el-form>
         <el-row v-for="(questionGroup,index) in questionGroups">
@@ -255,7 +257,6 @@ description: 概念取自《金錢性格》，根據DiSC理論調整。DiSC類�
     </tbody>
 </table>
 
-
 ### 財務習慣建議
 
 <el-card>
@@ -266,7 +267,6 @@ description: 概念取自《金錢性格》，根據DiSC理論調整。DiSC類�
     <h4>3. 待辦與獎勵清單</h4>
     <p>建立待辦清單，時刻提醒自己永遠做最重要的事，並在達成之後，給自己滿足的獎勵。</p>
 </el-card>
-
 
 ## S沈穩型
 
@@ -480,11 +480,11 @@ onMounted(async () => {
 
 // methods
 function onSubmit() {
-    const total = questionGroups.value.length
-    const d = answers.value.filter(value => value==='d').length
-    const i = answers.value.filter(value => value==='i').length
-    const s = answers.value.filter(value => value==='s').length
-    const c = answers.value.filter(value => value==='c').length
+    const total = questionGroups.value.length + 4
+    const d = answers.value.filter(value => value==='d').length + 1
+    const i = answers.value.filter(value => value==='i').length + 1
+    const s = answers.value.filter(value => value==='s').length + 1
+    const c = answers.value.filter(value => value==='c').length + 1
     result.value = [d,i,s,c]
     result.value = result.value.map(value => {
         return Number(value / total * 100).toFixed(1)
