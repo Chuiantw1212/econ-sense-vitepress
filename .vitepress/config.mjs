@@ -41,6 +41,7 @@ export default defineConfig({
         link: '/calendar',
       },
       { text: '開源財務規劃表', link: '/plan' },
+      { text: '金錢性格測驗', link: '/personality' },
       {
         text: '無痛理財',
         link: '/finance/outline',
@@ -49,7 +50,7 @@ export default defineConfig({
           { text: '理財框架', link: '/finance/framework' },
           { text: '勞工退休規劃', link: '/finance/retirement' },
           { text: '投資進階管道', link: '/finance/investment' },
-          { text: '單身狗地獄求生', link: '/finance/single' },
+          // { text: '單身狗地獄求生', link: '/finance/single' },
           { text: '金錢整理術(說書)', link: '/finance/management' },
         ]
       },
@@ -92,7 +93,7 @@ export default defineConfig({
         link: '/affiliate'
       },
       {
-        text: '關於EN',
+        text: '關於EN Chu',
         link: '/about'
       },
     ],
@@ -146,11 +147,11 @@ export default defineConfig({
     sidebarMenuLabel: '選單',
     returnToTopLabel: '回到頂端',
     outline: {
-      label: '頁面大綱'
+      label: '大綱'
     },
     footer: {
       message: 'Powered by <a href="https://vitepress.dev/" target="_blank">Vitepress</a>',
-      copyright: 'Copyright © 2023-present EN'
+      copyright: 'Copyright © 2023-present EN Chu'
     },
     logo: '/logo/常-白底.png',
   },

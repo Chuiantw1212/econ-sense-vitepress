@@ -196,7 +196,7 @@ defineExpose({
     calculateFreedomRate,
 })
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .card-header--custom {
     display: flex;
     align-items: center;
