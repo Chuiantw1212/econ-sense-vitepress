@@ -198,6 +198,87 @@ outline: deep
     </table>
 </el-card>
 
+<h2 id="_洞察者" tabindex="-1">洞察者<a class="header-anchor" href="#洞察者"
+                aria-label="Permalink to &quot;洞察者&quot;">&ZeroWidthSpace;</a></h2>
+<el-card>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    財務態度
+                </td>
+                 <td>
+                    勤思善學
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    金錢特質
+                </td>
+                <td>
+                    有智慧的
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    金錢口號
+                </td>
+                <td>
+                    我能想辦法成功；對於一些洞察者來說：教育是成功的關鍵
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    信念體系
+                </td>
+                <td>
+                    我的聰明才智是成功的關鍵
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    優點
+                </td>
+                <td>
+                    視野開活、有邏輯性、洞察力強、有智慧的、有鑒別力、能獲取和運用知識
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    缺點
+                </td>
+                <td>
+                    評判性、可能過於依賴過去的結果、傾向於過度思考、可能會因為過於簡單或其他人都在做而放棄一個想法或投資某件事
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    你如何賺錢
+                </td>
+                <td>
+                    思考領導、根據自己欣賞的專家意見進行投資、在競爭中智勝
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    遇到壓力時
+                </td>
+                <td>
+                    可能會不一致，因為過度考慮而不必要拖延和推遲決定
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    代表性精神動物
+                </td>
+                <td>
+                    狐狸 — 敏銳、敏捷
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</el-card>
+
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import econSelect from './components/econSelect.vue'
