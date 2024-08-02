@@ -5,7 +5,9 @@ outline: deep
 
 # 金錢類型測驗
 
-內容取自金錢性格一書
+內容取自金錢性格一書。並根據DISC理論進行調整。
+1. DiSC所有類型和優先性都具有同等價值，每個人都是所有四種類型的混合體。
+2. 瞭解他人的DiSC類型可以幫助你了解他們的優先性以及他們與你有哪些不同。
 
 ## 題組
 <el-card>
@@ -36,8 +38,8 @@ outline: deep
     </el-form>
 </el-card>
 
-<h2 id="_工作者" tabindex="-1">工作者<a class="header-anchor" href="#工作者"
-                aria-label="Permalink to &quot;工作者&quot;">&ZeroWidthSpace;</a></h2>
+<h2 id="_D掌控型" tabindex="-1">D掌控型<a class="header-anchor" href="#D掌控型"
+                aria-label="Permalink to &quot;D掌控型&quot;">&ZeroWidthSpace;</a></h2>
 <el-card>
     <table class="table">
         <tbody>
@@ -110,15 +112,15 @@ outline: deep
                     代表性精神動物
                 </td>
                 <td>
-                    牛 — 耐力、勤奮
+                    老虎
                 </td>
             </tr>
         </tbody>
     </table>
 </el-card>
 
-<h2 id="_創造者" tabindex="-1">創造者<a class="header-anchor" href="#創造者"
-                aria-label="Permalink to &quot;創造者&quot;">&ZeroWidthSpace;</a></h2>
+<h2 id="_I影響型" tabindex="-1">I影響型<a class="header-anchor" href="#I影響型"
+                aria-label="Permalink to &quot;I影響型&quot;">&ZeroWidthSpace;</a></h2>
 <el-card>
     <table class="table">
         <tbody>
@@ -151,7 +153,7 @@ outline: deep
                     信念體系
                 </td>
                 <td>
-                    如果我能夠夢想，我就能做到。我能展現自己的成功
+                    我有能力創造我想要的
                 </td>
             </tr>
             <tr>
@@ -191,15 +193,96 @@ outline: deep
                     代表性精神動物
                 </td>
                 <td>
-                    猴子 — 詭計多端、投機取巧
+                    孔雀
                 </td>
             </tr>
         </tbody>
     </table>
 </el-card>
 
-<h2 id="_洞察者" tabindex="-1">洞察者<a class="header-anchor" href="#洞察者"
-                aria-label="Permalink to &quot;洞察者&quot;">&ZeroWidthSpace;</a></h2>
+<h2 id="_S沈穩型" tabindex="-1">S沈穩型<a class="header-anchor" href="#S沈穩型"
+                aria-label="Permalink to &quot;S沈穩型&quot;">&ZeroWidthSpace;</a></h2>
+<el-card>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    財務態度
+                </td>
+                 <td>
+                    積累它、建立它、與人合作
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    金錢特質
+                </td>
+                <td>
+                    合作
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    金錢口號
+                </td>
+                <td>
+                    經由合作來獲得成功，照顧你所愛的人
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    信念體系
+                </td>
+                <td>
+                    我有價值的原因是因為我對你的關心
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    優點
+                </td>
+                <td>
+                    人際交往能力、與他人有聯繫、也是良好的聯繫者、團隊合作者、開發者、理解、同情心以及足智多媒
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    缺點
+                </td>
+                <td>
+                    傾向把自己放在最後、可能容易受騙、可能成為拯教他們財富損失的角色、可能對投資反應情緒化、自己無法接受他人的幫助
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    你如何賺錢
+                </td>
+                <td>
+                    透過他們的門路、經驗和關係，建立長期基礎的耐心；藉由穩定和安全的投資
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    遇到壓力時
+                </td>
+                <td>
+                    可能會在越來越安全的投資中尋求安全，可能會放棄或逃避所有財務決策責任
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    代表性精神動物
+                </td>
+                <td>
+                    無尾熊
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</el-card>
+
+<h2 id="_C嚴謹型" tabindex="-1">C嚴謹型<a class="header-anchor" href="#C嚴謹型"
+                aria-label="Permalink to &quot;C嚴謹型&quot;">&ZeroWidthSpace;</a></h2>
 <el-card>
     <table class="table">
         <tbody>
@@ -272,7 +355,7 @@ outline: deep
                     代表性精神動物
                 </td>
                 <td>
-                    狐狸 — 敏銳、敏捷
+                    貓頭鷹
                 </td>
             </tr>
         </tbody>
