@@ -41,7 +41,6 @@ export default defineConfig({
         link: '/calendar',
       },
       { text: '開源財務規劃表', link: '/plan' },
-      // { text: '金錢性格測驗', link: '/personality' },
       {
         text: '無痛理財',
         link: '/finance/outline',
@@ -52,6 +51,7 @@ export default defineConfig({
           { text: '投資進階管道', link: '/finance/investment' },
           // { text: '單身狗地獄求生', link: '/finance/single' },
           { text: '金錢整理術(說書)', link: '/finance/management' },
+          { text: '金錢性格(含測驗)', link: '/finance/personality' },
         ]
       },
       {

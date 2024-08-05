@@ -13,7 +13,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="計畫退休年齡">
-                        <el-input-number v-model="retirement.age" :min="Math.max(60, profile.age)" :max="70"
+                        <el-input-number v-model="retirement.age" :min="Math.max(60, profile.age)"
                             :disabled="isFormDisabled" @change="calculateRetirement($event)" />
                     </el-form-item>
                 </el-col>
