@@ -37,7 +37,7 @@ export default defineConfig({
     ],
     sidebar: [
       {
-        text: '講座排程&地圖',
+        text: '講座排程',
         link: '/calendar',
       },
       { text: '開源財務規劃表', link: '/plan' },
@@ -51,7 +51,7 @@ export default defineConfig({
           { text: '投資進階管道', link: '/finance/investment' },
           // { text: '單身狗地獄求生', link: '/finance/single' },
           { text: '金錢整理術(說書)', link: '/finance/management' },
-          { text: '金錢性格(含測驗)', link: '/finance/personality' },
+          // { text: '金錢性格(含測驗)', link: '/finance/personality' },
         ]
       },
       {
