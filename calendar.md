@@ -2,13 +2,9 @@
 outline: deep
 ---
 
-# 講座排程&地圖
+# 講座排程
 
 行事曆上的分享內容，在左邊的選單都可以找到對應的投影片，可以先看看內容是不是自己想要的再決定是否參與。
-
-## 講座地圖
-
-<img class="schedule__image" src="https://docs.google.com/drawings/d/e/2PACX-1vQdJ1dXBGk0VJ8u6cnN6eNPIj1-TBapppy70GSpF5dXITXe5i7iYYTukGcsQ3i-k-_LYKgLg1GHhtGq/pub?w=960&amp;h=720">
 
 ## Google Calendar訂閱
 

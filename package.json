@@ -6,9 +6,7 @@
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
-    "preview": "vitepress preview",
-    "predeploy": "vitepress build",
-    "deploy": "firebase deploy"
+    "preview": "vitepress preview"
   },
   "repository": {
     "type": "git",

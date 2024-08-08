@@ -446,8 +446,8 @@ description: 概念取自《金錢性格》，根據DiSC理論調整。DiSC類�
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import econSelect from './components/econSelect.vue'
-import Books from './components/books.vue'
+import econSelect from '../components/econSelect.vue'
+import Books from '../components/books.vue'
 
 const questionGroups = ref([])
 const answers = ref([])

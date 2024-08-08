@@ -8,16 +8,22 @@ outline: deep
 那些讓EN變得更好的人與社群。
 
 ## 學校學不到的事
+講師0.38擁有約10年不動產經驗， 近300場以上講座分享， 累積1500位以上學員， 多達300位以上房產諮詢經驗， 並協助超過40位學員買房， 線上課程更有超過600位學員。 0.38講師經歷： 直營品牌房仲、 銀行房貸業務、 金融理財顧問、 房仲公司教育訓練講師、 數位金融科技教育訓練講師、 受邀學校 /財商學院 /公司 分享、 至善園慈善基金會講師、 新北總圖真人圖書館講師。
+
+### Line官方
 
 <a href="https://reurl.cc/V4qLjn" target="_blank">
     <img src="/affiliate/373705383_7289266461088207_4973358589488189134_n.jpg" alt=notSchool>
 </a>
 
-此社團為知識分享平台，讓更多人能夠學習接觸不同的知識，有機會找到適合自己的人生方向。
+### 連結
+
+<iframe src="https://www.accupass.com/organizer/detail/1907301409538062502000" width="100%" height="420px"></iframe>
 
 ### 講師名單
 
 <VPTeamMembers size="small" :members="socialSchoolMembers" />
+
 
 <script setup>
 import {
