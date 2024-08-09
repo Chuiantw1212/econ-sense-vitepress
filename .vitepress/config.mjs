@@ -59,7 +59,7 @@ export default defineConfig({
         link: '/life/outline',
         collapsed: false,
         items: [
-          // { text: '匱乏心理學', link: '/life/scarcity' },
+          { text: '匱乏心理學', link: '/life/scarcity' },
           { text: '我是照顧者', link: '/life/carer' },
           { text: '極簡全齡宅', link: '/life/housing' },
         ]
