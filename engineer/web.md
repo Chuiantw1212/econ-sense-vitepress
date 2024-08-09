@@ -1,9 +1,10 @@
 ---
-description: 各種工具、試算以及工程師的個人經驗。
+description: 《網站初學須知》涵蓋網站演進歷程、新手自學要點與個人經驗分享，適合網站初學者、待轉職工程師與PM。
 outline: deep
 ---
 
-# 網站初學須知 (未完成)
+# 網站初學須知
+《網站初學須知》為初學者提供了全面的學習指南，內容涵蓋網站技術的演進歷史、自學的基本須知，以及個人早期學習經驗的分享。無論是想了解網站基本概念的初學者，準備轉職成工程師的學習者，還是需要與工程師有效溝通的專案經理，這份指南都將為您奠定堅實的基礎。
 
 ## 投影片
 
@@ -21,9 +22,27 @@ outline: deep
     <tbody>
         <tr>
             <th>
-                <a href="https://web-frameworks-benchmark.netlify.app/" target="_blank">Framework效能比較</a>
+                <a href="https://www.tiobe.com/tiobe-index/" target="_blank">TIOBE Index</a>
             </th>
-            <th>選擇第一個框架時可以參考</th>
+            <th>觀察語言的全球使用趨勢</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://web-frameworks-benchmark.netlify.app/" target="_blank">Web Framework Benchmark</a>
+            </th>
+            <th>選擇第一個前端框架時可以參考</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://caniuse.com/" target="_blank">Can I Use?</a>
+            </th>
+            <th>瀏覽器的相容性檢查，自從2022 IE絕種後使用率已大幅下滑，但2024時我們仍有Safari要面對。</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="https://db-engines.com/en/ranking/" target="_blank">DB Engines</a>
+            </th>
+            <th>選擇第一個前端框架時可以參考</th>
         </tr>
     </tbody>
 </table>
