@@ -19,7 +19,7 @@ import SkillIcon from './components/skillIcons.vue'
 const members = [
   {
     avatar: `/affiliate/1700901417115.jpg`,
-    title: '非專業講師',
+    title: '講師',
     desc:'--曾經開講--<br/>群益期貨、普鴻資訊、誠遠國際、LearnWeb',
     org: '學校學不到的事',
     orgLink: 'https://www.facebook.com/groups/304681766894402',
@@ -28,8 +28,8 @@ const members = [
   },
   {
     avatar: `/about/nodejs-development-services.webp`,
-    title: 'JS全端工程師',
-    desc:'--過往經驗--<br/>2024 玉山銀行<br/>2020-2023 凱基人壽<br/>2017-2020 前端工程師',
+    title: '工程師',
+    desc:'2024 玉山銀行<br/>2020-2023 凱基人壽<br/>2017-2020 前端工程師',
     org: '資訊委外公司',
     orgLink: 'https://www.provision.com.tw',
     // sponsor: 'https://patreon.com/user?u=113925482',
