@@ -20,7 +20,7 @@ const members = [
   {
     avatar: `/affiliate/1700901417115.jpg`,
     title: '非專業講師',
-    desc:'AFP理財規劃顧問、PMP持證人<br/>--曾經開講--<br/>群益期貨、普鴻資訊、誠遠國際、LearnWeb',
+    desc:'--曾經開講--<br/>群益期貨、普鴻資訊、誠遠國際、LearnWeb',
     org: '學校學不到的事',
     orgLink: 'https://www.facebook.com/groups/304681766894402',
     // sponsor: 'https://patreon.com/user?u=113925482',
