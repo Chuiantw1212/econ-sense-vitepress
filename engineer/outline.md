@@ -1,11 +1,11 @@
 ---
-description: 各種工具、試算以及工程師的個人經驗。
+description: EN Chu的工程師職涯經驗與分享。
 outline: deep
 ---
 
 # 工程師專區
 
-各種工具、試算以及工程師的個人經驗。
+EN Chu的工程師職涯經驗與分享。
 
 ## 內容目錄
 
