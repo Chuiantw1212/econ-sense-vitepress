@@ -21,6 +21,13 @@ import Courses from '../components/courses.vue'
 
 const digitalDocumentItems = [
     {
+        url: './blog',
+        name: '網站初學須知',
+        keywords: ['較早的網站演進', '2016後的網站演進', '新手自學須知', '個人早期經驗分享'],
+        audience: ['想學習網站基本概念的初學者','想當工程師寫程式的待轉職者', '需要架站與工程師溝通的PM'],
+        rating: 3
+    },
+    {
         url: './computer',
         name: '電腦DIY',
         keywords: ['主要元件', '次要元件', '其他周邊', '組裝'],
