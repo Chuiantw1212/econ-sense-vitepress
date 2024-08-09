@@ -46,3 +46,20 @@ outline: deep
         </tr>
     </tbody>
 </table>
+
+## 延伸閱讀
+
+<Books :modelValue="bookItems"></Books>
+
+<script setup>
+
+import Books from '../components/books.vue'
+const bookItems = [
+    {
+        id: '11100912049',
+        name: '軟體開發人員職涯發展成功手冊',
+        desc: `<p>你快速上手新語言，掌握面試訣竅，一舉拿下夢想中的程式開發工作</p>
+<p>暢銷書作家JOHN SONMEZ繼《Soft Skills軟實力：軟體開發人員的生存手冊》最新力作！</p>`,
+    },
+]
+</script>
