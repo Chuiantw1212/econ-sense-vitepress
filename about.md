@@ -29,7 +29,7 @@ const members = [
   {
     avatar: `/about/nodejs-development-services.webp`,
     title: 'JS全端工程師',
-    desc:'Job Pair 共同創辦人<br/>--過往經驗--<br/>2024 玉山銀行<br/>2020-2023 凱基人壽<br/>2017-2020 前端工程師',
+    desc:'--過往經驗--<br/>2024 玉山銀行<br/>2020-2023 凱基人壽<br/>2017-2020 前端工程師',
     org: '資訊委外公司',
     orgLink: 'https://www.provision.com.tw',
     // sponsor: 'https://patreon.com/user?u=113925482',
