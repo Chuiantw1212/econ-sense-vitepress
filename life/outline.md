@@ -19,13 +19,13 @@ import DigitalDocuments from '../components/digitalDocuments.vue'
 import Courses from '../components/courses.vue'
 
 const digitalDocumentItems = [
-    {
-        url: './scarcity',
-        name: '匱乏心理學',
-        keywords: ['新文明病', '認知匱乏', '匱乏循環', '打造寬鬆'],
-        audience: ['玩過財富流想多了解精力的人', '想知道為何缺錢時不該借貸或主動投資的人', '對基本的認知心理學感興趣的人'],
-        rating: 3
-    },
+    // {
+    //     url: './scarcity',
+    //     name: '匱乏心理學',
+    //     keywords: ['新文明病', '認知匱乏', '匱乏循環', '打造寬鬆'],
+    //     audience: ['玩過財富流想多了解精力的人', '想知道為何缺錢時不該借貸或主動投資的人', '對基本的認知心理學感興趣的人'],
+    //     rating: 3
+    // },
     {
         url: './carer',
         name: '我是照顧者',
