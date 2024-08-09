@@ -47,12 +47,17 @@ webkitallowfullscreen="true"></iframe>
     </tbody>
 </table>
 
+## 外部優質課程
+
+<Courses :modelValue="courseItems"></Courses>
+
 ## 延伸閱讀
 
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
 import Books from '../components/books.vue'
+import Courses from '../components/courses.vue'
 
 const bookItems = [
     {
@@ -68,6 +73,16 @@ const bookItems = [
 <p>最小可行產品（MVP）：產品或服務不要等到「完美」才推出，只要服務堪用就應該讓消費者使用。當初dropbox的第一版產品只不過是一段影片說明，就可以聽到眾多使用者的迴響。當初google只能搜尋專業技術網站，但使用者都已經知道她的優點。</p>
 <p>軸轉（Pivot）：快速推出產品、快速更新，可以讓我們真的知道產品是否讓大家滿意，一旦確認做出來的東西不是大家所需要的，就應該立刻修改方向，這就是軸轉。當初flickr是一個線上遊戲網站，經過「軸轉」，將子計畫改成主計畫，就成為全世界最知名的照片分享服務。Twitter原本是線上廣播，也是經過「軸轉」，成為改變世界的新服務。</p>
 `,
+    },
+]
+
+
+const courseItems = [
+    {
+        image: '/career/daren.png',
+        description: `「這裡是《大人學》課程報名網站。您可以在這裡參與我們優質的實體與線上課程，註冊學員也能下載豐富的學習資源。讓我們一同往成熟大人之路邁進！」`,
+        name: '大人學',
+        url: 'https://shop.darencademy.com/index/search/tag/PDU',
     },
 ]
 </script>

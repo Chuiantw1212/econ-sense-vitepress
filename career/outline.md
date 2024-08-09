@@ -11,13 +11,8 @@ outline: deep
 
 <DigitalDocuments :items="digitalDocumentItems"></DigitalDocuments>
 
-## 外部優質課程
-
-<Courses :modelValue="courseItems"></Courses>
-
 <script setup>
 import DigitalDocuments from '../components/digitalDocuments.vue'
-import Courses from '../components/courses.vue'
 
 const digitalDocumentItems = [
     {
@@ -33,15 +28,6 @@ const digitalDocumentItems = [
         keywords: ['制定目標', '學習', '輸出', '優化'],
         audience: ['渴望有效學習各方面知識的人', '想減輕家人負擔的長輩', '對講師內容創作充滿好奇心的人'],
         rating: 3
-    },
-]
-
-const courseItems = [
-    {
-        image: '/career/daren.png',
-        description: `「這裡是《大人學》課程報名網站。您可以在這裡參與我們優質的實體與線上課程，註冊學員也能下載豐富的學習資源。讓我們一同往成熟大人之路邁進！」`,
-        name: '大人學',
-        url: 'https://shop.darencademy.com/index/search/tag/PDU',
     },
 ]
 </script>
