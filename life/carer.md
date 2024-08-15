@@ -28,10 +28,10 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://map.dosw.gov.taipei/taipeiwelfare_map/all_new/elder_map.aspx" target="_blank">台北市銀髮族學習及活動地圖</a>
-            </th>
-            <th>台北市政府社會局所建置</th>
+            </td>
+            <td>台北市政府社會局所建置</td>
         </tr>
     </tbody>
 </table>
@@ -47,46 +47,46 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://ltc-learning.org/mooc/index.php" target="_blank">長期照顧專業人員數位學習平台</a>
-            </th>
-            <th>一般人也可以學習，衛生福利部提供</th>
+            </td>
+            <td>一般人也可以學習，衛生福利部提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://ltcpap.mohw.gov.tw/public/index.html" target="_blank">長照資源地圖</a>
-            </th>
-            <th>衛生福利部提供</th>
+            </td>
+            <td>衛生福利部提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://newrepat.sfaa.gov.tw/home/prepaid-help-vendor" target="_blank">輔具資源入口網</a>
-            </th>
-            <th>衛生福利部社會及家庭署</th>
+            </td>
+            <td>衛生福利部社會及家庭署</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.familycares.com.tw/try.php" target="_blank">長照自付額計算機</a>
-            </th>
-            <th>中華民國家庭照顧者關懷總會提供</th>
+            </td>
+            <td>中華民國家庭照顧者關懷總會提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://carersupport.com.tw/map/" target="_blank">家庭照顧支持性服務資源地圖</a>
-            </th>
-            <th>中華民國家庭照顧者關懷總會提供</th>
+            </td>
+            <td>中華民國家庭照顧者關懷總會提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://map.dosw.gov.taipei/taipeiwelfare_map/all_new/care_map.aspx" target="_blank">台北市老人照顧地圖</a>
-            </th>
-            <th>查詢設施、床位、失智服務，台北市政府社會局提供</th>
+            </td>
+            <td>查詢設施、床位、失智服務，台北市政府社會局提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.gov.tw/News_Content.aspx?n=26&s=556149" target="_blank">使用住宿式照顧服務機構，政府提供那些資源與補助?</a>
-            </th>
-            <th>我的E政府提供</th>
+            </td>
+            <td>我的E政府提供</td>
         </tr>
     </tbody>
 </table>
@@ -102,28 +102,28 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://info.nhi.gov.tw/INAE1000/INAE1030S01" target="_blank">居家醫療照護服務查詢</a>
-            </th>
-            <th>衛生福利部中央健保署提供</th>
+            </td>
+            <td>衛生福利部中央健保署提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.google.com.tw/maps/d/viewer?mid=1G3L1nvxm_WNm1pYSGIBAboQBwAQm3O5v&hl=en&femb=1&ll=25.1177722110377%2C121.52324149035303&z=15" target="_blank">居家護理機構分布圖</a>
-            </th>
-            <th>衛生福利部護理及健康照護司提供</th>
+            </td>
+            <td>衛生福利部護理及健康照護司提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.google.com/maps/d/viewer?mid=17jOphhBqHty75Hz5h4zFDh8Wpz3A3zqM&hl=en_US&ll=25.043832751834735%2C121.54191971448165&z=14" target="_blank">臺灣物理治療所地圖</a>
-            </th>
-            <th>早安健康／愛長照編輯團隊提供</th>
+            </td>
+            <td>早安健康／愛長照編輯團隊提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.hospice.org.tw/resource" target="_blank">安寧資源地圖</a>
-            </th>
-            <th>台灣安寧照顧基金會提供</th>
+            </td>
+            <td>台灣安寧照顧基金會提供</td>
         </tr>
     </tbody>
 </table>
@@ -139,34 +139,34 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://1966.gov.tw/LTC/cp-6458-69942-207.html" target="_blank">出院準備銜接長照服務說明</a>
-            </th>
-            <th>衛生福利部長期照顧司提供</th>
+            </td>
+            <td>衛生福利部長期照顧司提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://1966.gov.tw/LTC/cp-6572-69919-207.html" target="_blank">長照十年計畫2.0說明</a>
-            </th>
-            <th>衛生福利部長期照顧司提供</th>
+            </td>
+            <td>衛生福利部長期照顧司提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://1966.gov.tw/LTC/cp-6572-69919-207.html" target="_blank">家中遭逢變故，政府提供哪些急難紓困方案？</a>
-            </th>
-            <th>若有重大傷病卡相關的補助也在其中，我的E政府提供</th>
+            </td>
+            <td>若有重大傷病卡相關的補助也在其中，我的E政府提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.gov.tw/News_Content.aspx?n=26&s=604800#active3" target="_blank">從求學到就業，身心障礙者的福利懶人包！</a>
-            </th>
-            <th>我的E政府提供</th>
+            </td>
+            <td>我的E政府提供</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.gov.tw/News_Content.aspx?n=26&s=677435" target="_blank">帶您看身心障礙證明申請流程 、 身心障礙者支持服務與措施</a>
-            </th>
-            <th>我的E政府提供</th>
+            </td>
+            <td>我的E政府提供</td>
         </tr>
     </tbody>
 </table>

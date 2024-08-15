@@ -166,15 +166,15 @@
                     </ul>
                     <table class="table">
                         <tr>
-                            <th>
+                            <td>
                                 <div>65歲及以上</div>
                                 <div>按戶數五等分位組</div>
-                            </th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
+                            </td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
                         </tr>
                         <tr>
                             <td>平均每戶人數</td>

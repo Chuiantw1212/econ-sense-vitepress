@@ -26,52 +26,52 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00" target="_blank">
                    勞退基金歷年收益
                 </a>
-            </th>
-            <th>中華民國退休金協會的整理</th>
+            </td>
+            <td>中華民國退休金協會的整理</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/QOzOq69" target="_blank">
                    勞退自提免繳稅
                 </a>
-            </th>
-            <th>財政部說明自提不計入所得</th>
+            </td>
+            <td>財政部說明自提不計入所得</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-knowledge/WDNAx2Y" target="_blank">
                    勞退一次領稅務範例
                 </a>
-            </th>
-            <th>財政部試算一次請領稅務</th>
+            </td>
+            <td>財政部試算一次請領稅務</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.einvoice.nat.gov.tw/APCONSUMER/BTC501W/" target="_blank">
                    電子發票整合平台
                 </a>
-            </th>
-            <th>可申請手機載具</th>
+            </td>
+            <td>可申請手機載具</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://moneybook.com.tw/" target="_blank">
                    麻布記帳
                 </a>
-            </th>
-            <th>適合管理資產的自動記帳工具</th>
+            </td>
+            <td>適合管理資產的自動記帳工具</td>
         </tr>
          <tr>
-            <th>
+            <td>
                 <a href="https://www.ecloudlife.com/w/" target="_blank">
                    雲端發票
                 </a>
-            </th>
-            <th>適合管理收支的自動記帳工具</th>
+            </td>
+            <td>適合管理收支的自動記帳工具</td>
         </tr>
     </tbody>
 </table>

@@ -29,20 +29,20 @@ webkitallowfullscreen="true"></iframe>
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.facebook.com/itdogcom" target="_blank">
                    Dog Com
                 </a>
-            </th>
-            <th>IT狗優質粉專</th>
+            </td>
+            <td>IT狗優質粉專</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.pmi.org.tw/?post_type=tribe_events" target="_blank">
                    PMI Taiwan
                 </a>
-            </th>
-            <th>學習專案管理的好地方</th>
+            </td>
+            <td>學習專案管理的好地方</td>
         </tr>
     </tbody>
 </table>

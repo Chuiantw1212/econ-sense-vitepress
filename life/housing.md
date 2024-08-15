@@ -32,36 +32,36 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://recycle.moenv.gov.tw/utmap/" target="_blank">
                    全國不用品藏寶地圖
                 </a>
-            </th>
-            <th>舊衣回收、循環概念店、二手物市集</th>
+            </td>
+            <td>舊衣回收、循環概念店、二手物市集</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.taaze.tw/index.html" target="_blank">
                    讀冊生活
                 </a>
-            </th>
-            <th>賣二手書首選</th>
+            </td>
+            <td>賣二手書首選</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://recycle.moenv.gov.tw/utmap/" target="_blank">
                    延慧書庫
                 </a>
-            </th>
-            <th>台北市環保局提供，內有捐書的辦法與據點。</th>
+            </td>
+            <td>台北市環保局提供，內有捐書的辦法與據點。</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://tw.carousell.com/" target="_blank">
                    Carousell旋轉拍賣
                 </a>
-            </th>
-            <th>線上二手物交易平台</th>
+            </td>
+            <td>線上二手物交易平台</td>
         </tr>
     </tbody>
 </table>
@@ -77,52 +77,52 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=38869" target="_blank">
                    研訂通用化住宅規劃設計手冊
                 </a>
-            </th>
-            <th>內政部建築研究所提供。</th>
+            </td>
+            <td>內政部建築研究所提供。</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=277791#:~:text=%E4%B8%AD%E6%96%87%E6%91%98%E8%A6%81%EF%BC%9A,%E8%80%85%EF%BC%8C%E5%88%A4%E6%96%B7%E5%85%B6%E6%94%B9%E5%96%84%E9%9C%80%E6%B1%82%E3%80%82" target="_blank">
                    高齡者既有住宅空間改善需求研究
                 </a>
-            </th>
-            <th>內政部建築研究所提供。</th>
+            </td>
+            <td>內政部建築研究所提供。</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://ws.moi.gov.tw/Download.ashx?u=LzAwMS9VcGxvYWQvT2xkRmlsZV9BYnJpX0dvdi9yZXNlYXJjaC8yNDk2LzE0NTMzNTY1MjMwLnBkZg%3D%3D&n=6auY6b2h5aSx5pm66ICF56m66ZaT5oSf55%2Bl6IiH6Kit6KiI5rqW5YmHLnBkZg%3D%3D" target="_blank">
                    高齡失智者空間感知與設計準則
                 </a>
-            </th>
-            <th>內政部建築研究所提供。裡面有較詳盡的設計規範。</th>
+            </td>
+            <td>內政部建築研究所提供。裡面有較詳盡的設計規範。</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.airitilibrary.com/Article/Detail/10163212-201209-201211050057-201211050057-25-50" target="_blank">
                    建築材料之單一色彩對失智老人造成視覺幻覺之研究
                 </a>
-            </th>
-            <th>內政部建築研究所提供。</th>
+            </td>
+            <td>內政部建築研究所提供。</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.abri.gov.tw/News_Content_Table.aspx?n=807&s=213842#:~:text=%E4%B8%A6%E9%85%8D%E5%90%88%E5%85%A7%E6%94%BF%E9%83%A8%E5%BB%BA,%E4%B8%89%E5%80%8B%E9%83%A8%E5%88%86%E6%89%80%E6%A7%8B%E6%88%90%E3%80%82" target="_blank">
                    銀髮友善住宅設計原則之研究
                 </a>
-            </th>
-            <th>內政部建築研究所提供。</th>
+            </td>
+            <td>內政部建築研究所提供。</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://glrs.moi.gov.tw/LawContent.aspx?id=GL000734" target="_blank">
                    建築物無障礙設施設計規範
                 </a>
-            </th>
-            <th>內政部規範。</th>
+            </td>
+            <td>內政部規範。</td>
         </tr>
     </tbody>
 </table>

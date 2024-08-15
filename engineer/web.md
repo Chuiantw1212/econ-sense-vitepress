@@ -21,28 +21,28 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.tiobe.com/tiobe-index/" target="_blank">TIOBE Index</a>
-            </th>
-            <th>觀察語言的全球使用趨勢</th>
+            </td>
+            <td>觀察語言的全球使用趨勢</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://web-frameworks-benchmark.netlify.app/" target="_blank">Web Framework Benchmark</a>
-            </th>
-            <th>選擇第一個前端框架時可以參考</th>
+            </td>
+            <td>選擇第一個前端框架時可以參考</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://caniuse.com/" target="_blank">Can I Use?</a>
-            </th>
-            <th>瀏覽器的相容性檢查，自從2022 IE絕種後使用率已大幅下滑，但2024時我們仍有Safari要面對。</th>
+            </td>
+            <td>瀏覽器的相容性檢查，自從2022 IE絕種後使用率已大幅下滑，但2024時我們仍有Safari要面對。</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://db-engines.com/en/ranking/" target="_blank">DB Engines</a>
-            </th>
-            <th>選擇第一個前端框架時可以參考</th>
+            </td>
+            <td>選擇第一個前端框架時可以參考</td>
         </tr>
     </tbody>
 </table>

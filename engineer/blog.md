@@ -26,34 +26,34 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://nodejs.org/" target="_blank">Node.js</a>
-            </th>
-            <th>任何會寫Javascript的人都需要的網站</th>
+            </td>
+            <td>任何會寫Javascript的人都需要的網站</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a>
-            </th>
-            <th>我最偏好的程式編輯器</th>
+            </td>
+            <td>我最偏好的程式編輯器</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://vitepress.dev/" target="_blank">VitePress官方網站</a>
-            </th>
-            <th>VitePress官方網站</th>
+            </td>
+            <td>VitePress官方網站</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://pages.github.com/" target="_blank">Github Pages</a>
-            </th>
-            <th>可以免費託管VitePress部落格的服務</th>
+            </td>
+            <td>可以免費託管VitePress部落格的服務</td>
         </tr>
          <tr>
-            <th>
+            <td>
                 <a href="https://desktop.github.com/" target="_blank">Github Desktop</a>
-            </th>
-            <th>Github所屬的Git GUI的官方網站</th>
+            </td>
+            <td>Github所屬的Git GUI的官方網站</td>
         </tr>
     </tbody>
 </table>

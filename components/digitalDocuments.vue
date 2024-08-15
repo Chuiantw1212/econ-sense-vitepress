@@ -2,49 +2,49 @@
     <table v-for="(item, index) in props.items" :key="index">
         <thead>
             <tr>
-                <th class="d-md-none">
+                <td class="d-md-none">
                     <a :href="`${item.url}.html`">
                         {{ item.name }}</a>
-                </th>
-                <th class="d-md-none" :style="`width:11em;text-align:center;`">
+                </td>
+                <td class="d-md-none" :style="`width:11em;text-align:center;`">
                     實踐度：
                     <template v-for="number in item.rating" :key="number">
                         ★
                     </template>
-                </th>
+                </td>
             </tr>
             <tr>
-                <th class="d-none d-md-table-cell"><a :href="`${item.url}.html`">
-                        {{ item.name }}</a></th>
-                <th class="d-none d-md-table-cell">實踐度：
+                <td class="d-none d-md-table-cell"><a :href="`${item.url}.html`">
+                        {{ item.name }}</a></td>
+                <td class="d-none d-md-table-cell">實踐度：
                     <template v-for="number in item.rating" :key="number">
                         ★
                     </template>
-                </th>
+                </td>
             </tr>
         </thead>
         <tbody>
             <tr class="d-md-none">
-                <th colspan="2">
+                <td colspan="2">
                     <p>大綱</p>
                     <ol>
                         <li v-for="(keyword, keywordIndex) in item.keywords" :key="keywordIndex">{{ keyword }}</li>
                     </ol>
-                </th>
+                </td>
             </tr>
             <tr>
-                <th class="d-none d-md-table-cell" :style="`width:16em;`">
+                <td class="d-none d-md-table-cell" :style="`width:16em;`">
                     <p>大綱</p>
                     <ol>
                         <li v-for="(keyword, keywordIndex) in item.keywords" :key="keywordIndex">{{ keyword }}</li>
                     </ol>
-                </th>
-                <th colspan="2">
+                </td>
+                <td colspan="2">
                     <p>誰適合參與</p>
                     <ul>
                         <li v-for="(audience, audienceIndex) in item.audience" :key="audienceIndex">{{ audience }}</li>
                     </ul>
-                </th>
+                </td>
             </tr>
         </tbody>
     </table>
