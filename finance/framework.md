@@ -37,68 +37,68 @@ webkitallowfullscreen="true"></iframe>
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00" target="_blank">
                    勞退基金歷年收益
                 </a>
-            </th>
-            <th>中華民國退休金協會的整理</th>
+            </td>
+            <td>中華民國退休金協會的整理</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/QOzOq69" target="_blank">
                    勞退自提免繳稅
                 </a>
-            </th>
-            <th>財政部說明自提不計入所得</th>
+            </td>
+            <td>財政部說明自提不計入所得</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-knowledge/WDNAx2Y" target="_blank">
                    勞退一次領稅務範例
                 </a>
-            </th>
-            <th>財政部試算一次請領稅務</th>
+            </td>
+            <td>財政部試算一次請領稅務</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.einvoice.nat.gov.tw/APCONSUMER/BTC501W/" target="_blank">
                    電子發票整合平台
                 </a>
-            </th>
-            <th>可申請手機載具</th>
+            </td>
+            <td>可申請手機載具</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.fintechspace.com.tw/zh-hant/accelerator-programme-team/" target="_blank">
                    金融科技創新園區
                 </a>
-            </th>
-            <th>可以瀏覽哪些金融創新有在政府的監管之下，如麻布記帳、好時價</th>
+            </td>
+            <td>可以瀏覽哪些金融創新有在政府的監管之下，如麻布記帳、好時價</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-manual/national/individual-income-tax/k2Jbgrp" target="_blank">
                    綜合所得稅扣除額篇
                 </a>
-            </th>
-            <th>查看完整的報稅扣除額有哪些</th>
+            </td>
+            <td>查看完整的報稅扣除額有哪些</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://ep.land.nat.gov.tw/Home/EpaperManual1" target="_blank">
                    申請建物謄本
                 </a>
-            </th>
-            <th>查惡房東的戶籍地址用</th>
+            </td>
+            <td>查惡房東的戶籍地址用</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-knowledge/xeeVRGo" target="_blank">
                    財政度檢舉逃漏稅
                 </a>
-            </th>
-            <th>查到惡房東戶籍以後的檢舉說明</th>
+            </td>
+            <td>查到惡房東戶籍以後的檢舉說明</td>
         </tr>
     </tbody>
 </table>
@@ -114,28 +114,28 @@ webkitallowfullscreen="true"></iframe>
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.facebook.com/photo.php?fbid=783821506437646&set=pb.100044294116214.-2207520000&type=3" target="_blank">
                    台股ETF費用排行
                 </a>
-            </th>
-            <th>柴鼠兄弟是台股ETF的專家頻道</th>
+            </td>
+            <td>柴鼠兄弟是台股ETF的專家頻道</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/vxelQY9" target="_blank">
                    台股8.5%退抵稅
                 </a>
-            </th>
-            <th>年領94萬以下可全額抵減</th>
+            </td>
+            <td>年領94萬以下可全額抵減</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.twse.com.tw/zh/products/sbl/disclosures/info.html" target="_blank">
                    借券收益說明
                 </a>
-            </th>
-            <th>證交所對於借券的說明</th>
+            </td>
+            <td>證交所對於借券的說明</td>
         </tr>
     </tbody>
 </table>
@@ -151,28 +151,28 @@ webkitallowfullscreen="true"></iframe>
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://campaign.commonhealth.com.tw/main/2021-HealthInsurance-412#survey" target="_blank">
                    康健就醫指南
                 </a>
-            </th>
-            <th>買醫療險的參考網站</th>
+            </td>
+            <td>買醫療險的參考網站</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.familycare.org.tw" target="_blank">
                    中華民國家庭照顧者關懷總會
                 </a>
-            </th>
-            <th>買失能、長照險的參考網站</th>
+            </td>
+            <td>買失能、長照險的參考網站</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://finfo.tw/" target="_blank">
                    Finfo保險DIY
                 </a>
-            </th>
-            <th>自行規劃保險的平台</th>
+            </td>
+            <td>自行規劃保險的平台</td>
         </tr>
     </tbody>
 </table>
