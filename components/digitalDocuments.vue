@@ -2,25 +2,25 @@
     <table v-for="(item, index) in props.items" :key="index">
         <thead>
             <tr>
-                <td class="d-md-none">
+                <th class="d-md-none">
                     <a :href="`${item.url}.html`">
                         {{ item.name }}</a>
-                </td>
-                <td class="d-md-none" :style="`width:11em;text-align:center;`">
+                </th>
+                <th class="d-md-none" :style="`width:11em;text-align:center;`">
                     實踐度：
                     <template v-for="number in item.rating" :key="number">
                         ★
                     </template>
-                </td>
+                </th>
             </tr>
             <tr>
-                <td class="d-none d-md-table-cell"><a :href="`${item.url}.html`">
-                        {{ item.name }}</a></td>
-                <td class="d-none d-md-table-cell">實踐度：
+                <th class="d-none d-md-table-cell"><a :href="`${item.url}.html`">
+                        {{ item.name }}</a></th>
+                <th class="d-none d-md-table-cell">實踐度：
                     <template v-for="number in item.rating" :key="number">
                         ★
                     </template>
-                </td>
+                </th>
             </tr>
         </thead>
         <tbody>

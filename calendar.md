@@ -16,8 +16,8 @@ outline: deep
 <table>
     <thead>
         <tr>
-            <td>時間</td>
-            <td>內容</td>
+            <th>時間</th>
+            <th>內容</th>
         </tr>
     </thead>
     <tbody>
