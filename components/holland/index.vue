@@ -11,6 +11,7 @@
                     @change="drawCharts()" />
             </el-checkbox-group>
         </el-row>
+        <br/>
         <canvas id="hollandChart"></canvas>
     </el-card>
 </template>
