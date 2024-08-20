@@ -4,8 +4,13 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/finance/personality.html",
+                "destination": "/disc.html",
+                "type": 301
+            },
+            {
                 "source": "/personality.html",
-                "destination": "/finance/personality.html",
+                "destination": "/disc.html",
                 "type": 301
             },
             {
