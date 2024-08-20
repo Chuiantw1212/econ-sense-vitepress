@@ -2,45 +2,47 @@
     <el-card>
         <template #header>
             <div class="card-header">
-                <span>興趣職業關鍵字</span>
+                <span>興趣關鍵字 (建議至少選10個)</span>
             </div>
         </template>
-        <el-checkbox-group v-model="selectedValues">
-            <el-checkbox v-for="(item, index) in shuffledItems" :key="index" :label="item.label" :value="item.label"
-                @change="drawCharts()" />
-        </el-checkbox-group>
+        <el-row>
+            <el-checkbox-group v-model="selectedValues">
+                <el-checkbox v-for="(item, index) in shuffledItems" :key="index" :label="item.label" :value="item.label"
+                    @change="drawCharts()" />
+            </el-checkbox-group>
+        </el-row>
         <canvas id="hollandChart"></canvas>
     </el-card>
 </template>
 <script setup lang="ts">
 interface hollandItem {
-    label: string,
-    values: string[]
+    'Element Name': string,
+    'Keyword': string,
 }
 import Chart from 'chart.js/auto';
-import { ref, computed, shallowRef, onMounted } from 'vue'
+import { ref, shallowRef, onMounted } from 'vue'
 const shuffledItems = ref<any[]>([])
 const selectedValues = ref<any[]>([])
 let hollandChartInstance = ref<Chart>()
 // hooks
 onMounted(async () => {
-    const response = await fetch("/keywords.json");
+    const response = await fetch("keywords.json");
     const jsonFormat: hollandItem[] = await response.json();
-    shuffledItems.value = shuffle(jsonFormat)
+    const formatResult = jsonFormat.map((item: hollandItem) => {
+        return {
+            label: item.Keyword,
+            value: item['Element Name']
+        }
+    })
+    shuffledItems.value = shuffle(formatResult)
 });
 // methods
 function drawCharts() {
-    const hollandCodes: string[][] = selectedValues.value.map((selectedLabel: string) => {
-        console.log({
-            selectedLabel
-        })
-        const selectedItem = datasets.find(item => {
+    const hollandCodes: string[] = selectedValues.value.map((selectedLabel: string) => {
+        const selectedItem = shuffledItems.value.find(item => {
             return item.label === selectedLabel
         })
-        console.log({
-            selectedItem
-        })
-        return selectedItem?.value || []
+        return selectedItem?.value || ''
     })
     const riasec = {
         'R': 0,
@@ -51,19 +53,17 @@ function drawCharts() {
         'C': 0,
     }
     hollandCodes.forEach(value => {
-        value.forEach(code => {
-            riasec[code] += 1
-        })
+        const code = value[0]
+        riasec[code] += 1
     })
-    // const datasets: {
-    //     label: string,
-    //     data: number[][],
-    //     fill: boolean,
-    //     tension: number
-    // }[] = []
-    console.log(Object(riasec))
+    for (let key in riasec) {
+        // %化
+        let count = riasec[key]
+        count = count / selectedValues.value.length * 100
+        riasec[key] = Math.round(count)
+    }
     const data: any = {
-        labels: ['R', 'I', 'A', 'S', 'E', 'C'],
+        labels: Object.keys(riasec),
         datasets: [{
             label: '興趣何綸碼',
             data: Object.values(riasec),
@@ -76,10 +76,33 @@ function drawCharts() {
     }
     const ctx: any = document.getElementById('hollandChart')
     const chartInstance = new Chart(ctx, {
-        type: 'doughnut',
+        type: 'polarArea',
         data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: showPercent,
+                    }
+                },
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'RIASEC興趣分佈圖'
+                }
+            }
+        },
     })
     hollandChartInstance = shallowRef(chartInstance) as any
+}
+function showPercent(tooltipItems) {
+    const { raw, dataIndex, dataset, } = tooltipItems
+    const fisrtValue = raw
+    const { label } = dataset
+    return `${fisrtValue}%`
 }
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -88,170 +111,13 @@ function shuffle(array) {
     }
     return array
 }
-const datasets = [
-    {
-        label: '機械/電子',
-        value: ['R']
-    },
-    {
-        label: '建築/木工',
-        value: ['R']
-    },
-    {
-        label: '交通/機械操作',
-        value: ['R']
-    },
-    {
-        label: '體力/手工勞動',
-        value: ['R']
-    },
-    {
-        label: '軍警消防',
-        value: ['R']
-    },
-    {
-        label: '農業',
-        value: ['R']
-    },
-    {
-        label: '自然/戶外',
-        value: ['R']
-    },
-    {
-        label: '動物照顧',
-        value: ['R', 'S']
-    },
-    {
-        label: '競技',
-        value: ['R', 'E']
-    },
-    {
-        label: '工程',
-        value: ['R',]
-    },
-    {
-        label: '物理科學',
-        value: ['I',]
-    },
-    {
-        label: '生命科學',
-        value: ['I',]
-    },
-    {
-        label: '醫學',
-        value: ['I',]
-    },
-    {
-        label: '社會科學',
-        value: ['I', 'S']
-    },
-    {
-        label: '人文科學',
-        value: ['I', 'A']
-    },
-    {
-        label: '數學/統計',
-        value: ['I', 'C']
-    },
-    {
-        label: '資訊科技',
-        value: ['C']
-    },
-    {
-        label: '視覺藝術',
-        value: ['A']
-    },
-    {
-        label: '應用藝術與設計',
-        value: ['A']
-    },
-    {
-        label: '表演藝術',
-        value: ['A']
-    },
-    {
-        label: '音樂',
-        value: ['A']
-    },
-    {
-        label: '自由書寫',
-        value: ['A']
-    },
-    {
-        label: '媒體',
-        value: ['A']
-    },
-    {
-        label: '烹飪',
-        value: ['A', 'S']
-    },
-    {
-        label: '教學/教育',
-        value: ['S']
-    },
-    {
-        label: '社會服務/公益',
-        value: ['S']
-    },
-    {
-        label: '醫療服務',
-        value: ['I', 'S']
-    },
-    {
-        label: '宗教活動',
-        value: ['S', 'E']
-    },
-    {
-        label: '對人服務',
-        value: ['S',]
-    },
-    {
-        label: '專業諮詢',
-        value: ['S', 'E']
-    },
-    {
-        label: '商業發起',
-        value: ['E']
-    },
-    {
-        label: '銷售',
-        value: ['E']
-    },
-    {
-        label: '行銷/廣告',
-        value: ['A', 'E']
-    },
-    {
-        label: '金融',
-        value: ['E', 'C']
-    },
-    {
-        label: '會計',
-        value: ['C']
-    },
-    {
-        label: '人力資源',
-        value: ['S', 'C']
-    },
-    {
-        label: '辦公室工作',
-        value: ['C']
-    },
-    {
-        label: '管理/行政',
-        value: ['E']
-    },
-    {
-        label: '公開演講',
-        value: ['E']
-    },
-    {
-        label: '政治',
-        value: ['E']
-    },
-    {
-        label: '法律',
-        value: ['E']
-    },
-]
 </script>
+<style lang="scss" scoped>
+.table {
+    * {
+        border-color: var(--el-border-color-light);
+        color: var(--el-text-color-regular);
+        background: white !important;
+    }
+}
+</style>
