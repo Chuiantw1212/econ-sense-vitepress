@@ -22,22 +22,22 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 19:30 - 20:30
-            </th>
-            <th>主題分享</th>
+            </td>
+            <td>主題分享</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 20:30 - 21:00
-            </th>
-            <th>QA & 問卷回饋</th>
+            </td>
+            <td>QA & 問卷回饋</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 21:00
-            </th>
-            <th>聊天室關閉</th>
+            </td>
+            <td>聊天室關閉</td>
         </tr>
     </tbody>
 </table>

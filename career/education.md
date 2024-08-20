@@ -34,36 +34,36 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.jatoro.tw/" target="_blank">
                 上市櫃公司非主管職全時員工(年) 薪資中位數(千元)
                 </a>
-            </th>
-            <th>摩根鮪魚::用薪水養鮪魚肚</th>
+            </td>
+            <td>摩根鮪魚::用薪水養鮪魚肚</td>
         </tr>
          <tr>
-            <th>
+            <td>
                 <a href="https://www.ntbna.gov.tw/singlehtml/5f5746a30ef04963823b2302b9146208?cntId=b1eb3b3cb1914390ab6a4be61cd9fc65#gsc.tab=0" target="_blank">
                    各業擴大書審純益率、所得額及同業利潤標準
                 </a>
-            </th>
-            <th>產業好不好賺的一個依據。</th>
+            </td>
+            <td>產業好不好賺的一個依據。</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.16personalities.com/tw/%E6%80%A7%E6%A0%BC%E6%B8%AC%E8%A9%A6" target="_blank">
                    MBTI人格評量
                 </a>
-            </th>
-            <th>邁爾斯-布里格斯類型指標（英語：Myers-Briggs Type Indicator，简称MBTI，或譯麥布二氏心理類型量表）是人格類型學中一種內省的自我報告問卷，它表明人們天生在感知和決策的方式上存在不同心理偏好。</th>
+            </td>
+            <td>邁爾斯-布里格斯類型指標（英語：Myers-Briggs Type Indicator，简称MBTI，或譯麥布二氏心理類型量表）是人格類型學中一種內省的自我報告問卷，它表明人們天生在感知和決策的方式上存在不同心理偏好。</td>
         </tr>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.yory.school/holland/quiz" target="_blank">
                    YORI的何綸碼測驗
                 </a>
-            </th>
-            <th>Holland 興趣測驗將人與環境分成六大類型：R-實作型、I-研究型、A-藝術型、S-社會型、E-企業型及C-事務型。你可以輸入興趣何倫碼前兩碼，來查詢適合你的職涯發展領域與相關職務。</th>
+            </td>
+            <td>Holland 興趣測驗將人與環境分成六大類型：R-實作型、I-研究型、A-藝術型、S-社會型、E-企業型及C-事務型。你可以輸入興趣何倫碼前兩碼，來查詢適合你的職涯發展領域與相關職務。</td>
         </tr>
     </tbody>
 </table>

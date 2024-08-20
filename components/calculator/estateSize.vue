@@ -89,9 +89,9 @@
                 <el-collapse-item title="試算說明">
                     <table class="table">
                         <tr>
-                            <th>空間</th>
-                            <th>參考平方公尺</th>
-                            <th>參考依據</th>
+                            <td>空間</td>
+                            <td>參考平方公尺</td>
+                            <td>參考依據</td>
                         </tr>
                         <tr>
                             <td>雙人房</td>

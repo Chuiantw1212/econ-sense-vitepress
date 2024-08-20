@@ -21,12 +21,12 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://shopee.tw/search?keyword=%E5%87%B1%E5%88%97%E7%8F%AD%E8%88%87%E5%A5%B3%E5%B7%AB%20%E5%A9%A6%E5%A5%B3%20%E8%BA%AB%E9%AB%94%E8%88%87%E5%8E%9F%E5%A7%8B%E7%A9%8D%E7%B4%AF" target="_blank">
                    凱列班與女巫：婦女、身體與原始積累
                 </a>
-            </th>
-            <th>蝦皮商場，簡體中文書。</th>
+            </td>
+            <td>蝦皮商場，簡體中文書。</td>
         </tr>
     </tbody>
 </table>

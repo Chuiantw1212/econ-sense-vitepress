@@ -105,9 +105,9 @@
                     </ul>
                     <table class="table">
                         <tr>
-                            <th>2021年家庭組織</th>
-                            <th>雙親</th>
-                            <th>核心</th>
+                            <td>2021年家庭組織</td>
+                            <td>雙親</td>
+                            <td>核心</td>
                         </tr>
                         <tr>
                             <td>平均每戶人數</td>

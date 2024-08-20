@@ -26,16 +26,16 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.coolpc.com.tw/evaluate.php" target="_blank">原價屋</a>
-            </th>
-            <th>組裝電腦的好地方，大本營在八德路上</th>
+            </td>
+            <td>組裝電腦的好地方，大本營在八德路上</td>
         </tr>
           <tr>
-            <th>
+            <td>
                 <a href="https://pcpartpicker.com/" target="_blank">PC Part Picker</a>
-            </th>
-            <th>檢查自己的組裝沒問題的好網站</th>
+            </td>
+            <td>檢查自己的組裝沒問題的好網站</td>
         </tr>
     </tbody>
 </table>

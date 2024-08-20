@@ -53,9 +53,9 @@
                     </ul>
                     <table class="table">
                         <tr>
-                            <th>參考標的</th>
-                            <th>資產配置</th>
-                            <th>來源網址</th>
+                            <td>參考標的</td>
+                            <td>資產配置</td>
+                            <td>來源網址</td>
                         </tr>
                         <tr>
                             <td>AOA</td>

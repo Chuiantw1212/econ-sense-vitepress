@@ -23,12 +23,12 @@ outline: deep
     </thead>
     <tbody>
         <tr>
-            <th>
+            <td>
                 <a href="https://www.pmi.org.tw/?post_type=tribe_events" target="_blank">
                    PMI Taiwan
                 </a>
-            </th>
-            <th>學習專案管理的好地方</th>
+            </td>
+            <td>學習專案管理的好地方</td>
         </tr>
     </tbody>
 </table> -->

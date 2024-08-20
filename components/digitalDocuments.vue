@@ -25,26 +25,26 @@
         </thead>
         <tbody>
             <tr class="d-md-none">
-                <th colspan="2">
+                <td colspan="2">
                     <p>大綱</p>
                     <ol>
                         <li v-for="(keyword, keywordIndex) in item.keywords" :key="keywordIndex">{{ keyword }}</li>
                     </ol>
-                </th>
+                </td>
             </tr>
             <tr>
-                <th class="d-none d-md-table-cell" :style="`width:16em;`">
+                <td class="d-none d-md-table-cell" :style="`width:16em;`">
                     <p>大綱</p>
                     <ol>
                         <li v-for="(keyword, keywordIndex) in item.keywords" :key="keywordIndex">{{ keyword }}</li>
                     </ol>
-                </th>
-                <th colspan="2">
+                </td>
+                <td colspan="2">
                     <p>誰適合參與</p>
                     <ul>
                         <li v-for="(audience, audienceIndex) in item.audience" :key="audienceIndex">{{ audience }}</li>
                     </ul>
-                </th>
+                </td>
             </tr>
         </tbody>
     </table>
