@@ -1,19 +1,45 @@
 <template>
-    <el-card>
-        <template #header>
-            <div class="card-header">
-                <span>興趣關鍵字 (建議至少選10個)</span>
-            </div>
-        </template>
-        <el-row>
-            <el-checkbox-group v-model="selectedValues">
-                <el-checkbox v-for="(item, index) in shuffledItems" :key="index" :label="item.label" :value="item.label"
-                    @change="drawCharts()" />
+    <div>
+        <h2 id="興趣何綸碼測驗" tabindex="-1">興趣何綸碼測驗 <a class="header-anchor" href="#興趣何綸碼測驗"
+                aria-label="Permalink to &quot;興趣何綸碼測驗&quot;">&ZeroWidthSpace;</a></h2>
+        <el-card>
+            <template #header>
+                <div class="card-header">
+                    <span>建議至少選10個關鍵字</span>
+                </div>
+            </template>
+            <el-row>
+                <el-checkbox-group v-model="selectedKeywords">
+                    <el-checkbox v-for="(item, index) in shuffledKeywords" :key="index" :label="item.label"
+                        :value="item.label" @change="drawCharts()" />
+                </el-checkbox-group>
+            </el-row>
+            <br />
+            <canvas id="hollandChart"></canvas>
+        </el-card>
+        <h2 id="職務適性比較" tabindex="-1">職務適性比較 <a class="header-anchor" href="#職務適性比較"
+                aria-label="Permalink to &quot;職務適性比較&quot;">&ZeroWidthSpace;</a></h2>
+        <el-card>
+            <el-checkbox-group v-model="selectedCodes">
+                <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code" :value="code" />
             </el-checkbox-group>
-        </el-row>
-        <br />
-        <canvas id="hollandChart"></canvas>
-    </el-card>
+            <!-- <el-form-item label="第一興趣">
+                <el-select v-model="selectedCodes" placeholder="請選擇">
+                    <el-option v-for="code in hollandCodes" :key="code" :label="code" :value="code" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="第二興趣">
+                <el-select v-model="selectedCodes" placeholder="請選擇">
+                    <el-option v-for="code in hollandCodes" :key="code" :label="code" :value="code" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="第三興趣">
+                <el-select v-model="selectedCodes" placeholder="請選擇">
+                    <el-option v-for="code in hollandCodes" :key="code" :label="code" :value="code" />
+                </el-select>
+            </el-form-item> -->
+        </el-card>
+    </div>
 </template>
 <script setup lang="ts">
 interface hollandItem {
@@ -36,17 +62,16 @@ interface interestItemDesign {
     OISum?: number,
     OIs?: number[]
     IHs?: string[]
-    // OI1: number,
-    // OI2: number,
-    // OI3: number,
-    // IH1: string, // RIASEC
-    // IH2: string, // RIASEC
-    // IH3: string, // RIASEC
 }
 import Chart from 'chart.js/auto';
 import { ref, shallowRef, onMounted } from 'vue'
-const shuffledItems = ref<any[]>([])
-const selectedValues = ref<any[]>([])
+const shuffledKeywords = ref<any[]>([])
+// ["分析","解決問題","研究","學習","思考","知識","幫助","教學","溝通","商業","資訊","安排","想法","建造","事實","程序","電子產品","建議","細節","音樂"]
+const selectedKeywords = ref<any[]>(["分析","解決問題","研究","學習","思考","知識","幫助","教學","溝通","商業","資訊","安排","想法","建造","事實","程序","電子產品","建議","細節","音樂"])
+
+const hollandCodes = ref<string[]>(['R', 'I', 'A', 'S', 'E', 'C'])
+const selectedCodes = ref<string[]>([])
+
 let hollandChartInstance = ref<Chart>()
 // hooks
 onMounted(async () => {
@@ -54,6 +79,13 @@ onMounted(async () => {
     initializeInterests()
 });
 // methods
+async function initializeInterests() {
+    const interestResponse = await fetch("interest.min.json");
+    const interestJson: hollandItem[] = await interestResponse.json();
+    const formatInterest = interestJson.map((item) => {
+
+    })
+}
 async function initializeKeywords() {
     const keywordsResponse = await fetch("keywords.json");
     const keywordsJson: hollandItem[] = await keywordsResponse.json();
@@ -63,9 +95,82 @@ async function initializeKeywords() {
             value: item['Element Name']
         }
     })
-    shuffledItems.value = shuffle(formatKeywords)
+    shuffledKeywords.value = shuffle(formatKeywords)
 }
-async function initializeInterests() {
+function drawCharts() {
+    const hollandCodes: string[] = selectedKeywords.value.map((selectedLabel: string) => {
+        const selectedItem = shuffledKeywords.value.find(item => {
+            return item.label === selectedLabel
+        })
+        return selectedItem?.value || ''
+    })
+    const riasec = {
+        'R': 0,
+        'I': 0,
+        'A': 0,
+        'S': 0,
+        'E': 0,
+        'C': 0,
+    }
+    hollandCodes.forEach(value => {
+        const code = value[0]
+        riasec[code] += 1
+    })
+    for (let key in riasec) {
+        // %化
+        let count = riasec[key]
+        count = count / selectedKeywords.value.length * 100
+        riasec[key] = Math.round(count)
+    }
+    const data: any = {
+        labels: Object.keys(riasec),
+        datasets: [{
+            label: '興趣何綸碼',
+            data: Object.values(riasec),
+        }],
+    }
+    if (hollandChartInstance.value) {
+        hollandChartInstance.value.data = data
+        hollandChartInstance.value.update()
+        return
+    }
+    const ctx: any = document.getElementById('hollandChart')
+    const chartInstance = new Chart(ctx, {
+        type: 'polarArea',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: showPercent,
+                    }
+                },
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'RIASEC興趣分佈圖'
+                }
+            }
+        },
+    })
+    hollandChartInstance = shallowRef(chartInstance) as any
+}
+function showPercent(tooltipItems) {
+    const { raw, dataset, } = tooltipItems
+    const fisrtValue = raw
+    return `${fisrtValue}%`
+}
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array
+}
+async function minimizeInterests() {
     // interests
     const interestResponse = await fetch("interests.json")
     const interestJson: interestItem[] = await interestResponse.json()
@@ -133,79 +238,6 @@ function downloadObjectAsJson(exportObj, exportName = 'test') {
     document.body.appendChild(downloadAnchorNode); // required for firefox
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
-}
-function drawCharts() {
-    const hollandCodes: string[] = selectedValues.value.map((selectedLabel: string) => {
-        const selectedItem = shuffledItems.value.find(item => {
-            return item.label === selectedLabel
-        })
-        return selectedItem?.value || ''
-    })
-    const riasec = {
-        'R': 0,
-        'I': 0,
-        'A': 0,
-        'S': 0,
-        'E': 0,
-        'C': 0,
-    }
-    hollandCodes.forEach(value => {
-        const code = value[0]
-        riasec[code] += 1
-    })
-    for (let key in riasec) {
-        // %化
-        let count = riasec[key]
-        count = count / selectedValues.value.length * 100
-        riasec[key] = Math.round(count)
-    }
-    const data: any = {
-        labels: Object.keys(riasec),
-        datasets: [{
-            label: '興趣何綸碼',
-            data: Object.values(riasec),
-        }],
-    }
-    if (hollandChartInstance.value) {
-        hollandChartInstance.value.data = data
-        hollandChartInstance.value.update()
-        return
-    }
-    const ctx: any = document.getElementById('hollandChart')
-    const chartInstance = new Chart(ctx, {
-        type: 'polarArea',
-        data: data,
-        options: {
-            responsive: true,
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: showPercent,
-                    }
-                },
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'RIASEC興趣分佈圖'
-                }
-            }
-        },
-    })
-    hollandChartInstance = shallowRef(chartInstance) as any
-}
-function showPercent(tooltipItems) {
-    const { raw, dataset, } = tooltipItems
-    const fisrtValue = raw
-    return `${fisrtValue}%`
-}
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array
 }
 </script>
 <style lang="scss" scoped>
