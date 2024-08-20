@@ -33,19 +33,25 @@
                 aria-label="Permalink to &quot;職務適性比較&quot;">&ZeroWidthSpace;</a></h2>
         <el-card>
             <el-checkbox-group v-model="selectedCodes">
-                <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label"
-                    :value="code.value" />
+                <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label" :value="code.value"
+                    @change="updateOccupationSimilarity()" />
             </el-checkbox-group>
             <table class="table">
                 <tr>
                     <th>專業頭銜</th>
+                    <th>何倫碼</th>
                     <th>潛力指數</th>
                 </tr>
-                <tr v-for="(item, index) in recommendOccupations" :key="index">
+                <tr v-for="(item, index) in pagedOccupations" :key="index">
                     <td>{{ item.label }}</td>
-                    <td></td>
+                    <td>{{ item.IHs.join(', ') }}</td>
+                    <td>{{ item.similarity }}</td>
                 </tr>
             </table>
+            <div class="example-pagination-block">
+                <el-pagination v-model:current-page="currentPage" :page-size="10"
+                    :total="recommendOccupations.length" />
+            </div>
             <template #footer>
                 <el-collapse>
                     <el-collapse-item title="說明">
@@ -84,8 +90,10 @@ interface interestItemDesign {
     label?: string,
     OISum?: number,
     OIs?: number[]
-    IHs?: string[]
+    IHs?: string[],
+    similarity?: number
 }
+import { computed } from '@vue/reactivity';
 import Chart from 'chart.js/auto';
 import { ref, shallowRef, onMounted } from 'vue'
 const shuffledKeywords = ref<any[]>([])
@@ -117,9 +125,11 @@ const hollandCodes = ref<any[]>([
         value: 'C'
     },
 ])
+const userHollandVectors = ref<number[]>([])
 const selectedCodes = ref<string[]>([])
-const interestItems = ref<interestItemDesign[]>([])
+const interestOccupationItems = ref<interestItemDesign[]>([])
 const recommendOccupations = ref<interestItemDesign[]>([])
+const currentPage = ref<number>(1)
 
 let hollandChartInstance = ref<Chart>()
 // hooks
@@ -128,13 +138,18 @@ onMounted(async () => {
     drawCharts()
     await initializeInterests()
 });
+const pagedOccupations = computed(() => {
+    console.log('chaged?', recommendOccupations.value.length)
+    const result = recommendOccupations.value.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
+    return result
+})
 // methods
 async function initializeInterests() {
     const interestResponse = await fetch("interest.min.json");
     const interestJson = await interestResponse.json();
     for (let occupation in interestJson) {
         const { IHs = [], OIs = [] } = interestJson[occupation]
-        interestItems.value.push({
+        interestOccupationItems.value.push({
             label: occupation,
             OIs,
             IHs
@@ -143,22 +158,60 @@ async function initializeInterests() {
     updateOccupationSimilarity()
 }
 async function updateOccupationSimilarity() {
-    const filteredItems = interestItems.value.filter(item => {
-        const sameLength = selectedCodes.value.length === item.IHs.length
-        if (sameLength) {
-            const hasMatchedCode = selectedCodes.value.every(code => {
-                return item.IHs.includes(code)
-            })
-            console.log({
-                hasMatchedCode
-            })
-            return hasMatchedCode
-        }
+    recommendOccupations.value = []
+    if (!selectedCodes.value.length) {
+        return
+    }
+    const filteredItems = interestOccupationItems.value.filter(item => {
+        const hasMatchedCode = selectedCodes.value.every(code => {
+            return item.IHs.includes(code)
+        })
+        return hasMatchedCode
     })
-    console.log({
-        filteredItems
+    filteredItems.forEach(item => {
+        const { OIs = [] } = item
+        const similarity = manhattanDistance(OIs, userHollandVectors.value)
+        item.similarity = Math.round(similarity)
     })
+    filteredItems.sort((a, b) => {
+        return b.similarity - a.similarity
+    })
+    console.log(recommendOccupations.value.length)
     recommendOccupations.value = filteredItems
+}
+function manhattanDistance(vectorsA: number[], verctorsB: number[]) {
+    let diffSum = 0
+    vectorsA.forEach((valueA, index) => {
+        const valueB = verctorsB[index]
+        const diff = (valueA - valueB) / 100 * (valueA - valueB) / 100
+        diffSum += diff
+    })
+    return (1 - Math.sqrt(diffSum)) * 100
+}
+function cosineSimilarity(vectorsA: number[], verctorsB: number[]) {
+    if (vectorsA.length !== verctorsB.length) {
+        return 0
+    }
+    // 
+    let fraction = 0
+    vectorsA.forEach((valueA, index) => {
+        const valueB = verctorsB[index]
+        fraction += (valueA * valueB)
+    })
+    //
+    let denoA = vectorsA.reduce((sum, value) => {
+        return sum + (value * value)
+    }, 0)
+    denoA = Math.sqrt(denoA)
+    //
+    let denoB = verctorsB.reduce((sum, value) => {
+        return sum + (value * value)
+    }, 0)
+    denoB = Math.sqrt(denoB)
+    const finalDeno = denoA * denoB
+    //
+    const similarity = Math.min((fraction / finalDeno), 1)
+    return similarity
 }
 async function initializeKeywords() {
     const keywordsResponse = await fetch("keywords.json");
@@ -196,6 +249,8 @@ function drawCharts() {
         count = count / selectedKeywords.value.length * 100
         riasec[key] = Math.round(count)
     }
+    userHollandVectors.value = Object.values(riasec)
+    //
     const data: any = {
         labels: ['實做型', '研究型', '藝術型', '社會型', '企業型', '事務型'],
         datasets: [{
