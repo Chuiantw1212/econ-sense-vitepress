@@ -70,7 +70,7 @@ export default defineConfig({
         link: '/career/outline',
         collapsed: false,
         items: [
-          { text: '職涯藍圖', link: '/career/holland' },
+          { text: '職涯藍圖(未完成)', link: '/career/holland' },
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
           // { text: '為什麼要讀書(未完成)', link: '/career/education' },
