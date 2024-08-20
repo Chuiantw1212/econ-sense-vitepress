@@ -1,9 +1,13 @@
 <template>
-    <div>
-        riasec
-    </div>
+    <el-card>
+        <el-checkbox-group v-model="selectedValues">
+            <el-checkbox v-for="(item, index) in datasets" :key="index" :label="item.label" :value="item.value" />
+        </el-checkbox-group>
+    </el-card>
 </template>
-<script setup>
+<script setup lang="ts">
+import { ref, } from 'vue'
+const selectedValues = ref([])
 const datasets = [
     {
         label: '機械/電子',
