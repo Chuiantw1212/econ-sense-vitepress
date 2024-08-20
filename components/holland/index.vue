@@ -112,6 +112,15 @@ async function initializeInterests() {
             }
         }
     })
+    for (let Title in minimumJson) {
+        const item = minimumJson[Title]
+        const deno = item.OISum
+        if (deno) {
+            item.OIs = item.OIs?.map(value => {
+                return value / deno * 100
+            })
+        }
+    }
     console.log({
         minimumJson
     })
