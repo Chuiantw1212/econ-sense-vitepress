@@ -21,23 +21,19 @@
                 aria-label="Permalink to &quot;職務適性比較&quot;">&ZeroWidthSpace;</a></h2>
         <el-card>
             <el-checkbox-group v-model="selectedCodes">
-                <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code" :value="code" />
+                <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label"
+                    :value="code.value" />
             </el-checkbox-group>
-            <!-- <el-form-item label="第一興趣">
-                <el-select v-model="selectedCodes" placeholder="請選擇">
-                    <el-option v-for="code in hollandCodes" :key="code" :label="code" :value="code" />
-                </el-select>
-            </el-form-item>
-            <el-form-item label="第二興趣">
-                <el-select v-model="selectedCodes" placeholder="請選擇">
-                    <el-option v-for="code in hollandCodes" :key="code" :label="code" :value="code" />
-                </el-select>
-            </el-form-item>
-            <el-form-item label="第三興趣">
-                <el-select v-model="selectedCodes" placeholder="請選擇">
-                    <el-option v-for="code in hollandCodes" :key="code" :label="code" :value="code" />
-                </el-select>
-            </el-form-item> -->
+            <table class="table">
+                <tr>
+                    <th>專業頭銜</th>
+                    <th>潛力指數</th>
+                </tr>
+                <tr v-for="(item, index) in recommendOccupations" :key="index">
+                    <td>{{ item.label }}</td>
+                    <td></td>
+                </tr>
+            </table>
         </el-card>
     </div>
 </template>
@@ -67,24 +63,75 @@ import Chart from 'chart.js/auto';
 import { ref, shallowRef, onMounted } from 'vue'
 const shuffledKeywords = ref<any[]>([])
 // ["分析","解決問題","研究","學習","思考","知識","幫助","教學","溝通","商業","資訊","安排","想法","建造","事實","程序","電子產品","建議","細節","音樂"]
-const selectedKeywords = ref<any[]>(["分析","解決問題","研究","學習","思考","知識","幫助","教學","溝通","商業","資訊","安排","想法","建造","事實","程序","電子產品","建議","細節","音樂"])
-
-const hollandCodes = ref<string[]>(['R', 'I', 'A', 'S', 'E', 'C'])
+const selectedKeywords = ref<any[]>(["分析", "解決問題", "研究", "學習", "思考", "知識", "幫助", "教學", "溝通", "商業", "資訊", "安排", "想法", "建造", "事實", "程序", "電子產品", "建議", "細節", "音樂", "文件"])
+const hollandCodes = ref<any[]>([
+    {
+        label: '實做型',
+        value: 'R'
+    },
+    {
+        label: '研究型',
+        value: 'I'
+    },
+    {
+        label: '藝術型',
+        value: 'A'
+    },
+    {
+        label: '社會型',
+        value: 'S'
+    },
+    {
+        label: '企業型',
+        value: 'E'
+    },
+    {
+        label: '事務型',
+        value: 'C'
+    },
+])
 const selectedCodes = ref<string[]>([])
+const interestItems = ref<interestItemDesign[]>([])
+const recommendOccupations = ref<interestItemDesign[]>([])
 
 let hollandChartInstance = ref<Chart>()
 // hooks
 onMounted(async () => {
-    initializeKeywords()
-    initializeInterests()
+    await initializeKeywords()
+    drawCharts()
+    await initializeInterests()
 });
 // methods
 async function initializeInterests() {
     const interestResponse = await fetch("interest.min.json");
-    const interestJson: hollandItem[] = await interestResponse.json();
-    const formatInterest = interestJson.map((item) => {
-
+    const interestJson = await interestResponse.json();
+    for (let occupation in interestJson) {
+        const { IHs = [], OIs = [] } = interestJson[occupation]
+        interestItems.value.push({
+            label: occupation,
+            OIs,
+            IHs
+        })
+    }
+    updateOccupationSimilarity()
+}
+async function updateOccupationSimilarity() {
+    const filteredItems = interestItems.value.filter(item => {
+        const sameLength = selectedCodes.value.length === item.IHs.length
+        if (sameLength) {
+            const hasMatchedCode = selectedCodes.value.every(code => {
+                return item.IHs.includes(code)
+            })
+            console.log({
+                hasMatchedCode
+            })
+            return hasMatchedCode
+        }
     })
+    console.log({
+        filteredItems
+    })
+    recommendOccupations.value = filteredItems
 }
 async function initializeKeywords() {
     const keywordsResponse = await fetch("keywords.json");
@@ -98,7 +145,7 @@ async function initializeKeywords() {
     shuffledKeywords.value = shuffle(formatKeywords)
 }
 function drawCharts() {
-    const hollandCodes: string[] = selectedKeywords.value.map((selectedLabel: string) => {
+    const hollandCodeKeywords: string[] = selectedKeywords.value.map((selectedLabel: string) => {
         const selectedItem = shuffledKeywords.value.find(item => {
             return item.label === selectedLabel
         })
@@ -112,7 +159,7 @@ function drawCharts() {
         'E': 0,
         'C': 0,
     }
-    hollandCodes.forEach(value => {
+    hollandCodeKeywords.forEach(value => {
         const code = value[0]
         riasec[code] += 1
     })
@@ -123,12 +170,21 @@ function drawCharts() {
         riasec[key] = Math.round(count)
     }
     const data: any = {
-        labels: Object.keys(riasec),
+        labels: ['實做型', '研究型', '藝術型', '社會型', '企業型', '事務型'],
         datasets: [{
             label: '興趣何綸碼',
             data: Object.values(riasec),
         }],
     }
+    // 設定前三
+    const dataValues = Object.values(riasec)
+    dataValues.forEach((value, index) => {
+        if (value >= 20) {
+            const hollanCodeItem = hollandCodes.value[index]
+            selectedCodes.value.push(hollanCodeItem.value)
+        }
+    })
+    // 
     if (hollandChartInstance.value) {
         hollandChartInstance.value.data = data
         hollandChartInstance.value.update()
