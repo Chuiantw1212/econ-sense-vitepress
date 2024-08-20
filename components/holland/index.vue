@@ -16,6 +16,18 @@
             </el-row>
             <br />
             <canvas id="hollandChart"></canvas>
+            <template #footer>
+                <el-collapse>
+                    <el-collapse-item title="說明">
+                        <ul>
+                            <li>
+                                資料來源：<a href="https://www.onetcenter.org/dictionary/28.3/excel/riasec_keywords.html"
+                                    target="_blank">RIASEC Keywords</a>
+                            </li>
+                        </ul>
+                    </el-collapse-item>
+                </el-collapse>
+            </template>
         </el-card>
         <h2 id="職務適性比較" tabindex="-1">職務適性比較 <a class="header-anchor" href="#職務適性比較"
                 aria-label="Permalink to &quot;職務適性比較&quot;">&ZeroWidthSpace;</a></h2>
@@ -34,6 +46,21 @@
                     <td></td>
                 </tr>
             </table>
+            <template #footer>
+                <el-collapse>
+                    <el-collapse-item title="說明">
+                        <ul>
+                            <li>
+                                沒空翻譯
+                            </li>
+                            <li>
+                                資料來源：<a href="https://www.onetcenter.org/dictionary/28.3/excel/interests.html"
+                                    target="_blank">Interests</a>
+                            </li>
+                        </ul>
+                    </el-collapse-item>
+                </el-collapse>
+            </template>
         </el-card>
     </div>
 </template>
