@@ -13,14 +13,21 @@
     </el-card>
 </template>
 <script setup lang="ts">
+interface hollandItem {
+    label: string,
+    values: string[]
+}
 import Chart from 'chart.js/auto';
-import { ref, computed, shallowRef } from 'vue'
+import { ref, computed, shallowRef, onMounted } from 'vue'
+const shuffledItems = ref<any[]>([])
 const selectedValues = ref<any[]>([])
 let hollandChartInstance = ref<Chart>()
 // hooks
-const shuffledItems = computed(() => {
-    return shuffle(datasets)
-})
+onMounted(async () => {
+    const response = await fetch("/keywords.json");
+    const jsonFormat: hollandItem[] = await response.json();
+    shuffledItems.value = shuffle(jsonFormat)
+});
 // methods
 function drawCharts() {
     const hollandCodes: string[][] = selectedValues.value.map((selectedLabel: string) => {

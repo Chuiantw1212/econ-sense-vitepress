@@ -1,0 +1,527 @@
+[
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "建造",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "駕駛",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "安裝",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "維護",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "修理",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "動手做",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "動物",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "電子產品",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "設備",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "機器",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "植物",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "材料",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.a",
+    "Element Name": "Realistic",
+    "Keyword": "工具",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "分析",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "診斷",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "發現",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "解決問題",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "研究",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "學習",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "測試",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "思考",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "事實",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "想法",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "知識",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "實驗室",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.b",
+    "Element Name": "Investigative",
+    "Keyword": "科學",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "作曲",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "創作",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "舞蹈",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "設計",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "表演",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "自我表達",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "寫作",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "藝術",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "圖像",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "媒體",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "音樂",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.c",
+    "Element Name": "Artistic",
+    "Keyword": "戲劇",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.d",
+    "Element Name": "Social",
+    "Keyword": "建議",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.d",
+    "Element Name": "Social",
+    "Keyword": "教育",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.d",
+    "Element Name": "Social",
+    "Keyword": "指導",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.d",
+    "Element Name": "Social",
+    "Keyword": "幫助",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.d",
+    "Element Name": "Social",
+    "Keyword": "養育",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.d",
+    "Element Name": "Social",
+    "Keyword": "教學",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.d",
+    "Element Name": "Social",
+    "Keyword": "溝通",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.d",
+    "Element Name": "Social",
+    "Keyword": "健康",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.d",
+    "Element Name": "Social",
+    "Keyword": "人群",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.d",
+    "Element Name": "Social",
+    "Keyword": "服務",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.d",
+    "Element Name": "Social",
+    "Keyword": "社交",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "指揮",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "領導",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "管理",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "市場",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "談判",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "銷售",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "監督",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "商業",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "客戶",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "員工",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "法律",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "政治",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.e",
+    "Element Name": "Enterprising",
+    "Keyword": "產品",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "細節",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "檔案",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "檢查",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "安排",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "紀錄",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "排序",
+    "Keyword Type": "Action",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "資料",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "文件",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "資訊",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "辦公室",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "程序",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "規定",
+    "Keyword Type": "Object",
+    "": ""
+  },
+  {
+    "Element ID": "1.B.1.f",
+    "Element Name": "Conventional",
+    "Keyword": "規則",
+    "Keyword Type": "Object",
+    "": ""
+  }
+]
