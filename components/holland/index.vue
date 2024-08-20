@@ -11,7 +11,7 @@
                     @change="drawCharts()" />
             </el-checkbox-group>
         </el-row>
-        <br/>
+        <br />
         <canvas id="hollandChart"></canvas>
     </el-card>
 </template>
@@ -20,6 +20,29 @@ interface hollandItem {
     'Element Name': string,
     'Keyword': string,
 }
+interface interestItem {
+    "O*NET-SOC Code": string, // 不重要
+    "Title": string, // 重要
+    "Element ID": string, // 不重要
+    "Element Name": string, // First Interest High-Point, Second Interest High-Point, Third Interest High-Point
+    "Scale ID": string, // OI, IH
+    "Scale Name": string, // 不重要
+    "Data Value": number, // 1~6代表RIASEC, 要跟ScaleID一起看
+    "Date": string, // 不重要
+    "Domain Source": string, // 不重要
+}
+interface interestItemDesign {
+    label?: string,
+    OISum?: number,
+    OIs?: number[]
+    IHs?: string[]
+    // OI1: number,
+    // OI2: number,
+    // OI3: number,
+    // IH1: string, // RIASEC
+    // IH2: string, // RIASEC
+    // IH3: string, // RIASEC
+}
 import Chart from 'chart.js/auto';
 import { ref, shallowRef, onMounted } from 'vue'
 const shuffledItems = ref<any[]>([])
@@ -27,17 +50,72 @@ const selectedValues = ref<any[]>([])
 let hollandChartInstance = ref<Chart>()
 // hooks
 onMounted(async () => {
-    const response = await fetch("keywords.json");
-    const jsonFormat: hollandItem[] = await response.json();
-    const formatResult = jsonFormat.map((item: hollandItem) => {
+    initializeKeywords()
+    initializeInterests()
+});
+// methods
+async function initializeKeywords() {
+    const keywordsResponse = await fetch("keywords.json");
+    const keywordsJson: hollandItem[] = await keywordsResponse.json();
+    const formatKeywords = keywordsJson.map((item: hollandItem) => {
         return {
             label: item.Keyword,
             value: item['Element Name']
         }
     })
-    shuffledItems.value = shuffle(formatResult)
-});
-// methods
+    shuffledItems.value = shuffle(formatKeywords)
+}
+async function initializeInterests() {
+    // interests
+    const interestResponse = await fetch("interests.json")
+    const interestJson: interestItem[] = await interestResponse.json()
+    const formatInterests = interestJson.slice(0, 30).map((item: interestItem) => {
+        return {
+            Title: item.Title,
+            "Element Name": item["Element Name"],
+            "Scale ID": item["Scale ID"],
+            "Data Value": item["Data Value"],
+        }
+    })
+    const minimumJson: { [key: string]: interestItemDesign } = {}
+    formatInterests.forEach((item) => {
+        const Title = item.Title
+        if (!minimumJson[Title]) {
+            const newItem: interestItemDesign = {}
+            minimumJson[Title] = newItem
+        }
+        if (item['Scale ID'] === 'OI') {
+            if (minimumJson[Title].OISum) {
+                minimumJson[Title].OISum += item['Data Value']
+            } else {
+                minimumJson[Title].OISum = item['Data Value']
+            }
+            minimumJson[Title].OISum = Number(minimumJson[Title].OISum.toFixed(2))
+            const dataValue = item['Data Value']
+            if (minimumJson[Title].OIs) {
+                // RIASEC一定照順序
+                minimumJson[Title].OIs.push(dataValue)
+            } else {
+                minimumJson[Title].OIs = [dataValue]
+            }
+        }
+        if (item['Scale ID'] === 'IH') {
+            const codes = [null, 'R', 'I', 'A', 'S', 'E', 'C']
+            const index = item['Data Value']
+            const code = codes[index] || ''
+            if (code) {
+                if (minimumJson[Title].IHs) {
+                    minimumJson[Title].IHs.push(code)
+                } else {
+                    minimumJson[Title].IHs = [code]
+                }
+            }
+        }
+    })
+    console.log({
+        minimumJson
+    })
+}
 function drawCharts() {
     const hollandCodes: string[] = selectedValues.value.map((selectedLabel: string) => {
         const selectedItem = shuffledItems.value.find(item => {
@@ -100,9 +178,8 @@ function drawCharts() {
     hollandChartInstance = shallowRef(chartInstance) as any
 }
 function showPercent(tooltipItems) {
-    const { raw, dataIndex, dataset, } = tooltipItems
+    const { raw, dataset, } = tooltipItems
     const fisrtValue = raw
-    const { label } = dataset
     return `${fisrtValue}%`
 }
 function shuffle(array) {
