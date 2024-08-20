@@ -69,7 +69,7 @@ async function initializeInterests() {
     // interests
     const interestResponse = await fetch("interests.json")
     const interestJson: interestItem[] = await interestResponse.json()
-    const formatInterests = interestJson.slice(0, 30).map((item: interestItem) => {
+    const formatInterests = interestJson.map((item: interestItem) => {
         return {
             Title: item.Title,
             "Element Name": item["Element Name"],
@@ -117,13 +117,22 @@ async function initializeInterests() {
         const deno = item.OISum
         if (deno) {
             item.OIs = item.OIs?.map(value => {
-                return value / deno * 100
+                return Number((value / deno * 100).toFixed(1))
             })
+            delete item.OISum
         }
     }
-    console.log({
-        minimumJson
-    })
+    downloadObjectAsJson(minimumJson);
+}
+function downloadObjectAsJson(exportObj, exportName = 'test') {
+    // https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", exportName + ".json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
 }
 function drawCharts() {
     const hollandCodes: string[] = selectedValues.value.map((selectedLabel: string) => {
