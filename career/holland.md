@@ -37,13 +37,19 @@ head:
 
 <Books :modelValue="bookItems"></Books>
 
-
 <script setup lang="ts">
 import Holland from '../components/holland/index.vue'
 import Courses from '../components/courses.vue'
 import Books from '../components/books.vue'
 
 const courseItems = [
+    {
+        image: '/career/springTime.png',
+        description: `「探索潛意識，聆聽內心的回聲，擁抱真實，成為你心靈的騎象人。」
+助人 NLP 國際認證課程・心理學專業培訓課程・沙龍活動體驗`,
+        name: '韶光心理學苑',
+        url: 'https://springtimenlp.com/',
+    },
     {
         image: '/career/education.png',
         description: `人生設計心理諮商專業團隊成立於2010年，總部亞洲職業生涯發展中心位於香港，於北京、上海與成都設有分中心，由海內外一流心理、教育與商業諮詢碩博士組成。

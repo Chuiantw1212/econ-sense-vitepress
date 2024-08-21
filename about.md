@@ -18,7 +18,7 @@ import SkillIcon from './components/skillIcons.vue'
 
 const members = [
   {
-    avatar: `/affiliate/1700901417115.jpg`,
+    avatar: `/affiliate/enchu.webp`,
     title: '講師',
     desc:'--曾經開講--<br/>群益期貨、普鴻資訊、誠遠國際、LearnWeb',
     org: '學校學不到的事',
