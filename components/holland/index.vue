@@ -40,7 +40,7 @@
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="搜索職務">
-                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" @change="filterOccupationByKeyword()" />
+                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" @input="filterOccupationByKeyword()" />
             </el-form-item>
             <table class="table">
                 <tr>
@@ -55,15 +55,16 @@
                 </tr>
             </table>
             <div class="example-pagination-block">
-                <el-pagination v-model:current-page="currentPage" :page-size="10" :total="recommendOccupations.length"
-                    @change="setPagedOccupations()" />
+                <el-pagination v-model:current-page="currentPage" :page-size="10" :total="pagedTotalOccupations"
+                    @change="filterOccupationByKeyword()" />
             </div>
             <template #footer>
                 <el-collapse>
                     <el-collapse-item title="說明">
                         <ul>
                             <li>
-                                沒空翻譯
+                                潛力指數使用<a
+                                    href="https://zh.wikipedia.org/zh-tw/%E6%9B%BC%E5%93%88%E9%A0%93%E8%B7%9D%E9%9B%A2">曼哈頓距離</a>計算
                             </li>
                             <li>
                                 資料來源：<a href="https://www.onetcenter.org/dictionary/28.3/excel/interests.html"
@@ -138,6 +139,7 @@ const userHollandVectors = ref<number[]>([])
 const selectedCodes = ref<string[]>([])
 const interestOccupationItems = ref<interestItemDesign[]>([])
 const recommendOccupations = ref<interestItemDesign[]>([])
+const pagedTotalOccupations = ref<number>(0)
 const pagedOccupations = ref<interestItemDesign[]>([])
 const currentPage = ref<number>(1)
 const userKeyword = ref<string>('')
@@ -157,6 +159,7 @@ function filterOccupationByKeyword() {
     const keyword = String(userKeyword.value).trim()
     if (keyword) {
         const searchResult = fuseInstance.value.search(keyword)
+        pagedTotalOccupations.value = searchResult.length
         let slicedResult = searchResult.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
         slicedResult = slicedResult.map(search => search.item)
         pagedOccupations.value = slicedResult
@@ -167,6 +170,7 @@ function filterOccupationByKeyword() {
 function setPagedOccupations() {
     const result = recommendOccupations.value.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
     pagedOccupations.value = result
+    pagedTotalOccupations.value = recommendOccupations.value.length
 }
 async function initizlieFuzzySearch() {
     const options = {
@@ -180,7 +184,7 @@ async function initializeInterests() {
     const interestJson = await interestResponse.json();
     interestOccupationItems.value = interestJson
     updateOccupationSimilarity()
-    setPagedOccupations()
+    filterOccupationByKeyword()
 }
 async function updateOccupationSimilarity() {
     recommendOccupations.value = []
@@ -204,6 +208,8 @@ async function updateOccupationSimilarity() {
         return similarityB - similarityA
     })
     recommendOccupations.value = filteredItems
+    userKeyword.value = ''
+    setPagedOccupations()
 }
 function manhattanDistance(vectorsA: number[], verctorsB: number[]) {
     let diffSum = 0
