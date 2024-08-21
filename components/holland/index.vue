@@ -32,32 +32,39 @@
         <h2 id="職務適性比較" tabindex="-1">職務適性比較 <a class="header-anchor" href="#職務適性比較"
                 aria-label="Permalink to &quot;職務適性比較&quot;">&ZeroWidthSpace;</a></h2>
         <el-card>
-            <el-checkbox-group v-model="selectedCodes">
-                <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label" :value="code.value"
-                    @change="updateOccupationSimilarity()" />
-            </el-checkbox-group>
+            <el-form-item label="何倫碼分類">
+                <el-checkbox-group v-model="selectedCodes">
+                    <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label"
+                        :disabled="selectedCodes.length >= 3 && !selectedCodes.includes(code.value)" :value="code.value"
+                        @change="updateOccupationSimilarity()" />
+                </el-checkbox-group>
+            </el-form-item>
+            <el-form-item label="搜索職務">
+                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="filterOccupationByKeyword()" />
+            </el-form-item>
             <table class="table">
                 <tr>
                     <th>專業頭銜</th>
                     <th>何倫碼</th>
-                    <th>潛力指數</th>
+                    <th v-if="selectedKeywords.length">潛力指數</th>
                 </tr>
                 <tr v-for="(item, index) in pagedOccupations" :key="index">
                     <td>{{ item.label }}</td>
-                    <td>{{ item.IHs.join(', ') }}</td>
-                    <td>{{ item.similarity }}</td>
+                    <td>{{ item.IHs?.join(', ') }}</td>
+                    <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
                 </tr>
             </table>
             <div class="example-pagination-block">
-                <el-pagination v-model:current-page="currentPage" :page-size="10"
-                    :total="recommendOccupations.length" />
+                <el-pagination v-model:current-page="currentPage" :page-size="10" :total="pagedTotalOccupations"
+                    @change="filterOccupationByKeyword()" />
             </div>
             <template #footer>
                 <el-collapse>
                     <el-collapse-item title="說明">
                         <ul>
                             <li>
-                                沒空翻譯
+                                潛力指數使用<a
+                                    href="https://zh.wikipedia.org/zh-tw/%E6%9B%BC%E5%93%88%E9%A0%93%E8%B7%9D%E9%9B%A2">曼哈頓距離</a>計算
                             </li>
                             <li>
                                 資料來源：<a href="https://www.onetcenter.org/dictionary/28.3/excel/interests.html"
@@ -91,14 +98,17 @@ interface interestItemDesign {
     OISum?: number,
     OIs?: number[]
     IHs?: string[],
-    similarity?: number
+    similarity?: number,
+    alternateName?: string,
 }
+const { VITE_BASE_URL } = import.meta.env
 import { computed } from '@vue/reactivity';
 import Chart from 'chart.js/auto';
+import Fuse from 'fuse.js'
 import { ref, shallowRef, onMounted } from 'vue'
 const shuffledKeywords = ref<any[]>([])
 // ["分析","解決問題","研究","學習","思考","知識","幫助","教學","溝通","商業","資訊","安排","想法","建造","事實","程序","電子產品","建議","細節","音樂"]
-const selectedKeywords = ref<any[]>(["分析", "解決問題", "研究", "學習", "思考", "知識", "幫助", "教學", "溝通", "商業", "資訊", "安排", "想法", "建造", "事實", "程序", "電子產品", "建議", "細節", "音樂", "文件"])
+const selectedKeywords = ref<any[]>([])
 const hollandCodes = ref<any[]>([
     {
         label: '實做型',
@@ -129,42 +139,62 @@ const userHollandVectors = ref<number[]>([])
 const selectedCodes = ref<string[]>([])
 const interestOccupationItems = ref<interestItemDesign[]>([])
 const recommendOccupations = ref<interestItemDesign[]>([])
+const pagedTotalOccupations = ref<number>(0)
+const pagedOccupations = ref<interestItemDesign[]>([])
 const currentPage = ref<number>(1)
+const userKeyword = ref<string>('')
+const fuseInstance = ref()
 
 let hollandChartInstance = ref<Chart>()
 // hooks
 onMounted(async () => {
     await initializeKeywords()
+    // translateTitle()
     drawCharts()
     await initializeInterests()
+    initizlieFuzzySearch()
 });
-const pagedOccupations = computed(() => {
-    console.log('chaged?', recommendOccupations.value.length)
-    const result = recommendOccupations.value.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
-    return result
-})
 // methods
-async function initializeInterests() {
-    const interestResponse = await fetch("interest.min.json");
-    const interestJson = await interestResponse.json();
-    for (let occupation in interestJson) {
-        const { IHs = [], OIs = [] } = interestJson[occupation]
-        interestOccupationItems.value.push({
-            label: occupation,
-            OIs,
-            IHs
-        })
+function filterOccupationByKeyword() {
+    const keyword = String(userKeyword.value).trim()
+    if (keyword) {
+        const searchResult = fuseInstance.value.search(keyword)
+        pagedTotalOccupations.value = searchResult.length
+        let slicedResult = searchResult.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
+        slicedResult = slicedResult.map(search => search.item)
+        pagedOccupations.value = slicedResult
+    } else {
+        setPagedOccupations()
     }
+}
+function setPagedOccupations() {
+    const result = recommendOccupations.value.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
+    pagedOccupations.value = result
+    pagedTotalOccupations.value = recommendOccupations.value.length
+}
+async function initizlieFuzzySearch() {
+    const options = {
+        keys: ['label', 'alternateName']
+    }
+    const fuse = new Fuse(recommendOccupations.value, options)
+    fuseInstance.value = fuse
+}
+async function initializeInterests() {
+    const interestResponse = await fetch("interests.min.json");
+    const interestJson = await interestResponse.json();
+    interestOccupationItems.value = interestJson
     updateOccupationSimilarity()
+    filterOccupationByKeyword()
 }
 async function updateOccupationSimilarity() {
     recommendOccupations.value = []
     if (!selectedCodes.value.length) {
+        recommendOccupations.value = interestOccupationItems.value
         return
     }
     const filteredItems = interestOccupationItems.value.filter(item => {
         const hasMatchedCode = selectedCodes.value.every(code => {
-            return item.IHs.includes(code)
+            return item.IHs?.includes(code)
         })
         return hasMatchedCode
     })
@@ -174,10 +204,13 @@ async function updateOccupationSimilarity() {
         item.similarity = Math.round(similarity)
     })
     filteredItems.sort((a, b) => {
-        return b.similarity - a.similarity
+        const similarityA = a.similarity || 0
+        const similarityB = b.similarity || 0
+        return similarityB - similarityA
     })
-    console.log(recommendOccupations.value.length)
     recommendOccupations.value = filteredItems
+    // userKeyword.value = ''
+    setPagedOccupations()
 }
 function manhattanDistance(vectorsA: number[], verctorsB: number[]) {
     let diffSum = 0
@@ -308,6 +341,45 @@ function shuffle(array) {
     }
     return array
 }
+async function translateTitle() {
+    const interestResponse = await fetch("interests.min.json")
+    const interestJson: interestItemDesign[] = await interestResponse.json()
+    const labels = interestJson.map(item => item.label)
+    const alternatNames = interestJson.map(item => item.alternateName)
+    const promises: any[] = []
+    for (let i = 0; i < interestJson.length; i += 5) {
+        const slicedLabels = labels.slice(i, i + 5)
+        const slicedAlternatNames = alternatNames.slice(i, i + 5)
+        const isEmpty = slicedLabels.every(value => !value)
+        if (isEmpty) {
+            console.log({ i })
+            const res = await fetch(`${VITE_BASE_URL}/chat/translate`, {
+                method: 'post',
+                body: JSON.stringify(slicedAlternatNames),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            const promise = new Promise(async (resolve) => {
+                const titleRes = await res?.json()
+                for (let j = 0; j < 5; j++) {
+                    if (interestJson[i + j]) {
+                        interestJson[i + j].label = titleRes[j]
+                    }
+                }
+                resolve(titleRes)
+            })
+            promises.push(promise)
+        }
+    }
+    await Promise.all(promises)
+    // format
+    const formatResult = interestJson.map((item) => {
+        return {
+            ...item,
+            label: item.label?.trim()
+        }
+    })
+    downloadObjectAsJson(formatResult);
+}
 async function minimizeInterests() {
     // interests
     const interestResponse = await fetch("interests.json")
@@ -355,7 +427,9 @@ async function minimizeInterests() {
             }
         }
     })
-    for (let Title in minimumJson) {
+
+    const minimumItems: interestItemDesign[] = []
+    Object.keys(minimumJson).forEach((Title, index) => {
         const item = minimumJson[Title]
         const deno = item.OISum
         if (deno) {
@@ -364,8 +438,16 @@ async function minimizeInterests() {
             })
             delete item.OISum
         }
-    }
-    downloadObjectAsJson(minimumJson);
+        // const label = translatedTitle[index] || ''
+        minimumItems.push({
+            label: '',
+            alternateName: Title,
+            ...item,
+        })
+    })
+
+
+    downloadObjectAsJson(minimumItems);
 }
 function downloadObjectAsJson(exportObj, exportName = 'test') {
     // https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
