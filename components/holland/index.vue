@@ -40,7 +40,7 @@
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="搜索職務">
-                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" />
+                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" @change="filterOccupationByKeyword()" />
             </el-form-item>
             <table class="table">
                 <tr>
@@ -55,8 +55,8 @@
                 </tr>
             </table>
             <div class="example-pagination-block">
-                <el-pagination v-model:current-page="currentPage" :page-size="10"
-                    :total="recommendOccupations.length" />
+                <el-pagination v-model:current-page="currentPage" :page-size="10" :total="recommendOccupations.length"
+                    @change="setPagedOccupations()" />
             </div>
             <template #footer>
                 <el-collapse>
@@ -103,6 +103,7 @@ interface interestItemDesign {
 const { VITE_BASE_URL } = import.meta.env
 import { computed } from '@vue/reactivity';
 import Chart from 'chart.js/auto';
+import Fuse from 'fuse.js'
 import { ref, shallowRef, onMounted } from 'vue'
 const shuffledKeywords = ref<any[]>([])
 // ["分析","解決問題","研究","學習","思考","知識","幫助","教學","溝通","商業","資訊","安排","想法","建造","事實","程序","電子產品","建議","細節","音樂"]
@@ -137,8 +138,10 @@ const userHollandVectors = ref<number[]>([])
 const selectedCodes = ref<string[]>([])
 const interestOccupationItems = ref<interestItemDesign[]>([])
 const recommendOccupations = ref<interestItemDesign[]>([])
+const pagedOccupations = ref<interestItemDesign[]>([])
 const currentPage = ref<number>(1)
 const userKeyword = ref<string>('')
+const fuseInstance = ref()
 
 let hollandChartInstance = ref<Chart>()
 // hooks
@@ -147,17 +150,37 @@ onMounted(async () => {
     // translateTitle()
     drawCharts()
     await initializeInterests()
+    initizlieFuzzySearch()
 });
-const pagedOccupations = computed(() => {
-    const result = recommendOccupations.value.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
-    return result
-})
 // methods
+function filterOccupationByKeyword() {
+    const keyword = String(userKeyword.value).trim()
+    if (keyword) {
+        const searchResult = fuseInstance.value.search(keyword)
+        let slicedResult = searchResult.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
+        slicedResult = slicedResult.map(search => search.item)
+        pagedOccupations.value = slicedResult
+    } else {
+        setPagedOccupations()
+    }
+}
+function setPagedOccupations() {
+    const result = recommendOccupations.value.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
+    pagedOccupations.value = result
+}
+async function initizlieFuzzySearch() {
+    const options = {
+        keys: ['label', 'alternateName']
+    }
+    const fuse = new Fuse(recommendOccupations.value, options)
+    fuseInstance.value = fuse
+}
 async function initializeInterests() {
     const interestResponse = await fetch("interests.min.json");
     const interestJson = await interestResponse.json();
     interestOccupationItems.value = interestJson
     updateOccupationSimilarity()
+    setPagedOccupations()
 }
 async function updateOccupationSimilarity() {
     recommendOccupations.value = []
