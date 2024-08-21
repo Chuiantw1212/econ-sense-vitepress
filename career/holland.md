@@ -1,3 +1,17 @@
+---
+description: 
+outline: deep
+head:
+  - - meta
+    - name: og:image
+      property: og:image
+      content: https://econ-sense.com/career/holland.webp
+  - - meta
+    - name: og:url
+      property: og:url
+      content: https://econ-sense.com/career/holland.html
+---
+
 # 找到你的熱情渴望，繪製你的職涯藍圖
 
 1. 選擇適合自己的關鍵字
