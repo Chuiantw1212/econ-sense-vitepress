@@ -40,7 +40,7 @@
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="搜索職務">
-                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" @input="filterOccupationByKeyword()" />
+                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="filterOccupationByKeyword()" />
             </el-form-item>
             <table class="table">
                 <tr>
@@ -208,7 +208,7 @@ async function updateOccupationSimilarity() {
         return similarityB - similarityA
     })
     recommendOccupations.value = filteredItems
-    userKeyword.value = ''
+    // userKeyword.value = ''
     setPagedOccupations()
 }
 function manhattanDistance(vectorsA: number[], verctorsB: number[]) {
