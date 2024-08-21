@@ -32,10 +32,16 @@
         <h2 id="職務適性比較" tabindex="-1">職務適性比較 <a class="header-anchor" href="#職務適性比較"
                 aria-label="Permalink to &quot;職務適性比較&quot;">&ZeroWidthSpace;</a></h2>
         <el-card>
-            <el-checkbox-group v-model="selectedCodes">
-                <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label" :value="code.value"
-                    @change="updateOccupationSimilarity()" />
-            </el-checkbox-group>
+            <el-form-item label="何倫碼分類">
+                <el-checkbox-group v-model="selectedCodes">
+                    <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label"
+                        :disabled="selectedCodes.length >= 3 && !selectedCodes.includes(code.value)" :value="code.value"
+                        @change="updateOccupationSimilarity()" />
+                </el-checkbox-group>
+            </el-form-item>
+            <el-form-item label="搜索職務">
+                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" />
+            </el-form-item>
             <table class="table">
                 <tr>
                     <th>專業頭銜</th>
@@ -44,7 +50,7 @@
                 </tr>
                 <tr v-for="(item, index) in pagedOccupations" :key="index">
                     <td>{{ item.label }}</td>
-                    <td>{{ item.IHs.join(', ') }}</td>
+                    <td>{{ item.IHs?.join(', ') }}</td>
                     <td>{{ item.similarity }}</td>
                 </tr>
             </table>
@@ -132,12 +138,13 @@ const selectedCodes = ref<string[]>([])
 const interestOccupationItems = ref<interestItemDesign[]>([])
 const recommendOccupations = ref<interestItemDesign[]>([])
 const currentPage = ref<number>(1)
+const userKeyword = ref<string>('')
 
 let hollandChartInstance = ref<Chart>()
 // hooks
 onMounted(async () => {
     await initializeKeywords()
-    translateTitle()
+    // translateTitle()
     drawCharts()
     await initializeInterests()
 });
