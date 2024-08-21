@@ -55,8 +55,8 @@
                 </tr>
             </table>
             <div class="example-pagination-block">
-                <el-pagination v-model:current-page="currentPage" :page-size="10" :total="pagedTotalOccupations"
-                    @change="filterOccupationByKeyword()" />
+                <el-pagination v-model:current-page="currentPage" layout="prev, pager, next" :page-size="10"
+                    :total="pagedTotalOccupations" @change="filterOccupationByKeyword()" />
             </div>
             <template #footer>
                 <el-collapse>
