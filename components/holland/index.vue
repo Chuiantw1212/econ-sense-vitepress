@@ -343,8 +343,13 @@ async function translateTitle() {
     }
     await Promise.all(promises)
     // format
-    interestJson.forEach(item => item.label?.trim())
-    downloadObjectAsJson(interestJson);
+    const formatResult = interestJson.map((item) => {
+        return {
+            ...item,
+            label: item.label?.trim()
+        }
+    })
+    downloadObjectAsJson(formatResult);
 }
 async function minimizeInterests() {
     // interests
