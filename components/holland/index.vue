@@ -342,6 +342,8 @@ async function translateTitle() {
         }
     }
     await Promise.all(promises)
+    // format
+    interestJson.forEach(item => item.label?.trim())
     downloadObjectAsJson(interestJson);
 }
 async function minimizeInterests() {
