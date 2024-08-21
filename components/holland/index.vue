@@ -46,12 +46,12 @@
                 <tr>
                     <th>專業頭銜</th>
                     <th>何倫碼</th>
-                    <th>潛力指數</th>
+                    <th v-if="selectedKeywords.length">潛力指數</th>
                 </tr>
                 <tr v-for="(item, index) in pagedOccupations" :key="index">
                     <td>{{ item.label }}</td>
                     <td>{{ item.IHs?.join(', ') }}</td>
-                    <td>{{ item.similarity }}</td>
+                    <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
                 </tr>
             </table>
             <div class="example-pagination-block">
@@ -108,7 +108,7 @@ import Fuse from 'fuse.js'
 import { ref, shallowRef, onMounted } from 'vue'
 const shuffledKeywords = ref<any[]>([])
 // ["分析","解決問題","研究","學習","思考","知識","幫助","教學","溝通","商業","資訊","安排","想法","建造","事實","程序","電子產品","建議","細節","音樂"]
-const selectedKeywords = ref<any[]>(["分析", "解決問題", "研究", "學習", "思考", "知識", "幫助", "教學", "溝通", "商業", "資訊", "安排", "想法", "建造", "事實", "程序", "電子產品", "建議", "細節", "音樂", "文件"])
+const selectedKeywords = ref<any[]>([])
 const hollandCodes = ref<any[]>([
     {
         label: '實做型',
@@ -189,6 +189,7 @@ async function initializeInterests() {
 async function updateOccupationSimilarity() {
     recommendOccupations.value = []
     if (!selectedCodes.value.length) {
+        recommendOccupations.value = interestOccupationItems.value
         return
     }
     const filteredItems = interestOccupationItems.value.filter(item => {
