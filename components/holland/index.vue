@@ -194,7 +194,16 @@ async function setRecommendOccupations() {
     recommendOccupations.value = []
     interestOccupationItems.value.forEach(item => {
         item.similarity = 0
+        const { OIs = [] } = item
+        const similarity = manhattanDistance(OIs, userHollandVectors.value)
+        item.similarity = Math.max(Math.round(similarity), 0)
     })
+    interestOccupationItems.value.sort((a, b) => {
+        const similarityA = a.similarity || 0
+        const similarityB = b.similarity || 0
+        return similarityB - similarityA
+    })
+
     if (!selectedCodes.value.length) {
         recommendOccupations.value = interestOccupationItems.value
         return
@@ -204,16 +213,6 @@ async function setRecommendOccupations() {
             return item.IHs?.includes(code)
         })
         return hasMatchedCode
-    })
-    filteredItems.forEach(item => {
-        const { OIs = [] } = item
-        const similarity = manhattanDistance(OIs, userHollandVectors.value)
-        item.similarity = Math.max(Math.round(similarity), 0)
-    })
-    filteredItems.sort((a, b) => {
-        const similarityA = a.similarity || 0
-        const similarityB = b.similarity || 0
-        return similarityB - similarityA
     })
     recommendOccupations.value = filteredItems
     fuseInstance.value.setCollection(recommendOccupations.value)
