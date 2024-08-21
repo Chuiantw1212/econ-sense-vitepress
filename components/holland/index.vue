@@ -36,11 +36,11 @@
                 <el-checkbox-group v-model="selectedCodes">
                     <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label"
                         :disabled="selectedCodes.length >= 3 && !selectedCodes.includes(code.value)" :value="code.value"
-                        @change="updateOccupationSimilarity()" />
+                        @change="onHollandCodeChanged()" />
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="搜索職務">
-                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="filterOccupationByKeyword()" />
+                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="setPagedOccupations()" />
             </el-form-item>
             <table class="table">
                 <tr>
@@ -56,7 +56,7 @@
             </table>
             <div class="example-pagination-block">
                 <el-pagination v-model:current-page="currentPage" layout="prev, pager, next" :page-size="10"
-                    :total="pagedTotalOccupations" @change="filterOccupationByKeyword()" />
+                    :total="pagedTotalOccupations" @change="setPagedOccupations()" />
             </div>
             <template #footer>
                 <el-collapse>
@@ -102,12 +102,10 @@ interface interestItemDesign {
     alternateName?: string,
 }
 const { VITE_BASE_URL } = import.meta.env
-import { computed } from '@vue/reactivity';
 import Chart from 'chart.js/auto';
 import Fuse from 'fuse.js'
 import { ref, shallowRef, onMounted } from 'vue'
 const shuffledKeywords = ref<any[]>([])
-// ["分析","解決問題","研究","學習","思考","知識","幫助","教學","溝通","商業","資訊","安排","想法","建造","事實","程序","電子產品","建議","細節","音樂"]
 const selectedKeywords = ref<any[]>([])
 const hollandCodes = ref<any[]>([
     {
@@ -149,31 +147,38 @@ let hollandChartInstance = ref<Chart>()
 // hooks
 onMounted(async () => {
     await initializeKeywords()
-    // translateTitle()
-    drawCharts()
     await initializeInterests()
     initizlieFuzzySearch()
+    drawCharts()
 });
 // methods
-function filterOccupationByKeyword() {
+function setPagedOccupations() {
     const keyword = String(userKeyword.value).trim()
     if (keyword) {
+        fuseInstance.value.setCollection(recommendOccupations.value)
         const searchResult = fuseInstance.value.search(keyword)
         pagedTotalOccupations.value = searchResult.length
-        let slicedResult = searchResult.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
-        slicedResult = slicedResult.map(search => search.item)
-        pagedOccupations.value = slicedResult
+        let pagedResult = searchResult.map(search => search.item)
+        pagedResult.sort((a, b) => {
+            const similarityA = a.similarity || 0
+            const similarityB = b.similarity || 0
+            return similarityB - similarityA
+        })
+        pagedResult = pagedResult.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
+        pagedOccupations.value = pagedResult
     } else {
-        setPagedOccupations()
+        const result = recommendOccupations.value.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
+        pagedTotalOccupations.value = recommendOccupations.value.length
+        pagedOccupations.value = result
     }
 }
-function setPagedOccupations() {
-    const result = recommendOccupations.value.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
-    pagedOccupations.value = result
-    pagedTotalOccupations.value = recommendOccupations.value.length
-}
-async function initizlieFuzzySearch() {
+function initizlieFuzzySearch() {
     const options = {
+        location: 4,
+        maxPatternLength: 32,
+        minMatchCharLength: 1,
+        threshold: 0.4,
+        distance: 100,
         keys: ['label', 'alternateName']
     }
     const fuse = new Fuse(recommendOccupations.value, options)
@@ -183,11 +188,25 @@ async function initializeInterests() {
     const interestResponse = await fetch("interests.min.json");
     const interestJson = await interestResponse.json();
     interestOccupationItems.value = interestJson
-    updateOccupationSimilarity()
-    filterOccupationByKeyword()
 }
-async function updateOccupationSimilarity() {
+async function onHollandCodeChanged() {
+    setRecommendOccupations()
+    setPagedOccupations()
+}
+async function setRecommendOccupations() {
     recommendOccupations.value = []
+    interestOccupationItems.value.forEach(item => {
+        item.similarity = 0
+        const { OIs = [] } = item
+        const similarity = manhattanDistance(OIs, userHollandVectors.value)
+        item.similarity = Math.max(Math.round(similarity), 0)
+    })
+    interestOccupationItems.value.sort((a, b) => {
+        const similarityA = a.similarity || 0
+        const similarityB = b.similarity || 0
+        return similarityB - similarityA
+    })
+
     if (!selectedCodes.value.length) {
         recommendOccupations.value = interestOccupationItems.value
         return
@@ -198,19 +217,7 @@ async function updateOccupationSimilarity() {
         })
         return hasMatchedCode
     })
-    filteredItems.forEach(item => {
-        const { OIs = [] } = item
-        const similarity = manhattanDistance(OIs, userHollandVectors.value)
-        item.similarity = Math.round(similarity)
-    })
-    filteredItems.sort((a, b) => {
-        const similarityA = a.similarity || 0
-        const similarityB = b.similarity || 0
-        return similarityB - similarityA
-    })
     recommendOccupations.value = filteredItems
-    // userKeyword.value = ''
-    setPagedOccupations()
 }
 function manhattanDistance(vectorsA: number[], verctorsB: number[]) {
     let diffSum = 0
@@ -220,31 +227,6 @@ function manhattanDistance(vectorsA: number[], verctorsB: number[]) {
         diffSum += diff
     })
     return (1 - Math.sqrt(diffSum)) * 100
-}
-function cosineSimilarity(vectorsA: number[], verctorsB: number[]) {
-    if (vectorsA.length !== verctorsB.length) {
-        return 0
-    }
-    // 
-    let fraction = 0
-    vectorsA.forEach((valueA, index) => {
-        const valueB = verctorsB[index]
-        fraction += (valueA * valueB)
-    })
-    //
-    let denoA = vectorsA.reduce((sum, value) => {
-        return sum + (value * value)
-    }, 0)
-    denoA = Math.sqrt(denoA)
-    //
-    let denoB = verctorsB.reduce((sum, value) => {
-        return sum + (value * value)
-    }, 0)
-    denoB = Math.sqrt(denoB)
-    const finalDeno = denoA * denoB
-    //
-    const similarity = Math.min((fraction / finalDeno), 1)
-    return similarity
 }
 async function initializeKeywords() {
     const keywordsResponse = await fetch("keywords.json");
@@ -291,7 +273,7 @@ function drawCharts() {
             data: Object.values(riasec),
         }],
     }
-    // 設定前三
+    // set holland code selected
     const dataValues = Object.values(riasec)
     selectedCodes.value = []
     dataValues.forEach((value, index) => {
@@ -300,7 +282,17 @@ function drawCharts() {
             selectedCodes.value.push(hollanCodeItem.value)
         }
     })
-    // 
+    if (selectedCodes.value.length > 3) {
+        selectedCodes.value = []
+        dataValues.forEach((value, index) => {
+            if (value >= 33) {
+                const hollanCodeItem = hollandCodes.value[index]
+                selectedCodes.value.push(hollanCodeItem.value)
+            }
+        })
+    }
+    onHollandCodeChanged()
+    // update chart
     if (hollandChartInstance.value) {
         hollandChartInstance.value.data = data
         hollandChartInstance.value.update()
