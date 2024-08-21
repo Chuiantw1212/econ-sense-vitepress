@@ -36,7 +36,7 @@
                 <el-checkbox-group v-model="selectedCodes">
                     <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label"
                         :disabled="selectedCodes.length >= 3 && !selectedCodes.includes(code.value)" :value="code.value"
-                        @change="updateOccupationSimilarity()" />
+                        @change="setRecommendOccupations()" />
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="搜索職務">
@@ -188,10 +188,10 @@ async function initializeInterests() {
     const interestResponse = await fetch("interests.min.json");
     const interestJson = await interestResponse.json();
     interestOccupationItems.value = interestJson
-    updateOccupationSimilarity()
+    setRecommendOccupations()
     filterOccupationByKeyword()
 }
-async function updateOccupationSimilarity() {
+async function setRecommendOccupations() {
     recommendOccupations.value = []
     if (!selectedCodes.value.length) {
         recommendOccupations.value = interestOccupationItems.value
@@ -214,8 +214,7 @@ async function updateOccupationSimilarity() {
         return similarityB - similarityA
     })
     recommendOccupations.value = filteredItems
-    // userKeyword.value = ''
-    setPagedOccupations()
+    // setPagedOccupations()
 }
 function manhattanDistance(vectorsA: number[], verctorsB: number[]) {
     let diffSum = 0
