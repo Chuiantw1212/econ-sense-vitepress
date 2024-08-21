@@ -91,8 +91,10 @@ interface interestItemDesign {
     OISum?: number,
     OIs?: number[]
     IHs?: string[],
-    similarity?: number
+    similarity?: number,
+    alternateName?: string,
 }
+const { VITE_BASE_URL } = import.meta.env
 import { computed } from '@vue/reactivity';
 import Chart from 'chart.js/auto';
 import { ref, shallowRef, onMounted } from 'vue'
@@ -135,11 +137,11 @@ let hollandChartInstance = ref<Chart>()
 // hooks
 onMounted(async () => {
     await initializeKeywords()
+    translateTitle()
     drawCharts()
-    await initializeInterests()
+    // await initializeInterests()
 });
 const pagedOccupations = computed(() => {
-    console.log('chaged?', recommendOccupations.value.length)
     const result = recommendOccupations.value.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
     return result
 })
@@ -164,7 +166,7 @@ async function updateOccupationSimilarity() {
     }
     const filteredItems = interestOccupationItems.value.filter(item => {
         const hasMatchedCode = selectedCodes.value.every(code => {
-            return item.IHs.includes(code)
+            return item.IHs?.includes(code)
         })
         return hasMatchedCode
     })
@@ -174,7 +176,9 @@ async function updateOccupationSimilarity() {
         item.similarity = Math.round(similarity)
     })
     filteredItems.sort((a, b) => {
-        return b.similarity - a.similarity
+        const similarityA = a.similarity || 0
+        const similarityB = b.similarity || 0
+        return similarityB - similarityA
     })
     console.log(recommendOccupations.value.length)
     recommendOccupations.value = filteredItems
@@ -308,6 +312,35 @@ function shuffle(array) {
     }
     return array
 }
+async function translateTitle() {
+    const interestResponse = await fetch("interests.min.json")
+    const interestJson: interestItemDesign[] = await interestResponse.json()
+    const labels = interestJson.map(item => item.label)
+    const alternatNames = interestJson.map(item => item.alternateName)
+    const promises: any[] = []
+    for (let i = 200; i < 300; i += 5) {
+        const slicedLabels = labels.slice(i, i + 5)
+        const slicedAlternatNames = alternatNames.slice(i, i + 5)
+        const isEmpty = slicedLabels.every(value => !value)
+        if (isEmpty) {
+            const res = await fetch(`${VITE_BASE_URL}/chat/translate`, {
+                method: 'post',
+                body: JSON.stringify(slicedAlternatNames),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            const promise = new Promise(async (resolve) => {
+                const titleRes = await res?.json()
+                for (let j = 0; j < 5; j++) {
+                    interestJson[i + j].label = titleRes[j]
+                }
+                resolve(titleRes)
+            })
+            promises.push(promise)
+        }
+    }
+    await Promise.all(promises)
+    downloadObjectAsJson(interestJson);
+}
 async function minimizeInterests() {
     // interests
     const interestResponse = await fetch("interests.json")
@@ -355,7 +388,9 @@ async function minimizeInterests() {
             }
         }
     })
-    for (let Title in minimumJson) {
+
+    const minimumItems: interestItemDesign[] = []
+    Object.keys(minimumJson).forEach((Title, index) => {
         const item = minimumJson[Title]
         const deno = item.OISum
         if (deno) {
@@ -364,8 +399,16 @@ async function minimizeInterests() {
             })
             delete item.OISum
         }
-    }
-    downloadObjectAsJson(minimumJson);
+        // const label = translatedTitle[index] || ''
+        minimumItems.push({
+            label: '',
+            alternateName: Title,
+            ...item,
+        })
+    })
+
+
+    downloadObjectAsJson(minimumItems);
 }
 function downloadObjectAsJson(exportObj, exportName = 'test') {
     // https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
