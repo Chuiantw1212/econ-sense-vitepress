@@ -293,6 +293,7 @@ function drawCharts() {
     }
     // 設定前三
     const dataValues = Object.values(riasec)
+    selectedCodes.value = []
     dataValues.forEach((value, index) => {
         if (value >= 20) {
             const hollanCodeItem = hollandCodes.value[index]
