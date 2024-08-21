@@ -174,6 +174,11 @@ function setPagedOccupations() {
 }
 async function initizlieFuzzySearch() {
     const options = {
+        location: 4,
+        maxPatternLength: 32,
+        minMatchCharLength: 1,
+        threshold: 0.4,
+        distance: 100,
         keys: ['label', 'alternateName']
     }
     const fuse = new Fuse(recommendOccupations.value, options)
