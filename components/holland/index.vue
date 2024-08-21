@@ -137,7 +137,7 @@ let hollandChartInstance = ref<Chart>()
 // hooks
 onMounted(async () => {
     await initializeKeywords()
-    // translateTitle()
+    translateTitle()
     drawCharts()
     await initializeInterests()
 });
@@ -147,16 +147,10 @@ const pagedOccupations = computed(() => {
 })
 // methods
 async function initializeInterests() {
-    const interestResponse = await fetch("interest.min.json");
-    console.log({
-        interestResponse
-    })
+    const interestResponse = await fetch("interests.min.json");
     const interestJson = await interestResponse.json();
-    console.log({
-        interestJson
-    })
-    // interestOccupationItems.value = interestJson
-    // updateOccupationSimilarity()
+    interestOccupationItems.value = interestJson
+    updateOccupationSimilarity()
 }
 async function updateOccupationSimilarity() {
     recommendOccupations.value = []
