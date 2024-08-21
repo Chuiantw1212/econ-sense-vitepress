@@ -36,11 +36,11 @@
                 <el-checkbox-group v-model="selectedCodes">
                     <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label"
                         :disabled="selectedCodes.length >= 3 && !selectedCodes.includes(code.value)" :value="code.value"
-                        @change="setRecommendOccupations()" />
+                        @change="onHollandCodeChanged()" />
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="搜索職務">
-                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="filterOccupationByKeyword()" />
+                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="setPagedOccupations()" />
             </el-form-item>
             <table class="table">
                 <tr>
@@ -56,7 +56,7 @@
             </table>
             <div class="example-pagination-block">
                 <el-pagination v-model:current-page="currentPage" layout="prev, pager, next" :page-size="10"
-                    :total="pagedTotalOccupations" @change="filterOccupationByKeyword()" />
+                    :total="pagedTotalOccupations" @change="setPagedOccupations()" />
             </div>
             <template #footer>
                 <el-collapse>
@@ -149,13 +149,12 @@ let hollandChartInstance = ref<Chart>()
 // hooks
 onMounted(async () => {
     await initializeKeywords()
-    // translateTitle()
-    drawCharts()
     await initializeInterests()
     initizlieFuzzySearch()
+    drawCharts()
 });
 // methods
-function filterOccupationByKeyword() {
+function setPagedOccupations() {
     const keyword = String(userKeyword.value).trim()
     if (keyword) {
         const searchResult = fuseInstance.value.search(keyword)
@@ -164,15 +163,12 @@ function filterOccupationByKeyword() {
         slicedResult = slicedResult.map(search => search.item)
         pagedOccupations.value = slicedResult
     } else {
-        setPagedOccupations()
+        const result = recommendOccupations.value.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
+        pagedTotalOccupations.value = recommendOccupations.value.length
+        pagedOccupations.value = result
     }
 }
-function setPagedOccupations() {
-    const result = recommendOccupations.value.slice((currentPage.value - 1) * 10, (currentPage.value) * 10)
-    pagedOccupations.value = result
-    pagedTotalOccupations.value = recommendOccupations.value.length
-}
-async function initizlieFuzzySearch() {
+function initizlieFuzzySearch() {
     const options = {
         location: 4,
         maxPatternLength: 32,
@@ -188,11 +184,17 @@ async function initializeInterests() {
     const interestResponse = await fetch("interests.min.json");
     const interestJson = await interestResponse.json();
     interestOccupationItems.value = interestJson
+    onHollandCodeChanged()
+}
+async function onHollandCodeChanged() {
     setRecommendOccupations()
-    filterOccupationByKeyword()
+    setPagedOccupations()
 }
 async function setRecommendOccupations() {
     recommendOccupations.value = []
+    interestOccupationItems.value.forEach(item => {
+        item.similarity = 0
+    })
     if (!selectedCodes.value.length) {
         recommendOccupations.value = interestOccupationItems.value
         return
@@ -206,7 +208,7 @@ async function setRecommendOccupations() {
     filteredItems.forEach(item => {
         const { OIs = [] } = item
         const similarity = manhattanDistance(OIs, userHollandVectors.value)
-        item.similarity = Math.round(similarity)
+        item.similarity = Math.max(Math.round(similarity), 0)
     })
     filteredItems.sort((a, b) => {
         const similarityA = a.similarity || 0
@@ -214,7 +216,7 @@ async function setRecommendOccupations() {
         return similarityB - similarityA
     })
     recommendOccupations.value = filteredItems
-    // setPagedOccupations()
+    fuseInstance.value.setCollection(recommendOccupations.value)
 }
 function manhattanDistance(vectorsA: number[], verctorsB: number[]) {
     let diffSum = 0
@@ -295,7 +297,7 @@ function drawCharts() {
             data: Object.values(riasec),
         }],
     }
-    // 設定前三
+    // set holland code selected
     const dataValues = Object.values(riasec)
     selectedCodes.value = []
     dataValues.forEach((value, index) => {
@@ -304,7 +306,8 @@ function drawCharts() {
             selectedCodes.value.push(hollanCodeItem.value)
         }
     })
-    // 
+    onHollandCodeChanged()
+    // update chart
     if (hollandChartInstance.value) {
         hollandChartInstance.value.data = data
         hollandChartInstance.value.update()
