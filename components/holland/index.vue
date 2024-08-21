@@ -318,11 +318,12 @@ async function translateTitle() {
     const labels = interestJson.map(item => item.label)
     const alternatNames = interestJson.map(item => item.alternateName)
     const promises: any[] = []
-    for (let i = 800; i < interestJson.length; i += 5) {
+    for (let i = 0; i < interestJson.length; i += 5) {
         const slicedLabels = labels.slice(i, i + 5)
         const slicedAlternatNames = alternatNames.slice(i, i + 5)
         const isEmpty = slicedLabels.every(value => !value)
         if (isEmpty) {
+            console.log({ i })
             const res = await fetch(`${VITE_BASE_URL}/chat/translate`, {
                 method: 'post',
                 body: JSON.stringify(slicedAlternatNames),
