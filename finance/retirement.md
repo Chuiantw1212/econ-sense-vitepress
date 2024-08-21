@@ -128,6 +128,14 @@ webkitallowfullscreen="true"></iframe>
             </td>
             <td>財政部提供</td>
         </tr>
+        <tr>
+            <td>
+                <a href="https://support.google.com/accounts/answer/3036546?sjid=9983159482626828160-AP" target="_blank">
+                   不動產之遺產價值如何計算？
+                </a>
+            </td>
+            <td>財政部稅務入口網</td>
+        </tr>
     </tbody>
 </table>
 
@@ -151,7 +159,7 @@ webkitallowfullscreen="true"></iframe>
         </tr>
         <tr>
             <td>
-                <a href="https://www.facebook.com/help/99133559431313?helpref=hc_fnav" target="_blank">
+                <a href="https://www.facebook.com/help/1070665206293088" target="_blank">
                    Facebook紀念帳號設定
                 </a>
             </td>
