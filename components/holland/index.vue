@@ -188,7 +188,6 @@ async function initializeInterests() {
     const interestResponse = await fetch("interests.min.json");
     const interestJson = await interestResponse.json();
     interestOccupationItems.value = interestJson
-    onHollandCodeChanged()
 }
 async function onHollandCodeChanged() {
     setRecommendOccupations()
