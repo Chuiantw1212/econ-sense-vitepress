@@ -29,10 +29,9 @@ const members = [
   {
     avatar: `/about/nodejs-development-services.webp`,
     title: '工程師',
-    desc:'2024 玉山銀行<br/>2020-2023 凱基人壽<br/>2017-2020 前端工程師',
-    org: '資訊委外公司',
-    orgLink: 'https://www.provision.com.tw',
-    // sponsor: 'https://patreon.com/user?u=113925482',
+    desc:'2024 玉山銀行委外<br/>2020-2023 凱基人壽委外<br/>2017-2020 前端工程師',
+    org: 'Job Pair',
+    orgLink: 'https://job-pair.com/',
     // actionText: '贊助',
   },
 ]
