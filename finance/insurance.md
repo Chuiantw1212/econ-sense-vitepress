@@ -1,8 +1,11 @@
 ---
+description: 醫生買保險分享醫療險、癌症險、長照險等關鍵險種選擇，適合保險新手、不確定需不需要投保的人與對現有保單感到疑惑的人。
 outline: deep
 ---
 
 # 醫生買保險
+
+《醫生買保險》探討醫療與財務規劃中的關鍵險種，包括健保與醫療險、癌症險、長照險、儲蓄險等，並解析如何選擇合適的保單。適合保險新手、不確定是否需要投保的人，以及對自己已有保單感到疑惑的人。從基本概念到實務經驗，協助受眾理解醫療與保險的核心知識。
 
 ## 投影片
 
@@ -24,8 +27,33 @@ outline: deep
     <tbody>
         <tr>
             <td>
+                <a href="https://finfo.tw/" target="_blank">
+                   Finfo保險DIY
+                </a>
             </td>
-            <td></td>
+            <td>自行規劃保險的平台</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://www.nhi.gov.tw/ch/cp-6015-0907b-3023-1.html" target="_blank">
+                   健保統計專區
+                </a>
+            </td>
+            <td>健保署網站</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://hpcod.mohw.gov.tw/HospWeb/RWD/PageType/acp/introduction.aspx" target="_blank">
+                   預立醫療決定推廣頁面
+                </a>
+            </td>
+            <td>衛生福利部</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=242&pid=1282">中老年身心社會生活狀況長期追蹤調查</a>
+            </td>
+            <td>衛生福利部國民健康署</td>
         </tr>
     </tbody>
 </table>
