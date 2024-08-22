@@ -96,10 +96,6 @@ export default defineConfig({
         ]
       },
       {
-        text: '友站連結',
-        link: '/affiliate'
-      },
-      {
         text: '關於EN Chu',
         link: '/about'
       },

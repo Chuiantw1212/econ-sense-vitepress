@@ -22,13 +22,13 @@ outline: deep
             <td>
                 <a href="../plan.html">開源財務規畫表</a>
             </td>
-            <td>EN做給有勞保身份的社會大眾(受僱員工/中小企業主)的財務計算機。</td>
+            <td>主要做給有勞保身份的社會大眾(受僱員工/中小企業主)的財務計算機。</td>
         </tr>
         <tr>
             <td>
                 <a href="../finance/disc.html">金錢性格測驗</a>
             </td>
-            <td>以書本為參考，結合EN的DISC與社會觀察產出的財務行為建議。</td>
+            <td>以書本為參考，結合DISC與社會觀察產出的財務行為建議。</td>
         </tr>
         <tr>
             <td>
@@ -39,7 +39,7 @@ outline: deep
     </tbody>
 </table>
 
-## 內容目錄
+## 單元目錄
 
 <DigitalDocuments :items="digitalDocumentItems"></DigitalDocuments>
 
