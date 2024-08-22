@@ -1,6 +1,6 @@
 ---
-outline: deep
 description: 概念取自《金錢性格》，根據DiSC理論調整。DiSC類型均等價，了解他人類型幫助理解優先性及差異。
+outline: 2
 head:
   - - meta
     - name: og:image
@@ -68,9 +68,11 @@ head:
     </table>
 </el-card>
 
-## D掌控型
+## DISC分類
 
-### 金錢類型
+### D掌控型
+
+#### 金錢類型
 
 <table class="table">
     <tbody>
@@ -141,7 +143,7 @@ head:
     </tbody>
 </table>
 
-### 財務習慣建議
+#### 財務習慣建議
 
 <el-card>
     <h4>1. 九宮格法</h4>
@@ -189,9 +191,9 @@ head:
     <p>擺脫繁瑣細節，讓自己更能無後顧之憂地賺錢。</p>
 </el-card>
 
-## I影響型
+### I影響型
 
-### 金錢類型
+#### 金錢類型
 
 <table class="table">
     <tbody>
@@ -262,7 +264,7 @@ head:
     </tbody>
 </table>
 
-### 財務習慣建議
+#### 財務習慣建議
 
 <el-card>
     <h4>1. 投資房地產當包租公/婆</h4>
@@ -273,9 +275,9 @@ head:
     <p>建立待辦清單，時刻提醒自己永遠做最重要的事，並在達成之後，給自己滿足的獎勵。</p>
 </el-card>
 
-## S沈穩型
+### S沈穩型
 
-### 金錢類型
+#### 金錢類型
 
 <table class="table">
     <tbody>
@@ -346,7 +348,7 @@ head:
     </tbody>
 </table>
 
-### 財務習慣建議
+#### 財務習慣建議
 
 <el-card>
     <h4>1. 提撥勞動退休金</h4>
@@ -363,9 +365,9 @@ head:
     </ul>
 </el-card>
 
-## C嚴謹型
+### C嚴謹型
 
-### 金錢類型
+#### 金錢類型
 
 <table class="table">
     <tbody>
@@ -436,7 +438,7 @@ head:
     </tbody>
 </table>
 
-### 財務習慣建議
+#### 財務習慣建議
 
 <el-card>
     <h4>1. 量力而為，適可而止</h4>
