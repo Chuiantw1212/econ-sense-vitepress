@@ -55,6 +55,12 @@ outline: deep
             </td>
             <td>衛生福利部國民健康署</td>
         </tr>
+        <tr>
+            <td>
+                <a href="https://www.bli.gov.tw/0004766.html">勞工保險給付業務</a>
+            </td>
+            <td>勞動部勞工保險局</td>
+        </tr>
     </tbody>
 </table>
 
