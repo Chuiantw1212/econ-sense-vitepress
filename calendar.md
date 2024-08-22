@@ -31,7 +31,7 @@ outline: deep
             <td>
                 20:30 - 21:00
             </td>
-            <td>QA & 問卷回饋</td>
+            <td>QA閒聊 & 問卷回饋</td>
         </tr>
         <tr>
             <td>

@@ -3,9 +3,41 @@ description: EN Chu的工程師職涯經驗與分享。
 outline: deep
 ---
 
-# 工程師專區
+# 工具箱&工程師專區
 
-EN Chu的工程師職涯經驗與分享。
+1. 打造給社會大眾的各種線上測驗/計算機
+2. 工程師職涯經驗與分享。
+
+## 線上工具
+
+<table>
+    <thead>
+        <tr>
+            <th>名稱</th>
+            <th>內容</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a href="../plan.html">開源財務規畫表</a>
+            </td>
+            <td>EN做給有勞保身份的社會大眾(受僱員工/中小企業主)的財務計算機。</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="../finance/disc.html">金錢性格測驗</a>
+            </td>
+            <td>以書本為參考，結合EN的DISC與社會觀察產出的財務行為建議。</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="../career/riasec.html">職業興趣探索</a>
+            </td>
+            <td>基於何倫碼做出的職涯適性速查。</td>
+        </tr>
+    </tbody>
+</table>
 
 ## 內容目錄
 
