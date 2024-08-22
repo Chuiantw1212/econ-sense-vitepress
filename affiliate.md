@@ -97,7 +97,7 @@ const socialSchoolMembers = [
     ]
   },
    {
-    avatar: `/affiliate/1700901417115.jpg`,
+    avatar: `/affiliate/enchu.webp`,
     name: 'EN Chu',
     title: '不專業講師',
     desc: '我禿了，也變強了',

@@ -4,6 +4,11 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/career/holland.html",
+                "destination": "/career/riasec.html",
+                "type": 301
+            },
+            {
                 "source": "/finance/personality.html",
                 "destination": "/disc.html",
                 "type": 301

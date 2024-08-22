@@ -34,6 +34,7 @@ export default defineConfig({
       { text: '無痛理財', link: '/finance/outline' },
       { text: '好好生活', link: '/life/outline' },
       { text: '職涯發展', link: '/career/outline' },
+      { text: '線上工具', link: '/engineer/outline' },
     ],
     sidebar: [
       {
@@ -49,10 +50,15 @@ export default defineConfig({
           { text: '理財框架', link: '/finance/framework' },
           { text: '勞工退休規劃', link: '/finance/retirement' },
           { text: '投資進階管道', link: '/finance/investment' },
-          // { text: '單身狗地獄求生', link: '/finance/single' },
-          { text: '金錢整理術(說書)', link: '/finance/management' },
-          { text: '醫生買保險(說書)', link: '/finance/insurance' },
-          // { text: '金錢性格(含測驗)', link: '/finance/personality' },
+          {
+            text: '說書系列',
+            collapsed: true,
+            items: [
+              { text: '金錢整理術', link: '/finance/management' },
+              { text: '醫生買保險', link: '/finance/insurance' },
+              { text: '金錢性格', link: '/finance/disc' },
+            ]
+          },
         ]
       },
       {
@@ -70,7 +76,7 @@ export default defineConfig({
         link: '/career/outline',
         collapsed: false,
         items: [
-          { text: '職涯藍圖(未完成)', link: '/career/holland' },
+          { text: '職涯藍圖', link: '/career/riasec' },
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
           // { text: '為什麼要讀書(未完成)', link: '/career/education' },
@@ -78,7 +84,7 @@ export default defineConfig({
         ]
       },
       {
-        text: '工程師專區',
+        text: '工具箱&工程師',
         link: '/engineer/outline',
         collapsed: false,
         items: [

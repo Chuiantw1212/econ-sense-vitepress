@@ -67,6 +67,9 @@
                                     href="https://zh.wikipedia.org/zh-tw/%E6%9B%BC%E5%93%88%E9%A0%93%E8%B7%9D%E9%9B%A2">曼哈頓距離</a>計算
                             </li>
                             <li>
+                                使用ChatGpt進行機翻。搜索欄除了中文也可以使用英文進行篩選。
+                            </li>
+                            <li>
                                 資料來源：<a href="https://www.onetcenter.org/dictionary/28.3/excel/interests.html"
                                     target="_blank">Interests</a>
                             </li>
