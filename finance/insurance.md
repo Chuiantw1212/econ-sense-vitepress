@@ -1,6 +1,11 @@
 ---
 description: 醫生買保險分享醫療險、癌症險、長照險等關鍵險種選擇，適合保險新手、不確定需不需要投保的人與對現有保單感到疑惑的人。
 outline: deep
+head:
+  - - meta
+    - name: og:image
+      property: og:image
+      content: /finance/insurance.jpeg
 ---
 
 # 醫生買保險
