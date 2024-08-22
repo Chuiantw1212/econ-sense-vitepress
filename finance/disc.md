@@ -1,6 +1,11 @@
 ---
 outline: deep
 description: 概念取自《金錢性格》，根據DiSC理論調整。DiSC類型均等價，了解他人類型幫助理解優先性及差異。
+head:
+  - - meta
+    - name: og:image
+      property: og:image
+      content: /finance/disc.jpeg
 ---
 
 # 金錢性格測驗

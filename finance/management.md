@@ -1,6 +1,11 @@
 ---
 description: 減少使用現金卻花更多錢？奇怪到底都花到哪去？為現代人設計的存錢守則！不知不覺就有節餘
 outline: deep
+head:
+  - - meta
+    - name: og:image
+      property: og:image
+      content: /finance/management.jpeg
 ---
 
 # 金錢整理術
