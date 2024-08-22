@@ -6,7 +6,7 @@ outline: deep
 
 探索深入的無痛理財世界。這裡涵蓋了理財框架、勞工退休規劃以及投資進階管道等多樣化主題，為您提供專業的資訊和實用建議。無論您是金融新手或有一定經驗，這些內容都能夠幫助您理解金融領域中的重要概念和方法。讓我們一同探索，有效管理財富，為未來做好準備。
 
-## 內容目錄
+## 單元目錄
 
 <DigitalDocuments :items="digitalDocumentItems"></DigitalDocuments>
 
@@ -52,7 +52,14 @@ const digitalDocumentItems = [
         keywords: ['金錢整理術', '小錢包存錢法', '存錢筆記本', '培養整理習慣'],
         audience: ['意識到"整理"財務很重要的人', '想自動化收支管理的人', '對如何實踐省錢概念感到好奇的人'],
         rating: 3
-    }
+    },
+    {
+        url: './insurance',
+        name: '醫生買保險',
+        keywords: ['健保與醫療險', '癌症險', '長照險', '儲蓄險', '自己保保險'],
+        audience: ['沒保過保險的新鮮人', '不想保保險的人', '不太知道自己保了什麼鬼東西的人'],
+        rating: 3
+    },
 ]
 const courseItems = [
     {
