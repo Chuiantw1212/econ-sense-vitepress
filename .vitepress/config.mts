@@ -153,7 +153,11 @@ export default defineConfig({
       message: 'Powered by <a href="https://vitepress.dev/" target="_blank">Vitepress</a>',
       copyright: 'Copyright © 2023-present EN Chu'
     },
-    logo: '/logo/常-白底_36.webp',
+    logo: {
+      src: '/logo/常-白底_36.webp',
+      width: '24px',
+      height: '24px',
+    },
   },
   /**
    * Build
@@ -179,7 +183,7 @@ export default defineConfig({
         tokenize: "full",
         buttonLabel: "搜尋",
         placeholder: "搜尋關鍵字"
-      })
+      }) as any
     ]
   },
   /** Experimental */
