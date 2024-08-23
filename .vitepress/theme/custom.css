@@ -3,23 +3,6 @@
  * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
  */
 
-/* https://fonts.google.com/selection/embed */
-/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap'); */
-
-
-body {
-    font-family: "Noto Sans TC", "Trebuchet MS", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
-    font-style: normal;
-
-}
-
-h1,
-h2,
-h3,
-h4 {
-    font-family: "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei", "Heiti TC", "Times New Roman", Times, serif
-}
-
 .vp-doc table {
     display: table;
     width: 100%;
