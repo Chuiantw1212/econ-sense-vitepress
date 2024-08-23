@@ -83,7 +83,7 @@ export default defineConfig({
         ]
       },
       {
-        text: '工具箱&工程師',
+        text: '線上工具&工程師專區',
         link: '/engineer/outline',
         collapsed: false,
         items: [
