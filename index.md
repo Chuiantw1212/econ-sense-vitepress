@@ -7,9 +7,6 @@ hero:
   name: "常識經濟學"
   text: "無為而治的財務思維"
   tagline: 生活就該簡單心安
-  image:
-    src: /logo/vitepress-logo-large.webp
-    alt: AFP
   actions:
     # alt  
     # sponsor
