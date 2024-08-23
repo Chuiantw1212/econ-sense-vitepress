@@ -155,7 +155,7 @@ export default defineConfig({
       message: 'Powered by <a href="https://vitepress.dev/" target="_blank">Vitepress</a>',
       copyright: 'Copyright © 2023-present EN Chu'
     },
-    logo: '/logo/常-白底.webp',
+    logo: '/logo/常-白底_24.webp',
   },
   /**
    * Build
