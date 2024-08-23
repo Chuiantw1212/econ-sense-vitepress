@@ -9,7 +9,7 @@ export default defineConfig({
   title: "常識經濟學",
   description: "歡迎來到『常識經濟學』，您的理財省心好幫手！主打主業省心省力，無需看盤，專注投資自己，陪伴家人。我們以投資為輔，強調輕鬆投資，主打ETF、被動收入、自動化理財，讓您買進忘記，輕鬆無腦。不僅關注金錢，更注重全方位發展，包括心理、法務、醫療等，培養長線思維，免於匱乏。在『常識經濟學』，實用至上，提供流程、表格、SOP等實用工具，即使聽不懂，照著做也能取得成效。讓您輕鬆追求完整不偏食的理財觀念，一同開啟更豐富的生活！",
   head: [
-    ['link', { rel: 'icon', href: '/logo/常-白底.webp' }],
+    ['link', { rel: 'icon', href: '/logo/常-白底_36.webp' }],
     ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-19NFT8GVCZ' }],
     ['script', {},
       `window.dataLayer = window.dataLayer || [];
@@ -153,7 +153,7 @@ export default defineConfig({
       message: 'Powered by <a href="https://vitepress.dev/" target="_blank">Vitepress</a>',
       copyright: 'Copyright © 2023-present EN Chu'
     },
-    logo: '/logo/常-白底_24.webp',
+    logo: '/logo/常-白底_36.webp',
   },
   /**
    * Build
