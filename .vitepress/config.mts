@@ -24,6 +24,10 @@ export default defineConfig({
   ],
   lang: 'zh-TW',
   /**
+   * Routing
+   */
+  cleanUrls: true,
+  /**
    * Theme config (包含i18n)
    * https://vitepress.dev/reference/default-theme-config
    */
@@ -151,7 +155,7 @@ export default defineConfig({
     },
     footer: {
       message: 'Powered by <a href="https://vitepress.dev/" target="_blank">Vitepress</a>',
-      copyright: 'Copyright © 2023-present EN Chu'
+      copyright: `Copyright © 2023-${new Date().getFullYear()} EN Chu`
     },
     logo: {
       src: '/logo/常-白底_36.webp',
