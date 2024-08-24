@@ -1,5 +1,5 @@
 ---
-description: 非專業講師，分享學校無法涵蓋的知識。曾講授於群益期貨、普鴻資訊、誠遠國際等單位。現為Job Pair共同創辦人，並任職於普鴻資訊。
+description: 非專業講師，每週三分享於學校學不到的事。現為Job Pair共同創辦人，並任職於普鴻資訊。
 outline: [2,3]
 ---
 
@@ -20,7 +20,7 @@ const members = [
   {
     avatar: `/affiliate/enchu.webp`,
     title: '講師',
-    desc:'--曾經開講--<br/>群益期貨、普鴻資訊、誠遠國際、LearnWeb',
+    desc:'--曾經開講--<br/>群益期貨、潛能聚、普鴻資訊、誠遠國際、LearnWeb',
     org: '學校學不到的事',
     orgLink: 'https://www.facebook.com/groups/304681766894402',
     // sponsor: 'https://patreon.com/user?u=113925482',
