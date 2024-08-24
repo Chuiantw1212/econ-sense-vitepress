@@ -1,13 +1,12 @@
 <template>
     <div>
         <ClientOnly>
-            <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="500">
-                <div>此為免費服務，伺服器開機5秒~12秒左右來準備以下必須資料。</div>
+            <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="375">
+                <div>此為免費服務，伺服器開機5秒~12秒準備以下資料。</div>
                 <ul>
                     <li>餘命運算</li>
                     <li>2023聯徵房地資料契約</li>
                     <li>央行擔保放款融通利率</li>
-                    <li>而且有時候會故障卡死......╮（╯＿╰）╭</li>
                 </ul>
                 <div>當此提示順利地自動關閉。就可以開始使用了。</div>
                 <template #footer>
