@@ -70,6 +70,9 @@
                 <el-collapse-item title="試算說明" name="1" :border="true">
                     <ul>
                         <li>
+                            所有功能不須登入也可以用，登入註冊只是比較方便而已。
+                        </li>
+                        <li>
                             預期餘命：<a href="https://data.gov.tw/dataset/39493" target="_blank">預期壽命推估</a>
                         </li>
                         <li>
