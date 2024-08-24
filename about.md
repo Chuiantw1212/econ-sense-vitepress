@@ -1,5 +1,5 @@
 ---
-description: 非專業講師，分享學校無法涵蓋的知識。曾講授於群益期貨、普鴻資訊、誠遠國際等單位。現為Job Pair共同創辦人，並任職於普鴻資訊。
+description: 非專業講師，每週三分享於學校學不到的事。現為Job Pair共同創辦人，並任職於普鴻資訊。
 outline: [2,3]
 ---
 
@@ -20,7 +20,7 @@ const members = [
   {
     avatar: `/affiliate/enchu.webp`,
     title: '講師',
-    desc:'--曾經開講--<br/>群益期貨、普鴻資訊、誠遠國際、LearnWeb',
+    desc:'--曾經開講--<br/>群益期貨、潛能聚、普鴻資訊、誠遠國際、LearnWeb',
     org: '學校學不到的事',
     orgLink: 'https://www.facebook.com/groups/304681766894402',
     // sponsor: 'https://patreon.com/user?u=113925482',
@@ -43,7 +43,7 @@ const members = [
 
 1. 金融惠普：民眾可以快速建立生涯財務觀念，並提共<a href="https://econ-sense.com/calendar.html#%E8%81%AF%E7%B5%A1en">回饋意見</a>。
 2. 開源驗證：任何人都可以檢視程式碼是否有安全漏洞。 (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-hyper-express" target="_blank">後端開源</a>)。
-3. 如果還是擔心個資，也提供了表單離線匯出功能，不需註冊也可以保留試算結果。
+3. 如果擔心個資，可使用表單離線匯出功能，不需註冊也可以保留試算結果。
 
 <a href="https://econ-sense.com/plan.html">
     <img class="aobut__image--100" src="/plan/calculator.png" alt="finance-planner">
