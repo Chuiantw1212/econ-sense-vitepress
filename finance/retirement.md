@@ -18,6 +18,10 @@ webkitallowfullscreen="true"></iframe>
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
 
+## 活動照片
+
+<Photos v-model="photoItems"></Photos>
+
 ## 安心手冊範例
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQMDRSSS7lVSRJyYtL2yWM8V4i2Z9OSyz4QIaMFvOO0K-Rb-gyDLJG5dygSMrg5vTpAnshIYl49gpA/pubhtml?widget=true&amp;headers=false" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
@@ -189,8 +193,9 @@ webkitallowfullscreen="true"></iframe>
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
-
 import Books from '../components/books.vue'
+import Photos from '../components/photos.vue'
+
 const bookItems = [
     {
         id: '11100764608',
@@ -211,6 +216,25 @@ const bookItems = [
 風靡全美「數位生前計畫」領導品牌Everplans，唯一授權！
 帶你按部就班、重整人生、妥善安排，就此從容謝幕、瀟灑轉身！</p>
 `,
+    },
+]
+
+const photoItems = [
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727509.webp",
+        alt: "過程",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727522.webp",
+        alt: "過程",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727523.webp",
+        alt: "過程",
+    },
+    {
+       src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727516.webp",
+        alt: "合照",
     },
 ]
 </script>

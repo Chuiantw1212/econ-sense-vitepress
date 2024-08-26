@@ -20,6 +20,10 @@ head:
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS-dd3TtGo9ZL7PyKHDVIRIBC0TvbzSP6rrjnQZTtQ_pyZJw7pDIR1opRm8f-ZaShvJb-0OKIA_5U0Z/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
+## 活動照片
+
+<Photos v-model="photoItems"></Photos>
+
 ## 外部資源
 
 <table>
@@ -87,6 +91,7 @@ head:
 
 <script setup>
 import Books from '../components/books.vue'
+import Photos from '../components/photos.vue'
 const bookItems = [
     {
         id: '11100923100',
@@ -101,6 +106,25 @@ const bookItems = [
 <li>偷學怦然心動的整理魔法：丟棄囤積雜物也能改善家庭財務。</li>
 <li>有計畫性的浪費：別讓存錢成為痛苦，正確的浪費才是幸福。</li></ol>
 `,
+    },
+]
+
+const photoItems = [
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/management/1724647114048_344.webp",
+        alt: "說書",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/management/1724647114120_344.webp",
+        alt: "破題",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/management/1724647113757_344.webp",
+        alt: "頒獎",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/management/1724647113986_344.webp",
+        alt: "合照",
     },
 ]
 </script>
