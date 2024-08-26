@@ -8,15 +8,6 @@
                     "value": "max-age=31536000"
                 }
             ]
-        },
-        {
-            "source": "**/*.@(js|woff2|css|webp|png|svg)",
-            "headers": [
-                {
-                    "key": "Cache-Control",
-                    "value": "max-age=31536000"
-                }
-            ]
         }
     ],
     "hosting": {
