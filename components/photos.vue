@@ -1,6 +1,6 @@
 <template>
     <div class="photos">
-        <img class="photo" v-for="(item, index) in modelValue" :src="item.src">
+        <img class="photo" v-for="(item, index) in modelValue" :src="item.src" :alt="item.alt || '圖片'">
     </div>
 </template>
 <script setup>

@@ -6,7 +6,7 @@
             </h3>
             <div class="book__body">
                 <a class="book__link" :href="getApredir(item)" target="_blank">
-                    <img class="link__image" :src="getImageLink(item)">
+                    <img class="link__image" :src="getImageLink(item)" alt="封面">
                 </a>
                 <div class="book__textGroup">
                     <div v-show="item.desc" v-html="item.desc">

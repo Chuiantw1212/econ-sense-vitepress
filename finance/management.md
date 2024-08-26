@@ -111,16 +111,20 @@ const bookItems = [
 
 const photoItems = [
     {
-        src: "/finance/management/1724647114048.jpg"
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/management/1724647114048_344.webp",
+        alt: "說書",
     },
     {
-        src: "/finance/management/1724647114120.jpg"
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/management/1724647114120_344.webp",
+        alt: "破題",
     },
     {
-        src: "/finance/management/1724647113757.jpg"
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/management/1724647113757_344.webp",
+        alt: "頒獎",
     },
     {
-        src: "/finance/management/1724647113986.jpg"
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/management/1724647113986_344.webp",
+        alt: "合照",
     },
 ]
 </script>
