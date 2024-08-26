@@ -26,7 +26,7 @@ export default defineConfig({
   /**
    * Routing
    */
-  cleanUrls: true,
+  // cleanUrls: true,
   /**
    * Theme config (包含i18n)
    * https://vitepress.dev/reference/default-theme-config
