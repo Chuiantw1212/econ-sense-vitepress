@@ -6,7 +6,7 @@
             </h3>
             <div class="course__body">
                 <a class="course__link" :href="item.url" target="_blank">
-                    <img class="link__image" :src="item.image" :alt="item.name">
+                    <img class="link__image" loading="lazy" :src="item.image" :alt="item.name">
                 </a>
                 <div class="course__textGroup" v-show="item.description" v-html="item.description">
 
