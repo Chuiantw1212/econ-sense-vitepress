@@ -15,6 +15,7 @@ const props = defineProps({
 .photos {
     display: flex;
     flex-wrap: wrap;
+    gap: 8px;
 }
 
 .photo {
@@ -24,7 +25,7 @@ const props = defineProps({
 @media screen and (min-width: 996px) {
 
     .photo {
-        width: 50%;
+        width: calc(50% - 8px);
     }
 }
 </style>

@@ -74,6 +74,10 @@ function getImageLink(item) {
             display: flex;
             justify-content: center;
             align-self: center;
+
+            .link__image {
+                max-width: 200px;
+            }
         }
     }
 
