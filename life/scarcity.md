@@ -9,7 +9,7 @@ outline: deep
 
 ## 投影片
 
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQOMxzKsjo0S-18dohhv0YykyG3Y3Cxn03MgJOomFNZWOAqwZF5wFnyR9e8e3t5xpKnlMNovViS4mC1/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
+<iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vQOMxzKsjo0S-18dohhv0YykyG3Y3Cxn03MgJOomFNZWOAqwZF5wFnyR9e8e3t5xpKnlMNovViS4mC1/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
 webkitallowfullscreen="true"
 ></iframe>
 

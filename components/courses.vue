@@ -1,13 +1,12 @@
 <template>
     <div class="courses">
         <div v-for="(item, index) in modelValue" class="course" :key="index">
-            <!-- <hr> -->
             <h3 class="course__header" v-show="item.name">
                 {{ item.name }}
             </h3>
             <div class="course__body">
                 <a class="course__link" :href="item.url" target="_blank">
-                    <img class="link__image" :src="item.image">
+                    <img class="link__image" loading="lazy" :src="item.image" :alt="item.name">
                 </a>
                 <div class="course__textGroup" v-show="item.description" v-html="item.description">
 
@@ -32,7 +31,6 @@ const props = defineProps({
             return [
                 // https://schema.org/Course
                 {
-                    // id: '',
                     image: '',
                     description: '',
                     name: '',
