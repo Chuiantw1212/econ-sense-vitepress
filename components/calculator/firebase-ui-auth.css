@@ -1,5 +1,7 @@
 /*! Terms: https://developers.google.com/terms */
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap);sentinel{}dialog {
+/* @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap);sentinel{} */
+
+dialog {
   position: absolute;
   left: 0; right: 0;
   width: -moz-fit-content;
