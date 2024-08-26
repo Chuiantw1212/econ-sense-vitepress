@@ -142,6 +142,8 @@ const marriageYearOptions = ref<any[]>([])
 const isFullScreen = ref(false)
 // hooks
 onMounted(async () => {
+    // Firebase https://github.com/firebase/firebaseui-web?tab=readme-ov-file#localized-widget
+    await import(`./firebase-ui-auth__zh_tw.js`)
     setBirthYearOptions()
     setMarriageYears()
     window?.addEventListener('resize', onResize)
@@ -269,6 +271,9 @@ defineExpose({
 });
 </script>
 <style lang="scss" scoped>
+// Firebase https://github.com/firebase/firebaseui-web?tab=readme-ov-file#localized-widget
+@import "https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.css";
+
 .form__select {
     all: unset;
     border: 1px solid #dcdfe6;
