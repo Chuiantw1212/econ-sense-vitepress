@@ -86,7 +86,7 @@ outline: [2,3]
 
 #### 團體保險：多重保障，減少額外負擔
 
-最後，<a target="_blank" src="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/profit-seeking-enterprise-income-tax/operating-expense-calculation/Ye1Z8OE">團體保險</a>是許多公司提供的另一項重要福利。有了這層保障，許多人可能就不再需要額外購買意外險。像是上下班途中摔車、中暑、爬山摔倒等常見意外，都在理賠範圍內。這不僅降低了額外購買保險的負擔，還能讓你更安心。
+最後，<a target="_blank" href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/profit-seeking-enterprise-income-tax/operating-expense-calculation/Ye1Z8OE">團體保險</a>是許多公司提供的另一項重要福利。有了這層保障，許多人可能就不再需要額外購買意外險。像是上下班途中摔車、中暑、爬山摔倒等常見意外，都在理賠範圍內。這不僅降低了額外購買保險的負擔，還能讓你更安心。
 
 ### 刷卡管理技巧：如何通過科目分開改善收支管理
 
