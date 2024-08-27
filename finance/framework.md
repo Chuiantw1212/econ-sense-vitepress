@@ -73,7 +73,7 @@ outline: [2,3]
 
 #### 勞退：穩健收益與節稅雙效合一
 
-首先談到的是勞退（勞工退休金）。勞退除了提供穩健的年化報酬率（約4.5%），還能幫助你節省稅金。這是一項非常適合長期穩定成長的投資選擇，同時具備節稅效益，是勞工應該善加利用的福利之一。
+首先談到的是勞退（勞工退休金）。勞退除了提供<a target="_blank" href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00">穩健的年化報酬率（約4.5%）</a>，還能幫助你節省稅金。這是一項非常適合長期穩定成長的投資選擇，同時具備節稅效益，是勞工應該善加利用的福利之一。
 
 ![勞退績效](https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E5%8B%9E%E9%80%80%E6%AD%B7%E5%B9%B4%E6%94%B6%E7%9B%8A.webp "勞退績效")
 
@@ -83,7 +83,7 @@ outline: [2,3]
 
 #### 團體保險：多重保障，減少額外負擔
 
-最後，團體保險是許多公司提供的另一項重要福利。有了這層保障，許多人可能就不再需要額外購買意外險。像是上下班途中摔車、中暑、爬山摔倒等常見意外，都在理賠範圍內。這不僅降低了額外購買保險的負擔，還能讓你更安心。
+最後，<a target="_blank" src="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/profit-seeking-enterprise-income-tax/operating-expense-calculation/Ye1Z8OE">團體保險</a>是許多公司提供的另一項重要福利。有了這層保障，許多人可能就不再需要額外購買意外險。像是上下班途中摔車、中暑、爬山摔倒等常見意外，都在理賠範圍內。這不僅降低了額外購買保險的負擔，還能讓你更安心。
 
 ### 刷卡管理技巧：如何通過科目分開改善收支管理
 
@@ -105,26 +105,26 @@ outline: [2,3]
 
 #### 更好的貸款利率
 
-除了分科目管理，信用卡是否能夠穩定地全額還款也會影響聯徵的分數。有些人相信不應該全額還款來培養信用，這其實是錯誤的觀念。沒有全額還款和頻繁使用小額借貸都會成為信用扣分的原因。這點在現今房屋總價居高不下的情況下格外重要，哪怕只是0.1%的利息差異，每個月還款額就可能相差數百元甚至數千元。因此，謹慎管理信用卡使用是不可忽視的一環。
+除了分科目管理，信用卡是否能夠穩定地全額還款也會影響<a target="_blank" href="https://www.jcic.org.tw/main_ch/faq.aspx">聯徵的分數</a>。有些人相信不應該全額還款來培養信用，這其實是錯誤的觀念。沒有全額還款和頻繁使用小額借貸都會成為信用扣分的原因。這點在現今房屋總價居高不下的情況下格外重要，哪怕只是0.1%的利息差異，每個月還款額就可能相差數百元甚至數千元。因此，謹慎管理信用卡使用是不可忽視的一環。
 
 ### 行動支付攻略：簡單五步驟無痛上手
 
 在現代社會，行動支付帶來了極大的便利，不僅讓消費更簡單，還能輕鬆記帳和兌獎。只需按照以下步驟，就可以申請並使用行動支付，享受無腦刷卡的便利。
 
 1. **申請發票載具手機條碼**  
-   首先，上財政部網站申請發票載具手機條碼。這是數位發票管理的重要一步，未來的消費發票都可以透過手機條碼自動儲存。
+   首先，上<a target="_blank" src="https://www.einvoice.nat.gov.tw/">財政部網站</a>申請發票載具手機條碼。這是數位發票管理的重要一步，未來的消費發票都可以透過手機條碼自動儲存。
 
-2. **下載行動支付App (以街口為例)**  
-   接著，下載並安裝街口支付等行動支付App，這是讓你無需攜帶現金的關鍵工具。
+2. **下載行動支付App**  
+   接著，下載並安裝Line Pay、街口支付等行動支付App，這是讓你無需攜帶現金的關鍵工具。
 
 3. **綁定發票載具**  
-   在App內進行發票載具的綁定操作。街口支付有詳細的教學，簡單設定後，所有消費發票將自動儲存到發票載具內。
+   在App內進行發票載具的綁定操作。簡單設定後，所有消費發票將自動儲存到發票載具內。
 
 4. **綁定信用卡**  
-   接下來，把信用卡綁定到行動支付App上。街口支付同樣提供詳細教學，完成綁定後，你就可以用手機輕鬆支付，無需再攜帶實體信用卡。
+   接下來，把信用卡綁定到行動支付App上。完成綁定後，你就可以用手機輕鬆支付，無需再攜帶實體信用卡。
 
 5. **無腦刷、無痛記帳、無痛兑獎**  
-   完成上述設定後，你可以輕鬆享受無腦刷卡的便利。透過發票載具和行動支付自動記錄每筆交易，讓你無痛記帳，同時也讓兌獎變得毫不費力。
+   完成上述設定後，你可以輕鬆享受無腦刷卡的便利。透過發票載具和行動支付自動記錄每筆交易，讓你<a target="_blank" href="https://www.ecloudlife.com/w/">無痛記帳</a>，同時也讓兌獎變得毫不費力。
 
 ![雲端發票](https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E9%9B%B2%E7%AB%AF%E7%99%BC%E7%A5%A8.webp "雲端發票")
 
@@ -146,7 +146,7 @@ outline: [2,3]
 - 教育學費
 - 長期照顧費用
 
-這些項目在國稅局的節稅手冊中都有詳細說明，方便查詢相關規定。
+這些項目在<a target="_blank" src="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-manual/national/individual-income-tax/k2Jbgrp">國稅局的節稅手冊</a>中都有詳細說明，方便查詢相關規定。
 
 #### 需要注意的事項
 
@@ -209,15 +209,15 @@ ETF的表現通常較佳，原因多方面：
 
 #### 股利收益
 
-每當進入除權息季節，持有台股ETF的投資者都會收到股利發放通知，這些現金股利將直接匯入你的戶頭中。這是一種穩定的現金流來源，有助於提高投資的穩定性。然而，需要注意的是，如果一次領取的股利超過20,000元，將會被徵收2.11%的二代健保補充費。因此，對於股利收入較多的投資者來說，提前規劃稅務策略尤為重要，以避免不必要的支出。
+每當進入除權息季節，持有台股ETF的投資者都會收到股利發放通知，這些現金股利將直接匯入你的戶頭中。這是一種穩定的現金流來源，有助於提高投資的穩定性。然而，需要注意的是，如果一次領取的股利超過20,000元，將會被徵收2.11%的<a target="_blank" src="https://www.nhi.gov.tw/ch/cp-4516-74b0f-2613-1.html">二代健保補充費</a>。因此，對於股利收入較多的投資者來說，提前規劃稅務策略尤為重要，以避免不必要的支出。
 
 #### 借券利息
 
-除了股利之外，ETF投資者還可以通過借券獲取利息。借券是指將你持有的證券交給券商，讓券商再將這些證券出借給有意放空市場的投資者，從中賺取利息。這些利息將由券商和出借者按比例分成，通常出借者可獲得7成的利息收益，券商則拿3成。雖然借券利息相對較低，且出借機會有限，但這仍然是ETF投資中的一項潛在收益來源，值得一試。
+除了股利之外，ETF投資者還可以通過<a target="_blank" href="https://www.twse.com.tw/zh/products/sbl/qa.html#03">借券</a>獲取利息。借券是指將你持有的證券交給券商，讓券商再將這些證券出借給有意放空市場的投資者，從中賺取利息。這些利息將由券商和出借者按比例分成，通常出借者可獲得7成的利息收益，券商則拿3成。雖然借券利息相對較低，且出借機會有限，但這仍然是ETF投資中的一項潛在收益來源，值得一試。
 
 #### 股利抵稅
 
-根據所得稅法規定，股利所得需要併入綜合所得課稅，但投資者可以享有股利金額8.5%的稅額抵減，每一申報戶最高可抵減8萬元。這意味著，如果你的全年股利金額在94萬元以下，你可以充分利用這項稅收優惠。更重要的是，如果抵減稅額超過應納稅額，差額部分還可以申請退稅，進一步提升你的實際收益。
+根據<a target="_blank" href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/vxelQY9#:~:text=%E5%85%A8%E6%88%B6%E8%82%A1%E5%88%A9%E5%8F%8A%E7%9B%88%E9%A4%98,%E4%BA%AB%E6%9C%89%E6%8A%B5%E6%B8%9B%E7%A8%85%E9%A1%8D%E3%80%82">所得稅法規定</a>，股利所得需要併入綜合所得課稅，但投資者可以享有股利金額8.5%的稅額抵減，每一申報戶最高可抵減8萬元。這意味著，如果你的全年股利金額在94萬元以下，你可以充分利用這項稅收優惠。更重要的是，如果抵減稅額超過應納稅額，差額部分還可以申請退稅，進一步提升你的實際收益。
 
 ![抵稅優勢](https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E6%8A%B5%E7%A8%85%E5%84%AA%E5%8B%A2.webp "抵稅優勢")
 
@@ -254,7 +254,7 @@ ETF的表現通常較佳，原因多方面：
 
 #### 醫療險的真正價值：自付額與自費項目保障
 
-醫療險的最大功能在於補足住院或手術時健保所不涵蓋的自付額和自費項目。對於大部分民眾來說，這才是醫療險真正的保障所在。根據康健人壽對自費醫療項目的調查顯示，5萬元是最常見的自費金額，而非一些保險平台推崇的20萬至30萬元的數字。這表明，在購買醫療險時，應根據實際可能發生的自費項目來進行合理的保障設計，而不是被過高的數字嚇倒。
+醫療險的最大功能在於補足住院或手術時健保所不涵蓋的自付額和自費項目。對於大部分民眾來說，這才是醫療險真正的保障所在。根據<a target="_blank" href="https://campaign.commonhealth.com.tw/main/2021-HealthInsurance-412">康健人壽自費醫療調查</a>，5萬元是最常見的自費金額，而非一些保險平台推崇的20萬至30萬元的數字。這表明，在購買醫療險時，應根據實際可能發生的自費項目來進行合理的保障設計，而不是被過高的數字嚇倒。
 
 #### 理性選擇醫療險，避免過度保險
 
@@ -272,7 +272,7 @@ ETF的表現通常較佳，原因多方面：
 
 在台灣，有一個廣為人知的植物人案例，這位病人在失能後生活了長達47年。這期間，家庭所承受的心靈與財務負擔是難以想像的。這個案例讓我們意識到，失能險的重要性在於它能夠確保當身體機能因疾病或意外而減損時，投保人依然能夠獲得經濟支持，彌補因工作能力下降帶來的收入損失。
 
-根據本文初版時的統計數據，一名外籍看護工的月薪大約為30,000元。因此，我認為將失能險的每月扶助金設定為3萬元是一個合理的標準，這樣的金額足以在失能情況下為家庭提供基本的經濟支持，減輕家人因長期照護所帶來的財務壓力。
+根據本文初版時的<a target="_blank" href="https://dep.mohw.gov.tw/DOS/lp-5095-113.html">統計數據</a>，一名外籍看護工的月薪大約為30,000元。因此，我認為將失能險的每月扶助金設定為3萬元是一個合理的標準，這樣的金額足以在失能情況下為家庭提供基本的經濟支持，減輕家人因長期照護所帶來的財務壓力。
 
 通過合理配置失能險保額，我們可以在面對不測時，為自己和家人建立一個更加穩固的財務屏障，確保家庭能夠在困境中保持經濟穩定。
 
@@ -290,14 +290,16 @@ ETF的表現通常較佳，原因多方面：
 
 ### 投影片
 
-<iframe
-src="https://docs.google.com/presentation/d/e/2PACX-1vRFGV1EMH9d0fZH9IPvhYw_be1LML5pEuwPAReC2clEM-eJKV4nFhxVHOsKOYPY5V5QzjNlVooCw5Cx/embed?start=false&loop=false&delayms=3000"
-width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
-webkitallowfullscreen="true"></iframe>
+<LazySlide>
+    <iframe title="投影片"
+    src="https://docs.google.com/presentation/d/e/2PACX-1vRFGV1EMH9d0fZH9IPvhYw_be1LML5pEuwPAReC2clEM-eJKV4nFhxVHOsKOYPY5V5QzjNlVooCw5Cx/embed?start=false&loop=false&delayms=3000"
+    width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
+    webkitallowfullscreen="true"></iframe>
+</LazySlide>
 
 ### 評價
 
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSfYJ_r3Q_nFdIOvTH_6qRx1_tdL-Ko59k9Ru3cq62aLclc1OYu1pQ-OhDla6Xen4vciiI4p4B3TDbx/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+<iframe title="評價" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSfYJ_r3Q_nFdIOvTH_6qRx1_tdL-Ko59k9Ru3cq62aLclc1OYu1pQ-OhDla6Xen4vciiI4p4B3TDbx/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 <!-- ## 外部資源
 
@@ -463,6 +465,7 @@ webkitallowfullscreen="true"></iframe>
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
+import LazySlide from '../components/lazySlide.vue'
 import Books from '../components/books.vue'
 const bookItems = [
     {
