@@ -82,7 +82,6 @@ export default defineConfig({
           { text: '職涯藍圖', link: '/career/riasec' },
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
-          // { text: '為什麼要讀書(未完成)', link: '/career/education' },
           { text: '精實執行(說書|付費)', },
         ]
       },
@@ -105,6 +104,7 @@ export default defineConfig({
     ],
     socialLinks: [
       {
+        ariaLabel: 'Line群組',
         link: 'https://line.me/ti/g2/w2xjp79QxMO76vVw_aQuEqeH2ahdcn7uY7lQAg', icon: {
           svg: `<svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
         viewBox="0 0 296.528 296.528" xml:space="preserve">
@@ -128,9 +128,7 @@ export default defineConfig({
      </g>
      </svg>` }
       },
-      { icon: 'github', link: 'https://github.com/Chuiantw1212/econ-sense-vite-press' },
-      // { icon: 'instagram', link: 'https://www.instagram.com/econ.sense' },
-      // { icon: 'linkedin', link: 'https://www.linkedin.com/in/chuiantw1212' },
+      { ariaLabel: 'github', icon: 'github', link: 'https://github.com/Chuiantw1212/econ-sense-vite-press' },
     ],
     lastUpdated: {
       text: '上次更新',
