@@ -5,7 +5,7 @@
         <el-card>
             <template #header>
                 <div class="card-header">
-                    <span>建議至少選10個關鍵字</span>
+                    <span>建議至少選10個關鍵字 (已選{{ selectedKeywords.length }}個)</span>
                 </div>
             </template>
             <el-row>
