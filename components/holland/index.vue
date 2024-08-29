@@ -40,7 +40,7 @@
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="搜索職務">
-                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="setPagedOccupations()" />
+                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="onKeywordChanged()" />
             </el-form-item>
             <table class="table">
                 <tr>
@@ -156,6 +156,10 @@ onMounted(async () => {
     // translateTitle()
 });
 // methods
+function onKeywordChanged() {
+    currentPage.value = 1
+    setPagedOccupations()
+}
 function setPagedOccupations() {
     const keyword = String(userKeyword.value).trim()
     if (keyword) {
@@ -349,21 +353,21 @@ async function translateTitle() {
         const slicedAlternatNames = alternatNames.slice(i, i + 5)
         // const isEmpty = slicedLabels.every(value => !value)
         // if (isEmpty) {
-            const res = await fetch(`${VITE_BASE_URL}/chat/translate`, {
-                method: 'post',
-                body: JSON.stringify(slicedAlternatNames),
-                headers: { 'Content-Type': 'application/json' }
-            })
-            const promise = new Promise(async (resolve) => {
-                const titleRes = await res?.json()
-                for (let j = 0; j < 5; j++) {
-                    if (interestJson[i + j]) {
-                        interestJson[i + j].label = titleRes[j]
-                    }
+        const res = await fetch(`${VITE_BASE_URL}/chat/translate`, {
+            method: 'post',
+            body: JSON.stringify(slicedAlternatNames),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        const promise = new Promise(async (resolve) => {
+            const titleRes = await res?.json()
+            for (let j = 0; j < 5; j++) {
+                if (interestJson[i + j]) {
+                    interestJson[i + j].label = titleRes[j]
                 }
-                resolve(titleRes)
-            })
-            promises.push(promise)
+            }
+            resolve(titleRes)
+        })
+        promises.push(promise)
         // }
     }
     await Promise.all(promises)
