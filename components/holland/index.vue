@@ -153,7 +153,7 @@ onMounted(async () => {
     await initializeInterests()
     initizlieFuzzySearch()
     drawCharts()
-    translateTitle()
+    // translateTitle()
 });
 // methods
 function setPagedOccupations() {
