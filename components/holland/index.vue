@@ -153,6 +153,7 @@ onMounted(async () => {
     await initializeInterests()
     initizlieFuzzySearch()
     drawCharts()
+    translateTitle()
 });
 // methods
 function setPagedOccupations() {
@@ -338,12 +339,12 @@ function shuffle(array) {
     return array
 }
 async function translateTitle() {
-    const interestResponse = await fetch("interests.min.json")
+    const interestResponse = await fetch("interests.raw.json")
     const interestJson: interestItemDesign[] = await interestResponse.json()
     const labels = interestJson.map(item => item.label)
     const alternatNames = interestJson.map(item => item.alternateName)
     const promises: any[] = []
-    for (let i = 0; i < interestJson.length; i += 5) {
+    for (let i = 20; i < 80; i += 5) {
         const slicedLabels = labels.slice(i, i + 5)
         const slicedAlternatNames = alternatNames.slice(i, i + 5)
         const isEmpty = slicedLabels.every(value => !value)
@@ -443,7 +444,7 @@ async function minimizeInterests() {
     })
 
 
-    downloadObjectAsJson(minimumItems);
+    downloadObjectAsJson(minimumItems, 'interests.raw');
 }
 function downloadObjectAsJson(exportObj, exportName = 'test') {
     // https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
