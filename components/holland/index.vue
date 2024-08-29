@@ -344,7 +344,7 @@ async function translateTitle() {
     const labels = interestJson.map(item => item.label)
     const alternatNames = interestJson.map(item => item.alternateName)
     const promises: any[] = []
-    for (let i = 20; i < 80; i += 5) {
+    for (let i = 80; i < 200; i += 5) {
         const slicedLabels = labels.slice(i, i + 5)
         const slicedAlternatNames = alternatNames.slice(i, i + 5)
         const isEmpty = slicedLabels.every(value => !value)
