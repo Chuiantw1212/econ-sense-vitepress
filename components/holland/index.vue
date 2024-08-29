@@ -5,7 +5,7 @@
         <el-card>
             <template #header>
                 <div class="card-header">
-                    <span>建議至少選10個關鍵字</span>
+                    <span>建議至少選10個關鍵字 (已選{{ selectedKeywords.length }}個)</span>
                 </div>
             </template>
             <el-row>
@@ -40,7 +40,7 @@
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="搜索職務">
-                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="setPagedOccupations()" />
+                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="onKeywordChanged()" />
             </el-form-item>
             <table class="table">
                 <tr>
@@ -153,8 +153,13 @@ onMounted(async () => {
     await initializeInterests()
     initizlieFuzzySearch()
     drawCharts()
+    // translateTitle()
 });
 // methods
+function onKeywordChanged() {
+    currentPage.value = 1
+    setPagedOccupations()
+}
 function setPagedOccupations() {
     const keyword = String(userKeyword.value).trim()
     if (keyword) {
@@ -338,33 +343,32 @@ function shuffle(array) {
     return array
 }
 async function translateTitle() {
-    const interestResponse = await fetch("interests.min.json")
+    const interestResponse = await fetch("interests.raw.json")
     const interestJson: interestItemDesign[] = await interestResponse.json()
     const labels = interestJson.map(item => item.label)
     const alternatNames = interestJson.map(item => item.alternateName)
     const promises: any[] = []
-    for (let i = 0; i < interestJson.length; i += 5) {
+    for (let i = 100; i < interestJson.length; i += 5) {
         const slicedLabels = labels.slice(i, i + 5)
         const slicedAlternatNames = alternatNames.slice(i, i + 5)
-        const isEmpty = slicedLabels.every(value => !value)
-        if (isEmpty) {
-            console.log({ i })
-            const res = await fetch(`${VITE_BASE_URL}/chat/translate`, {
-                method: 'post',
-                body: JSON.stringify(slicedAlternatNames),
-                headers: { 'Content-Type': 'application/json' }
-            })
-            const promise = new Promise(async (resolve) => {
-                const titleRes = await res?.json()
-                for (let j = 0; j < 5; j++) {
-                    if (interestJson[i + j]) {
-                        interestJson[i + j].label = titleRes[j]
-                    }
+        // const isEmpty = slicedLabels.every(value => !value)
+        // if (isEmpty) {
+        const res = await fetch(`${VITE_BASE_URL}/chat/translate`, {
+            method: 'post',
+            body: JSON.stringify(slicedAlternatNames),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        const promise = new Promise(async (resolve) => {
+            const titleRes = await res?.json()
+            for (let j = 0; j < 5; j++) {
+                if (interestJson[i + j]) {
+                    interestJson[i + j].label = titleRes[j]
                 }
-                resolve(titleRes)
-            })
-            promises.push(promise)
-        }
+            }
+            resolve(titleRes)
+        })
+        promises.push(promise)
+        // }
     }
     await Promise.all(promises)
     // format
@@ -443,7 +447,7 @@ async function minimizeInterests() {
     })
 
 
-    downloadObjectAsJson(minimumItems);
+    downloadObjectAsJson(minimumItems, 'interests.raw');
 }
 function downloadObjectAsJson(exportObj, exportName = 'test') {
     // https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser

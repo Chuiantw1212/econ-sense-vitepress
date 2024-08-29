@@ -37,7 +37,7 @@
   {
     "Element ID": "1.B.1.a",
     "Element Name": "Realistic",
-    "Keyword": "動手做",
+    "Keyword": "動手操作",
     "Keyword Type": "Action",
     "": ""
   },
@@ -191,7 +191,7 @@
   {
     "Element ID": "1.B.1.c",
     "Element Name": "Artistic",
-    "Keyword": "創作",
+    "Keyword": "創造",
     "Keyword Type": "Action",
     "": ""
   },
@@ -240,7 +240,7 @@
   {
     "Element ID": "1.B.1.c",
     "Element Name": "Artistic",
-    "Keyword": "圖像",
+    "Keyword": "圖形",
     "Keyword Type": "Object",
     "": ""
   },
@@ -282,7 +282,7 @@
   {
     "Element ID": "1.B.1.d",
     "Element Name": "Social",
-    "Keyword": "指導",
+    "Keyword": "指引",
     "Keyword Type": "Action",
     "": ""
   },
@@ -296,14 +296,14 @@
   {
     "Element ID": "1.B.1.d",
     "Element Name": "Social",
-    "Keyword": "養育",
+    "Keyword": "培育",
     "Keyword Type": "Action",
     "": ""
   },
   {
     "Element ID": "1.B.1.d",
     "Element Name": "Social",
-    "Keyword": "教學",
+    "Keyword": "教導",
     "Keyword Type": "Action",
     "": ""
   },
@@ -366,7 +366,7 @@
   {
     "Element ID": "1.B.1.e",
     "Element Name": "Enterprising",
-    "Keyword": "市場",
+    "Keyword": "行銷",
     "Keyword Type": "Action",
     "": ""
   },
@@ -401,7 +401,7 @@
   {
     "Element ID": "1.B.1.e",
     "Element Name": "Enterprising",
-    "Keyword": "客戶",
+    "Keyword": "顧客",
     "Keyword Type": "Object",
     "": ""
   },
@@ -436,14 +436,14 @@
   {
     "Element ID": "1.B.1.f",
     "Element Name": "Conventional",
-    "Keyword": "細節",
+    "Keyword": "注意細節",
     "Keyword Type": "Action",
     "": ""
   },
   {
     "Element ID": "1.B.1.f",
     "Element Name": "Conventional",
-    "Keyword": "檔案",
+    "Keyword": "歸檔",
     "Keyword Type": "Action",
     "": ""
   },
@@ -513,7 +513,7 @@
   {
     "Element ID": "1.B.1.f",
     "Element Name": "Conventional",
-    "Keyword": "規定",
+    "Keyword": "規範",
     "Keyword Type": "Object",
     "": ""
   },

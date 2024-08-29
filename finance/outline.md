@@ -58,7 +58,7 @@ const digitalDocumentItems = [
         name: '醫生買保險',
         keywords: ['健保與醫療險', '癌症險', '長照險', '儲蓄險', '自己保保險'],
         audience: ['沒保過保險的新鮮人', '不想保保險的人', '不太知道自己保了什麼鬼東西的人'],
-        rating: 3
+        rating: 2
     },
 ]
 const courseItems = [
