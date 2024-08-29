@@ -1,6 +1,6 @@
 [
     {
-        "label": "總經理",
+        "label": "首席執行官",
         "alternateName": "Chief Executives",
         "OIs": [
             5.9,
@@ -183,7 +183,7 @@
         ]
     },
     {
-        "label": "保安經理",
+        "label": "保全經理",
         "alternateName": "Security Managers",
         "OIs": [
             15.4,
@@ -232,7 +232,7 @@
         ]
     },
     {
-        "label": "財務主管與主計員",
+        "label": "財務長和主計官",
         "alternateName": "Treasurers and Controllers",
         "OIs": [
             5.1,
@@ -350,7 +350,7 @@
         ]
     },
     {
-        "label": "水力發電生產經理",
+        "label": "水力發電廠經理",
         "alternateName": "Hydroelectric Production Managers",
         "OIs": [
             25.1,
@@ -415,7 +415,7 @@
         ]
     },
     {
-        "label": "補償與福利經理",
+        "label": "薪酬與福利經理",
         "alternateName": "Compensation and Benefits Managers",
         "OIs": [
             4.7,
@@ -482,7 +482,7 @@
         ]
     },
     {
-        "label": "建築經理",
+        "label": "施工經理",
         "alternateName": "Construction Managers",
         "OIs": [
             20.9,
@@ -499,7 +499,7 @@
         ]
     },
     {
-        "label": "幼兒園及托兒所教育及兒童保育管理人員",
+        "label": "學前教育和日托管理員",
         "alternateName": "Education and Childcare Administrators, Preschool and Daycare",
         "OIs": [
             4.8,
@@ -516,7 +516,7 @@
         ]
     },
     {
-        "label": "幼稚園至中學教育管理人員",
+        "label": "中小學教育行政人員",
         "alternateName": "Education Administrators, Kindergarten through Secondary",
         "OIs": [
             5.1,
@@ -533,7 +533,7 @@
         ]
     },
     {
-        "label": "高等教育管理人員",
+        "label": "高等教育行政人員",
         "alternateName": "Education Administrators, Postsecondary",
         "OIs": [
             4.2,
@@ -550,7 +550,7 @@
         ]
     },
     {
-        "label": "建築及工程經理",
+        "label": "建築和工程經理",
         "alternateName": "Architectural and Engineering Managers",
         "OIs": [
             13.2,
@@ -601,7 +601,7 @@
         ]
     },
     {
-        "label": "博彩經理",
+        "label": "賭場經理",
         "alternateName": "Gambling Managers",
         "OIs": [
             14.7,
@@ -617,7 +617,7 @@
         ]
     },
     {
-        "label": "娛樂及休閒經理（不包括博彩）",
+        "label": "娛樂和休閒經理（不包括賭場）",
         "alternateName": "Entertainment and Recreation Managers, Except Gambling",
         "OIs": [
             18.5,
@@ -651,7 +651,7 @@
         ]
     },
     {
-        "label": "醫療與健康服務經理",
+        "label": "醫療和健康服務經理",
         "alternateName": "Medical and Health Services Managers",
         "OIs": [
             9.4,
@@ -719,7 +719,7 @@
         ]
     },
     {
-        "label": "郵政局長和郵務總管",
+        "label": "郵局主管",
         "alternateName": "Postmasters and Mail Superintendents",
         "OIs": [
             10.6,
@@ -736,7 +736,7 @@
         ]
     },
     {
-        "label": "物業、房地產及社區協會經理",
+        "label": "物業、房地產及社區管理經理",
         "alternateName": "Property, Real Estate, and Community Association Managers",
         "OIs": [
             13.8,
@@ -752,7 +752,7 @@
         ]
     },
     {
-        "label": "社會與社區服務經理",
+        "label": "社會及社區服務經理",
         "alternateName": "Social and Community Service Managers",
         "OIs": [
             4.5,
@@ -769,7 +769,7 @@
         ]
     },
     {
-        "label": "緊急管理主管",
+        "label": "緊急管理主任",
         "alternateName": "Emergency Management Directors",
         "OIs": [
             15.3,
@@ -803,7 +803,7 @@
         ]
     },
     {
-        "label": "健身與健康協調員",
+        "label": "健身和健康協調員",
         "alternateName": "Fitness and Wellness Coordinators",
         "OIs": [
             13.2,
@@ -819,7 +819,7 @@
         ]
     },
     {
-        "label": "水療經理",
+        "label": "水療中心經理",
         "alternateName": "Spa Managers",
         "OIs": [
             11.5,
@@ -836,7 +836,7 @@
         ]
     },
     {
-        "label": "監管事務經理",
+        "label": "法規事務經理",
         "alternateName": "Regulatory Affairs Managers",
         "OIs": [
             8.4,
@@ -917,7 +917,7 @@
         ]
     },
     {
-        "label": "棕地重开发专家与现场经理",
+        "label": "棕地開發專家和現場經理",
         "alternateName": "Brownfield Redevelopment Specialists and Site Managers",
         "OIs": [
             20.9,
@@ -934,7 +934,7 @@
         ]
     },
     {
-        "label": "艺术家、表演者和运动员的代理人及业务经理",
+        "label": "藝術家、表演者及運動員代理和經紀人",
         "alternateName": "Agents and Business Managers of Artists, Performers, and Athletes",
         "OIs": [
             4.9,
@@ -951,7 +951,7 @@
         ]
     },
     {
-        "label": "农产品采购员和采购代理",
+        "label": "農產品採購員和採購代理",
         "alternateName": "Buyers and Purchasing Agents, Farm Products",
         "OIs": [
             24.7,
@@ -968,7 +968,7 @@
         ]
     },
     {
-        "label": "批发和零售买家（不包括农产品）",
+        "label": "批發和零售買家（不包括農產品）",
         "alternateName": "Wholesale and Retail Buyers, Except Farm Products",
         "OIs": [
             17.3,
@@ -985,7 +985,7 @@
         ]
     },
     {
-        "label": "采购代理（不包括批发、零售和农产品）",
+        "label": "採購代理（不包括批發、零售和農產品）",
         "alternateName": "Purchasing Agents, Except Wholesale, Retail, and Farm Products",
         "OIs": [
             17.8,
@@ -1002,7 +1002,7 @@
         ]
     },
     {
-        "label": "理賠調查員、審核員和調查員",
+        "label": "理賠專員、審查員和調查員",
         "alternateName": "Claims Adjusters, Examiners, and Investigators",
         "OIs": [
             5.8,
@@ -1019,7 +1019,7 @@
         ]
     },
     {
-        "label": "保險理賠估價師（汽車損壞）",
+        "label": "汽車保險理算師",
         "alternateName": "Insurance Appraisers, Auto Damage",
         "OIs": [
             25.3,
@@ -1036,7 +1036,7 @@
         ]
     },
     {
-        "label": "合規專員",
+        "label": "法規遵循專員",
         "alternateName": "Compliance Officers",
         "OIs": [
             12.9,
@@ -1086,7 +1086,7 @@
         ]
     },
     {
-        "label": "Sure, here are the translations in Taiwanese Mandarin (Traditional Chinese):\n\n政府財產檢查員和調查員",
+        "label": "政府財產檢查員和調查員",
         "alternateName": "Government Property Inspectors and Investigators",
         "OIs": [
             15.2,
@@ -1119,7 +1119,7 @@
         ]
     },
     {
-        "label": "法規事務專家",
+        "label": "法規事務專員",
         "alternateName": "Regulatory Affairs Specialists",
         "OIs": [
             7.8,
@@ -1152,7 +1152,7 @@
         ]
     },
     {
-        "label": "成本估算員",
+        "label": "成本估算師",
         "alternateName": "Cost Estimators",
         "OIs": [
             15.3,
@@ -1202,7 +1202,7 @@
         ]
     },
     {
-        "label": "勞資關係專家",
+        "label": "勞資關係專員",
         "alternateName": "Labor Relations Specialists",
         "OIs": [
             6.3,
@@ -1303,7 +1303,7 @@
         ]
     },
     {
-        "label": "會議、會展及活動策劃人員",
+        "label": "會議、展覽及活動策劃師",
         "alternateName": "Meeting, Convention, and Event Planners",
         "OIs": [
             4.6,
@@ -1337,7 +1337,7 @@
         ]
     },
     {
-        "label": "薪酬、福利和工作分析專員",
+        "label": "薪酬、福利與職位分析專員",
         "alternateName": "Compensation, Benefits, and Job Analysis Specialists",
         "OIs": [
             7,
@@ -1354,7 +1354,7 @@
         ]
     },
     {
-        "label": "培訓與發展專員",
+        "label": "訓練與發展專員",
         "alternateName": "Training and Development Specialists",
         "OIs": [
             8.8,
@@ -1371,7 +1371,7 @@
         ]
     },
     {
-        "label": "市場研究分析師和行銷專家",
+        "label": "市場研究分析師及行銷專員",
         "alternateName": "Market Research Analysts and Marketing Specialists",
         "OIs": [
             5.1,
@@ -1405,7 +1405,7 @@
         ]
     },
     {
-        "label": "業務連續性規劃師",
+        "label": "業務持續規劃師",
         "alternateName": "Business Continuity Planners",
         "OIs": [
             9.5,
@@ -1422,7 +1422,7 @@
         ]
     },
     {
-        "label": "永續發展專家",
+        "label": "永續專家",
         "alternateName": "Sustainability Specialists",
         "OIs": [
             9.3,
@@ -1439,7 +1439,7 @@
         ]
     },
     {
-        "label": "線上商家",
+        "label": "網路商家",
         "alternateName": "Online Merchants",
         "OIs": [
             11.8,
@@ -1489,7 +1489,7 @@
         ]
     },
     {
-        "label": "個人和企業財產估價師",
+        "label": "個人和企業財產評估師",
         "alternateName": "Appraisers of Personal and Business Property",
         "OIs": [
             17.3,
@@ -1506,7 +1506,7 @@
         ]
     },
     {
-        "label": "不動產估價師和評估師",
+        "label": "不動產估價師及評估師",
         "alternateName": "Appraisers and Assessors of Real Estate",
         "OIs": [
             13.3,
@@ -1590,7 +1590,7 @@
         ]
     },
     {
-        "label": "保險核保員",
+        "label": "保險核保人員",
         "alternateName": "Insurance Underwriters",
         "OIs": [
             8,
@@ -1624,7 +1624,7 @@
         ]
     },
     {
-        "label": "金融審查員",
+        "label": "財務審查員",
         "alternateName": "Financial Examiners",
         "OIs": [
             5.2,
