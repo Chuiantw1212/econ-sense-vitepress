@@ -33,7 +33,7 @@
         ]
     },
     {
-        "label": "營運經理",
+        "label": "總經理和營運經理",
         "alternateName": "General and Operations Managers",
         "OIs": [
             10.3,
@@ -66,7 +66,7 @@
         ]
     },
     {
-        "label": "廣告及促銷經理",
+        "label": "廣告和促銷經理",
         "alternateName": "Advertising and Promotions Managers",
         "OIs": [
             5.1,
@@ -149,7 +149,7 @@
         ]
     },
     {
-        "label": "行政服務經理",
+        "label": "行政經理",
         "alternateName": "Administrative Services Managers",
         "OIs": [
             7.5,
@@ -183,7 +183,7 @@
         ]
     },
     {
-        "label": "安全經理",
+        "label": "保安經理",
         "alternateName": "Security Managers",
         "OIs": [
             15.4,
@@ -232,7 +232,7 @@
         ]
     },
     {
-        "label": "司庫與控制員",
+        "label": "財務主管與主計員",
         "alternateName": "Treasurers and Controllers",
         "OIs": [
             5.1,
@@ -316,7 +316,7 @@
         ]
     },
     {
-        "label": "生物燃料生產經理人",
+        "label": "生質燃料生產經理人",
         "alternateName": "Biofuels Production Managers",
         "OIs": [
             21.2,
@@ -3351,7 +3351,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "微生物學家",
         "alternateName": "Microbiologists",
         "OIs": [
             25,
@@ -3368,7 +3368,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "動物學家和野生動物生物學家",
         "alternateName": "Zoologists and Wildlife Biologists",
         "OIs": [
             22.8,
@@ -3384,7 +3384,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "生物信息學科學家",
         "alternateName": "Bioinformatics Scientists",
         "OIs": [
             17.6,
@@ -3401,7 +3401,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "分子與細胞生物學家",
         "alternateName": "Molecular and Cellular Biologists",
         "OIs": [
             21.4,
@@ -3418,7 +3418,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "遺傳學家",
         "alternateName": "Geneticists",
         "OIs": [
             17.1,
@@ -3435,7 +3435,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "生物學家",
         "alternateName": "Biologists",
         "OIs": [
             17.7,
@@ -3452,7 +3452,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "保育科學家",
         "alternateName": "Conservation Scientists",
         "OIs": [
             22.5,
@@ -3469,7 +3469,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "牧場經理",
         "alternateName": "Range Managers",
         "OIs": [
             25,
@@ -3486,7 +3486,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "公園自然學家",
         "alternateName": "Park Naturalists",
         "OIs": [
             17.5,
@@ -3503,7 +3503,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "林務員",
         "alternateName": "Foresters",
         "OIs": [
             24.8,
@@ -3520,7 +3520,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "流行病學家",
         "alternateName": "Epidemiologists",
         "OIs": [
             14.2,
@@ -3536,7 +3536,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫學科學家 (不包括流行病學家)",
         "alternateName": "Medical Scientists, Except Epidemiologists",
         "OIs": [
             19.1,
@@ -3553,7 +3553,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "天文學家",
         "alternateName": "Astronomers",
         "OIs": [
             20.3,
@@ -3569,7 +3569,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "物理學家",
         "alternateName": "Physicists",
         "OIs": [
             21.1,
@@ -3586,7 +3586,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "大氣與太空科學家",
         "alternateName": "Atmospheric and Space Scientists",
         "OIs": [
             20.5,
@@ -3603,7 +3603,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "化學家",
         "alternateName": "Chemists",
         "OIs": [
             26.3,
@@ -3620,7 +3620,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "材料科學家",
         "alternateName": "Materials Scientists",
         "OIs": [
             26.3,
@@ -3637,7 +3637,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "環境科學家及專家，包括健康",
         "alternateName": "Environmental Scientists and Specialists, Including Health",
         "OIs": [
             20.3,
@@ -3654,7 +3654,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "氣候變遷政策分析師",
         "alternateName": "Climate Change Policy Analysts",
         "OIs": [
             5.9,
@@ -3671,7 +3671,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "環境復育規劃師",
         "alternateName": "Environmental Restoration Planners",
         "OIs": [
             22.4,
@@ -3688,7 +3688,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "產業生態學家",
         "alternateName": "Industrial Ecologists",
         "OIs": [
             20.3,
@@ -3705,7 +3705,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "地球科學家（不包括水文學家和地理學家）",
         "alternateName": "Geoscientists, Except Hydrologists and Geographers",
         "OIs": [
             24.2,
@@ -3722,7 +3722,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "水文學家",
         "alternateName": "Hydrologists",
         "OIs": [
             25.1,
@@ -3739,7 +3739,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "遙感科學家與技術專家",
         "alternateName": "Remote Sensing Scientists and Technologists",
         "OIs": [
             23.7,
@@ -3756,7 +3756,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "經濟學家",
         "alternateName": "Economists",
         "OIs": [
             7.2,
@@ -3773,7 +3773,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "環境經濟學家",
         "alternateName": "Environmental Economists",
         "OIs": [
             12,
@@ -3790,7 +3790,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "調查研究員",
         "alternateName": "Survey Researchers",
         "OIs": [
             8.2,
@@ -3806,7 +3806,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "工業與組織心理學家",
         "alternateName": "Industrial-Organizational Psychologists",
         "OIs": [
             4.9,
@@ -3823,7 +3823,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "臨床與諮商心理學家",
         "alternateName": "Clinical and Counseling Psychologists",
         "OIs": [
             4.8,
@@ -3839,7 +3839,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "學校心理學家",
         "alternateName": "School Psychologists",
         "OIs": [
             4.4,
@@ -3856,7 +3856,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "神經心理學家",
         "alternateName": "Neuropsychologists",
         "OIs": [
             11.5,
@@ -3872,7 +3872,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "臨床神經心理學家",
         "alternateName": "Clinical Neuropsychologists",
         "OIs": [
             12.1,
@@ -3888,7 +3888,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "社會學家",
         "alternateName": "Sociologists",
         "OIs": [
             7,
@@ -3905,7 +3905,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "都市與區域規劃師",
         "alternateName": "Urban and Regional Planners",
         "OIs": [
             13.8,
@@ -3922,7 +3922,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "人類學家和考古學家",
         "alternateName": "Anthropologists and Archeologists",
         "OIs": [
             19.3,
@@ -3938,7 +3938,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "地理學家",
         "alternateName": "Geographers",
         "OIs": [
             21.5,
@@ -3954,7 +3954,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "歷史學家",
         "alternateName": "Historians",
         "OIs": [
             11.1,
@@ -3970,7 +3970,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "政治科學家",
         "alternateName": "Political Scientists",
         "OIs": [
             4.5,
@@ -3986,7 +3986,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "運輸規劃師",
         "alternateName": "Transportation Planners",
         "OIs": [
             15.4,
@@ -4002,7 +4002,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "農業技術員",
         "alternateName": "Agricultural Technicians",
         "OIs": [
             31,
@@ -4019,7 +4019,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "精準農業技術員",
         "alternateName": "Precision Agriculture Technicians",
         "OIs": [
             30.3,
@@ -4036,7 +4036,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "食品科學技術員",
         "alternateName": "Food Science Technicians",
         "OIs": [
             27.8,
@@ -4053,7 +4053,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "生物技術員",
         "alternateName": "Biological Technicians",
         "OIs": [
             26.7,
@@ -4070,7 +4070,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "化學技術員",
         "alternateName": "Chemical Technicians",
         "OIs": [
             26.3,
@@ -4087,7 +4087,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "環境科學與保護技術員，包括健康",
         "alternateName": "Environmental Science and Protection Technicians, Including Health",
         "OIs": [
             26.7,
@@ -4104,7 +4104,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "地質技術員，水文技術員除外",
         "alternateName": "Geological Technicians, Except Hydrologic Technicians",
         "OIs": [
             28,
@@ -4121,7 +4121,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "水文技術員",
         "alternateName": "Hydrologic Technicians",
         "OIs": [
             28.1,
@@ -4138,7 +4138,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "核能技術員",
         "alternateName": "Nuclear Technicians",
         "OIs": [
             28.1,
@@ -4155,7 +4155,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "核能監測技術員",
         "alternateName": "Nuclear Monitoring Technicians",
         "OIs": [
             29.9,
@@ -4172,7 +4172,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "社會科學研究助理",
         "alternateName": "Social Science Research Assistants",
         "OIs": [
             11.6,
@@ -4188,7 +4188,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "森林与保护技术员",
         "alternateName": "Forest and Conservation Technicians",
         "OIs": [
             29.8,
@@ -4205,7 +4205,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "法医科学技术员",
         "alternateName": "Forensic Science Technicians",
         "OIs": [
             23.5,
@@ -4222,7 +4222,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "质量控制分析员",
         "alternateName": "Quality Control Analysts",
         "OIs": [
             20.7,
@@ -4239,7 +4239,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "遥感技术员",
         "alternateName": "Remote Sensing Technicians",
         "OIs": [
             25.6,
@@ -4256,7 +4256,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "职业健康与安全专家",
         "alternateName": "Occupational Health and Safety Specialists",
         "OIs": [
             20.9,
@@ -4273,7 +4273,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "職業健康和安全技術員",
         "alternateName": "Occupational Health and Safety Technicians",
         "OIs": [
             24,
@@ -4290,7 +4290,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "藥物濫用和行為障礙輔導員",
         "alternateName": "Substance Abuse and Behavioral Disorder Counselors",
         "OIs": [
             7.8,
@@ -4307,7 +4307,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "教育、指導和職業輔導員及顧問",
         "alternateName": "Educational, Guidance, and Career Counselors and Advisors",
         "OIs": [
             4.5,
@@ -4323,7 +4323,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "婚姻和家庭治療師",
         "alternateName": "Marriage and Family Therapists",
         "OIs": [
             7,
@@ -4339,7 +4339,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "心理健康輔導員",
         "alternateName": "Mental Health Counselors",
         "OIs": [
             6,
@@ -4355,7 +4355,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "復健輔導員",
         "alternateName": "Rehabilitation Counselors",
         "OIs": [
             5.8,
@@ -4370,7 +4370,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "兒童、家庭及學校社工人員",
         "alternateName": "Child, Family, and School Social Workers",
         "OIs": [
             8,
@@ -4385,7 +4385,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫療社工人員",
         "alternateName": "Healthcare Social Workers",
         "OIs": [
             9.4,
@@ -4401,7 +4401,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "心理健康及藥物濫用社工人員",
         "alternateName": "Mental Health and Substance Abuse Social Workers",
         "OIs": [
             8.2,
@@ -4417,7 +4417,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "健康教育專家",
         "alternateName": "Health Education Specialists",
         "OIs": [
             7.2,
@@ -4434,7 +4434,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "緩刑官和矯正治療專員",
         "alternateName": "Probation Officers and Correctional Treatment Specialists",
         "OIs": [
             10.4,
@@ -4451,7 +4451,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "社會及人類服務助理",
         "alternateName": "Social and Human Service Assistants",
         "OIs": [
             6.2,
@@ -4468,7 +4468,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "社區健康工作者",
         "alternateName": "Community Health Workers",
         "OIs": [
             9.2,
@@ -4483,7 +4483,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "神職人員",
         "alternateName": "Clergy",
         "OIs": [
             10.2,
@@ -4499,7 +4499,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "宗教活動與教育主管",
         "alternateName": "Directors, Religious Activities and Education",
         "OIs": [
             4.3,
@@ -4515,7 +4515,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "律師",
         "alternateName": "Lawyers",
         "OIs": [
             5.4,
@@ -4532,7 +4532,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "司法法官助理",
         "alternateName": "Judicial Law Clerks",
         "OIs": [
             7.8,
@@ -4549,7 +4549,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "行政法官、裁判員和聽證官",
         "alternateName": "Administrative Law Judges, Adjudicators, and Hearing Officers",
         "OIs": [
             5.1,
@@ -4566,7 +4566,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "仲裁人、調解人和和解人",
         "alternateName": "Arbitrators, Mediators, and Conciliators",
         "OIs": [
             4.8,
@@ -4583,7 +4583,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "法官、地方法官和治安法官",
         "alternateName": "Judges, Magistrate Judges, and Magistrates",
         "OIs": [
             10.9,
@@ -4600,7 +4600,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "法律助理和法務助理",
         "alternateName": "Paralegals and Legal Assistants",
         "OIs": [
             8,
@@ -4617,7 +4617,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "產權檢查員、摘要撰寫員和資料搜尋員",
         "alternateName": "Title Examiners, Abstractors, and Searchers",
         "OIs": [
             12.9,
@@ -4633,7 +4633,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "企業管理教師，大專",
         "alternateName": "Business Teachers, Postsecondary",
         "OIs": [
             8.3,
@@ -4649,7 +4649,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "計算機科學教師，大專",
         "alternateName": "Computer Science Teachers, Postsecondary",
         "OIs": [
             13,
@@ -4666,7 +4666,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "數學科學教師，大專",
         "alternateName": "Mathematical Science Teachers, Postsecondary",
         "OIs": [
             11.7,
@@ -4683,7 +4683,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "建築教師，大專院校",
         "alternateName": "Architecture Teachers, Postsecondary",
         "OIs": [
             13.3,
@@ -4700,7 +4700,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "工程教師，大專院校",
         "alternateName": "Engineering Teachers, Postsecondary",
         "OIs": [
             19.7,
@@ -4717,7 +4717,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "農業科學教師，大專院校",
         "alternateName": "Agricultural Sciences Teachers, Postsecondary",
         "OIs": [
             16.6,
@@ -4733,7 +4733,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "生物科學教師，大專院校",
         "alternateName": "Biological Science Teachers, Postsecondary",
         "OIs": [
             15.9,
@@ -4749,7 +4749,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "林業與自然保育科學教師，大專院校",
         "alternateName": "Forestry and Conservation Science Teachers, Postsecondary",
         "OIs": [
             15.9,
@@ -4765,7 +4765,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "大氣、地球、海洋與空間科學教師（大專院校）",
         "alternateName": "Atmospheric, Earth, Marine, and Space Sciences Teachers, Postsecondary",
         "OIs": [
             15.5,
@@ -4781,7 +4781,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "化學教師（大專院校）",
         "alternateName": "Chemistry Teachers, Postsecondary",
         "OIs": [
             16.6,
@@ -4797,7 +4797,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "環境科學教師（大專院校）",
         "alternateName": "Environmental Science Teachers, Postsecondary",
         "OIs": [
             14.7,
@@ -4813,7 +4813,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "物理教師（大專院校）",
         "alternateName": "Physics Teachers, Postsecondary",
         "OIs": [
             14.9,
@@ -4829,7 +4829,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "人類學與考古學教師（大專院校）",
         "alternateName": "Anthropology and Archeology Teachers, Postsecondary",
         "OIs": [
             14.1,
@@ -4845,7 +4845,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "區域、民族和文化研究教授（大學）",
         "alternateName": "Area, Ethnic, and Cultural Studies Teachers, Postsecondary",
         "OIs": [
             11.9,
@@ -4861,7 +4861,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "經濟學教授（大學）",
         "alternateName": "Economics Teachers, Postsecondary",
         "OIs": [
             10.9,
@@ -4877,7 +4877,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "地理學教授（大學）",
         "alternateName": "Geography Teachers, Postsecondary",
         "OIs": [
             13.3,
@@ -4893,7 +4893,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "政治學教授（大學）",
         "alternateName": "Political Science Teachers, Postsecondary",
         "OIs": [
             8.7,
@@ -4909,7 +4909,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "心理學教授（大學）",
         "alternateName": "Psychology Teachers, Postsecondary",
         "OIs": [
             8.8,
@@ -4925,7 +4925,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "社會學教師，大專院校",
         "alternateName": "Sociology Teachers, Postsecondary",
         "OIs": [
             10.4,
@@ -4941,7 +4941,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "健康專業教師，大專院校",
         "alternateName": "Health Specialties Teachers, Postsecondary",
         "OIs": [
             14.2,
@@ -4957,7 +4957,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "護理教員及教師，大專院校",
         "alternateName": "Nursing Instructors and Teachers, Postsecondary",
         "OIs": [
             12.7,
@@ -4973,7 +4973,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "教育教師，大專院校",
         "alternateName": "Education Teachers, Postsecondary",
         "OIs": [
             11.1,
@@ -4989,7 +4989,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "圖書館學教師，大專院校",
         "alternateName": "Library Science Teachers, Postsecondary",
         "OIs": [
             11.4,
@@ -5005,7 +5005,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "刑事司法與執法教師（大專院校）",
         "alternateName": "Criminal Justice and Law Enforcement Teachers, Postsecondary",
         "OIs": [
             10.5,
@@ -5021,7 +5021,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "法律教師（大專院校）",
         "alternateName": "Law Teachers, Postsecondary",
         "OIs": [
             9.3,
@@ -5037,7 +5037,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "社會工作教師（大專院校）",
         "alternateName": "Social Work Teachers, Postsecondary",
         "OIs": [
             9.6,
@@ -5053,7 +5053,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "藝術、戲劇和音樂教師（大專院校）",
         "alternateName": "Art, Drama, and Music Teachers, Postsecondary",
         "OIs": [
             13,
@@ -5069,7 +5069,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "傳播學教師（大專院校）",
         "alternateName": "Communications Teachers, Postsecondary",
         "OIs": [
             8.4,
@@ -5085,7 +5085,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "英語語言與文學教師，大專院校",
         "alternateName": "English Language and Literature Teachers, Postsecondary",
         "OIs": [
             9.7,
@@ -5102,7 +5102,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "外國語言與文學教師，大專院校",
         "alternateName": "Foreign Language and Literature Teachers, Postsecondary",
         "OIs": [
             8.9,
@@ -5118,7 +5118,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "歷史教師，大專院校",
         "alternateName": "History Teachers, Postsecondary",
         "OIs": [
             11.4,
@@ -5134,7 +5134,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "哲學與宗教教師，大專院校",
         "alternateName": "Philosophy and Religion Teachers, Postsecondary",
         "OIs": [
             10,
@@ -5150,7 +5150,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "家庭與消費者科學教師，大專院校",
         "alternateName": "Family and Consumer Sciences Teachers, Postsecondary",
         "OIs": [
             12.3,
@@ -5166,7 +5166,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "休閒與健身研究教師，大專",
         "alternateName": "Recreation and Fitness Studies Teachers, Postsecondary",
         "OIs": [
             13,
@@ -5182,7 +5182,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "職業/技術教育教師，大專",
         "alternateName": "Career/Technical Education Teachers, Postsecondary",
         "OIs": [
             16.3,
@@ -5198,7 +5198,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "學前教育教師，特殊教育除外",
         "alternateName": "Preschool Teachers, Except Special Education",
         "OIs": [
             11.9,
@@ -5214,7 +5214,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "幼稚園教師，特殊教育除外",
         "alternateName": "Kindergarten Teachers, Except Special Education",
         "OIs": [
             11.3,
@@ -5230,7 +5230,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "小學教師，特殊教育除外",
         "alternateName": "Elementary School Teachers, Except Special Education",
         "OIs": [
             11.1,
@@ -5246,7 +5246,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "國中教師，除了特殊和職業/技術教育",
         "alternateName": "Middle School Teachers, Except Special and Career/Technical Education",
         "OIs": [
             11.4,
@@ -5262,7 +5262,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "職業/技術教育教師，國中",
         "alternateName": "Career/Technical Education Teachers, Middle School",
         "OIs": [
             12.3,
@@ -5277,7 +5277,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "高中教師，除了特殊和職業/技術教育",
         "alternateName": "Secondary School Teachers, Except Special and Career/Technical Education",
         "OIs": [
             12.3,
@@ -5292,7 +5292,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "職業/技術教育教師，高中",
         "alternateName": "Career/Technical Education Teachers, Secondary School",
         "OIs": [
             12.3,
@@ -5307,7 +5307,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "特殊教育教師，學前",
         "alternateName": "Special Education Teachers, Preschool",
         "OIs": [
             11,
@@ -5323,7 +5323,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "幼兒特教老師",
         "alternateName": "Special Education Teachers, Kindergarten",
         "OIs": [
             11.4,
@@ -5338,7 +5338,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "小學特教老師",
         "alternateName": "Special Education Teachers, Elementary School",
         "OIs": [
             10.6,
@@ -5354,7 +5354,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "中學特教老師",
         "alternateName": "Special Education Teachers, Middle School",
         "OIs": [
             10.9,
@@ -5371,7 +5371,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "高中特教老師",
         "alternateName": "Special Education Teachers, Secondary School",
         "OIs": [
             11.6,
@@ -5387,7 +5387,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "適應體育專家",
         "alternateName": "Adapted Physical Education Specialists",
         "OIs": [
             19,
@@ -5403,7 +5403,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "成人基礎教育、成人中等教育和英語作為第二語言教師",
         "alternateName": "Adult Basic Education, Adult Secondary Education, and English as a Second Language Instructors",
         "OIs": [
             10.8,
@@ -5418,7 +5418,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "自我充實教師",
         "alternateName": "Self-Enrichment Teachers",
         "OIs": [
             11.4,
@@ -5434,7 +5434,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "短期代課教師",
         "alternateName": "Substitute Teachers, Short-Term",
         "OIs": [
             12.3,
@@ -5450,7 +5450,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "家教",
         "alternateName": "Tutors",
         "OIs": [
             11.2,
@@ -5465,7 +5465,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "檔案管理員",
         "alternateName": "Archivists",
         "OIs": [
             13,
@@ -5481,7 +5481,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "策展人",
         "alternateName": "Curators",
         "OIs": [
             12.3,
@@ -5497,7 +5497,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "博物館技術員和文物保護人員",
         "alternateName": "Museum Technicians and Conservators",
         "OIs": [
             27.3,
@@ -5513,7 +5513,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "圖書館員和媒體收藏專家",
         "alternateName": "Librarians and Media Collections Specialists",
         "OIs": [
             11,
@@ -5530,7 +5530,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "圖書館技術員",
         "alternateName": "Library Technicians",
         "OIs": [
             15.5,
@@ -5546,7 +5546,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "農場與家庭管理教育家",
         "alternateName": "Farm and Home Management Educators",
         "OIs": [
             18,
@@ -5563,7 +5563,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "教學協調員",
         "alternateName": "Instructional Coordinators",
         "OIs": [
             7.2,
@@ -5580,7 +5580,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "助教, 幼兒園、小學、中學和高中，特殊教育除外",
         "alternateName": "Teaching Assistants, Preschool, Elementary, Middle, and Secondary School, Except Special Education",
         "OIs": [
             13,
@@ -5596,7 +5596,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "助理教師, 特殊教育",
         "alternateName": "Teaching Assistants, Special Education",
         "OIs": [
             11.6,
@@ -5612,7 +5612,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "助理教師, 高等教育",
         "alternateName": "Teaching Assistants, Postsecondary",
         "OIs": [
             9.5,
@@ -5628,7 +5628,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "藝術總監",
         "alternateName": "Art Directors",
         "OIs": [
             12.3,
@@ -5644,7 +5644,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "工藝藝術家",
         "alternateName": "Craft Artists",
         "OIs": [
             28,
@@ -5660,7 +5660,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "純藝術家，包括畫家、雕塑家和插畫家",
         "alternateName": "Fine Artists, Including Painters, Sculptors, and Illustrators",
         "OIs": [
             19.6,
@@ -5676,7 +5676,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "特效藝術家和動畫師",
         "alternateName": "Special Effects Artists and Animators",
         "OIs": [
             17.3,
@@ -5692,7 +5692,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "商業和工業設計師",
         "alternateName": "Commercial and Industrial Designers",
         "OIs": [
             20,
@@ -5709,7 +5709,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "時裝設計師",
         "alternateName": "Fashion Designers",
         "OIs": [
             19,
@@ -5726,7 +5726,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "花藝設計師",
         "alternateName": "Floral Designers",
         "OIs": [
             23.9,
@@ -5743,7 +5743,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "平面設計師",
         "alternateName": "Graphic Designers",
         "OIs": [
             14.1,
@@ -5758,7 +5758,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "室內設計師",
         "alternateName": "Interior Designers",
         "OIs": [
             19.1,
@@ -5774,7 +5774,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "商品展示和櫥窗修飾師",
         "alternateName": "Merchandise Displayers and Window Trimmers",
         "OIs": [
             21.9,
@@ -5791,7 +5791,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "場景和展覽設計師",
         "alternateName": "Set and Exhibit Designers",
         "OIs": [
             15,
@@ -5806,7 +5806,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "演員",
         "alternateName": "Actors",
         "OIs": [
             10.9,
@@ -5823,7 +5823,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "製作人和導演",
         "alternateName": "Producers and Directors",
         "OIs": [
             9.3,
@@ -5839,7 +5839,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "媒體節目總監",
         "alternateName": "Media Programming Directors",
         "OIs": [
             5.7,
@@ -5856,7 +5856,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "藝人總監",
         "alternateName": "Talent Directors",
         "OIs": [
             5.6,
@@ -5873,7 +5873,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "媒體技術總監/經理",
         "alternateName": "Media Technical Directors/Managers",
         "OIs": [
             17.9,
@@ -5890,7 +5890,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "運動員和競技者",
         "alternateName": "Athletes and Sports Competitors",
         "OIs": [
             24.3,
@@ -5907,7 +5907,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "教練和球探",
         "alternateName": "Coaches and Scouts",
         "OIs": [
             18.8,
@@ -5924,7 +5924,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "裁判、仲裁人及其他體育官員",
         "alternateName": "Umpires, Referees, and Other Sports Officials",
         "OIs": [
             21.1,
@@ -5941,7 +5941,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "舞者",
         "alternateName": "Dancers",
         "OIs": [
             22.7,
@@ -5958,7 +5958,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "編舞家",
         "alternateName": "Choreographers",
         "OIs": [
             16.3,
@@ -5974,7 +5974,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "音樂總監與作曲家",
         "alternateName": "Music Directors and Composers",
         "OIs": [
             9.4,
@@ -5990,7 +5990,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "音樂家與歌手",
         "alternateName": "Musicians and Singers",
         "OIs": [
             14.3,
@@ -6006,7 +6006,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "唱片騎師（不包括廣播）",
         "alternateName": "Disc Jockeys, Except Radio",
         "OIs": [
             15.2,
@@ -6023,7 +6023,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "播音員和廣播唱片騎師",
         "alternateName": "Broadcast Announcers and Radio Disc Jockeys",
         "OIs": [
             8.4,
@@ -6040,7 +6040,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "新聞分析師、記者和新聞工作者",
         "alternateName": "News Analysts, Reporters, and Journalists",
         "OIs": [
             7,
@@ -6057,7 +6057,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "公共關係專員",
         "alternateName": "Public Relations Specialists",
         "OIs": [
             4.6,
@@ -6074,7 +6074,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "編輯",
         "alternateName": "Editors",
         "OIs": [
             4.8,
@@ -6091,7 +6091,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "技術作家",
         "alternateName": "Technical Writers",
         "OIs": [
             14,
@@ -6108,7 +6108,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "作家和作者",
         "alternateName": "Writers and Authors",
         "OIs": [
             4.5,
@@ -6124,7 +6124,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "詩人、作詞人和創意作家",
         "alternateName": "Poets, Lyricists and Creative Writers",
         "OIs": [
             6.6,
@@ -6140,7 +6140,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "口譯員和翻譯員",
         "alternateName": "Interpreters and Translators",
         "OIs": [
             9.7,
@@ -6157,7 +6157,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "法庭記錄員和即時字幕員",
         "alternateName": "Court Reporters and Simultaneous Captioners",
         "OIs": [
             12.1,
@@ -6172,7 +6172,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "音頻和視頻技術員",
         "alternateName": "Audio and Video Technicians",
         "OIs": [
             26.4,
@@ -6188,7 +6188,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "廣播技術員",
         "alternateName": "Broadcast Technicians",
         "OIs": [
             24.2,
@@ -6204,7 +6204,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "聲音工程技術員",
         "alternateName": "Sound Engineering Technicians",
         "OIs": [
             25.1,
@@ -6221,7 +6221,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "照明技術人員",
         "alternateName": "Lighting Technicians",
         "OIs": [
             37.7,
@@ -6237,7 +6237,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "攝影師",
         "alternateName": "Photographers",
         "OIs": [
             26.7,
@@ -6253,7 +6253,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電視、視頻和電影攝像師",
         "alternateName": "Camera Operators, Television, Video, and Film",
         "OIs": [
             24.3,
@@ -6270,7 +6270,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電影和視頻編輯",
         "alternateName": "Film and Video Editors",
         "OIs": [
             16.7,
@@ -6286,7 +6286,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "脊椎指壓治療師",
         "alternateName": "Chiropractors",
         "OIs": [
             22.5,
@@ -6303,7 +6303,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "牙醫師, 一般",
         "alternateName": "Dentists, General",
         "OIs": [
             24.2,
@@ -6320,7 +6320,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "口腔及顎面外科醫師",
         "alternateName": "Oral and Maxillofacial Surgeons",
         "OIs": [
             24.3,
@@ -6337,7 +6337,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "牙齒矯正醫師",
         "alternateName": "Orthodontists",
         "OIs": [
             24.9,
@@ -6354,7 +6354,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "贋復牙醫師",
         "alternateName": "Prosthodontists",
         "OIs": [
             26.9,
@@ -6371,7 +6371,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "營養師",
         "alternateName": "Dietitians and Nutritionists",
         "OIs": [
             13.5,
@@ -6387,7 +6387,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "驗光師",
         "alternateName": "Optometrists",
         "OIs": [
             20.5,
@@ -6404,7 +6404,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "藥劑師",
         "alternateName": "Pharmacists",
         "OIs": [
             13.1,
@@ -6421,7 +6421,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫師助理",
         "alternateName": "Physician Assistants",
         "OIs": [
             16.9,
@@ -6438,7 +6438,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "麻醉師助理",
         "alternateName": "Anesthesiologist Assistants",
         "OIs": [
             20.8,
@@ -6455,7 +6455,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "足科醫生",
         "alternateName": "Podiatrists",
         "OIs": [
             22.6,
@@ -6472,7 +6472,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "職能治療師",
         "alternateName": "Occupational Therapists",
         "OIs": [
             15.9,
@@ -6488,7 +6488,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "低視能治療師、定向行動專家與視力復健治療師",
         "alternateName": "Low Vision Therapists, Orientation and Mobility Specialists, and Vision Rehabilitation Therapists",
         "OIs": [
             17.5,
@@ -6505,7 +6505,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "物理治療師",
         "alternateName": "Physical Therapists",
         "OIs": [
             19,
@@ -6522,7 +6522,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "放射治療師",
         "alternateName": "Radiation Therapists",
         "OIs": [
             22.4,
@@ -6539,7 +6539,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "康樂治療師",
         "alternateName": "Recreational Therapists",
         "OIs": [
             16.7,
@@ -6555,7 +6555,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "呼吸治療師",
         "alternateName": "Respiratory Therapists",
         "OIs": [
             23.1,
@@ -6572,7 +6572,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "語言治療師",
         "alternateName": "Speech-Language Pathologists",
         "OIs": [
             11.9,
@@ -6589,7 +6589,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "運動生理學家",
         "alternateName": "Exercise Physiologists",
         "OIs": [
             22,
@@ -6606,7 +6606,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "藝術治療師",
         "alternateName": "Art Therapists",
         "OIs": [
             13,
@@ -6622,7 +6622,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "音樂治療師",
         "alternateName": "Music Therapists",
         "OIs": [
             9.8,
@@ -6639,7 +6639,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "獸醫",
         "alternateName": "Veterinarians",
         "OIs": [
             27.7,
@@ -6655,7 +6655,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "護士",
         "alternateName": "Registered Nurses",
         "OIs": [
             16.4,
@@ -6672,7 +6672,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "急性護理護士",
         "alternateName": "Acute Care Nurses",
         "OIs": [
             18.4,
@@ -6689,7 +6689,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "高級精神科護理師",
         "alternateName": "Advanced Practice Psychiatric Nurses",
         "OIs": [
             12,
@@ -6705,7 +6705,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "重症監護護士",
         "alternateName": "Critical Care Nurses",
         "OIs": [
             18.4,
@@ -6722,7 +6722,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "臨床護理專家",
         "alternateName": "Clinical Nurse Specialists",
         "OIs": [
             10.4,
@@ -6739,7 +6739,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "麻醉護理師",
         "alternateName": "Nurse Anesthetists",
         "OIs": [
             22.4,
@@ -6756,7 +6756,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "助產士",
         "alternateName": "Nurse Midwives",
         "OIs": [
             15.7,
@@ -6772,7 +6772,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "護理師",
         "alternateName": "Nurse Practitioners",
         "OIs": [
             16.5,
@@ -6789,7 +6789,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "聽力學家",
         "alternateName": "Audiologists",
         "OIs": [
             17.2,
@@ -6806,7 +6806,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "麻醉科醫師",
         "alternateName": "Anesthesiologists",
         "OIs": [
             21.7,
@@ -6823,7 +6823,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "心臟科醫師",
         "alternateName": "Cardiologists",
         "OIs": [
             20.7,
@@ -6840,7 +6840,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "皮膚科醫師",
         "alternateName": "Dermatologists",
         "OIs": [
             23.8,
@@ -6857,7 +6857,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "急診科醫師",
         "alternateName": "Emergency Medicine Physicians",
         "OIs": [
             17.9,
@@ -6874,7 +6874,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "家庭醫學科醫師",
         "alternateName": "Family Medicine Physicians",
         "OIs": [
             15.8,
@@ -6890,7 +6890,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "一般內科醫師",
         "alternateName": "General Internal Medicine Physicians",
         "OIs": [
             17.9,
@@ -6907,7 +6907,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "神經科醫師",
         "alternateName": "Neurologists",
         "OIs": [
             16,
@@ -6923,7 +6923,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "婦產科醫師",
         "alternateName": "Obstetricians and Gynecologists",
         "OIs": [
             19.5,
@@ -6940,7 +6940,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "小兒科醫師",
         "alternateName": "Pediatricians, General",
         "OIs": [
             15.4,
@@ -6956,7 +6956,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "病理科醫師",
         "alternateName": "Physicians, Pathologists",
         "OIs": [
             23.3,
@@ -6973,7 +6973,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "精神科醫生",
         "alternateName": "Psychiatrists",
         "OIs": [
             9.2,
@@ -6989,7 +6989,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "放射科醫生",
         "alternateName": "Radiologists",
         "OIs": [
             20.3,
@@ -7006,7 +7006,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "過敏和免疫學專家",
         "alternateName": "Allergists and Immunologists",
         "OIs": [
             17.4,
@@ -7023,7 +7023,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "住院醫師",
         "alternateName": "Hospitalists",
         "OIs": [
             15.6,
@@ -7040,7 +7040,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "泌尿科醫生",
         "alternateName": "Urologists",
         "OIs": [
             21.3,
@@ -7141,7 +7141,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "兒科外科醫生",
         "alternateName": "Pediatric Surgeons",
         "OIs": [
             20.3,
@@ -7158,7 +7158,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "針灸師",
         "alternateName": "Acupuncturists",
         "OIs": [
             20.3,
@@ -7175,7 +7175,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "牙齒衛生員",
         "alternateName": "Dental Hygienists",
         "OIs": [
             22.9,
@@ -7192,7 +7192,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "自然療法醫生",
         "alternateName": "Naturopathic Physicians",
         "OIs": [
             17.7,
@@ -7209,7 +7209,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "視能師",
         "alternateName": "Orthoptists",
         "OIs": [
             20.9,
@@ -7226,7 +7226,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫學和臨床實驗室技術員",
         "alternateName": "Medical and Clinical Laboratory Technologists",
         "OIs": [
             25.8,
@@ -7243,7 +7243,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "細胞遺傳學技術員",
         "alternateName": "Cytogenetic Technologists",
         "OIs": [
             25.2,
@@ -7260,7 +7260,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "細胞學技術員",
         "alternateName": "Cytotechnologists",
         "OIs": [
             26.3,
@@ -7277,7 +7277,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "組織學技術員",
         "alternateName": "Histotechnologists",
         "OIs": [
             25.5,
@@ -7294,7 +7294,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫學和臨床實驗室技術人員",
         "alternateName": "Medical and Clinical Laboratory Technicians",
         "OIs": [
             27.9,
@@ -7311,7 +7311,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "組織學技術員",
         "alternateName": "Histology Technicians",
         "OIs": [
             30.2,
@@ -7328,7 +7328,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "心血管技術員和技師",
         "alternateName": "Cardiovascular Technologists and Technicians",
         "OIs": [
             24.9,
@@ -7345,7 +7345,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "診斷醫學超聲波檢查技術員",
         "alternateName": "Diagnostic Medical Sonographers",
         "OIs": [
             26.3,
@@ -7362,7 +7362,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "核子醫學技術員",
         "alternateName": "Nuclear Medicine Technologists",
         "OIs": [
             27,
@@ -7379,7 +7379,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "放射線技術員和技師",
         "alternateName": "Radiologic Technologists and Technicians",
         "OIs": [
             29.3,
@@ -7396,7 +7396,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "磁共振成像技術員",
         "alternateName": "Magnetic Resonance Imaging Technologists",
         "OIs": [
             26.1,
@@ -7413,7 +7413,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫學劑量師",
         "alternateName": "Medical Dosimetrists",
         "OIs": [
             20.5,
@@ -7430,7 +7430,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "急救醫療技術員",
         "alternateName": "Emergency Medical Technicians",
         "OIs": [
             24.8,
@@ -7447,7 +7447,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "救護技術員",
         "alternateName": "Paramedics",
         "OIs": [
             23.8,
@@ -7464,7 +7464,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "飲食技術員",
         "alternateName": "Dietetic Technicians",
         "OIs": [
             18.1,
@@ -7481,7 +7481,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "藥學技術員",
         "alternateName": "Pharmacy Technicians",
         "OIs": [
             19.2,
@@ -7497,7 +7497,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "精神病技術員",
         "alternateName": "Psychiatric Technicians",
         "OIs": [
             15.7,
@@ -7513,7 +7513,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "外科技術員",
         "alternateName": "Surgical Technologists",
         "OIs": [
             30.2,
@@ -7530,7 +7530,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "獸醫技術員和技術員",
         "alternateName": "Veterinary Technologists and Technicians",
         "OIs": [
             31.1,
@@ -7547,7 +7547,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "眼科醫療技術員",
         "alternateName": "Ophthalmic Medical Technicians",
         "OIs": [
             24.4,
@@ -7564,7 +7564,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "持牌實習護士和持牌職業護士",
         "alternateName": "Licensed Practical and Licensed Vocational Nurses",
         "OIs": [
             21.3,
@@ -7581,7 +7581,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫療記錄專家",
         "alternateName": "Medical Records Specialists",
         "OIs": [
             14,
@@ -7597,7 +7597,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "配鏡師",
         "alternateName": "Opticians, Dispensing",
         "OIs": [
             21.8,
@@ -7613,7 +7613,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "義肢矯具師",
         "alternateName": "Orthotists and Prosthetists",
         "OIs": [
             25.5,
@@ -7630,7 +7630,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "助聽器專家",
         "alternateName": "Hearing Aid Specialists",
         "OIs": [
             17.8,
@@ -7647,7 +7647,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "神經診斷技術員",
         "alternateName": "Neurodiagnostic Technologists",
         "OIs": [
             24.1,
@@ -7664,7 +7664,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "眼科醫療技術員",
         "alternateName": "Ophthalmic Medical Technologists",
         "OIs": [
             24.3,
@@ -7681,7 +7681,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "病患代表",
         "alternateName": "Patient Representatives",
         "OIs": [
             6.3,
@@ -7698,7 +7698,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "健康資訊技術員和醫療登記員",
         "alternateName": "Health Information Technologists and Medical Registrars",
         "OIs": [
             11.9,
@@ -7715,7 +7715,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "運動教練",
         "alternateName": "Athletic Trainers",
         "OIs": [
             24.8,
@@ -7732,7 +7732,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "遺傳諮詢師",
         "alternateName": "Genetic Counselors",
         "OIs": [
             7.6,
@@ -7749,7 +7749,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "外科助理",
         "alternateName": "Surgical Assistants",
         "OIs": [
             28.2,
@@ -7766,7 +7766,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "助產士",
         "alternateName": "Midwives",
         "OIs": [
             17.4,
@@ -7783,7 +7783,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "家庭護理員",
         "alternateName": "Home Health Aides",
         "OIs": [
             20.5,
@@ -7800,7 +7800,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "個人護理員",
         "alternateName": "Personal Care Aides",
         "OIs": [
             18.3,
@@ -7817,7 +7817,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "護理助理",
         "alternateName": "Nursing Assistants",
         "OIs": [
             23,
@@ -7834,7 +7834,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "護工",
         "alternateName": "Orderlies",
         "OIs": [
             29.4,
@@ -7851,7 +7851,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "精神科助手",
         "alternateName": "Psychiatric Aides",
         "OIs": [
             16.6,
@@ -7868,7 +7868,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "職業治療助理",
         "alternateName": "Occupational Therapy Assistants",
         "OIs": [
             17.8,
@@ -7885,7 +7885,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "職業治療輔助員",
         "alternateName": "Occupational Therapy Aides",
         "OIs": [
             19.9,
@@ -7902,7 +7902,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "物理治療助理",
         "alternateName": "Physical Therapist Assistants",
         "OIs": [
             21.1,
@@ -7919,7 +7919,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "物理治療助手",
         "alternateName": "Physical Therapist Aides",
         "OIs": [
             24,
@@ -7936,7 +7936,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "按摩治療師",
         "alternateName": "Massage Therapists",
         "OIs": [
             22.4,
@@ -7953,7 +7953,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "牙科助理",
         "alternateName": "Dental Assistants",
         "OIs": [
             22.2,
@@ -7970,7 +7970,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫療助理",
         "alternateName": "Medical Assistants",
         "OIs": [
             19,
@@ -7987,7 +7987,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫療設備準備員",
         "alternateName": "Medical Equipment Preparers",
         "OIs": [
             34,
@@ -8004,7 +8004,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫療轉錄師",
         "alternateName": "Medical Transcriptionists",
         "OIs": [
             13,
@@ -8021,7 +8021,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "藥房助理",
         "alternateName": "Pharmacy Aides",
         "OIs": [
             18.2,
@@ -8038,7 +8038,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "獸醫助理和實驗室動物看護人員",
         "alternateName": "Veterinary Assistants and Laboratory Animal Caretakers",
         "OIs": [
             31.6,
@@ -8055,7 +8055,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "採血技術員",
         "alternateName": "Phlebotomists",
         "OIs": [
             25.6,
@@ -8072,7 +8072,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "語言病理助手",
         "alternateName": "Speech-Language Pathology Assistants",
         "OIs": [
             10.6,
@@ -8089,7 +8089,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "內視鏡技術員",
         "alternateName": "Endoscopy Technicians",
         "OIs": [
             30.5,
@@ -8106,7 +8106,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "監獄管理一線主管",
         "alternateName": "First-Line Supervisors of Correctional Officers",
         "OIs": [
             15.6,
@@ -8123,7 +8123,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "警察與偵探一線主管",
         "alternateName": "First-Line Supervisors of Police and Detectives",
         "OIs": [
             14.5,
@@ -8140,7 +8140,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "消防和預防工作一線主管",
         "alternateName": "First-Line Supervisors of Firefighting and Prevention Workers",
         "OIs": [
             22.4,
@@ -8157,7 +8157,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "Here is the English list translated into Taiwanese Mandarin:\n\n第一線安全人員主管",
         "alternateName": "First-Line Supervisors of Security Workers",
         "OIs": [
             19.3,
@@ -8174,7 +8174,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "消防隊員",
         "alternateName": "Firefighters",
         "OIs": [
             31.7,
@@ -8189,7 +8189,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "火災檢查員和調查員",
         "alternateName": "Fire Inspectors and Investigators",
         "OIs": [
             24.9,
@@ -8206,7 +8206,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "森林火災檢查員和預防專家",
         "alternateName": "Forest Fire Inspectors and Prevention Specialists",
         "OIs": [
             27.8,
@@ -8222,7 +8222,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "法警",
         "alternateName": "Bailiffs",
         "OIs": [
             25.3,
@@ -8239,7 +8239,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "矯正官和看守",
         "alternateName": "Correctional Officers and Jailers",
         "OIs": [
             26.9,
@@ -8256,7 +8256,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "偵探和刑事調查員",
         "alternateName": "Detectives and Criminal Investigators",
         "OIs": [
             19.1,
@@ -8273,7 +8273,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "警察鑒識和檔案管理員",
         "alternateName": "Police Identification and Records Officers",
         "OIs": [
             21.3,
@@ -8290,7 +8290,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "情報分析員",
         "alternateName": "Intelligence Analysts",
         "OIs": [
             11,
@@ -8306,7 +8306,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "魚類和野生動物管理員",
         "alternateName": "Fish and Game Wardens",
         "OIs": [
             30.3,
@@ -8323,7 +8323,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "停車執法員",
         "alternateName": "Parking Enforcement Workers",
         "OIs": [
             31.8,
@@ -8339,7 +8339,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "警察和警長巡邏員",
         "alternateName": "Police and Sheriff's Patrol Officers",
         "OIs": [
             25.5,
@@ -8356,7 +8356,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "海關和邊境保護官",
         "alternateName": "Customs and Border Protection Officers",
         "OIs": [
             17.7,
@@ -8373,7 +8373,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "交通和鐵路警察",
         "alternateName": "Transit and Railroad Police",
         "OIs": [
             29.1,
@@ -8389,7 +8389,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "動物控制員",
         "alternateName": "Animal Control Workers",
         "OIs": [
             31.1,
@@ -8406,7 +8406,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "私家偵探和調查員",
         "alternateName": "Private Detectives and Investigators",
         "OIs": [
             12,
@@ -8423,7 +8423,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "賭博監控員和賭博調查員",
         "alternateName": "Gambling Surveillance Officers and Gambling Investigators",
         "OIs": [
             21.1,
@@ -8440,7 +8440,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "保全人員",
         "alternateName": "Security Guards",
         "OIs": [
             31,
@@ -8456,7 +8456,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "交通管理員和旗手",
         "alternateName": "Crossing Guards and Flaggers",
         "OIs": [
             32,
@@ -8472,7 +8472,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "救生員、滑雪巡邏員及其他娛樂保護服務工作者",
         "alternateName": "Lifeguards, Ski Patrol, and Other Recreational Protective Service Workers",
         "OIs": [
             31.7,
@@ -8489,7 +8489,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "交通安全檢查員",
         "alternateName": "Transportation Security Screeners",
         "OIs": [
             28.2,
@@ -8505,7 +8505,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "校車監視員",
         "alternateName": "School Bus Monitors",
         "OIs": [
             18.7,
@@ -8522,7 +8522,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "零售防損專員",
         "alternateName": "Retail Loss Prevention Specialists",
         "OIs": [
             18.5,
@@ -8539,7 +8539,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "廚師和主廚",
         "alternateName": "Chefs and Head Cooks",
         "OIs": [
             22.4,
@@ -8556,7 +8556,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "餐飲服務工人的一線主管",
         "alternateName": "First-Line Supervisors of Food Preparation and Serving Workers",
         "OIs": [
             19.6,
@@ -8573,7 +8573,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "速食廚師",
         "alternateName": "Cooks, Fast Food",
         "OIs": [
             30.8,
@@ -8590,7 +8590,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "機構和自助餐廳廚師",
         "alternateName": "Cooks, Institution and Cafeteria",
         "OIs": [
             29.2,
@@ -8606,7 +8606,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "家庭廚師",
         "alternateName": "Cooks, Private Household",
         "OIs": [
             24.8,
@@ -8623,7 +8623,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "餐廳廚師",
         "alternateName": "Cooks, Restaurant",
         "OIs": [
             28.3,
@@ -8640,7 +8640,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "快餐廚師",
         "alternateName": "Cooks, Short Order",
         "OIs": [
             29.8,
@@ -8657,7 +8657,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "食品準備工作者",
         "alternateName": "Food Preparation Workers",
         "OIs": [
             34.8,
@@ -8673,7 +8673,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "調酒師",
         "alternateName": "Bartenders",
         "OIs": [
             24.8,
@@ -8690,7 +8690,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "速食和櫃檯服務員",
         "alternateName": "Fast Food and Counter Workers",
         "OIs": [
             25.6,
@@ -8707,7 +8707,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "咖啡師",
         "alternateName": "Baristas",
         "OIs": [
             25.2,
@@ -8724,7 +8724,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "服務生",
         "alternateName": "Waiters and Waitresses",
         "OIs": [
             19.9,
@@ -8741,7 +8741,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "餐飲服務員，非餐廳",
         "alternateName": "Food Servers, Nonrestaurant",
         "OIs": [
             26,
@@ -8758,7 +8758,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "餐廳和自助餐廳服務員及酒吧助手",
         "alternateName": "Dining Room and Cafeteria Attendants and Bartender Helpers",
         "OIs": [
             30.9,
@@ -8775,7 +8775,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "洗碗工",
         "alternateName": "Dishwashers",
         "OIs": [
             41.8,
@@ -8791,7 +8791,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "餐廳、休息室和咖啡店的接待員",
         "alternateName": "Hosts and Hostesses, Restaurant, Lounge, and Coffee Shop",
         "OIs": [
             17.3,
@@ -8808,7 +8808,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "清潔和保潔工作的一線主管",
         "alternateName": "First-Line Supervisors of Housekeeping and Janitorial Workers",
         "OIs": [
             20.4,
@@ -8825,7 +8825,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "第一線主管（景觀、美化服務及場地維護工人）",
         "alternateName": "First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",
         "OIs": [
             20.8,
@@ -8842,7 +8842,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "清潔工和保潔員，不包括女傭和家政清潔員",
         "alternateName": "Janitors and Cleaners, Except Maids and Housekeeping Cleaners",
         "OIs": [
             39.6,
@@ -8858,7 +8858,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "女傭和家政清潔員",
         "alternateName": "Maids and Housekeeping Cleaners",
         "OIs": [
             35.4,
@@ -8874,7 +8874,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "害蟲防治員",
         "alternateName": "Pest Control Workers",
         "OIs": [
             34.5,
@@ -8890,7 +8890,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "景觀和場地維護工人",
         "alternateName": "Landscaping and Groundskeeping Workers",
         "OIs": [
             40.9,
@@ -8906,7 +8906,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "農藥處理員、噴灑員和應用員，植被",
         "alternateName": "Pesticide Handlers, Sprayers, and Applicators, Vegetation",
         "OIs": [
             36.8,
@@ -8922,7 +8922,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "樹木修剪員和修枝員",
         "alternateName": "Tree Trimmers and Pruners",
         "OIs": [
             43,
@@ -8938,7 +8938,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "博彩服務工作者的一線主管",
         "alternateName": "First-Line Supervisors of Gambling Services Workers",
         "OIs": [
             18.4,
@@ -8955,7 +8955,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "娛樂和休閒工作者的一線主管，博彩服務除外",
         "alternateName": "First-Line Supervisors of Entertainment and Recreation Workers, Except Gambling Services",
         "OIs": [
             13.3,
@@ -8972,7 +8972,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "個人服務工作者的一線主管",
         "alternateName": "First-Line Supervisors of Personal Service Workers",
         "OIs": [
             15.7,
@@ -8989,7 +8989,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "動物訓練師",
         "alternateName": "Animal Trainers",
         "OIs": [
             33.5,
@@ -9005,7 +9005,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "動物看護員",
         "alternateName": "Animal Caretakers",
         "OIs": [
             32.4,
@@ -9022,7 +9022,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "賭博經銷商",
         "alternateName": "Gambling Dealers",
         "OIs": [
             19.8,
@@ -9039,7 +9039,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "賭博和體育博彩作家及跑腿",
         "alternateName": "Gambling and Sports Book Writers and Runners",
         "OIs": [
             14.9,
@@ -9055,7 +9055,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電影放映員",
         "alternateName": "Motion Picture Projectionists",
         "OIs": [
             28.5,
@@ -9071,7 +9071,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "引導員、接待員和售票員",
         "alternateName": "Ushers, Lobby Attendants, and Ticket Takers",
         "OIs": [
             17.3,
@@ -9088,7 +9088,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "娛樂和休閒服務員",
         "alternateName": "Amusement and Recreation Attendants",
         "OIs": [
             21,
@@ -9105,7 +9105,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "服裝管理員",
         "alternateName": "Costume Attendants",
         "OIs": [
             17.1,
@@ -9122,7 +9122,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "更衣室、寄物處和試衣間服務員",
         "alternateName": "Locker Room, Coatroom, and Dressing Room Attendants",
         "OIs": [
             23.2,
@@ -9139,7 +9139,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "防腐師",
         "alternateName": "Embalmers",
         "OIs": [
             29.4,
@@ -9156,7 +9156,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "火葬場操作員",
         "alternateName": "Crematory Operators",
         "OIs": [
             32.9,
@@ -9172,7 +9172,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "殯儀服務員",
         "alternateName": "Funeral Attendants",
         "OIs": [
             24.1,
@@ -9189,7 +9189,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "殯葬禮儀師及策劃人",
         "alternateName": "Morticians, Undertakers, and Funeral Arrangers",
         "OIs": [
             18.2,
@@ -9206,7 +9206,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "理髮師",
         "alternateName": "Barbers",
         "OIs": [
             26.5,
@@ -9223,7 +9223,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "美髮師及美容師",
         "alternateName": "Hairdressers, Hairstylists, and Cosmetologists",
         "OIs": [
             25.7,
@@ -9240,7 +9240,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "化妝師，戲劇和表演",
         "alternateName": "Makeup Artists, Theatrical and Performance",
         "OIs": [
             20.5,
@@ -9256,7 +9256,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "美甲師和修腳師",
         "alternateName": "Manicurists and Pedicurists",
         "OIs": [
             31.3,
@@ -9272,7 +9272,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "洗髮員",
         "alternateName": "Shampooers",
         "OIs": [
             30.7,
@@ -9289,7 +9289,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "護膚專家",
         "alternateName": "Skincare Specialists",
         "OIs": [
             27.6,
@@ -9305,7 +9305,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "行李搬運員和門僮",
         "alternateName": "Baggage Porters and Bellhops",
         "OIs": [
             27.3,
@@ -9405,7 +9405,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "運動教練和團體健身教練",
         "alternateName": "Exercise Trainers and Group Fitness Instructors",
         "OIs": [
             22.4,
@@ -9421,7 +9421,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "康樂工作者",
         "alternateName": "Recreation Workers",
         "OIs": [
             17.3,
@@ -9438,7 +9438,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "住宿顧問",
         "alternateName": "Residential Advisors",
         "OIs": [
             12.4,
@@ -9455,7 +9455,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "零售銷售員主管",
         "alternateName": "First-Line Supervisors of Retail Sales Workers",
         "OIs": [
             13,
@@ -9472,7 +9472,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "非零售銷售員主管",
         "alternateName": "First-Line Supervisors of Non-Retail Sales Workers",
         "OIs": [
             9.4,
@@ -9489,7 +9489,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "收銀員",
         "alternateName": "Cashiers",
         "OIs": [
             16.2,
@@ -9505,7 +9505,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "賭場換錢員和服務台出納員",
         "alternateName": "Gambling Change Persons and Booth Cashiers",
         "OIs": [
             16.3,
@@ -9521,7 +9521,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "櫃檯和租賃職員",
         "alternateName": "Counter and Rental Clerks",
         "OIs": [
             17,
@@ -9538,7 +9538,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "零件銷售員",
         "alternateName": "Parts Salespersons",
         "OIs": [
             27.6,
@@ -9555,7 +9555,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "零售銷售員",
         "alternateName": "Retail Salespersons",
         "OIs": [
             16.1,
@@ -9571,7 +9571,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "廣告銷售代理",
         "alternateName": "Advertising Sales Agents",
         "OIs": [
             5.2,
@@ -9588,7 +9588,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "保險銷售代理",
         "alternateName": "Insurance Sales Agents",
         "OIs": [
             5.7,
@@ -9605,7 +9605,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "證券、商品及金融服務銷售代理",
         "alternateName": "Securities, Commodities, and Financial Services Sales Agents",
         "OIs": [
             6.4,
@@ -9621,7 +9621,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "旅行社代理",
         "alternateName": "Travel Agents",
         "OIs": [
             6,
@@ -9638,7 +9638,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "服務銷售代表，除了廣告、保險、金融服務和旅行",
         "alternateName": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
         "OIs": [
             5.5,
@@ -9655,7 +9655,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "銷售代表，批發和製造，技術和科學產品",
         "alternateName": "Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",
         "OIs": [
             13.6,
@@ -9671,7 +9671,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "太陽能銷售代表和評估員",
         "alternateName": "Solar Sales Representatives and Assessors",
         "OIs": [
             17.3,
@@ -9688,7 +9688,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "銷售代表，批發和製造，非技術和科學產品",
         "alternateName": "Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",
         "OIs": [
             13,
@@ -9704,7 +9704,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "演示者和產品推廣員",
         "alternateName": "Demonstrators and Product Promoters",
         "OIs": [
             16.7,
@@ -9720,7 +9720,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "模特",
         "alternateName": "Models",
         "OIs": [
             22.7,
@@ -9737,7 +9737,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "房地產經紀人",
         "alternateName": "Real Estate Brokers",
         "OIs": [
             13,
@@ -9753,7 +9753,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "房地產銷售代理",
         "alternateName": "Real Estate Sales Agents",
         "OIs": [
             9.9,
@@ -9770,7 +9770,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "銷售工程師",
         "alternateName": "Sales Engineers",
         "OIs": [
             14.5,
@@ -9786,7 +9786,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電話推銷員",
         "alternateName": "Telemarketers",
         "OIs": [
             10.1,
@@ -9803,7 +9803,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "上門銷售員、報紙和街頭小販及相關工作者",
         "alternateName": "Door-to-Door Sales Workers, News and Street Vendors, and Related Workers",
         "OIs": [
             18.2,
@@ -9820,7 +9820,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "辦公室和行政支持人員的一線主管",
         "alternateName": "First-Line Supervisors of Office and Administrative Support Workers",
         "OIs": [
             7.7,
@@ -9837,7 +9837,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "總機接線員，包括應答服務",
         "alternateName": "Switchboard Operators, Including Answering Service",
         "OIs": [
             20,
@@ -9854,7 +9854,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電話接線員",
         "alternateName": "Telephone Operators",
         "OIs": [
             14.9,
@@ -9871,7 +9871,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "賬單和帳戶收款員",
         "alternateName": "Bill and Account Collectors",
         "OIs": [
             10.9,
@@ -9888,7 +9888,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "開票和發帖文員",
         "alternateName": "Billing and Posting Clerks",
         "OIs": [
             16.2,
@@ -9903,7 +9903,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "簿記、會計及審計書記員",
         "alternateName": "Bookkeeping, Accounting, and Auditing Clerks",
         "OIs": [
             10.2,
@@ -9919,7 +9919,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "賭場出納員",
         "alternateName": "Gambling Cage Workers",
         "OIs": [
             15.5,
@@ -9935,7 +9935,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "薪資和考勤書記員",
         "alternateName": "Payroll and Timekeeping Clerks",
         "OIs": [
             9.9,
@@ -9951,7 +9951,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "採購書記員",
         "alternateName": "Procurement Clerks",
         "OIs": [
             16.2,
@@ -9967,7 +9967,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "銀行櫃員",
         "alternateName": "Tellers",
         "OIs": [
             12.6,
@@ -9983,7 +9983,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "經紀業務員",
         "alternateName": "Brokerage Clerks",
         "OIs": [
             11.5,
@@ -9999,7 +9999,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "通訊業務員",
         "alternateName": "Correspondence Clerks",
         "OIs": [
             7,
@@ -10015,7 +10015,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "法庭、市政和執照事務員",
         "alternateName": "Court, Municipal, and License Clerks",
         "OIs": [
             10.6,
@@ -10032,7 +10032,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "信用授權員、檢查員和事務員",
         "alternateName": "Credit Authorizers, Checkers, and Clerks",
         "OIs": [
             5.3,
@@ -10049,7 +10049,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "客戶服務代表",
         "alternateName": "Customer Service Representatives",
         "OIs": [
             10.4,
@@ -10066,7 +10066,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "合格面試官，政府計劃",
         "alternateName": "Eligibility Interviewers, Government Programs",
         "OIs": [
             5.2,
@@ -10083,7 +10083,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "檔案員",
         "alternateName": "File Clerks",
         "OIs": [
             16.2,
@@ -10098,7 +10098,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "酒店、汽車旅館及度假村櫃檯服務人員",
         "alternateName": "Hotel, Motel, and Resort Desk Clerks",
         "OIs": [
             13.8,
@@ -10115,7 +10115,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "面試官，除了資格和貸款",
         "alternateName": "Interviewers, Except Eligibility and Loan",
         "OIs": [
             5.5,
@@ -10132,7 +10132,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "圖書館助理，文書",
         "alternateName": "Library Assistants, Clerical",
         "OIs": [
             15.3,
@@ -10148,7 +10148,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "貸款面談員及書記",
         "alternateName": "Loan Interviewers and Clerks",
         "OIs": [
             5.2,
@@ -10165,7 +10165,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "新賬戶書記",
         "alternateName": "New Accounts Clerks",
         "OIs": [
             7.9,
@@ -10182,7 +10182,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "訂單書記",
         "alternateName": "Order Clerks",
         "OIs": [
             13.5,
@@ -10198,7 +10198,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "人力資源助理（不包括薪資和考勤）",
         "alternateName": "Human Resources Assistants, Except Payroll and Timekeeping",
         "OIs": [
             8.3,
@@ -10215,7 +10215,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "接待員及資訊書記",
         "alternateName": "Receptionists and Information Clerks",
         "OIs": [
             9.9,
@@ -10232,7 +10232,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "訂票及交通票務代理和旅遊文員",
         "alternateName": "Reservation and Transportation Ticket Agents and Travel Clerks",
         "OIs": [
             11.5,
@@ -10249,7 +10249,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "貨運代理",
         "alternateName": "Cargo and Freight Agents",
         "OIs": [
             16.6,
@@ -10265,7 +10265,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "貨運承攬商",
         "alternateName": "Freight Forwarders",
         "OIs": [
             18.2,
@@ -10282,7 +10282,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "快遞和信使",
         "alternateName": "Couriers and Messengers",
         "OIs": [
             24,
@@ -10299,7 +10299,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "公共安全電訊員",
         "alternateName": "Public Safety Telecommunicators",
         "OIs": [
             21.1,
@@ -10316,7 +10316,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "調度員，警察、消防和救護車除外",
         "alternateName": "Dispatchers, Except Police, Fire, and Ambulance",
         "OIs": [
             28.3,
@@ -10332,7 +10332,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "公用事業抄表員",
         "alternateName": "Meter Readers, Utilities",
         "OIs": [
             25.2,
@@ -10348,7 +10348,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "郵政服務職員",
         "alternateName": "Postal Service Clerks",
         "OIs": [
             19.1,
@@ -10364,7 +10364,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "郵政服務郵遞員",
         "alternateName": "Postal Service Mail Carriers",
         "OIs": [
             20.4,
@@ -10380,7 +10380,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "郵政服務分類、處理及加工機器操作員",
         "alternateName": "Postal Service Mail Sorters, Processors, and Processing Machine Operators",
         "OIs": [
             27.8,
@@ -10396,7 +10396,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "生產、計劃和加速文員",
         "alternateName": "Production, Planning, and Expediting Clerks",
         "OIs": [
             16.9,
@@ -10412,7 +10412,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "運輸、接收和庫存文員",
         "alternateName": "Shipping, Receiving, and Inventory Clerks",
         "OIs": [
             21.6,
@@ -10429,7 +10429,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "稱重、測量、檢查和取樣記錄文員",
         "alternateName": "Weighers, Measurers, Checkers, and Samplers, Recordkeeping",
         "OIs": [
             29.6,
@@ -10445,7 +10445,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "執行秘書和行政助理",
         "alternateName": "Executive Secretaries and Executive Administrative Assistants",
         "OIs": [
             6.2,
@@ -10462,7 +10462,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "法律秘書和行政助理",
         "alternateName": "Legal Secretaries and Administrative Assistants",
         "OIs": [
             7.5,
@@ -10478,7 +10478,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫療秘書和行政助理",
         "alternateName": "Medical Secretaries and Administrative Assistants",
         "OIs": [
             11.7,
@@ -10494,7 +10494,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "秘書和行政助理，法律、醫療和執行除外",
         "alternateName": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
         "OIs": [
             10.3,
@@ -10511,7 +10511,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "資料輸入員",
         "alternateName": "Data Entry Keyers",
         "OIs": [
             17.9,
@@ -10527,7 +10527,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "文字處理員和打字員",
         "alternateName": "Word Processors and Typists",
         "OIs": [
             16.1,
@@ -10542,7 +10542,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "桌面出版商",
         "alternateName": "Desktop Publishers",
         "OIs": [
             17,
@@ -10558,7 +10558,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "Sure, here's the translation to Taiwanese (Mandarin Chinese used in Taiwan):\n\n保險理賠及保單處理文員",
         "alternateName": "Insurance Claims and Policy Processing Clerks",
         "OIs": [
             6.4,
@@ -10574,7 +10574,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "郵件文員及郵件機器操作員，郵政服務除外",
         "alternateName": "Mail Clerks and Mail Machine Operators, Except Postal Service",
         "OIs": [
             24.1,
@@ -10590,7 +10590,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "一般辦公室文員",
         "alternateName": "Office Clerks, General",
         "OIs": [
             15.5,
@@ -10605,7 +10605,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "辦公室機器操作員，電腦除外",
         "alternateName": "Office Machine Operators, Except Computer",
         "OIs": [
             25,
@@ -10621,7 +10621,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "校對員和複印標記員",
         "alternateName": "Proofreaders and Copy Markers",
         "OIs": [
             9.4,
@@ -10637,7 +10637,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "統計助理",
         "alternateName": "Statistical Assistants",
         "OIs": [
             13.9,
@@ -10653,7 +10653,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "農業、漁業和林業工人第一線主管",
         "alternateName": "First-Line Supervisors of Farming, Fishing, and Forestry Workers",
         "OIs": [
             24.8,
@@ -10670,7 +10670,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "農產品檢查員",
         "alternateName": "Agricultural Inspectors",
         "OIs": [
             25.9,
@@ -10687,7 +10687,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "動物育種者",
         "alternateName": "Animal Breeders",
         "OIs": [
             33.8,
@@ -10703,7 +10703,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "農產品分級及分類員",
         "alternateName": "Graders and Sorters, Agricultural Products",
         "OIs": [
             30.7,
@@ -10719,7 +10719,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "農業設備操作員",
         "alternateName": "Agricultural Equipment Operators",
         "OIs": [
             42.4,
@@ -10735,7 +10735,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "農場工人和勞動者，作物、苗圃和溫室",
         "alternateName": "Farmworkers and Laborers, Crop, Nursery, and Greenhouse",
         "OIs": [
             38.5,
@@ -10751,7 +10751,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "農場工人，農場、牧場和水產養殖動物",
         "alternateName": "Farmworkers, Farm, Ranch, and Aquacultural Animals",
         "OIs": [
             37.2,
@@ -10766,7 +10766,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "漁業和狩獵工人",
         "alternateName": "Fishing and Hunting Workers",
         "OIs": [
             42.1,
@@ -10782,7 +10782,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "森林和保育工人",
         "alternateName": "Forest and Conservation Workers",
         "OIs": [
             32.8,
@@ -10798,7 +10798,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "伐木工人",
         "alternateName": "Fallers",
         "OIs": [
             40.2,
@@ -10814,7 +10814,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "伐木设备操作员",
         "alternateName": "Logging Equipment Operators",
         "OIs": [
             42.1,
@@ -10830,7 +10830,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "木材分级员和称重员",
         "alternateName": "Log Graders and Scalers",
         "OIs": [
             28.4,
@@ -10846,7 +10846,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "建筑行业和采掘工人的一线主管",
         "alternateName": "First-Line Supervisors of Construction Trades and Extraction Workers",
         "OIs": [
             23,
@@ -10863,7 +10863,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "太阳能安装经理",
         "alternateName": "Solar Energy Installation Managers",
         "OIs": [
             28.5,
@@ -10880,7 +10880,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鍋爐製造工",
         "alternateName": "Boilermakers",
         "OIs": [
             43.9,
@@ -10896,7 +10896,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "磚瓦匠",
         "alternateName": "Brickmasons and Blockmasons",
         "OIs": [
             40.5,
@@ -10912,7 +10912,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "石匠",
         "alternateName": "Stonemasons",
         "OIs": [
             38.4,
@@ -10927,7 +10927,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "木匠",
         "alternateName": "Carpenters",
         "OIs": [
             37.5,
@@ -10943,7 +10943,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "地毯安裝工",
         "alternateName": "Carpet Installers",
         "OIs": [
             43.6,
@@ -10959,7 +10959,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "地板層（不包括地毯、木材和硬磚）",
         "alternateName": "Floor Layers, Except Carpet, Wood, and Hard Tiles",
         "OIs": [
             42.5,
@@ -10975,7 +10975,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "地板打磨及完成工",
         "alternateName": "Floor Sanders and Finishers",
         "OIs": [
             43.7,
@@ -10991,7 +10991,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "瓷磚和石材安裝工",
         "alternateName": "Tile and Stone Setters",
         "OIs": [
             41.6,
@@ -11007,7 +11007,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "水泥泥瓦匠和平整工",
         "alternateName": "Cement Masons and Concrete Finishers",
         "OIs": [
             43.2,
@@ -11023,7 +11023,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "雲石工和完成工",
         "alternateName": "Terrazzo Workers and Finishers",
         "OIs": [
             43.5,
@@ -11039,7 +11039,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "建築工人",
         "alternateName": "Construction Laborers",
         "OIs": [
             40.6,
@@ -11055,7 +11055,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鋪路、表面處理和壓實設備操作員",
         "alternateName": "Paving, Surfacing, and Tamping Equipment Operators",
         "OIs": [
             45.4,
@@ -11071,7 +11071,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "樁駕駛操作員",
         "alternateName": "Pile Driver Operators",
         "OIs": [
             44.5,
@@ -11087,7 +11087,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "操作工程師及其他建築設備操作員",
         "alternateName": "Operating Engineers and Other Construction Equipment Operators",
         "OIs": [
             40.7,
@@ -11104,7 +11104,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "乾牆和天花板瓷磚安裝工",
         "alternateName": "Drywall and Ceiling Tile Installers",
         "OIs": [
             42.3,
@@ -11120,7 +11120,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電工",
         "alternateName": "Tapers",
         "OIs": [
             40.2,
@@ -11136,7 +11136,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電氣技師",
         "alternateName": "Electricians",
         "OIs": [
             38.3,
@@ -11152,7 +11152,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "玻璃工",
         "alternateName": "Glaziers",
         "OIs": [
             37.9,
@@ -11168,7 +11168,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "絕緣工, 地板, 天花板和牆壁",
         "alternateName": "Insulation Workers, Floor, Ceiling, and Wall",
         "OIs": [
             44.6,
@@ -11184,7 +11184,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "機械絕緣工",
         "alternateName": "Insulation Workers, Mechanical",
         "OIs": [
             41.2,
@@ -11200,7 +11200,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "畫家，建築與維護工人",
         "alternateName": "Painters, Construction and Maintenance",
         "OIs": [
             41.4,
@@ -11216,7 +11216,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "壁紙工",
         "alternateName": "Paperhangers",
         "OIs": [
             35.9,
@@ -11233,7 +11233,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "管道鋪設工人",
         "alternateName": "Pipelayers",
         "OIs": [
             43,
@@ -11249,7 +11249,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "水管工、配管工及蒸汽裝配工",
         "alternateName": "Plumbers, Pipefitters, and Steamfitters",
         "OIs": [
             42.8,
@@ -11265,7 +11265,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "太陽能熱安裝和技術員",
         "alternateName": "Solar Thermal Installers and Technicians",
         "OIs": [
             39.4,
@@ -11281,7 +11281,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "泥水匠和灰泥工",
         "alternateName": "Plasterers and Stucco Masons",
         "OIs": [
             41.9,
@@ -11297,7 +11297,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鋼筋綁紮工",
         "alternateName": "Reinforcing Iron and Rebar Workers",
         "OIs": [
             42.2,
@@ -11313,7 +11313,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "屋頂工",
         "alternateName": "Roofers",
         "OIs": [
             44.1,
@@ -11329,7 +11329,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鈑金工",
         "alternateName": "Sheet Metal Workers",
         "OIs": [
             43,
@@ -11345,7 +11345,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "結構鐵工和鋼工",
         "alternateName": "Structural Iron and Steel Workers",
         "OIs": [
             40.6,
@@ -11361,7 +11361,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "太陽能光伏安裝工",
         "alternateName": "Solar Photovoltaic Installers",
         "OIs": [
             38.8,
@@ -11377,7 +11377,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "幫手--磚工、砌塊工、石工和瓷磚及大理石安裝工",
         "alternateName": "Helpers--Brickmasons, Blockmasons, Stonemasons, and Tile and Marble Setters",
         "OIs": [
             43.2,
@@ -11393,7 +11393,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "幫手--木工",
         "alternateName": "Helpers--Carpenters",
         "OIs": [
             41.3,
@@ -11409,7 +11409,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "幫手--電工",
         "alternateName": "Helpers--Electricians",
         "OIs": [
             40.7,
@@ -11425,7 +11425,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "幫手--油漆工、壁紙工、灰泥工和抹灰工",
         "alternateName": "Helpers--Painters, Paperhangers, Plasterers, and Stucco Masons",
         "OIs": [
             39.1,
@@ -11441,7 +11441,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "幫手--管道工、管工、水管接頭工和蒸汽機裝配工",
         "alternateName": "Helpers--Pipelayers, Plumbers, Pipefitters, and Steamfitters",
         "OIs": [
             42.8,
@@ -11457,7 +11457,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "幫手--屋頂工",
         "alternateName": "Helpers--Roofers",
         "OIs": [
             43.6,
@@ -11473,7 +11473,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "建築和建材檢查員",
         "alternateName": "Construction and Building Inspectors",
         "OIs": [
             30.9,
@@ -11490,7 +11490,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "能源審計員",
         "alternateName": "Energy Auditors",
         "OIs": [
             21.7,
@@ -11507,7 +11507,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電梯和自動扶梯安裝及維修工",
         "alternateName": "Elevator and Escalator Installers and Repairers",
         "OIs": [
             41.6,
@@ -11523,7 +11523,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "柵欄架設工人",
         "alternateName": "Fence Erectors",
         "OIs": [
             42.3,
@@ -11539,7 +11539,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "危險物質清除工人",
         "alternateName": "Hazardous Materials Removal Workers",
         "OIs": [
             40,
@@ -11555,7 +11555,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "公路維修工人",
         "alternateName": "Highway Maintenance Workers",
         "OIs": [
             42.1,
@@ -11571,7 +11571,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鐵路軌道鋪設和維修設備操作員",
         "alternateName": "Rail-Track Laying and Maintenance Equipment Operators",
         "OIs": [
             44.3,
@@ -11587,7 +11587,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "化糞池服務和下水道管道清潔工人",
         "alternateName": "Septic Tank Servicers and Sewer Pipe Cleaners",
         "OIs": [
             41,
@@ -11603,7 +11603,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "段落鋪設工",
         "alternateName": "Segmental Pavers",
         "OIs": [
             41,
@@ -11619,7 +11619,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "氣候化安裝員和技術員",
         "alternateName": "Weatherization Installers and Technicians",
         "OIs": [
             30.5,
@@ -11635,7 +11635,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "油氣井架操作員",
         "alternateName": "Derrick Operators, Oil and Gas",
         "OIs": [
             41.6,
@@ -11651,7 +11651,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "油氣旋轉鑽機操作員",
         "alternateName": "Rotary Drill Operators, Oil and Gas",
         "OIs": [
             38.5,
@@ -11667,7 +11667,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "油氣服務單位操作員",
         "alternateName": "Service Unit Operators, Oil and Gas",
         "OIs": [
             39.5,
@@ -11683,7 +11683,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "開挖和裝載機械與拖曳機操作員，地表採礦",
         "alternateName": "Excavating and Loading Machine and Dragline Operators, Surface Mining",
         "OIs": [
             43.9,
@@ -11699,7 +11699,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "土壤鑽探工（石油及天然氣除外）",
         "alternateName": "Earth Drillers, Except Oil and Gas",
         "OIs": [
             38.3,
@@ -11716,7 +11716,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "爆破工作者、軍火處理專家和炸藥工",
         "alternateName": "Explosives Workers, Ordnance Handling Experts, and Blasters",
         "OIs": [
             35.9,
@@ -11733,7 +11733,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "連續採礦機操作員",
         "alternateName": "Continuous Mining Machine Operators",
         "OIs": [
             41.6,
@@ -11749,7 +11749,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "礦井頂板固定工",
         "alternateName": "Roof Bolters, Mining",
         "OIs": [
             43.4,
@@ -11765,7 +11765,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "裝載和移動機械操作員，地下採礦",
         "alternateName": "Loading and Moving Machine Operators, Underground Mining",
         "OIs": [
             43.8,
@@ -11781,7 +11781,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "石材分裂工，採石場",
         "alternateName": "Rock Splitters, Quarry",
         "OIs": [
             42.4,
@@ -11797,7 +11797,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "油氣場工人",
         "alternateName": "Roustabouts, Oil and Gas",
         "OIs": [
             45.1,
@@ -11813,7 +11813,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "助手--提取工人",
         "alternateName": "Helpers--Extraction Workers",
         "OIs": [
             40.8,
@@ -11829,7 +11829,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "機械師、安裝工和維修工的一線主管",
         "alternateName": "First-Line Supervisors of Mechanics, Installers, and Repairers",
         "OIs": [
             20.9,
@@ -11846,7 +11846,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電腦、自動櫃員機及辦公室設備維修技術人員",
         "alternateName": "Computer, Automated Teller, and Office Machine Repairers",
         "OIs": [
             33.2,
@@ -11862,7 +11862,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "無線電、行動電話及塔台設備安裝和維修技術人員",
         "alternateName": "Radio, Cellular, and Tower Equipment Installers and Repairers",
         "OIs": [
             36.2,
@@ -11879,7 +11879,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電信設備安裝和維修技術人員（不包括外線安裝）",
         "alternateName": "Telecommunications Equipment Installers and Repairers, Except Line Installers",
         "OIs": [
             36,
@@ -11895,7 +11895,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "航空電子技術人員",
         "alternateName": "Avionics Technicians",
         "OIs": [
             36,
@@ -11912,7 +11912,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電動馬達、電動工具及相關設備維修技術人員",
         "alternateName": "Electric Motor, Power Tool, and Related Repairers",
         "OIs": [
             41,
@@ -11928,7 +11928,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電氣和電子安裝及維修技師, 交通設備",
         "alternateName": "Electrical and Electronics Installers and Repairers, Transportation Equipment",
         "OIs": [
             38.1,
@@ -11945,7 +11945,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電氣和電子維修技師, 商業和工業設備",
         "alternateName": "Electrical and Electronics Repairers, Commercial and Industrial Equipment",
         "OIs": [
             35.9,
@@ -11962,7 +11962,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電氣和電子維修技師, 發電廠、變電站和繼電器",
         "alternateName": "Electrical and Electronics Repairers, Powerhouse, Substation, and Relay",
         "OIs": [
             36.5,
@@ -11979,7 +11979,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電子設備安裝及維修技師, 汽車",
         "alternateName": "Electronic Equipment Installers and Repairers, Motor Vehicles",
         "OIs": [
             38.3,
@@ -11996,7 +11996,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "影音設備安裝及維修技師",
         "alternateName": "Audiovisual Equipment Installers and Repairers",
         "OIs": [
             36.6,
@@ -12012,7 +12012,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "保全及火警系統安裝技術員",
         "alternateName": "Security and Fire Alarm Systems Installers",
         "OIs": [
             35.3,
@@ -12029,7 +12029,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "航空器機械師及維修技術員",
         "alternateName": "Aircraft Mechanics and Service Technicians",
         "OIs": [
             35.3,
@@ -12046,7 +12046,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "汽車車身及相關修理技術員",
         "alternateName": "Automotive Body and Related Repairers",
         "OIs": [
             43.7,
@@ -12062,7 +12062,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "汽車玻璃安裝及修理技術員",
         "alternateName": "Automotive Glass Installers and Repairers",
         "OIs": [
             42.2,
@@ -12078,7 +12078,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "汽車服務技術員及機械師",
         "alternateName": "Automotive Service Technicians and Mechanics",
         "OIs": [
             37,
@@ -12095,7 +12095,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "巴士和卡車機械師及柴油引擎專家",
         "alternateName": "Bus and Truck Mechanics and Diesel Engine Specialists",
         "OIs": [
             39.2,
@@ -12112,7 +12112,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "農業設備機械師和服務技術員",
         "alternateName": "Farm Equipment Mechanics and Service Technicians",
         "OIs": [
             39.8,
@@ -12129,7 +12129,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "移動重型設備機械師（不包括引擎）",
         "alternateName": "Mobile Heavy Equipment Mechanics, Except Engines",
         "OIs": [
             39.4,
@@ -12146,7 +12146,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鐵路車輛修理工",
         "alternateName": "Rail Car Repairers",
         "OIs": [
             39.5,
@@ -12162,7 +12162,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "摩托艇機械師和服務技術員",
         "alternateName": "Motorboat Mechanics and Service Technicians",
         "OIs": [
             40,
@@ -12178,7 +12178,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "機車維修技師",
         "alternateName": "Motorcycle Mechanics",
         "OIs": [
             40.5,
@@ -12195,7 +12195,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "戶外動力設備和其他小型引擎技師",
         "alternateName": "Outdoor Power Equipment and Other Small Engine Mechanics",
         "OIs": [
             40.7,
@@ -12211,7 +12211,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "自行車維修員",
         "alternateName": "Bicycle Repairers",
         "OIs": [
             40.9,
@@ -12227,7 +12227,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "休閒車輛服務技師",
         "alternateName": "Recreational Vehicle Service Technicians",
         "OIs": [
             40,
@@ -12243,7 +12243,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "輪胎修理和更換員",
         "alternateName": "Tire Repairers and Changers",
         "OIs": [
             42.4,
@@ -12259,7 +12259,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "機械門修理工",
         "alternateName": "Mechanical Door Repairers",
         "OIs": [
             43.1,
@@ -12275,7 +12275,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "控制閥安裝和修理工（機械門除外）",
         "alternateName": "Control and Valve Installers and Repairers, Except Mechanical Door",
         "OIs": [
             39.3,
@@ -12291,7 +12291,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "暖氣、空調和製冷系統技師和安裝工",
         "alternateName": "Heating, Air Conditioning, and Refrigeration Mechanics and Installers",
         "OIs": [
             38.5,
@@ -12307,7 +12307,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "家用電器修理工",
         "alternateName": "Home Appliance Repairers",
         "OIs": [
             38.4,
@@ -12323,7 +12323,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "工業機械技師",
         "alternateName": "Industrial Machinery Mechanics",
         "OIs": [
             40,
@@ -12340,7 +12340,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "機械維修工",
         "alternateName": "Maintenance Workers, Machinery",
         "OIs": [
             41.6,
@@ -12356,7 +12356,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鉗工",
         "alternateName": "Millwrights",
         "OIs": [
             41.1,
@@ -12372,7 +12372,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "耐火材料修理工（磚匠除外）",
         "alternateName": "Refractory Materials Repairers, Except Brickmasons",
         "OIs": [
             43.5,
@@ -12388,7 +12388,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電力線安裝及維修工",
         "alternateName": "Electrical Power-Line Installers and Repairers",
         "OIs": [
             40.7,
@@ -12404,7 +12404,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電信線路安裝及維修工",
         "alternateName": "Telecommunications Line Installers and Repairers",
         "OIs": [
             36.3,
@@ -12420,7 +12420,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "相機和攝影設備修理員",
         "alternateName": "Camera and Photographic Equipment Repairers",
         "OIs": [
             38,
@@ -12436,7 +12436,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫療設備修理員",
         "alternateName": "Medical Equipment Repairers",
         "OIs": [
             34,
@@ -12453,7 +12453,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "樂器修理和調音師",
         "alternateName": "Musical Instrument Repairers and Tuners",
         "OIs": [
             34.5,
@@ -12470,7 +12470,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鐘錶修理員",
         "alternateName": "Watch and Clock Repairers",
         "OIs": [
             37.8,
@@ -12486,7 +12486,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "一般維修工",
         "alternateName": "Maintenance and Repair Workers, General",
         "OIs": [
             38.5,
@@ -12502,7 +12502,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "風力發電機技術員",
         "alternateName": "Wind Turbine Service Technicians",
         "OIs": [
             36.3,
@@ -12519,7 +12519,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "投幣、販賣和遊戲機服務及維修人員",
         "alternateName": "Coin, Vending, and Amusement Machine Servicers and Repairers",
         "OIs": [
             34.3,
@@ -12535,7 +12535,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "商業潛水員",
         "alternateName": "Commercial Divers",
         "OIs": [
             39.3,
@@ -12552,7 +12552,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鎖匠和保險箱維修員",
         "alternateName": "Locksmiths and Safe Repairers",
         "OIs": [
             35.9,
@@ -12568,7 +12568,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "組裝房屋和活動房屋安裝員",
         "alternateName": "Manufactured Building and Mobile Home Installers",
         "OIs": [
             40.1,
@@ -12584,7 +12584,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "吊裝工",
         "alternateName": "Riggers",
         "OIs": [
             40.4,
@@ -12600,7 +12600,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "信號和軌道切換修理工",
         "alternateName": "Signal and Track Switch Repairers",
         "OIs": [
             38.4,
@@ -12616,7 +12616,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "安裝、維護和修理工的助手",
         "alternateName": "Helpers--Installation, Maintenance, and Repair Workers",
         "OIs": [
             39.9,
@@ -12632,7 +12632,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "地熱技術員",
         "alternateName": "Geothermal Technicians",
         "OIs": [
             33.1,
@@ -12649,7 +12649,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "生產和運營工人的一線主管",
         "alternateName": "First-Line Supervisors of Production and Operating Workers",
         "OIs": [
             20.4,
@@ -12666,7 +12666,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "飛機結構、表面、裝配和系統組裝工",
         "alternateName": "Aircraft Structure, Surfaces, Rigging, and Systems Assemblers",
         "OIs": [
             40,
@@ -12682,7 +12682,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "線圈繞線工、纏繞工和精整工",
         "alternateName": "Coil Winders, Tapers, and Finishers",
         "OIs": [
             39.6,
@@ -12698,7 +12698,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電氣和電子設備組裝工",
         "alternateName": "Electrical and Electronic Equipment Assemblers",
         "OIs": [
             37.5,
@@ -12715,7 +12715,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "機電設備組裝工",
         "alternateName": "Electromechanical Equipment Assemblers",
         "OIs": [
             37.2,
@@ -12732,7 +12732,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "發動機及其他機械裝配工",
         "alternateName": "Engine and Other Machine Assemblers",
         "OIs": [
             39.7,
@@ -12748,7 +12748,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "結構金屬製造和裝配工",
         "alternateName": "Structural Metal Fabricators and Fitters",
         "OIs": [
             40.8,
@@ -12764,7 +12764,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "玻璃纖維層壓和製造工",
         "alternateName": "Fiberglass Laminators and Fabricators",
         "OIs": [
             40.5,
@@ -12780,7 +12780,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "計時裝置裝配和調整工",
         "alternateName": "Timing Device Assemblers and Adjusters",
         "OIs": [
             40.1,
@@ -12796,7 +12796,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "團隊組裝工",
         "alternateName": "Team Assemblers",
         "OIs": [
             27.8,
@@ -12813,7 +12813,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "烘焙師",
         "alternateName": "Bakers",
         "OIs": [
             34.4,
@@ -12829,7 +12829,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "屠夫和肉类切割工",
         "alternateName": "Butchers and Meat Cutters",
         "OIs": [
             35.1,
@@ -12845,7 +12845,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "肉类、家禽和鱼类切割及修整工",
         "alternateName": "Meat, Poultry, and Fish Cutters and Trimmers",
         "OIs": [
             42,
@@ -12861,7 +12861,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "屠宰工和肉类包装工",
         "alternateName": "Slaughterers and Meat Packers",
         "OIs": [
             37.5,
@@ -12877,7 +12877,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "食品和烟草烘焙、烘烤及干燥设备操作员及负责人",
         "alternateName": "Food and Tobacco Roasting, Baking, and Drying Machine Operators and Tenders",
         "OIs": [
             40.7,
@@ -12893,7 +12893,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "食品配料师",
         "alternateName": "Food Batchmakers",
         "OIs": [
             32,
@@ -12909,7 +12909,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "食品烹飪機械操作員和看管員",
         "alternateName": "Food Cooking Machine Operators and Tenders",
         "OIs": [
             41,
@@ -12925,7 +12925,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "擠壓和拉伸機械設置員、操作員和看管員，金屬和塑料",
         "alternateName": "Extruding and Drawing Machine Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             39.9,
@@ -12941,7 +12941,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鍛造機械設置員、操作員和看管員，金屬和塑料",
         "alternateName": "Forging Machine Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             40.5,
@@ -12957,7 +12957,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "軋機設置員、操作員和看管員，金屬和塑料",
         "alternateName": "Rolling Machine Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             43.8,
@@ -12973,7 +12973,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "切割、沖孔和壓力機械設置員、操作員和看管員，金屬和塑料",
         "alternateName": "Cutting, Punching, and Press Machine Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             42.4,
@@ -12989,7 +12989,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鑽孔和鏜孔機床設定員、操作員及照料員，金屬和塑膠",
         "alternateName": "Drilling and Boring Machine Tool Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             41.1,
@@ -13005,7 +13005,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "研磨、拋光、磨光和打磨機床設定員、操作員及照料員，金屬和塑膠",
         "alternateName": "Grinding, Lapping, Polishing, and Buffing Machine Tool Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             43.1,
@@ -13021,7 +13021,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "車床和旋盤機床設定員、操作員及照料員，金屬和塑膠",
         "alternateName": "Lathe and Turning Machine Tool Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             43.5,
@@ -13037,7 +13037,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "銑床和刨床設定員、操作員及照料員，金屬和塑膠",
         "alternateName": "Milling and Planing Machine Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             42.1,
@@ -13053,7 +13053,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "技工",
         "alternateName": "Machinists",
         "OIs": [
             36,
@@ -13070,7 +13070,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "金屬精煉爐操作員和看火員",
         "alternateName": "Metal-Refining Furnace Operators and Tenders",
         "OIs": [
             40.8,
@@ -13086,7 +13086,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "金屬澆鑄工",
         "alternateName": "Pourers and Casters, Metal",
         "OIs": [
             42.9,
@@ -13102,7 +13102,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "金屬和塑膠模型製造者",
         "alternateName": "Model Makers, Metal and Plastic",
         "OIs": [
             37,
@@ -13118,7 +13118,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "金屬和塑膠樣板製造者",
         "alternateName": "Patternmakers, Metal and Plastic",
         "OIs": [
             35.1,
@@ -13135,7 +13135,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鑄造模具和芯塊製造者",
         "alternateName": "Foundry Mold and Coremakers",
         "OIs": [
             40.6,
@@ -13151,7 +13151,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "翻模、造芯及鑄造機床調整員、操作員及維護員（金屬和塑膠）",
         "alternateName": "Molding, Coremaking, and Casting Machine Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             40.8,
@@ -13167,7 +13167,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "多功能機床調整員、操作員及維護員（金屬和塑膠）",
         "alternateName": "Multiple Machine Tool Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             41.7,
@@ -13183,7 +13183,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "工具與模具製造工",
         "alternateName": "Tool and Die Makers",
         "OIs": [
             38.9,
@@ -13199,7 +13199,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "焊接工、切割工、銲錫工及硬銲工",
         "alternateName": "Welders, Cutters, Solderers, and Brazers",
         "OIs": [
             40.7,
@@ -13215,7 +13215,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "焊接、銲錫及硬銲機床調整員、操作員及維護員",
         "alternateName": "Welding, Soldering, and Brazing Machine Setters, Operators, and Tenders",
         "OIs": [
             41.7,
@@ -13231,7 +13231,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "金屬和塑膠熱處理設備設置員、操作員和維護員",
         "alternateName": "Heat Treating Equipment Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             41,
@@ -13247,7 +13247,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "金屬和塑膠佈局工人",
         "alternateName": "Layout Workers, Metal and Plastic",
         "OIs": [
             36.1,
@@ -13263,7 +13263,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "金屬和塑膠電鍍機器設置員、操作員和維護員",
         "alternateName": "Plating Machine Setters, Operators, and Tenders, Metal and Plastic",
         "OIs": [
             41.8,
@@ -13279,7 +13279,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "工具研磨師、銼刀師和刀具磨利師",
         "alternateName": "Tool Grinders, Filers, and Sharpeners",
         "OIs": [
             41.7,
@@ -13295,7 +13295,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "印前技術員和工人",
         "alternateName": "Prepress Technicians and Workers",
         "OIs": [
             26,
@@ -13311,7 +13311,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "印刷機操作員",
         "alternateName": "Printing Press Operators",
         "OIs": [
             27.9,
@@ -13327,7 +13327,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "印刷裝訂和完成工人",
         "alternateName": "Print Binding and Finishing Workers",
         "OIs": [
             32,
@@ -13343,7 +13343,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "洗衣和乾洗工人",
         "alternateName": "Laundry and Dry-Cleaning Workers",
         "OIs": [
             40.5,
@@ -13359,7 +13359,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "紡織品、服裝及相關材料熨燙工",
         "alternateName": "Pressers, Textile, Garment, and Related Materials",
         "OIs": [
             38.7,
@@ -13375,7 +13375,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "縫紉機操作員",
         "alternateName": "Sewing Machine Operators",
         "OIs": [
             41.8,
@@ -13391,7 +13391,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鞋革工人及修理工",
         "alternateName": "Shoe and Leather Workers and Repairers",
         "OIs": [
             39.2,
@@ -13407,7 +13407,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "制鞋机操作员及看护工",
         "alternateName": "Shoe Machine Operators and Tenders",
         "OIs": [
             39.1,
@@ -13423,7 +13423,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "手工缝纫工",
         "alternateName": "Sewers, Hand",
         "OIs": [
             38.6,
@@ -13440,7 +13440,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "裁缝、服装设计师及定制服缝工",
         "alternateName": "Tailors, Dressmakers, and Custom Sewers",
         "OIs": [
             33.4,
@@ -13456,7 +13456,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "纺织漂白和染色机操作员及看护员",
         "alternateName": "Textile Bleaching and Dyeing Machine Operators and Tenders",
         "OIs": [
             40.7,
@@ -13472,7 +13472,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "織物切割機設置員、操作員和看管員",
         "alternateName": "Textile Cutting Machine Setters, Operators, and Tenders",
         "OIs": [
             37.8,
@@ -13488,7 +13488,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "織物針織和編織機設置員、操作員和看管員",
         "alternateName": "Textile Knitting and Weaving Machine Setters, Operators, and Tenders",
         "OIs": [
             40.3,
@@ -13504,7 +13504,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "織物纏繞、扭轉和拉伸機設置員、操作員和看管員",
         "alternateName": "Textile Winding, Twisting, and Drawing Out Machine Setters, Operators, and Tenders",
         "OIs": [
             40.2,
@@ -13520,7 +13520,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "合成纖維和玻璃纖維擠出與成型機設置員、操作員和看管員",
         "alternateName": "Extruding and Forming Machine Setters, Operators, and Tenders, Synthetic and Glass Fibers",
         "OIs": [
             39,
@@ -13536,7 +13536,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "布料和服裝樣板製作員",
         "alternateName": "Fabric and Apparel Patternmakers",
         "OIs": [
             28.4,
@@ -13553,7 +13553,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "包布工",
         "alternateName": "Upholsterers",
         "OIs": [
             40.1,
@@ -13570,7 +13570,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "家具製造商和工作臺木工",
         "alternateName": "Cabinetmakers and Bench Carpenters",
         "OIs": [
             40.2,
@@ -13586,7 +13586,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "家具上漆工",
         "alternateName": "Furniture Finishers",
         "OIs": [
             42.6,
@@ -13603,7 +13603,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "木製模型製造者",
         "alternateName": "Model Makers, Wood",
         "OIs": [
             34.4,
@@ -13620,7 +13620,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "木製圖樣製造者",
         "alternateName": "Patternmakers, Wood",
         "OIs": [
             35,
@@ -13637,7 +13637,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鋸床設定員、操作員和看管員，木材",
         "alternateName": "Sawing Machine Setters, Operators, and Tenders, Wood",
         "OIs": [
             42.2,
@@ -13653,7 +13653,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "木工機械設定員、操作員和看管員，除了鋸床",
         "alternateName": "Woodworking Machine Setters, Operators, and Tenders, Except Sawing",
         "OIs": [
             41.3,
@@ -13669,7 +13669,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "核能反應爐操作員",
         "alternateName": "Nuclear Power Reactor Operators",
         "OIs": [
             26.9,
@@ -13685,7 +13685,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電力分配員和調度員",
         "alternateName": "Power Distributors and Dispatchers",
         "OIs": [
             27.6,
@@ -13701,7 +13701,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "發電廠操作員",
         "alternateName": "Power Plant Operators",
         "OIs": [
             35.5,
@@ -13717,7 +13717,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "生質能電廠技術員",
         "alternateName": "Biomass Plant Technicians",
         "OIs": [
             36.9,
@@ -13733,7 +13733,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "水力發電廠技術員",
         "alternateName": "Hydroelectric Plant Technicians",
         "OIs": [
             37,
@@ -13750,7 +13750,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "固定設備工程師和鍋爐操作員",
         "alternateName": "Stationary Engineers and Boiler Operators",
         "OIs": [
             38.4,
@@ -13767,7 +13767,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "水和廢水處理廠與系統操作員",
         "alternateName": "Water and Wastewater Treatment Plant and System Operators",
         "OIs": [
             37.6,
@@ -13783,7 +13783,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "化工廠與系統操作員",
         "alternateName": "Chemical Plant and System Operators",
         "OIs": [
             33.4,
@@ -13800,7 +13800,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "瓦斯廠操作員",
         "alternateName": "Gas Plant Operators",
         "OIs": [
             34.4,
@@ -13816,7 +13816,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "石油泵系統操作員、煉油廠操作員和計量員",
         "alternateName": "Petroleum Pump System Operators, Refinery Operators, and Gaugers",
         "OIs": [
             33.8,
@@ -13832,7 +13832,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "生物燃料加工技術員",
         "alternateName": "Biofuels Processing Technicians",
         "OIs": [
             31.5,
@@ -13849,7 +13849,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "化學設備操作員和招待員",
         "alternateName": "Chemical Equipment Operators and Tenders",
         "OIs": [
             36.7,
@@ -13866,7 +13866,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "分離、過濾、澄清、沉澱和蒸餾機器設置員、操作員和招待員",
         "alternateName": "Separating, Filtering, Clarifying, Precipitating, and Still Machine Setters, Operators, and Tenders",
         "OIs": [
             38.7,
@@ -13882,7 +13882,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "破碎、研磨及拋光機器的設定員、操作員和助手",
         "alternateName": "Crushing, Grinding, and Polishing Machine Setters, Operators, and Tenders",
         "OIs": [
             41.9,
@@ -13898,7 +13898,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "手工研磨和拋光工人",
         "alternateName": "Grinding and Polishing Workers, Hand",
         "OIs": [
             45.2,
@@ -13914,7 +13914,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "混合和混料機器的設定員、操作員和助手",
         "alternateName": "Mixing and Blending Machine Setters, Operators, and Tenders",
         "OIs": [
             39.9,
@@ -13930,7 +13930,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "手工切割和修邊工人",
         "alternateName": "Cutters and Trimmers, Hand",
         "OIs": [
             40.2,
@@ -13946,7 +13946,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "切割和切片機器的設定員、操作員和助手",
         "alternateName": "Cutting and Slicing Machine Setters, Operators, and Tenders",
         "OIs": [
             42.6,
@@ -13962,7 +13962,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "擠壓、成型、壓合及壓實機械設定員、操作員及助手",
         "alternateName": "Extruding, Forming, Pressing, and Compacting Machine Setters, Operators, and Tenders",
         "OIs": [
             39.3,
@@ -13978,7 +13978,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "爐、窯、烤箱、乾燥機及水壺操作員及助手",
         "alternateName": "Furnace, Kiln, Oven, Drier, and Kettle Operators and Tenders",
         "OIs": [
             40.4,
@@ -13994,7 +13994,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "檢查員、測試員、分類員、取樣員及稱重員",
         "alternateName": "Inspectors, Testers, Sorters, Samplers, and Weighers",
         "OIs": [
             32,
@@ -14011,7 +14011,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "珠寶商及貴重石材及金屬工匠",
         "alternateName": "Jewelers and Precious Stone and Metal Workers",
         "OIs": [
             34.7,
@@ -14028,7 +14028,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "寶石及鑽石工匠",
         "alternateName": "Gem and Diamond Workers",
         "OIs": [
             29.1,
@@ -14044,7 +14044,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "牙科技術員",
         "alternateName": "Dental Laboratory Technicians",
         "OIs": [
             32.6,
@@ -14061,7 +14061,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "醫療器械技術員",
         "alternateName": "Medical Appliance Technicians",
         "OIs": [
             34.3,
@@ -14078,7 +14078,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "眼科實驗室技術員",
         "alternateName": "Ophthalmic Laboratory Technicians",
         "OIs": [
             35.3,
@@ -14094,7 +14094,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "包裝和填充機操作員及工作人員",
         "alternateName": "Packaging and Filling Machine Operators and Tenders",
         "OIs": [
             39.4,
@@ -14110,7 +14110,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "噴漆、塗層及裝飾工",
         "alternateName": "Painting, Coating, and Decorating Workers",
         "OIs": [
             39.2,
@@ -14127,7 +14127,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "塗層、噴漆和噴塗機器設定員、操作員和看管員",
         "alternateName": "Coating, Painting, and Spraying Machine Setters, Operators, and Tenders",
         "OIs": [
             42.3,
@@ -14143,7 +14143,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "半導體加工技術員",
         "alternateName": "Semiconductor Processing Technicians",
         "OIs": [
             35.3,
@@ -14159,7 +14159,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "攝影處理工人和處理機器操作員",
         "alternateName": "Photographic Process Workers and Processing Machine Operators",
         "OIs": [
             29.5,
@@ -14176,7 +14176,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電腦數控工具操作員",
         "alternateName": "Computer Numerically Controlled Tool Operators",
         "OIs": [
             35.1,
@@ -14192,7 +14192,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "電腦數控工具程式設計師",
         "alternateName": "Computer Numerically Controlled Tool Programmers",
         "OIs": [
             23.9,
@@ -14209,7 +14209,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "黏合機操作員和助手",
         "alternateName": "Adhesive Bonding Machine Operators and Tenders",
         "OIs": [
             40.8,
@@ -14225,7 +14225,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "清洗、洗滌和酸洗設備操作員和助手",
         "alternateName": "Cleaning, Washing, and Metal Pickling Equipment Operators and Tenders",
         "OIs": [
             43.2,
@@ -14241,7 +14241,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "冷卻和冷凍設備操作員和助手",
         "alternateName": "Cooling and Freezing Equipment Operators and Tenders",
         "OIs": [
             40.6,
@@ -14257,7 +14257,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "蝕刻和雕刻技術員",
         "alternateName": "Etchers and Engravers",
         "OIs": [
             36.9,
@@ -14274,7 +14274,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鑄造、成型和塑形工人（不含金屬和塑料）",
         "alternateName": "Molders, Shapers, and Casters, Except Metal and Plastic",
         "OIs": [
             38.3,
@@ -14290,7 +14290,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "石匠和雕刻師，製造業",
         "alternateName": "Stone Cutters and Carvers, Manufacturing",
         "OIs": [
             38.4,
@@ -14307,7 +14307,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "吹玻璃工人、模具工人、彎曲工人和整理工人",
         "alternateName": "Glass Blowers, Molders, Benders, and Finishers",
         "OIs": [
             37.3,
@@ -14323,7 +14323,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "製陶工，製造業",
         "alternateName": "Potters, Manufacturing",
         "OIs": [
             41.8,
@@ -14339,7 +14339,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "紙製品機器設置員、操作員和看管員",
         "alternateName": "Paper Goods Machine Setters, Operators, and Tenders",
         "OIs": [
             39.6,
@@ -14355,7 +14355,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "輪胎製造工",
         "alternateName": "Tire Builders",
         "OIs": [
             43.2,
@@ -14371,7 +14371,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "幫手--生產工人",
         "alternateName": "Helpers--Production Workers",
         "OIs": [
             39.8,
@@ -14387,7 +14387,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "飛機貨物處理主管",
         "alternateName": "Aircraft Cargo Handling Supervisors",
         "OIs": [
             22.5,
@@ -14404,7 +14404,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "一線幫手、勞工和物料搬運工監督員",
         "alternateName": "First-Line Supervisors of Helpers, Laborers, and Material Movers, Hand",
         "OIs": [
             19.7,
@@ -14421,7 +14421,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "回收協調員",
         "alternateName": "Recycling Coordinators",
         "OIs": [
             20,
@@ -14438,7 +14438,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "一線物料搬運機械和車輛操作員監督員",
         "alternateName": "First-Line Supervisors of Material-Moving Machine and Vehicle Operators",
         "OIs": [
             24.8,
@@ -14455,7 +14455,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "Here is the translation in Taiwanese (using traditional Chinese characters for better readability):\n\n            乘客服務員的第一線主管",
         "alternateName": "First-Line Supervisors of Passenger Attendants",
         "OIs": [
             12.7,
@@ -14472,7 +14472,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "航空公司飛行員、副機師和飛行工程師",
         "alternateName": "Airline Pilots, Copilots, and Flight Engineers",
         "OIs": [
             23.3,
@@ -14489,7 +14489,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "商業飛行員",
         "alternateName": "Commercial Pilots",
         "OIs": [
             24.6,
@@ -14506,7 +14506,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "空中交通管制員",
         "alternateName": "Air Traffic Controllers",
         "OIs": [
             23.7,
@@ -14523,7 +14523,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "機場運營專家",
         "alternateName": "Airfield Operations Specialists",
         "OIs": [
             22.3,
@@ -14540,7 +14540,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "空服員",
         "alternateName": "Flight Attendants",
         "OIs": [
             22,
@@ -14557,7 +14557,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "救護車司機及員工（不包括急救醫療技術員）",
         "alternateName": "Ambulance Drivers and Attendants, Except Emergency Medical Technicians",
         "OIs": [
             32.4,
@@ -14574,7 +14574,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "司機/銷售員",
         "alternateName": "Driver/Sales Workers",
         "OIs": [
             31.4,
@@ -14591,7 +14591,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "重型和拖車卡車司機",
         "alternateName": "Heavy and Tractor-Trailer Truck Drivers",
         "OIs": [
             41.3,
@@ -14607,7 +14607,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "輕型卡車司機",
         "alternateName": "Light Truck Drivers",
         "OIs": [
             38.3,
@@ -14707,7 +14707,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鐵路場工程師、小型機器操作員和調車員",
         "alternateName": "Rail Yard Engineers, Dinkey Operators, and Hostlers",
         "OIs": [
             38.8,
@@ -14723,7 +14723,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鐵路制動、信號和轉轍操作員及火車頭司爐",
         "alternateName": "Railroad Brake, Signal, and Switch Operators and Locomotive Firers",
         "OIs": [
             41.3,
@@ -14739,7 +14739,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "鐵路列車長和場長",
         "alternateName": "Railroad Conductors and Yardmasters",
         "OIs": [
             30.1,
@@ -14756,7 +14756,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "地鐵和電車操作員",
         "alternateName": "Subway and Streetcar Operators",
         "OIs": [
             35.1,
@@ -14772,7 +14772,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "水手和海洋潤滑工",
         "alternateName": "Sailors and Marine Oilers",
         "OIs": [
             38.3,
@@ -14788,7 +14788,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "船長、副手及水上交通工具駕駛員",
         "alternateName": "Captains, Mates, and Pilots of Water Vessels",
         "OIs": [
             28.2,
@@ -14805,7 +14805,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "機動船操作員",
         "alternateName": "Motorboat Operators",
         "OIs": [
             35.3,
@@ -14822,7 +14822,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "船舶工程師",
         "alternateName": "Ship Engineers",
         "OIs": [
             30.9,
@@ -14839,7 +14839,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "橋樑及閘門看守員",
         "alternateName": "Bridge and Lock Tenders",
         "OIs": [
             33.6,
@@ -14855,7 +14855,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "停車場管理員",
         "alternateName": "Parking Attendants",
         "OIs": [
             30.3,
@@ -14871,7 +14871,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "汽車和船舶服務員",
         "alternateName": "Automotive and Watercraft Service Attendants",
         "OIs": [
             37.2,
@@ -14887,7 +14887,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "航空器服務員",
         "alternateName": "Aircraft Service Attendants",
         "OIs": [
             35.8,
@@ -14903,7 +14903,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "交通技術員",
         "alternateName": "Traffic Technicians",
         "OIs": [
             26.6,
@@ -14920,7 +14920,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "運輸檢查員",
         "alternateName": "Transportation Inspectors",
         "OIs": [
             28.5,
@@ -14936,7 +14936,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "航空檢查員",
         "alternateName": "Aviation Inspectors",
         "OIs": [
             27.3,
@@ -14953,7 +14953,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "運輸車輛、設備和系統檢查員（航空除外）",
         "alternateName": "Transportation Vehicle, Equipment and Systems Inspectors, Except Aviation",
         "OIs": [
             36.4,
@@ -14970,7 +14970,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "乘客服務員",
         "alternateName": "Passenger Attendants",
         "OIs": [
             22.8,
@@ -14987,7 +14987,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "輸送機操作員和看守員",
         "alternateName": "Conveyor Operators and Tenders",
         "OIs": [
             36.2,
@@ -15003,7 +15003,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "起重機和塔式起重機操作員",
         "alternateName": "Crane and Tower Operators",
         "OIs": [
             42,
@@ -15019,7 +15019,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "挖泥船操作員",
         "alternateName": "Dredge Operators",
         "OIs": [
             37.3,
@@ -15035,7 +15035,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "提升機與絞盤操作員",
         "alternateName": "Hoist and Winch Operators",
         "OIs": [
             43.8,
@@ -15051,7 +15051,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "工業卡車和拖拉機操作員",
         "alternateName": "Industrial Truck and Tractor Operators",
         "OIs": [
             44.3,
@@ -15067,7 +15067,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "車輛與設備清潔工",
         "alternateName": "Cleaners of Vehicles and Equipment",
         "OIs": [
             46.3,
@@ -15083,7 +15083,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "勞工及手動貨物、庫存及材料搬運工",
         "alternateName": "Laborers and Freight, Stock, and Material Movers, Hand",
         "OIs": [
             38.4,
@@ -15099,7 +15099,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "回收利用與恢復工人",
         "alternateName": "Recycling and Reclamation Workers",
         "OIs": [
             37.9,
@@ -15115,7 +15115,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "機器上料員和卸料員",
         "alternateName": "Machine Feeders and Offbearers",
         "OIs": [
             42.1,
@@ -15131,7 +15131,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "包裝工，手工",
         "alternateName": "Packers and Packagers, Hand",
         "OIs": [
             31,
@@ -15147,7 +15147,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "上貨員和訂單填充員",
         "alternateName": "Stockers and Order Fillers",
         "OIs": [
             25.2,
@@ -15164,7 +15164,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "氣體壓縮機和加氣站操作員",
         "alternateName": "Gas Compressor and Gas Pumping Station Operators",
         "OIs": [
             35.3,
@@ -15180,7 +15180,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "泵操作員，井口泵操作員除外",
         "alternateName": "Pump Operators, Except Wellhead Pumpers",
         "OIs": [
             38.8,
@@ -15196,7 +15196,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "井口泵浦工",
         "alternateName": "Wellhead Pumpers",
         "OIs": [
             38.7,
@@ -15212,7 +15212,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "垃圾和可回收材料收集员",
         "alternateName": "Refuse and Recyclable Material Collectors",
         "OIs": [
             40.9,
@@ -15228,7 +15228,7 @@
         ]
     },
     {
-        "label": "",
+        "label": "油罐车、卡车和船舶装载员",
         "alternateName": "Tank Car, Truck, and Ship Loaders",
         "OIs": [
             40.9,
