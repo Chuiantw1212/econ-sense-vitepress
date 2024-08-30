@@ -198,6 +198,7 @@ async function initializeInterests() {
     interestOccupationItems.value = interestJson
 }
 async function onHollandCodeChanged() {
+    currentPage.value = 1
     setRecommendOccupations()
     setPagedOccupations()
 }
