@@ -12,7 +12,7 @@ head:
       content: https://econ-sense.com/career/holland.html
 ---
 
-# 找到你的熱情渴望，繪製你的職涯藍圖
+# 合理地追求理想職涯
 
 1. 選擇適合自己的關鍵字
 2. 尋找合適職務
