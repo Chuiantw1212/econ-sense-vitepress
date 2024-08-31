@@ -16,6 +16,10 @@
             </el-row>
             <br />
             <canvas id="hollandChart"></canvas>
+            <div class="buttonGroup">
+                <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
+                    @click="shareResult()">分享結果</el-button>
+            </div>
             <template #footer>
                 <el-collapse>
                     <el-collapse-item title="說明">
@@ -110,7 +114,10 @@ import Fuse from 'fuse.js'
 import { ref, shallowRef, onMounted } from 'vue'
 const shuffledKeywords = ref<any[]>([])
 const selectedKeywords = ref<any[]>([])
-const hollandCodes = ref<any[]>([
+const hollandCodes = ref<{
+    label: string,
+    value: 'R' | 'I' | 'A' | 'S' | 'E' | 'C'
+}[]>([
     {
         label: '實做型',
         value: 'R'
@@ -138,6 +145,7 @@ const hollandCodes = ref<any[]>([
 ])
 const userHollandVectors = ref<number[]>([])
 const selectedCodes = ref<string[]>([])
+const selectedCodesOrigin = ref<string[]>([])
 const interestOccupationItems = ref<interestItemDesign[]>([])
 const recommendOccupations = ref<interestItemDesign[]>([])
 const pagedTotalOccupations = ref<number>(0)
@@ -300,6 +308,7 @@ function drawCharts() {
             }
         })
     }
+    selectedCodesOrigin.value = [...selectedCodes.value]
     onHollandCodeChanged()
     // update chart
     if (hollandChartInstance.value) {
@@ -330,6 +339,34 @@ function drawCharts() {
         },
     })
     hollandChartInstance = shallowRef(chartInstance) as any
+}
+async function shareResult() {
+    const canvasElement = hollandChartInstance.value.canvas
+    const dataUrl = canvasElement.toDataURL();
+    const blob = await (await fetch(dataUrl)).blob();
+    const filesArray = [
+        new File(
+            [blob],
+            'riasec.png',
+            {
+                type: blob.type,
+                lastModified: new Date().getTime()
+            }
+        )
+    ];
+
+    const hollandCodeString = selectedCodesOrigin.value.join()
+
+    const userLabels = hollandCodes.value.filter(item => {
+        return selectedCodesOrigin.value.includes(item.value)
+    }).map(item => item.label).join('、')
+
+    const shareConfig = {
+        files: filesArray,
+        text: `我的Holland Code是${hollandCodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`,
+    }
+
+    navigator.share(shareConfig);
 }
 function showPercent(tooltipItems) {
     const { raw, dataset, } = tooltipItems
@@ -468,5 +505,10 @@ function downloadObjectAsJson(exportObj, exportName = 'test') {
         color: var(--el-text-color-regular);
         background: white !important;
     }
+}
+
+.form__button {
+    width: 100%;
+    margin-top: 16px;
 }
 </style>
