@@ -16,6 +16,10 @@
             </el-row>
             <br />
             <canvas id="hollandChart"></canvas>
+            <div class="buttonGroup">
+                <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
+                    @click="shareResult()">分享結果</el-button>
+            </div>
             <template #footer>
                 <el-collapse>
                     <el-collapse-item title="說明">
@@ -331,6 +335,25 @@ function drawCharts() {
     })
     hollandChartInstance = shallowRef(chartInstance) as any
 }
+async function shareResult() {
+    const canvasElement = hollandChartInstance.value.canvas
+    const dataUrl = canvasElement.toDataURL();
+    const blob = await (await fetch(dataUrl)).blob();
+    const filesArray = [
+        new File(
+            [blob],
+            'riasec.png',
+            {
+                type: blob.type,
+                lastModified: new Date().getTime()
+            }
+        )
+    ];
+    const shareData = {
+        files: filesArray,
+    };
+    navigator.share(shareData);
+}
 function showPercent(tooltipItems) {
     const { raw, dataset, } = tooltipItems
     const fisrtValue = raw
@@ -468,5 +491,10 @@ function downloadObjectAsJson(exportObj, exportName = 'test') {
         color: var(--el-text-color-regular);
         background: white !important;
     }
+}
+
+.form__button {
+    width: 100%;
+    margin-top: 16px;
 }
 </style>
