@@ -114,7 +114,10 @@ import Fuse from 'fuse.js'
 import { ref, shallowRef, onMounted } from 'vue'
 const shuffledKeywords = ref<any[]>([])
 const selectedKeywords = ref<any[]>([])
-const hollandCodes = ref<any[]>([
+const hollandCodes = ref<{
+    label: string,
+    value: 'R' | 'I' | 'A' | 'S' | 'E' | 'C'
+}[]>([
     {
         label: '實做型',
         value: 'R'
@@ -142,6 +145,7 @@ const hollandCodes = ref<any[]>([
 ])
 const userHollandVectors = ref<number[]>([])
 const selectedCodes = ref<string[]>([])
+const selectedCodesOrigin = ref<string[]>([])
 const interestOccupationItems = ref<interestItemDesign[]>([])
 const recommendOccupations = ref<interestItemDesign[]>([])
 const pagedTotalOccupations = ref<number>(0)
@@ -304,6 +308,7 @@ function drawCharts() {
             }
         })
     }
+    selectedCodesOrigin.value = [...selectedCodes.value]
     onHollandCodeChanged()
     // update chart
     if (hollandChartInstance.value) {
@@ -349,10 +354,19 @@ async function shareResult() {
             }
         )
     ];
-    const shareData = {
+
+    const hollandCodeString = selectedCodesOrigin.value.join()
+
+    const userLabels = hollandCodes.value.filter(item => {
+        return selectedCodesOrigin.value.includes(item.value)
+    }).map(item => item.label).join('、')
+
+    const shareConfig = {
         files: filesArray,
-    };
-    navigator.share(shareData);
+        text: `我的Holland Code是${hollandCodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`,
+    }
+
+    navigator.share(shareConfig);
 }
 function showPercent(tooltipItems) {
     const { raw, dataset, } = tooltipItems
