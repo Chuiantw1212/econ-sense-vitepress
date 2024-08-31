@@ -363,6 +363,7 @@ async function shareResult() {
 
     const shareConfig = {
         files: filesArray,
+        title: '合理的理想職涯',
         text: `我的Holland Code是${hollandCodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`,
     }
 
