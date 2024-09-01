@@ -5,7 +5,7 @@
         <el-card>
             <template #header>
                 <div class="card-header">
-                    <span>建議至少選10個關鍵字 (已選{{ selectedKeywords.length }}個)</span>
+                    <span>建議選10~20個關鍵字 (已選{{ selectedKeywords.length }}個)</span>
                 </div>
             </template>
             <el-row>
@@ -49,12 +49,14 @@
             <table class="table">
                 <tr>
                     <th>專業頭銜</th>
+                    <th>求職門檻</th>
                     <th>何倫碼</th>
                     <th v-if="selectedKeywords.length">潛力指數</th>
                 </tr>
                 <tr v-for="(item, index) in pagedOccupations" :key="index">
                     <td>{{ item.label }}</td>
-                    <td>{{ item.IHs?.join(', ') }}</td>
+                    <td>{{ item.jobZone }}</td>
+                    <td>{{ item.IHs?.join('') }}</td>
                     <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
                 </tr>
             </table>
@@ -63,8 +65,47 @@
                     :total="pagedTotalOccupations" @change="setPagedOccupations()" />
             </div>
             <template #footer>
-                <el-collapse>
+                <el-collapse v-model="occupationCollapse">
+                    <el-collapse-item title="求職門檻分數查表" name="1">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>分數</th>
+                                    <th>教育程度參考</th>
+                                    <th>工作經驗參考</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>不限</td>
+                                    <td>數天或數月的訓練</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>高中職</td>
+                                    <td>數月~1年</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>技職教育/在職經驗/二專/五專</td>
+                                    <td>1~2年</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>學士學位</td>
+                                    <td>多年工作經驗</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>碩士及以上</td>
+                                    <td>自證的實績</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </el-collapse-item>
                     <el-collapse-item title="說明">
+
                         <ul>
                             <li>
                                 潛力指數使用<a
@@ -154,6 +195,7 @@ const pagedOccupations = ref<interestItemDesign[]>([])
 const currentPage = ref<number>(1)
 const userKeyword = ref<string>('')
 const fuseInstance = ref()
+const occupationCollapse = ref<string[]>(['1'])
 
 let hollandChartInstance = ref<Chart>()
 // hooks
