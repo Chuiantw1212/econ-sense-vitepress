@@ -5,7 +5,7 @@
         <el-card>
             <template #header>
                 <div class="card-header">
-                    <span>建議至少選10個關鍵字 (已選{{ selectedKeywords.length }}個)</span>
+                    <span>建議選10~20個關鍵字 (已選{{ selectedKeywords.length }}個)</span>
                 </div>
             </template>
             <el-row>
@@ -38,7 +38,8 @@
         <el-card>
             <el-form-item label="何倫碼分類">
                 <el-checkbox-group v-model="selectedCodes">
-                    <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label"
+                    <el-checkbox v-for="(code, index) in hollandCodes" :key="index"
+                        :label="`${code.label}(${code.value})`"
                         :disabled="selectedCodes.length >= 3 && !selectedCodes.includes(code.value)" :value="code.value"
                         @change="onHollandCodeChanged()" />
                 </el-checkbox-group>
@@ -49,12 +50,14 @@
             <table class="table">
                 <tr>
                     <th>專業頭銜</th>
+                    <th>求職門檻</th>
                     <th>何倫碼</th>
                     <th v-if="selectedKeywords.length">潛力指數</th>
                 </tr>
                 <tr v-for="(item, index) in pagedOccupations" :key="index">
                     <td>{{ item.label }}</td>
-                    <td>{{ item.IHs?.join(', ') }}</td>
+                    <td>{{ item.jobZone }}</td>
+                    <td>{{ item.IHs?.join('') }}</td>
                     <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
                 </tr>
             </table>
@@ -63,8 +66,47 @@
                     :total="pagedTotalOccupations" @change="setPagedOccupations()" />
             </div>
             <template #footer>
-                <el-collapse>
+                <el-collapse v-model="occupationCollapse">
+                    <el-collapse-item title="求職門檻分數查表" name="1">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>分數</th>
+                                    <th>教育程度參考</th>
+                                    <th>工作經驗參考</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>不限</td>
+                                    <td>數天或數月的訓練</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>高中職</td>
+                                    <td>數月~1年</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>技職教育/在職經驗/二專/五專</td>
+                                    <td>1~2年</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>學士學位</td>
+                                    <td>多年工作經驗</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>碩士及以上</td>
+                                    <td>自證的實績</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </el-collapse-item>
                     <el-collapse-item title="說明">
+
                         <ul>
                             <li>
                                 潛力指數使用<a
@@ -107,6 +149,7 @@ interface interestItemDesign {
     IHs?: string[],
     similarity?: number,
     alternateName?: string,
+    jobZone: number,
 }
 const { VITE_BASE_URL } = import.meta.env
 import Chart from 'chart.js/auto';
@@ -153,6 +196,7 @@ const pagedOccupations = ref<interestItemDesign[]>([])
 const currentPage = ref<number>(1)
 const userKeyword = ref<string>('')
 const fuseInstance = ref()
+const occupationCollapse = ref<string[]>(['1'])
 
 let hollandChartInstance = ref<Chart>()
 // hooks
@@ -333,7 +377,7 @@ function drawCharts() {
                 },
                 title: {
                     display: true,
-                    text: 'RIASEC興趣分佈圖'
+                    text: '何倫碼分佈圖'
                 }
             }
         },
@@ -383,39 +427,54 @@ function shuffle(array) {
     return array
 }
 async function translateTitle() {
-    const interestResponse = await fetch("interests.raw.json")
+    const interestResponse = await fetch("interests.min.json")
     const interestJson: interestItemDesign[] = await interestResponse.json()
-    const labels = interestJson.map(item => item.label)
     const alternatNames = interestJson.map(item => item.alternateName)
     const promises: any[] = []
-    for (let i = 100; i < interestJson.length; i += 5) {
-        const slicedLabels = labels.slice(i, i + 5)
-        const slicedAlternatNames = alternatNames.slice(i, i + 5)
-        // const isEmpty = slicedLabels.every(value => !value)
-        // if (isEmpty) {
-        const res = await fetch(`${VITE_BASE_URL}/chat/translate`, {
-            method: 'post',
-            body: JSON.stringify(slicedAlternatNames),
-            headers: { 'Content-Type': 'application/json' }
-        })
-        const promise = new Promise(async (resolve) => {
-            const titleRes = await res?.json()
-            for (let j = 0; j < 5; j++) {
-                if (interestJson[i + j]) {
-                    interestJson[i + j].label = titleRes[j]
-                }
-            }
-            resolve(titleRes)
-        })
-        promises.push(promise)
-        // }
-    }
-    await Promise.all(promises)
+    // for (let i = 100; i < interestJson.length; i += 5) {
+    //     const slicedAlternatNames = alternatNames.slice(i, i + 5)
+    //     const res = await fetch(`${VITE_BASE_URL}/chat/translate`, {
+    //         method: 'post',
+    //         body: JSON.stringify(slicedAlternatNames),
+    //         headers: { 'Content-Type': 'application/json' }
+    //     })
+    //     const promise = new Promise(async (resolve) => {
+    //         const titleRes = await res?.json()
+    //         for (let j = 0; j < 5; j++) {
+    //             if (interestJson[i + j]) {
+    //                 interestJson[i + j].label = titleRes[j]
+    //             }
+    //         }
+    //         resolve(titleRes)
+    //     })
+    //     promises.push(promise)
+    // }
+    // await Promise.all(promises)
+    // find jobZone 
+    const jobZoneRes = await fetch("jobZones.json")
+    const jobZoneJson = await jobZoneRes.json()
+    interestJson.forEach(interestItem => {
+    })
     // format
-    const formatResult = interestJson.map((item) => {
+    const formatResult = interestJson.map((interestItem) => {
+        const { alternateName } = interestItem
+        console.log({
+            alternateName
+        })
+        if (alternateName) {
+            const matchItem = jobZoneJson.find(jobZoneItem => {
+                return jobZoneItem.Title === alternateName
+            })
+            console.log({
+                matchItem
+            })
+            if (matchItem) {
+                interestItem.jobZone = matchItem['Job Zone']
+            }
+        }
         return {
-            ...item,
-            label: item.label?.trim()
+            ...interestItem,
+            label: interestItem.label?.trim()
         }
     })
     downloadObjectAsJson(formatResult);
@@ -426,6 +485,7 @@ async function minimizeInterests() {
     const interestJson: interestItem[] = await interestResponse.json()
     const formatInterests = interestJson.map((item: interestItem) => {
         return {
+            "O*NET-SOC Code": item['O*NET-SOC Code'],
             Title: item.Title,
             "Element Name": item["Element Name"],
             "Scale ID": item["Scale ID"],
