@@ -5,7 +5,7 @@
         <el-card>
             <template #header>
                 <div class="card-header">
-                    <span>建議選10~20個關鍵字 (已選{{ selectedKeywords.length }}個)</span>
+                    <span>選10~20個感興趣的關鍵字 (已選{{ selectedKeywords.length }}個)</span>
                 </div>
             </template>
             <el-row>
@@ -298,7 +298,14 @@ async function initializeKeywords() {
             value: item['Element Name']
         }
     })
-    shuffledKeywords.value = shuffle(formatKeywords)
+    const firstShuffledResult: {
+        label: string,
+        value: string,
+    }[] = shuffle(formatKeywords)
+    const twoWords = firstShuffledResult.filter(item => item.label.length === 2)
+    const threeWords = firstShuffledResult.filter(item => item.label.length === 3)
+    const fourWords = firstShuffledResult.filter(item => item.label.length >= 4)
+    shuffledKeywords.value = [...twoWords, ...threeWords, ...fourWords]
 }
 function drawCharts() {
     const hollandCodeKeywords: string[] = selectedKeywords.value.map((selectedLabel: string) => {
