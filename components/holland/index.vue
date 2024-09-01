@@ -38,7 +38,8 @@
         <el-card>
             <el-form-item label="何倫碼分類">
                 <el-checkbox-group v-model="selectedCodes">
-                    <el-checkbox v-for="(code, index) in hollandCodes" :key="index" :label="code.label"
+                    <el-checkbox v-for="(code, index) in hollandCodes" :key="index"
+                        :label="`${code.label}(${code.value})`"
                         :disabled="selectedCodes.length >= 3 && !selectedCodes.includes(code.value)" :value="code.value"
                         @change="onHollandCodeChanged()" />
                 </el-checkbox-group>
@@ -376,7 +377,7 @@ function drawCharts() {
                 },
                 title: {
                     display: true,
-                    text: 'RIASEC興趣分佈圖'
+                    text: '何倫碼分佈圖'
                 }
             }
         },
