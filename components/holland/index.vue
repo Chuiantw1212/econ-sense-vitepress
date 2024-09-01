@@ -149,9 +149,9 @@ interface interestItemDesign {
     IHs?: string[],
     similarity?: number,
     alternateName?: string,
-    jobZone: number,
+    jobZone?: number,
 }
-const { VITE_BASE_URL } = import.meta.env
+
 import Chart from 'chart.js/auto';
 import Fuse from 'fuse.js'
 import { ref, shallowRef, onMounted } from 'vue'
