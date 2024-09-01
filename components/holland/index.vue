@@ -107,6 +107,7 @@ interface interestItemDesign {
     IHs?: string[],
     similarity?: number,
     alternateName?: string,
+    jobZone: number,
 }
 const { VITE_BASE_URL } = import.meta.env
 import Chart from 'chart.js/auto';
@@ -383,39 +384,54 @@ function shuffle(array) {
     return array
 }
 async function translateTitle() {
-    const interestResponse = await fetch("interests.raw.json")
+    const interestResponse = await fetch("interests.min.json")
     const interestJson: interestItemDesign[] = await interestResponse.json()
-    const labels = interestJson.map(item => item.label)
     const alternatNames = interestJson.map(item => item.alternateName)
     const promises: any[] = []
-    for (let i = 100; i < interestJson.length; i += 5) {
-        const slicedLabels = labels.slice(i, i + 5)
-        const slicedAlternatNames = alternatNames.slice(i, i + 5)
-        // const isEmpty = slicedLabels.every(value => !value)
-        // if (isEmpty) {
-        const res = await fetch(`${VITE_BASE_URL}/chat/translate`, {
-            method: 'post',
-            body: JSON.stringify(slicedAlternatNames),
-            headers: { 'Content-Type': 'application/json' }
-        })
-        const promise = new Promise(async (resolve) => {
-            const titleRes = await res?.json()
-            for (let j = 0; j < 5; j++) {
-                if (interestJson[i + j]) {
-                    interestJson[i + j].label = titleRes[j]
-                }
-            }
-            resolve(titleRes)
-        })
-        promises.push(promise)
-        // }
-    }
-    await Promise.all(promises)
+    // for (let i = 100; i < interestJson.length; i += 5) {
+    //     const slicedAlternatNames = alternatNames.slice(i, i + 5)
+    //     const res = await fetch(`${VITE_BASE_URL}/chat/translate`, {
+    //         method: 'post',
+    //         body: JSON.stringify(slicedAlternatNames),
+    //         headers: { 'Content-Type': 'application/json' }
+    //     })
+    //     const promise = new Promise(async (resolve) => {
+    //         const titleRes = await res?.json()
+    //         for (let j = 0; j < 5; j++) {
+    //             if (interestJson[i + j]) {
+    //                 interestJson[i + j].label = titleRes[j]
+    //             }
+    //         }
+    //         resolve(titleRes)
+    //     })
+    //     promises.push(promise)
+    // }
+    // await Promise.all(promises)
+    // find jobZone 
+    const jobZoneRes = await fetch("jobZones.json")
+    const jobZoneJson = await jobZoneRes.json()
+    interestJson.forEach(interestItem => {
+    })
     // format
-    const formatResult = interestJson.map((item) => {
+    const formatResult = interestJson.map((interestItem) => {
+        const { alternateName } = interestItem
+        console.log({
+            alternateName
+        })
+        if (alternateName) {
+            const matchItem = jobZoneJson.find(jobZoneItem => {
+                return jobZoneItem.Title === alternateName
+            })
+            console.log({
+                matchItem
+            })
+            if (matchItem) {
+                interestItem.jobZone = matchItem['Job Zone']
+            }
+        }
         return {
-            ...item,
-            label: item.label?.trim()
+            ...interestItem,
+            label: interestItem.label?.trim()
         }
     })
     downloadObjectAsJson(formatResult);
@@ -426,6 +442,7 @@ async function minimizeInterests() {
     const interestJson: interestItem[] = await interestResponse.json()
     const formatInterests = interestJson.map((item: interestItem) => {
         return {
+            "O*NET-SOC Code": item['O*NET-SOC Code'],
             Title: item.Title,
             "Element Name": item["Element Name"],
             "Scale ID": item["Scale ID"],
