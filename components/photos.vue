@@ -1,7 +1,6 @@
 <template>
     <div class="photos">
-        <div class="photo" v-for="(item, index) in modelValue" :style="{ 'background-image': `url(${item.src})` }"
-            :alt="item.alt || '圖片'"></div>
+        <img class="photo" v-for="(item, index) in modelValue" :src="item.src" :alt="item.alt || '圖片'"></img>
     </div>
 </template>
 <script setup>
@@ -21,11 +20,12 @@ const props = defineProps({
 
 .photo {
     width: 100%;
-    height: 258px;
+    height: auto;
     background-size: cover;
+    background-position: center;
 }
 
-@media screen and (min-width: 996px) {
+@media screen and (min-width: 768px) {
 
     .photo {
         width: calc(50% - 8px);
