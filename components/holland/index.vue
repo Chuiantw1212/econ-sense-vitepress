@@ -50,18 +50,22 @@
                 <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="onKeywordChanged()" />
             </el-form-item>
             <table id="occupationTable" class="table">
-                <tr>
-                    <th>專業頭銜</th>
-                    <th>求職門檻</th>
-                    <th>何倫碼</th>
-                    <th v-if="selectedKeywords.length">潛力指數</th>
-                </tr>
-                <tr v-for="(item, index) in pagedOccupations" :key="index">
-                    <td>{{ item.label }}</td>
-                    <td>{{ item.jobZone }}</td>
-                    <td>{{ item.IHs?.join('') }}</td>
-                    <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>專業頭銜</th>
+                        <th>求職門檻</th>
+                        <th>何倫碼</th>
+                        <th v-if="selectedKeywords.length">潛力指數</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in pagedOccupations" :key="index">
+                        <td>{{ item.label }}</td>
+                        <td>{{ item.jobZone }}</td>
+                        <td>{{ item.IHs?.join('') }}</td>
+                        <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
+                    </tr>
+                </tbody>
             </table>
             <div class="example-pagination-block">
                 <el-pagination v-model:current-page="currentPage" layout="prev, pager, next" :page-size="10"
