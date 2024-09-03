@@ -49,7 +49,7 @@
             <el-form-item label="搜索職務">
                 <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="onKeywordChanged()" />
             </el-form-item>
-            <table class="table">
+            <table id="occupationTable" class="table">
                 <tr>
                     <th>專業頭銜</th>
                     <th>求職門檻</th>
@@ -70,8 +70,7 @@
             <div class="buttonGroup">
                 <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
                     @click="shareRadar()">分享雷達圖</el-button>
-                <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
-                    @click="shareRadar()">分享目前表格</el-button>
+                <el-button class="form__button" type="primary" @click="shareTable()">分享此頁表格</el-button>
             </div>
             <template #footer>
                 <el-collapse v-model="occupationCollapse">
@@ -166,6 +165,7 @@ interface interestItemDesign {
 
 import Chart from 'chart.js/auto';
 import Fuse from 'fuse.js'
+import html2canvas from 'html2canvas';
 import { ref, shallowRef, onMounted } from 'vue'
 const shuffledKeywords = ref<any[]>([])
 const selectedKeywords = ref<any[]>([])
@@ -221,6 +221,43 @@ onMounted(async () => {
 });
 
 // methods
+async function shareTable() {
+    const occupationTable = document.querySelector<HTMLTableElement>('#occupationTable')
+    const canvas = await html2canvas(occupationTable)
+    callNavigatorShare(canvas)
+}
+function shareRadar() {
+    const hollandChartCanvas = hollandChartInstance.value.canvas
+    callNavigatorShare(hollandChartCanvas)
+}
+async function callNavigatorShare(canvas) {
+    const dataUrl = canvas.toDataURL();
+    const blob = await (await fetch(dataUrl)).blob();
+    const filesArray = [
+        new File(
+            [blob],
+            'riasec.png',
+            {
+                type: blob.type,
+                lastModified: new Date().getTime()
+            }
+        )
+    ];
+
+    const hollandCodeString = selectedCodesOrigin.value.join()
+
+    const userLabels = hollandCodes.value.filter(item => {
+        return selectedCodesOrigin.value.includes(item.value)
+    }).map(item => item.label).join('、')
+
+    const shareConfig = {
+        files: filesArray,
+        title: '合理的理想職涯',
+        text: `我的Holland Code是${hollandCodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`,
+        url: window.location.href || 'https://econ-sense.com',
+    }
+    navigator.share(shareConfig);
+}
 function forwardToTable() {
     isAnalyzed.value = true
     const cardAdapt = document.querySelector('#職務適性比較')
@@ -410,36 +447,6 @@ function drawCharts() {
         },
     })
     hollandChartInstance = shallowRef(chartInstance) as any
-}
-async function shareRadar() {
-    const canvasElement = hollandChartInstance.value.canvas
-    const dataUrl = canvasElement.toDataURL();
-    const blob = await (await fetch(dataUrl)).blob();
-    const filesArray = [
-        new File(
-            [blob],
-            'riasec.png',
-            {
-                type: blob.type,
-                lastModified: new Date().getTime()
-            }
-        )
-    ];
-
-    const hollandCodeString = selectedCodesOrigin.value.join()
-
-    const userLabels = hollandCodes.value.filter(item => {
-        return selectedCodesOrigin.value.includes(item.value)
-    }).map(item => item.label).join('、')
-
-    const shareConfig = {
-        files: filesArray,
-        title: '合理的理想職涯',
-        text: `我的Holland Code是${hollandCodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`,
-        url: window.location.href || 'https://econ-sense.com',
-    }
-
-    navigator.share(shareConfig);
 }
 function showPercent(tooltipItems) {
     const { raw, dataset, } = tooltipItems
