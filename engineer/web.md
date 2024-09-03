@@ -43,7 +43,13 @@ outline: deep
             <td>
                 <a href="https://db-engines.com/en/ranking/" target="_blank">DB Engines</a>
             </td>
-            <td>選擇第一個前端框架時可以參考</td>
+            <td>選擇第一個資料庫時可以參考，目前的趨勢是Postgre</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="https://schema.org/" target="_blank">Schema Org</a>
+            </td>
+            <td>設定資料庫時可以參考，讓未來的資料可以更好的符合SEO的規範</td>
         </tr>
     </tbody>
 </table>

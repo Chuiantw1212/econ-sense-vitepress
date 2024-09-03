@@ -17,8 +17,10 @@
             <br />
             <canvas id="hollandChart"></canvas>
             <div class="buttonGroup">
-                <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
-                    @click="shareResult()">分享結果</el-button>
+                <el-button v-if="isAnalyzed" class="form__button" type="primary"
+                    :disabled="selectedKeywords.length < 10" @click="shareRadar()">分享雷達圖</el-button>
+                <el-button v-else class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
+                    @click="forwardToTable()">前往職務適性比較</el-button>
             </div>
             <template #footer>
                 <el-collapse>
@@ -26,7 +28,7 @@
                         <ul>
                             <li>
                                 資料來源：<a href="https://www.onetcenter.org/dictionary/28.3/excel/riasec_keywords.html"
-                                    target="_blank">RIASEC Keywords</a>
+                                    target="_blank">O*NET RIASEC Keywords</a>
                             </li>
                         </ul>
                     </el-collapse-item>
@@ -47,7 +49,7 @@
             <el-form-item label="搜索職務">
                 <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="onKeywordChanged()" />
             </el-form-item>
-            <table class="table">
+            <table id="occupationTable" class="table">
                 <tr>
                     <th>專業頭銜</th>
                     <th>求職門檻</th>
@@ -64,6 +66,11 @@
             <div class="example-pagination-block">
                 <el-pagination v-model:current-page="currentPage" layout="prev, pager, next" :page-size="10"
                     :total="pagedTotalOccupations" @change="setPagedOccupations()" />
+            </div>
+            <div class="buttonGroup">
+                <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
+                    @click="shareRadar()">分享雷達圖</el-button>
+                <el-button class="form__button" type="primary" @click="shareTable()">分享此頁表格</el-button>
             </div>
             <template #footer>
                 <el-collapse v-model="occupationCollapse">
@@ -109,15 +116,19 @@
 
                         <ul>
                             <li>
+                                使用ChatGpt進行機翻。搜索欄除了中文也可以使用英文進行篩選。
+                            </li>
+                            <li>
+                                維基百科的說明：<a
+                                    href="https://zh.wikipedia.org/zh-tw/%E9%9C%8D%E7%88%BE%E8%98%AD%E5%85%AD%E9%82%8A%E5%BD%A2#:~:text=%E9%9C%8D%E7%88%BE%E8%98%AD%E5%85%AD%E9%82%8A%E5%BD%A2%EF%BC%88%E8%8B%B1%E8%AA%9E%EF%BC%9AHolland%20Hexagon%2F,%E5%80%8B%E4%BA%BA%E4%BA%BA%E6%A0%BC%E7%89%B9%E8%B3%AA%E7%9A%84%E8%81%B7%E6%A5%AD%E3%80%82">霍爾蘭六邊形</a>
+                            </li>
+                            <li>
                                 潛力指數使用<a
                                     href="https://zh.wikipedia.org/zh-tw/%E6%9B%BC%E5%93%88%E9%A0%93%E8%B7%9D%E9%9B%A2">曼哈頓距離</a>計算
                             </li>
                             <li>
-                                使用ChatGpt進行機翻。搜索欄除了中文也可以使用英文進行篩選。
-                            </li>
-                            <li>
                                 資料來源：<a href="https://www.onetcenter.org/dictionary/28.3/excel/interests.html"
-                                    target="_blank">Interests</a>
+                                    target="_blank">O*NET Interests</a>
                             </li>
                         </ul>
                     </el-collapse-item>
@@ -154,6 +165,7 @@ interface interestItemDesign {
 
 import Chart from 'chart.js/auto';
 import Fuse from 'fuse.js'
+import html2canvas from 'html2canvas';
 import { ref, shallowRef, onMounted } from 'vue'
 const shuffledKeywords = ref<any[]>([])
 const selectedKeywords = ref<any[]>([])
@@ -197,17 +209,62 @@ const currentPage = ref<number>(1)
 const userKeyword = ref<string>('')
 const fuseInstance = ref()
 const occupationCollapse = ref<string[]>(['1'])
-
+const isAnalyzed = ref<boolean>(false)
 let hollandChartInstance = ref<Chart>()
+
 // hooks
 onMounted(async () => {
     await initializeKeywords()
     await initializeInterests()
     initizlieFuzzySearch()
     drawCharts()
-    // translateTitle()
 });
+
 // methods
+async function shareTable() {
+    const occupationTable = document.querySelector<HTMLTableElement>('#occupationTable')
+    const canvas = await html2canvas(occupationTable)
+    callNavigatorShare(canvas)
+}
+function shareRadar() {
+    const hollandChartCanvas = hollandChartInstance.value.canvas
+    callNavigatorShare(hollandChartCanvas)
+}
+async function callNavigatorShare(canvas) {
+    const dataUrl = canvas.toDataURL();
+    const blob = await (await fetch(dataUrl)).blob();
+    const filesArray = [
+        new File(
+            [blob],
+            'riasec.png',
+            {
+                type: blob.type,
+                lastModified: new Date().getTime()
+            }
+        )
+    ];
+
+    const hollandCodeString = selectedCodesOrigin.value.join()
+
+    const userLabels = hollandCodes.value.filter(item => {
+        return selectedCodesOrigin.value.includes(item.value)
+    }).map(item => item.label).join('、')
+
+    const shareConfig = {
+        files: filesArray,
+        title: '合理的理想職涯',
+        text: `我的Holland Code是${hollandCodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`,
+        url: window.location.href || 'https://econ-sense.com',
+    }
+    navigator.share(shareConfig);
+}
+function forwardToTable() {
+    isAnalyzed.value = true
+    const cardAdapt = document.querySelector('#職務適性比較')
+    cardAdapt.scrollIntoView({
+        behavior: "smooth",
+    })
+}
 function onKeywordChanged() {
     currentPage.value = 1
     setPagedOccupations()
@@ -391,36 +448,6 @@ function drawCharts() {
     })
     hollandChartInstance = shallowRef(chartInstance) as any
 }
-async function shareResult() {
-    const canvasElement = hollandChartInstance.value.canvas
-    const dataUrl = canvasElement.toDataURL();
-    const blob = await (await fetch(dataUrl)).blob();
-    const filesArray = [
-        new File(
-            [blob],
-            'riasec.png',
-            {
-                type: blob.type,
-                lastModified: new Date().getTime()
-            }
-        )
-    ];
-
-    const hollandCodeString = selectedCodesOrigin.value.join()
-
-    const userLabels = hollandCodes.value.filter(item => {
-        return selectedCodesOrigin.value.includes(item.value)
-    }).map(item => item.label).join('、')
-
-    const shareConfig = {
-        files: filesArray,
-        title: '合理的理想職涯',
-        text: `我的Holland Code是${hollandCodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`,
-        url: window.location.href || 'https://econ-sense.com',
-    }
-
-    navigator.share(shareConfig);
-}
 function showPercent(tooltipItems) {
     const { raw, dataset, } = tooltipItems
     const fisrtValue = raw
@@ -579,5 +606,9 @@ function downloadObjectAsJson(exportObj, exportName = 'test') {
 .form__button {
     width: 100%;
     margin-top: 16px;
+}
+
+.buttonGroup {
+    display: flex;
 }
 </style>
