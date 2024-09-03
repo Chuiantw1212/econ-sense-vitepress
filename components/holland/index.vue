@@ -17,8 +17,10 @@
             <br />
             <canvas id="hollandChart"></canvas>
             <div class="buttonGroup">
-                <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
-                    @click="shareResult()">分享結果</el-button>
+                <el-button v-if="isAnalyzed" class="form__button" type="primary"
+                    :disabled="selectedKeywords.length < 10" @click="shareRadar()">分享雷達圖</el-button>
+                <el-button v-else class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
+                    @click="forwardToTable()">前往職務適性比較</el-button>
             </div>
             <template #footer>
                 <el-collapse>
@@ -64,6 +66,12 @@
             <div class="example-pagination-block">
                 <el-pagination v-model:current-page="currentPage" layout="prev, pager, next" :page-size="10"
                     :total="pagedTotalOccupations" @change="setPagedOccupations()" />
+            </div>
+            <div class="buttonGroup">
+                <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
+                    @click="shareRadar()">分享雷達圖</el-button>
+                <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
+                    @click="shareRadar()">分享目前表格</el-button>
             </div>
             <template #footer>
                 <el-collapse v-model="occupationCollapse">
@@ -201,17 +209,25 @@ const currentPage = ref<number>(1)
 const userKeyword = ref<string>('')
 const fuseInstance = ref()
 const occupationCollapse = ref<string[]>(['1'])
-
+const isAnalyzed = ref<boolean>(false)
 let hollandChartInstance = ref<Chart>()
+
 // hooks
 onMounted(async () => {
     await initializeKeywords()
     await initializeInterests()
     initizlieFuzzySearch()
     drawCharts()
-    // translateTitle()
 });
+
 // methods
+function forwardToTable() {
+    isAnalyzed.value = true
+    const cardAdapt = document.querySelector('#職務適性比較')
+    cardAdapt.scrollIntoView({
+        behavior: "smooth",
+    })
+}
 function onKeywordChanged() {
     currentPage.value = 1
     setPagedOccupations()
@@ -395,7 +411,7 @@ function drawCharts() {
     })
     hollandChartInstance = shallowRef(chartInstance) as any
 }
-async function shareResult() {
+async function shareRadar() {
     const canvasElement = hollandChartInstance.value.canvas
     const dataUrl = canvasElement.toDataURL();
     const blob = await (await fetch(dataUrl)).blob();
@@ -583,5 +599,9 @@ function downloadObjectAsJson(exportObj, exportName = 'test') {
 .form__button {
     width: 100%;
     margin-top: 16px;
+}
+
+.buttonGroup {
+    display: flex;
 }
 </style>
