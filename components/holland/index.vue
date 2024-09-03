@@ -26,7 +26,7 @@
                         <ul>
                             <li>
                                 資料來源：<a href="https://www.onetcenter.org/dictionary/28.3/excel/riasec_keywords.html"
-                                    target="_blank">RIASEC Keywords</a>
+                                    target="_blank">O*NET RIASEC Keywords</a>
                             </li>
                         </ul>
                     </el-collapse-item>
@@ -109,15 +109,19 @@
 
                         <ul>
                             <li>
+                                使用ChatGpt進行機翻。搜索欄除了中文也可以使用英文進行篩選。
+                            </li>
+                            <li>
+                                維基百科的說明：<a
+                                    href="https://zh.wikipedia.org/zh-tw/%E9%9C%8D%E7%88%BE%E8%98%AD%E5%85%AD%E9%82%8A%E5%BD%A2#:~:text=%E9%9C%8D%E7%88%BE%E8%98%AD%E5%85%AD%E9%82%8A%E5%BD%A2%EF%BC%88%E8%8B%B1%E8%AA%9E%EF%BC%9AHolland%20Hexagon%2F,%E5%80%8B%E4%BA%BA%E4%BA%BA%E6%A0%BC%E7%89%B9%E8%B3%AA%E7%9A%84%E8%81%B7%E6%A5%AD%E3%80%82">霍爾蘭六邊形</a>
+                            </li>
+                            <li>
                                 潛力指數使用<a
                                     href="https://zh.wikipedia.org/zh-tw/%E6%9B%BC%E5%93%88%E9%A0%93%E8%B7%9D%E9%9B%A2">曼哈頓距離</a>計算
                             </li>
                             <li>
-                                使用ChatGpt進行機翻。搜索欄除了中文也可以使用英文進行篩選。
-                            </li>
-                            <li>
                                 資料來源：<a href="https://www.onetcenter.org/dictionary/28.3/excel/interests.html"
-                                    target="_blank">Interests</a>
+                                    target="_blank">O*NET Interests</a>
                             </li>
                         </ul>
                     </el-collapse-item>
