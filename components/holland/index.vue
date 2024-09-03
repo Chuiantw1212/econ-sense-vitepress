@@ -254,7 +254,7 @@ async function callNavigatorShare(canvas) {
         files: filesArray,
         title: '合理的理想職涯',
         text: `我的Holland Code是${hollandCodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`,
-        url: window.location.href || 'https://econ-sense.com',
+        url: `${window.location.href}?openExternalBrowser=1` || 'https://econ-sense.com?openExternalBrowser=1',
     }
     navigator.share(shareConfig);
 }
