@@ -70,7 +70,8 @@
             <div class="buttonGroup">
                 <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
                     @click="shareRadar()">分享雷達圖</el-button>
-                <el-button class="form__button" type="primary" @click="shareTable()">分享此頁表格</el-button>
+                <el-button v-loading.fullscreen.lock="fullscreenLoading" class="form__button" type="primary"
+                    @click="shareTable()">分享此頁表格</el-button>
             </div>
             <template #footer>
                 <el-collapse v-model="occupationCollapse">
@@ -210,6 +211,7 @@ const userKeyword = ref<string>('')
 const fuseInstance = ref()
 const occupationCollapse = ref<string[]>(['1'])
 const isAnalyzed = ref<boolean>(false)
+const fullscreenLoading = ref<boolean>(false)
 let hollandChartInstance = ref<Chart>()
 
 // hooks
@@ -222,9 +224,11 @@ onMounted(async () => {
 
 // methods
 async function shareTable() {
+    fullscreenLoading.value = true
     const occupationTable = document.querySelector<HTMLTableElement>('#occupationTable')
     const canvas = await html2canvas(occupationTable)
-    callNavigatorShare(canvas)
+    await callNavigatorShare(canvas)
+    fullscreenLoading.value = false
 }
 function shareRadar() {
     const hollandChartCanvas = hollandChartInstance.value.canvas
