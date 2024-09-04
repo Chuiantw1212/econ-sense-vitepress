@@ -14,25 +14,6 @@ outline: deep
 
 ## 外部資源
 
-<!-- <table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://www.pmi.org.tw/?post_type=tribe_events" target="_blank">
-                   PMI Taiwan
-                </a>
-            </td>
-            <td>學習專案管理的好地方</td>
-        </tr>
-    </tbody>
-</table> -->
-
 ## 外部優質課程
 
 <Courses :modelValue="courseItems"></Courses>
