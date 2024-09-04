@@ -104,32 +104,36 @@
                         </li>
                     </ul>
                     <table class="table">
-                        <tr>
-                            <td>2021年家庭組織</td>
-                            <td>雙親</td>
-                            <td>核心</td>
-                        </tr>
-                        <tr>
-                            <td>平均每戶人數</td>
-                            <td>2.00</td>
-                            <td>3.62</td>
-                        </tr>
-                        <tr>
-                            <td>平均每戶就業人數</td>
-                            <td>0.70</td>
-                            <td>1.85</td>
-                        </tr>
-                        <tr>
-                            <td>消費支出</td>
-                            <td>652,023</td>
-                            <td>1,028,621</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">
-                                平均每位受扶養者帶來的支出： <br>
-                                (核心消費支出 - 雙親消費支出) / (核心每戶人數 - 核心就業人數) = 212,767
-                            </td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <td>2021年家庭組織</td>
+                                <td>雙親</td>
+                                <td>核心</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>平均每戶人數</td>
+                                <td>2.00</td>
+                                <td>3.62</td>
+                            </tr>
+                            <tr>
+                                <td>平均每戶就業人數</td>
+                                <td>0.70</td>
+                                <td>1.85</td>
+                            </tr>
+                            <tr>
+                                <td>消費支出</td>
+                                <td>652,023</td>
+                                <td>1,028,621</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    平均每位受扶養者帶來的支出： <br>
+                                    (核心消費支出 - 雙親消費支出) / (核心每戶人數 - 核心就業人數) = 212,767
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </el-collapse-item>
             </el-collapse>
