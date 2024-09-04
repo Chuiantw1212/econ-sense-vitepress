@@ -52,51 +52,55 @@
                         <li>因版面有限，只計算退休前資產累積。</li>
                     </ul>
                     <table class="table">
-                        <tr>
-                            <td>參考標的</td>
-                            <td>資產配置</td>
-                            <td>來源網址</td>
-                        </tr>
-                        <tr>
-                            <td>AOA</td>
-                            <td>股8債2</td>
-                            <td>
-                                <a href="https://www.ishares.com/us/products/239729/ishares-aggressive-allocation-etf"
-                                    target="_blank">
-                                    來源網址
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>AOR</td>
-                            <td>股6債4</td>
-                            <td>
-                                <a href="https://www.ishares.com/us/products/239756/ishares-growth-allocation-etf"
-                                    target="_blank">
-                                    來源網址
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>AOM</td>
-                            <td>股4債6</td>
-                            <td>
-                                <a href="https://www.ishares.com/us/products/239765/ishares-moderate-allocation-etf"
-                                    target="_blank">
-                                    來源網址
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>AOK</td>
-                            <td>股2債8</td>
-                            <td>
-                                <a href="https://www.ishares.com/us/products/239733/ishares-conservative-allocation-etf"
-                                    target="_blank">
-                                    來源網址
-                                </a>
-                            </td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <td>參考標的</td>
+                                <td>資產配置</td>
+                                <td>來源網址</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>AOA</td>
+                                <td>股8債2</td>
+                                <td>
+                                    <a href="https://www.ishares.com/us/products/239729/ishares-aggressive-allocation-etf"
+                                        target="_blank">
+                                        來源網址
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>AOR</td>
+                                <td>股6債4</td>
+                                <td>
+                                    <a href="https://www.ishares.com/us/products/239756/ishares-growth-allocation-etf"
+                                        target="_blank">
+                                        來源網址
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>AOM</td>
+                                <td>股4債6</td>
+                                <td>
+                                    <a href="https://www.ishares.com/us/products/239765/ishares-moderate-allocation-etf"
+                                        target="_blank">
+                                        來源網址
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>AOK</td>
+                                <td>股2債8</td>
+                                <td>
+                                    <a href="https://www.ishares.com/us/products/239733/ishares-conservative-allocation-etf"
+                                        target="_blank">
+                                        來源網址
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </el-collapse-item>
             </el-collapse>
