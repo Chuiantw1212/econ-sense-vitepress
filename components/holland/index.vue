@@ -75,7 +75,7 @@
                 <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
                     @click="shareRadar()">分享雷達圖</el-button>
                 <el-button v-loading.fullscreen.lock="fullscreenLoading" class="form__button" type="primary"
-                    @click="shareTable()">分享此頁表格</el-button>
+                    :disabled="selectedKeywords.length < 10" @click="shareTable()">分享此頁表格</el-button>
             </div>
             <template #footer>
                 <el-collapse v-model="occupationCollapse">
@@ -172,6 +172,7 @@ import Chart from 'chart.js/auto';
 import Fuse from 'fuse.js'
 import html2canvas from 'html2canvas';
 import { ref, shallowRef, onMounted } from 'vue'
+import { ElMessage, } from 'element-plus'
 const shuffledKeywords = ref<any[]>([])
 const selectedKeywords = ref<any[]>([])
 const hollandCodes = ref<{
@@ -235,10 +236,16 @@ async function shareTable() {
     fullscreenLoading.value = false
 }
 function shareRadar() {
+    fullscreenLoading.value = true
     const hollandChartCanvas = hollandChartInstance.value.canvas
     callNavigatorShare(hollandChartCanvas)
+    fullscreenLoading.value = false
 }
 async function callNavigatorShare(canvas) {
+    if (!navigator.share) {
+        ElMessage.info('不支援Web Share API')
+        return
+    }
     const dataUrl = canvas.toDataURL();
     const blob = await (await fetch(dataUrl)).blob();
     const filesArray = [
@@ -252,19 +259,26 @@ async function callNavigatorShare(canvas) {
         )
     ];
 
-    const hollandCodeString = selectedCodesOrigin.value.join()
-
-    const userLabels = hollandCodes.value.filter(item => {
-        return selectedCodesOrigin.value.includes(item.value)
-    }).map(item => item.label).join('、')
 
     const shareConfig = {
         files: filesArray,
         title: '合理的理想職涯',
-        text: `我的Holland Code是${hollandCodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`,
         url: `${window.location.href}?openExternalBrowser=1` || 'https://econ-sense.com?openExternalBrowser=1',
+        text: '選擇關鍵字、尋找合適職務，量化現有與未來職務的適性差異。快來測試你的職業性格吧！',
     }
-    navigator.share(shareConfig);
+    if (selectedCodesOrigin.value.length) {
+        const hollandCodeString = selectedCodesOrigin.value.join()
+        const userLabels = hollandCodes.value.filter(item => {
+            return selectedCodesOrigin.value.includes(item.value)
+        }).map(item => item.label).join('、')
+        shareConfig.text = `我的Holland Code是${hollandCodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`
+    }
+
+    try {
+        navigator.share(shareConfig);
+    } catch (error) {
+        ElMessage.info(error.message || error)
+    }
 }
 function forwardToTable() {
     isAnalyzed.value = true
