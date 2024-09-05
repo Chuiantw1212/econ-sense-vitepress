@@ -11,7 +11,7 @@
                 <div>當此提示順利地自動關閉。就可以開始使用了。</div>
                 <template #footer>
                     <div class="dialog-footer">
-                        <el-button @click="backToCalendar()">放棄使用</el-button>
+                        <el-button type="danger" @click="backToCalendar()">放棄使用</el-button>
                         <el-button v-loading="true" :disabled="true" type="primary"
                             @click="loadingDialogVisible = false">
                             下一步
