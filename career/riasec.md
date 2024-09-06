@@ -12,7 +12,7 @@ head:
       content: https://econ-sense.com/career/holland.html
 ---
 
-# 合理的理想職涯
+# NLP的理想職涯
 
 1. 選擇適合自己的關鍵字
 2. 尋找合適職務

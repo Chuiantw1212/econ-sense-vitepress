@@ -262,7 +262,7 @@ async function callNavigatorShare(canvas) {
 
     const shareConfig = {
         files: filesArray,
-        title: '合理的理想職涯',
+        title: 'NLP的理想職涯',
         url: `${window.location.href}?openExternalBrowser=1` || 'https://econ-sense.com?openExternalBrowser=1',
         text: '選擇關鍵字、尋找合適職務，量化現有與未來職務的適性差異。快來測試你的職業性格吧！',
     }
