@@ -413,7 +413,6 @@ function drawCharts() {
         count = Math.round(count)
         riasecVectors.push(count)
     }
-    userHollandVectors.value = riasecVectors
     // set holland code selected
     const dataValues = riasecVectors
     selectedCodes.value = []
@@ -433,6 +432,15 @@ function drawCharts() {
         })
     }
     selectedCodesOrigin.value = [...selectedCodes.value]
+    const riasecAdjustVectors: number[] = []
+    for (let key in riasecRaw) {
+        let count = riasecRaw[key] + 1
+        const deno = selectedKeywords.value.length + 6
+        count = count / deno * 100
+        count = Math.round(count)
+        riasecAdjustVectors.push(count)
+    }
+    userHollandVectors.value = riasecAdjustVectors
     onHollandCodeChanged()
     // update chart
     const data: any = {
