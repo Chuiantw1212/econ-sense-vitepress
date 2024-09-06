@@ -80,6 +80,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '合理的理想職涯', link: '/career/riasec' },
+          { text: '軟體職涯入門', link: '/career/beginner' },
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
           { text: '精實執行(說書|付費)', },
