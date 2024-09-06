@@ -52,6 +52,13 @@ import DigitalDocuments from '../components/digitalDocuments.vue'
 import Courses from '../components/courses.vue'
 
 const digitalDocumentItems = [
+{
+        url: './beginner',
+        name: '網站初學須知',
+        keywords: ['職涯探索', '學習', '履歷', '求職'],
+        audience: ['資訊工程相關科系大三以上學生','欲轉職為軟體工程師的社會人士', '打算換工作的在職軟體工程師也可以來聽聽看'],
+        rating: 3
+    },
     {
         url: './blog',
         name: '網站初學須知',
