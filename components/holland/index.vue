@@ -471,7 +471,7 @@ function drawCharts() {
                 },
                 title: {
                     display: true,
-                    text: '何倫碼分佈圖'
+                    text: '何倫碼雷達圖'
                 }
             }
         },
