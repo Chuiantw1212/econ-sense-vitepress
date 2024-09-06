@@ -417,7 +417,7 @@ function drawCharts() {
     const dataValues = riasecVectors
     selectedCodes.value = []
     dataValues.forEach((value, index) => {
-        if (value >= 20) {
+        if (value >= 17) {
             const hollanCodeItem = hollandCodes.value[index]
             selectedCodes.value.push(hollanCodeItem.value)
         }
@@ -437,7 +437,6 @@ function drawCharts() {
         let count = riasecRaw[key] + 1
         const deno = selectedKeywords.value.length + 6
         count = count / deno * 100
-        count = Math.round(count)
         riasecAdjustVectors.push(count)
     }
     userHollandVectors.value = riasecAdjustVectors
