@@ -16,6 +16,14 @@
     list-style: none !important;
 }
 
+.table {
+    * {
+        border-color: var(--el-border-color-light);
+        color: var(--el-text-color-regular);
+        background: white !important;
+    }
+}
+
 @media screen and (min-width:992px) {
     .d-md-block {
         display: block;
