@@ -59,12 +59,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in pagedOccupations" :key="index">
-                        <td>{{ item.label }}</td>
-                        <!-- <td>{{ item.jobZone }}</td> -->
-                        <td>{{ item.IHs?.join('') }}</td>
-                        <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
-                    </tr>
+                    <template v-for="(item, index) in pagedOccupations" :key="index">
+                        <tr>
+                            <td>{{ item.label }}</td>
+                            <!-- <td>{{ item.jobZone }}</td> -->
+                            <td>{{ item.IHs?.join('') }}</td>
+                            <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
+                        </tr>
+                    </template>
                 </tbody>
             </table>
             <div class="example-pagination-block">
@@ -79,7 +81,7 @@
             </div>
             <template #footer>
                 <el-collapse v-model="occupationCollapse">
-                    <el-collapse-item title="求職門檻分數查表" name="1">
+                    <!-- <el-collapse-item title="求職門檻分數查表" name="1">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -116,7 +118,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </el-collapse-item>
+                    </el-collapse-item> -->
                     <el-collapse-item title="說明">
 
                         <ul>
