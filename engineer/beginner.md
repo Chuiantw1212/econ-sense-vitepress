@@ -1,19 +1,23 @@
 ---
-# description: 深入探索軟體專案實務，從PMP到敏捷，解析角色盲點。適合職場新手、專案管理者和PMI持證人士。了解專案管理實務，探索角色挑戰，全面理解軟體專案運作。
+description: 《軟體職涯入門》涵蓋職涯探索、學習、履歷、求職，適合資工系學生、欲轉職者及想換工作的在職軟體工程師。
 outline: deep
 ---
 
 # 軟體職涯入門
 
-## 投影片
+《軟體職涯入門》為資訊工程相關科系的大三以上學生、欲轉職為軟體工程師的社會人士，以及打算換工作的在職軟體工程師提供實用指南。內容涵蓋職涯探索、學習策略、履歷撰寫技巧及求職方法，助您為軟體工程職涯做好準備，找到適合的職位與發展方向。
+
+## 線上/實體講座
+
+### 投影片
 
 <iframe src="https://docs.google.com/presentation/d/1E7SV-aL5n4jSFpAllj23Tt5TrRnYjtfhNQL-DR0D9fo/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%"  height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
-## 講座評價
+### 評價
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRC9l9PeG5_xm6STaHDLibjsTNwz8VuaomjRdeWL9wa_8dn4mEBLeAbE4YszFAVR36qo3gv2OfhR2Ix/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
-## 外部資源
+<!-- ## 外部資源
 
 <table>
     <thead>
@@ -40,9 +44,9 @@ outline: deep
             <td>學習專案管理的好地方</td>
         </tr>
     </tbody>
-</table>
+</table> -->
 
-## 外部優質課程
+<!-- ## 外部優質課程 -->
 
 <!-- <Courses :modelValue="courseItems"></Courses> -->
 
