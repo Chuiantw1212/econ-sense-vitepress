@@ -46,14 +46,14 @@
                         @change="onHollandCodeChanged()" />
                 </el-checkbox-group>
             </el-form-item>
-            <el-form-item label="搜索職務">
-                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="onKeywordChanged()" />
+            <el-form-item label="進階篩選">
+                <el-input v-model="userKeyword" placeholder="請輸入想探索的職務名稱" clearable @input="onKeywordChanged()" />
             </el-form-item>
             <table id="occupationTable" class="table">
                 <thead>
                     <tr>
                         <th>專業頭銜</th>
-                        <th>求職門檻</th>
+                        <!-- <th>求職門檻</th> -->
                         <th>何倫碼</th>
                         <th v-if="selectedKeywords.length">潛力指數</th>
                     </tr>
@@ -61,7 +61,7 @@
                 <tbody>
                     <tr v-for="(item, index) in pagedOccupations" :key="index">
                         <td>{{ item.label }}</td>
-                        <td>{{ item.jobZone }}</td>
+                        <!-- <td>{{ item.jobZone }}</td> -->
                         <td>{{ item.IHs?.join('') }}</td>
                         <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
                     </tr>
@@ -214,7 +214,7 @@ const pagedOccupations = ref<interestItemDesign[]>([])
 const currentPage = ref<number>(1)
 const userKeyword = ref<string>('')
 const fuseInstance = ref()
-const occupationCollapse = ref<string[]>(['1'])
+const occupationCollapse = ref<string[]>([])
 const isAnalyzed = ref<boolean>(false)
 const fullscreenLoading = ref<boolean>(false)
 let hollandChartInstance = ref<Chart>()
