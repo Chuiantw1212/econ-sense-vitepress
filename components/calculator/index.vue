@@ -237,7 +237,7 @@ async function getUserFromServer(firebaseUser) {
     let showMessage = false
     try {
         if (firebaseUser) {
-            const res = await authFetch(`/user`, {
+            const res = await authFetch(`/plan`, {
                 method: 'get'
             })
             responseForm = await res?.json()
@@ -245,7 +245,7 @@ async function getUserFromServer(firebaseUser) {
         }
     } catch (error) {
         ElMessage(error.message || error)
-        const res = await authFetch(`/user/new`, {
+        const res = await authFetch(`/plan/new`, {
             method: 'post'
         })
         responseForm = await res?.json()
@@ -426,7 +426,7 @@ const userForm = reactive({
     }
 })
 async function onProfileChanged() {
-    authFetch(`/user/profile`, {
+    authFetch(`/plan/profile`, {
         method: 'put',
         body: userForm.profile,
     })
@@ -436,7 +436,7 @@ async function onProfileChanged() {
 }
 // 職業試算
 function onCareerChanged() {
-    authFetch(`/user/career`, {
+    authFetch(`/plan/career`, {
         method: 'put',
         body: userForm.career,
     })
@@ -446,7 +446,7 @@ function onCareerChanged() {
 }
 // 退休試算
 function onRetirementChanged() {
-    authFetch(`/user/retirement`, {
+    authFetch(`/plan/retirement`, {
         method: 'put',
         body: userForm.retirement,
     })
@@ -456,7 +456,7 @@ function onRetirementChanged() {
 }
 // 投資試算
 function onSecurityChanged() {
-    authFetch(`/user/security`, {
+    authFetch(`/plan/security`, {
         method: 'put',
         body: userForm.security,
     })
@@ -466,7 +466,7 @@ function onSecurityChanged() {
 }
 // 配偶試算
 function onSpouseChanged() {
-    authFetch(`/user/spouse`, {
+    authFetch(`/plan/spouse`, {
         method: 'put',
         body: userForm.spouse,
     })
@@ -476,7 +476,7 @@ function onSpouseChanged() {
 }
 // 家庭責任試算
 function onParentingChanged() {
-    authFetch(`/user/parenting`, {
+    authFetch(`/plan/parenting`, {
         method: 'put',
         body: userForm.parenting,
     })
@@ -499,7 +499,7 @@ function resetTotalPrice() {
     userForm.estatePrice.town = ''
     userForm.estatePrice.unitPrice = 0
     userForm.estate.totalPriceEstimated = 0
-    authFetch(`/user/estatePrice`, {
+    authFetch(`/plan/estatePrice`, {
         method: 'put',
         body: userForm.estatePrice,
     })
@@ -511,11 +511,11 @@ function onDialogConfirm(newValue) {
     estateCalculatorVisiable.value = false
     Object.assign(userForm.estatePrice, newValue.estatePrice)
     Object.assign(userForm.estateSize, newValue.estateSize)
-    authFetch(`/user/estatePrice`, {
+    authFetch(`/plan/estatePrice`, {
         method: 'put',
         body: userForm.estatePrice,
     })
-    authFetch(`/user/estateSize`, {
+    authFetch(`/plan/estateSize`, {
         method: 'put',
         body: userForm.estateSize,
     })
@@ -525,7 +525,7 @@ function onDialogConfirm(newValue) {
 }
 // 房屋貸款試算
 function onMortgageChanged() {
-    authFetch(`/user/estate`, {
+    authFetch(`/plan/estate`, {
         method: 'put',
         body: userForm.estate,
     })
@@ -577,7 +577,7 @@ async function changeAllCards(from) {
 }
 // 資料匯出
 async function exportUserForm() {
-    const res = await fetch(`${VITE_BASE_URL}/user/type`, {
+    const res = await fetch(`${VITE_BASE_URL}/plan/type`, {
         method: 'get',
     })
     const userFormType = await res.json()

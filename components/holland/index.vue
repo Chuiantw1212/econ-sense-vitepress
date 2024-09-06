@@ -46,25 +46,27 @@
                         @change="onHollandCodeChanged()" />
                 </el-checkbox-group>
             </el-form-item>
-            <el-form-item label="搜索職務">
-                <el-input v-model="userKeyword" placeholder="請輸入職務名稱" clearable @input="onKeywordChanged()" />
+            <el-form-item label="進階篩選">
+                <el-input v-model="userKeyword" placeholder="請輸入想探索的職務名稱" clearable @input="onKeywordChanged()" />
             </el-form-item>
             <table id="occupationTable" class="table">
                 <thead>
                     <tr>
                         <th>專業頭銜</th>
-                        <th>求職門檻</th>
+                        <!-- <th>求職門檻</th> -->
                         <th>何倫碼</th>
                         <th v-if="selectedKeywords.length">潛力指數</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in pagedOccupations" :key="index">
-                        <td>{{ item.label }}</td>
-                        <td>{{ item.jobZone }}</td>
-                        <td>{{ item.IHs?.join('') }}</td>
-                        <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
-                    </tr>
+                    <template v-for="(item, index) in pagedOccupations" :key="index">
+                        <tr>
+                            <td>{{ item.label }}</td>
+                            <!-- <td>{{ item.jobZone }}</td> -->
+                            <td>{{ item.IHs?.join('') }}</td>
+                            <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
+                        </tr>
+                    </template>
                 </tbody>
             </table>
             <div class="example-pagination-block">
@@ -79,7 +81,7 @@
             </div>
             <template #footer>
                 <el-collapse v-model="occupationCollapse">
-                    <el-collapse-item title="求職門檻分數查表" name="1">
+                    <!-- <el-collapse-item title="求職門檻分數查表" name="1">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -116,7 +118,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </el-collapse-item>
+                    </el-collapse-item> -->
                     <el-collapse-item title="說明">
 
                         <ul>
@@ -214,7 +216,7 @@ const pagedOccupations = ref<interestItemDesign[]>([])
 const currentPage = ref<number>(1)
 const userKeyword = ref<string>('')
 const fuseInstance = ref()
-const occupationCollapse = ref<string[]>(['1'])
+const occupationCollapse = ref<string[]>([])
 const isAnalyzed = ref<boolean>(false)
 const fullscreenLoading = ref<boolean>(false)
 let hollandChartInstance = ref<Chart>()
@@ -262,7 +264,7 @@ async function callNavigatorShare(canvas) {
 
     const shareConfig = {
         files: filesArray,
-        title: '合理的理想職涯',
+        title: 'NLP的理想職涯',
         url: `${window.location.href}?openExternalBrowser=1` || 'https://econ-sense.com?openExternalBrowser=1',
         text: '選擇關鍵字、尋找合適職務，量化現有與未來職務的適性差異。快來測試你的職業性格吧！',
     }
@@ -387,13 +389,14 @@ async function initializeKeywords() {
     shuffledKeywords.value = [...twoWords, ...threeWords, ...fourWords]
 }
 function drawCharts() {
+    // set user holland vectors
     const hollandCodeKeywords: string[] = selectedKeywords.value.map((selectedLabel: string) => {
         const selectedItem = shuffledKeywords.value.find(item => {
             return item.label === selectedLabel
         })
         return selectedItem?.value || ''
     })
-    const riasec = {
+    const riasecRaw = {
         'R': 0,
         'I': 0,
         'A': 0,
@@ -403,28 +406,20 @@ function drawCharts() {
     }
     hollandCodeKeywords.forEach(value => {
         const code = value[0]
-        riasec[code] += 1
+        riasecRaw[code] += 1
     })
-    for (let key in riasec) {
-        // %化
-        let count = riasec[key]
+    const riasecVectors: number[] = []
+    for (let key in riasecRaw) {
+        let count = riasecRaw[key]
         count = count / selectedKeywords.value.length * 100
-        riasec[key] = Math.round(count)
-    }
-    userHollandVectors.value = Object.values(riasec)
-    //
-    const data: any = {
-        labels: ['實做型', '研究型', '藝術型', '社會型', '企業型', '事務型'],
-        datasets: [{
-            label: '興趣何綸碼',
-            data: Object.values(riasec),
-        }],
+        count = Math.round(count)
+        riasecVectors.push(count)
     }
     // set holland code selected
-    const dataValues = Object.values(riasec)
+    const dataValues = riasecVectors
     selectedCodes.value = []
     dataValues.forEach((value, index) => {
-        if (value >= 20) {
+        if (value >= 17) {
             const hollanCodeItem = hollandCodes.value[index]
             selectedCodes.value.push(hollanCodeItem.value)
         }
@@ -439,8 +434,23 @@ function drawCharts() {
         })
     }
     selectedCodesOrigin.value = [...selectedCodes.value]
+    const riasecAdjustVectors: number[] = []
+    for (let key in riasecRaw) {
+        let count = riasecRaw[key] + 1
+        const deno = selectedKeywords.value.length + 6
+        count = count / deno * 100
+        riasecAdjustVectors.push(count)
+    }
+    userHollandVectors.value = riasecAdjustVectors
     onHollandCodeChanged()
     // update chart
+    const data: any = {
+        labels: ['實做型', '研究型', '藝術型', '社會型', '企業型', '事務型'],
+        datasets: [{
+            label: '興趣何綸碼',
+            data: riasecVectors,
+        }],
+    }
     if (hollandChartInstance.value) {
         hollandChartInstance.value.data = data
         hollandChartInstance.value.update()
@@ -463,7 +473,7 @@ function drawCharts() {
                 },
                 title: {
                     display: true,
-                    text: '何倫碼分佈圖'
+                    text: '何倫碼雷達圖'
                 }
             }
         },

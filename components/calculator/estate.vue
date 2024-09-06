@@ -59,6 +59,7 @@
             <br />
             <el-row>
                 <el-col :span="12">
+                    <!-- 不放min，可以變成貸款計算機 -->
                     <el-form-item label="實際購屋年">
                         <el-input-number v-model="estate.downpayYear" @change="calculateMortgage()" />
                     </el-form-item>
