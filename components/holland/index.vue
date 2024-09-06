@@ -412,14 +412,6 @@ function drawCharts() {
         riasec[key] = Math.round(count)
     }
     userHollandVectors.value = Object.values(riasec)
-    //
-    const data: any = {
-        labels: ['實做型', '研究型', '藝術型', '社會型', '企業型', '事務型'],
-        datasets: [{
-            label: '興趣何綸碼',
-            data: Object.values(riasec),
-        }],
-    }
     // set holland code selected
     const dataValues = Object.values(riasec)
     selectedCodes.value = []
@@ -441,6 +433,13 @@ function drawCharts() {
     selectedCodesOrigin.value = [...selectedCodes.value]
     onHollandCodeChanged()
     // update chart
+    const data: any = {
+        labels: ['實做型', '研究型', '藝術型', '社會型', '企業型', '事務型'],
+        datasets: [{
+            label: '興趣何綸碼',
+            data: Object.values(riasec),
+        }],
+    }
     if (hollandChartInstance.value) {
         hollandChartInstance.value.data = data
         hollandChartInstance.value.update()
