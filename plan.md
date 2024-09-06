@@ -5,7 +5,7 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://econ-sense.com/plan/calculator.png
+      content: /finance/plan/calculator.png
 ---
 <!-- https://vitepress.dev/reference/frontmatter-config#head -->
 

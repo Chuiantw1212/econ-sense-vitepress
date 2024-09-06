@@ -483,7 +483,7 @@ const bookItems = [
 
 // hooks
 onMounted(async () => {
-    const response = await fetch("/personality.json");
+    const response = await fetch("/finance/personality.json");
     const jsonFile:IQuestionGroup[] = await response.json();
     jsonFile.forEach((questionGroup:IQuestionGroup) => {
         shuffle(questionGroup.options)

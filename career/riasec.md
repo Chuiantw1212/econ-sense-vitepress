@@ -5,11 +5,11 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://econ-sense.com/career/holland.webp
+      content: /career/holland.webp
   - - meta
     - name: og:url
       property: og:url
-      content: https://econ-sense.com/career/holland.html
+      content: /career/holland.html
 ---
 
 # NLP的理想職涯
