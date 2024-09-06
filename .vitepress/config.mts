@@ -80,7 +80,6 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '合理的理想職涯', link: '/career/riasec' },
-          { text: '軟體職涯入門', link: '/career/beginner' },
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
           { text: '精實執行(說書|付費)', },
@@ -92,6 +91,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '網站初學須知', link: '/engineer/web' },
+          { text: '軟體職涯入門', link: '/engineer/beginner' },
           { text: '電腦DIY', link: '/engineer/computer' },
           { text: 'VitePress無本部落格', link: '/engineer/blog' },
           // { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
