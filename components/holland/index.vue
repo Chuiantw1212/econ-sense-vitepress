@@ -387,13 +387,14 @@ async function initializeKeywords() {
     shuffledKeywords.value = [...twoWords, ...threeWords, ...fourWords]
 }
 function drawCharts() {
+    // set user holland vectors
     const hollandCodeKeywords: string[] = selectedKeywords.value.map((selectedLabel: string) => {
         const selectedItem = shuffledKeywords.value.find(item => {
             return item.label === selectedLabel
         })
         return selectedItem?.value || ''
     })
-    const riasec = {
+    const riasecRaw = {
         'R': 0,
         'I': 0,
         'A': 0,
@@ -403,17 +404,18 @@ function drawCharts() {
     }
     hollandCodeKeywords.forEach(value => {
         const code = value[0]
-        riasec[code] += 1
+        riasecRaw[code] += 1
     })
-    for (let key in riasec) {
-        // %化
-        let count = riasec[key]
+    const riasecVectors: number[] = []
+    for (let key in riasecRaw) {
+        let count = riasecRaw[key]
         count = count / selectedKeywords.value.length * 100
-        riasec[key] = Math.round(count)
+        count = Math.round(count)
+        riasecVectors.push(count)
     }
-    userHollandVectors.value = Object.values(riasec)
+    userHollandVectors.value = riasecVectors
     // set holland code selected
-    const dataValues = Object.values(riasec)
+    const dataValues = riasecVectors
     selectedCodes.value = []
     dataValues.forEach((value, index) => {
         if (value >= 20) {
@@ -437,7 +439,7 @@ function drawCharts() {
         labels: ['實做型', '研究型', '藝術型', '社會型', '企業型', '事務型'],
         datasets: [{
             label: '興趣何綸碼',
-            data: Object.values(riasec),
+            data: riasecVectors,
         }],
     }
     if (hollandChartInstance.value) {
