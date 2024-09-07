@@ -1,6 +1,11 @@
 ---
 description: 《軟體職涯入門》涵蓋職涯探索、學習、履歷、求職，適合資工系學生、欲轉職者及想換工作的在職軟體工程師。
 outline: [2,3]
+head:
+  - - meta
+    - name: og:image
+      property: og:image
+      content: /engineer/beginner/bootcamp.png
 ---
 
 # 軟體職涯入門
