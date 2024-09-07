@@ -180,19 +180,18 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 
 當你擁有一份強大的履歷後，下一步是通過多種管道讓它被更多人看到。以下是幾個有效提升履歷曝光的方式：
 
-1. LinkedIn、104 等人力銀行
+1. **LinkedIn、104 等人力銀行**  
+   這類平台是專業人士展示技能和找工作的主要管道。確保你的 [LinkedIn](https://www.linkedin.com/) 資料完整且專業，定期更新工作經歷和專案成果，並積極參與相關討論。像 [104 人力銀行](https://www.104.com.tw/) 這類台灣的求職平台也能幫助你接觸更多的職場機會。
 
-這類平台是專業人士展示技能和找工作的主要管道。確保你的[LinkedIn](https://www.linkedin.com/) 資料完整且專業，定期更新工作經歷和專案成果，並積極參與相關討論。像 [104 人力銀行](https://www.104.com.tw/) 這類台灣的求職平台也能幫助你接觸更多的職場機會。
+2. **GitHub Profile**  
+   GitHub 是展示程式開發能力的重要平台。通過維護你的 [GitHub profile](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/about-your-profile)，讓潛在雇主能夠看到你在開源項目中的貢獻、代碼品質和技術深度。確保你的主要專案和貢獻公開，這不僅展示了你的技術能力，也能讓你在技術社群中獲得更多曝光。
 
-1. GitHub Profile
-
-GitHub 是展示程式開發能力的重要平台。通過維護你的 [GitHub profile](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/about-your-profile)，讓潛在雇主能夠看到你在開源項目中的貢獻、代碼品質和技術深度。確保你的主要專案和貢獻公開，這不僅展示了你的技術能力，也能讓你在技術社群中獲得更多曝光。
-
-1. 個人部落格
-
-在部落格上定期發表技術文章，展示你的專業見解和項目經驗，並在文章中連結你的履歷和作品集。這樣不僅有助於潛在雇主了解你的能力，還能讓你在技術社群中建立聲譽。
+3. **個人部落格**  
+   在部落格上定期發表技術文章，展示你的專業見解和項目經驗，並在文章中連結你的履歷和作品集。這樣不僅有助於潛在雇主了解你的能力，還能讓你在技術社群中建立聲譽。
 
 這些方法能夠有效提高你的履歷可見性，讓你在求職過程中有更多的曝光機會。
+
+![githubProfile](/engineer/beginner/githubProfile.png "githubProfile")
 
 ### 最後一招：取得證照
 
