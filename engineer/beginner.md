@@ -267,7 +267,9 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 
 ### 投影片
 
-<iframe src="https://docs.google.com/presentation/d/1E7SV-aL5n4jSFpAllj23Tt5TrRnYjtfhNQL-DR0D9fo/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%"  height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<LazySlide>
+    <iframe src="https://docs.google.com/presentation/d/1E7SV-aL5n4jSFpAllj23Tt5TrRnYjtfhNQL-DR0D9fo/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%"  height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</LazySlide>
 
 ### 評價
 
@@ -311,6 +313,7 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
+import LazySlide from '../components/lazySlide.vue'
 import Books from '../components/books.vue'
 import Courses from '../components/courses.vue'
 
