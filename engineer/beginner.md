@@ -26,23 +26,84 @@ head:
 
 ### 語言選擇與技術趨勢
 
-選擇學習哪種程式語言對於你的職涯發展至關重要，因為不同的語言常常與不同的產品和技術方向緊密相連。早在2014年，一張流行的[技術決策圖](https://www.reddit.com/r/coolguides/comments/82y5rv/which_programming_language_should_i_learn_first/)展示了語言選擇與最終產品類型之間的關係，為許多剛入門的開發者提供了指導。然而，十年後的2024年，技術發展趨勢已經有了顯著變化，許多語言和技術棧的地位已經轉變。
+擇學習哪種程式語言對你的職涯發展至關重要，因為不同語言常常與不同的產品和技術方向緊密相關。早在 2014 年，曾有一張廣受歡迎的[技術決策圖](https://www.reddit.com/r/coolguides/comments/82y5rv/which_programming_language_should_i_learn_first)展示了程式語言選擇與產品類型之間的關係，這為許多初學開發者提供了指導。然而，隨著技術的發展，到了 2024 年，語言和技術棧的地位已經發生了顯著變化。
 
-舉例來說，Kotlin如今已經在行動端（特別是Android開發）取代了Java，成為主流語言。後端領域也出現了類似的趨勢，Go、Rust和C#逐漸取代了Java，尤其是在高效能需求和並行處理的應用中更為常見。事實上，根據[TIOBE編程社群指數](https://www.tiobe.com/tiobe-index/)的數據顯示，Java自2002年以來持續下滑，這反映出Java的市場需求不再像過去那麼強勁。
+根據 [TIOBE 編程社群指數](https://www.tiobe.com/tiobe-index/)，**Java** 自 2002 年以來呈現持續下滑趨勢，這反映了其在新興應用中的需求減少。隨著技術不斷進步，選擇與市場需求吻合的程式語言變得更加重要。
 
-根據 [Stack Overflow Report 2024](https://survey.stackoverflow.co/2024/)，以下是一些當前主流程式語言及其主要用途，這些語言的選擇不僅影響你將參與的產品類型，也將決定你在職場中的發展路徑：
+結合 [**104 職缺統計**](https://www.104.com.tw/) 和 [**Stack Overflow Report 2024**](https://survey.stackoverflow.co/2024/) 提供的全球趨勢，以下是台灣主要程式語言的現狀及其應用：
 
-- **[Python](https://www.python.org/)**：簡單易學，廣泛應用於數據科學、人工智慧、機器學習、網頁後端開發和自動化腳本。
-- **[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)**：前端網頁開發的核心語言，並且通過 Node.js 進入後端開發。
-- **[TypeScript](https://www.typescriptlang.org/)**：JavaScript 的超集，增加了靜態類型系統，適合大型前端和後端項目。
-- **[Rust](https://www.rust-lang.org/)**：強型別且記憶體安全，適合需要高性能和並發控制的系統應用。
-- **[Go (Golang)](https://go.dev/)**：簡單且高效，適合後端開發、微服務架構和雲端運算。
-- **[C#](https://learn.microsoft.com/en-us/dotnet/csharp/)**：微軟的主打語言，適用於桌面應用、後端開發、遊戲開發以及跨平台手機應用。
-- **[Kotlin](https://kotlinlang.org/)**：Android 開發的主流語言，也支援後端和跨平台開發。
+#### Rust
 
-技術的演變告訴我們，學習一種語言不僅是掌握當下的技能，更是為未來的職涯做好準備。了解這些語言的應用場景能幫助你更好地規劃自己的職業方向，並在快速變化的科技環境中保持競爭力。
+[Rust](https://www.rust-lang.org/) 是一種專注於 系統編程 和 高效能應用 的語言，特別適合用於需要高度內存安全的應用，例如區塊鏈技術和系統安全開發。Rust 以其記憶體安全性和高效能特性著稱，是系統層面開發的理想選擇。
+
+- Stack Overflow 被仰慕語言分數：82.2%
+- 台灣市場佔比：0.3%
+
+#### Go (Golang)
+
+[Go](https://go.dev/) 因其高效能和簡單性，特別適用於 後端開發 和 微服務架構，特別是在需要處理高併發的系統中，例如雲計算平台。Go 以其輕量化和高效能著稱，適合處理大型分散式系統和容器化應用。
+
+- Stack Overflow 被仰慕語言分數：67.7%
+- 台灣市場佔比：3.4%
+
+#### Python
+
+[Python](https://www.python.org/) 以其簡潔性和靈活性，成為 數據科學、人工智慧（AI） 和 機器學習 領域的首選語言。Python 在後端開發和自動化解決方案中也占據了重要地位，尤其在教育和科研領域，初創企業和大型公司都採用 Python 進行數據處理和分析。
+
+- Stack Overflow 被仰慕語言分數：67.6%
+- 台灣市場佔比：18.5%
+
+#### JavaScript
+
+[TypeScript](https://www.typescriptlang.org/) 和 [JavaScript](https://nodejs.org/en) 是 前端開發 的核心技術，廣泛應用於構建網頁應用和單頁應用（SPA）。隨著 Node.js 的出現，JavaScript 也在 後端開發 中占據了一席之地，特別適合構建高效能的 API。TypeScript 作為 JavaScript 的增強版本，因其靜態類型系統，在大型專案中被廣泛應用，尤其是在金融和科技產業。
+
+- Stack Overflow 被仰慕語言分數：TypeScript：69.5%、JavaScript：58.3%
+- 台灣市場佔比：20.8%
+
+#### CSharp (C#)
+
+[C#](https://dotnet.microsoft.com/en-us/languages/csharp) 廣泛應用於 企業應用 和 遊戲開發，尤其是在使用 Unity 引擎的 3D 和 2D 遊戲開發中。C# 是微軟生態系統的核心語言，在後端開發和桌面應用中具有穩定的市場需求，特別是在台灣的企業級應用開發中佔據重要地位。
+
+- Stack Overflow 被仰慕語言分數：64.1%
+- 台灣市場佔比：17.3%
+
+#### Kotlin
+
+[Kotlin](https://kotlinlang.org/) 逐漸取代 Java 成為 Android 開發 的主流語言。它與 Java 的互操作性使其在後端開發中也受到廣泛應用，特別是在簡化代碼和提高開發效率方面，Kotlin 在 Android 和企業應用開發中佔據重要地位。
+
+- Stack Overflow 被仰慕語言分數：62.9%
+- 台灣市場佔比：1.7%
+
+#### C++
+
+[C++](https://cplusplus.com/) 主要應用於 高效能應用、嵌入式系統 和 遊戲引擎 開發。由於 C++ 擁有極高的性能和低級存取特性，它被廣泛應用於需要直接與硬體交互的領域，如自動駕駛技術、物聯網設備以及遊戲開發。
+
+- Stack Overflow 被仰慕語言分數：53.1%
+- 台灣市場佔比：16.7%
+
+#### Java
+
+雖然 [Java](https://www.java.com) 的全球趨勢下滑，但在台灣的 企業應用 和 金融科技 領域，Java 仍然是一個強大的技術。許多銀行、保險公司和大型企業依賴 Java 作為其後端開發的主要技術，用於開發安全性高且可擴展的系統。
+
+- Stack Overflow 被仰慕語言分數：47.6%
+- 台灣市場佔比：15.4%
+
+#### PHP
+
+[PHP](https://www.php.net/) 主要應用於 網站後端開發，尤其是基於 WordPress 等內容管理系統（CMS）的應用開發。PHP 在中小型企業和個人網站開發中依然有著廣泛應用，儘管其市場需求在逐漸減少。
+
+- Stack Overflow 被仰慕語言分數：43.8%
+- 台灣市場佔比：5.9%
 
 ![stackoverflow](https://storage.googleapis.com/public.econ-sense.com/engineer/beginner/stackoverflow.webp "stackoverflow")
+
+### Best In Class
+
+語言選擇固然會影響你在某些領域的競爭力，但真正決定成功的關鍵在於成為該領域的佼佼者，即所謂的 "Best in class"。無論你選擇哪種語言，只要能掌握其核心並精通實踐，語言本身就不再成為局限。市場對於具備專業技術的頂尖人才始終有著強烈需求。
+
+以 JavaScript 為例，雖然主要用於前端開發，但許多開發者通過 Node.js 展示了它在後端應用的潛力。同樣，儘管 PHP 在全球技術趨勢中有所下滑，專精這些技術的人依然可以在職場上取得成功。
+
+核心在於不斷精進技術，提升實踐經驗。無論你選擇何種語言，成為該技術領域的專家是打破語言限制、推動職涯發展的真正力量。
 
 ## 學習
 
