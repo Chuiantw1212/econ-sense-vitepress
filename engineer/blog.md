@@ -6,10 +6,11 @@ outline: deep
 # VitePress無本部落格
 
 《VitePress無本部落格》涵蓋環境建置、本機運行、發布與修改、進階設定等內容。適合想學習前端的初學者、希望脫離平台倒閉困擾的使用者，以及不想負擔部落格託管費用的使用者。這個指南將帶您一步步建立並管理自己的無本部落格，實現高效、低成本的網路內容創作。
+<!--  -->
 
 ## 投影片
 
-<iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vR4k_0cneqzJW37Dq0_y1BvqiizmqCv5649bAWUqjmiesaB_34azhaCnLQhVq8lH_a6vO3DrwjfOmYc/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<iframe src="https://docs.google.com/presentation/d/1N_rlj0UvRpO1gqXPaB5nf4D9E5VOvV-3eG5HRXUmOwk/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
 ## 講座評價
 
