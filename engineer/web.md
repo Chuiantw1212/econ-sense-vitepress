@@ -7,6 +7,8 @@ outline: deep
 
 《網站初學須知》為想學習網站基本概念的初學者、與工程師溝通的PM，以及好奇全端工程師經驗的開發者提供全面指引。內容涵蓋早期和2016年後的網站演進、網站開發流程與工具，以及全端自學須知，幫助您掌握關鍵知識和技能。無論您是剛開始接觸網站開發，還是需要與技術團隊合作，這個資源將助您奠定紮實的基礎。
 
+<!--  -->
+
 ## 投影片
 
 <iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vTWoH-9ATrPJwCIL27NuWaFpREmdcpVNGb_DkK5B5RKNcptjoXCKG7ooma38nM1-w5gD-s7F0MVZtGn/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
@@ -53,10 +55,6 @@ outline: deep
         </tr>
     </tbody>
 </table>
-
-<!-- ## 延伸閱讀 -->
-
-<!-- <Books :modelValue="bookItems"></Books> -->
 
 <script setup>
 

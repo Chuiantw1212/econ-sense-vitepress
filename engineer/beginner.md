@@ -227,14 +227,6 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 
 ![pro360](https://storage.googleapis.com/public.econ-sense.com/engineer/beginner/pro360.webp "pro360")
 
-<!-- ### 避免黑歷史的風險
-
-接案雖然是增加作品集和收入的好方法，但也伴隨著風險。若專案完成不理想，可能會在網路上留下負面的記錄，這些記錄可能保存 5 到 10 年，成為你的「黑歷史」。以下是幾個避免風險的建議：
-
-1. 清晰的專案範疇與溝通：確保與客戶溝通明確，設定合理的目標和期望，並簽署合約來保護雙方的權益。
-1. 專案交付的品質：維持高品質的專案交付，即使是小型專案也要做到最好，確保每一個交付都符合客戶的期待。
-1. 管理網路形象：如果不幸遇到負面評價，應主動與客戶溝通，嘗試挽回局面，避免長期留下不良記錄。 -->
-
 ### 尋找專家服務
 
 如果你不確定如何更好地展示自己的能力，或者希望讓履歷更具吸引力，尋求專業履歷撰寫服務是個不錯的選擇。平台如 [Life Career Designer](https://lifecareerdesigner.com/) 提供專業的生涯設計和履歷撰寫輔導服務，專門幫助你釐清職涯目標、優化履歷內容，並提升面試的成功率。
@@ -343,39 +335,6 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 ### 評價
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRC9l9PeG5_xm6STaHDLibjsTNwz8VuaomjRdeWL9wa_8dn4mEBLeAbE4YszFAVR36qo3gv2OfhR2Ix/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
-
-<!-- ## 外部資源
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://www.facebook.com/itdogcom" target="_blank">
-                   Dog Com
-                </a>
-            </td>
-            <td>IT狗優質粉專</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.pmi.org.tw/?post_type=tribe_events" target="_blank">
-                   PMI Taiwan
-                </a>
-            </td>
-            <td>學習專案管理的好地方</td>
-        </tr>
-    </tbody>
-</table> -->
-
-<!-- ## 外部優質課程 -->
-
-<!-- <Courses :modelValue="courseItems"></Courses> -->
 
 ## 延伸閱讀
 
