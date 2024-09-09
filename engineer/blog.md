@@ -1,6 +1,6 @@
 ---
 description: Vitepress無本部落格，適合前端初學者、文字工作者學習，自由掌握內容，免費託管，建立屬於自己的線上空間。
-outline: deep
+outline: [2,3]
 ---
 
 # VitePress無本部落格
@@ -113,6 +113,188 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 3. **造訪本地網站**  
    開啟你的瀏覽器，訪問以下網址來查看本地運行的網站：
    [http://localhost:5173/](http://localhost:5173/)
+
+## 發布與修改
+
+當你已經在本地成功運行 Vitepress 專案後，下一步就是學會如何修改專案內容並發布到 GitHub Pages 上。本文將帶你一步步操作：如何在 VS Code 中變更 Vitepress 專案的標題，以及如何使用 GitHub Desktop 將這些變更發布到 GitHub Pages。
+
+### 1. 使用 VS Code 變更 Vitepress 專案的標題
+
+在 Vitepress 專案中，網站的標題通常位於配置文件中，例如 `docs/.vitepress/config.js`。讓我們來看看如何變更標題。
+
+#### 步驟：
+
+1. **打開 `config.js` 文件**  
+   在 VS Code 中，導航到專案的 `docs/.vitepress/` 資料夾，找到 `config.js` 文件並打開它。
+
+2. **修改標題**  
+   找到配置文件中的 `title` 欄位。這個欄位定義了網站顯示的標題。你可以修改如下：
+   ```javascript
+   export default {
+     title: '新網站標題',  // 將原標題替換為你想要的新標題
+     description: '這是我的 Vitepress 網站',
+   }
+   ```
+
+3. **保存文件**  
+   修改完成後，按下 `Ctrl + S` 或 `Cmd + S` 保存文件。
+
+4. **查看本地變更**  
+   在終端機中，確保開發伺服器正在運行。你可以刷新 [http://localhost:5173/](http://localhost:5173/) 來查看標題是否已正確更改。
+
+### 2. 使用 GitHub Desktop 發布變更
+
+當你對專案的變更感到滿意後，我們可以使用 GitHub Desktop 將這些變更發布到 GitHub Pages。
+
+#### 步驟：
+
+1. **打開 GitHub Desktop**  
+   打開 GitHub Desktop 應用程式，並確保已登入你的帳戶並打開了專案儲存庫。
+
+2. **確認變更**  
+   GitHub Desktop 會自動偵測你在 VS Code 中所做的變更。你應該會看到文件的修改列表，確保變更內容（例如 `config.js` 的修改）顯示正確。
+
+3. **提交變更**  
+   在下方的欄位中輸入簡短的變更說明（例如：「更新網站標題」），然後點擊 `Commit to main`。
+
+4. **推送到遠端儲存庫**  
+   提交變更後，點擊右上角的 `Push origin`，將變更推送到 GitHub。
+
+5. **更新 GitHub Pages**  
+   若你的專案已設定為透過 GitHub Pages 發布，推送到 `main` 分支後，GitHub Pages 會自動更新網站。你可以在 GitHub Pages 頁面查看變更是否已經生效。
+
+### 3. 確認網站更新
+
+幾分鐘後，前往你的 GitHub Pages 網站，應該可以看到最新的變更已經生效。如果你還沒有設置 GitHub Pages，請參考 [GitHub Pages 官方說明](https://docs.github.com/en/pages) 來了解如何設定。
+
+## 進階設定
+
+在完成基礎的 Vitepress 環境建置和修改發布後，你可以進行一些進階設定來提升網站效能與使用體驗。本文將帶你完成以下設定：GA（Google Analytics）埋設、介面中文化、添加搜尋功能，以及優化 SEO 的 meta 設定。
+
+### 1. GA（Google Analytics）埋設
+
+透過 Google Analytics（GA），你可以追蹤網站的使用數據，了解訪客行為。以下是如何在 Vitepress 中嵌入 GA 代碼。
+
+#### 步驟：
+
+1. **申請 Google Analytics 帳號**  
+   前往 [Google Analytics](https://analytics.google.com/) 註冊並創建帳戶。完成後，你將獲得一個追蹤代碼（格式為 `G-XXXXXXXXXX`）。
+
+2. **編輯 `config.js` 文件**  
+   在 `docs/.vitepress/config.js` 中的 `head` 區塊加入 GA 代碼：
+   ```javascript
+   export default {
+     title: '你的網站標題',
+     description: '你的網站描述',
+     head: [
+       [
+         'script',
+         {
+           async: true,
+           src: `https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX`,
+         },
+       ],
+       [
+         'script',
+         {},
+         `window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XXXXXXXXXX');`,
+       ],
+     ],
+   }
+   ```
+
+3. **確認 GA 是否生效**  
+   儲存後重新啟動伺服器，並使用 Google Analytics 的實時數據來確認流量追蹤是否正常。
+
+### 2. 介面中文化
+
+將網站介面中文化可以提升中文讀者的使用體驗。
+
+#### 步驟：
+
+1. **修改 `config.js` 語言設置**  
+   在 `config.js` 文件中新增語言設置：
+   ```javascript
+   export default {
+     lang: 'zh-TW',
+     title: '你的網站標題',
+     description: '你的網站描述',
+   }
+   ```
+
+2. **自訂導航與側邊欄**  
+   確保導航和側邊欄的內容已翻譯為中文，這可以通過 `themeConfig` 中的設置來完成。
+
+### 3. 添加搜尋功能
+
+Vitepress 支持簡單的內建搜尋功能，你也可以選擇增強的搜尋解決方案，例如 Algolia。
+
+#### 步驟：
+
+1. **使用 Algolia 搜尋服務**  
+   Algolia 是一個強大的搜尋工具，特別適合文件類網站。申請 Algolia DocSearch 服務並獲取應用 ID 和 API key。
+
+2. **設置 Algolia 搜尋**  
+   在 `config.js` 中加入以下代碼：
+   ```javascript
+   export default {
+     themeConfig: {
+       algolia: {
+         appId: 'YOUR_APP_ID',
+         apiKey: 'YOUR_SEARCH_API_KEY',
+         indexName: '你的索引名稱',
+       },
+     },
+   }
+   ```
+
+3. **確認搜尋功能**  
+   保存並重新啟動伺服器，確保搜尋功能運作正常。
+
+### 4. 設定 meta 強化 SEO
+
+優化網站的 SEO 有助於提升搜尋引擎的可見性。可以通過 `config.js` 設置全局 meta 標籤，也可以在每個 `.md` 檔案中設置自定義的 meta 標籤來強化該頁面的 SEO。
+
+#### 步驟：
+
+1. **在 `config.js` 中設置 meta 標籤**  
+   你可以在 `head` 區塊中加入以下 meta 標籤：
+   ```javascript
+   export default {
+     title: '你的網站標題',
+     description: '你的網站描述',
+     head: [
+       ['meta', { name: 'keywords', content: '關鍵字1, 關鍵字2, 關鍵字3' }],
+       ['meta', { name: 'author', content: '你的姓名' }],
+       ['meta', { name: 'description', content: '這是你的網站描述' }],
+       ['meta', { property: 'og:title', content: '你的網站標題' }],
+       ['meta', { property: 'og:description', content: '你的網站描述' }],
+       ['meta', { property: 'og:image', content: '/path/to/image.png' }],
+     ],
+   }
+   ```
+
+2. **在每個 `.md` 檔案中設置自定義 meta 標籤**  
+為了針對特定頁面進行 SEO 優化，可以在每個 Markdown 文件的開頭加入以下語法來設置自定義的 meta 標籤：
+    ```markdown
+    ---
+    description: 提供開源專案管理工具的詳細教學，適合初學者與有經驗的開發者。
+    head:
+    - - meta
+        - name: og:image
+        property: og:image
+        content: /images/guide/cover.png
+    ---
+    ```
+
+   - **description**: 這個欄位描述該頁面的內容，可以幫助搜尋引擎更好地索引你的網頁。範例中的描述解釋了頁面的目的是教學和專案管理。
+   - **head**: 在 `head` 區塊中，我們加入了一個 `og:image`，這是 Open Graph 用於社交媒體分享的預覽圖片，內容可以是你希望在分享時展示的圖像路徑。
+
+    這樣的設置能夠針對每個頁面進行個性化優化，讓 SEO 效果更加精準。
+
 
 ## 投影片
 
