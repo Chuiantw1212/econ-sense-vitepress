@@ -111,8 +111,7 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
    ```
 
 3. **造訪本地網站**  
-   開啟你的瀏覽器，訪問以下網址來查看本地運行的網站：
-   [http://localhost:5173/](http://localhost:5173/)
+   開啟你的瀏覽器，訪問localhost來查看本地運行的網站：
 
 ## 發布與修改
 
@@ -140,7 +139,7 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
    修改完成後，按下 `Ctrl + S` 或 `Cmd + S` 保存文件。
 
 4. **查看本地變更**  
-   在終端機中，確保開發伺服器正在運行。你可以刷新 [http://localhost:5173/](http://localhost:5173/) 來查看標題是否已正確更改。
+   在終端機中，確保開發伺服器正在運行。你可以刷新localhost來查看標題是否已正確更改。
 
 ### 使用 GitHub Desktop 發布變更
 
