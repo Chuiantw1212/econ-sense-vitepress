@@ -251,7 +251,7 @@ async function getUserFromServer(firebaseUser) {
         responseForm = await res?.json()
         showMessage = true
     } finally {
-        user.id = responseForm.id
+        user.id = responseForm?.id
         await selectPromise // 效能並行優化，等到select完成再進行下一步
         setUserAndInitialize(responseForm, {
             showMessage
