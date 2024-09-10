@@ -117,13 +117,13 @@ const members = [
 ### NLP專業執行師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/nlp.webp" alt=NLP專業執行師>
+    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/nlp1.webp" alt=NLP專業執行師>
 </div>
 
 ### Cafe Startups 認證講師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="/about/Cafe.jpg" alt=精實創業咖啡館認證講師>
+    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/cafe.webp" alt=精實創業咖啡館認證講師>
 </div>
 
 ### 新天鵝堡桌遊教師
@@ -136,8 +136,8 @@ const members = [
 ### 單車環島
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="/about/191810_1.webp" alt=新天鵝堡進階桌遊師>
-    <img class="aobut__image--50" src="/about/191810_2.webp" alt=新天鵝堡初階桌遊師>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/cycling1.webp" alt=環島>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/cycling2.webp" alt=環島>
 </div>
 
 <style lang=scss>
