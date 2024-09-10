@@ -6,7 +6,6 @@ outline: [2,3]
 # VitePress無本部落格
 
 《VitePress無本部落格》涵蓋環境建置、本機運行、發布與修改、進階設定等內容。適合想學習前端的初學者、希望脫離平台倒閉困擾的使用者，以及不想負擔部落格託管費用的使用者。這個指南將帶您一步步建立並管理自己的無本部落格，實現高效、低成本的網路內容創作。
-<!--  -->
 
 ## 環境建置
 
@@ -14,7 +13,7 @@ outline: [2,3]
 
 Vitepress 是基於 Vite 和 Vue 的靜態網站生成器，而 Vite 又依賴於 Node.js，因此安裝 Node.js 是不可或缺的一步。
 
-#### 安裝步驟：
+#### 安裝步驟
 
 1. **前往 Node.js 官方網站**  
    打開 [Node.js 官方網站](https://nodejs.org/)，你會看到兩個選項：「LTS」和「Current」。
@@ -26,16 +25,18 @@ Vitepress 是基於 Vite 和 Vue 的靜態網站生成器，而 Vite 又依賴�
 
 3. **確認安裝成功**  
    打開終端機（或命令提示字元），輸入以下指令來檢查是否正確安裝：
+
    ```bash
    node -v
    ```
+
    若顯示版本號，表示安裝成功。
 
 ### 安裝 VS Code (Visual Studio Code)
 
 VS Code 是一款功能強大的免費編輯器，支援各種編程語言，並且與 Vitepress 的開發流程相當契合。
 
-#### 安裝步驟：
+#### 安裝步驟
 
 1. **前往 VS Code 官方網站**  
    到 [VS Code 官方網站](https://code.visualstudio.com/) 下載適合你作業系統的安裝檔案。
@@ -50,7 +51,7 @@ VS Code 是一款功能強大的免費編輯器，支援各種編程語言，並
 
 GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHub 上的儲存庫同步專案的人來說非常方便。使用它來管理你的 Vitepress 專案可以讓流程更加簡單。
 
-#### 安裝步驟：
+#### 安裝步驟
 
 1. **前往 GitHub Desktop 官方網站**  
    打開 [GitHub Desktop 官方網站](https://desktop.github.com/) 並下載對應版本的安裝檔案。
@@ -66,7 +67,7 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 
 首先，我們需要將專案 Fork 到自己的 GitHub 帳戶中。
 
-#### 步驟：
+#### 步驟
 
 1. **前往專案網址**  
    打開 [這個 Vitepress 專案](https://github.com/Chuiantw1212/chuiantw1212.github.io)。
@@ -76,6 +77,7 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 
 3. **複製專案到本地端**  
    打開 GitHub Desktop 或者使用 Git，將專案克隆到本地端：
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/chuiantw1212.github.io
    ```
@@ -84,7 +86,7 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 
 接下來，我們將使用 VS Code 開啟這個專案並進行開發。
 
-#### 步驟：
+#### 步驟
 
 1. **開啟 VS Code**  
    安裝好 VS Code 後，打開應用程式。
@@ -96,16 +98,18 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 
 在專案資料夾中，我們將使用 npm 安裝所需的依賴並啟動本地開發伺服器。
 
-#### 步驟：
+#### 步驟
 
 1. **安裝依賴**  
    在 VS Code 的終端機中，輸入以下指令來安裝專案所需的依賴：
+
    ```bash
    npm install
    ```
 
 2. **啟動本地伺服器**  
    接著，輸入以下指令來啟動開發伺服器：
+
    ```bash
    npm run docs:dev
    ```
@@ -121,13 +125,14 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 
 在 Vitepress 專案中，網站的標題通常位於配置文件中，例如 `docs/.vitepress/config.js`。讓我們來看看如何變更標題。
 
-#### 步驟：
+#### 步驟
 
 1. **打開 `config.js` 文件**  
    在 VS Code 中，導航到專案的 `docs/.vitepress/` 資料夾，找到 `config.js` 文件並打開它。
 
 2. **修改標題**  
    找到配置文件中的 `title` 欄位。這個欄位定義了網站顯示的標題。你可以修改如下：
+
    ```javascript
    export default {
      title: '新網站標題',  // 將原標題替換為你想要的新標題
@@ -145,7 +150,7 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 
 當你對專案的變更感到滿意後，我們可以使用 GitHub Desktop 將這些變更發布到 GitHub Pages。
 
-#### 步驟：
+#### 步驟
 
 1. **打開 GitHub Desktop**  
    打開 GitHub Desktop 應用程式，並確保已登入你的帳戶並打開了專案儲存庫。
@@ -174,13 +179,14 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 
 透過 Google Analytics（GA），你可以追蹤網站的使用數據，了解訪客行為。以下是如何在 Vitepress 中嵌入 GA 代碼。
 
-#### 步驟：
+#### 步驟
 
 1. **申請 Google Analytics 帳號**  
    前往 [Google Analytics](https://analytics.google.com/) 註冊並創建帳戶。完成後，你將獲得一個追蹤代碼（格式為 `G-XXXXXXXXXX`）。
 
 2. **編輯 `config.js` 文件**  
    在 `docs/.vitepress/config.js` 中的 `head` 區塊加入 GA 代碼：
+
    ```javascript
    export default {
      title: '你的網站標題',
@@ -212,10 +218,11 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 
 在 Vitepress 中設置多語系不僅限於修改基本語言參數，還可以自訂一些與用戶互動的元素，如日期格式、導航標籤及其他界面文字。以下是具體的配置方式：
 
-#### 步驟：
+#### 步驟
 
 1. **設置語言及界面文本**  
    在 `config.js` 中的 `themeConfig` 區塊內進行以下設定，這不僅會將介面中文化，還會調整與頁面更新日期、頁腳導航、模式切換等相關的顯示文字：
+
    ```javascript
    export default {
      lang: 'zh-TW',
@@ -263,16 +270,18 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 
 除了內建的簡單搜尋功能，Vitepress 還可以通過社群插件來增強搜尋體驗。這裡介紹如何使用 `vitepress-plugin-search` 來實現站內搜尋功能。
 
-#### 步驟：
+#### 步驟
 
 1. **安裝 `vitepress-plugin-search`**  
    首先，你需要安裝這個插件。進入專案目錄後，運行以下指令：
+
    ```bash
    npm install vitepress-plugin-search --save
    ```
 
 2. **修改 `config.js` 配置**  
    在 `config.js` 文件中，導入並使用這個插件：
+
    ```javascript
    import { SearchPlugin } from 'vitepress-plugin-search';
 
@@ -300,19 +309,22 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 
 4. **啟動開發伺服器並測試**  
    完成設定後，重新啟動伺服器：
+
    ```bash
    npm run docs:dev
    ```
+
    打開瀏覽器，搜尋欄現在應該可以正常使用，並顯示文件中的搜尋結果。
 
 ### 設定 meta 強化 SEO
 
 優化網站的 SEO 有助於提升搜尋引擎的可見性。可以通過 `config.js` 設置全局 meta 標籤，也可以在每個 `.md` 檔案中設置自定義的 meta 標籤來強化該頁面的 SEO。
 
-#### 步驟：
+#### 步驟
 
 1. **在 `config.js` 中設置 meta 標籤**  
    你可以在 `head` 區塊中加入以下 meta 標籤：
+
    ```javascript
    export default {
      title: '你的網站標題',
@@ -330,6 +342,7 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 
 2. **在每個 `.md` 檔案中設置自定義 meta 標籤**  
 為了針對特定頁面進行 SEO 優化，可以在每個 Markdown 文件的開頭加入以下語法來設置自定義的 meta 標籤：
+
     ```markdown
     ---
     description: 提供開源專案管理工具的詳細教學，適合初學者與有經驗的開發者。
