@@ -18,21 +18,18 @@ import SkillIcon from './components/skillIcons.vue'
 
 const members = [
   {
-    avatar: `/about/enchu.webp`,
+    avatar: `https://storage.googleapis.com/public.econ-sense.com/about/enchu.webp`,
     title: '講師',
     desc:'--曾經開講--<br/>群益期貨、潛能聚、普鴻資訊、誠遠國際、LearnWeb',
     org: '學校學不到的事',
     orgLink: 'https://www.facebook.com/groups/304681766894402',
-    // sponsor: 'https://patreon.com/user?u=113925482',
-    // actionText: '贊助',
   },
   {
-    avatar: `/about/nodejs-development-services.webp`,
+    avatar: `https://storage.googleapis.com/public.econ-sense.com/about/nodejs.webp`,
     title: '工程師',
     desc:'2024 玉山銀行委外<br/>2020-2023 凱基人壽委外<br/>2017-2020 前端工程師',
     org: 'Job Pair',
     orgLink: 'https://job-pair.com/',
-    // actionText: '贊助',
   },
 ]
 </script>
@@ -54,7 +51,7 @@ const members = [
 求職找工作可以很簡單！Job Pair媒合型人力銀行，勾選你理想的企業文化、工作環境、組織階段、管理模式、人際風格和工作模式，即刻為你配對最合適的職缺，開啟專屬於你的職場旅程。
 
 <a href="https://job-pair.com" target="_blank">
-    <img class="aobut__image--100" src="/about/job-pair.com_.webp" alt=job-pair>
+    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/jobPair.webp" alt=job-pair>
 </a>
 
 ## 技術棧
@@ -76,68 +73,68 @@ const members = [
 ### AFP理財規劃顧問
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="/about/AFPI2300016_U121652155-1.png" alt=AFP理財規劃顧問>
+    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/afp.webp" alt=AFP理財規劃顧問>
 </div>
 
 ### PMP國際專案管理師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="/about/pmp.jpg" alt=PMP國際專案管理師>
+    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/pmp.webp" alt=PMP國際專案管理師>
 </div>
 
 ### 其他金融證明書
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="/about/161340_1.webp" alt=金融市場常識與職業道德>
-    <img class="aobut__image--50" src="/about/201447_1.webp" alt=投信投顧相關法規(含自律規範)>
-    <img class="aobut__image--50" src="/about/232309_1.webp" alt=信託業務專業>
-    <img class="aobut__image--50" src="/about/311350_1.webp" alt=金融科技力>
-    <img class="aobut__image--50" src="/about/082258_1.webp" alt=理財規劃人員>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/morale.webp" alt=金融市場常識與職業道德>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/fundLaw.webp" alt=投信投顧相關法規(含自律規範)>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/trust.webp" alt=信託業務專業>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/finTech.webp" alt=金融科技力>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/planner.webp" alt=理財規劃人員>
 </div>
 
 ## 教育背景
 
 ### Master in Informatics
 
-<img class="aobut__image--100" src="/about/northeastern.jpg" alt=Northeastern>
+<img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/northeastern.webp" alt=Northeastern>
 
 ### 義務役預備軍官
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="/about/military1.webp" alt=金融市場常識與職業道德>
-    <img class="aobut__image--50" src="/about/military2.webp" alt=投信投顧相關法規(含自律規範)>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/military1.webp" alt=義務役預備軍官正面>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/military2.webp" alt=義務役預備軍官反面>
 </div>
 
 ### 中興大學資訊科學學士
 
-<img class="aobut__image--100" src="/about/bachelar.png" alt=nchu>
+<img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/nchu.webp" alt=nchu>
 
 ## 興趣認證
 
 ### NLP專業執行師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="/about/052019_1.webp" alt=NLP專業執行師>
+    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/nlp1.webp" alt=NLP專業執行師>
 </div>
 
 ### Cafe Startups 認證講師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="/about/Cafe.jpg" alt=精實創業咖啡館認證講師>
+    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/cafe.webp" alt=精實創業咖啡館認證講師>
 </div>
 
 ### 新天鵝堡桌遊教師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="/about/082258_2.webp" alt=新天鵝堡進階桌遊師>
-    <img class="aobut__image--50" src="/about/082258_3.webp" alt=新天鵝堡初階桌遊師>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/swan2.webp" alt=新天鵝堡進階桌遊師>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/swan1.webp" alt=新天鵝堡初階桌遊師>
 </div>
 
 ### 單車環島
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="/about/191810_1.webp" alt=新天鵝堡進階桌遊師>
-    <img class="aobut__image--50" src="/about/191810_2.webp" alt=新天鵝堡初階桌遊師>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/cycling1.webp" alt=環島>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/cycling2.webp" alt=環島>
 </div>
 
 <style lang=scss>
