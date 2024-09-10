@@ -19,7 +19,7 @@ import SkillIcon from './components/skillIcons.vue'
 const members = [
   {
     avatar: `https://storage.googleapis.com/public.econ-sense.com/about/enchu.webp`,
-    title: '講師',
+    title: '分享者',
     desc:'--曾經開講--<br/>群益期貨、潛能聚、普鴻資訊、誠遠國際、LearnWeb',
     org: '學校學不到的事',
     orgLink: 'https://www.facebook.com/groups/304681766894402',
