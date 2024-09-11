@@ -26,7 +26,7 @@ const members = [
   },
   {
     avatar: `https://storage.googleapis.com/public.econ-sense.com/about/nodejs.webp`,
-    title: '工程師',
+    title: '全端工程師',
     desc:'2024 玉山銀行委外<br/>2020-2023 凱基人壽委外<br/>2017-2020 前端工程師',
     org: 'Job Pair',
     orgLink: 'https://job-pair.com/',

@@ -92,8 +92,9 @@ export default defineConfig({
         items: [
           { text: '軟體職涯入門', link: '/engineer/beginner' },
           { text: '網站初學須知', link: '/engineer/web' },
-          { text: '電腦DIY', link: '/engineer/computer' },
+          { text: '地表最快Node.js', link: '/engineer/nodejs' },
           { text: 'VitePress無本部落格', link: '/engineer/blog' },
+          { text: '電腦DIY', link: '/engineer/computer' },
           // { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
           // { text: '派遣軍團(未完成)', link: '/engineer/contractor' },
         ]
