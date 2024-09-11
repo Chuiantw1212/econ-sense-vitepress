@@ -577,7 +577,7 @@ async function changeAllCards(from) {
 }
 // 資料匯出
 async function exportUserForm() {
-    const res = await fetch(`${VITE_BASE_URL}/plan/type`, {
+    const res = await fetch(`${VITE_BASE_URL}/interface/plan`, {
         method: 'get',
     })
     const userFormType = await res.json()
