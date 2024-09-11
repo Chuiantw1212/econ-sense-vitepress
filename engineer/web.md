@@ -5,11 +5,21 @@ outline: deep
 
 # 網站初學須知
 
-網站初學須知為想學習網站基本概念的初學者、與工程師溝通的PM，以及好奇全端工程師經驗的開發者提供全面指引。內容涵蓋早期和2016年後的網站演進、網站開發流程與工具，以及全端自學須知，幫助您掌握關鍵知識和技能。無論您是剛開始接觸網站開發，還是需要與技術團隊合作，這個資源將助您奠定紮實的基礎。  
+網站初學須知為想學習網站基本概念的初學者、與工程師溝通的PM，以及好奇全端工程師經驗的開發者提供全面指引。內容涵蓋早期和2016年後的網站演進、網站開發流程與工具，以及全端自學須知，幫助您掌握關鍵知識和技能。無論您是剛開始接觸網站開發，還是需要與技術團隊合作，這個資源將助您奠定紮實的基礎。
 
-## 投影片
+## 線上/實體講座
 
-<iframe src="https://docs.google.com/presentation/d/1ZeZARX97L1MxHuY2kTGlkzvccrUH6QQVPPZhDiQUwig/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+### 投影片
+
+<ClientOnly>
+    <iframe src="https://docs.google.com/presentation/d/1ZeZARX97L1MxHuY2kTGlkzvccrUH6QQVPPZhDiQUwig/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</ClientOnly>
+
+### 評價
+
+<ClientOnly>
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRSpToJIx1uujlPcAeqjTiUTdFr3fWfTiKlfmcvDCtRqMyGE8dGpXXNpXsXtzDhRqNXhMG_FJIE2OiP/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+</ClientOnly>
 
 ## 外部資源
 
@@ -53,15 +63,3 @@ outline: deep
         </tr>
     </tbody>
 </table>
-
-<!-- <script setup>
-import Books from '../components/books.vue'
-const bookItems = [
-    {
-        id: '11100912049',
-        name: '軟體開發人員職涯發展成功手冊',
-        desc: `<p>你快速上手新語言，掌握面試訣竅，一舉拿下夢想中的程式開發工作</p>
-<p>暢銷書作家JOHN SONMEZ繼《Soft Skills軟實力：軟體開發人員的生存手冊》最新力作！</p>`,
-    },
-]
-</script> -->
