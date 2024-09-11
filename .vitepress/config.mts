@@ -90,8 +90,8 @@ export default defineConfig({
         link: '/engineer/outline',
         collapsed: false,
         items: [
-          { text: '網站初學須知', link: '/engineer/web' },
           { text: '軟體職涯入門', link: '/engineer/beginner' },
+          { text: '網站初學須知', link: '/engineer/web' },
           { text: '電腦DIY', link: '/engineer/computer' },
           { text: 'VitePress無本部落格', link: '/engineer/blog' },
           // { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
