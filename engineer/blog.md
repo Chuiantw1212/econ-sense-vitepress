@@ -349,8 +349,8 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
     head:
     - - meta
         - name: og:image
-        property: og:image
-        content: /images/guide/cover.png
+          property: og:image
+          content: /images/guide/cover.png
     ---
     ```
 
