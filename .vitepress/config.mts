@@ -82,7 +82,6 @@ export default defineConfig({
           { text: 'NLP的理想職涯', link: '/career/riasec' },
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
-          { text: '精實執行(說書|付費)', },
         ]
       },
       {
@@ -95,8 +94,6 @@ export default defineConfig({
           { text: '地表最快Node.js', link: '/engineer/nodejs' },
           { text: 'VitePress無本部落格', link: '/engineer/blog' },
           { text: '電腦DIY', link: '/engineer/computer' },
-          // { text: '工程師的自我修養(未完成)', link: '/engineer/roadmap' },
-          // { text: '派遣軍團(未完成)', link: '/engineer/contractor' },
         ]
       },
       {
