@@ -1,4 +1,5 @@
 ---
+description: 查看講座排程，訂閱Google Calendar，了解講座流程與出沒單位，掌握最新活動資訊，隨時隨地參與精彩內容。
 outline: deep
 ---
 
