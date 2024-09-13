@@ -12,7 +12,7 @@ head:
 
 《醫生買保險》探討醫療與財務規劃中的關鍵險種，包括健保與醫療險、癌症險、長照險、儲蓄險等，並解析如何選擇合適的保單。適合保險新手、不確定是否需要投保的人，以及對自己已有保單感到疑惑的人。從基本概念到實務經驗，協助受眾理解醫療與保險的核心知識。
 
-## 投影片
+## 簡報
 
 <iframe title="presentation" src="https://docs.google.com/presentation/d/1fsMJsPGFXrj9Hkl6Xgy8_Rpc47BuA_iP3oA8yBeiC8w/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 

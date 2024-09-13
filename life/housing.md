@@ -7,7 +7,7 @@ outline: deep
 
 探索「極簡全齡宅」，深入探討斷捨離與全齡宅設計。這個分享尤其適合三類受眾：首先，是那些渴望看到斷捨離如何實踐的人；其次，是好奇斷捨離與裝修有何關聯的人；最後，是想為自己和家人打造宜居空間的人。透過這次的分享，我們將共同探索如何透過極簡主義的生活方式，以及全齡宅設計理念，打造更舒適、更宜居的家居環境
 
-## 投影片
+## 簡報
 
 <iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vTKO7pmQ1WaS-ldQUskuFS6gxUsnBxrZ2S0XEuvgCCXFQXlVLcraaRXOII2eHtrLK6KZqsJ58vIpI26/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 

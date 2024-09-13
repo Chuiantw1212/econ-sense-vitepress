@@ -7,7 +7,7 @@ outline: deep
 
 深入探討「我是照顧者」這門課程，我們聚焦於延緩老化、照顧資源、醫療資源和跨領域整合。這門課程特別適合那些正為父母照顧做準備的人，關心家人在自己可能倒下時的情況的長輩，以及對長照術語感到困惑的人。透過這裡提供的實用資訊，我們希望協助您在照顧之路上更具信心，並一同建構一個更健康、更充滿愛心的照顧環境。讓我們攜手共同探索，為您的照顧者旅程注入更多知識和關懷。
 
-## 投影片
+## 簡報
 
 <iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vR1PYi7FxCz4yIF4VV2aoOG65uv1Hp8aF6KkiIrLmz77_1_qCH4DLkIidCvhqG6Ak-SDeyBeDyD-poh/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 

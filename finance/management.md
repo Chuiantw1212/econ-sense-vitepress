@@ -12,7 +12,7 @@ head:
 
 《金錢整理術》涵蓋了金錢整理術、小錢包存錢法、存錢筆記本和培養整理習慣等內容。這個指南適合那些意識到財務整理重要性的人、希望自動化收支管理的人，以及對實踐省錢概念感到好奇的人。透過系統化的方法，幫助您輕鬆掌握財務管理的技巧，實現財務目標並建立良好的理財習慣。
 
-## 投影片
+## 簡報
 
 <iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vQmCUJNXjyzyGaPc6_NXyjwmAshXjLOjfcG-fJrUb7XdVdEZhI2w_dD0WI0vwmf_cfOmoy3zKsNlTpz/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 

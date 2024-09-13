@@ -7,7 +7,7 @@ outline: deep
 
 探索如何打造知識飛輪，深入設定目標、學習、輸出、優化的主題。這份分享特別適合想建立自己知識體系的人，包括學生和專家，同時也歡迎那些渴望有效學習各方面知識、對講師內容創作充滿好奇心的人。透過深入了解知識飛輪的四個關鍵步驟，我們將帶您探索如何高效學習、組織知識並持續產出有價值的內容。讓我們一同啟動知識飛輪，打造屬於您自己的學習與創造循環。
 
-## 投影片
+## 簡報
 
 <iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vTwofNVqf7C2KJJizV6MZumAq8whf2t2AFlRv31d5LmrW0m-1o9U8AANfas45L0sWxZMhKMMIajgiRT/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 

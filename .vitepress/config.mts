@@ -76,7 +76,7 @@ export default defineConfig({
             text: '說書系列',
             collapsed: true,
             items: [
-              { text: 'DiSC順勢溝通', link: '/life/communicate' },
+              { text: 'DiSC順勢溝通(待定)', link: '/life/communicate' },
             ]
           },
         ]
