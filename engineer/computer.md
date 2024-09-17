@@ -7,7 +7,7 @@ outline: deep
 
 探索「電腦DIY」，深入主要元件、次要元件、其他周邊和組裝的領域。這個分享特別適合三類受眾：首先，是價格敏感型消費者，想要更了解電腦硬體的價值；其次，是想自己組裝或修繕電腦的個人；最後，是總感覺自己被店家宰羊的人，希望更深入了解電腦組裝的過程與原理。透過這門分享，我們將一同探索電腦DIY的樂趣，讓您在電腦硬體領域更具自信。
 
-## 投影片
+## 簡報
 
 <iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vTdQHkjPNm977-lTeNTnn39hpXFkUoORxER1nc6ou0QeVqT0X_WAg3nk_cUmUelf6CXnQwECUbefuMZ/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 

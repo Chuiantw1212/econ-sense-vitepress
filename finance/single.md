@@ -7,7 +7,7 @@ description: 探索《單身狗地獄求生》：獵殺女巫、台灣現況、�
 
 《單身狗地獄求生》深入探討獵殺女巫的歷史、台灣現況，以及單身生活中的身心靈準備和財務準備。這份手冊專為想了解低生育率成因、選擇或被迫單身一輩子、以及介於兩者之間的人而設計。從歷史文化的角度到現實社會的情況，再到個人生活的方方面面，這裡提供了全面的訊息和實用建議，幫助您在單身生活中找到自己的位置，並積極面對未來。無論您的處境如何，這本手冊都將成為您生活中的寶貴資源，為您打造充實、幸福的單身生活。
 
-## 投影片
+## 簡報
 
 <iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vTvhDGQjUl2d1PQ4SHR1PHZv3AsWxtqMwAjLfqHceVXpYQWo0QUFr6k4j38gbxlzo3PgwueSzaAFoXI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallow fullscreen="true"></iframe>
 

@@ -7,7 +7,7 @@ outline: deep
 
 探索跨領域的勞工退休規劃，涵蓋金融、醫療和法律等多元內容。從勞保、勞退、老後變現、老前整理到移轉節稅，這個分享將帶您深入了解全面的退休規劃內容。無論您關心財務安全、尋求全面的退休計劃，或是想了解退休前後跨領域規劃的重要性，這份懶人包式的分享將為您提供核心知識，讓您在退休規劃上更有把握。讓我們一同打造貼心且全面的退休規劃。
 
-## 投影片
+## 簡報
 
 <iframe
 src="https://docs.google.com/presentation/d/e/2PACX-1vR3dFAEAcS7-utuE-RIRKm-nz5kUWdM4VJc2njEos01vLX4kqCXrXWMqoLTaBfzqXLoUG3ov5cfdrcA/embed?start=false&loop=false&delayms=3000"

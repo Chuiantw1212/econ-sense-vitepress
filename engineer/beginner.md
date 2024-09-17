@@ -332,7 +332,7 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 
 ## 線上/實體講座
 
-### 投影片
+### 簡報
 
 <LazySlide>
     <iframe src="https://docs.google.com/presentation/d/1E7SV-aL5n4jSFpAllj23Tt5TrRnYjtfhNQL-DR0D9fo/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%"  height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
