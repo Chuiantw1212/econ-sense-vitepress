@@ -130,11 +130,15 @@ const members = [
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/swan1.webp" alt=新天鵝堡初階桌遊師>
 </div>
 
-### 單車環島
+### 環島/泳渡
+
+環島：2020, 2022, 2023, 2024
+
+泳渡：2023, 2024
 
 <div style="display:flex;flex-wrap:wrap;">
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/cycling1.webp" alt=環島>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/cycling2.webp" alt=環島>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/swimming.webp" alt=泳渡>
 </div>
 
 <style lang=scss>
