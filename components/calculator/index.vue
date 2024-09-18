@@ -191,8 +191,8 @@ async function setSelecOptionSync() {
     try {
         const bankConfigPromises = [
             fetch(`${VITE_BASE_URL}/meta/select`),
-            fetch(`${VITE_BASE_URL}/finance/interestRate`),
-            fetch(`${VITE_BASE_URL}/finance/portfolioIrr`),
+            // fetch(`${VITE_BASE_URL}/finance/interestRate`),
+            // fetch(`${VITE_BASE_URL}/finance/portfolioIrr`),
         ]
         const bankConfigRes = await Promise.all(bankConfigPromises)
         // 靜態的設定檔案
