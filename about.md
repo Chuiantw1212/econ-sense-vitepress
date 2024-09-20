@@ -62,11 +62,11 @@ const members = [
 
 ### 後端
 
-<SkillIcon :modelValue="'nodejs,ts,express,mongodb,postgres,postman'"></SkillIcon>
+<SkillIcon :modelValue="'bun,nodejs,ts,express,mongodb,postgres,postman'"></SkillIcon>
 
 ### 雲服務與其他
 
-<SkillIcon :modelValue="'firebase,gcp,git,github,gitlab,bitbucket,githubactions,npm,vscode,regex,windows,linux'"></SkillIcon>
+<SkillIcon :modelValue="'firebase,gcp,git,github,gitlab,bitbucket,githubactions,npm,vscode,regex,windows,linux,stackoverflow'"></SkillIcon>
 
 ## 專業認證
 
