@@ -50,7 +50,7 @@
                 aria-label="Permalink to &quot;退休試算&quot;">&ZeroWidthSpace;</a></h3>
         <ClientOnly>
             <Retirement v-model="userForm.retirement" :config="config" :career="userForm.career"
-                :parenting="userForm.parenting" :profile="userForm.profile" :estate="userForm.mortgage"
+                :parenting="userForm.parenting" :profile="userForm.profile" :mortgage="userForm.mortgage"
                 ref="RetirementRef" @update:modelValue="onRetirementChanged()">
             </Retirement>
         </ClientOnly>
@@ -62,7 +62,7 @@
 
         <ClientOnly>
             <Asset v-model="userForm.security" :config="config" :profile="userForm.profile" :career="userForm.career"
-                :spouse="userForm.spouse" :parenting="userForm.parenting" :estate="userForm.mortgage"
+                :spouse="userForm.spouse" :parenting="userForm.parenting" :mortgage="userForm.mortgage"
                 :retirement="userForm.retirement" ref="SecurityRef" @update:model-value="onSecurityChanged()">
             </Asset>
         </ClientOnly>
@@ -79,7 +79,7 @@
         <ClientOnly>
             <Parenting v-model="userForm.parenting" :config="config" :career="userForm.career"
                 :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
-                :estateSize="userForm.estateSize" :estate="userForm.mortgage" ref="ParentingRef"
+                :estateSize="userForm.estateSize" :mortgage="userForm.mortgage" ref="ParentingRef"
                 @update:model-value="onParentingChanged()">
             </Parenting>
         </ClientOnly>
@@ -109,7 +109,7 @@
             <LifeAsset v-model="userForm.profile" :config="config" :career="userForm.career"
                 :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
                 :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
-                :estate="userForm.mortgage" ref="LifeAssetRef">
+                :mortgage="userForm.mortgage" ref="LifeAssetRef">
             </LifeAsset>
         </ClientOnly>
 
@@ -119,7 +119,7 @@
             <Story v-model="userForm.profile" :config="config" :career="userForm.career"
                 :retirement="userForm.retirement" :spouse="userForm.spouse" :security="userForm.security"
                 :estateSize="userForm.estateSize" :parenting="userForm.parenting" :estatePrice="userForm.estatePrice"
-                :estate="userForm.mortgage" ref="StoryRef" @update:modelValue="onProfileChanged()"
+                :mortgage="userForm.mortgage" ref="StoryRef" @update:modelValue="onProfileChanged()"
                 @export="exportUserForm()">
             </Story>
         </ClientOnly>

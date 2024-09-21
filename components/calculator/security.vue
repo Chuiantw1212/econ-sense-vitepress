@@ -142,7 +142,7 @@ const props = defineProps({
             return {}
         }
     },
-    estate: {
+    mortgage: {
         type: Object,
         default: () => {
             return {}
