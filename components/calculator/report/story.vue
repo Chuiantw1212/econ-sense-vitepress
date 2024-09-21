@@ -73,7 +73,7 @@ const props = defineProps({
         },
         required: true
     },
-    estate: {
+    mortgage: {
         type: Object,
         default: () => {
             return {}
@@ -120,14 +120,14 @@ async function generatStory() {
 }
 
 function getHumanStory() {
-    const { spouse, parenting, estate, estatePrice, career, retirement } = props
+    const { spouse, parenting, mortgage, estatePrice, career, retirement } = props
     const { counties = [], insuranceTypes = [], townMap = {} } = props.config
     const { yearOfBirth, careerInsuranceType, finalAsset } = profile.value
     const { careerHeadCount, } = career
     const { age: retireAge, qualityLevel, insurance, longevity } = retirement
     const { yearOfMarriage } = spouse
     const { headCount, independantAge } = parenting
-    const { downpayYear } = estate
+    const { downpayYear } = mortgage
     const { county, town } = estatePrice
 
     let story = ``
@@ -165,7 +165,7 @@ function getHumanStory() {
     if (independantAge) {
         story += `並將照顧子女的責任，延續到他們${independantAge}歲了為止。`
     }
-    // estate
+    // mortgage
     if (downpayYear) {
         story += `${downpayYear}年是你置產的時間，這得來不易的安居地`
         if (county) {

@@ -7,7 +7,7 @@ outline: deep
 
 深入探索投資進階管道，涵蓋證券、加密貨幣、太陽能板和天使投資等多元領域。這些投資管道都屬於被動收入，無需長期投入心思和時間，同時是合法的正規投資方式。無論您對證券市場、加密貨幣、太陽能產業還是天使投資有興趣，這份資訊將為您提供核心知識，助您進一步探索被動收入的多元面向。讓我們一同探索，拓展投資的可能性，輕鬆打造穩定收入。
 
-## 投影片
+## 簡報
 
 <iframe
     src="https://docs.google.com/presentation/d/e/2PACX-1vTtOL7UuOgTF5wqOp821KLauHVfGha2IQ8rFNPj1VukMNJ-nI5pAIL3bZ_JS9FhDrLK0VTHhPaQ_fUf/embed?start=false&loop=false&delayms=3000"

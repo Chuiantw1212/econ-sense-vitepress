@@ -244,7 +244,7 @@ ETF的表現通常較佳，原因多方面：
 
 #### 保額計算：合理規劃保障金額
 
-至於保額的計算，應根據家庭的實際收支情況來進行。一般來說，合理的壽險保額應為稅後所得的5.6倍至8.4倍。這樣的保額設定可以有效覆蓋家庭的財務需求，確保在發生意外時能提供足夠的經濟支持。具體的計算方法和細節我已整理在投影片中，供有需要的讀者進一步參考。
+至於保額的計算，應根據家庭的實際收支情況來進行。一般來說，合理的壽險保額應為稅後所得的5.6倍至8.4倍。這樣的保額設定可以有效覆蓋家庭的財務需求，確保在發生意外時能提供足夠的經濟支持。具體的計算方法和細節我已整理在簡報中，供有需要的讀者進一步參考。
 
 ![壽險差異](https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E5%A3%BD%E9%9A%AA%E5%B7%AE%E7%95%B0.webp "壽險差異")
 
@@ -290,10 +290,10 @@ ETF的表現通常較佳，原因多方面：
 
 ## 線上/實體講座
 
-### 投影片
+### 簡報
 
 <LazySlide>
-    <iframe title="投影片"
+    <iframe title="簡報"
     src="https://docs.google.com/presentation/d/e/2PACX-1vRFGV1EMH9d0fZH9IPvhYw_be1LML5pEuwPAReC2clEM-eJKV4nFhxVHOsKOYPY5V5QzjNlVooCw5Cx/embed?start=false&loop=false&delayms=3000"
     width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
     webkitallowfullscreen="true"></iframe>

@@ -54,7 +54,7 @@
                         <el-col :span="12">
                             <el-form-item label="每月年金">
                                 <el-text>{{
-                Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
+                                    Number(retirement.insurance.monthlyAnnuity).toLocaleString() }} /
                                     月</el-text>
                             </el-form-item>
                         </el-col>
@@ -127,8 +127,8 @@
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                item.label
-            }}</el-radio>
+                                item.label
+                                }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -256,7 +256,7 @@ const props = defineProps({
         },
         required: true
     },
-    estate: {
+    mortgage: {
         type: Object,
         default: () => {
             return {}
@@ -517,7 +517,7 @@ async function calculateRetireLife() {
 function calculateFutureSeniority() { // 退休時年資
     const { presentSeniority } = retirement.value.insurance
     const futureSeniority = presentSeniority + retirement.value.age - props.profile.age
-    retirement.value.insurance.futureSeniority = futureSeniority
+    retirement.value.insurance.futureSeniority = Number(futureSeniority).toFixed(1)
 }
 function calculateLaborInsuranceMonthlyAnnuity(): number {
     const { lifeExpectancy, age } = retirement.value
@@ -588,7 +588,7 @@ async function drawRetirementAssetChart() {
         // lumpsum,
     } = retirement.value.pension
     const monthlyAnnuity = Number(insurance.monthlyAnnuity) + Number(pension.monthlyAnnuity)
-    const { downpayYear, loanTerm, monthlyRepay } = props.estate
+    const { downpayYear, loanTerm, monthlyRepay } = props.mortgage
     const loanEndYear = downpayYear + loanTerm
     // 計算資料
     const inflationRate = 1 + props.config.inflationRate / 100

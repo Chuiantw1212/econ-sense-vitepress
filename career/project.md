@@ -7,7 +7,7 @@ outline: deep
 
 探索「軟體專案實務」，深入從PMP到敏捷、理想敏捷、實務敏捷，以及專案中可能存在的角色盲點。這門課程特別適合三類受眾：首先，對軟體開發實務感到好奇的職場小白或轉職者；其次，希望理解專案中角色個別困境的人；最後，對專案管理有興趣並擁有PMI相關持證的人。透過這裡的分享，我們將一同深入專案管理實務，探索各種角色的挑戰，讓您更全面地理解軟體專案的運作。
 
-## 投影片
+## 簡報
 
 <iframe
  src="https://docs.google.com/presentation/d/e/2PACX-1vSqT9z3iCbJo3qiO4UcEnwaLhrTXh49Ea4odLtx9hqwK_upOO3kvFvwM0_l6nLf-2pKFqkXMpFxcM9y/embed?start=false&loop=false&delayms=3000"
