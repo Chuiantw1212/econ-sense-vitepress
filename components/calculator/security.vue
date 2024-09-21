@@ -227,7 +227,7 @@ function drawLifeAssetChart() {
         return
     }
     const { presentAsset, irr } = security.value
-    const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.estate
+    const { downpayYear, downpay, monthlyRepay, loanTerm, downpayGoal, totalPrice } = props.mortgage
     const { currentYear, inflationRate } = props.config
     const { monthlyContribution } = props.spouse
     const { yearsToRetirement, yearOfRetire, lifeExpectancy } = props.retirement

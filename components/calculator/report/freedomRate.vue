@@ -88,7 +88,7 @@ function calculateFreedomRate(payload) {
 
     const { irr } = props.security
     const { currentYear, inflationRate } = props.config
-    const { downpayTotalPrice, debtData = [], downpayYear } = props.estate
+    const { downpayTotalPrice, debtData = [], downpayYear } = props.mortgage
     const { irrOverDecade } = props.retirement.pension
     const { yearsToRetirement, yearOfRetire } = props.retirement
     const { lifeExpectancy } = profile.value
