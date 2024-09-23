@@ -8,7 +8,8 @@
         <el-row>
             <el-checkbox-group v-model="selectedKeywords">
                 <el-checkbox v-for="(item, index) in shuffledKeywords" :key="index" :label="item.label"
-                    :value="item.label" :disabled="!selectedKeywords.includes(item.label) && selectedKeywords.length >= 15"
+                    :value="item.label"
+                    :disabled="!selectedKeywords.includes(item.label) && selectedKeywords.length >= 15"
                     @change="drawCharts()" />
             </el-checkbox-group>
         </el-row>
@@ -56,41 +57,42 @@ const loveLanguageCodes = ref<{
 ])
 const questions = ref(
     [
-        { "label": "稱讚", "value": "Words" },
-        { "label": "鼓勵", "value": "Words" },
-        { "label": "感謝", "value": "Words" },
-        { "label": "誇獎", "value": "Words" },
-        { "label": "認同", "value": "Words" },
-        { "label": "肯定", "value": "Words" },
+        { "label": "表達稱讚", "value": "Words" },
+        { "label": "語言鼓勵", "value": "Words" },
+        { "label": "表達感謝", "value": "Words" },
+        { "label": "具體誇獎", "value": "Words" },
+        { "label": "情感認同", "value": "Words" },
+        { "label": "肯定價值", "value": "Words" },
 
-        { "label": "幫忙", "value": "Service" },
-        { "label": "煮飯", "value": "Service" },
-        { "label": "打掃", "value": "Service" },
-        { "label": "照顧", "value": "Service" },
-        { "label": "修理", "value": "Service" },
-        { "label": "安排", "value": "Service" },
+        { "label": "主動幫忙", "value": "Service" },
+        { "label": "準備餐點", "value": "Service" },
+        { "label": "清潔打掃", "value": "Service" },
+        { "label": "提供照顧", "value": "Service" },
+        { "label": "修理物品", "value": "Service" },
+        { "label": "安排事務", "value": "Service" },
 
-        { "label": "贈禮", "value": "Gifts" },
-        { "label": "驚喜", "value": "Gifts" },
-        { "label": "紀念品", "value": "Gifts" },
-        { "label": "心意", "value": "Gifts" },
-        { "label": "精選", "value": "Gifts" },
-        { "label": "收藏品", "value": "Gifts" },
+        { "label": "愛心贈禮", "value": "Gifts" },
+        { "label": "驚喜禮物", "value": "Gifts" },
+        { "label": "特別紀念", "value": "Gifts" },
+        { "label": "心意象徵", "value": "Gifts" },
+        { "label": "精選禮品", "value": "Gifts" },
+        { "label": "個人收藏", "value": "Gifts" },
 
-        { "label": "專注時間", "value": "Time" },
+        { "label": "專注時光", "value": "Time" },
         { "label": "深度對話", "value": "Time" },
         { "label": "共享經歷", "value": "Time" },
-        { "label": "約會時光", "value": "Time" },
-        { "label": "散步", "value": "Time" },
-        { "label": "觀看電影", "value": "Time" },
+        { "label": "安排約會", "value": "Time" },
+        { "label": "一起散步", "value": "Time" },
+        { "label": "一起觀影", "value": "Time" },
 
-        { "label": "擁抱", "value": "Touch" },
-        { "label": "親吻", "value": "Touch" },
-        { "label": "撫摸", "value": "Touch" },
-        { "label": "牽手", "value": "Touch" },
-        { "label": "依偎", "value": "Touch" },
-        { "label": "按摩", "value": "Touch" }
-    ])
+        { "label": "溫暖擁抱", "value": "Touch" },
+        { "label": "親密親吻", "value": "Touch" },
+        { "label": "輕柔撫摸", "value": "Touch" },
+        { "label": "牽手相伴", "value": "Touch" },
+        { "label": "依偎陪伴", "value": "Touch" },
+        { "label": "放鬆按摩", "value": "Touch" }
+    ]
+)
 onMounted(() => {
     initializeInterests()
 })
