@@ -45,7 +45,7 @@ const props = defineProps({
         },
         required: true
     },
-    estate: {
+    mortgage: {
         type: Object,
         default: () => {
             return {}
@@ -96,7 +96,7 @@ function drawLifeAsset(payload) {
 
     const { irr } = props.security
     const { currentYear, inflationRate } = props.config
-    const { downpayTotalPrice, downpayYear } = props.estate
+    const { downpayTotalPrice, downpayYear } = props.mortgage
     const { irrOverDecade } = props.retirement.pension
     const { yearsToRetirement, yearOfRetire, lifeExpectancy } = props.retirement
 

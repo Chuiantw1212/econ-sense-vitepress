@@ -38,7 +38,7 @@
         <h2 id="職務適性比較" tabindex="-1">職務適性比較 <a class="header-anchor" href="#職務適性比較"
                 aria-label="Permalink to &quot;職務適性比較&quot;">&ZeroWidthSpace;</a></h2>
         <el-card>
-            <el-form-item label="何倫碼分類">
+            <el-form-item label="何倫碼">
                 <el-checkbox-group v-model="selectedCodes">
                     <el-checkbox v-for="(code, index) in hollandCodes" :key="index"
                         :label="`${code.label}(${code.value})`"

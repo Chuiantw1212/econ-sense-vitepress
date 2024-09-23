@@ -62,11 +62,11 @@ const members = [
 
 ### 後端
 
-<SkillIcon :modelValue="'nodejs,ts,express,mongodb,postgres,postman'"></SkillIcon>
+<SkillIcon :modelValue="'bun,nodejs,ts,express,mongodb,postgres,postman'"></SkillIcon>
 
 ### 雲服務與其他
 
-<SkillIcon :modelValue="'firebase,gcp,git,github,gitlab,bitbucket,githubactions,npm,vscode,regex,windows,linux'"></SkillIcon>
+<SkillIcon :modelValue="'firebase,gcp,git,github,gitlab,bitbucket,githubactions,npm,vscode,regex,windows,linux,stackoverflow'"></SkillIcon>
 
 ## 專業認證
 
@@ -111,21 +111,16 @@ const members = [
 
 ## 興趣認證
 
-### NLP專業執行師
+### 心理學
 
 <div style="display:flex;flex-wrap:wrap;">
     <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/nlp1.webp" alt=NLP專業執行師>
 </div>
 
-### Cafe Startups 認證講師
+### 桌遊
 
 <div style="display:flex;flex-wrap:wrap;">
     <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/cafe.webp" alt=精實創業咖啡館認證講師>
-</div>
-
-### 新天鵝堡桌遊教師
-
-<div style="display:flex;flex-wrap:wrap;">
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/swan2.webp" alt=新天鵝堡進階桌遊師>
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/swan1.webp" alt=新天鵝堡初階桌遊師>
 </div>
