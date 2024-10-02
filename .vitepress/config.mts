@@ -51,7 +51,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '理財框架', link: '/finance/framework' },
-          { text: '勞工退休規劃', link: '/finance/retirement' },
+          { text: '勞工退休規劃(上/下)', link: '/finance/retirement' },
           { text: '投資進階管道', link: '/finance/investment' },
           {
             text: '說書系列',
@@ -73,13 +73,13 @@ export default defineConfig({
           { text: '極簡全齡宅', link: '/life/housing' },
           { text: '愛之語測驗', link: '/life/love-language' },
           // { text: '匱乏心理學', link: '/life/scarcity' },
-          {
-            text: '說書系列',
-            collapsed: true,
-            items: [
-              { text: 'DiSC順勢溝通(待定)', link: '/life/communicate' },
-            ]
-          },
+          // {
+          //   text: '說書系列',
+          //   collapsed: true,
+          //   items: [
+          //     { text: 'DiSC順勢溝通(待定)', link: '/life/communicate' },
+          //   ]
+          // },
         ]
       },
       {

@@ -292,7 +292,7 @@ ETF的表現通常較佳，原因多方面：
 
 ### 簡報
 
-<LazySlide>
+<LazySlide shareLink="https://docs.google.com/presentation/d/1PmElved5s-a2YhpTEU9x8Vdz0sP96KmpKboWNfvbwG0/edit?usp=sharing">
     <iframe title="簡報"
     src="https://docs.google.com/presentation/d/e/2PACX-1vRFGV1EMH9d0fZH9IPvhYw_be1LML5pEuwPAReC2clEM-eJKV4nFhxVHOsKOYPY5V5QzjNlVooCw5Cx/embed?start=false&loop=false&delayms=3000"
     width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
