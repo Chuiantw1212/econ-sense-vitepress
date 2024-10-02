@@ -33,6 +33,7 @@ const props = defineProps({
 onMounted(() => {
     let fileId = props.shareLink.replace('https://docs.google.com/presentation/d/', '')
     fileId = fileId.replace('/edit?usp=sharing', '')
+    fileId = fileId.replace('/edit?usp=drive_link', '')
     downloadLink.value = `https://docs.google.com/presentation/d/${fileId}/export/pptx`
 })
 // methods
