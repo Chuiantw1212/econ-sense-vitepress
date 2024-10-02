@@ -16,7 +16,7 @@
     </el-card>
 </template>
 <script setup lang="ts">
-import { ref, defineProps, useTemplateRef, onMounted } from 'vue'
+import { ref, useTemplateRef, onMounted } from 'vue'
 const isLoaded = ref(false)
 const downloadLink = ref('')
 const slideWrap = useTemplateRef<Element>('slideWrap')

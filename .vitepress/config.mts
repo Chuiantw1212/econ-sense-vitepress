@@ -71,13 +71,19 @@ export default defineConfig({
         items: [
           { text: '我是照顧者', link: '/life/carer' },
           { text: '極簡全齡宅', link: '/life/housing' },
-          { text: '愛之語測驗', link: '/life/love-language' },
+          // { text: '愛之語測驗', link: '/life/love-language' },
           // { text: '匱乏心理學', link: '/life/scarcity' },
           // {
           //   text: '說書系列',
           //   collapsed: true,
           //   items: [
           //     { text: 'DiSC順勢溝通(待定)', link: '/life/communicate' },
+          //   ]
+          // },
+          // {
+          //   text: '桌遊系列',
+          //   collapsed: true,
+          //   items: [
           //   ]
           // },
         ]
