@@ -11,9 +11,9 @@ outline: deep
 
 ### 簡報
 
-<ClientOnly>
+<LazySlide shareLink="https://docs.google.com/presentation/d/1ZeZARX97L1MxHuY2kTGlkzvccrUH6QQVPPZhDiQUwig/edit?usp=drive_link">
     <iframe src="https://docs.google.com/presentation/d/1ZeZARX97L1MxHuY2kTGlkzvccrUH6QQVPPZhDiQUwig/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-</ClientOnly>
+</LazySlide>
 
 ### 評價
 
@@ -63,3 +63,8 @@ outline: deep
         </tr>
     </tbody>
 </table>
+
+<script setup>
+import LazySlide from '../components/lazySlide.vue'
+import Books from '../components/books.vue'
+</script>

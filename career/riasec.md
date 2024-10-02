@@ -21,9 +21,9 @@ head:
 
 <Holland></Holland>
 
-## 簡報
+<!-- ## 簡報 -->
 
-<iframe title="presentation" src="https://docs.google.com/presentation/d/1LXJlqRZL6ICsTg8QUVA0pDMY9eH7gSUA4MLqgoScAHw/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<!-- <iframe title="presentation" src="https://docs.google.com/presentation/d/1LXJlqRZL6ICsTg8QUVA0pDMY9eH7gSUA4MLqgoScAHw/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe> -->
 
 ## 講座評價
 

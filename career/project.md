@@ -9,10 +9,12 @@ outline: deep
 
 ## 簡報
 
+<LazySlide shareLink="https://docs.google.com/presentation/d/1NuG7ObTRMwNXZs76CeU0B73nYg-tbGtFH2mXtkAoLx0/edit?usp=drive_link">
 <iframe
  src="https://docs.google.com/presentation/d/e/2PACX-1vSqT9z3iCbJo3qiO4UcEnwaLhrTXh49Ea4odLtx9hqwK_upOO3kvFvwM0_l6nLf-2pKFqkXMpFxcM9y/embed?start=false&loop=false&delayms=3000"
 width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
 webkitallowfullscreen="true"></iframe>
+</LazySlide>
 
 ## 講座評價
 
@@ -56,6 +58,7 @@ webkitallowfullscreen="true"></iframe>
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
+import LazySlide from '../components/lazySlide.vue'
 import Books from '../components/books.vue'
 import Courses from '../components/courses.vue'
 
@@ -75,7 +78,6 @@ const bookItems = [
 `,
     },
 ]
-
 
 const courseItems = [
     {

@@ -3,14 +3,14 @@
         <slot>
 
         </slot>
-        <a :href="downloadLink">點此下載</a>
+        <a v-if="downloadLink" :href="downloadLink">點此下載</a>
     </div>
     <el-card v-else class="card">
         為節省用戶流量，簡報採手動載入。
         <template #footer>
             <div class="card__footer">
                 <el-button @click="isLoaded = true">點此線上瀏覽</el-button>
-                <el-button @click="loadAndDownload()">點此下載</el-button>
+                <el-button v-if="downloadLink" @click="loadAndDownload()">點此下載</el-button>
             </div>
         </template>
     </el-card>
@@ -31,12 +31,17 @@ const props = defineProps({
     }
 })
 onMounted(() => {
-    let fileId = props.shareLink.replace('https://docs.google.com/presentation/d/', '')
-    fileId = fileId.replace('/edit?usp=sharing', '')
-    fileId = fileId.replace('/edit?usp=drive_link', '')
-    downloadLink.value = `https://docs.google.com/presentation/d/${fileId}/export/pptx`
+    setDownloadLink()
 })
 // methods
+function setDownloadLink() {
+    if (props.shareLink) {
+        let fileId = props.shareLink.replace('https://docs.google.com/presentation/d/', '')
+        fileId = fileId.replace('/edit?usp=sharing', '')
+        fileId = fileId.replace('/edit?usp=drive_link', '')
+        downloadLink.value = `https://docs.google.com/presentation/d/${fileId}/export/pptx`
+    }
+}
 function loadAndDownload() {
     const link = document.createElement('a')
     link.href = downloadLink.value
