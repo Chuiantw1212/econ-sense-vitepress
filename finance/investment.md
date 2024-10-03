@@ -67,7 +67,7 @@ outline: [2,3]
 
 3. **公司經營穩定度**：特別股的回報與公司本身的經營穩定度密切相關。經營狀況不穩的公司可能會面臨減少或停止股息支付的風險，這會直接影響投資者的收入。
 
-如果你對特別股有興趣，並希望進一步研究相關資訊，可以在[findBillion](https://www.findbillion.com/twstock/preferred_stock/detail) 找到更多特別股的詳細資料。
+如果你對特別股有興趣，並希望進一步研究相關資訊，可以在[findBillion](https://www.findbillion.com/twstock/preferred_stock/detail) 或是[GoodInfo](https://goodinfo.tw/tw/StockList.asp?MARKET_CAT=%E5%85%A8%E9%83%A8&STOCK_ID=2887C)找到更多特別股的詳細資料。
 
 ![特別股](investment/特別股.png "特別股")
 
@@ -82,6 +82,8 @@ outline: [2,3]
 [日本的失落10年](https://zh.wikipedia.org/wiki/%E5%A4%B1%E5%8E%BB%E7%9A%84%E5%8D%81%E5%B9%B4)就是一個重要的例子。1990年代起，日本經濟經歷了長期的停滯與通貨緊縮，資產價格暴跌，經濟成長率長期低迷。這段歷史提醒我們，沒有一個國家或市場能保證永遠處於增長狀態，甚至像日本這樣曾經高度繁榮的經濟體，也可能陷入長期停滯。
 
 因此，沒有人能保證台灣未來不會面臨類似的情況。依賴單一市場存在風險，這就是為什麼全球分散投資如此重要。透過將資產分散於不同國家和區域，投資者可以降低單一市場出現危機時對自身資產的衝擊，從而確保資產的長期穩定增長。
+
+投資者可以使用[**TradingView**](https://tw.tradingview.com/)這樣的平台來追蹤全球市場的動態，該網站提供多種市場的數據與圖表分析工具，有助於進行全球分散投資的監控與決策。
 
 #### 股債平衡
 
@@ -167,7 +169,9 @@ outline: [2,3]
 
 天使投資通常以**股權投資**的形式進行，天使投資人會獲得公司的一部分股權，並隨著公司的成長而分享收益。這樣的投資對投資者要求較高，既要有足夠的資本，也要對企業有一定的理解與支持能力。
 
-值得注意的是，根據**產業創新條例第23條之2**，台灣的天使投資人可以享有租稅優惠。凡個人以現金投資於成立未滿兩年的國內高風險新創事業公司，並在同一年度對同一家公司投資金額達到100萬元，且持有股份達兩年者，可享有以下稅務優惠：投資金額的**50%**可自個人綜合所得總額中減除，減除金額上限為**300萬元**。這項政策鼓勵更多人參與高風險新創企業的投資，同時降低部分風險。
+值得注意的是，根據[**產業創新條例第23條之2**](https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=J0040051&flno=23-2)，台灣的天使投資人可以享有租稅優惠。凡個人以現金投資於成立未滿兩年的國內[高風險新創事業公司](https://www.google.com/search?q=site:https://www.ida.gov.tw/+%E9%AB%98%E9%A2%A8%E9%9A%AA%E6%96%B0%E5%89%B5%E4%BA%8B%E6%A5%AD%E5%90%8D%E5%96%AE)，並在同一年度對同一家公司投資金額達到100萬元，且持有股份達兩年者，可享有以下稅務優惠：投資金額的**50%**可自個人綜合所得總額中減除，減除金額上限為**300萬元**。這項政策鼓勵更多人參與高風險新創企業的投資，同時降低部分風險。
+
+![天使投資人租稅優惠](investment/天使投資人租稅優惠.jpg "天使投資人租稅優惠")
 
 ### 天使投資會
 
@@ -184,6 +188,18 @@ outline: [2,3]
 天使投資適合那些願意承擔高風險、擁有閒置資金的投資者，特別是對初創企業有熱情、且有能力提供額外幫助的個人。這種投資方式不僅關注財務回報，還包括支持創業精神、參與創新和新興市場發展的機會。
 
 總的來說，天使投資提供了高風險高回報的機會，但投資者應該在投資前仔細評估，並確保自己有足夠的風險承受能力和耐心來支持這樣的長期投資。
+
+## 總結
+
+本篇文章探討了各種投資方式的優缺點，並深入介紹了不同的投資工具，包括**證券**與**特別股**，這些工具在風險與回報方面各有特色，因此投資者需根據自身需求選擇合適的管道。
+
+在投資哲學上，強調了**全球分散**、**股債平衡**及**只進不出策略**，以降低風險、優化回報。同時，本文介紹了如何透過**複委託**進行全球投資，以及**太陽能板投資**的方式與收益模式，並探討其稅務申報相關問題。此外，文章分析了**加密貨幣**的高風險高回報特性，並介紹了**天使投資**的風險與潛力。
+
+最後，通過介紹**識富天使會**與**AVA天使會**，本文幫助投資者理解如何利用天使投資平台支持新創企業，並提供適合天使投資者的建議。
+
+總結來說，**不到20%的人能贏過市場**，因此與其過度關注如何在投資中取得超額回報，不如將焦點放在提升**主動收入**，這樣可以更有效地減少金錢焦慮。**認真工作、穩健投資**的策略能讓你專注於提升專業能力，從中獲取更多的收入來源，同時透過穩健的投資來輔助資產增長。
+
+![本業為主](investment/本業為主.png "本業為主")
 
 ## 實體/線上講座
 
@@ -202,116 +218,6 @@ outline: [2,3]
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTpZzYjhGds8yfMaX2PFEHC7ZRE1ZOVHhvfEzrCan73umPjfCbdXUuHF70OOBpK-N1c-VuyZjAbdmif/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 ## 外部資源
-
-### 證券
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://www.stat.gov.tw/Point.aspx?sid=t.2&n=3581&sms=11480" target="_blank">
-                   中華民國統計資訊網
-                </a>
-            </td>
-            <td>查詢歷年通膨資料</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://goodinfo.tw/tw/StockList.asp?MARKET_CAT=%E5%85%A8%E9%83%A8&STOCK_ID=2887C" target="_blank">
-                   投信投顧公會查詢基金費用
-                </a>
-            </td>
-            <td>免費查詢所有基金的費用明細</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/basic-tax-question/oversea-income/awYgOG9" target="_blank">
-                   海外所得說明
-                </a>
-            </td>
-            <td>財政部說明，海外所得100萬以下免計稅</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.ishares.com/us/products/etf-investments#/?productView=etf&fac=43589%7C43619%7C43625%7C61455&fc=43771&pageNumber=1&sortColumn=totalNetAssets&sortDirection=desc&dataView=keyFacts&ptrg=4%7C10%7C6%7C2%7C8" target="_blank">
-                   iShares Core 系列
-                </a>
-            </td>
-            <td>我很喜歡的股債自動平衡ETF，一勞永逸</td>
-        </tr>
-         <tr>
-            <td>
-                <a href="https://tw.tradingview.com/" target="_blank">
-                   TradingView
-                </a>
-            </td>
-            <td>非常強大，匯集全世界證券投資參考資料的網站</td>
-        </tr>
-         <tr>
-            <td>
-                <a href="https://www.findbillion.com/twstock/preferred_stock/detail" target="_blank">
-                   FindBillion特別股列表
-                </a>
-            </td>
-            <td>特別股有優先於普通股配息之特性，如果你想找出穩定配息、適合存股的特別股，你可以在這裡輕鬆找到。</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://goodinfo.tw/tw/StockList.asp?MARKET_CAT=%E5%85%A8%E9%83%A8&STOCK_ID=2887C" target="_blank">
-                   GoodInfo特別股列表
-                </a>
-            </td>
-            <td>一個免費查詢各種證券資料的網站，這邊直接打開特別股列表</td>
-        </tr>
-    </tbody>
-</table>
-
-### 太陽能板
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-     <tr>
-            <td>
-                <a href="https://www.hellosolarman.com?share_code=mxPrGsrm&openExternalBrowser=1" target="_blank">
-                   經濟部太陽能光電
-                </a>
-            </td>
-            <td>
-                官方的太陽能推廣網站
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.hellosolarman.com?share_code=mxPrGsrm&openExternalBrowser=1" target="_blank">
-                   太陽人全民電廠
-                </a>
-            </td>
-            <td>
-                小資認購太陽能面板
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.sunnyfounder.com" target="_blank">
-                   陽光伏特家
-                </a>
-            </td>
-            <td>小資認購太陽能面板</td>
-        </tr>
-    </tbody>
-</table>
 
 ### 加密貨幣
 
@@ -370,59 +276,6 @@ outline: [2,3]
                 </a>
             </td>
             <td>正常的加密貨幣教學單位</td>
-        </tr>
-    </tbody>
-</table>
-
-### 天使投資
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://www.etax.nat.gov.tw/etwmain/alien-tax-service/alien-tax-faq/lLOWY3W" target="_blank">
-                   高風險新創節稅
-                </a>
-            </td>
-            <td>
-                財政部對高風險新創事業的節稅說明
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://angel-investor.org/" target="_blank">
-                   識富天使投資會
-                </a>
-            </td>
-            <td>
-                算正規、規模大的天使會之一
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.angeltoventure.com/" target="_blank">
-                   AVA天使投資會
-                </a>
-            </td>
-            <td>
-                算正規、規模大的天使會之一
-            </td>
-        </tr>
-         <tr>
-            <td>
-                <a href="https://www.google.com/search?q=site:https://www.ida.gov.tw/+%E9%AB%98%E9%A2%A8%E9%9A%AA%E6%96%B0%E5%89%B5%E4%BA%8B%E6%A5%AD%E5%90%8D%E5%96%AE" target="_blank">
-                   高風險新創事業名單
-                </a>
-            </td>
-            <td>
-                經濟部認定的高風險新創事業名單
-            </td>
         </tr>
     </tbody>
 </table>
