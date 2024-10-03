@@ -38,7 +38,7 @@ head:
 <Books :modelValue="bookItems"></Books>
 
 <script setup lang="ts">
-import Holland from '../components/holland/index.vue'
+import Holland from '../components/riasec.vue'
 import Courses from '../components/courses.vue'
 import Books from '../components/books.vue'
 
