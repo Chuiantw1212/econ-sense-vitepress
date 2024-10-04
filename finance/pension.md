@@ -9,7 +9,7 @@ outline: deep
 
 ## 簡報
 
-<LazySlide shareLink="https://docs.google.com/presentation/d/1k2jUNx0oeChEQuNQGEHy75xt3N7vIt8NH2VHR0BthAc/edit?usp=drive_link">
+<LazySlide shareLink="https://docs.google.com/presentation/d/1d5fs3dDeOrPABZflEvJ0hrebJNx728nO1zqCG5Mmfuc/edit?usp=sharing">
 <iframe
 src="https://docs.google.com/presentation/d/e/2PACX-1vS37SbGFgAkOGhOPFzPqUugcqy69HCJ6gpouzzTTKqe6gmMyx47uq8_itKfoDcQA7_KQe4_f22emw4X/embed?start=false&loop=false&delayms=3000"
 width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
@@ -18,11 +18,7 @@ webkitallowfullscreen="true"></iframe>
 
 ## 講座評價
 
-<!-- <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe> -->
-
-## 活動照片
-
-<Photos v-model="photoItems"></Photos>
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDgVvA9Py9t_HUcn3Pzsf0Jg-ktaKNweyzH98XDeBgvfpAiSE-_RrBuUbNfBVWBKFMExHYC-6ssWQ9/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 ## 外部資源
 
