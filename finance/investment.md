@@ -135,19 +135,17 @@ outline: [2,3]
 
 ![公益注意](https://storage.googleapis.com/public.econ-sense.com/finance/investment/公益注意.webp "公益注意")
 
-### 收益模式
+### 收益模式與稅務申報
 
-太陽能板投資的主要收益來自**賣電給電網**或**降低電費**。在一些國家和地區，政府推動可再生能源發電，提供補助或購電保證合約，讓投資者以較高價格將電力賣給電網，實現穩定的長期回報。2024年的**報酬率預計在5.5%左右**，這對於長期投資者來說是一個穩定的回報率。
+太陽能板投資的主要收益來源於賣電給電網或降低電費。政府推動可再生能源發電，提供補助或購電保證合約，投資者能以較高價格將電力賣給電網。2024年的報酬率預計在**5.5%** 左右，這對於長期投資者來說是一個穩定的回報率。
+
+在台灣，太陽能板投資的收益被歸類為[6%的一時貿易所得](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/1ZkDAQm)，因此在報稅時需根據這一規定進行申報，確保正確繳納稅款，以避免稅務問題。
 
 ### 風險與挑戰
 
 - **初期成本高**：設備和安裝費用較高，通常需要數年時間才能回本，要求投資者有長期規劃。
 - **地點選擇**：發電量取決於日照條件，日照不足會降低收益，特別是台灣不同地區的[日照時數](https://big-tree.tw/https://storage.googleapis.com/public.econ-sense.com/finance/investment/)和[颱風威脅](https://www.thenewslens.com/article/190034)比例各不相同。根據我的觀察，**苗栗以南、嘉義以北**的地區是最適合安裝太陽能板的區域，這些地區日照充足，且相對較少受到颱風影響。
 - **政策變動風險**：回報依賴於[政府政策](https://www.mrpv.org.tw/index.aspx)，政策改變可能影響收益。
-
-### 稅務申報
-
-在進行太陽能板投資時，報稅方式需要特別留意。此類投資的所得將被歸類為[**6%的一時貿易所得**](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/1ZkDAQm)，因此在報稅時應依照這個規定進行申報，以確保正確繳納稅款並避免稅務問題。
 
 ## 加密貨幣
 
