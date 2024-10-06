@@ -72,6 +72,7 @@ export default defineConfig({
         items: [
           { text: '我是照顧者', link: '/life/carer' },
           { text: '極簡全齡宅', link: '/life/housing' },
+          { text: '愛之語', link: '/life/love-language' },
           // { text: '匱乏心理學', link: '/life/scarcity' },
           // {
           //   text: '桌遊系列',
