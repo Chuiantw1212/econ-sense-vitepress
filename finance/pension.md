@@ -1,33 +1,28 @@
 ---
-description: 探索跨領域的退休規劃，包括金融、醫療、法律等內容。從勞保、勞退、老後變現到節稅移轉，全方位了解規劃。提供核心知識，打造貼心全面的退休計劃，財務安全、全面規劃者必備。
+description: 剛從勞工退休規劃分出來，大綱我還在想。
 outline: deep
 ---
 
-# 退休規劃
+# 退休金計算
 
-探索跨領域的退休規劃，涵蓋金融、醫療和法律等多元內容。從老前整理到移轉節稅，這個分享將帶您深入了解全面的退休規劃內容。無論您關心財務安全、尋求全面的退休計劃，或是想了解退休前後跨領域規劃的重要性，這份懶人包式的分享將為您提供核心知識，讓您在退休規劃上更有把握。讓我們一同打造貼心且全面的退休規劃。
+剛從勞工退休規劃分出來，大綱我還在想
 
 ## 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1k2jUNx0oeChEQuNQGEHy75xt3N7vIt8NH2VHR0BthAc/edit?usp=drive_link">
 <iframe
-src="https://docs.google.com/presentation/d/e/2PACX-1vR3dFAEAcS7-utuE-RIRKm-nz5kUWdM4VJc2njEos01vLX4kqCXrXWMqoLTaBfzqXLoUG3ov5cfdrcA/embed?start=false&loop=false&delayms=3000"
+src="https://docs.google.com/presentation/d/e/2PACX-1vS37SbGFgAkOGhOPFzPqUugcqy69HCJ6gpouzzTTKqe6gmMyx47uq8_itKfoDcQA7_KQe4_f22emw4X/embed?start=false&loop=false&delayms=3000"
 width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
 webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
 ## 講座評價
 
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
+<!-- <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe> -->
 
 ## 活動照片
 
 <Photos v-model="photoItems"></Photos>
-
-## 安心手冊範例
-
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQMDRSSS7lVSRJyYtL2yWM8V4i2Z9OSyz4QIaMFvOO0K-Rb-gyDLJG5dygSMrg5vTpAnshIYl49gpA/pubhtml?widget=true&amp;headers=false" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
-webkitallowfullscreen="true"></iframe>
 
 ## 外部資源
 
