@@ -71,7 +71,9 @@
                             <td>{{ wifeSimilarity }}%</td>
                         </tr>
                         <tr>
-                            <td colspan="3">{{ rebelIndex }}%</td>
+                            <td>叛逆度</td>
+                            <td>{{ 100 - husbandSimilarity }}%</td>
+                            <td>{{ 100 - wifeSimilarity }}%</td>
                         </tr>
                     </tbody>
                 </table>
