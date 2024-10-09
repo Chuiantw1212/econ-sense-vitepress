@@ -90,7 +90,7 @@ const members = [
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/trust.webp" alt=信託業務專業>
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/finTech.webp" alt=金融科技力>
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/planner.webp" alt=理財規劃人員>
-        <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/insurance.webp" alt=人身保險業務員>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/insurance.webp" alt=人身保險業務員>
 </div>
 
 ## 教育背景
