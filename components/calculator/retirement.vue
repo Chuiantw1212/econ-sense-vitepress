@@ -196,12 +196,20 @@
                                 <td>1,335,663</td>
                             </tr>
                             <tr>
-                                <td>平均每人消費支出</td>
+                                <td>平均每人消費年支出</td>
                                 <td>234,827</td>
                                 <td>310,371</td>
                                 <td>348,074</td>
                                 <td>364,157</td>
                                 <td>435,069</td>
+                            </tr>
+                            <tr>
+                                <td>平均每人消費月支出</td>
+                                <td>19,569</td>
+                                <td>25,864</td>
+                                <td>29,006</td>
+                                <td>30,346</td>
+                                <td>36,255</td>
                             </tr>
                         </tbody>
                     </table>
@@ -612,7 +620,7 @@ async function drawRetirementAssetChart() {
         const pmt = pensionContribution * inflationModifier
         pv *= pensionIrr
         fv = Math.floor(pv + pmt)
-        // /** 驗算勞動退休金累積可用 */
+        /** 驗算勞動退休金累積可用 */
         // pensionLumpSumData.push(Math.floor(fv))
         // estateData.push(0)
         // const calculatedYear = currentYear + i
@@ -669,7 +677,7 @@ async function drawRetirementAssetChart() {
     const tension = 0.5
     const datasets = [
         {
-            label: '一次領',
+            label: '專戶累計',
             data: pensionLumpSumData,
             fill: true,
             tension,
