@@ -1,11 +1,11 @@
 ---
-description: 剛從勞工退休規劃分出來，大綱我還在想。
+description: 《退休規劃(上)》涵蓋勞保勞退、公保公退、老後居住與資產變現，適合關注退休職場人士與計畫老後生活準備的人。
 outline: deep
 ---
 
 # 退休金計算
 
-剛從勞工退休規劃分出來，大綱我還在想
+《退休規劃(上)》探討勞保勞退、公保公退、老後居住和資產變現等重要議題，專為關注退休的職場人士、公務員以及正在為老後居住和資產變現做準備的人設計。這份內容將幫助您掌握退休規劃的核心知識，讓您為未來做好周全的準備。
 
 ## 簡報
 
@@ -20,9 +20,9 @@ webkitallowfullscreen="true"></iframe>
 
 <!-- <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe> -->
 
-## 活動照片
+<!-- ## 活動照片
 
-<Photos v-model="photoItems"></Photos>
+<Photos v-model="photoItems"></Photos> -->
 
 ## 外部資源
 
