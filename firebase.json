@@ -15,6 +15,11 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/finance/pension.html",
+                "destination": "/finance/retirement-1.html",
+                "type": 301
+            },
+            {
                 "source": "/career/holland.html",
                 "destination": "/career/riasec.html",
                 "type": 301
@@ -99,11 +104,6 @@
                 "destination": "/finance/outline.html",
                 "type": 301
             },
-            {
-                "source": "/pension",
-                "destination": "/finance/retirement.html",
-                "type": 301
-            }
         ]
     }
 }
