@@ -117,7 +117,7 @@ outline: [2,3]
 
 最後值得一提的是，公務人員的遺屬年金規定比較特殊。雖然公務人員有遺屬年金，但這項給付[無法讓同樣具有退職身份的另一半領取](https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=45)。所以，從財務規劃角度來看，如果公務人員與**勞工結婚**，才可以最大化這筆資金，因為勞工身份的配偶可以享受這樣的遺屬年金保障。
 
-![公退選擇](retirement/公退選擇.png "公退選擇")
+![公退選擇](https://storage.googleapis.com/public.econ-sense.com/finance/retirement/%E5%85%AC%E9%80%80%E9%81%B8%E6%93%87.webp "公退選擇")
 
 ### 勞保勞退 vs 公保公退兼領
 
