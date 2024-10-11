@@ -635,7 +635,7 @@ async function initializeApp() {
         loadingDialogVisible.value = true
         await firebase.initializeApp({
             apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
-            authDomain: "econ-sense.com",
+            authDomain: "econ-sense-9a250.firebaseapp.com",
             projectId: "econ-sense-9a250",
             storageBucket: "econ-sense-9a250.appspot.com",
             messagingSenderId: "449033690264",
