@@ -3,7 +3,7 @@ description: 退休規劃(下)》涵蓋財務、醫療、法律及生死議題�
 outline: deep
 ---
 
-# 退休規劃
+# 退休規劃(下)
 
 《退休規劃(下)》深入探討財務、醫療、法律及生死議題，專為即將進入退休或正在規劃退休生活的人設計。這份內容幫助您為未來的醫療和法律安排做好準備，並為希望減少家人在處理後事時壓力的人提供實用建議，助您妥善規劃未來生活。
 
@@ -20,14 +20,18 @@ webkitallowfullscreen="true"></iframe>
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
 
+
+## 單程行李箱檢核表
+
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSIJersD6EEXxhLmOn9BbpW2pIVMsuJQoIICMehx0DUhP2ovM4rkUqbpsyUvFIr2KCJ3DLfsr7cg9YG/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+
 ## 活動照片
 
 <Photos v-model="photoItems"></Photos>
 
-## 安心手冊範例
+## 外部優質課程
 
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQMDRSSS7lVSRJyYtL2yWM8V4i2Z9OSyz4QIaMFvOO0K-Rb-gyDLJG5dygSMrg5vTpAnshIYl49gpA/pubhtml?widget=true&amp;headers=false" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
-webkitallowfullscreen="true"></iframe>
+<Courses :modelValue="courseItems"></Courses>
 
 ## 外部資源
 
@@ -198,6 +202,16 @@ webkitallowfullscreen="true"></iframe>
 import LazySlide from '../components/lazySlide.vue'
 import Books from '../components/books.vue'
 import Photos from '../components/photos.vue'
+import Courses from '../components/courses.vue'
+
+const courseItems = [
+    {
+        image: '/finance/dongua.jpg',
+        description: `如果你曾經思考過這趟單程旅行，不知道會不會需要為家人或為自己規劃人生的最後一哩路，那麼郭憲鴻（小冬瓜）就是你的最佳嚮導。希望透過這門課程，讓死亡不再是大家避而不談的，禁忌話題，而是對家人道謝、道愛、道歉、道別的最後時刻。`,
+        name: '冬瓜行旅',
+        url: 'https://hahow.in/courses/6001476b07af5c695b56216b',
+    },
+]
 
 const bookItems = [
     {
