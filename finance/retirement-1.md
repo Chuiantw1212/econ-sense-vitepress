@@ -209,6 +209,8 @@ outline: [2,3]
 
 這種方式特別適合希望保有房產並傳承給後代，同時希望利用房屋產生被動收入的長者。透過權衡包租與代管的選擇，長者可以根據自身風險承受能力和財務需求來決定最適合的方案。
 
+![包租代管](https://storage.googleapis.com/public.econ-sense.com/finance/retirement/%E5%8C%85%E7%A7%9F%E4%BB%A3%E7%AE%A1.webp "包租代管")
+
 ### 證券投資
 
 在退休階段，長者可以考慮將資產配置到穩定性較高的[台灣特別股](https://www.findbillion.com/twstock/preferred_stock)。特別股除了提供穩定的鼓勵外，還能享有[退稅優惠](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/vxelQY9)，這對於沒有主動收入來源的長者來說是相當合適的選擇。特別股能夠提供較高的固定收益，減少退休後的財務壓力。**特別股的部分以及退稅優惠，在[投資進階管道](https://econ-sense.com/finance/investment.html)這個內容中有提及**。
