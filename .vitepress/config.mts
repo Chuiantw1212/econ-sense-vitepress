@@ -101,7 +101,8 @@ export default defineConfig({
           { text: '軟體職涯入門', link: '/engineer/beginner' },
           { text: '網站初學須知', link: '/engineer/web' },
           { text: '地表最快Node.js', link: '/engineer/nodejs' },
-          { text: 'VitePress無本部落格', link: '/engineer/blog' },
+          { text: 'VitePress無本部落格', link: '/engineer/blog-1' },
+          { text: 'VitePress無本部落格', link: '/engineer/blog-2' },
           { text: '電腦DIY', link: '/engineer/computer' },
         ]
       },

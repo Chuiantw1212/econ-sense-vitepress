@@ -25,6 +25,16 @@
                 "type": 301
             },
             {
+                "source": "/engineer/blog.html",
+                "destination": "/engineer/blog-1.html",
+                "type": 301
+            },
+            {
+                "source": "/engineer/blog.html",
+                "destination": "/engineer/blog-2.html",
+                "type": 301
+            },
+            {
                 "source": "/career/holland.html",
                 "destination": "/career/riasec.html",
                 "type": 301
