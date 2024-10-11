@@ -1,11 +1,11 @@
 ---
-description: 探索跨領域的退休規劃，包括金融、醫療、法律等內容。從勞保、勞退、老後變現到節稅移轉，全方位了解規劃。提供核心知識，打造貼心全面的退休計劃，財務安全、全面規劃者必備。
+description: 退休規劃(下)》涵蓋財務、醫療、法律及生死議題，適合規劃退休生活及希望減少家人壓力的人。
 outline: deep
 ---
 
-# 退休規劃
+# 退休規劃(下)
 
-探索跨領域的退休規劃，涵蓋金融、醫療和法律等多元內容。從老前整理到移轉節稅，這個分享將帶您深入了解全面的退休規劃內容。無論您關心財務安全、尋求全面的退休計劃，或是想了解退休前後跨領域規劃的重要性，這份懶人包式的分享將為您提供核心知識，讓您在退休規劃上更有把握。讓我們一同打造貼心且全面的退休規劃。
+《退休規劃(下)》深入探討財務、醫療、法律及生死議題，專為即將進入退休或正在規劃退休生活的人設計。這份內容幫助您為未來的醫療和法律安排做好準備，並為希望減少家人在處理後事時壓力的人提供實用建議，助您妥善規劃未來生活。
 
 ## 簡報
 
@@ -20,14 +20,18 @@ webkitallowfullscreen="true"></iframe>
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
 
+
+## 單程行李箱檢核表
+
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSIJersD6EEXxhLmOn9BbpW2pIVMsuJQoIICMehx0DUhP2ovM4rkUqbpsyUvFIr2KCJ3DLfsr7cg9YG/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+
 ## 活動照片
 
 <Photos v-model="photoItems"></Photos>
 
-## 安心手冊範例
+## 外部優質課程
 
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQMDRSSS7lVSRJyYtL2yWM8V4i2Z9OSyz4QIaMFvOO0K-Rb-gyDLJG5dygSMrg5vTpAnshIYl49gpA/pubhtml?widget=true&amp;headers=false" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
-webkitallowfullscreen="true"></iframe>
+<Courses :modelValue="courseItems"></Courses>
 
 ## 外部資源
 
@@ -198,8 +202,30 @@ webkitallowfullscreen="true"></iframe>
 import LazySlide from '../components/lazySlide.vue'
 import Books from '../components/books.vue'
 import Photos from '../components/photos.vue'
+import Courses from '../components/courses.vue'
+
+const courseItems = [
+    {
+        image: '/finance/dongua.jpg',
+        description: `如果你曾經思考過這趟單程旅行，不知道會不會需要為家人或為自己規劃人生的最後一哩路，那麼郭憲鴻（小冬瓜）就是你的最佳嚮導。希望透過這門課程，讓死亡不再是大家避而不談的，禁忌話題，而是對家人道謝、道愛、道歉、道別的最後時刻。`,
+        name: '冬瓜行旅',
+        url: 'https://hahow.in/courses/6001476b07af5c695b56216b',
+    },
+]
 
 const bookItems = [
+    {
+        id: '11101016658',
+        name: '生命最後三通電話，你會打給誰？：及時道謝、道歉、道愛、道別，不負此生',
+        desc: `<p>你永遠不知道，這會不會是最後一次？
+人生就是一段單程旅行，現在發生的一切，有天都會過去，
+再喜歡的關係，有天都會消失，我們只能把握每一分每一秒。</p>
+<p>
+各式各樣的告別式、各式各樣的遺憾，交織而成殯葬的重量。
+這是最後一次，也是唯一一次，他們要向最愛的人道別。
+停不下來的淚水，道盡了無法重來的悲傷。</p>
+`,
+    },
     {
         id: '11100764608',
         name: '當爸媽過了65歲：你一定要知道的醫療、長照、財務、法律知識',

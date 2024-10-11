@@ -51,8 +51,8 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '理財框架', link: '/finance/framework' },
-          { text: '退休規劃(上)', link: '/finance/pension' },
-          { text: '退休規劃(下)', link: '/finance/retirement' },
+          { text: '退休規劃(上)', link: '/finance/retirement-1' },
+          { text: '退休規劃(下)', link: '/finance/retirement-2' },
           { text: '投資進階管道', link: '/finance/investment' },
           {
             text: '說書系列',

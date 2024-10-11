@@ -26,11 +26,18 @@ const digitalDocumentItems = [
         rating: 3
     },
     {
-        url: './retirement',
-        name: '勞工退休規劃',
-        keywords: ['勞保勞退', '老後變現', '老前整理', '移轉節稅'],
-        audience: ['家中有退休/屆退休長輩的孝順子女', '想儘早規劃未來的遠見人', '擔心退休金不夠用的社會大眾'],
+        url: './retirement-1',
+        name: '退休規劃(上)',
+        keywords: ['勞保勞退', '公保公退', '老後居住', '老後變現'],
+        audience: ['關注退休的職場人士與公務員', '計畫為老後居住做準備的人', '想為退休資產變現做準備的人'],
         rating: 2
+    },
+    {
+        url: './retirement-2',
+        name: '退休規劃(下)',
+        keywords: ['財務', '醫療', '法律', '生死'],
+        audience: ['即將進入退休或正在規劃退休生活的人', '希望為未來做好醫療和法律安排的人', '希望減少家人在處理後事時壓力的人'],
+        rating: 3
     },
     {
         url: './investment',
