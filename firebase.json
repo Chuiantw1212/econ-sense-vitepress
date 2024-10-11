@@ -20,6 +20,11 @@
                 "type": 301
             },
             {
+                "source": "/finance/retirement.html",
+                "destination": "/finance/retirement-2.html",
+                "type": 301
+            },
+            {
                 "source": "/career/holland.html",
                 "destination": "/career/riasec.html",
                 "type": 301
