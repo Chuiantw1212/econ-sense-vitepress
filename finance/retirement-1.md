@@ -9,7 +9,7 @@ outline: deep
 
 ## 簡報
 
-<LazySlide shareLink="https://docs.google.com/presentation/d/1k2jUNx0oeChEQuNQGEHy75xt3N7vIt8NH2VHR0BthAc/edit?usp=drive_link">
+<LazySlide :isImmediate="true" shareLink="https://docs.google.com/presentation/d/1k2jUNx0oeChEQuNQGEHy75xt3N7vIt8NH2VHR0BthAc/edit?usp=drive_link">
 <iframe
 src="https://docs.google.com/presentation/d/e/2PACX-1vS37SbGFgAkOGhOPFzPqUugcqy69HCJ6gpouzzTTKqe6gmMyx47uq8_itKfoDcQA7_KQe4_f22emw4X/embed?start=false&loop=false&delayms=3000"
 width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
@@ -18,7 +18,7 @@ webkitallowfullscreen="true"></iframe>
 
 ## 講座評價
 
-<!-- <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe> -->
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDgVvA9Py9t_HUcn3Pzsf0Jg-ktaKNweyzH98XDeBgvfpAiSE-_RrBuUbNfBVWBKFMExHYC-6ssWQ9/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 <!-- ## 活動照片
 
@@ -54,14 +54,6 @@ webkitallowfullscreen="true"></iframe>
         </tr>
         <tr>
             <td>
-                <a href="https://rfa.pension.org.tw/RetireComputer-Person" target="_blank">
-                   FUN心退
-                </a>
-            </td>
-            <td>中華民國退休金協會的退休金計算機</td>
-        </tr>
-        <tr>
-            <td>
                 <a href="https://www.houseplus.com.tw/" target="_blank">
                    好實價
                 </a>
@@ -79,115 +71,9 @@ webkitallowfullscreen="true"></iframe>
     </tbody>
 </table>
 
-### 財產管理
+<!-- ## 延伸閱讀
 
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://www.etax.nat.gov.tw/etwmain/etw108w" target="_blank">
-                   財政部電子稅務文件
-                </a>
-            </td>
-            <td>查詢財產資料</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.ba.org.tw/PublicInformation/BusinessDetail/31?AspxAutoDetectCookieSupport=1" target="_blank">
-                   銀行商業同業公會
-                </a>
-            </td>
-            <td>查詢遺忘的銀行帳號資料</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://investor.twse.com.tw" target="_blank">
-                   投資人個人資料查詢系統
-                </a>
-            </td>
-            <td>查詢遺忘的證券帳號資料</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://tax.nat.gov.tw/alltax-declare.html?id=31" target="_blank">
-                   財政部金融遺產
-                </a>
-            </td>
-            <td>一站查詢金融遺產</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-secret/bBo2mMx" target="_blank">
-                   嫁妝免稅有限額免課贈與稅
-                </a>
-            </td>
-            <td>財政部提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://support.google.com/accounts/answer/3036546?sjid=9983159482626828160-AP" target="_blank">
-                   不動產之遺產價值如何計算？
-                </a>
-            </td>
-            <td>財政部稅務入口網</td>
-        </tr>
-    </tbody>
-</table>
-
-### 數位資產、保險、醫療、法務
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://support.google.com/accounts/answer/3036546?sjid=9983159482626828160-AP" target="_blank">
-                   Google閒置帳號管理員
-                </a>
-            </td>
-            <td>一定月數以後，讓親屬取得帳號權限</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.facebook.com/help/1070665206293088" target="_blank">
-                   Facebook紀念帳號設定
-                </a>
-            </td>
-            <td>讓指定親屬可以申請取得紀念帳號</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.moj.gov.tw/2204/2528/2529/2530/2533/12401/" target="_blank">
-                   意定監護契約範本
-                </a>
-            </td>
-            <td>法務部提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://hpcod.mohw.gov.tw/HospWeb/RWD/PageType/acp/introduction.aspx" target="_blank">
-                   預定醫療決定推廣頁面
-                </a>
-            </td>
-            <td>衛生福利部提供</td>
-        </tr>
-    </tbody>
-</table>
-
-## 延伸閱讀
-
-<Books :modelValue="bookItems"></Books>
+<Books :modelValue="bookItems"></Books> -->
 
 <script setup>
 import LazySlide from '../components/lazySlide.vue'
@@ -204,15 +90,6 @@ const bookItems = [
 <p>關於「老」，我們知道的太少，準備的也太少。
 不管是父母的，或是你自己的。
 面對「老之將至」，你要倉皇的摸索，還是優雅的預習？</p>
-`,
-    },
-    {
-        id: '11100987950',
-        name: '人生最重要的整理，離世清單：三階段守護你的財富，留給家人永恆的遺愛，而不是遺憾或遺恨',
-        desc: `<p>臺灣每年有數億遺產無人繼承、盡數充公！
-別讓畢生積蓄便宜國庫、肥了陌生人！
-風靡全美「數位生前計畫」領導品牌Everplans，唯一授權！
-帶你按部就班、重整人生、妥善安排，就此從容謝幕、瀟灑轉身！</p>
 `,
     },
 ]

@@ -28,9 +28,16 @@ const props = defineProps({
     shareLink: {
         type: String,
         default: ''
+    },
+    isImmediate: {
+        type: Boolean,
+        default: false,
     }
 })
 onMounted(() => {
+    if (props.isImmediate) {
+        isLoaded.value = props.isImmediate
+    }
     setDownloadLink()
 })
 // methods
