@@ -108,7 +108,7 @@
                 "source": "/classic",
                 "destination": "/finance/outline.html",
                 "type": 301
-            },
+            }
         ]
     }
 }

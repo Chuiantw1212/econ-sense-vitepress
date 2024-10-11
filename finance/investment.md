@@ -107,7 +107,7 @@ outline: [2,3]
 
 另外，務必留意複委託帳號的幣別。如果使用**美金**買入證券，未來配息將以美金進行兌換；若使用**台幣**買入，配息則會自動兌換為台幣。因此，在操作前，確認所用的幣別是否方便你未來的財務管理，這將幫助你更有效地管理投資回報。
 
-相比直接在海外開戶，複委託不僅簡化了流程，還更便於管理。這一點在[**退休規劃課程**](/finance/retirement.html)中也提到過，考慮到身故後資金可能無法取回的情況，使用複委託比海外開戶更安全可靠。此外，台灣規定每年[**海外所得100萬台幣以內**](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/basic-tax-question/oversea-income/awYgOG9)不計入所得稅，因此多數投資者不需要擔心稅務問題。
+相比直接在海外開戶，複委託不僅簡化了流程，還更便於管理。這一點在[**退休規劃課程**](/finance/retirement-2.html)中也提到過，考慮到身故後資金可能無法取回的情況，使用複委託比海外開戶更安全可靠。此外，台灣規定每年[**海外所得100萬台幣以內**](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/basic-tax-question/oversea-income/awYgOG9)不計入所得稅，因此多數投資者不需要擔心稅務問題。
 
 ## 太陽能板
 
