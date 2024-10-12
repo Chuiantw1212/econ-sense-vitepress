@@ -203,15 +203,24 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 
 2. **選擇 Open with GitHub Desktop**  
    在彈出的選單中，選擇 **Open with GitHub Desktop**。這個選項會將儲存庫直接打開到 GitHub Desktop 應用程式中。如果你的電腦尚未安裝 GitHub Desktop，系統會提示你安裝。點擊這個選項後，系統會自動切換到 GitHub Desktop 應用程式，並顯示複製專案到本地端的界面。
+   ![用desktop打開](/engineer/vitepress/用desktop打開.png "用desktop打開")
 
 3. **複製專案到本地端**  
    在 GitHub Desktop 中，會看到一個視窗詢問你將專案儲存到哪個資料夾。你可以選擇本地端一個你偏好的資料夾來存放這個專案。在選擇好存放路徑後，點擊 **Clone** 按鈕。這個動作會複製整個專案到你選擇的本地資料夾中，讓你可以在本地環境下進行開發和修改。
+   ![用desktop去clone](/engineer/vitepress/用desktop去clone.png "用desktop去clone")
 
 4. **選擇用途**  
    在複製過程中，GitHub Desktop 可能會詢問你專案的用途。這是為了幫助你更好地配置開發環境。當出現選項時，選擇 **For my own purpose**，這意味著你將這個專案作為個人開發使用。點擊 **繼續** 完成這個步驟。
 
-5. **打開專案到 VS Code**  
-   專案成功複製到本地端後，你可以選擇將專案直接在 VS Code 中打開。在 GitHub Desktop 的右上角，有一個按鈕標示為 **Open in Visual Studio Code**。點擊這個按鈕，系統會自動打開 VS Code，並將你剛剛複製到本地的專案載入到編輯器中。如果你尚未安裝 VS Code，系統會提示你安裝。VS Code 開啟後，你將可以開始查看、編輯和修改專案文件。
+   ![為了自己](/engineer/vitepress/為了自己.png "為了自己")
+
+5. **開啟 VS Code**  
+   在 GitHub Desktop 的右上角，點擊 **Open in Visual Studio Code** 按鈕，系統會自動打開 VS Code 並將專案載入編輯器中。
+   ![用Code打開](/engineer/vitepress/用Code打開.png "用Code打開")
+
+6. **信任專案作者**  
+   當專案在 VS Code 中打開時，可能會彈出訊息要求你選擇是否信任專案。請勾選 **Yes, I trust the authors**，這樣你就可以開始查看、編輯和修改專案文件。
+   ![信任作者](/engineer/vitepress/信任作者.png "信任作者")
 
 通過這些步驟，你已經成功將專案從 GitHub 複製到本地端，並在 VS Code 中打開，可以開始進行開發工作。
 
