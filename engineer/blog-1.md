@@ -11,7 +11,7 @@ outline: [2,3]
 
 在進行 Vitepress 開發之前，首先需要完成一些必要的環境設定。以下是你需要依序完成的步驟，從打開終端機到安裝開發工具，確保你具備所有必要的工具來順利啟動專案。
 
-### 打開終端機
+### 終端機
 
 在安裝 Node.js 和 Git 之前，你需要打開終端機來輸入相關指令。根據你的作業系統，打開終端機的方法有所不同。
 
@@ -34,7 +34,7 @@ outline: [2,3]
 
 ---
 
-### 安裝 Node.js
+### Node.js的安裝
 
 Node.js 是 Vite 的運行環境，因此安裝 Node.js 是使用 Vitepress 的第一步。
 
@@ -59,7 +59,24 @@ Node.js 是 Vite 的運行環境，因此安裝 Node.js 是使用 Vitepress 的�
 
 ---
 
-### 安裝 Git
+### VS Code的安裝
+
+VS Code 是一款免費且強大的編輯器，支援各種編程語言，與 Vitepress 的開發流程相當契合。
+
+#### 安裝步驟
+
+1. **前往 VS Code 官方網站**  
+   到 [VS Code 官方網站](https://code.visualstudio.com/) 下載適合你作業系統的安裝檔案。
+
+2. **安裝 VS Code**  
+   執行安裝檔案，並按照提示完成安裝。你可以保留預設選項即可。
+
+3. **安裝 Vitepress 所需擴充功能（可選）**  
+   雖然本文不需要介紹額外的開發工具，但你可以安裝一些擴充功能來提升開發效率，例如 Vue.js 擴充功能，以幫助編寫 Vue 組件。
+
+---
+
+### Git的安裝
 
 Git 是管理版本控制的重要工具，用於跟蹤代碼的變更。在 Windows 和 Mac 上安裝 Git 的步驟略有不同，請根據你的作業系統選擇適合的步驟。
 
@@ -109,24 +126,7 @@ Mac 用戶在安裝 Git 之前，建議保留至少 15GB 的硬碟空間，以�
 
 ---
 
-### 安裝 VS Code (Visual Studio Code)
-
-VS Code 是一款免費且強大的編輯器，支援各種編程語言，與 Vitepress 的開發流程相當契合。
-
-#### 安裝步驟
-
-1. **前往 VS Code 官方網站**  
-   到 [VS Code 官方網站](https://code.visualstudio.com/) 下載適合你作業系統的安裝檔案。
-
-2. **安裝 VS Code**  
-   執行安裝檔案，並按照提示完成安裝。你可以保留預設選項即可。
-
-3. **安裝 Vitepress 所需擴充功能（可選）**  
-   雖然本文不需要介紹額外的開發工具，但你可以安裝一些擴充功能來提升開發效率，例如 Vue.js 擴充功能，以幫助編寫 Vue 組件。
-
----
-
-### 註冊 GitHub 帳號
+### GitHub 帳號註冊
 
 GitHub 是用來存放及分享代碼的平台。如果你還沒有 GitHub 帳號，可以按照以下步驟來註冊：
 
@@ -143,7 +143,7 @@ GitHub 是用來存放及分享代碼的平台。如果你還沒有 GitHub 帳�
 
 ---
 
-### 安裝 GitHub Desktop
+### GitHub Desktop的安裝
 
 GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和同步 GitHub 儲存庫，對於不熟悉命令行的使用者來說十分方便。
 
@@ -156,6 +156,34 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
    完成安裝後，打開 GitHub Desktop，並使用你的 GitHub 帳號登入。如果你還沒有 GitHub 帳號，可以在安裝前按照上面「註冊 GitHub 帳號」的步驟進行註冊。
 
 完成這些環境設定後，你就具備了啟動 Vitepress 專案所需的基本工具。你現在可以進行專案的初始化，開始你的開發旅程。
+
+### 總結說明
+
+在進行 Vitepress 專案的開發時，你需要理解並使用一些核心工具。這些工具各自扮演不同的角色，從開發環境設置到版本控制再到代碼協作，它們構成了整個開發流程的基礎。
+
+#### 終端機、Node.js、VS Code
+
+- **終端機**：  
+  使用終端機來輸入命令和運行應用程式。無論是安裝依賴、啟動開發伺服器還是運行 Git 命令，終端機是與系統互動的核心工具。
+
+- **Node.js**：  
+  Vitepress 依賴 Node.js 來構建和運行靜態網站。Node.js 允許你安裝並管理專案中的各種依賴，並提供伺服器端的 JavaScript 運行環境。
+
+- **VS Code**：  
+  簡單來說，VS Code 就是工程師的 **Word**。就像 Word 用來編輯文件一樣，VS Code 是專為編寫和管理程式碼設計的強大編輯器。它支援智能提示、自動補全和擴充功能，幫助工程師更高效地開發專案。VS Code 提供了靈活的擴展能力，讓你可以根據開發需求自定義編輯環境。
+
+---
+
+#### Git、GitHub、GitHub Desktop
+
+- **Git**：  
+  一般上班族使用資料夾來管理他們的工作檔案，而工程師使用 **Git** 來管理任務和代碼。Git 是一個版本控制系統，幫助工程師追蹤代碼的變更，允許建立分支來處理不同任務，並在完成後進行合併。這樣可以有效管理專案的不同版本，確保每次變更都能被記錄和回溯。
+
+- **GitHub**：  
+  就像一般上班族接觸到的 Email 提供者（如 Outlook、Gmail），工程師則會接觸到 **GitHub**、**GitLab** 等版本控制平台。GitHub 是基於 Git 的雲端平台，用來儲存和協作管理代碼，提供了 Pull Requests、Issues 等工具來支援團隊開發。  
+
+- **GitHub Desktop**：  
+  **GitHub Desktop** 讓工程師可以遠離駭客任務般的命令行界面（CLI）世界，改用相對人性化的圖形介面。它簡化了 Git 和 GitHub 的操作，讓你可以通過視覺化的操作進行提交、推送和分支管理，而不必依賴複雜的命令行操作。對於不熟悉 CLI 的開發者來說，GitHub Desktop 提供了更直觀和便捷的開發體驗。
 
 ## 本地端運行
 
@@ -216,27 +244,6 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
    開啟你的瀏覽器，訪問localhost來查看本地運行的網站：
 
 ## GitHub 說明與設定
-
-在 Vitepress 專案開發過程中，使用 Git、GitHub、GitHub Desktop、GitHub Actions 和 GitHub Pages 是十分重要的，它們各自扮演不同的角色，能夠幫助你管理版本、協作開發，並自動將網站部署到網絡上。以下將詳細介紹它們的差異與設定。
-
-### Git, GitHub, GitHub Desktop
-
-1. **Git**  
-   Git 是一個開源的版本控制系統，允許開發者在本地追蹤代碼的變更，進行分支管理，合併和版本控制，適合多人協作開發。每個開發者的本地環境都有完整的代碼歷史，這意味著即使沒有網絡連接，開發者也可以進行提交、創建分支等操作。Git 的靈活性和強大的分支系統使其成為當今最流行的版本控制工具之一。
-
-2. **GitHub**  
-   GitHub 是基於 Git 的雲端平台，提供了一個集中式的代碼托管服務，讓開發者能夠在互聯網上共享和協作管理代碼。除了版本控制外，GitHub 還提供了強大的協作工具，如 Pull Requests、Issues 追蹤、以及與其他開發人員進行代碼審查的功能。GitHub 的附加功能（例如 GitHub Actions）允許自動化工作流和部署，這對於現代開發流程來說至關重要，因為它能夠將開發與運維自動化集成在一起。
-
-3. **GitHub Desktop**  
-   GitHub Desktop 是 Git 和 GitHub 的圖形化應用程式，旨在簡化 Git 工作流，特別是對於不熟悉命令行的使用者。通過 GitHub Desktop，用戶可以視覺化地進行 Git 操作，從而避免了使用命令行的繁瑣過程。如果沒有這個圖形化介面，用戶將不得不面對像駭客任務般的黑色命令行窗口，依賴手動輸入指令來進行操作，這對沒有技術背景的使用者來說，充滿挑戰且不直觀。CLI 操作需要記住諸如 `git init`、`git add`、`git commit`、`git push` 等命令，而 GitHub Desktop 將這些操作簡化為按幾個按鈕即可完成，極大降低了學習門檻。
-
-   GitHub Desktop 提供了一個更直觀的使用體驗，讓用戶能輕鬆完成提交、推送、合併等操作，專注於開發和協作，無需面對命令行的複雜性。
-
-**關係**：  
-
-- **Git** 是版本控制系統的核心，負責管理本地的代碼版本。
-- **GitHub** 是基於 Git 的雲端平台，用來在互聯網上托管和協作管理 Git 儲存庫。
-- **GitHub Desktop** 提供了一個圖形化的操作界面，讓開發者可以更加輕鬆地在本地使用 Git 和 GitHub 進行操作，簡化了命令行的繁瑣流程。
 
 ### GitHub Actions
 
@@ -321,22 +328,15 @@ GitHub Pages 是 GitHub 提供的一個免費的靜態網站託管服務，可�
 
 ## 發布與修改
 
-在完成 Vitepress 專案的開發後，將這些變更發布到 GitHub，並通過 GitHub Pages 展示網站給使用者。以下是詳細的發布與修改步驟，包括如何啟用 GitHub Actions、設定 GitHub Pages，以及使用 VS Code 和 GitHub Desktop 進行專案的變更與發布。
+在進行 Vitepress 專案的開發過程中，你可以使用 VS Code 修改網站的配置，並使用 GitHub Desktop 將變更發布到 GitHub Pages。這樣，網站會自動更新並反映最新的變更。以下是詳細的步驟說明。
 
-### 使用 VS Code 變更 Vitepress 專案的標題
+### 修改 Vitepress 標題
 
-在 Vitepress 專案中，修改專案的標題非常簡單。你只需要編輯專案的設定檔案。
+1. **打開 VS Code**  
+   使用 VS Code 開啟你的 Vitepress 專案，並導航至專案目錄中的 `docs/.vitepress/config.js` 檔案。
 
-#### 變更步驟
-
-1. **打開 VS Code**
-   使用 VS Code 打開你的 Vitepress 專案。
-
-2. **找到設定檔案**
-   尋找專案根目錄中的 `docs/.vitepress/config.js` 檔案，這是 Vitepress 的主要設定檔案。
-
-3. **修改標題**
-   在 `config.js` 檔案中，找到 `title` 屬性，並修改為你想要的新標題。範例如下：
+2. **修改網站標題**  
+   在 `config.js` 檔案中，找到 `title` 屬性並修改它。例如：
 
    ```javascript
    export default {
@@ -345,43 +345,34 @@ GitHub Pages 是 GitHub 提供的一個免費的靜態網站託管服務，可�
    }
    ```
 
-4. **保存變更**
-   修改完後，按下 **Command + S**（Mac）或 **Ctrl + S**（Windows）保存變更。
+3. **保存變更**  
+   **強調：一定要保存檔案！**  
+   按下 **Ctrl + S**（Windows）或 **Command + S**（Mac）來保存修改。  
+   - 只有保存了變更後，才能在本地瀏覽器中看到更新的結果。
+   - 保存後，這些變更才會記錄在本地的 Git 中，這樣你才能在後續使用 GitHub Desktop 提交變更。
 
----
+### 透過 GitHub Desktop 發布
 
-### 使用 GitHub Desktop 發布變更
+1. **打開 GitHub Desktop**  
+   使用 GitHub Desktop 開啟你的專案，它會自動檢測到你在 VS Code 中所做的變更。
 
-當你在 VS Code 中完成了專案修改後，你可以使用 GitHub Desktop 將這些變更推送到 GitHub。
+2. **提交變更**  
+   在 GitHub Desktop 中輸入提交訊息，描述你所做的變更，例如「修改網站標題」，然後點擊 **Commit to main**。
 
-#### 發布步驟
-
-1. **打開 GitHub Desktop**
-   打開 GitHub Desktop，並確保你已經連接到專案的本地版本庫。
-
-2. **提交變更**
-   在 GitHub Desktop 中，你將看到所有已修改的檔案。輸入提交訊息描述你的變更，然後點擊 **Commit to main** 按鈕。
-
-3. **推送變更到 GitHub**
-   提交變更後，點擊右上角的 **Push origin** 按鈕，將本地的變更推送到 GitHub。
-
----
+3. **推送到 GitHub**  
+   提交變更後，點擊右上角的 **Push origin**，將本地的變更推送到 GitHub 儲存庫。這將觸發 GitHub Actions 自動部署網站。
 
 ### 確認網站更新
 
-當你推送了代碼並觸發了 GitHub Actions 自動部署後，可以檢查網站是否更新。
+1. **檢查 GitHub Pages 網站**  
+   推送變更到 GitHub 後，GitHub Actions 會自動構建並部署你的網站。你可以前往你的 GitHub Pages 網址：
 
-#### 確認步驟
+   `https://你的用戶名.github.io/`
 
-1. **檢查 GitHub Pages 網站**
-   在瀏覽器中打開你的 GitHub Pages 網站，通常是 `https://你的用戶名.github.io/專案名`。
+2. **確認變更**  
+   在網站上檢查是否反映了你在 VS Code 中進行的修改，例如網站標題是否已更新。如果一切正常，網站將顯示最新的內容變更。
 
-2. **驗證變更**
-   檢查網站是否反映了你在 Vitepress 專案中所做的修改，例如變更的標題等。
-
----
-
-這些步驟將幫助你順利設定自動化工作流，並通過 GitHub Pages 發布與更新你的 Vitepress 專案，確保每次變更都能快速呈現給網站的使用者。
+通過這些步驟，你可以輕鬆修改、提交和發布 Vitepress 網站，並透過 GitHub Pages 快速查看更新的結果。
 
 ## 線上/實體講座
 
