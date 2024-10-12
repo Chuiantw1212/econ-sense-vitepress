@@ -241,7 +241,7 @@ outline: [2,3]
 
 ### 簡報
 
-<LazySlide :isImmediate="true" shareLink="https://docs.google.com/presentation/d/1k2jUNx0oeChEQuNQGEHy75xt3N7vIt8NH2VHR0BthAc/edit?usp=drive_link">
+<LazySlide shareLink="https://docs.google.com/presentation/d/1k2jUNx0oeChEQuNQGEHy75xt3N7vIt8NH2VHR0BthAc/edit?usp=drive_link">
 <iframe
 src="https://docs.google.com/presentation/d/e/2PACX-1vS37SbGFgAkOGhOPFzPqUugcqy69HCJ6gpouzzTTKqe6gmMyx47uq8_itKfoDcQA7_KQe4_f22emw4X/embed?start=false&loop=false&delayms=3000"
 width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
