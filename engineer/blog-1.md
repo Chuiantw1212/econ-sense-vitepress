@@ -201,12 +201,22 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 2. **Fork 專案**  
    在右上角點擊 **Fork** 按鈕，將這個專案複製到你的 GitHub 帳戶。
 
-3. **複製專案到本地端**  
-   打開 GitHub Desktop 或者使用 Git，將專案克隆到本地端：
+3. **修改 Fork 後的專案名稱**  
+   Fork 完成後，前往你 Fork 的儲存庫頁面，點擊專案名稱旁邊的 **Settings**（設定）標籤。你 **必須** 將專案名稱修改為 `your-username.github.io`，其中 `your-username` 替換為你的 GitHub 使用者名稱。這是 GitHub Pages 自動部署的 **必須條件**，確保你的網站可以正確部署在 `https://your-username.github.io`。
+
+   - 進入 **Settings** 後，找到 **Repository name** 欄位。
+   - 修改儲存庫名稱為 `your-username.github.io`。
+   - 完成後點擊 **Rename**。
+
+4. **複製專案到本地端**  
+   打開 GitHub Desktop 或使用 Git，將已改名的專案克隆到本地端：
 
    ```bash
-   git clone https://github.com/YOUR_USERNAME/chuiantw1212.github.io
+   git clone https://github.com/YOUR_USERNAME/YOUR_USERNAME.github.io
    ```
+
+5. **推送更改並自動部署**  
+   當你推送專案更改到該儲存庫後，GitHub Pages 將會自動部署你的網站並將其托管在 `https://your-username.github.io`。如果不按此格式命名，GitHub Pages 將無法自動識別並部署網站。
 
 ### 使用 VS Code 打開專案
 
