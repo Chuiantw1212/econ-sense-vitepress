@@ -273,19 +273,17 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 
 ## GitHub 說明與設定
 
+GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以配合使用來實現自動化部署靜態網站。
+
 ### GitHub Actions
 
-GitHub Actions 是 GitHub 提供的一種自動化工具，可以在代碼推送到指定分支時，自動執行工作流，如構建、測試和部署。對於 Vitepress 網站來說，GitHub Actions 可以用來自動構建和部署網站到 GitHub Pages。
+在 VitePress 專案中，你可以通過以下步驟來設定 GitHub Actions，實現網站的自動化部署：
 
-#### 1. 設定 GitHub Actions
+1. **建立工作流程檔案**  
+   在你的專案中，創建一個 `.github/workflows` 資料夾，並新增一個 `.yml` 檔案（例如 `deploy.yml`）。這個檔案用來定義自動化流程。
 
-在 Vitepress 專案中，你可以使用 GitHub Actions 來自動部署網站。以下是具體步驟：
-
-1. **啟用 GitHub Actions**
-   - 前往你的 GitHub 專案頁面，點擊 **Actions** 分頁，選擇 **I understand my workflows, go ahead and enable them**，啟用 Actions 功能。
-
-2. **建立工作流程文件**
-   - 在 Vitepress 專案中，建立 `.github/workflows` 資料夾，並在該資料夾下新增 `deploy.yml` 檔案來定義自動化工作流。
+2. **配置觸發條件**  
+   在 `.yml` 檔案中，設定工作流程的觸發條件。例如，當代碼推送到 `main` 分支時自動執行構建和部署：
 
    ```yaml
    # Sample workflow for building and deploying a VitePress site to GitHub Pages
@@ -335,10 +333,8 @@ GitHub Actions 是 GitHub 提供的一種自動化工具，可以在代碼推送
            uses: actions/deploy-pages@v4
    ```
 
-3. **提交並推送到 GitHub**
-   - 當你將代碼推送到 `main` 分支時，GitHub Actions 會自動執行構建並部署你的 Vitepress 網站。
-
----
+3. **自動化部署**  
+   當你將代碼推送到 `main` 分支後，GitHub Actions 會自動運行上述工作流程，並將構建好的網站部署到 GitHub Pages，實現無需手動操作的自動化部署。
 
 ### GitHub Pages
 
