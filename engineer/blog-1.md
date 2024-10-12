@@ -70,7 +70,6 @@ VS Code 是一款免費且強大的編輯器，支援各種編程語言，與 Vi
 3. **安裝 Vitepress 所需擴充功能（可選）**  
    雖然本文不需要介紹額外的開發工具，但你可以安裝一些擴充功能來提升開發效率，例如 Vue.js 擴充功能，以幫助編寫 Vue 組件。
 
-
 ### Git的安裝
 
 Git 是管理版本控制的重要工具，用於跟蹤代碼的變更。在 Windows 和 Mac 上安裝 Git 的步驟略有不同，請根據你的作業系統選擇適合的步驟。
@@ -258,62 +257,14 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
 
 在 VitePress 專案中，你可以通過以下步驟來設定 GitHub Actions，實現網站的自動化部署：
 
-1. **建立工作流程檔案**  
-   在你的專案中，創建一個 `.github/workflows` 資料夾，並新增一個 `.yml` 檔案（例如 `deploy.yml`）。這個檔案用來定義自動化流程。
+1. **進入專案的 Actions 分頁**  
+   當你 Fork 完專案後，進入你的 GitHub 儲存庫，點擊頁面上方的 **Actions** 分頁。
 
-2. **配置觸發條件**  
-   在 `.yml` 檔案中，設定工作流程的觸發條件。例如，當代碼推送到 `main` 分支時自動執行構建和部署：
+2. **啟用 GitHub Actions**  
+   在 **Actions** 頁面中，GitHub 會提示你啟用工作流程。找到提示並點擊 **I understand my workflows, go ahead and enable them** 按鈕。這個步驟是啟用 GitHub Actions 的關鍵，它允許 GitHub 自動執行專案的工作流程。
 
-   ```yaml
-   # Sample workflow for building and deploying a VitePress site to GitHub Pages
-   name: Deploy VitePress site to Pages
-
-   on:
-     push:
-       branches: [main]
-     workflow_dispatch:
-
-   permissions:
-     contents: read
-     pages: write
-     id-token: write
-
-   concurrency:
-     group: pages
-     cancel-in-progress: false
-
-   jobs:
-     build:
-       runs-on: ubuntu-latest
-       steps:
-         - name: Checkout
-           uses: actions/checkout@v4
-         - name: Setup Node
-           uses: actions/setup-node@v4
-           with:
-             node-version: 20
-             cache: npm
-         - name: Install dependencies
-           run: npm ci
-         - name: Build with VitePress
-           run: npm run docs:build
-         - name: Upload artifact
-           uses: actions/upload-pages-artifact@v3
-           with:
-             path: .vitepress/dist
-
-     deploy:
-       environment:
-         name: github-pages
-       needs: build
-       runs-on: ubuntu-latest
-       steps:
-         - name: Deploy to GitHub Pages
-           uses: actions/deploy-pages@v4
-   ```
-
-3. **自動化部署**  
-   當你將代碼推送到 `main` 分支後，GitHub Actions 會自動運行上述工作流程，並將構建好的網站部署到 GitHub Pages，實現無需手動操作的自動化部署。
+3. **觸發條件的預設設定**  
+   我已經在 .github/workflows/deploy.yml 檔案中配置好自動觸發條件。當你推送代碼到 main 分支時，GitHub Actions 會自動執行構建並部署網站的工作流程。
 
 ### Github Pages
 
@@ -377,7 +328,6 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
    瀏覽網站，確保所有連結、圖片以及其他功能正常運行。如果出現問題，返回專案進行調整並重新推送變更。
 
 通過這些步驟，你可以輕鬆確認 VitePress 網站的變更是否已成功部署到 GitHub Pages。
-
 
 ## 線上/實體講座
 
