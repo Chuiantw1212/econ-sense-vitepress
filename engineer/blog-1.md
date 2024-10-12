@@ -1,11 +1,11 @@
 ---
-description: Vitepress無本部落格，適合前端初學者、文字工作者學習，自由掌握內容，免費託管，建立屬於自己的線上空間。
+description: 《VitePress無本部落格(上)》涵蓋環境建置、本地運行、Github設定、發布與修改，適合前端初學者及不想負擔託管費用的人。
 outline: [2,3]
 ---
 
-# VitePress無本部落格
+# VitePress無本部落格 (上)
 
-《VitePress無本部落格》涵蓋環境建置、本機運行、發布與修改、進階設定等內容。適合想學習前端的初學者、希望脫離平台倒閉困擾的使用者，以及不想負擔部落格託管費用的使用者。這個指南將帶您一步步建立並管理自己的無本部落格，實現高效、低成本的網路內容創作。
+《VitePress無本部落格(上)》詳細介紹如何進行環境建置、本地運行、Github設定及發布與修改的步驟。這份內容適合想學習前端的初學者、希望擺脫平台倒閉困擾的使用者，以及不想負擔部落格託管費用的人。透過這份指南，您將學會如何建立並管理屬於自己的無本部落格，實現高效且經濟的網路內容創作。
 
 ## 環境建置
 
@@ -36,15 +36,16 @@ outline: [2,3]
 
 Node.js 是 Vite 的運行環境，因此安裝 Node.js 是使用 Vitepress 的第一步。
 
-#### 安裝步驟
+### 安裝步驟
 
 1. **前往 Node.js 官方網站**  
    打開 [Node.js 官方網站](https://nodejs.org/)，你會看到兩個版本可供選擇：
-   - **LTS (長期支援版)**：這是更穩定的版本，適合大多數用戶。
-   - **Current (最新版本)**：包含最新的功能，但可能不夠穩定。
+
+   - **LTS (長期支援版)**：這是更穩定的版本，適合大多數用戶，建議下載此版本，除非你有特定需求。
+   - **Current (最新版本)**：包含最新的功能，但可能不夠穩定，主要適合進行測試或開發最新技術的用戶。
 
 2. **下載並安裝 Node.js**  
-   下載適合你作業系統的安裝檔案，並按照提示安裝。建議保留預設設置。
+   下載適合你作業系統的安裝檔案，並按照提示完成安裝。建議保留預設設置，這樣可以確保最佳的兼容性和穩定性。
 
 3. **確認安裝成功**  
    安裝完成後，打開終端機並輸入以下指令，檢查 Node.js 是否安裝成功：
@@ -53,7 +54,7 @@ Node.js 是 Vite 的運行環境，因此安裝 Node.js 是使用 Vitepress 的�
    node -v
    ```
 
-   若顯示版本號，則表示安裝成功。
+   若顯示版本號，表示安裝成功。
 
 ### VS Code的安裝
 
@@ -69,7 +70,6 @@ VS Code 是一款免費且強大的編輯器，支援各種編程語言，與 Vi
 
 3. **安裝 Vitepress 所需擴充功能（可選）**  
    雖然本文不需要介紹額外的開發工具，但你可以安裝一些擴充功能來提升開發效率，例如 Vue.js 擴充功能，以幫助編寫 Vue 組件。
-
 
 ### Git的安裝
 
@@ -94,10 +94,10 @@ Git 是管理版本控制的重要工具，用於跟蹤代碼的變更。在 Win
 
 #### Mac 用戶
 
-Mac 用戶在安裝 Git 之前，建議保留至少 15GB 的硬碟空間，以確保安裝過程順利且能為未來的專案留出足夠的空間。
+Mac 用戶在安裝 Git 之前，建議保留至少 [15GB 的硬碟空間](https://discussions.apple.com/thread/253925550?sortBy=rank)，以確保安裝過程順利且能為未來的專案留出足夠的空間。
 
 1. **安裝 Homebrew**  
-   在 Mac 上建議先安裝 Homebrew 來方便安裝 Git。打開 **Terminal**，輸入以下指令來安裝 Homebrew：
+   在 Mac 上建議先安裝 [Homebrew](https://brew.sh/) 來方便安裝 Git。打開 **Terminal**，輸入以下指令來安裝 Homebrew：
 
    ```bash
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -123,15 +123,18 @@ Mac 用戶在安裝 Git 之前，建議保留至少 15GB 的硬碟空間，以�
 
 GitHub 是用來存放及分享代碼的平台。如果你還沒有 GitHub 帳號，可以按照以下步驟來註冊：
 
-#### 註冊步驟
-
 1. **前往 GitHub 官方網站**  
-   打開 [GitHub 官方網站](https://github.com/)。
+   打開 [GitHub 官方網站](https://github.com)。
 
 2. **建立新帳號**  
    點擊右上角的「Sign up」，然後按照頁面提示輸入你的電子郵件、密碼等信息來註冊帳號。
 
-3. **完成註冊**  
+3. **設定使用者名稱**  
+   設定使用者名稱時請注意，這個名稱將成為你 GitHub Pages 網址的一部分。未來你的 GitHub Pages 網址會是 `https://your-username.github.io`，所以請選擇一個合適的 ID。
+
+   ![未來url](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E6%9C%AA%E4%BE%86url.webp "未來url")
+
+4. **完成註冊**  
    按照頁面的引導完成帳號的設置，包括設定使用者名稱和選擇方案（你可以選擇免費方案）。
 
 ### GitHub Desktop的安裝
@@ -180,32 +183,24 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 
 ### Fork 專案
 
-首先，我們需要將專案 Fork 到自己的 GitHub 帳戶中。
-
-#### 步驟
-
 1. **前往專案網址**  
-   打開 [這個 Vitepress 專案](https://github.com/Chuiantw1212/chuiantw1212.github.io)。
+   首先，打開你想要 Fork 的專案。在這個例子中，你可以打開 [這個 VitePress 專案](https://github.com/Chuiantw1212/chuiantw1212.github.io)。這會帶你到專案的 GitHub 儲存庫頁面。
 
-2. **Fork 專案**  
-   在右上角點擊 **Fork** 按鈕，將這個專案複製到你的 GitHub 帳戶。
+2. **點擊專案右上角的 Fork**  
+   在儲存庫頁面的右上角，你會看到一個 **Fork** 按鈕，點擊它。  
+   - **Fork** 是 GitHub 提供的一個功能，允許你將他人的專案複製到你自己的 GitHub 帳戶中，這樣你就可以對該專案進行更改或擴展，而不會影響原始專案。
+   ![從github去fork](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E5%BE%9Egithub%E5%8E%BBfork.webp "從github去fork")
 
-3. **修改 Fork 後的專案名稱**  
-   Fork 完成後，前往你 Fork 的儲存庫頁面，點擊專案名稱旁邊的 **Settings**（設定）標籤。你 **必須** 將專案名稱修改為 `your-username.github.io`，其中 `your-username` 替換為你的 GitHub 使用者名稱。這是 GitHub Pages 自動部署的 **必須條件**，確保你的網站可以正確部署在 `https://your-username.github.io`。
+3. **變更名稱**  
+   在跳轉到 **Create a new fork** 畫面時，你會看到一個名為 **Repository name** 的欄位。  
+   - **Repository name** 是你要給這個專案的名稱。GitHub Pages 有[特定的命名要求](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site#creating-a-repository-for-your-site)，個人主頁必須使用 `your-username.github.io` 作為儲存庫名稱。
+   - 因此，請將這個欄位的名稱修改為 `your-username.github.io`，其中 `your-username` 是你的 GitHub 使用者名稱。
+   - 這個名稱設定非常重要，因為它決定了你的 GitHub Pages 網站的 URL。
+   ![變更repo名](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E8%AE%8A%E6%9B%B4repo%E5%90%8D.webp "變更repo名")
 
-   - 進入 **Settings** 後，找到 **Repository name** 欄位。
-   - 修改儲存庫名稱為 `your-username.github.io`。
-   - 完成後點擊 **Rename**。
-
-4. **複製專案到本地端**  
-   打開 GitHub Desktop 或使用 Git，將已改名的專案克隆到本地端：
-
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/YOUR_USERNAME.github.io
-   ```
-
-5. **推送更改並自動部署**  
-   當你推送專案更改到該儲存庫後，GitHub Pages 將會自動部署你的網站並將其托管在 `https://your-username.github.io`。如果不按此格式命名，GitHub Pages 將無法自動識別並部署網站。
+4. **按下綠色的 Create Fork**  
+   完成名稱修改後，點擊畫面下方的綠色 **Create Fork** 按鈕，系統將開始將專案 Fork 到你的 GitHub 帳戶中。
+   - **Fork** 完成後，GitHub 會自動將你帶到新的專案頁面，這是你自己的 Fork 儲存庫，你可以自由進行修改和開發。
 
 ### 打開專案
 
@@ -214,15 +209,24 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 
 2. **選擇 Open with GitHub Desktop**  
    在彈出的選單中，選擇 **Open with GitHub Desktop**。這個選項會將儲存庫直接打開到 GitHub Desktop 應用程式中。如果你的電腦尚未安裝 GitHub Desktop，系統會提示你安裝。點擊這個選項後，系統會自動切換到 GitHub Desktop 應用程式，並顯示複製專案到本地端的界面。
+   ![用desktop打開](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E7%94%A8desktop%E6%89%93%E9%96%8B.webp "用desktop打開")
 
 3. **複製專案到本地端**  
    在 GitHub Desktop 中，會看到一個視窗詢問你將專案儲存到哪個資料夾。你可以選擇本地端一個你偏好的資料夾來存放這個專案。在選擇好存放路徑後，點擊 **Clone** 按鈕。這個動作會複製整個專案到你選擇的本地資料夾中，讓你可以在本地環境下進行開發和修改。
+   ![用desktop去clone](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E7%94%A8desktop%E5%8E%BBclone.webp "用desktop去clone")
 
 4. **選擇用途**  
    在複製過程中，GitHub Desktop 可能會詢問你專案的用途。這是為了幫助你更好地配置開發環境。當出現選項時，選擇 **For my own purpose**，這意味著你將這個專案作為個人開發使用。點擊 **繼續** 完成這個步驟。
 
-5. **打開專案到 VS Code**  
-   專案成功複製到本地端後，你可以選擇將專案直接在 VS Code 中打開。在 GitHub Desktop 的右上角，有一個按鈕標示為 **Open in Visual Studio Code**。點擊這個按鈕，系統會自動打開 VS Code，並將你剛剛複製到本地的專案載入到編輯器中。如果你尚未安裝 VS Code，系統會提示你安裝。VS Code 開啟後，你將可以開始查看、編輯和修改專案文件。
+   ![為了自己](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E7%82%BA%E4%BA%86%E8%87%AA%E5%B7%B1.webp "為了自己")
+
+5. **開啟 VS Code**  
+   在 GitHub Desktop 的右上角，點擊 **Open in Visual Studio Code** 按鈕，系統會自動打開 VS Code 並將專案載入編輯器中。
+   ![用Code打開](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E7%94%A8Code%E6%89%93%E9%96%8B.webp "用Code打開")
+
+6. **信任專案作者**  
+   當專案在 VS Code 中打開時，可能會彈出訊息要求你選擇是否信任專案。請勾選 **Yes, I trust the authors**，這樣你就可以開始查看、編輯和修改專案文件。
+   ![信任作者](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E4%BF%A1%E4%BB%BB%E4%BD%9C%E8%80%85.webp "信任作者")
 
 通過這些步驟，你已經成功將專案從 GitHub 複製到本地端，並在 VS Code 中打開，可以開始進行開發工作。
 
@@ -244,6 +248,8 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 3. 與 Mac 相同，終端機會在 VS Code 的下方區域打開，並顯示當前專案的路徑。
 4. **注意**：如果使用注音輸入法，也需要切換到英文模式，否則內建終端機可能無法正確打開。
 
+![打開terminal](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E6%89%93%E9%96%8Bterminal.webp "打開terminal")
+
 #### 輸入對應的指令
 
 1. 在 VS Code 的內建終端機中，輸入以下指令來安裝專案所需的依賴：
@@ -255,10 +261,12 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 2. 安裝完成後，啟動 VitePress 本地開發伺服器，運行以下指令：
 
    ```bash
-   npx vitepress dev
+   npm run docs:dev
    ```
 
 3. 運行該指令後，VS Code 終端機會顯示本地開發伺服器的網址，預設為 `http://localhost:5173`。你可以打開瀏覽器，訪問該網址來預覽你的網站。
+
+![打開localhost](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E6%89%93%E9%96%8Blocalhost.webp "打開localhost")
 
 ## GitHub 說明與設定
 
@@ -266,73 +274,29 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
 
 ### GitHub Actions
 
-在 VitePress 專案中，你可以通過以下步驟來設定 GitHub Actions，實現網站的自動化部署：
+在 VitePress 專案中，你可以通過以下步驟來設定 [GitHub Actions](https://github.com/features/actions)，實現網站的自動化部署：
 
-1. **建立工作流程檔案**  
-   在你的專案中，創建一個 `.github/workflows` 資料夾，並新增一個 `.yml` 檔案（例如 `deploy.yml`）。這個檔案用來定義自動化流程。
+1. **進入專案的 Actions 分頁**  
+   當你 Fork 完專案後，進入你的 GitHub 儲存庫，點擊頁面上方的 **Actions** 分頁。
 
-2. **配置觸發條件**  
-   在 `.yml` 檔案中，設定工作流程的觸發條件。例如，當代碼推送到 `main` 分支時自動執行構建和部署：
+2. **啟用 GitHub Actions**  
+   在 **Actions** 頁面中，GitHub 會提示你啟用工作流程。找到提示並點擊 **I understand my workflows, go ahead and enable them** 按鈕。這個步驟是啟用 GitHub Actions 的關鍵，它允許 GitHub 自動執行專案的工作流程。
 
-   ```yaml
-   # Sample workflow for building and deploying a VitePress site to GitHub Pages
-   name: Deploy VitePress site to Pages
+   ![設定workflows](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E8%A8%AD%E5%AE%9Aworkflows.webp "設定workflows")
 
-   on:
-     push:
-       branches: [main]
-     workflow_dispatch:
-
-   permissions:
-     contents: read
-     pages: write
-     id-token: write
-
-   concurrency:
-     group: pages
-     cancel-in-progress: false
-
-   jobs:
-     build:
-       runs-on: ubuntu-latest
-       steps:
-         - name: Checkout
-           uses: actions/checkout@v4
-         - name: Setup Node
-           uses: actions/setup-node@v4
-           with:
-             node-version: 20
-             cache: npm
-         - name: Install dependencies
-           run: npm ci
-         - name: Build with VitePress
-           run: npm run docs:build
-         - name: Upload artifact
-           uses: actions/upload-pages-artifact@v3
-           with:
-             path: .vitepress/dist
-
-     deploy:
-       environment:
-         name: github-pages
-       needs: build
-       runs-on: ubuntu-latest
-       steps:
-         - name: Deploy to GitHub Pages
-           uses: actions/deploy-pages@v4
-   ```
-
-3. **自動化部署**  
-   當你將代碼推送到 `main` 分支後，GitHub Actions 會自動運行上述工作流程，並將構建好的網站部署到 GitHub Pages，實現無需手動操作的自動化部署。
+3. **觸發條件的預設設定**  
+   我已經在 .github/workflows/deploy.yml 檔案中配置好[自動觸發條件](https://vitepress.dev/guide/deploy#github-pages)。當你推送代碼到 main 分支時，GitHub Actions 會自動執行構建並部署網站的工作流程。
 
 ### Github Pages
 
-**GitHub Pages** 是 GitHub 提供的一個免費靜態網站託管服務，特別適合用於 VitePress 網站的部署。透過 GitHub Pages，你可以將專案中的靜態文件自動生成為網站，並進行托管。操作流程如下：
+[**GitHub Pages**](https://pages.github.com/) 是 GitHub 提供的一個免費靜態網站託管服務，特別適合用於 VitePress 網站的部署。透過 GitHub Pages，你可以將專案中的靜態文件自動生成為網站，並進行托管。操作流程如下：
 
 1. 前往你的 GitHub 專案頁面，點擊頂部的 **Settings**（設定）標籤。
 2. 在設定頁面中，向下滾動，找到 **Pages** 部分。
 3. 在 **Source** 的下拉選單中，選擇 **GitHub Actions** 作為網站的部署來源。這會讓 GitHub Pages 根據你的 GitHub Actions 工作流程自動構建和部署網站。
 4. 點擊 **Save** 保存設定。
+
+![設定pages](https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E8%A8%AD%E5%AE%9Apages.webp "設定pages")
 
 完成這些步驟後，GitHub Pages 會自動通過 GitHub Actions 工作流程，從專案的正確分支和目錄中生成並部署你的網站。
 
@@ -343,7 +307,7 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
 ### 修改 Vitepress 標題
 
 1. **打開 VS Code**  
-   使用 VS Code 開啟你的 Vitepress 專案，並導航至專案目錄中的 `docs/.vitepress/config.js` 檔案。
+   使用 VS Code 開啟你的 Vitepress 專案，並導航至專案目錄中的 `.vitepress/config.js` 檔案。
 
 2. **修改網站標題**  
    在 `config.js` 檔案中，找到 `title` 屬性並修改它。例如：
@@ -364,13 +328,16 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
 ### 透過 GitHub Desktop 發布
 
 1. **打開 GitHub Desktop**  
-   使用 GitHub Desktop 開啟你的專案，它會自動檢測到你在 VS Code 中所做的變更。
+   使用 GitHub Desktop 開啟你的專案。GitHub Desktop 會自動檢測到你在 VS Code 中所做的任何變更，顯示在界面上。
 
 2. **提交變更**  
-   在 GitHub Desktop 中輸入提交訊息，描述你所做的變更，例如「修改網站標題」，然後點擊 **Commit to main**。
+   在 GitHub Desktop 中，輸入提交訊息，簡短描述你所做的變更，例如「修改網站標題」。完成後，點擊 **Commit to main**，將變更提交到本地的 `main` 分支。
 
 3. **推送到 GitHub**  
-   提交變更後，點擊右上角的 **Push origin**，將本地的變更推送到 GitHub 儲存庫。這將觸發 GitHub Actions 自動部署網站。
+   提交變更後，點擊右上角的 **Push origin** 按鈕，將本地的變更推送到 GitHub 儲存庫。這將觸發 GitHub Actions 的自動化流程，構建並部署網站。
+
+4. **查看部署進度**  
+   推送成功後，你可以前往 GitHub 頁面，點擊專案的 **Actions** 分頁來查看 GitHub Actions 的執行進度。這裡會顯示構建和部署過程中的詳細訊息，確保一切順利完成。
 
 ### 確認網站更新
 
@@ -387,7 +354,6 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
    瀏覽網站，確保所有連結、圖片以及其他功能正常運行。如果出現問題，返回專案進行調整並重新推送變更。
 
 通過這些步驟，你可以輕鬆確認 VitePress 網站的變更是否已成功部署到 GitHub Pages。
-
 
 ## 線上/實體講座
 
