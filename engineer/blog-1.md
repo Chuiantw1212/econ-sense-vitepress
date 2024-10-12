@@ -217,26 +217,26 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 
 ## GitHub 說明與設定
 
-在 Vitepress 專案開發過程中，使用 Git、GitHub、GitHub Desktop、GitHub Actions 和 GitHub Pages 是十分重要的，它們各自扮演不同的角色，能夠幫助你管理版本、協作開發、並自動將網站部署到網絡上。以下將詳細介紹它們的差異與設定。
+在 Vitepress 專案開發過程中，使用 Git、GitHub、GitHub Desktop、GitHub Actions 和 GitHub Pages 是十分重要的，它們各自扮演不同的角色，能夠幫助你管理版本、協作開發，並自動將網站部署到網絡上。以下將詳細介紹它們的差異與設定。
 
-### Git 和 GitHub 和 GitHub Desktop 的差異與關係
+### Git, GitHub, GitHub Desktop
 
 1. **Git**  
-   Git 是一個開源的版本控制系統，允許你在本地追蹤代碼變更、進行分支管理、合併代碼等，適合多人的開發合作。
+   Git 是一個開源的版本控制系統，允許開發者在本地追蹤代碼的變更，進行分支管理，合併和版本控制，適合多人協作開發。每個開發者的本地環境都有完整的代碼歷史，這意味著即使沒有網絡連接，開發者也可以進行提交、創建分支等操作。Git 的靈活性和強大的分支系統使其成為當今最流行的版本控制工具之一。
 
 2. **GitHub**  
-   GitHub 是基於 Git 的雲端版本控制平台，它提供了代碼托管、協作開發和專案管理功能。開發者可以通過 GitHub 在雲端共享代碼，進行代碼審查和協作開發，並能利用 GitHub Actions 等自動化工具。
+   GitHub 是基於 Git 的雲端平台，提供了一個集中式的代碼托管服務，讓開發者能夠在互聯網上共享和協作管理代碼。除了版本控制外，GitHub 還提供了強大的協作工具，如 Pull Requests、Issues 追蹤、以及與其他開發人員進行代碼審查的功能。GitHub 的附加功能（例如 GitHub Actions）允許自動化工作流和部署，這對於現代開發流程來說至關重要，因為它能夠將開發與運維自動化集成在一起。
 
 3. **GitHub Desktop**  
-   GitHub Desktop 是 Git 和 GitHub 的圖形化應用程式，旨在簡化 Git 和 GitHub 之間的操作。透過 GitHub Desktop，用戶可以輕鬆地提交代碼、推送更新到 GitHub、進行分支合併等操作，無需使用命令行。
+   GitHub Desktop 是 Git 和 GitHub 的圖形化應用程式，旨在簡化 Git 工作流，特別是對於不熟悉命令行的使用者。通過 GitHub Desktop，用戶可以視覺化地進行 Git 操作，從而避免了使用命令行的繁瑣過程。如果沒有這個圖形化介面，用戶將不得不面對像駭客任務般的黑色命令行窗口，依賴手動輸入指令來進行操作，這對沒有技術背景的使用者來說，充滿挑戰且不直觀。CLI 操作需要記住諸如 `git init`、`git add`、`git commit`、`git push` 等命令，而 GitHub Desktop 將這些操作簡化為按幾個按鈕即可完成，極大降低了學習門檻。
+
+   GitHub Desktop 提供了一個更直觀的使用體驗，讓用戶能輕鬆完成提交、推送、合併等操作，專注於開發和協作，無需面對命令行的複雜性。
 
 **關係**：  
 
 - **Git** 是版本控制系統的核心，負責管理本地的代碼版本。
-- **GitHub** 是用來在雲端管理 Git 儲存庫的平台，並且可以與 Git 工具進行同步。
-- **GitHub Desktop** 提供圖形化操作界面，讓你可以更方便地使用 Git 和 GitHub。
-
----
+- **GitHub** 是基於 Git 的雲端平台，用來在互聯網上托管和協作管理 Git 儲存庫。
+- **GitHub Desktop** 提供了一個圖形化的操作界面，讓開發者可以更加輕鬆地在本地使用 Git 和 GitHub 進行操作，簡化了命令行的繁瑣流程。
 
 ### GitHub Actions
 
