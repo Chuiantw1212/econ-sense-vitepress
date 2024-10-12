@@ -9,32 +9,109 @@ outline: [2,3]
 
 ## 環境建置
 
+在進行 Vitepress 開發之前，首先需要完成一些必要的環境設定。以下是你需要依序完成的步驟，從打開終端機到安裝開發工具，確保你具備所有必要的工具來順利啟動專案。
+
+### 打開終端機
+
+在安裝 Node.js 和 Git 之前，你需要打開終端機來輸入相關指令。根據你的作業系統，打開終端機的方法有所不同。
+
+#### Windows 用戶
+
+1. **使用搜尋功能**  
+   - 按下 **Windows 鍵**，在搜尋欄中輸入「cmd」或「Command Prompt」。
+   - 點擊搜尋結果中的 **Command Prompt**。
+
+2. **使用運行功能**  
+   - 按下 **Windows + R**，在彈出的「運行」窗口中輸入「cmd」，並按下 Enter。
+
+#### Mac 用戶
+
+1. **使用 Spotlight 搜尋**  
+   - 按下 **Command + 空格鍵**，在搜尋欄中輸入「Terminal」，然後按下 Enter。
+
+2. **使用 Finder**  
+   - 打開 Finder，前往 **應用程式 > 工具程式** 目錄，然後點擊 **Terminal**。
+
+---
+
 ### 安裝 Node.js
 
-Vitepress 是基於 Vite 和 Vue 的靜態網站生成器，而 Vite 又依賴於 Node.js，因此安裝 Node.js 是不可或缺的一步。
+Node.js 是 Vite 的運行環境，因此安裝 Node.js 是使用 Vitepress 的第一步。
 
 #### 安裝步驟
 
 1. **前往 Node.js 官方網站**  
-   打開 [Node.js 官方網站](https://nodejs.org/)，你會看到兩個選項：「LTS」和「Current」。
-   - **LTS (長期支援版)**：這是更穩定的版本，推薦使用。
-   - **Current (最新版本)**：包含最新的功能，但相對不穩定。
+   打開 [Node.js 官方網站](https://nodejs.org/)，你會看到兩個版本可供選擇：
+   - **LTS (長期支援版)**：這是更穩定的版本，適合大多數用戶。
+   - **Current (最新版本)**：包含最新的功能，但可能不夠穩定。
 
 2. **下載並安裝 Node.js**  
-   下載適合你作業系統的安裝檔案，並按照提示安裝。保留預設設置即可。
+   下載適合你作業系統的安裝檔案，並按照提示安裝。建議保留預設設置。
 
 3. **確認安裝成功**  
-   打開終端機（或命令提示字元），輸入以下指令來檢查是否正確安裝：
+   安裝完成後，打開終端機並輸入以下指令，檢查 Node.js 是否安裝成功：
 
    ```bash
    node -v
    ```
 
-   若顯示版本號，表示安裝成功。
+   若顯示版本號，則表示安裝成功。
+
+---
+
+### 安裝 Git
+
+Git 是管理版本控制的重要工具，用於跟蹤代碼的變更。在 Windows 和 Mac 上安裝 Git 的步驟略有不同，請根據你的作業系統選擇適合的步驟。
+
+#### Windows 用戶
+
+1. **前往 Git 官方網站**  
+   打開 [Git 官方網站](https://git-scm.com/)，下載適合 Windows 的安裝檔案。
+
+2. **安裝 Git**  
+   執行下載的安裝檔案，並按照提示安裝。在安裝過程中，建議勾選「Git Bash」，這將允許你使用命令行來管理 Git。
+
+3. **確認安裝成功**  
+   完成安裝後，打開 **Git Bash** 或 **Command Prompt**，輸入以下指令檢查 Git 是否安裝成功：
+
+   ```bash
+   git --version
+   ```
+
+   如果顯示版本號，則表示安裝成功。
+
+#### Mac 用戶
+
+Mac 用戶在安裝 Git 之前，建議保留至少 15GB 的硬碟空間，以確保安裝過程順利且能為未來的專案留出足夠的空間。
+
+1. **安裝 Homebrew**  
+   在 Mac 上建議先安裝 Homebrew 來方便安裝 Git。打開 **Terminal**，輸入以下指令來安裝 Homebrew：
+
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+2. **使用 Homebrew 安裝 Git**  
+   Homebrew 安裝完成後，輸入以下指令安裝 Git：
+
+   ```bash
+   brew install git
+   ```
+
+3. **確認安裝成功**  
+   輸入以下指令來檢查 Git 是否安裝成功：
+
+   ```bash
+   git --version
+   ```
+
+   如果顯示版本號，則表示 Git 安裝成功。
+
+---
 
 ### 安裝 VS Code (Visual Studio Code)
 
-VS Code 是一款功能強大的免費編輯器，支援各種編程語言，並且與 Vitepress 的開發流程相當契合。
+VS Code 是一款免費且強大的編輯器，支援各種編程語言，與 Vitepress 的開發流程相當契合。
 
 #### 安裝步驟
 
@@ -42,22 +119,43 @@ VS Code 是一款功能強大的免費編輯器，支援各種編程語言，並
    到 [VS Code 官方網站](https://code.visualstudio.com/) 下載適合你作業系統的安裝檔案。
 
 2. **安裝 VS Code**  
-   選擇預設選項並完成安裝。
+   執行安裝檔案，並按照提示完成安裝。你可以保留預設選項即可。
 
 3. **安裝 Vitepress 所需擴充功能（可選）**  
-   雖然本文不需要介紹額外的開發工具，但 VS Code 內建擴充功能，可以為 Vitepress 開發提供便利，比如 Vue.js 支援擴充功能，幫助你更好地編寫 Vue 組件。
+   雖然本文不需要介紹額外的開發工具，但你可以安裝一些擴充功能來提升開發效率，例如 Vue.js 擴充功能，以幫助編寫 Vue 組件。
+
+---
+
+### 註冊 GitHub 帳號
+
+GitHub 是用來存放及分享代碼的平台。如果你還沒有 GitHub 帳號，可以按照以下步驟來註冊：
+
+#### 註冊步驟
+
+1. **前往 GitHub 官方網站**  
+   打開 [GitHub 官方網站](https://github.com/)。
+
+2. **建立新帳號**  
+   點擊右上角的「Sign up」，然後按照頁面提示輸入你的電子郵件、密碼等信息來註冊帳號。
+
+3. **完成註冊**  
+   按照頁面的引導完成帳號的設置，包括設定使用者名稱和選擇方案（你可以選擇免費方案）。
+
+---
 
 ### 安裝 GitHub Desktop
 
-GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHub 上的儲存庫同步專案的人來說非常方便。使用它來管理你的 Vitepress 專案可以讓流程更加簡單。
+GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和同步 GitHub 儲存庫，對於不熟悉命令行的使用者來說十分方便。
 
 #### 安裝步驟
 
 1. **前往 GitHub Desktop 官方網站**  
-   打開 [GitHub Desktop 官方網站](https://desktop.github.com/) 並下載對應版本的安裝檔案。
+   打開 [GitHub Desktop 官方網站](https://desktop.github.com/) 並下載適合你作業系統的安裝檔案。
 
 2. **安裝並登入**  
-   完成安裝後，使用你的 GitHub 帳戶登入。如果你還沒有 GitHub 帳戶，現在可以前往 [GitHub](https://github.com/) 註冊。
+   完成安裝後，打開 GitHub Desktop，並使用你的 GitHub 帳號登入。如果你還沒有 GitHub 帳號，可以在安裝前按照上面「註冊 GitHub 帳號」的步驟進行註冊。
+
+完成這些環境設定後，你就具備了啟動 Vitepress 專案所需的基本工具。你現在可以進行專案的初始化，開始你的開發旅程。
 
 ## 本地端運行
 
@@ -170,194 +268,6 @@ GitHub Desktop 是管理 Git 儲存庫的圖形化工具，對於想要與 GitHu
 ### 確認網站更新
 
 幾分鐘後，前往你的 GitHub Pages 網站，應該可以看到最新的變更已經生效。如果你還沒有設置 GitHub Pages，請參考 [GitHub Pages 官方說明](https://docs.github.com/en/pages) 來了解如何設定。
-
-## 進階設定
-
-在完成基礎的 Vitepress 環境建置和修改發布後，你可以進行一些進階設定來提升網站效能與使用體驗。本文將帶你完成以下設定：GA（Google Analytics）埋設、介面中文化、添加搜尋功能，以及優化 SEO 的 meta 設定。
-
-### GA（Google Analytics）埋設
-
-透過 Google Analytics（GA），你可以追蹤網站的使用數據，了解訪客行為。以下是如何在 Vitepress 中嵌入 GA 代碼。
-
-#### 步驟
-
-1. **申請 Google Analytics 帳號**  
-   前往 [Google Analytics](https://analytics.google.com/) 註冊並創建帳戶。完成後，你將獲得一個追蹤代碼（格式為 `G-XXXXXXXXXX`）。
-
-2. **編輯 `config.js` 文件**  
-   在 `docs/.vitepress/config.js` 中的 `head` 區塊加入 GA 代碼：
-
-   ```javascript
-   export default {
-     title: '你的網站標題',
-     description: '你的網站描述',
-     head: [
-       [
-         'script',
-         {
-           async: true,
-           src: `https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX`,
-         },
-       ],
-       [
-         'script',
-         {},
-         `window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-XXXXXXXXXX');`,
-       ],
-     ],
-   }
-   ```
-
-3. **確認 GA 是否生效**  
-   儲存後重新啟動伺服器，並使用 Google Analytics 的實時數據來確認流量追蹤是否正常。
-
-### 中文化
-
-在 Vitepress 中設置多語系不僅限於修改基本語言參數，還可以自訂一些與用戶互動的元素，如日期格式、導航標籤及其他界面文字。以下是具體的配置方式：
-
-#### 步驟
-
-1. **設置語言及界面文本**  
-   在 `config.js` 中的 `themeConfig` 區塊內進行以下設定，這不僅會將介面中文化，還會調整與頁面更新日期、頁腳導航、模式切換等相關的顯示文字：
-
-   ```javascript
-   export default {
-     lang: 'zh-TW',
-     title: '你的網站標題',
-     description: '你的網站描述',
-     themeConfig: {
-       lastUpdated: {
-         text: '上次更新',
-         formatOptions: {
-           forceLocale: true,
-           year: 'numeric',
-           month: '2-digit',
-           day: '2-digit',
-           hour: 'numeric',
-           minute: 'numeric',
-           second: 'numeric',
-         },
-       },
-       docFooter: {
-         prev: '上一頁',
-         next: '下一頁',
-       },
-       darkModeSwitchLabel: '深色模式',
-       sidebarMenuLabel: '選單',
-       returnToTopLabel: '回到頂端',
-       outline: {
-         label: '大綱',
-       },
-     },
-   }
-   ```
-
-2. **參數詳解**:
-   - **lastUpdated**: 顯示文件最後更新的時間。`formatOptions` 允許自定義時間格式，並強制使用 `zh-TW` 的本地化日期格式。
-   - **docFooter**: 自訂頁面底部的前後頁導航文字，適合多頁文件的網站。
-   - **darkModeSwitchLabel**: 切換深色模式的標籤。
-   - **sidebarMenuLabel**: 設置側邊欄選單的標籤名稱。
-   - **returnToTopLabel**: 用於頁面底部回到頂端的按鈕標籤。
-   - **outline**: 自訂顯示文檔大綱的標籤名稱。
-
-3. **確認效果**  
-   完成這些設置後，重新啟動本地伺服器，並查看網站是否已正確應用多語系設定。
-
-### 添加搜尋功能：使用 `vitepress-plugin-search`
-
-除了內建的簡單搜尋功能，Vitepress 還可以通過社群插件來增強搜尋體驗。這裡介紹如何使用 `vitepress-plugin-search` 來實現站內搜尋功能。
-
-#### 步驟
-
-1. **安裝 `vitepress-plugin-search`**  
-   首先，你需要安裝這個插件。進入專案目錄後，運行以下指令：
-
-   ```bash
-   npm install vitepress-plugin-search --save
-   ```
-
-2. **修改 `config.js` 配置**  
-   在 `config.js` 文件中，導入並使用這個插件：
-
-   ```javascript
-   import { SearchPlugin } from 'vitepress-plugin-search';
-
-   export default {
-     title: '你的網站標題',
-     description: '你的網站描述',
-     themeConfig: {
-       // 其他配置
-     },
-     plugins: [
-       SearchPlugin({
-         // 你可以根據需要設置選項
-         placeholder: '搜尋文件',
-         maxSuggestions: 10,
-       }),
-     ],
-   }
-   ```
-
-3. **自定義搜尋選項**  
-   `vitepress-plugin-search` 提供了一些選項可以進行自定義，例如：
-   - **placeholder**: 搜尋欄中的預設提示文字。
-   - **maxSuggestions**: 搜尋結果的最大顯示數量。
-   - **ignore**: 你可以指定不想要被索引的檔案或路徑。
-
-4. **啟動開發伺服器並測試**  
-   完成設定後，重新啟動伺服器：
-
-   ```bash
-   npm run docs:dev
-   ```
-
-   打開瀏覽器，搜尋欄現在應該可以正常使用，並顯示文件中的搜尋結果。
-
-### 設定 meta 強化 SEO
-
-優化網站的 SEO 有助於提升搜尋引擎的可見性。可以通過 `config.js` 設置全局 meta 標籤，也可以在每個 `.md` 檔案中設置自定義的 meta 標籤來強化該頁面的 SEO。
-
-#### 步驟
-
-1. **在 `config.js` 中設置 meta 標籤**  
-   你可以在 `head` 區塊中加入以下 meta 標籤：
-
-   ```javascript
-   export default {
-     title: '你的網站標題',
-     description: '你的網站描述',
-     head: [
-       ['meta', { name: 'keywords', content: '關鍵字1, 關鍵字2, 關鍵字3' }],
-       ['meta', { name: 'author', content: '你的姓名' }],
-       ['meta', { name: 'description', content: '這是你的網站描述' }],
-       ['meta', { property: 'og:title', content: '你的網站標題' }],
-       ['meta', { property: 'og:description', content: '你的網站描述' }],
-       ['meta', { property: 'og:image', content: '/path/to/image.png' }],
-     ],
-   }
-   ```
-
-2. **在每個 `.md` 檔案中設置自定義 meta 標籤**  
-為了針對特定頁面進行 SEO 優化，可以在每個 Markdown 文件的開頭加入以下語法來設置自定義的 meta 標籤：
-
-    ```markdown
-    ---
-    description: 提供開源專案管理工具的詳細教學，適合初學者與有經驗的開發者。
-    head:
-    - - meta
-        - name: og:image
-          property: og:image
-          content: /images/guide/cover.png
-    ---
-    ```
-
-   - **description**: 這個欄位描述該頁面的內容，可以幫助搜尋引擎更好地索引你的網頁。範例中的描述解釋了頁面的目的是教學和專案管理。
-   - **head**: 在 `head` 區塊中，我們加入了一個 `og:image`，這是 Open Graph 用於社交媒體分享的預覽圖片，內容可以是你希望在分享時展示的圖像路徑。
-
-    這樣的設置能夠針對每個頁面進行個性化優化，讓 SEO 效果更加精準。
 
 ## 線上/實體講座
 
