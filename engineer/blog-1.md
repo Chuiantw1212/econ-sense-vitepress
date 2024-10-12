@@ -215,59 +215,173 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 3. **造訪本地網站**  
    開啟你的瀏覽器，訪問localhost來查看本地運行的網站：
 
+## GitHub 說明與設定
+
+在 Vitepress 專案開發過程中，使用 Git、GitHub、GitHub Desktop、GitHub Actions 和 GitHub Pages 是十分重要的，它們各自扮演不同的角色，能夠幫助你管理版本、協作開發、並自動將網站部署到網絡上。以下將詳細介紹它們的差異與設定。
+
+### Git 和 GitHub 和 GitHub Desktop 的差異與關係
+
+1. **Git**  
+   Git 是一個開源的版本控制系統，允許你在本地追蹤代碼變更、進行分支管理、合併代碼等，適合多人的開發合作。
+
+2. **GitHub**  
+   GitHub 是基於 Git 的雲端版本控制平台，它提供了代碼托管、協作開發和專案管理功能。開發者可以通過 GitHub 在雲端共享代碼，進行代碼審查和協作開發，並能利用 GitHub Actions 等自動化工具。
+
+3. **GitHub Desktop**  
+   GitHub Desktop 是 Git 和 GitHub 的圖形化應用程式，旨在簡化 Git 和 GitHub 之間的操作。透過 GitHub Desktop，用戶可以輕鬆地提交代碼、推送更新到 GitHub、進行分支合併等操作，無需使用命令行。
+
+**關係**：  
+
+- **Git** 是版本控制系統的核心，負責管理本地的代碼版本。
+- **GitHub** 是用來在雲端管理 Git 儲存庫的平台，並且可以與 Git 工具進行同步。
+- **GitHub Desktop** 提供圖形化操作界面，讓你可以更方便地使用 Git 和 GitHub。
+
+---
+
+### GitHub Actions
+
+GitHub Actions 是 GitHub 提供的一種自動化工具，可以在代碼推送到指定分支時，自動執行工作流，如構建、測試和部署。對於 Vitepress 網站來說，GitHub Actions 可以用來自動構建和部署網站到 GitHub Pages。
+
+#### 1. 設定 GitHub Actions
+
+在 Vitepress 專案中，你可以使用 GitHub Actions 來自動部署網站。以下是具體步驟：
+
+1. **啟用 GitHub Actions**
+   - 前往你的 GitHub 專案頁面，點擊 **Actions** 分頁，選擇 **I understand my workflows, go ahead and enable them**，啟用 Actions 功能。
+
+2. **建立工作流程文件**
+   - 在 Vitepress 專案中，建立 `.github/workflows` 資料夾，並在該資料夾下新增 `deploy.yml` 檔案來定義自動化工作流。
+
+   ```yaml
+   # Sample workflow for building and deploying a VitePress site to GitHub Pages
+   name: Deploy VitePress site to Pages
+
+   on:
+     push:
+       branches: [main]
+     workflow_dispatch:
+
+   permissions:
+     contents: read
+     pages: write
+     id-token: write
+
+   concurrency:
+     group: pages
+     cancel-in-progress: false
+
+   jobs:
+     build:
+       runs-on: ubuntu-latest
+       steps:
+         - name: Checkout
+           uses: actions/checkout@v4
+         - name: Setup Node
+           uses: actions/setup-node@v4
+           with:
+             node-version: 20
+             cache: npm
+         - name: Install dependencies
+           run: npm ci
+         - name: Build with VitePress
+           run: npm run docs:build
+         - name: Upload artifact
+           uses: actions/upload-pages-artifact@v3
+           with:
+             path: .vitepress/dist
+
+     deploy:
+       environment:
+         name: github-pages
+       needs: build
+       runs-on: ubuntu-latest
+       steps:
+         - name: Deploy to GitHub Pages
+           uses: actions/deploy-pages@v4
+   ```
+
+3. **提交並推送到 GitHub**
+   - 當你將代碼推送到 `main` 分支時，GitHub Actions 會自動執行構建並部署你的 Vitepress 網站。
+
+---
+
+### GitHub Pages
+
+GitHub Pages 是 GitHub 提供的一個免費的靜態網站託管服務，可以自動將代碼中的靜態文件生成網站。它非常適合 Vitepress 開發的網站部署。
+
+1. **功能與特點**：
+   - 免費的靜態網站託管服務，可以將網站托管在 GitHub 提供的域名下。
+   - 支持與 GitHub Actions 結合進行自動化部署。
+   - 支持自定義域名。
+
+2. **設定流程**：
+   - 前往專案的 **Settings** 分頁，找到 **Pages** 頁面。
+   - 在 **Source** 下拉選單中選擇 **GitHub Actions** 作為部署來源。
+   - 保存設定後，GitHub Pages 會自動從你的專案中構建並部署靜態網站。
+
 ## 發布與修改
 
-當你已經在本地成功運行 Vitepress 專案後，下一步就是學會如何修改專案內容並發布到 GitHub Pages 上。本文將帶你一步步操作：如何在 VS Code 中變更 Vitepress 專案的標題，以及如何使用 GitHub Desktop 將這些變更發布到 GitHub Pages。
+在完成 Vitepress 專案的開發後，將這些變更發布到 GitHub，並通過 GitHub Pages 展示網站給使用者。以下是詳細的發布與修改步驟，包括如何啟用 GitHub Actions、設定 GitHub Pages，以及使用 VS Code 和 GitHub Desktop 進行專案的變更與發布。
 
 ### 使用 VS Code 變更 Vitepress 專案的標題
 
-在 Vitepress 專案中，網站的標題通常位於配置文件中，例如 `docs/.vitepress/config.js`。讓我們來看看如何變更標題。
+在 Vitepress 專案中，修改專案的標題非常簡單。你只需要編輯專案的設定檔案。
 
-#### 步驟
+#### 變更步驟
 
-1. **打開 `config.js` 文件**  
-   在 VS Code 中，導航到專案的 `docs/.vitepress/` 資料夾，找到 `config.js` 文件並打開它。
+1. **打開 VS Code**
+   使用 VS Code 打開你的 Vitepress 專案。
 
-2. **修改標題**  
-   找到配置文件中的 `title` 欄位。這個欄位定義了網站顯示的標題。你可以修改如下：
+2. **找到設定檔案**
+   尋找專案根目錄中的 `docs/.vitepress/config.js` 檔案，這是 Vitepress 的主要設定檔案。
+
+3. **修改標題**
+   在 `config.js` 檔案中，找到 `title` 屬性，並修改為你想要的新標題。範例如下：
 
    ```javascript
    export default {
-     title: '新網站標題',  // 將原標題替換為你想要的新標題
-     description: '這是我的 Vitepress 網站',
+     title: '我的新網站標題',
+     description: '這是網站的描述'
    }
    ```
 
-3. **保存文件**  
-   修改完成後，按下 `Ctrl + S` 或 `Cmd + S` 保存文件。
+4. **保存變更**
+   修改完後，按下 **Command + S**（Mac）或 **Ctrl + S**（Windows）保存變更。
 
-4. **查看本地變更**  
-   在終端機中，確保開發伺服器正在運行。你可以刷新localhost來查看標題是否已正確更改。
+---
 
 ### 使用 GitHub Desktop 發布變更
 
-當你對專案的變更感到滿意後，我們可以使用 GitHub Desktop 將這些變更發布到 GitHub Pages。
+當你在 VS Code 中完成了專案修改後，你可以使用 GitHub Desktop 將這些變更推送到 GitHub。
 
-#### 步驟
+#### 發布步驟
 
-1. **打開 GitHub Desktop**  
-   打開 GitHub Desktop 應用程式，並確保已登入你的帳戶並打開了專案儲存庫。
+1. **打開 GitHub Desktop**
+   打開 GitHub Desktop，並確保你已經連接到專案的本地版本庫。
 
-2. **確認變更**  
-   GitHub Desktop 會自動偵測你在 VS Code 中所做的變更。你應該會看到文件的修改列表，確保變更內容（例如 `config.js` 的修改）顯示正確。
+2. **提交變更**
+   在 GitHub Desktop 中，你將看到所有已修改的檔案。輸入提交訊息描述你的變更，然後點擊 **Commit to main** 按鈕。
 
-3. **提交變更**  
-   在下方的欄位中輸入簡短的變更說明（例如：「更新網站標題」），然後點擊 `Commit to main`。
+3. **推送變更到 GitHub**
+   提交變更後，點擊右上角的 **Push origin** 按鈕，將本地的變更推送到 GitHub。
 
-4. **推送到遠端儲存庫**  
-   提交變更後，點擊右上角的 `Push origin`，將變更推送到 GitHub。
-
-5. **更新 GitHub Pages**  
-   若你的專案已設定為透過 GitHub Pages 發布，推送到 `main` 分支後，GitHub Pages 會自動更新網站。你可以在 GitHub Pages 頁面查看變更是否已經生效。
+---
 
 ### 確認網站更新
 
-幾分鐘後，前往你的 GitHub Pages 網站，應該可以看到最新的變更已經生效。如果你還沒有設置 GitHub Pages，請參考 [GitHub Pages 官方說明](https://docs.github.com/en/pages) 來了解如何設定。
+當你推送了代碼並觸發了 GitHub Actions 自動部署後，可以檢查網站是否更新。
+
+#### 確認步驟
+
+1. **檢查 GitHub Pages 網站**
+   在瀏覽器中打開你的 GitHub Pages 網站，通常是 `https://你的用戶名.github.io/專案名`。
+
+2. **驗證變更**
+   檢查網站是否反映了你在 Vitepress 專案中所做的修改，例如變更的標題等。
+
+---
+
+這些步驟將幫助你順利設定自動化工作流，並通過 GitHub Pages 發布與更新你的 Vitepress 專案，確保每次變更都能快速呈現給網站的使用者。
 
 ## 線上/實體講座
 
