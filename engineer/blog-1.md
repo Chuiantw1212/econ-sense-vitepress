@@ -93,10 +93,10 @@ Git 是管理版本控制的重要工具，用於跟蹤代碼的變更。在 Win
 
 #### Mac 用戶
 
-Mac 用戶在安裝 Git 之前，建議保留至少 15GB 的硬碟空間，以確保安裝過程順利且能為未來的專案留出足夠的空間。
+Mac 用戶在安裝 Git 之前，建議保留至少 [15GB 的硬碟空間](https://discussions.apple.com/thread/253925550?sortBy=rank)，以確保安裝過程順利且能為未來的專案留出足夠的空間。
 
 1. **安裝 Homebrew**  
-   在 Mac 上建議先安裝 Homebrew 來方便安裝 Git。打開 **Terminal**，輸入以下指令來安裝 Homebrew：
+   在 Mac 上建議先安裝 [Homebrew](https://brew.sh/) 來方便安裝 Git。打開 **Terminal**，輸入以下指令來安裝 Homebrew：
 
    ```bash
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -188,7 +188,7 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 
 3. **變更名稱**  
    在跳轉到 **Create a new fork** 畫面時，你會看到一個名為 **Repository name** 的欄位。  
-   - **Repository name** 是你要給這個專案的名稱。GitHub Pages 有特定的命名要求，個人主頁必須使用 `your-username.github.io` 作為儲存庫名稱。
+   - **Repository name** 是你要給這個專案的名稱。GitHub Pages 有[特定的命名要求](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site#creating-a-repository-for-your-site)，個人主頁必須使用 `your-username.github.io` 作為儲存庫名稱。
    - 因此，請將這個欄位的名稱修改為 `your-username.github.io`，其中 `your-username` 是你的 GitHub 使用者名稱。
    - 這個名稱設定非常重要，因為它決定了你的 GitHub Pages 網站的 URL。
 
@@ -255,7 +255,7 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
 
 ### GitHub Actions
 
-在 VitePress 專案中，你可以通過以下步驟來設定 GitHub Actions，實現網站的自動化部署：
+在 VitePress 專案中，你可以通過以下步驟來設定 [GitHub Actions](https://github.com/features/actions)，實現網站的自動化部署：
 
 1. **進入專案的 Actions 分頁**  
    當你 Fork 完專案後，進入你的 GitHub 儲存庫，點擊頁面上方的 **Actions** 分頁。
@@ -264,11 +264,11 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
    在 **Actions** 頁面中，GitHub 會提示你啟用工作流程。找到提示並點擊 **I understand my workflows, go ahead and enable them** 按鈕。這個步驟是啟用 GitHub Actions 的關鍵，它允許 GitHub 自動執行專案的工作流程。
 
 3. **觸發條件的預設設定**  
-   我已經在 .github/workflows/deploy.yml 檔案中配置好自動觸發條件。當你推送代碼到 main 分支時，GitHub Actions 會自動執行構建並部署網站的工作流程。
+   我已經在 .github/workflows/deploy.yml 檔案中配置好[自動觸發條件](https://vitepress.dev/guide/deploy#github-pages)。當你推送代碼到 main 分支時，GitHub Actions 會自動執行構建並部署網站的工作流程。
 
 ### Github Pages
 
-**GitHub Pages** 是 GitHub 提供的一個免費靜態網站託管服務，特別適合用於 VitePress 網站的部署。透過 GitHub Pages，你可以將專案中的靜態文件自動生成為網站，並進行托管。操作流程如下：
+[**GitHub Pages**](https://pages.github.com/) 是 GitHub 提供的一個免費靜態網站託管服務，特別適合用於 VitePress 網站的部署。透過 GitHub Pages，你可以將專案中的靜態文件自動生成為網站，並進行托管。操作流程如下：
 
 1. 前往你的 GitHub 專案頁面，點擊頂部的 **Settings**（設定）標籤。
 2. 在設定頁面中，向下滾動，找到 **Pages** 部分。
@@ -305,13 +305,16 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
 ### 透過 GitHub Desktop 發布
 
 1. **打開 GitHub Desktop**  
-   使用 GitHub Desktop 開啟你的專案，它會自動檢測到你在 VS Code 中所做的變更。
+   使用 GitHub Desktop 開啟你的專案。GitHub Desktop 會自動檢測到你在 VS Code 中所做的任何變更，顯示在界面上。
 
 2. **提交變更**  
-   在 GitHub Desktop 中輸入提交訊息，描述你所做的變更，例如「修改網站標題」，然後點擊 **Commit to main**。
+   在 GitHub Desktop 中，輸入提交訊息，簡短描述你所做的變更，例如「修改網站標題」。完成後，點擊 **Commit to main**，將變更提交到本地的 `main` 分支。
 
 3. **推送到 GitHub**  
-   提交變更後，點擊右上角的 **Push origin**，將本地的變更推送到 GitHub 儲存庫。這將觸發 GitHub Actions 自動部署網站。
+   提交變更後，點擊右上角的 **Push origin** 按鈕，將本地的變更推送到 GitHub 儲存庫。這將觸發 GitHub Actions 的自動化流程，構建並部署網站。
+
+4. **查看部署進度**  
+   推送成功後，你可以前往 GitHub 頁面，點擊專案的 **Actions** 分頁來查看 GitHub Actions 的執行進度。這裡會顯示構建和部署過程中的詳細訊息，確保一切順利完成。
 
 ### 確認網站更新
 
