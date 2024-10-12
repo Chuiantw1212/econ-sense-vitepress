@@ -367,49 +367,6 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR1alZykvevitpuRy6lw7JAtRn9LmqZ2WCAkgd_LhxMS3G0bEW6uiY3X-t-S3gNqMFOxo1n7JzcSZi2/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
-## 外部資源
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://nodejs.org/" target="_blank">Node.js</a>
-            </td>
-            <td>任何會寫Javascript的人都需要的網站</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a>
-            </td>
-            <td>我最偏好的程式編輯器</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://vitepress.dev/" target="_blank">VitePress官方網站</a>
-            </td>
-            <td>VitePress官方網站</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://pages.github.com/" target="_blank">Github Pages</a>
-            </td>
-            <td>可以免費託管VitePress部落格的服務</td>
-        </tr>
-         <tr>
-            <td>
-                <a href="https://desktop.github.com/" target="_blank">Github Desktop</a>
-            </td>
-            <td>Github所屬的Git GUI的官方網站</td>
-        </tr>
-    </tbody>
-</table>
-
 <script setup>
 import LazySlide from '../components/lazySlide.vue'
 </script>
