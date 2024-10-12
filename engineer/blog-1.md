@@ -180,32 +180,22 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 
 ### Fork 專案
 
-首先，我們需要將專案 Fork 到自己的 GitHub 帳戶中。
-
-#### 步驟
-
 1. **前往專案網址**  
-   打開 [這個 Vitepress 專案](https://github.com/Chuiantw1212/chuiantw1212.github.io)。
+   首先，打開你想要 Fork 的專案。在這個例子中，你可以打開 [這個 VitePress 專案](https://github.com/Chuiantw1212/chuiantw1212.github.io)。這會帶你到專案的 GitHub 儲存庫頁面。
 
-2. **Fork 專案**  
-   在右上角點擊 **Fork** 按鈕，將這個專案複製到你的 GitHub 帳戶。
+2. **點擊專案右上角的 Fork**  
+   在儲存庫頁面的右上角，你會看到一個 **Fork** 按鈕，點擊它。  
+   - **Fork** 是 GitHub 提供的一個功能，允許你將他人的專案複製到你自己的 GitHub 帳戶中，這樣你就可以對該專案進行更改或擴展，而不會影響原始專案。
 
-3. **修改 Fork 後的專案名稱**  
-   Fork 完成後，前往你 Fork 的儲存庫頁面，點擊專案名稱旁邊的 **Settings**（設定）標籤。你 **必須** 將專案名稱修改為 `your-username.github.io`，其中 `your-username` 替換為你的 GitHub 使用者名稱。這是 GitHub Pages 自動部署的 **必須條件**，確保你的網站可以正確部署在 `https://your-username.github.io`。
+3. **變更名稱**  
+   在跳轉到 **Create a new fork** 畫面時，你會看到一個名為 **Repository name** 的欄位。  
+   - **Repository name** 是你要給這個專案的名稱。GitHub Pages 有特定的命名要求，個人主頁必須使用 `your-username.github.io` 作為儲存庫名稱。
+   - 因此，請將這個欄位的名稱修改為 `your-username.github.io`，其中 `your-username` 是你的 GitHub 使用者名稱。
+   - 這個名稱設定非常重要，因為它決定了你的 GitHub Pages 網站的 URL。
 
-   - 進入 **Settings** 後，找到 **Repository name** 欄位。
-   - 修改儲存庫名稱為 `your-username.github.io`。
-   - 完成後點擊 **Rename**。
-
-4. **複製專案到本地端**  
-   打開 GitHub Desktop 或使用 Git，將已改名的專案克隆到本地端：
-
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/YOUR_USERNAME.github.io
-   ```
-
-5. **推送更改並自動部署**  
-   當你推送專案更改到該儲存庫後，GitHub Pages 將會自動部署你的網站並將其托管在 `https://your-username.github.io`。如果不按此格式命名，GitHub Pages 將無法自動識別並部署網站。
+4. **按下綠色的 Create Fork**  
+   完成名稱修改後，點擊畫面下方的綠色 **Create Fork** 按鈕，系統將開始將專案 Fork 到你的 GitHub 帳戶中。
+   - **Fork** 完成後，GitHub 會自動將你帶到新的專案頁面，這是你自己的 Fork 儲存庫，你可以自由進行修改和開發。
 
 ### 打開專案
 
