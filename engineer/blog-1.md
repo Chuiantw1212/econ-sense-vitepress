@@ -122,15 +122,20 @@ Mac 用戶在安裝 Git 之前，建議保留至少 [15GB 的硬碟空間](https
 
 GitHub 是用來存放及分享代碼的平台。如果你還沒有 GitHub 帳號，可以按照以下步驟來註冊：
 
-#### 註冊步驟
+### 註冊步驟
 
 1. **前往 GitHub 官方網站**  
-   打開 [GitHub 官方網站](https://github.com/)。
+   打開 [GitHub 官方網站](https://github.com)。
 
 2. **建立新帳號**  
    點擊右上角的「Sign up」，然後按照頁面提示輸入你的電子郵件、密碼等信息來註冊帳號。
 
-3. **完成註冊**  
+3. **設定使用者名稱**  
+   設定使用者名稱時請注意，這個名稱將成為你 GitHub Pages 網址的一部分。未來你的 GitHub Pages 網址會是 `https://your-username.github.io`，所以請選擇一個合適的 ID。
+
+   ![未來url](/engineer/vitepress/未來url.png "未來url")
+
+4. **完成註冊**  
    按照頁面的引導完成帳號的設置，包括設定使用者名稱和選擇方案（你可以選擇免費方案）。
 
 ### GitHub Desktop的安裝
