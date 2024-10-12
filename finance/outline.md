@@ -6,9 +6,17 @@ outline: deep
 
 探索深入的無痛理財世界。這裡涵蓋了理財框架、勞工退休規劃以及投資進階管道等多樣化主題，為您提供專業的資訊和實用建議。無論您是金融新手或有一定經驗，這些內容都能夠幫助您理解金融領域中的重要概念和方法。讓我們一同探索，有效管理財富，為未來做好準備。
 
-## 單元目錄
+## 講座系列
 
 <DigitalDocuments :items="digitalDocumentItems"></DigitalDocuments>
+
+## 說書系列
+
+<DigitalDocuments :items="storyItems"></DigitalDocuments>
+
+## 財商桌遊
+
+<DigitalDocuments :items="gameItems"></DigitalDocuments>
 
 ## 外部優質課程
 
@@ -46,13 +54,9 @@ const digitalDocumentItems = [
         audience: ['對純被動收入好奇的人', '想遠離看盤或沒時間看盤的人', '怕被騙或是歸零的人'],
         rating: 3
     },
-    // {
-    //     url: './single',
-    //     name: '單身狗地獄求生',
-    //     keywords: ['獵殺女巫', '台灣現狀', '身心靈準備', '財務準備(信託)'],
-    //     audience: ['選擇或是被迫單身的人', '介於兩者之間的人', '想了解低生育率成因的人'],
-    //     rating: 1
-    // },
+]
+
+const storyItems = [
     {
         url: './single',
         name: '金錢整理術',
@@ -68,6 +72,17 @@ const digitalDocumentItems = [
         rating: 2
     },
 ]
+
+const gameItems = [
+    {
+        url: './financemj',
+        name: '小富翁大贏家',
+        keywords: ['開源', '節流', '投資', '風險控制'],
+        audience: ['國二至高中(職)',],
+        rating: 3
+    },
+]
+
 const courseItems = [
     {
         image: '/finance/111S203.webp',

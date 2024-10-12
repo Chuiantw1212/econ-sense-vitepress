@@ -63,6 +63,13 @@ export default defineConfig({
               { text: '金錢性格', link: '/finance/disc' },
             ]
           },
+          {
+            text: '財商桌遊',
+            collapsed: true,
+            items: [
+              { text: '小富翁大贏家', link: '/finance/financemj' },
+            ]
+          },
         ]
       },
       {
