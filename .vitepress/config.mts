@@ -54,11 +54,11 @@ export default defineConfig({
           { text: '退休規劃(上)', link: '/finance/retirement-1' },
           { text: '退休規劃(下)', link: '/finance/retirement-2' },
           { text: '投資進階管道', link: '/finance/investment' },
+          { text: '個人與家庭收支管理', link: '/finance/management' },
           {
             text: '說書系列',
             collapsed: true,
             items: [
-              { text: '金錢整理術', link: '/finance/management' },
               { text: '醫生買保險', link: '/finance/insurance' },
               { text: '金錢性格', link: '/finance/disc' },
             ]
@@ -78,9 +78,9 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '我是照顧者', link: '/life/carer' },
+          { text: '我是學渣，也是黑馬', link: '/life/education' },
           { text: '極簡全齡宅', link: '/life/housing' },
           { text: '愛之語', link: '/life/love-language' },
-          { text: '教養與自我成長', link: '/life/education' },
           // { text: '匱乏心理學', link: '/life/scarcity' },
           // {
           //   text: '桌遊系列',

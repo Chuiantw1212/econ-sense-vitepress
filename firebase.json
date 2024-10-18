@@ -15,6 +15,26 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/finance/affiliate.html",
+                "destination": "/calendar.html",
+                "type": 301
+            },
+            {
+                "source": "/finance/flywheel",
+                "destination": "/finance/flywheel.html",
+                "type": 301
+            },
+            {
+                "source": "/finance/investment",
+                "destination": "/finance/investment.html",
+                "type": 301
+            },
+            {
+                "source": "/engineer/outline",
+                "destination": "/engineer/outline.html",
+                "type": 301
+            },
+            {
                 "source": "/finance/pension.html",
                 "destination": "/finance/retirement-1.html",
                 "type": 301
@@ -22,6 +42,16 @@
             {
                 "source": "/finance/retirement.html",
                 "destination": "/finance/retirement-2.html",
+                "type": 301
+            },
+            {
+                "source": "/about",
+                "destination": "/about.html",
+                "type": 301
+            },
+            {
+                "source": "/engineer/blog",
+                "destination": "/engineer/blog-1.html",
                 "type": 301
             },
             {
@@ -87,11 +117,6 @@
             {
                 "source": "/job/education.html",
                 "destination": "/career/education.html",
-                "type": 301
-            },
-            {
-                "source": "/job/outline.html",
-                "destination": "/career/outline.html",
                 "type": 301
             }
         ]
