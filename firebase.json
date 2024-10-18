@@ -15,7 +15,7 @@
         "ignore": [],
         "redirects": [
             {
-                "source": "/finance/affiliate.html",
+                "source": "/affiliate.html",
                 "destination": "/calendar.html",
                 "type": 301
             },
