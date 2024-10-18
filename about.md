@@ -5,18 +5,7 @@ outline: [2,3]
 
 # 關於 EN Chu
 
-<VPTeamMembers size="medium" :members="members" />
-
-<script setup>
-import {
-  VPTeamPage,
-  VPTeamPageTitle,
-  VPTeamMembers,
-  VPTeamPageSection
-} from 'vitepress/theme'
-import SkillIcon from './components/skillIcons.vue'
-
-const members = [
+<VPTeamMembers size="medium" :members="[
   {
     avatar: `https://storage.googleapis.com/public.econ-sense.com/about/enchu.webp`,
     title: '分享者',
@@ -31,8 +20,7 @@ const members = [
     org: 'Job Pair',
     orgLink: 'https://job-pair.com/',
   },
-]
-</script>
+]" />
 
 ## 主要專案
 
@@ -67,6 +55,18 @@ const members = [
 ### 雲服務與其他
 
 <SkillIcon :modelValue="'firebase,gcp,git,github,gitlab,bitbucket,githubactions,npm,vscode,regex,windows,linux,stackoverflow'"></SkillIcon>
+
+<!-- ### 前端
+
+<SkillIcon :modelValue="'javascript,typescript,html5,css3,sass,bootstrap,vuedotjs,vite,vitepress,vuetify,nuxtdotjs,markdown/gray'"></SkillIcon>
+
+### 後端
+
+<SkillIcon :modelValue="'bun/gray,nodedotjs,nodemon,typescript,fastify/gray,express/gray,mongodb,postgresql,postman'"></SkillIcon>
+
+### 雲服務與其他
+
+<SkillIcon :modelValue="'firebase,googlecloud,googlecloudstorage,git,github/gray,githubactions,gitlab,bitbucket,gitkraken,npm'"></SkillIcon> -->
 
 ## 專業認證
 
@@ -136,6 +136,16 @@ const members = [
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/cycling1.webp" alt=環島>
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/swimming.webp" alt=泳渡>
 </div>
+
+<script setup>
+import {
+  VPTeamPage,
+  VPTeamPageTitle,
+  VPTeamMembers,
+  VPTeamPageSection
+} from 'vitepress/theme'
+import SkillIcon from './components/skillIcons.vue'
+</script>
 
 <style lang=scss>
 .aobut__image--100 {
