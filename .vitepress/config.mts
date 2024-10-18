@@ -54,11 +54,11 @@ export default defineConfig({
           { text: '退休規劃(上)', link: '/finance/retirement-1' },
           { text: '退休規劃(下)', link: '/finance/retirement-2' },
           { text: '投資進階管道', link: '/finance/investment' },
+          { text: '個人與家庭收支管理', link: '/finance/management' },
           {
             text: '說書系列',
             collapsed: true,
             items: [
-              { text: '金錢整理術', link: '/finance/management' },
               { text: '醫生買保險', link: '/finance/insurance' },
               { text: '金錢性格', link: '/finance/disc' },
             ]
