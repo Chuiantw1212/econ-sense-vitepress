@@ -12,7 +12,7 @@ head:
       content: /career/holland.html
 ---
 
-# NLP公益大會-迷宮探索
+# NLP職涯&何倫碼測驗
 
 1. 選擇適合自己的關鍵字
 2. 尋找合適職務
