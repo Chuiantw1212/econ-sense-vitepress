@@ -95,7 +95,7 @@ export default defineConfig({
         link: '/career/outline',
         collapsed: false,
         items: [
-          { text: 'NLP的理想職涯', link: '/career/riasec' },
+          { text: 'NLP職涯&何倫碼測驗', link: '/career/riasec' },
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
         ]
