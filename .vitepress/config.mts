@@ -98,6 +98,7 @@ export default defineConfig({
           { text: 'NLP職涯&何倫碼測驗', link: '/career/riasec' },
           { text: '軟體專案實務', link: '/career/project' },
           { text: '打造知識飛輪', link: '/career/flywheel' },
+          { text: '撒豆成兵簡報法', link: '/career/presentation' },
         ]
       },
       {
