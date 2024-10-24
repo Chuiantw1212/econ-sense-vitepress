@@ -6,6 +6,7 @@
             <template #header>
                 <div class="card-header">
                     <span>選10~20個感興趣的關鍵字 (已選{{ selectedKeywords.length }}個)</span>
+                    <el-button @click="selectedKeywords = []">重做測驗</el-button>
                 </div>
             </template>
             <el-row>
@@ -53,7 +54,7 @@
                 <thead>
                     <tr>
                         <th>專業頭銜</th>
-                        <!-- <th>求職門檻</th> -->
+                        <th>求職門檻</th>
                         <th>何倫碼</th>
                         <th v-if="selectedKeywords.length">潛力指數</th>
                     </tr>
@@ -62,7 +63,7 @@
                     <template v-for="(item, index) in pagedOccupations" :key="index">
                         <tr>
                             <td>{{ item.label }}</td>
-                            <!-- <td>{{ item.jobZone }}</td> -->
+                            <td>{{ item.jobZone }}</td>
                             <td>{{ item.IHs?.join('') }}</td>
                             <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
                         </tr>
@@ -81,7 +82,7 @@
             </div>
             <template #footer>
                 <el-collapse v-model="occupationCollapse">
-                    <!-- <el-collapse-item title="求職門檻分數查表" name="1">
+                    <el-collapse-item title="求職門檻分數查表" name="1">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -118,7 +119,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </el-collapse-item> -->
+                    </el-collapse-item>
                     <el-collapse-item title="說明">
 
                         <ul>
@@ -524,15 +525,9 @@ async function translateTitle() {
     // format
     const formatResult = interestJson.map((interestItem) => {
         const { alternateName } = interestItem
-        console.log({
-            alternateName
-        })
         if (alternateName) {
             const matchItem = jobZoneJson.find(jobZoneItem => {
                 return jobZoneItem.Title === alternateName
-            })
-            console.log({
-                matchItem
             })
             if (matchItem) {
                 interestItem.jobZone = matchItem['Job Zone']
@@ -604,7 +599,6 @@ async function minimizeInterests() {
             })
             delete item.OISum
         }
-        // const label = translatedTitle[index] || ''
         minimumItems.push({
             label: '',
             alternateName: Title,
@@ -633,6 +627,11 @@ function downloadObjectAsJson(exportObj, exportName = 'test') {
         color: var(--el-text-color-regular);
         background: white !important;
     }
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
 }
 
 .form__button {

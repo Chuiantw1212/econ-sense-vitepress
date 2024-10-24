@@ -3,6 +3,10 @@
  * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
  */
 
+.vp-doc h1 {
+    font-size: 24px;
+}
+
 .vp-doc table {
     display: table;
     width: 100%;
@@ -27,6 +31,10 @@
 @media screen and (min-width:992px) {
     .d-md-block {
         display: block;
+    }
+
+    .d-md-inline-block {
+        display: inline-block;
     }
 
     .d-md-table-cell {
