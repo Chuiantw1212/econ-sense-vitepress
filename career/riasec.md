@@ -12,7 +12,7 @@ head:
       content: /career/holland.html
 ---
 
-# NLP職涯&何倫碼測驗
+# NLP職涯與何倫碼測驗：探索適合你的職業發展方向
 
 1. 選擇適合自己的關鍵字
 2. 尋找合適職務
