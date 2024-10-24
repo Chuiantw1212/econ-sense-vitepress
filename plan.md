@@ -9,12 +9,11 @@ head:
 ---
 <!-- https://vitepress.dev/reference/frontmatter-config#head -->
 
-# 開源財務規劃表
+# 開源財務規劃表：快速建立財務觀念，資料安全又透明
 
-1. 金融惠普：民眾可以快速建立生涯財務觀念。<el-button class="d-none d-md-block" @click="isOpenPreview=true">示意圖</el-button>
+1. 金融惠普：民眾可以快速建立生涯財務觀念。<el-button class="d-none d-md-inline-block" @click="isOpenPreview=true">示意圖</el-button>
 2. 開源驗證：任何人都可以檢視程式碼是否有安全漏洞。 (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-hyper-express" target="_blank">後端開源</a>)。
 3. 資料安全：提供了表單離線匯出功能，不需註冊也可以保留試算結果。
-
 
 <el-dialog :modelValue="isOpenPreview" title="示意圖" center destroy-on-close lock-scroll
     @close="isOpenPreview = false">

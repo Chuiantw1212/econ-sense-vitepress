@@ -33,6 +33,10 @@
         display: block;
     }
 
+    .d-md-inline-block {
+        display: inline-block;
+    }
+
     .d-md-table-cell {
         display: table-cell;
     }
