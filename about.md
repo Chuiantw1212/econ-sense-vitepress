@@ -17,8 +17,6 @@ outline: [2,3]
     avatar: `https://storage.googleapis.com/public.econ-sense.com/about/nodejs.webp`,
     title: '全端工程師',
     desc:'2024 玉山銀行委外<br/>2020-2023 凱基人壽委外<br/>2017-2020 前端工程師',
-    org: 'Job Pair',
-    orgLink: 'https://job-pair.com/',
   },
 ]" />
 
@@ -32,14 +30,6 @@ outline: [2,3]
 
 <a href="https://econ-sense.com/plan.html">
     <img class="aobut__image--100" src="/finance/plan/calculator.png" alt="finance-planner">
-</a>
-
-### Job Pair
-
-求職找工作可以很簡單！Job Pair媒合型人力銀行，勾選你理想的企業文化、工作環境、組織階段、管理模式、人際風格和工作模式，即刻為你配對最合適的職缺，開啟專屬於你的職場旅程。
-
-<a href="https://job-pair.com" target="_blank">
-    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/jobPair.webp" alt=job-pair>
 </a>
 
 ## 技術棧
