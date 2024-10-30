@@ -3,7 +3,7 @@
         <slot>
 
         </slot>
-        <el-button v-if="downloadLink" @click="loadAndDownload()">點此下載</el-button>
+        <!-- <el-button v-if="downloadLink" @click="loadAndDownload()">點此下載</el-button> -->
     </div>
     <el-card v-else class="card">
         為節省用戶流量，簡報採手動載入。
@@ -53,7 +53,7 @@ function setDownloadLink() {
 function loadAndDownload() {
     ElMessage({
         dangerouslyUseHTMLString: true,
-        message: `享連結於社群後，截圖通知<a href='mailto:chuiantw1212@gmail.com'>chuiantw1212@gmail.com</a>即可索取`,
+        message: `分享連結於社群後，截圖通知<a href='mailto:chuiantw1212@gmail.com'>chuiantw1212@gmail.com</a>即可索取`,
     })
     // const link = document.createElement('a')
     // link.href = downloadLink.value

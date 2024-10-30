@@ -90,8 +90,8 @@
                 "type": 301
             },
             {
-                "source": "/life/single.html",
-                "destination": "/finance/single.html",
+                "source": "/finance/single.html",
+                "destination": "/life/single.html",
                 "type": 301
             },
             {

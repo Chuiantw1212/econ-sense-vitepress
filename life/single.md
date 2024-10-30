@@ -9,7 +9,9 @@ description: 探索《單身狗地獄求生》：獵殺女巫、台灣現況、�
 
 ## 簡報
 
-<iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vTvhDGQjUl2d1PQ4SHR1PHZv3AsWxtqMwAjLfqHceVXpYQWo0QUFr6k4j38gbxlzo3PgwueSzaAFoXI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallow fullscreen="true"></iframe>
+<LazySlide shareLink="https://docs.google.com/presentation/d/1lxqPFaUg3MybIe66v4ukT3omfy9KODhII31SWWuJ5tM/edit?usp=sharing">
+    <iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vTvhDGQjUl2d1PQ4SHR1PHZv3AsWxtqMwAjLfqHceVXpYQWo0QUFr6k4j38gbxlzo3PgwueSzaAFoXI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallow fullscreen="true"></iframe>
+</LazySlide>
 
 ## 講座評價
 
@@ -221,6 +223,7 @@ description: 探索《單身狗地獄求生》：獵殺女巫、台灣現況、�
 <Books :modelValue="bookItems"></Books>
 
 <script setup>
+import LazySlide from '../components/lazySlide.vue'
 import Courses from '../components/courses.vue'
 import Books from '../components/books.vue'
 
