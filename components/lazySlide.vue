@@ -3,7 +3,7 @@
         <slot>
 
         </slot>
-        <a v-if="downloadLink" :href="downloadLink">點此下載</a>
+        <el-button v-if="downloadLink" @click="loadAndDownload()">點此下載</el-button>
     </div>
     <el-card v-else class="card">
         為節省用戶流量，簡報採手動載入。
@@ -16,7 +16,8 @@
     </el-card>
 </template>
 <script setup lang="ts">
-import { ref, useTemplateRef, onMounted } from 'vue'
+import { ref, useTemplateRef, onMounted, } from 'vue'
+import { ElMessage, } from 'element-plus'
 const isLoaded = ref(false)
 const downloadLink = ref('')
 const slideWrap = useTemplateRef<Element>('slideWrap')
@@ -50,11 +51,15 @@ function setDownloadLink() {
     }
 }
 function loadAndDownload() {
-    const link = document.createElement('a')
-    link.href = downloadLink.value
-    document.body.appendChild(link);
-    link.click()
-    document.body.removeChild(link);
+    ElMessage({
+        dangerouslyUseHTMLString: true,
+        message: `享連結於社群後，截圖通知<a href='mailto:chuiantw1212@gmail.com'>chuiantw1212@gmail.com</a>即可索取`,
+    })
+    // const link = document.createElement('a')
+    // link.href = downloadLink.value
+    // document.body.appendChild(link);
+    // link.click()
+    // document.body.removeChild(link);
 }
 </script>
 <style lang="scss" scoped>
