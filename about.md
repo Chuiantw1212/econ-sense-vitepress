@@ -5,18 +5,7 @@ outline: [2,3]
 
 # 關於 EN Chu
 
-<VPTeamMembers size="medium" :members="members" />
-
-<script setup>
-import {
-  VPTeamPage,
-  VPTeamPageTitle,
-  VPTeamMembers,
-  VPTeamPageSection
-} from 'vitepress/theme'
-import SkillIcon from './components/skillIcons.vue'
-
-const members = [
+<VPTeamMembers size="medium" :members="[
   {
     avatar: `https://storage.googleapis.com/public.econ-sense.com/about/enchu.webp`,
     title: '分享者',
@@ -28,11 +17,8 @@ const members = [
     avatar: `https://storage.googleapis.com/public.econ-sense.com/about/nodejs.webp`,
     title: '全端工程師',
     desc:'2024 玉山銀行委外<br/>2020-2023 凱基人壽委外<br/>2017-2020 前端工程師',
-    org: 'Job Pair',
-    orgLink: 'https://job-pair.com/',
   },
-]
-</script>
+]" />
 
 ## 主要專案
 
@@ -44,14 +30,6 @@ const members = [
 
 <a href="https://econ-sense.com/plan.html">
     <img class="aobut__image--100" src="/finance/plan/calculator.png" alt="finance-planner">
-</a>
-
-### Job Pair
-
-求職找工作可以很簡單！Job Pair媒合型人力銀行，勾選你理想的企業文化、工作環境、組織階段、管理模式、人際風格和工作模式，即刻為你配對最合適的職缺，開啟專屬於你的職場旅程。
-
-<a href="https://job-pair.com" target="_blank">
-    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/jobPair.webp" alt=job-pair>
 </a>
 
 ## 技術棧
@@ -67,6 +45,18 @@ const members = [
 ### 雲服務與其他
 
 <SkillIcon :modelValue="'firebase,gcp,git,github,gitlab,bitbucket,githubactions,npm,vscode,regex,windows,linux,stackoverflow'"></SkillIcon>
+
+<!-- ### 前端
+
+<SkillIcon :modelValue="'javascript,typescript,html5,css3,sass,bootstrap,vuedotjs,vite,vitepress,vuetify,nuxtdotjs,markdown/gray'"></SkillIcon>
+
+### 後端
+
+<SkillIcon :modelValue="'bun/gray,nodedotjs,nodemon,typescript,fastify/gray,express/gray,mongodb,postgresql,postman'"></SkillIcon>
+
+### 雲服務與其他
+
+<SkillIcon :modelValue="'firebase,googlecloud,googlecloudstorage,git,github/gray,githubactions,gitlab,bitbucket,gitkraken,npm'"></SkillIcon> -->
 
 ## 專業認證
 
@@ -136,6 +126,16 @@ const members = [
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/cycling1.webp" alt=環島>
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/swimming.webp" alt=泳渡>
 </div>
+
+<script setup>
+import {
+  VPTeamPage,
+  VPTeamPageTitle,
+  VPTeamMembers,
+  VPTeamPageSection
+} from 'vitepress/theme'
+import SkillIcon from './components/skillIcons.vue'
+</script>
 
 <style lang=scss>
 .aobut__image--100 {

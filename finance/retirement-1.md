@@ -3,7 +3,8 @@ description: 《退休規劃(上)》涵蓋勞保勞退、公保公退、老後�
 outline: [2,3]
 ---
 
-# 退休規劃(上)
+# 退休規劃（上）：涵蓋退休金管理、老後居住選擇與資產變現
+
 
 《退休規劃(上)》探討勞保勞退、公保公退、老後居住和資產變現等重要議題，專為關注退休的職場人士、公務員以及正在為老後居住和資產變現做準備的人設計。這份內容將幫助您掌握退休規劃的核心知識，讓您為未來做好周全的準備。
 
@@ -255,53 +256,6 @@ webkitallowfullscreen="true"></iframe>
 <!-- ## 活動照片
 
 <Photos v-model="photoItems"></Photos> -->
-
-## 外部資源
-
-### 退休金流
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://edesk.bli.gov.tw/me/#/na/login" target="_blank">
-                   勞保局E化服務系統
-                </a>
-            </td>
-            <td>查看個人勞保、勞退資料</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.bli.gov.tw/0000002.html" target="_blank">
-                   勞保局勞保業務專區
-                </a>
-            </td>
-            <td>查詢詳細的勞保法規、條款項目、QA</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.houseplus.com.tw/" target="_blank">
-                   好實價
-                </a>
-            </td>
-            <td>實價登錄網站，試算房地產買賣價格使用</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://pip.moi.gov.tw/V3/B/SCRB0504.aspx" target="_blank">
-                   社會住宅包租代管
-                </a>
-            </td>
-            <td>內政部提供</td>
-        </tr>
-    </tbody>
-</table>
 
 <!-- ## 延伸閱讀
 

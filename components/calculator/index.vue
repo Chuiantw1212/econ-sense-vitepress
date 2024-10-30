@@ -376,7 +376,7 @@ const userForm = reactive({
         monthlyExpense: 0,
     },
     parenting: {
-        childAnnualExpense: 212767,
+        childAnnualExpense: 266761,
         spouseMonthlyContribution: 0,
         independantAge: 18,
         firstBornYear: 0,

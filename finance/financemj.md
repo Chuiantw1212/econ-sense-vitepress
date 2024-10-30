@@ -40,7 +40,7 @@ outline: [2,3]
 
 ### 簡報
 
-<LazySlide :isImmediate="true" shareLink="https://docs.google.com/presentation/d/1UdqRTBaKllLdOY044zECb6rhMWcP1kCY487gptur4KI/edit?usp=sharing">
+<LazySlide shareLink="https://docs.google.com/presentation/d/1UdqRTBaKllLdOY044zECb6rhMWcP1kCY487gptur4KI/edit?usp=sharing">
 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQsv2lt48eMfz9ZQShAajN_o3niWaxhy6_kU8hYZaYVwYjESnD_JoJGlnN6rib3hLGiZfhCiCl8KREu/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
 

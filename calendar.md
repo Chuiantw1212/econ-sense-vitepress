@@ -3,7 +3,7 @@ description: 查看講座排程，訂閱Google Calendar，了解講座流程與�
 outline: deep
 ---
 
-# 講座排程
+# 講座排程：查看行事曆與簡報內容，決定是否參加
 
 行事曆上的分享內容，在左邊的選單都可以找到對應的簡報，可以先看看內容是不是自己想要的再決定是否參與。
 
@@ -50,6 +50,10 @@ outline: deep
 ### 學校學不到的事
 
 <iframe src="https://www.accupass.com/organizer/detail/1907301409538062502000" width="100%" height="420px"></iframe>
+
+### 齊文藝室
+
+<iframe src="https://thesingularity.tw/top-page/" width="100%" height="420px"></iframe>
 
 <style lang="scss" scoped>
 iframe {

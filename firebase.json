@@ -15,6 +15,11 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/affiliate.html",
+                "destination": "/calendar.html",
+                "type": 301
+            },
+            {
                 "source": "/finance/pension.html",
                 "destination": "/finance/retirement-1.html",
                 "type": 301
@@ -22,6 +27,36 @@
             {
                 "source": "/finance/retirement.html",
                 "destination": "/finance/retirement-2.html",
+                "type": 301
+            },
+            {
+                "source": "/finance/investment",
+                "destination": "/finance/investment.html",
+                "type": 301
+            },
+            {
+                "source": "/career/outline",
+                "destination": "/career/outline.html",
+                "type": 301
+            },
+            {
+                "source": "/career/flywheel",
+                "destination": "/career/flywheel.html",
+                "type": 301
+            },
+            {
+                "source": "/about",
+                "destination": "/about.html",
+                "type": 301
+            },
+            {
+                "source": "/engineer/outline",
+                "destination": "/engineer/outline.html",
+                "type": 301
+            },
+            {
+                "source": "/engineer/blog",
+                "destination": "/engineer/blog-1.html",
                 "type": 301
             },
             {
@@ -62,36 +97,6 @@
             {
                 "source": "/career/blog.html",
                 "destination": "/engineer/blog-1.html",
-                "type": 301
-            },
-            {
-                "source": "/toc.html",
-                "destination": "/calendar.html",
-                "type": 301
-            },
-            {
-                "source": "/career/software.html",
-                "destination": "/career/project.html",
-                "type": 301
-            },
-            {
-                "source": "/career/computer.html",
-                "destination": "/engineer/computer.html",
-                "type": 301
-            },
-            {
-                "source": "/life/computer.html",
-                "destination": "/career/computer.html",
-                "type": 301
-            },
-            {
-                "source": "/job/education.html",
-                "destination": "/career/education.html",
-                "type": 301
-            },
-            {
-                "source": "/job/outline.html",
-                "destination": "/career/outline.html",
                 "type": 301
             }
         ]

@@ -8,7 +8,7 @@ head:
       content: https://storage.googleapis.com/public.econ-sense.com/engineer/beginner/bootcamp.webp
 ---
 
-# 軟體職涯入門
+# 軟體職涯入門：從學習策略到求職技巧的完整指南
 
 《軟體職涯入門》為資訊工程相關科系的大三以上學生、欲轉職為軟體工程師的社會人士，以及打算換工作的在職軟體工程師提供個人筆記。內容涵蓋職涯探索、學習策略、履歷撰寫技巧及求職方法，助您為軟體工程職涯做好準備，找到適合的職位與發展方向。
 
