@@ -191,6 +191,24 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 更多詳細資訊可參考財政部稅務入口網的[遺產稅簡介](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-manual/national/estate-and-gift-tax/QbA7Lqp)。
 
+![房地現值](/finance/retirement/房地現值.png "房地現值")
+
+### 各種節稅管道
+
+在資產傳承和財務管理中，有多種節稅方式可以有效降低稅負，並提高資產傳承的效率。以下為常見的節稅管道：
+
+| 節稅管道 | 說明 |
+| --- | --- |
+| [**房地產登記贈與**](https://www.etax.nat.gov.tw/etwmain/tax-info/house-land-transfer-taxtation-calculation-area/gift/file-process) | 利用房地產現值進行登記贈與，可以大幅減少贈與稅負擔。 |
+| [**分年贈與**](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-secret/o2Q68JR) | 每年贈與額度244萬，許多受薪階級通過分年贈與即可滿足節稅需求。 |
+| [**婚嫁贈與**](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-secret/bBo2mMx#:~:text=%E7%88%B6%E6%AF%8D%E6%96%BC%E5%AD%90%E5%A5%B3%E5%A9%9A%E5%AB%81%E6%99%82,%E4%BA%88%E8%AA%B2%E5%BE%B5%E8%B4%88%E8%88%87%E7%A8%85%E3%80%82) | 結婚贈與額度為244萬 + 100萬，若父母與夫妻間同時進行贈與，則一次婚姻可移轉688萬（2023年）。 |
+| [**終身壽險**](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/basic-tax-question/scope/EV0rYml) | 通過保險金為後代預留遺產稅所需資金，但需留意[保險金的實質課稅](https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=66cb1f563fba4010a1452dce6d51d68d)情形。 |
+| [**法定財產制**](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-secret/Ng7qJ9Y) | 在喪偶後，若夫妻婚後財產差異較大，配偶可請求差額分配，以降低遺產淨額。 |
+| [**生前未償還債務**](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/estate-tax/exemption/g8njZxx#:~:text=%E8%A2%AB%E7%B9%BC%E6%89%BF%E4%BA%BA%E6%AD%BB%E4%BA%A1%E4%BB%A5%E5%89%8D%E9%82%84,%E6%89%80%E5%80%9F%E8%B3%87%E9%87%91%E7%9A%84%E7%94%A8%E9%80%94%E3%80%82) | 被繼承人去世前的未償債務（如房貸），若有確實證明可用於減少遺產總額。 |
+
+這些節稅管道為家庭財務管理提供了靈活性，有助於通過合理安排來降低遺產稅負擔，並保障資產傳承的順利進行。
+
+
 #### 遺囑
 **遺囑**的類型主要包括以下幾種：
 
