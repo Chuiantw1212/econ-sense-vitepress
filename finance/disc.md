@@ -449,10 +449,6 @@ head:
     <p>智者的終極挑戰，是用他人能接受的方式，去給予對方所需要的幫助。</p>
 </el-card>
 
-## 意見回饋
-
-<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScBbn71sbRWIZSzsP8EXYBlqy7XxDcziy44daup4wiJVN3LoQ/viewform?embedded=true" width="100%" height="500" marginheight="0" marginwidth="0">Loading…</iframe>
-
 ## 延伸閱讀
 
 <Books :modelValue="bookItems"></Books>
