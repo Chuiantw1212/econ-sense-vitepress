@@ -286,9 +286,21 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 ![單一窗口查詢金融遺產](/finance/retirement/單一窗口查詢金融遺產.jpg "單一窗口查詢金融遺產")
 
-<!-- ![辦理過戶](/finance/retirement/辦理過戶.jpg "辦理過戶") -->
+### 單程行李箱
 
-## 簡報
+在我的單程行李箱裡，有一個小小的保險箱，裡面放著我的印鑑和存摺——這是留給家人的經濟基石，是支撐他們未來的一份心意。行李箱中還收納著保單、資產記錄、專利與股權協議，象徵著我對未來的預備與承諾。最重要的，還有一份詳細的保險清冊和雲端硬碟的帳號密碼，這些資訊已妥善打印，放在顯眼的位置，方便家人隨時取用。
+
+此外，行李箱裡還有屬於我的故事和一段段編年史，記錄著我一路走來的痕跡，見證我的努力、夢想，以及那些經歷的點滴。這些不僅是物質上的安排，更是我生命的印記，和對家人深深的愛。我不是擅長說愛的人，但我相信，無聲的行動往往比千言萬語更有力量——這份無聲的愛，在安靜中顯得格外震撼。
+
+這個單程行李箱，裝載的不僅是財務、醫療、法律和身後安排的每一項細節，更是對家人深沉無言的關懷。這些看似平凡的準備，卻能在家人需要時為他們提供踏實的依靠。當離別時刻來臨，他們將不會徬徨，因為這個行李箱已為他們鋪好前路，傳達著我無需多言的心意。這是留給家人的最後禮物，也是對自己生命的最後整理。透過這份儉樸而完整的規劃，我可以坦然地說，再多的不捨也已安排妥當，而這份心意將如細水長流，伴隨家人繼續走下去。
+
+## 單程行李箱參考
+
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSIJersD6EEXxhLmOn9BbpW2pIVMsuJQoIICMehx0DUhP2ovM4rkUqbpsyUvFIr2KCJ3DLfsr7cg9YG/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+
+## 線上/實體講座
+
+### 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1k2jUNx0oeChEQuNQGEHy75xt3N7vIt8NH2VHR0BthAc/edit?usp=drive_link">
 <iframe
@@ -297,182 +309,17 @@ width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
 webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
-## 單程行李箱檢核表
-
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSIJersD6EEXxhLmOn9BbpW2pIVMsuJQoIICMehx0DUhP2ovM4rkUqbpsyUvFIr2KCJ3DLfsr7cg9YG/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
-
-## 講座評價
+### 講座評價
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
 
-## 活動照片
+### 照片
 
 <Photos v-model="photoItems"></Photos>
 
 ## 外部優質課程
 
 <Courses :modelValue="courseItems"></Courses>
-
-## 外部資源
-
-### 退休金流
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://edesk.bli.gov.tw/me/#/na/login" target="_blank">
-                   勞保局E化服務系統
-                </a>
-            </td>
-            <td>查看個人勞保、勞退資料</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.bli.gov.tw/0000002.html" target="_blank">
-                   勞保局勞保業務專區
-                </a>
-            </td>
-            <td>查詢詳細的勞保法規、條款項目、QA</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://rfa.pension.org.tw/RetireComputer-Person" target="_blank">
-                   FUN心退
-                </a>
-            </td>
-            <td>中華民國退休金協會的退休金計算機</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.houseplus.com.tw/" target="_blank">
-                   好實價
-                </a>
-            </td>
-            <td>實價登錄網站，試算房地產買賣價格使用</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://pip.moi.gov.tw/V3/B/SCRB0504.aspx" target="_blank">
-                   社會住宅包租代管
-                </a>
-            </td>
-            <td>內政部提供</td>
-        </tr>
-    </tbody>
-</table>
-
-### 財產管理
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://www.etax.nat.gov.tw/etwmain/etw108w" target="_blank">
-                   財政部電子稅務文件
-                </a>
-            </td>
-            <td>查詢財產資料</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.ba.org.tw/PublicInformation/BusinessDetail/31?AspxAutoDetectCookieSupport=1" target="_blank">
-                   銀行商業同業公會
-                </a>
-            </td>
-            <td>查詢遺忘的銀行帳號資料</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://investor.twse.com.tw" target="_blank">
-                   投資人個人資料查詢系統
-                </a>
-            </td>
-            <td>查詢遺忘的證券帳號資料</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://tax.nat.gov.tw/alltax-declare.html?id=31" target="_blank">
-                   財政部金融遺產
-                </a>
-            </td>
-            <td>一站查詢金融遺產</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-secret/bBo2mMx" target="_blank">
-                   嫁妝免稅有限額免課贈與稅
-                </a>
-            </td>
-            <td>財政部提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://support.google.com/accounts/answer/3036546?sjid=9983159482626828160-AP" target="_blank">
-                   不動產之遺產價值如何計算？
-                </a>
-            </td>
-            <td>財政部稅務入口網</td>
-        </tr>
-    </tbody>
-</table>
-
-### 數位資產、保險、醫療、法務
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://support.google.com/accounts/answer/3036546?sjid=9983159482626828160-AP" target="_blank">
-                   Google閒置帳號管理員
-                </a>
-            </td>
-            <td>一定月數以後，讓親屬取得帳號權限</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.facebook.com/help/1070665206293088" target="_blank">
-                   Facebook紀念帳號設定
-                </a>
-            </td>
-            <td>讓指定親屬可以申請取得紀念帳號</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.moj.gov.tw/2204/2528/2529/2530/2533/12401/" target="_blank">
-                   意定監護契約範本
-                </a>
-            </td>
-            <td>法務部提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://hpcod.mohw.gov.tw/HospWeb/RWD/PageType/acp/introduction.aspx" target="_blank">
-                   預定醫療決定推廣頁面
-                </a>
-            </td>
-            <td>衛生福利部提供</td>
-        </tr>
-    </tbody>
-</table>
 
 ## 延伸閱讀
 
