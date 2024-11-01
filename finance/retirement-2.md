@@ -7,7 +7,7 @@ outline: [2,3]
 
 在整理這篇文章的過程中，我廣泛參考了各類退休規劃書籍，以全方位了解退休生活的需求，從財務安排到健康管理，再到法律保障。然而，在探索生死議題時遇到了一些挑戰，直到發現「[冬瓜行旅](https://owt.com.tw/)」網站，這才填補了最後一塊拼圖。這篇退休規劃指南綜合了各方資源，旨在為讀者提供在財務、醫療、法律及生死議題上的清晰路徑，助您規劃一個安心、充實的退休生活。
 
-![冬瓜行旅](/finance/retirement/冬瓜行旅.jpg "冬瓜行旅")
+![冬瓜行旅](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E5%86%AC%E7%93%9C%E8%A1%8C%E6%97%85.webp "冬瓜行旅")
 
 ## 財務
 
@@ -21,7 +21,7 @@ outline: [2,3]
 
 然而，目前「保險存摺」僅提供基本資訊，如保險公司名稱和保單號碼，若需更詳細的保險內容，仍需向個別保險公司索取。此服務讓保戶掌握所有保單的概況，便於進行保障規劃，但細節查詢仍有待完善。
 
-![保險存摺](/finance/retirement/保險存摺.png "保險存摺")
+![保險存摺](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E4%BF%9D%E9%9A%AA%E5%AD%98%E6%91%BA.webp "保險存摺")
 
 ### 保險
 
@@ -33,7 +33,7 @@ outline: [2,3]
 
 透過這樣的表格整理，保戶可以在急需理賠或諮詢時迅速找到對應的聯絡人，縮短處理時間，確保保障及時到位。此外，這種方式也方便家屬在不熟悉保單細節的情況下，快速找到適合的保障和聯絡窗口，確保需求得到即時處理，使保障安排更加完善與透明。
 
-![保險清冊示意圖](/finance/retirement/保險清冊示意圖.png "保險清冊示意圖")
+![保險清冊示意圖](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E4%BF%9D%E9%9A%AA%E6%B8%85%E5%86%8A%E7%A4%BA%E6%84%8F%E5%9C%96.webp "保險清冊示意圖")
 
 ### 數位資產
 
@@ -51,7 +51,7 @@ outline: [2,3]
 
 通過將以上數位資產資訊妥善記錄並傳達給信任的家人或朋友，可以確保在不幸離世後，家屬能順利處理和保留這些資產，避免因密碼遺失或無法管理而造成的損失。
 
-![數位資產範例](/finance/retirement/數位資產範例.png "數位資產範例")
+![數位資產範例](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E6%95%B8%E4%BD%8D%E8%B3%87%E7%94%A2%E7%AF%84%E4%BE%8B.webp "數位資產範例")
 
 ### 海外券商 vs 國內複委託
 
@@ -71,7 +71,7 @@ outline: [2,3]
 
 總結而言，從退休規劃角度看，複委託雖然在手續費上較高，但其資產管理、法律風險及繼承便捷性上更具優勢，更適合退休後長期的資產配置需求。
 
-![複委託](/finance/retirement/複委託.png "複委託")
+![複委託](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E8%A4%87%E5%A7%94%E8%A8%97.webp "複委託")
 
 ### 金融資產
 
@@ -101,7 +101,7 @@ outline: [2,3]
 
 ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家屬的決策壓力。ACP 通過諮商過程建立共識，AD 則以書面方式正式記錄，兩者相輔相成，有效確保生命末期的醫療照護符合個人價值觀，使照護過程更具尊嚴與意義。
 
-![預立醫療流程](/finance/retirement/預立醫療流程.jpg "預立醫療流程")
+![預立醫療流程](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%A0%90%E7%AB%8B%E9%86%AB%E7%99%82%E6%B5%81%E7%A8%8B.webp "預立醫療流程")
 
 ### 器官捐贈
 
@@ -120,7 +120,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 因此，為了確保能夠順利進行大體捐贈，建議大家在生前保持身體健康，維持適當的體重和身材。不僅有助於健康生活，也能讓這項捐贈心願更容易實現。更多有關大體捐贈的具體條件和流程，可參考[高雄醫學大學的捐獻遺體作業準則](http://lawdb.kmu.edu.tw/index.php/%E6%8D%90%E7%8D%BB%E9%81%BA%E9%AB%94%E4%BD%9C%E6%A5%AD%E6%BA%96%E5%89%87)，該準則提供詳細的條件說明和捐贈流程。
 
-![大體捐贈](/finance/retirement/大體捐贈.jpeg "大體捐贈")
+![大體捐贈](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E5%A4%A7%E9%AB%94%E6%8D%90%E8%B4%88.webp "大體捐贈")
 
 ## 法律
 
@@ -149,7 +149,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 意定監護契約不僅節省時間，也確保個人意願靈活地得以實行，為未來的生活提供更高的靈活性和保障。
 
-![監護差異](/finance/retirement/監護差異.png "監護差異")
+![監護差異](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E7%9B%A3%E8%AD%B7%E5%B7%AE%E7%95%B0.webp "監護差異")
 
 ### 遺產稅
 
@@ -167,7 +167,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 更多詳細資訊可參考財政部稅務入口網的[遺產稅簡介](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-manual/national/estate-and-gift-tax/QbA7Lqp)。
 
-![房地現值](/finance/retirement/房地現值.png "房地現值")
+![房地現值](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E6%88%BF%E5%9C%B0%E7%8F%BE%E5%80%BC.webp "房地現值")
 
 ### 各種節稅管道
 
@@ -210,7 +210,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 最終，法院裁定張榮發的密封遺囑符合程序，具法律效力。此案例提醒立遺囑人，密封遺囑雖具隱密性，但應同時考慮與家族成員之間的溝通，以避免遺囑公開後引發不必要的爭議。
 
-![遺囑參考](/finance/retirement/遺囑參考.png "遺囑參考")
+![遺囑參考](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%81%BA%E5%9B%91%E5%8F%83%E8%80%83.webp "遺囑參考")
 
 ## 生死
 
@@ -228,7 +228,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 「一切從簡」的殯葬方式提供了相較傳統儀式更現代、更環保的選擇，使逝者的安息過程既平靜莊重，又減輕家屬的心理和經濟負擔。
 
-![環保葬](/finance/retirement/環保葬.jpg "環保葬")
+![環保葬](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E7%92%B0%E4%BF%9D%E8%91%AC.webp "環保葬")
 
 ### 喪葬補貼與死亡給付
 
@@ -255,7 +255,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 透過上述兩種途徑，勞工在家屬過世時可以獲得一定的經濟協助，減輕喪葬負擔。
 
-![職工福利委員會](/finance/retirement/職工福利委員會.jpg "職工福利委員會")
+![職工福利委員會](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E8%81%B7%E5%B7%A5%E7%A6%8F%E5%88%A9%E5%A7%94%E5%93%A1%E6%9C%83.webp "職工福利委員會")
 
 ### 遺產稅流程
 
@@ -284,7 +284,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 不同資產類型的繼承手續和所需文件有所不同，建議繼承人熟悉流程，以確保資產順利合法過戶。
 
-![單一窗口查詢金融遺產](/finance/retirement/單一窗口查詢金融遺產.jpg "單一窗口查詢金融遺產")
+![單一窗口查詢金融遺產](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E5%96%AE%E4%B8%80%E7%AA%97%E5%8F%A3%E6%9F%A5%E8%A9%A2%E9%87%91%E8%9E%8D%E9%81%BA%E7%94%A2.webp "單一窗口查詢金融遺產")
 
 ### 單程行李箱
 
