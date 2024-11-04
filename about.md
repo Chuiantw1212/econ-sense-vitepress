@@ -105,6 +105,7 @@ outline: [2,3]
 ### 心理學
 
 <div style="display:flex;flex-wrap:wrap;">
+    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/nlp2.webp" alt=NLP高階執行師>
     <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/nlp1.webp" alt=NLP專業執行師>
 </div>
 
