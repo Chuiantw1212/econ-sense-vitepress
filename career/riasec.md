@@ -91,6 +91,10 @@ head:
 
 ![海報](https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E6%B5%B7%E5%A0%B1.webp "海報")
 
+![自我懷疑](https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E8%87%AA%E6%88%91%E6%87%B7%E7%96%91.webp "自我懷疑")
+
+![時間體驗](https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E6%99%82%E9%96%93%E9%AB%94%E9%A9%97.webp "時間體驗")
+
 ![公益大會合照](https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E5%85%AC%E7%9B%8A%E5%A4%A7%E6%9C%83%E5%90%88%E7%85%A7.webp "公益大會合照")
 
 ## 外部優質課程
