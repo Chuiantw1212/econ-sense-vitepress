@@ -112,9 +112,9 @@ outline: [2,3]
 ### 桌遊
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/cafe.webp" alt=精實創業咖啡館認證講師>
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/swan2.webp" alt=新天鵝堡進階桌遊師>
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/swan1.webp" alt=新天鵝堡初階桌遊師>
+    <!-- <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/cafe.webp" alt=精實創業咖啡館認證講師> -->
 </div>
 
 ### 環島/泳渡
