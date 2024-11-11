@@ -273,7 +273,7 @@ description: 單身狗地獄求生講座，探索低生育率成因，分析台�
 ### 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1lxqPFaUg3MybIe66v4ukT3omfy9KODhII31SWWuJ5tM/edit?usp=sharing">
-    <iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vTvhDGQjUl2d1PQ4SHR1PHZv3AsWxtqMwAjLfqHceVXpYQWo0QUFr6k4j38gbxlzo3PgwueSzaAFoXI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallow fullscreen="true"></iframe>
+    <iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vTvhDGQjUl2d1PQ4SHR1PHZv3AsWxtqMwAjLfqHceVXpYQWo0QUFr6k4j38gbxlzo3PgwueSzaAFoXI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallow fullscreen="true"></iframe>
 </LazySlide>
 
 ### 評價
