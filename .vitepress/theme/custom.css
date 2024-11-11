@@ -3,9 +3,25 @@
  * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
  */
 
+.vp-doc {
+    font-size: 18px;
+}
+
 .vp-doc h1 {
     font-size: 24px;
 }
+
+/* .vp-doc h1 {
+    font-size: 42px;
+}
+
+.vp-doc h2 {
+    font-size: 28px;
+}
+
+.vp-doc h3 {
+    font-size: 20px;
+} */
 
 .vp-doc table {
     display: table;
