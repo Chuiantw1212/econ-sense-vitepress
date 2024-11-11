@@ -24,7 +24,7 @@ const digitalDocumentItems = [
         name: '單身狗地獄求生',
         keywords: ['生育率的歷史', '台灣現狀', '財務面的準備', '非財務的準備'],
         audience: ['想了解低生育率成因的人', '選擇或被迫單身一輩子的人', '介於兩者之間的人'],
-        rating: 3
+        rating: 2
     },
     {
         url: './education',
