@@ -19,13 +19,13 @@ import DigitalDocuments from '../components/digitalDocuments.vue'
 import Courses from '../components/courses.vue'
 
 const digitalDocumentItems = [
-    // {
-    //     url: './scarcity',
-    //     name: '匱乏心理學',
-    //     keywords: ['新文明病', '認知匱乏', '匱乏循環', '打造寬鬆'],
-    //     audience: ['玩過財富流想多了解精力的人', '想知道為何缺錢時不該借貸或主動投資的人', '對基本的認知心理學感興趣的人'],
-    //     rating: 3
-    // },
+    {
+        url: './single',
+        name: '單身狗地獄求生',
+        keywords: ['生育率的歷史', '台灣現狀', '財務面的準備', '非財務的準備'],
+        audience: ['想了解低生育率成因的人', '選擇或被迫單身一輩子的人', '介於兩者之間的人'],
+        rating: 3
+    },
     {
         url: './education',
         name: '我是學渣，也是黑馬',
