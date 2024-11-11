@@ -80,12 +80,12 @@ head:
 ### 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1TBWOkeOPewxkEKfwwb85ocU4xS6rQ0NcYQrKB7YSpUU/edit?usp=sharing">
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRIsOs04yETGtGkNzM0FLHc4-Z0lbELBJnfE7YQiNC8VyxSCfu52p6hkoCOpcKphqgD-ip-MIVAhcFx/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    <iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vRIsOs04yETGtGkNzM0FLHc4-Z0lbELBJnfE7YQiNC8VyxSCfu52p6hkoCOpcKphqgD-ip-MIVAhcFx/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
 ### 評價
 
-<iframe src="https://docs.google.com/spreadsheets/d/1K083vkWl1wKAKkLOga1G0Qvazeyu7KM_VxbhdypPsEU/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/1K083vkWl1wKAKkLOga1G0Qvazeyu7KM_VxbhdypPsEU/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 ### 影音
 

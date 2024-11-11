@@ -15,12 +15,12 @@ head:
 ## 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1fsMJsPGFXrj9Hkl6Xgy8_Rpc47BuA_iP3oA8yBeiC8w/edit?usp=drive_link">
-<iframe title="presentation" src="https://docs.google.com/presentation/d/1fsMJsPGFXrj9Hkl6Xgy8_Rpc47BuA_iP3oA8yBeiC8w/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    <iframe title="Google Slides" src="https://docs.google.com/presentation/d/1fsMJsPGFXrj9Hkl6Xgy8_Rpc47BuA_iP3oA8yBeiC8w/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
 ## 講座評價
 
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT7aDOY_D_Qo454P3UDiInpgwyecwdd2zBzOPeSGXcJCZzyWi_ExeQkWEJduqdmBvabgSTLu2uLN5MF/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT7aDOY_D_Qo454P3UDiInpgwyecwdd2zBzOPeSGXcJCZzyWi_ExeQkWEJduqdmBvabgSTLu2uLN5MF/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 ## 外部資源
 

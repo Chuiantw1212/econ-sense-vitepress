@@ -9,13 +9,13 @@ outline: deep
 
 ## 簡報
 
-<iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vQOMxzKsjo0S-18dohhv0YykyG3Y3Cxn03MgJOomFNZWOAqwZF5wFnyR9e8e3t5xpKnlMNovViS4mC1/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
+<iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vQOMxzKsjo0S-18dohhv0YykyG3Y3Cxn03MgJOomFNZWOAqwZF5wFnyR9e8e3t5xpKnlMNovViS4mC1/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
 webkitallowfullscreen="true"
 ></iframe>
 
 ## 講座評價
 
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRvifrIVGU8_0nr3dP5cK9quVEOb2FoBMHAQhnxra1gJIu_Mo1fZ8eDI0UzpWCxvQLdv9hiH4Z_2OGN/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRvifrIVGU8_0nr3dP5cK9quVEOb2FoBMHAQhnxra1gJIu_Mo1fZ8eDI0UzpWCxvQLdv9hiH4Z_2OGN/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
 
 ## 外部優質課程
 

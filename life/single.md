@@ -146,12 +146,15 @@ description: 單身狗地獄求生講座，探索低生育率成因，分析台�
 [安養信託](https://www.trust.org.tw/tw/info/related-common/15)是一種專為老年生活設計的財務管理機制，主要目的是為信託設立者（通常是無家庭支持的單身者）提供穩定、受保障的生活費用來源，確保晚年生活的基本需求能夠被持續滿足。以下是安養信託的主要角色及其職責。
 
 #### 委託人
+
 委託人是資金的所有者和信託計劃的設立者，通常是希望為自己晚年生活進行財務保障的個人。委託人將資金交給受託人（如銀行或信託公司）管理，並根據自己的需求設計信託條款，例如每月生活費、醫療支出預算、應急費用等，以確保資金的使用符合其個人需求和生活安排。
 
 #### 受託人
+
 受託人是信託管理的執行者，通常由具有財務管理和信託業務資格的銀行或專業信託公司擔任。受託人負責按信託合約中的條款進行資金的管理和分配，包括每月發放生活費、處理醫療支出、支付居住費用等。受託人還可以根據委託人的指示將部分資金進行投資，以實現穩健的收益增長，進一步保障信託資金的可持續性。
 
 #### 監察人
+
 為了確保資金管理的透明和符合委託人意願，安養信託中通常會設立監察人。監察人可以是委託人的家人、朋友或獨立第三方專業機構，負責監督受託人的執行情況，確保受託人按合約進行資金管理，避免資金被不當使用或管理不善。監察人的設立讓信託機制更加透明，為委託人提供額外的安全保障。
 
 ![信託架構](https://storage.googleapis.com/public.econ-sense.com/life/single/信託架構.webp "信託架構")
@@ -205,7 +208,7 @@ description: 單身狗地獄求生講座，探索低生育率成因，分析台�
 
 這些潛在疑慮提醒委託人在設立安養信託時，應深入了解合約細節，並針對無繼承人和年金收入管理等問題進行額外安排，以確保信託設立能夠有效且持續地支持晚年生活。為了幫助讀者更好地理解安養信託，我在下方附上節錄重點版的合約，以便讀者快速掌握核心內容。
 
-<iframe src="https://storage.googleapis.com/public.econ-sense.com/%E8%80%81%E4%BA%BA%E5%AE%89%E9%A4%8A%E4%BF%A1%E8%A8%97%E5%AE%9A%E5%9E%8B%E5%8C%96%E5%A5%91%E7%B4%84%E5%8F%83%E8%80%83%E7%AF%84%E6%9C%AC.pdf" width="100%" height="420"></iframe>
+<iframe title="老人安養信託定型化契約參考範本" src="https://storage.googleapis.com/public.econ-sense.com/%E8%80%81%E4%BA%BA%E5%AE%89%E9%A4%8A%E4%BF%A1%E8%A8%97%E5%AE%9A%E5%9E%8B%E5%8C%96%E5%A5%91%E7%B4%84%E5%8F%83%E8%80%83%E7%AF%84%E6%9C%AC.pdf" width="100%" height="420"></iframe>
 
 ## 非財務面的準備
 
@@ -270,12 +273,12 @@ description: 單身狗地獄求生講座，探索低生育率成因，分析台�
 ### 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1lxqPFaUg3MybIe66v4ukT3omfy9KODhII31SWWuJ5tM/edit?usp=sharing">
-    <iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vTvhDGQjUl2d1PQ4SHR1PHZv3AsWxtqMwAjLfqHceVXpYQWo0QUFr6k4j38gbxlzo3PgwueSzaAFoXI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallow fullscreen="true"></iframe>
+    <iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vTvhDGQjUl2d1PQ4SHR1PHZv3AsWxtqMwAjLfqHceVXpYQWo0QUFr6k4j38gbxlzo3PgwueSzaAFoXI/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallow fullscreen="true"></iframe>
 </LazySlide>
 
 ### 評價
 
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_9nCrCu57umhDM93B81VU8UnEipxdSG1YDKjIPiPPc33vOCOC4hTfwavJZxjllyD2lnbkl5wbXY_Q/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_9nCrCu57umhDM93B81VU8UnEipxdSG1YDKjIPiPPc33vOCOC4hTfwavJZxjllyD2lnbkl5wbXY_Q/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 ## 外部優質課程
 

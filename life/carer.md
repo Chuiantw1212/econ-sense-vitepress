@@ -10,12 +10,12 @@ outline: deep
 ## 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1XLi5KRDRXyIlVsU_ke4rdrFEeFGar1F6GB5mTqZ5_rM/edit?usp=drive_link">
-<iframe title="presentation" src="https://docs.google.com/presentation/d/e/2PACX-1vR1PYi7FxCz4yIF4VV2aoOG65uv1Hp8aF6KkiIrLmz77_1_qCH4DLkIidCvhqG6Ak-SDeyBeDyD-poh/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vR1PYi7FxCz4yIF4VV2aoOG65uv1Hp8aF6KkiIrLmz77_1_qCH4DLkIidCvhqG6Ak-SDeyBeDyD-poh/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
 ## 講座評價
 
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqIwBpXMcvWHTQy80NGRVuI3_lGx4UtVjhedci_cQDcx7iB3rO9qwn1LNQJSpmPpy0YOeykE_1wKmR/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqIwBpXMcvWHTQy80NGRVuI3_lGx4UtVjhedci_cQDcx7iB3rO9qwn1LNQJSpmPpy0YOeykE_1wKmR/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 ## 外部資源
 
