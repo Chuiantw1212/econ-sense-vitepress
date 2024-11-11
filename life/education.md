@@ -12,7 +12,7 @@ outline: [2,3]
 ### 簡報
 
 <LazySlide :isImmediate="true" shareLink="https://docs.google.com/presentation/d/1Tyw9GaK-FKUAondugENEesE9EDLR0DUlxXzGMoNoa0g/edit?usp=sharing">
-    <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRu072hiqHksXUj0ve-VUUY8f2ZnI-OXqIFMgZKLis7-BcScvYzm3PueTAhK7pIm5kumwEMdw3v9ow2/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    <iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vRu072hiqHksXUj0ve-VUUY8f2ZnI-OXqIFMgZKLis7-BcScvYzm3PueTAhK7pIm5kumwEMdw3v9ow2/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
 ### 評價

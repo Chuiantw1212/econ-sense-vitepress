@@ -12,7 +12,7 @@ outline: deep
 ### 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1ZeZARX97L1MxHuY2kTGlkzvccrUH6QQVPPZhDiQUwig/edit?usp=drive_link">
-    <iframe src="https://docs.google.com/presentation/d/1ZeZARX97L1MxHuY2kTGlkzvccrUH6QQVPPZhDiQUwig/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    <iframe title="Google Slides" src="https://docs.google.com/presentation/d/1ZeZARX97L1MxHuY2kTGlkzvccrUH6QQVPPZhDiQUwig/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
 ### 評價
