@@ -61,7 +61,7 @@ description: 單身狗地獄求生講座，探索低生育率成因，分析台�
 
 ![性別平權](https://storage.googleapis.com/public.econ-sense.com/life/single/性別平權.webp "性別平權")
 
-### 平權的矛盾
+### 第三波：矛盾的平權
 
 隨著性別平權的推進，台灣女性在教育和職場中的地位大幅提升，追求經濟獨立和自我成就的意識日益增強。然而，在這一進展的背後，一種稱為[「慕強擇偶」（Hypergamy）](https://jhr.uwpress.org/content/58/1/260.short)的擇偶傾向也逐漸顯現。慕強擇偶指的是女性在擇偶時，傾向選擇比自己在收入、教育程度或社會地位更高的伴侶，以追求更高的生活質量。
 
@@ -181,7 +181,7 @@ description: 單身狗地獄求生講座，探索低生育率成因，分析台�
 
 ### 社福團體擔任信託監察人
 
-[社福團體擔任信託監察人](https://www.trust.org.tw/tw/old-disability/trust/7)時，以[中華民國老人福利推動聯盟](https://www.oldpeople.org.tw/pop/pages/19e95f1f12d44104ad9f9ac628a5ee7f)為例，主要收取的費用包括：
+在孤老者全無親友的情況下，可選擇由[社福團體擔任信託監察人](https://www.trust.org.tw/tw/old-disability/trust/7)，確保信託財產的有效管理並支持其生活需求。以[中華民國老人福利推動聯盟](https://www.oldpeople.org.tw/pop/pages/19e95f1f12d44104ad9f9ac628a5ee7f)為例，主要收取的費用包括：
 
 1. **基本行政費用**：每三個月收取1,000元，用於常規管理和服務，包括以下內容：
    - **個案資料建立與管理**：簽訂信託契約後一個月內，為受益人建立詳細的個案資料，並進行初步需求評估，以便更好地理解受益人生活狀況。
