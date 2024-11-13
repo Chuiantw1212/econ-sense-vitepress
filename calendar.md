@@ -26,6 +26,12 @@ outline: deep
     <tbody>
         <tr>
             <td>
+                19:00 - 19:30
+            </td>
+            <td>開放入場&閒聊</td>
+        </tr>
+        <tr>
+            <td>
                 19:30 - 20:30
             </td>
             <td>主題分享</td>
@@ -40,7 +46,7 @@ outline: deep
             <td>
                 21:00
             </td>
-            <td>聊天室關閉</td>
+            <td>活動結束</td>
         </tr>
     </tbody>
 </table>
