@@ -16,13 +16,12 @@ const props = defineProps({
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    align-items: center;
 }
 
 .photo {
-    width: 100%;
-    height: auto;
-    background-size: cover;
-    background-position: center;
+    width: auto;
+    height: 100%;
 }
 
 @media screen and (min-width: 768px) {
