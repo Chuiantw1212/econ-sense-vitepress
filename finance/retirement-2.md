@@ -103,7 +103,7 @@ outline: [2,3]
 
 ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家屬的決策壓力。ACP 通過諮商過程建立共識，AD 則以書面方式正式記錄，兩者相輔相成，有效確保生命末期的醫療照護符合個人價值觀，使照護過程更具尊嚴與意義。
 
-<iframe width="100%" height="420" src="https://www.youtube.com/embed/3-yMPPTM4aU?si=PfNWyiRzwbTBUnWB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="100%" height="420" src="https://www.youtube.com/embed/3-yMPPTM4aU?si=dDi90h5gjfGPqo-Z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### 器官捐贈
 
@@ -312,7 +312,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
     webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
-### 講座評價
+### 評價
 
 <iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
 
