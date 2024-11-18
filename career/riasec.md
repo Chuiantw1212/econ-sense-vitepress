@@ -77,25 +77,19 @@ head:
 
 ## 線上/實體講座
 
-### 簡報
+### 照片
 
-<LazySlide shareLink="https://docs.google.com/presentation/d/1TBWOkeOPewxkEKfwwb85ocU4xS6rQ0NcYQrKB7YSpUU/edit?usp=sharing">
-    <iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vRIsOs04yETGtGkNzM0FLHc4-Z0lbELBJnfE7YQiNC8VyxSCfu52p6hkoCOpcKphqgD-ip-MIVAhcFx/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-</LazySlide>
+<Photos v-model="photoItems"></Photos>
 
 ### 評價
 
 <iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/1K083vkWl1wKAKkLOga1G0Qvazeyu7KM_VxbhdypPsEU/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
-### 影音
+### 簡報
 
-![海報](https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E6%B5%B7%E5%A0%B1.webp "海報")
-
-![自我懷疑](https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E8%87%AA%E6%88%91%E6%87%B7%E7%96%91.webp "自我懷疑")
-
-![時間體驗](https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E6%99%82%E9%96%93%E9%AB%94%E9%A9%97.webp "時間體驗")
-
-![公益大會合照](https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E5%85%AC%E7%9B%8A%E5%A4%A7%E6%9C%83%E5%90%88%E7%85%A7.webp "公益大會合照")
+<LazySlide shareLink="https://docs.google.com/presentation/d/1TBWOkeOPewxkEKfwwb85ocU4xS6rQ0NcYQrKB7YSpUU/edit?usp=sharing">
+    <iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vRIsOs04yETGtGkNzM0FLHc4-Z0lbELBJnfE7YQiNC8VyxSCfu52p6hkoCOpcKphqgD-ip-MIVAhcFx/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</LazySlide>
 
 ## 外部優質課程
 
@@ -110,6 +104,7 @@ import LazySlide from '../components/lazySlide.vue'
 import Holland from '../components/riasec.vue'
 import Courses from '../components/courses.vue'
 import Books from '../components/books.vue'
+import Photos from '../components/photos.vue'
 
 const courseItems = [
     {
@@ -141,6 +136,25 @@ const bookItems = [
 在職涯中找到最準確的角色，
 真正享受每個階段的工作與人生。</p>
 `,
+    },
+]
+
+const photoItems = [
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E6%B5%B7%E5%A0%B1.webp",
+        alt: "聯合海報",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E8%87%AA%E6%88%91%E6%87%B7%E7%96%91.webp",
+        alt: "自我懷疑",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E6%99%82%E9%96%93%E9%AB%94%E9%A9%97.webp",
+        alt: "時間體驗",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E5%85%AC%E7%9B%8A%E5%A4%A7%E6%9C%83%E5%90%88%E7%85%A7.webp",
+        alt: "大會合照",
     },
 ]
 </script>

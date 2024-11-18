@@ -103,7 +103,7 @@ outline: [2,3]
 
 ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家屬的決策壓力。ACP 通過諮商過程建立共識，AD 則以書面方式正式記錄，兩者相輔相成，有效確保生命末期的醫療照護符合個人價值觀，使照護過程更具尊嚴與意義。
 
-![預立醫療流程](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%A0%90%E7%AB%8B%E9%86%AB%E7%99%82%E6%B5%81%E7%A8%8B.webp "預立醫療流程")
+<iframe width="100%" height="420" src="https://www.youtube.com/embed/3-yMPPTM4aU?si=PfNWyiRzwbTBUnWB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### 器官捐贈
 

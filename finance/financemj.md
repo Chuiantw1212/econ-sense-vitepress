@@ -2,7 +2,7 @@
 description: 透過桌遊《小富翁大贏家》學習開源、節流、投資與風險控制，理解理財概念，為未來打下穩定的財務基礎。了解如何在現實中應用這些理財技巧，並參考更多理財框架。
 outline: [2,3]
 ---
-# 小富翁大贏家
+# 小富翁大贏家：學習開源節流，打造穩健投資與風險控制策略
 
 學習理財不一定要等到長大後才能開始，透過桌遊《小富翁大贏家》，我們可以在遊戲中體驗如何開源、節流、投資以及風險控制。這篇文章將幫助你理解這些財務概念，並提供現實生活中的應用方式，讓你更早學會如何管理自己的金錢，為未來打下更堅實的財務基礎。
 
@@ -85,20 +85,20 @@ const bookItems = [
 
 const photoItems = [
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E6%A1%8C%E9%82%8A%E6%8C%87%E5%B0%8E.webp",
-        alt: "桌邊指導",
-    },
-    {
         src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E6%A1%8C%E9%81%8A%E5%A5%BD%E7%8E%A9.webp",
         alt: "桌遊好玩",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E5%85%A9%E4%BA%BA%E5%90%88%E4%BD%9C.webp",
+        alt: "兩人合作",
     },
     {
         src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E9%96%92%E9%80%9B%E8%A6%96%E5%AF%9F.webp",
         alt: "閒逛視察",
     },
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E9%9B%A8%E9%9C%B2%E5%9D%87%E9%9C%91.webp",
-        alt: "雨露均霑",
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E6%A1%8C%E9%82%8A%E6%8C%87%E5%B0%8E.webp",
+        alt: "桌邊指導",
     },
     {
         src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E6%9C%AC%E6%A5%AD%E7%82%BA%E4%B8%BB.webp",
