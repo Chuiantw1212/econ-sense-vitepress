@@ -54,22 +54,10 @@ export default defineConfig({
           { text: '退休規劃(上)', link: '/finance/retirement-1' },
           { text: '退休規劃(下)', link: '/finance/retirement-2' },
           { text: '投資進階管道', link: '/finance/investment' },
-          { text: '個人與家庭收支管理', link: '/finance/management' },
-          {
-            text: '說書系列',
-            collapsed: true,
-            items: [
-              { text: '醫生買保險', link: '/finance/insurance' },
-              { text: '金錢性格', link: '/finance/disc' },
-            ]
-          },
-          {
-            text: '財商桌遊',
-            collapsed: true,
-            items: [
-              { text: '小富翁大贏家', link: '/finance/financemj' },
-            ]
-          },
+          // { text: '個人與家庭收支管理', link: '/finance/management' },
+          { text: '財商桌遊-小富翁大贏家', link: '/finance/financemj' },
+          { text: '說書-醫生強烈建議你買的保險', link: '/finance/insurance' },
+          { text: '說書-金錢性格', link: '/finance/disc' },
         ]
       },
       {

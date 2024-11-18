@@ -57,9 +57,9 @@ outline: deep
 
 <iframe src="https://www.accupass.com/organizer/detail/1907301409538062502000" width="100%" height="420px"></iframe>
 
-### 齊文藝室
+<!-- ### 齊文藝室
 
-<iframe src="https://thesingularity.tw/top-page/" width="100%" height="420px"></iframe>
+<iframe src="https://thesingularity.tw/top-page/" width="100%" height="420px"></iframe> -->
 
 <style lang="scss" scoped>
 iframe {
