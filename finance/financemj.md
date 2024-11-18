@@ -38,15 +38,19 @@ outline: [2,3]
 
 ## 線上/實體講座
 
+### 活動照片
+
+<Photos v-model="photoItems"></Photos>
+
+### 評價
+
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSa9Dj8itjl0NER6NA3CzOuebOeTaxoage12Iu4dP3GN8ilMCY9ck8PKcPo5TCPv02XTLLbgSnDqtmK/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+
 ### 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1UdqRTBaKllLdOY044zECb6rhMWcP1kCY487gptur4KI/edit?usp=sharing">
     <iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vQsv2lt48eMfz9ZQShAajN_o3niWaxhy6_kU8hYZaYVwYjESnD_JoJGlnN6rib3hLGiZfhCiCl8KREu/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
-
-### 評價
-
-<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSa9Dj8itjl0NER6NA3CzOuebOeTaxoage12Iu4dP3GN8ilMCY9ck8PKcPo5TCPv02XTLLbgSnDqtmK/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 ## 外部優質課程
 
@@ -60,6 +64,7 @@ outline: [2,3]
 import LazySlide from '../components/lazySlide.vue'
 import Courses from '../components/courses.vue'
 import Books from '../components/books.vue'
+import Photos from '../components/photos.vue'
 
 const courseItems = [
     {
@@ -75,6 +80,33 @@ const bookItems = [
         name: '【套書】《人生沒有一百分，只有不斷+1+1+1》《為自己的英雄之旅+1+1+1》（不分售）',
         desc: `<p>《人生沒有一百分，只有不斷+1+1+1》是林明樟從狠狠摔過，到生活和經濟皆豐盛的旅程。</p>
 <p>《為自己的英雄之旅+1+1+1》跟著林明樟以獨創的「感知、取捨、行動、力量、模樣」來規劃人生，實踐屬於自己的英雄之旅！</p>`,
+    },
+]
+
+const photoItems = [
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E6%A1%8C%E9%82%8A%E6%8C%87%E5%B0%8E.webp",
+        alt: "桌邊指導",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E6%A1%8C%E9%81%8A%E5%A5%BD%E7%8E%A9.webp",
+        alt: "桌遊好玩",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E9%96%92%E9%80%9B%E8%A6%96%E5%AF%9F.webp",
+        alt: "閒逛視察",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E9%9B%A8%E9%9C%B2%E5%9D%87%E9%9C%91.webp",
+        alt: "雨露均霑",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E6%9C%AC%E6%A5%AD%E7%82%BA%E4%B8%BB.webp",
+        alt: "本業為主",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/financemj/%E6%9C%80%E5%BE%8C%E5%90%88%E7%85%A7.webp",
+        alt: "最後合照",
     },
 ]
 </script>
