@@ -356,4 +356,34 @@ const bookItems = [
 教你突破業務員暗黑話術，靠自己買對保險。</p>`,
     },
 ]
+
+// SEO Structued Data
+import { useData } from 'vitepress'
+import { onMounted } from 'vue'
+const { page, frontmatter } = useData()
+
+onMounted(() => {
+    const lastUpdated = new Date(page.value.lastUpdated).toISOString()
+    const dataJsonLD = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "name": "EN Chu",
+            "url": "https://econ-sense.com/about.html",
+        },
+        "dateModified": new Date(page.value.lastUpdated).toISOString(),
+        "headline": page.value.title,
+    }
+
+    const script = document.createElement('script')
+    script.setAttribute('type', 'application/ld+json')
+    script.id = 'ld+json'
+    script.textContent = JSON.stringify(dataJsonLD)
+
+    const existedScript = document.querySelector('#ld+json')
+    if(existedScript) {
+        script.parentElement.removeChild(script)
+    }
+    document.head.appendChild(script)
+})
 </script>
