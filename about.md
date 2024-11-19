@@ -18,10 +18,6 @@ outline: [2,3]
     title: '全端工程師',
     desc:'2024 玉山銀行委外<br/>2020-2023 凱基人壽委外<br/>2017-2020 前端工程師',
   },
-//   {
-//     title: '野跑菜雞',
-//     desc:'希望這輩子有機會取得甚麼體育成就',
-//   },
 ]" />
 
 ## 主要專案
@@ -140,6 +136,38 @@ import {
   VPTeamPageSection
 } from 'vitepress/theme'
 import SkillIcon from './components/skillIcons.vue'
+
+// SEO Structued Data
+import { useData } from 'vitepress'
+import { onMounted, onBeforeUnmount } from 'vue'
+const { page, frontmatter } = useData()
+
+onMounted(() => {
+    const lastUpdated = new Date(page.value.lastUpdated).toISOString()
+    const dataJsonLD = {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "mainEntity": {
+            "name": "EN Chu",
+            "url": "https://econ-sense.com/about.html",
+        },
+        "description": "分享者 / 全端工程師",
+        "sameAs": "https://www.facebook.com/profile.php?id=100069740545113",
+        "image": "https://storage.googleapis.com/public.econ-sense.com/about/enchu.webp",
+        "dateModified": new Date(page.value.lastUpdated).toISOString(),
+    }
+
+    const script = document.createElement('script')
+    script.setAttribute('type', 'application/ld+json')
+    script.id = 'ldJson'
+    script.textContent = JSON.stringify(dataJsonLD)
+    document.head.appendChild(script)
+})
+
+onBeforeUnmount(()=>{
+    const existedScript = document.querySelector('#ldJson')
+    existedScript.remove()
+})
 </script>
 
 <style lang=scss>
