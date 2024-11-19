@@ -359,7 +359,7 @@ const bookItems = [
 
 // SEO Structued Data
 import { useData } from 'vitepress'
-import { onMounted } from 'vue'
+import { onMounted, onBeforeUnmount } from 'vue'
 const { page, frontmatter } = useData()
 
 onMounted(() => {
@@ -377,13 +377,13 @@ onMounted(() => {
 
     const script = document.createElement('script')
     script.setAttribute('type', 'application/ld+json')
-    script.id = 'ld+json'
+    script.id = 'ldJson'
     script.textContent = JSON.stringify(dataJsonLD)
-
-    const existedScript = document.querySelector('#ld+json')
-    if(existedScript) {
-        script.parentElement.removeChild(script)
-    }
     document.head.appendChild(script)
+})
+
+onBeforeUnmount(()=>{
+    const existedScript = document.querySelector('#ldJson')
+    existedScript.remove()
 })
 </script>

@@ -369,4 +369,34 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
 
 <script setup>
 import LazySlide from '../components/lazySlide.vue'
+
+// SEO Structued Data
+import { useData } from 'vitepress'
+import { onMounted, onBeforeUnmount } from 'vue'
+const { page, frontmatter } = useData()
+
+onMounted(() => {
+    const lastUpdated = new Date(page.value.lastUpdated).toISOString()
+    const dataJsonLD = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "name": "EN Chu",
+            "url": "https://econ-sense.com/about.html",
+        },
+        "dateModified": new Date(page.value.lastUpdated).toISOString(),
+        "headline": page.value.title,
+    }
+
+    const script = document.createElement('script')
+    script.setAttribute('type', 'application/ld+json')
+    script.id = 'ldJson'
+    script.textContent = JSON.stringify(dataJsonLD)
+    document.head.appendChild(script)
+})
+
+onBeforeUnmount(()=>{
+    const existedScript = document.querySelector('#ldJson')
+    existedScript.remove()
+})
 </script>
