@@ -382,16 +382,33 @@ const { page, frontmatter } = useData()
 
 onMounted(() => {
     const lastUpdated = new Date(page.value.lastUpdated).toISOString()
-    const dataJsonLD = {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "author": {
-            "name": "EN Chu",
-            "url": "https://econ-sense.com/about.html",
+    const dataJsonLD = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "工程師專區",
+                "item": "https://econ-sense.com/engineer"
+            },{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "軟體職涯入門",
+                "item": "https://econ-sense.com/engineer/beginner"
+            }]
         },
-        "dateModified": new Date(page.value.lastUpdated).toISOString(),
-        "headline": page.value.title,
-    }
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "author": {
+                "name": "EN Chu",
+                "url": "https://econ-sense.com/about.html",
+            },
+            "dateModified": new Date(page.value.lastUpdated).toISOString(),
+            "headline": page.value.title,
+        },
+    ]
 
     const script = document.createElement('script')
     script.setAttribute('type', 'application/ld+json')
