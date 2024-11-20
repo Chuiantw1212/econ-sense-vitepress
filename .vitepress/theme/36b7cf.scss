@@ -18,6 +18,21 @@
     --vp-c-note-3: var(--vp-c-brand-3);
     --vp-c-note-soft: var(--vp-c-brand-soft);
 
+    // Element UI Color
+    --el-color-primary: #36b7cf;
+    /* 提亮約30% */
+    --el-color-primary-light-3: #6dcfea;
+    /* 提亮約50% */
+    --el-color-primary-light-5: #95dff2;
+    /* 提亮約70% */
+    --el-color-primary-light-7: #b9eef9;
+    /* 提亮約80% */
+    --el-color-primary-light-8: #d1f5fc;
+    /* 提亮約90% */
+    --el-color-primary-light-9: #e8fbfe;
+    /* 加深約20% */
+    --el-color-primary-dark-2: #2a94a7;
+
     /* 首頁的漸層樣式 */
     body .is-home {
         background: linear-gradient(180deg,
@@ -29,6 +44,51 @@
                 /* 底部純白色 */
             );
     }
+
+    .VPFeature {
+        background-color: unset;
+        border: none;
+    }
+
+    /* 格子內部的樣式 */
+    .box {
+        /* 輕柔漸層背景 */
+        background: linear-gradient(180deg,
+                rgba(240, 240, 240, 0.9),
+                rgba(255, 255, 255, 0.95));
+        /* 圓角 */
+        border-radius: 12px;
+        /* 輕微陰影 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        // padding: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+            /* 上升效果 */
+            transform: translateY(-8px);
+            /* 陰影加強 */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            /* 邊框點綴 */
+            border: 1px solid rgba(49, 127, 145, 0.6);
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            /* 使用品牌色 */
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        /* 詳細描述樣式 */
+        .details {
+            font-size: 14px;
+            /* 調整為中灰色 */
+            color: #555;
+            line-height: 1.6;
+        }
+    }
 }
 
 .dark {
@@ -36,6 +96,7 @@
     --vp-c-brand-1: #36b7cf;
     --vp-c-brand-2: #2aa3bc;
     --vp-c-brand-3: #218b9f;
+    --vp-c-brand-4: #165e6c;
 
     --vp-c-brand-soft: rgba(78, 208, 225, 0.16);
 
@@ -48,6 +109,8 @@
     --vp-c-note-2: var(--vp-c-brand-2);
     --vp-c-note-3: var(--vp-c-brand-3);
     --vp-c-note-soft: var(--vp-c-brand-soft);
+
+    --vp-home-hero-name-color: var(--vp-c-brand-1);
 
     /* 首頁的漸層樣式 */
     body .is-home {
@@ -101,6 +164,14 @@
         }
     }
 
+    // 讓首頁跟內文的按鈕顏色不同
+    .VPButton.brand {
+        /* Darkened version */
+        background-color: var(--vp-c-brand-4) !important;
+        /* Keep white text */
+        color: #FFFFFF !important;
+    }
+
 
     .VPFooter {
         background: linear-gradient(180deg,
@@ -110,8 +181,8 @@
         text-align: center;
         font-size: 14px;
         border-top: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 -4px 10px rgba(78, 208, 225, 0.2);
         /* 添加光暈 */
+        box-shadow: 0 -4px 10px rgba(78, 208, 225, 0.2);
 
         a {
             text-decoration: none;
@@ -128,8 +199,8 @@
 .image-bg {
     z-index: 1;
     border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     /* 添加陰影 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .image-src {

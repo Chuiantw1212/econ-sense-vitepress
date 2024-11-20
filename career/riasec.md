@@ -79,7 +79,7 @@ head:
 
 ### 照片
 
-<Photos v-model="photoItems"></Photos>
+<Photos :modelValue="photoItems"></Photos>
 
 ### 評價
 
@@ -145,15 +145,15 @@ const photoItems = [
         alt: "聯合海報",
     },
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E8%87%AA%E6%88%91%E6%87%B7%E7%96%91.webp",
-        alt: "自我懷疑",
+        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E5%B0%88%E6%A5%AD%E8%BF%91%E7%85%A7.webp",
+        alt: "專業近照",
     },
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E6%99%82%E9%96%93%E9%AB%94%E9%A9%97.webp",
-        alt: "時間體驗",
+        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E5%A4%A7%E5%A0%B4%E9%81%A0%E7%85%A7.webp",
+        alt: "大場遠照",
     },
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E5%85%AC%E7%9B%8A%E5%A4%A7%E6%9C%83%E5%90%88%E7%85%A7.webp",
+        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E5%A4%A7%E6%9C%83%E5%90%88%E7%85%A7.webp",
         alt: "大會合照",
     },
 ]

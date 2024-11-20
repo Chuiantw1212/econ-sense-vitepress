@@ -3,7 +3,7 @@ import Theme from 'vitepress/theme'
 import { install } from 'element-plus'
 import 'element-plus/dist/index.css'
 import './custom.scss'
-import './4ed0e1.scss'
+import './36b7cf.scss'
 export default {
   extends: Theme,
   async enhanceApp({ app, }) {
