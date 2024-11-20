@@ -42,35 +42,17 @@
 
 /* 首頁的漸層樣式 */
 body .is-home {
-    background: linear-gradient(180deg,
-            #2c2c2c,
-            /* 深灰色 */
-            #3a3a3a 50%,
-            /* 中間灰 */
-            #f5f5f5 100%
-            /* 柔和的白色 */
-        );
+    background: linear-gradient(180deg, rgba(49, 127, 145, 0.05), #f9f9f9);
 }
 
-@keyframes backgroundShift {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+/* 首頁圖 */
+.image-bg {
+    z-index: 1;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* 添加陰影 */
 }
 
-body {
-    background: linear-gradient(
-        90deg,
-        rgba(49, 127, 145, 0.1),
-        rgba(60, 60, 60, 0.5),
-        #2c2c2c
-    );
-    background-size: 200% 200%;
-    animation: backgroundShift 15s infinite;
+.image-src {
+    z-index: 2;
 }
