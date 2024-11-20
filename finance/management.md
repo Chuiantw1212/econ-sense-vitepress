@@ -24,7 +24,7 @@ head:
 
 ## 活動照片
 
-<Photos v-model="photoItems"></Photos>
+<Photos :modelValue="photoItems"></Photos>
 
 ## 外部資源
 

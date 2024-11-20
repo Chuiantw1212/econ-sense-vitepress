@@ -255,7 +255,7 @@ webkitallowfullscreen="true"></iframe>
 
 <!-- ## 活動照片
 
-<Photos v-model="photoItems"></Photos> -->
+<Photos :modelValue="photoItems"></Photos> -->
 
 <!-- ## 延伸閱讀
 

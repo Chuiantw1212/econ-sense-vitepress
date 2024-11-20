@@ -40,7 +40,7 @@ outline: [2,3]
 
 ### 活動照片
 
-<Photos v-model="photoItems"></Photos>
+<Photos :modelValue="photoItems"></Photos>
 
 ### 評價
 

@@ -79,7 +79,7 @@ head:
 
 ### 照片
 
-<Photos v-model="photoItems"></Photos>
+<Photos :modelValue="photoItems"></Photos>
 
 ### 評價
 

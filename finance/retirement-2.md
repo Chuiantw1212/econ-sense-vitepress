@@ -330,7 +330,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 ### 照片
 
-<Photos v-model="photoItems"></Photos>
+<Photos :modelValue="photoItems"></Photos>
 
 ## 外部優質課程
 
