@@ -10,8 +10,6 @@
         /* 行距 */
         line-height: 1.8;
         font-size: 16px;
-        /* 微亮的灰色 */
-        color: #e0e0e0;
         /* 段落間距 */
         margin-bottom: 1rem;
     }
@@ -26,9 +24,13 @@
     }
 
     .content {
-        background: linear-gradient(180deg, #1a1a1a, #121212);
-        /* 頁面整體文字顏色 */
-        color: #f0f0f0;
+        /* 深灰帶透明度 */
+        background: rgba(25, 25, 25, 0.9);
+        padding: 2rem;
+        /* 添加圓角 */
+        border-radius: 12px;
+        /* 增加輕微陰影 */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     hr {
