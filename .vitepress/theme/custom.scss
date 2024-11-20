@@ -13,7 +13,7 @@
         /* 微亮的灰色 */
         color: #e0e0e0;
         /* 段落間距 */
-        margin-bottom: 16px;
+        margin-bottom: 1rem;
     }
 
     h1,
@@ -29,6 +29,12 @@
         background: linear-gradient(180deg, #1a1a1a, #121212);
         /* 頁面整體文字顏色 */
         color: #f0f0f0;
+    }
+
+    hr {
+        // border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 1.5rem 0;
     }
 }
 
