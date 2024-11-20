@@ -4,8 +4,6 @@
  */
 
 .vp-doc {
-    font-size: 18px;
-
     p {
         /* 行距 */
         line-height: 1.8;
@@ -23,31 +21,18 @@
         margin-bottom: 16px;
     }
 
-    .content {
-        /* 深灰帶透明度 */
-        background: rgba(25, 25, 25, 0.9);
-        padding: 2rem;
-        /* 添加圓角 */
-        border-radius: 12px;
-        /* 增加輕微陰影 */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
     hr {
-        // border: none;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
         margin: 1.5rem 0;
     }
 }
+
 
 .vp-doc table {
     display: table;
     width: 100%;
 }
 
-.VPButton.brand {
-    background-color: var(--vp-c-brand-2) !important;
-}
 
 .d-none {
     display: none;
