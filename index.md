@@ -4,12 +4,12 @@
 layout: home
 
 hero:
-  name: "常識經濟學"
-  text: "無為而治的財務思維"
+  name: 常識經濟學
+  text: 無為而治的財務思維
   tagline: 生活就該簡單心安
   image:
-    src: /logo/AFP_深藍_中_320.webp
-    alt: AFP
+    src: /logo/banner2.webp
+    alt: 釣魚老翁
   actions:
     # alt  
     # sponsor
