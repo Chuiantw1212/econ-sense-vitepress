@@ -18,6 +18,21 @@
     --vp-c-note-3: var(--vp-c-brand-3);
     --vp-c-note-soft: var(--vp-c-brand-soft);
 
+    // Element UI Color
+    --el-color-primary: #36b7cf;
+    /* 提亮約30% */
+    --el-color-primary-light-3: #6dcfea;
+    /* 提亮約50% */
+    --el-color-primary-light-5: #95dff2;
+    /* 提亮約70% */
+    --el-color-primary-light-7: #b9eef9;
+    /* 提亮約80% */
+    --el-color-primary-light-8: #d1f5fc;
+    /* 提亮約90% */
+    --el-color-primary-light-9: #e8fbfe;
+    /* 加深約20% */
+    --el-color-primary-dark-2: #2a94a7;
+
     /* 首頁的漸層樣式 */
     body .is-home {
         background: linear-gradient(180deg,
