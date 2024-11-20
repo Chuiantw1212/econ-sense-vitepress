@@ -1,0 +1,137 @@
+:root {
+    --vp-c-brand-1: #317f91;
+    /* 穩重而專業的藍綠色 */
+    --vp-c-brand-2: #276b7c;
+    /* 次亮色，適合用於互動狀態（例如按鈕的 hover） */
+    --vp-c-brand-3: #1f5767;
+    /* 最暗色，用於強調背景或按鈕的實心填充 */
+    --vp-c-brand-soft: rgba(49, 127, 145, 0.12);
+    /* 輕柔的背景色，適合徽章或容器 */
+
+    --vp-c-tip-1: var(--vp-c-brand-1);
+    --vp-c-tip-2: var(--vp-c-brand-2);
+    --vp-c-tip-3: var(--vp-c-brand-3);
+    --vp-c-tip-soft: var(--vp-c-brand-soft);
+
+    --vp-c-note-1: var(--vp-c-brand-1);
+    --vp-c-note-2: var(--vp-c-brand-2);
+    --vp-c-note-3: var(--vp-c-brand-3);
+    --vp-c-note-soft: var(--vp-c-brand-soft);
+
+    /* 首頁的漸層樣式 */
+    body .is-home {
+        background: linear-gradient(180deg,
+                rgba(150, 200, 210, 0.2),
+                /* 柔和藍灰色 */
+                rgba(240, 240, 240, 1) 60%,
+                /* 灰白過渡區 */
+                #ffffff 100%
+                /* 底部純白色 */
+            );
+    }
+}
+
+.dark {
+    /* 在暗色模式中，保持高亮的清新藍色 */
+    --vp-c-brand-1: #36b7cf;
+    --vp-c-brand-2: #2aa3bc;
+    --vp-c-brand-3: #218b9f;
+
+    --vp-c-brand-soft: rgba(78, 208, 225, 0.16);
+
+    --vp-c-tip-1: var(--vp-c-brand-1);
+    --vp-c-tip-2: var(--vp-c-brand-2);
+    --vp-c-tip-3: var(--vp-c-brand-3);
+    --vp-c-tip-soft: var(--vp-c-brand-soft);
+
+    --vp-c-note-1: var(--vp-c-brand-1);
+    --vp-c-note-2: var(--vp-c-brand-2);
+    --vp-c-note-3: var(--vp-c-brand-3);
+    --vp-c-note-soft: var(--vp-c-brand-soft);
+
+    /* 首頁的漸層樣式 */
+    body .is-home {
+        background: linear-gradient(180deg,
+                rgba(78, 208, 225, 0.05),
+                #ffffff);
+    }
+
+    .VPFeature {
+        background-color: unset;
+        border: none;
+    }
+
+    /* 格子內部的樣式 */
+    .box {
+        /* 輕柔漸層背景 */
+        background: linear-gradient(180deg,
+                rgba(240, 240, 240, 0.9),
+                rgba(255, 255, 255, 0.95));
+        /* 圓角 */
+        border-radius: 12px;
+        /* 輕微陰影 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        // padding: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+            /* 上升效果 */
+            transform: translateY(-8px);
+            /* 陰影加強 */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            /* 邊框點綴 */
+            border: 1px solid rgba(49, 127, 145, 0.6);
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            /* 使用品牌色 */
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        /* 詳細描述樣式 */
+        .details {
+            font-size: 14px;
+            /* 調整為中灰色 */
+            color: #555;
+            line-height: 1.6;
+        }
+    }
+
+
+    .VPFooter {
+        background: linear-gradient(180deg,
+                rgba(0, 0, 0, 0.6),
+                rgba(0, 0, 0, 0.8));
+        color: #ffffff;
+        text-align: center;
+        font-size: 14px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 -4px 10px rgba(78, 208, 225, 0.2);
+        /* 添加光暈 */
+
+        a {
+            text-decoration: none;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: #ffffff;
+            }
+        }
+    }
+}
+
+/* 首頁圖 */
+.image-bg {
+    z-index: 1;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* 添加陰影 */
+}
+
+.image-src {
+    z-index: 2;
+}

@@ -103,13 +103,25 @@ outline: [2,3]
 
 ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家屬的決策壓力。ACP 通過諮商過程建立共識，AD 則以書面方式正式記錄，兩者相輔相成，有效確保生命末期的醫療照護符合個人價值觀，使照護過程更具尊嚴與意義。
 
-<iframe width="100%" height="420" src="https://www.youtube.com/embed/3-yMPPTM4aU?si=PfNWyiRzwbTBUnWB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="100%" height="420" src="https://www.youtube.com/embed/3-yMPPTM4aU?si=dDi90h5gjfGPqo-Z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### 器官捐贈
 
-**器官捐贈**是一項無私的選擇，允許個人在生命結束後將符合條件的器官捐給有需要的患者，延續他人的生命並帶來新的希望。透過提前規劃和登記器官捐贈意願，不僅能表達生命末期的醫療選擇，也減輕家屬在困難時刻的決策壓力，使生命末期的照護與資源分配更具意義。
+器官捐贈是一項無私的選擇，允許個人在生命結束後將符合條件的器官捐給有需要的患者，延續他人的生命並帶來新的希望。透過提前規劃和登記器官捐贈意願，不僅能表達生命末期的醫療選擇，也能減輕家屬在困難時刻的決策壓力，讓生命末期的照護與資源分配更具意義。
 
-具體的條件和捐贈標準可能根據醫院不同有所調整，可參考[高雄榮民總醫院](https://www.vghks.gov.tw/cp.aspx?n=76D649A6FE16B90A)提供的詳細資訊。
+以下是一些主要器官的粗略年齡限制和等待捐贈者人數：
+| **器官**   | **年齡粗略上限(歲)** | **等待捐贈者(人)** |
+|------------|-------------------|-----------------|
+| **心臟**   | 65                | 234             |
+| **肝臟**   | 70                | 1022            |
+| **肺臟**   | 65                | 103             |
+| **腎臟**   | 70                | 8289            |
+| **胰臟**   | 65                | 9               |
+| **眼角膜** | 80                | 1238            |
+
+針對器官捐贈，一些人可能基於宗教因素選擇維持遺體的完整性，進而對捐贈有所保留。[靈魂溝通師Jessica](https://www.youtube.com/watch?v=7foeZexQVL0)提供了一個有趣的觀點：靈魂通常在心臟停止跳動後的3-5分鐘內便會離開身體，並且靈魂的完整性與遺體是否完整並無直接關聯。希望這樣的觀點能幫助人們釋除疑慮，安心選擇器官捐贈，讓自己的生命在另一種形式中延續下去。
+
+具體條件和捐贈標準可能因醫院而異，有意者可參考[高雄榮民總醫院](https://www.vghks.gov.tw/cp.aspx?n=76D649A6FE16B90A)的資訊。
 
 ### 大體捐贈
 
@@ -312,7 +324,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
     webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
-### 講座評價
+### 評價
 
 <iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
 
@@ -396,4 +408,51 @@ const photoItems = [
         alt: "合照",
     },
 ]
+
+// SEO Structued Data
+import { useData } from 'vitepress'
+import { onMounted, onBeforeUnmount } from 'vue'
+const { page, frontmatter } = useData()
+
+onMounted(() => {
+    const lastUpdated = new Date(page.value.lastUpdated).toISOString()
+    const dataJsonLD = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "金融理財",
+                "item": "https://econ-sense.com/finance"
+            },{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "退休規劃(下)",
+                "item": "https://econ-sense.com/finance/retirement-2"
+            }]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "author": {
+                "name": "EN Chu",
+                "url": "https://econ-sense.com/about.html",
+            },
+            "dateModified": new Date(page.value.lastUpdated).toISOString(),
+            "headline": page.value.title,
+        },
+    ]
+
+    const script = document.createElement('script')
+    script.setAttribute('type', 'application/ld+json')
+    script.id = 'ldJson'
+    script.textContent = JSON.stringify(dataJsonLD)
+    document.head.appendChild(script)
+})
+
+onBeforeUnmount(()=>{
+    const existedScript = document.querySelector('#ldJson')
+    existedScript?.remove()
+})
 </script>

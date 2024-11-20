@@ -10,13 +10,13 @@ outline: deep
 
 <DigitalDocuments :items="digitalDocumentItems"></DigitalDocuments>
 
-## 說書系列
-
-<DigitalDocuments :items="storyItems"></DigitalDocuments>
-
 ## 財商桌遊
 
 <DigitalDocuments :items="gameItems"></DigitalDocuments>
+
+## 說書系列
+
+<DigitalDocuments :items="storyItems"></DigitalDocuments>
 
 ## 外部優質課程
 
@@ -97,11 +97,37 @@ const courseItems = [
         name: '臺大開放式課程 - 財務幸福自我養成計畫',
         url: 'https://ocw.aca.ntu.edu.tw/ntu-ocw/ocw/cou/111S203/1',
     },
-    // {
-    //     image:'/finance/laborEducation.jpeg',
-    //     description:`歡迎蒞臨全民勞教e網，您的勞動保險與就業保險學習平台。我們提供多樣的課程，包括『勞工保險、勞工職業災害保險及就業保險相關法規』的深入解說和實用案例，以及『就業保險法』和『就業保險給付作業』的實務應用。透過『勞工保險給付作業(一)－生育給付、老年給付』的具體實務指導，我們致力於提升您在勞動保險領域的專業素養。加入我們，共同探索勞工保險體系，獲取實用知識，助您在職場中更為自信與有競爭力。`,
-    //     name:'全民勞教E網 - 勞工保險',
-    //     url:'https://labor-elearning.mol.gov.tw/co_course.php?tag=1&view=1&cgp=10000004'
-    // },
 ]
+
+// SEO Structued Data
+import { useData } from 'vitepress'
+import { onMounted, onBeforeUnmount } from 'vue'
+const { page, frontmatter } = useData()
+
+onMounted(() => {
+    const lastUpdated = new Date(page.value.lastUpdated).toISOString()
+    const dataJsonLD = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "金融理財",
+                "item": "https://econ-sense.com/finance"
+            }]
+        },
+    ]
+
+    const script = document.createElement('script')
+    script.setAttribute('type', 'application/ld+json')
+    script.id = 'ldJson'
+    script.textContent = JSON.stringify(dataJsonLD)
+    document.head.appendChild(script)
+})
+
+onBeforeUnmount(()=>{
+    const existedScript = document.querySelector('#ldJson')
+    existedScript?.remove()
+})
 </script>

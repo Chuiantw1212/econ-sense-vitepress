@@ -15,6 +15,26 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "/finance/outline.html",
+                "destination": "/finance",
+                "type": 301
+            },
+            {
+                "source": "/life/outline.html",
+                "destination": "/life",
+                "type": 301
+            },
+            {
+                "source": "/career/outline.html",
+                "destination": "/career",
+                "type": 301
+            },
+            {
+                "source": "/engineer/outline.html",
+                "destination": "/engineer",
+                "type": 301
+            },
+            {
                 "source": "/affiliate.html",
                 "destination": "/calendar.html",
                 "type": 301

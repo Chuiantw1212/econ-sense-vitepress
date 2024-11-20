@@ -136,6 +136,38 @@ import {
   VPTeamPageSection
 } from 'vitepress/theme'
 import SkillIcon from './components/skillIcons.vue'
+
+// SEO Structued Data
+import { useData } from 'vitepress'
+import { onMounted, onBeforeUnmount } from 'vue'
+const { page, frontmatter } = useData()
+
+onMounted(() => {
+    const lastUpdated = new Date(page.value.lastUpdated).toISOString()
+    const dataJsonLD = {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "mainEntity": {
+            "name": "EN Chu",
+            "url": "https://econ-sense.com/about.html",
+        },
+        "description": "分享者 / 全端工程師",
+        "sameAs": "https://www.facebook.com/profile.php?id=100069740545113",
+        "image": "https://storage.googleapis.com/public.econ-sense.com/about/enchu.webp",
+        "dateModified": new Date(page.value.lastUpdated).toISOString(),
+    }
+
+    const script = document.createElement('script')
+    script.setAttribute('type', 'application/ld+json')
+    script.id = 'ldJson'
+    script.textContent = JSON.stringify(dataJsonLD)
+    document.head.appendChild(script)
+})
+
+onBeforeUnmount(()=>{
+    const existedScript = document.querySelector('#ldJson')
+    existedScript?.remove()
+})
 </script>
 
 <style lang=scss>

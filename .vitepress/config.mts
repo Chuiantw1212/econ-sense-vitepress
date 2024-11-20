@@ -34,10 +34,10 @@ export default defineConfig({
    */
   themeConfig: {
     nav: [
-      { text: '無痛理財', link: '/finance/outline' },
-      { text: '好好生活', link: '/life/outline' },
-      { text: '職涯發展', link: '/career/outline' },
-      { text: '線上工具', link: '/engineer/outline' },
+      { text: '無痛理財', link: '/finance' },
+      { text: '好好生活', link: '/life' },
+      { text: '職涯發展', link: '/career' },
+      { text: '線上工具', link: '/engineer' },
     ],
     sidebar: [
       {
@@ -47,22 +47,22 @@ export default defineConfig({
       { text: '開源財務規劃表', link: '/plan' },
       {
         text: '無痛理財',
-        link: '/finance/outline',
+        link: '/finance',
         collapsed: false,
         items: [
           { text: '理財框架', link: '/finance/framework' },
           { text: '退休規劃(上)', link: '/finance/retirement-1' },
           { text: '退休規劃(下)', link: '/finance/retirement-2' },
           { text: '投資進階管道', link: '/finance/investment' },
-          // { text: '個人與家庭收支管理', link: '/finance/management' },
           { text: '財商桌遊-小富翁大贏家', link: '/finance/financemj' },
+          { text: '說書-金錢整理術', link: '/finance/management' },
           { text: '說書-醫生強烈建議你買的保險', link: '/finance/insurance' },
-          { text: '說書-金錢性格', link: '/finance/disc' },
+          { text: '說書-金錢性格(含測驗)', link: '/finance/disc' },
         ]
       },
       {
         text: '好好生活',
-        link: '/life/outline',
+        link: '/life',
         collapsed: false,
         items: [
           { text: '我是照顧者', link: '/life/carer' },
@@ -74,7 +74,7 @@ export default defineConfig({
       },
       {
         text: '職涯發展',
-        link: '/career/outline',
+        link: '/career',
         collapsed: false,
         items: [
           { text: 'NLP職涯&何倫碼測驗', link: '/career/riasec' },
@@ -85,7 +85,7 @@ export default defineConfig({
       },
       {
         text: '線上工具&工程師專區',
-        link: '/engineer/outline',
+        link: '/engineer',
         collapsed: false,
         items: [
           { text: '軟體職涯入門', link: '/engineer/beginner' },

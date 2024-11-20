@@ -5,23 +5,40 @@
 
 .vp-doc {
     font-size: 18px;
-}
 
-.vp-doc h1 {
-    font-size: 24px;
-}
+    p {
+        /* 行距 */
+        line-height: 1.8;
+        font-size: 16px;
+        /* 段落間距 */
+        margin-bottom: 1rem;
+    }
 
-/* .vp-doc h1 {
-    font-size: 42px;
-}
+    h1,
+    h2,
+    h3 {
+        /* 半粗 */
+        font-weight: 600;
+        /* 調整間距 */
+        margin-bottom: 16px;
+    }
 
-.vp-doc h2 {
-    font-size: 28px;
-}
+    .content {
+        /* 深灰帶透明度 */
+        background: rgba(25, 25, 25, 0.9);
+        padding: 2rem;
+        /* 添加圓角 */
+        border-radius: 12px;
+        /* 增加輕微陰影 */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
 
-.vp-doc h3 {
-    font-size: 20px;
-} */
+    hr {
+        // border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 1.5rem 0;
+    }
+}
 
 .vp-doc table {
     display: table;

@@ -364,17 +364,6 @@ const bookItems = [
     <li>教你一位專業開發人員應該必備哪些技術能力。多數開發人員都缺少一些關鍵能力，為什麼大學沒教，因為他們預期你已經「知道」。</li>
 </ul>`,
     },
-//     {
-//         id: '11101008758',
-//         name: '給全端工程師的職涯生存筆記：從履歷×面試×職場打造無可取代的軟實力(ChatGPT加強版)（iThome鐵人賽系列書）',
-//         desc: `<p>本書從「履歷×面試×職場」
-// 三個面向讓你取得自己應有的價值</p>
-// <p>
-// 本書內容改編自【 第13屆 】 2021 iThome 鐵人賽
-// Software Development 組佳作網路系列文章
-// 《全端工程師生存筆記》
-// </p>`,
-//     },
 ]
 
 const courseItems = [
@@ -385,4 +374,51 @@ const courseItems = [
         url: 'https://shop.darencademy.com/index/search/tag/PDU',
     },
 ]
+
+// SEO Structued Data
+import { useData } from 'vitepress'
+import { onMounted, onBeforeUnmount } from 'vue'
+const { page, frontmatter } = useData()
+
+onMounted(() => {
+    const lastUpdated = new Date(page.value.lastUpdated).toISOString()
+    const dataJsonLD = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "工程師專區",
+                "item": "https://econ-sense.com/engineer"
+            },{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "軟體職涯入門",
+                "item": "https://econ-sense.com/engineer/beginner"
+            }]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "author": {
+                "name": "EN Chu",
+                "url": "https://econ-sense.com/about.html",
+            },
+            "dateModified": new Date(page.value.lastUpdated).toISOString(),
+            "headline": page.value.title,
+        },
+    ]
+
+    const script = document.createElement('script')
+    script.setAttribute('type', 'application/ld+json')
+    script.id = 'ldJson'
+    script.textContent = JSON.stringify(dataJsonLD)
+    document.head.appendChild(script)
+})
+
+onBeforeUnmount(()=>{
+    const existedScript = document.querySelector('#ldJson')
+    existedScript?.remove()
+})
 </script>
