@@ -32,10 +32,11 @@
 }
 
 .dark {
-    --vp-c-brand-1: #4ed0e1;
     /* 在暗色模式中，保持高亮的清新藍色 */
-    --vp-c-brand-2: #36b7cf;
-    --vp-c-brand-3: #2aa3bc;
+    --vp-c-brand-1: #36b7cf;
+    --vp-c-brand-2: #2aa3bc;
+    --vp-c-brand-3: #218b9f;
+
     --vp-c-brand-soft: rgba(78, 208, 225, 0.16);
 
     --vp-c-tip-1: var(--vp-c-brand-1);
@@ -66,7 +67,7 @@
         background: linear-gradient(180deg,
                 rgba(240, 240, 240, 0.9),
                 rgba(255, 255, 255, 0.95));
-                /* 圓角 */
+        /* 圓角 */
         border-radius: 12px;
         /* 輕微陰影 */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -87,7 +88,7 @@
             font-size: 18px;
             font-weight: bold;
             /* 使用品牌色 */
-            color: var(--vp-c-brand-1);
+            color: #555;
             margin-bottom: 10px;
         }
 
@@ -113,7 +114,6 @@
         /* 添加光暈 */
 
         a {
-            color: #4ed0e1;
             text-decoration: none;
             transition: color 0.3s ease;
 

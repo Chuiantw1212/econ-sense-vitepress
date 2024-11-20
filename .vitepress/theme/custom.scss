@@ -5,13 +5,32 @@
 
 .vp-doc {
     font-size: 18px;
-}
 
-.vp-doc h1 {
-    font-size: 24px;
-}
+    p {
+        /* 行距 */
+        line-height: 1.8;
+        font-size: 16px;
+        /* 微亮的灰色 */
+        color: #e0e0e0;
+        /* 段落間距 */
+        margin-bottom: 16px;
+    }
 
-/* #4ed0e1 */
+    h1,
+    h2,
+    h3 {
+        /* 半粗 */
+        font-weight: 600;
+        /* 調整間距 */
+        margin-bottom: 16px;
+    }
+
+    .content {
+        background: linear-gradient(180deg, #1a1a1a, #121212);
+        /* 頁面整體文字顏色 */
+        color: #f0f0f0;
+    }
+}
 
 .vp-doc table {
     display: table;
