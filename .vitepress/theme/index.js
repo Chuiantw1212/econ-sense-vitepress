@@ -2,8 +2,8 @@
 import Theme from 'vitepress/theme'
 import { install } from 'element-plus'
 import 'element-plus/dist/index.css'
-import './custom.css'
-import './4ed0e1.css'
+import './custom.scss'
+import './4ed0e1.scss'
 export default {
   extends: Theme,
   async enhanceApp({ app, }) {

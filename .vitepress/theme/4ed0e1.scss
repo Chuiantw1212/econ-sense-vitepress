@@ -1,7 +1,4 @@
 :root {
-    /* 柔和白色 */
-    --vp-c-white: #f9f9f9;
-
     --vp-c-brand-1: #317f91;
     /* 穩重而專業的藍綠色 */
     --vp-c-brand-2: #276b7c;
@@ -20,6 +17,18 @@
     --vp-c-note-2: var(--vp-c-brand-2);
     --vp-c-note-3: var(--vp-c-brand-3);
     --vp-c-note-soft: var(--vp-c-brand-soft);
+
+    /* 首頁的漸層樣式 */
+    body .is-home {
+        background: linear-gradient(180deg,
+                rgba(150, 200, 210, 0.2),
+                /* 柔和藍灰色 */
+                rgba(240, 240, 240, 1) 60%,
+                /* 灰白過渡區 */
+                #ffffff 100%
+                /* 底部純白色 */
+            );
+    }
 }
 
 .dark {
@@ -38,11 +47,13 @@
     --vp-c-note-2: var(--vp-c-brand-2);
     --vp-c-note-3: var(--vp-c-brand-3);
     --vp-c-note-soft: var(--vp-c-brand-soft);
-}
 
-/* 首頁的漸層樣式 */
-body .is-home {
-    background: linear-gradient(180deg, rgba(49, 127, 145, 0.05), #f9f9f9);
+    /* 首頁的漸層樣式 */
+    body .is-home {
+        background: linear-gradient(180deg,
+                rgba(78, 208, 225, 0.05),
+                #ffffff);
+    }
 }
 
 /* 首頁圖 */
