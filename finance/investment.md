@@ -140,7 +140,7 @@ outline: [2,3]
 ### 風險與挑戰
 
 - **初期成本高**：設備和安裝費用較高，通常需要數年時間才能回本，要求投資者有長期規劃。
-- **地點選擇**：發電量取決於日照條件，日照不足會降低收益，特別是台灣不同地區的[日照時數](https://big-tree.tw/https://storage.googleapis.com/public.econ-sense.com/finance/investment/)和[颱風威脅](https://www.thenewslens.com/article/190034)比例各不相同。根據我的觀察，**苗栗以南、嘉義以北**的地區是最適合安裝太陽能板的區域，這些地區日照充足，且相對較少受到颱風影響。
+- **地點選擇**：發電量取決於日照條件，日照不足會降低收益，特別是台灣不同地區的[日照時數](https://big-tree.tw/investment/)和[颱風威脅](https://www.thenewslens.com/article/190034)比例各不相同。根據我的觀察，**苗栗以南、嘉義以北**的地區是最適合安裝太陽能板的區域，這些地區日照充足，且相對較少受到颱風影響。
 - **政策變動風險**：回報依賴於[政府政策](https://www.mrpv.org.tw/index.aspx)，政策改變可能影響收益。
 
 ## 加密貨幣
