@@ -54,6 +54,74 @@
                 rgba(78, 208, 225, 0.05),
                 #ffffff);
     }
+
+    .VPFeature {
+        background-color: unset;
+        border: none;
+    }
+
+    /* 格子內部的樣式 */
+    .box {
+        /* 輕柔漸層背景 */
+        background: linear-gradient(180deg,
+                rgba(240, 240, 240, 0.9),
+                rgba(255, 255, 255, 0.95));
+                /* 圓角 */
+        border-radius: 12px;
+        /* 輕微陰影 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        // padding: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+            /* 上升效果 */
+            transform: translateY(-8px);
+            /* 陰影加強 */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            /* 邊框點綴 */
+            border: 1px solid rgba(49, 127, 145, 0.6);
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            /* 使用品牌色 */
+            color: var(--vp-c-brand-1);
+            margin-bottom: 10px;
+        }
+
+        /* 詳細描述樣式 */
+        .details {
+            font-size: 14px;
+            /* 調整為中灰色 */
+            color: #555;
+            line-height: 1.6;
+        }
+    }
+
+
+    .VPFooter {
+        background: linear-gradient(180deg,
+                rgba(0, 0, 0, 0.6),
+                rgba(0, 0, 0, 0.8));
+        color: #ffffff;
+        text-align: center;
+        font-size: 14px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 -4px 10px rgba(78, 208, 225, 0.2);
+        /* 添加光暈 */
+
+        a {
+            color: #4ed0e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: #ffffff;
+            }
+        }
+    }
 }
 
 /* 首頁圖 */
