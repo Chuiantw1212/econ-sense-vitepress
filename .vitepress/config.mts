@@ -34,10 +34,10 @@ export default defineConfig({
    */
   themeConfig: {
     nav: [
-      { text: '無痛理財', link: '/finance/outline' },
-      { text: '好好生活', link: '/life/outline' },
-      { text: '職涯發展', link: '/career/outline' },
-      { text: '線上工具', link: '/engineer/outline' },
+      { text: '無痛理財', link: '/finance' },
+      { text: '好好生活', link: '/life' },
+      { text: '職涯發展', link: '/career' },
+      { text: '線上工具', link: '/engineer' },
     ],
     sidebar: [
       {

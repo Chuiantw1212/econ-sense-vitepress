@@ -453,6 +453,6 @@ onMounted(() => {
 
 onBeforeUnmount(()=>{
     const existedScript = document.querySelector('#ldJson')
-    existedScript.remove()
+    existedScript?.remove()
 })
 </script>
