@@ -441,6 +441,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
+            "image": "https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83%20(%E4%B8%8B).webp"
         },
     ]
 
