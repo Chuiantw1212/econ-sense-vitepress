@@ -36,7 +36,7 @@ outline: [2,3]
 
 Node.js 是 Vite 的運行環境，因此安裝 Node.js 是使用 Vitepress 的第一步。
 
-### 安裝步驟
+#### 安裝步驟
 
 1. **前往 Node.js 官方網站**  
    打開 [Node.js 官方網站](https://nodejs.org/)，你會看到兩個版本可供選擇：

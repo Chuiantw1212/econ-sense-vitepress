@@ -24,7 +24,7 @@ outline: [2,3]
 
 這些領域不僅相輔相成，也同等重要。當我們全面看待生活，理財才不會變成一種壓力，而是成為我們實現幸福生活的基石。
 
-![價值觀](https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.webp "價值觀")
+![價值觀](https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E5%89%8D%E6%8F%90.webp "價值觀")
 
 ### 認知頻寬、價值觀與訊息：為什麼我們無法專注於真正重要的事物？
 
@@ -206,25 +206,29 @@ ETF的表現通常較佳，原因多方面：
 
 ![主動績效](https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E4%B8%BB%E5%8B%95%E7%B8%BE%E6%95%88.webp "主動績效")
 
-### 台股ETF的多重效益：股利、借券與抵稅
+### 台股ETF的多重效益：股利、借券、抵稅與股東贈品
 
-投資台股ETF不僅能夠參與市場的成長，還能享受多重收益，包括股利收益、借券利息以及股利抵稅等。這些效益為投資者提供了額外的財務回報，並有助於提升投資回報率。
+投資台股ETF不僅能參與市場成長，還能享受多重收益，包括股利收益、借券利息、股利抵稅，以及股東贈品等。這些效益為投資者提供了額外的財務回報，並有助於提升投資回報率。
 
 #### 股利收益
 
-每當進入除權息季節，持有台股ETF的投資者都會收到股利發放通知，這些現金股利將直接匯入你的戶頭中。這是一種穩定的現金流來源，有助於提高投資的穩定性。然而，需要注意的是，如果一次領取的股利超過20,000元，將會被徵收2.11%的<a target="_blank" href="https://www.nhi.gov.tw/ch/cp-4516-74b0f-2613-1.html">二代健保補充費</a>。因此，對於股利收入較多的投資者來說，提前規劃稅務策略尤為重要，以避免不必要的支出。
+每當進入除權息季節，持有台股ETF的投資者都會收到股利發放通知，這些現金股利將直接匯入您的戶頭中。這是一種穩定的現金流來源，有助於提高投資的穩定性。然而，需要注意的是，如果一次領取的股利超過20,000元，將會被徵收2.11%的[二代健保補充費](https://www.nhi.gov.tw/ch/cp-4516-74b0f-2613-1.html)。因此，對於股利收入較多的投資者來說，提前規劃稅務策略尤為重要，以避免不必要的支出。
 
 #### 借券利息
 
-除了股利之外，ETF投資者還可以通過<a target="_blank" href="https://www.twse.com.tw/zh/products/sbl/qa.html#06">借券</a>獲取利息。借券是指將你持有的證券交給券商，讓券商再將這些證券出借給有意放空市場的投資者，從中賺取利息。這些利息將由券商和出借者按比例分成，通常出借者可獲得7成的利息收益，券商則拿3成。雖然借券利息相對較低，且出借機會有限，但這仍然是ETF投資中的一項潛在收益來源，值得一試。
+除了股利之外，ETF投資者還可以通過[借券](https://www.twse.com.tw/zh/products/sbl/qa.html#06)獲取利息。借券是指將您持有的證券交給券商，讓券商再將這些證券出借給有意放空市場的投資者，從中賺取利息。這些利息將由券商和出借者按比例分成，通常出借者可獲得7成的利息收益，券商則拿3成。雖然借券利息相對較低，且出借機會有限，但這仍然是ETF投資中的一項潛在收益來源，值得一試。
 
 #### 股利抵稅
 
-根據<a target="_blank" href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/vxelQY9#:~:text=%E5%85%A8%E6%88%B6%E8%82%A1%E5%88%A9%E5%8F%8A%E7%9B%88%E9%A4%98,%E4%BA%AB%E6%9C%89%E6%8A%B5%E6%B8%9B%E7%A8%85%E9%A1%8D%E3%80%82">所得稅法規定</a>，股利所得需要併入綜合所得課稅，但投資者可以享有股利金額8.5%的稅額抵減，每一申報戶最高可抵減8萬元。這意味著，如果你的全年股利金額在94萬元以下，你可以充分利用這項稅收優惠。更重要的是，如果抵減稅額超過應納稅額，差額部分還可以申請退稅，進一步提升你的實際收益。
+根據[所得稅法規定](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/vxelQY9#:~:text=%E5%85%A8%E6%88%B6%E8%82%A1%E5%88%A9%E5%8F%8A%E7%9B%88%E9%A4%98,%E4%BA%AB%E6%9C%89%E6%8A%B5%E6%B8%9B%E7%A8%85%E9%A1%8D%E3%80%82)，股利所得需要併入綜合所得課稅，但投資者可以享有股利金額8.5%的稅額抵減，每一申報戶最高可抵減8萬元。這意味著，如果您的全年股利金額在94萬元以下，您可以充分利用這項稅收優惠。更重要的是，如果抵減稅額超過應納稅額，差額部分還可以申請退稅，進一步提升您的實際收益。
 
 ![抵稅優勢](https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E6%8A%B5%E7%A8%85%E5%84%AA%E5%8B%A2.webp "抵稅優勢")
 
-這些台股ETF的多重效益使其成為投資者的理想選擇，不僅能享受穩定的股利收益，還能通過借券獲取額外利息，同時享受稅收優惠，有效提高投資回報率。
+#### 股東贈品
+
+許多上市公司為了鼓勵股東參與股東會，會提供股東贈品作為回饋。投資者可以透過[委託書公告資料免費查詢](https://free.sfi.org.tw/)平台，了解各公司股東會的相關資訊，包括贈品內容、領取方式等。例如，中鋼歷年的股東贈品，如2024「砧心有您」抗菌多功能不鏽鋼砧板組等，深受股東喜愛。投資者可在股東會期間，攜帶委託書至指定地點領取贈品，或透過電子投票方式參與，並於指定時間內領取。這些贈品不僅具有實用價值，還能增進投資者與公司的互動，提升投資體驗。 
+
+若想更深入了解相關議題，可以參考[YouTube 柴鼠兄弟的頻道](https://www.youtube.com/channel/UC45i13dEfEVac2IEJT_Nr5Q)。他們透過生動易懂的影片，介紹台股ETF的多重效益與理財觀念，並分享實用的投資策略，是理財新手與進階投資者的寶貴資源。他們還出版了書籍《跟著柴鼠學FQ，做自己的提款機》與《存股ETF從二年十張開始》，進一步闡述他們的理財理念。
 
 ## 風險控制
 
@@ -389,6 +393,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
+            "image": "https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.webp"
         },
     ]
 

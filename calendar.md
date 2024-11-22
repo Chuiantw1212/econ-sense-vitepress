@@ -10,7 +10,7 @@ outline: deep
 ## Google Calendar訂閱
 
 <ClientOnly>
-    <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%23ffffff&ctz=Asia%2FTaipei&showPrint=0&showDate=1&showTabs=0&showCalendars=0&showTz=0&showTitle=0&hl=zh_TW&src=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=emgtdHcudGFpd2FuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23E4C441&color=%234285F4" style="border-width:0" width="100%" height="420" frameborder="0" scrolling="no"></iframe>
+    <iframe title="Google Calendar" src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%23ffffff&ctz=Asia%2FTaipei&showPrint=0&showDate=1&showTabs=0&showCalendars=0&showTz=0&showTitle=0&hl=zh_TW&src=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=emgtdHcudGFpd2FuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23E4C441&color=%234285F4" style="border-width:0" width="100%" height="420" frameborder="0" scrolling="no"></iframe>
 </ClientOnly>
 <a href="https://calendar.google.com/calendar/u/0?cid=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank">點此訂閱講座行事曆。</a>
 
@@ -55,7 +55,7 @@ outline: deep
 
 ### 學校學不到的事
 
-<iframe src="https://www.accupass.com/organizer/detail/1907301409538062502000" width="100%" height="420px"></iframe>
+<iframe title="Accupass" src="https://www.accupass.com/organizer/detail/1907301409538062502000" width="100%" height="420px"></iframe>
 
 <!-- ### 齊文藝室
 

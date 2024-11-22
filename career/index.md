@@ -18,7 +18,7 @@ const digitalDocumentItems = [
     {
         url: './project',
         name: '軟體專案實務',
-        keywords: ['從PMP到敏捷', '理想敏捷', '角色盲點', '實務敏捷',],
+        keywords: ['從PMP到敏捷', '理想敏捷', '角色盲點', '實踐敏捷',],
         audience: ['職場小白/轉職者，對軟體開發實務感到好奇的人', '覺得專案中的夥伴很難搞的人', '對專案管理有興趣的人與PMI相關持證人'],
         rating: 3
     },

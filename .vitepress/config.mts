@@ -160,6 +160,7 @@ export default defineConfig({
       width: '24px',
       height: '24px',
     },
+    externalLinkIcon: true,
   },
   /**
    * Build
@@ -179,10 +180,6 @@ export default defineConfig({
     }
   },
   vite: {
-    // https://vitejs.dev/config/build-options#build-sourcemap
-    // build: {
-    //   sourcemap: true
-    // },
     plugins: [
       SearchPlugin({
         encode: false,
