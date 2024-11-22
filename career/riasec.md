@@ -91,13 +91,13 @@ head:
     <iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vRIsOs04yETGtGkNzM0FLHc4-Z0lbELBJnfE7YQiNC8VyxSCfu52p6hkoCOpcKphqgD-ip-MIVAhcFx/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
-## 外部優質課程
-
-<Courses :modelValue="courseItems"></Courses>
-
 ## 延伸閱讀
 
 <Books :modelValue="bookItems"></Books>
+
+## 外部優質課程
+
+<Courses :modelValue="courseItems"></Courses>
 
 <script setup lang="ts">
 import LazySlide from '../components/lazySlide.vue'

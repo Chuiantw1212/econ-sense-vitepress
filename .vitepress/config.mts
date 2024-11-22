@@ -27,7 +27,7 @@ export default defineConfig({
   /**
    * Routing
    */
-  cleanUrls: true,
+  // cleanUrls: true, // 加了會讓Line抓不到縮圖
   /**
    * Theme config (包含i18n)
    * https://vitepress.dev/reference/default-theme-config
