@@ -5,7 +5,7 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.webp
+      content: https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.jpg
 ---
 
 # 理財框架：建立有效的財務管理策略，助您實現資產增值的目標
@@ -231,7 +231,7 @@ ETF的表現通常較佳，原因多方面：
 
 #### 股東贈品
 
-許多上市公司為了鼓勵股東參與股東會，會提供股東贈品作為回饋。投資者可以透過[委託書公告資料免費查詢](https://free.sfi.org.tw/)平台，了解各公司股東會的相關資訊，包括贈品內容、領取方式等。例如，中鋼歷年的股東贈品，如2024「砧心有您」抗菌多功能不鏽鋼砧板組等，深受股東喜愛。投資者可在股東會期間，攜帶委託書至指定地點領取贈品，或透過電子投票方式參與，並於指定時間內領取。這些贈品不僅具有實用價值，還能增進投資者與公司的互動，提升投資體驗。 
+許多上市公司為了鼓勵股東參與股東會，會提供股東贈品作為回饋。投資者可以透過[委託書公告資料免費查詢](https://free.sfi.org.tw/)平台，了解各公司股東會的相關資訊，包括贈品內容、領取方式等。例如，中鋼歷年的股東贈品，如2024「砧心有您」抗菌多功能不鏽鋼砧板組等，深受股東喜愛。投資者可在股東會期間，攜帶委託書至指定地點領取贈品，或透過電子投票方式參與，並於指定時間內領取。這些贈品不僅具有實用價值，還能增進投資者與公司的互動，提升投資體驗。
 
 若想更深入了解相關議題，可以參考[YouTube 柴鼠兄弟的頻道](https://www.youtube.com/channel/UC45i13dEfEVac2IEJT_Nr5Q)。他們透過生動易懂的影片，介紹台股ETF的多重效益與理財觀念，並分享實用的投資策略，是理財新手與進階投資者的寶貴資源。他們還出版了書籍《跟著柴鼠學FQ，做自己的提款機》與《存股ETF從二年十張開始》，進一步闡述他們的理財理念。
 
@@ -398,7 +398,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            "image": "https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.webp"
+            "image": "https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.jpg"
         },
     ]
 

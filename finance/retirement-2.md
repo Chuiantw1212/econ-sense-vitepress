@@ -1,6 +1,11 @@
 ---
 description: 退休規劃(下)》涵蓋財務、醫療、法律及生死議題，適合規劃退休生活及希望減少家人壓力的人。
 outline: [2,3]
+head:
+  - - meta
+    - name: og:image
+      property: og:image
+      content: https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8B).jpg
 ---
 
 # 退休規劃（下）：全面考量財務、醫療、法律及生死規劃
@@ -441,7 +446,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            "image": "https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83%20(%E4%B8%8B).webp"
+            "image": "https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8B).jpg"
         },
     ]
 
