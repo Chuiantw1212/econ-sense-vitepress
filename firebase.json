@@ -15,6 +15,11 @@
         "ignore": [],
         "redirects": [
             {
+                "source": "**",
+                "destination": "/calendar.html",
+                "type": 404
+            },
+            {
                 "source": "/feedback.html",
                 "destination": "/calendar.html",
                 "type": 301
