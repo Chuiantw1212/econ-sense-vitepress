@@ -1,6 +1,11 @@
 ---
 description: 深入探索軟體專案實務，從PMP到敏捷，解析角色盲點。適合職場新手、專案管理者和PMI持證人士。了解專案管理實務，探索角色挑戰，全面理解軟體專案運作。
 outline: [2,3]
+head:
+  - - meta
+    - name: og:image
+      property: og:image
+      content: https://storage.googleapis.com/public.econ-sense.com/career/project/%E8%BB%9F%E9%AB%94%E5%B0%88%E6%A1%88%E5%AF%A6%E5%8B%99.jpg
 ---
 
 # 軟體專案實務：從PMP到敏捷的深入解析與實踐
@@ -525,7 +530,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            "image": "https://storage.googleapis.com/public.econ-sense.comhttps://storage.googleapis.com/public.econ-sense.com/career/project/%E8%BB%9F%E9%AB%94%E5%B0%88%E6%A1%88%E5%AF%A6%E5%8B%99.webp"
+            "image": "https://storage.googleapis.com/public.econ-sense.com/career/project/%E8%BB%9F%E9%AB%94%E5%B0%88%E6%A1%88%E5%AF%A6%E5%8B%99.jpg"
         },
     ]
 
