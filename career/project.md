@@ -454,13 +454,13 @@ Scrum 工具的選擇應根據團隊的需求和實際情境靈活調整。像�
 
 <iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSxLBco_B9XCPn9zKnGb9aoOSYP8IRkyqoU2lJhpJdRAAR0WLPs6nEtq0igY65NzlvqcRIMqaegIcPG/pubhtml?widget=true&amp;headers=false" width="100%" height="420" ></iframe>
 
-## 外部優質課程
-
-<Courses :modelValue="courseItems"></Courses>
-
 ## 延伸閱讀
 
 <Books :modelValue="bookItems"></Books>
+
+## 外部優質課程
+
+<Courses :modelValue="courseItems"></Courses>
 
 <script setup>
 import LazySlide from '../components/lazySlide.vue'
