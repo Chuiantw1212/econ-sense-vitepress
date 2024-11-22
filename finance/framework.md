@@ -7,6 +7,8 @@ outline: [2,3]
 
 深入探索全面的理財框架，內容涵蓋開源、節流、投資和風險控制。專為剛出社會的新鮮人、希望全面掌握理財觀念的人，以及覺得理財有困難的個人而設計。透過實用策略和方法，幫助您建立穩固的財務基礎，讓理財變得更易理解與應用。讓我們一同探索，開啟個人財務成功之路。
 
+![理財框架](https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.webp "理財框架")
+
 ## 認知開源
 
 ### 理財的前提：全面的價值觀與視野
@@ -24,7 +26,7 @@ outline: [2,3]
 
 這些領域不僅相輔相成，也同等重要。當我們全面看待生活，理財才不會變成一種壓力，而是成為我們實現幸福生活的基石。
 
-![價值觀](https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.webp "價值觀")
+![價值觀](https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E5%89%8D%E6%8F%90.webp "價值觀")
 
 ### 認知頻寬、價值觀與訊息：為什麼我們無法專注於真正重要的事物？
 
@@ -393,6 +395,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
+            "image": "https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.webp"
         },
     ]
 
