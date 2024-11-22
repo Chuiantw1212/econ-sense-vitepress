@@ -179,10 +179,6 @@ export default defineConfig({
     }
   },
   vite: {
-    // https://vitejs.dev/config/build-options#build-sourcemap
-    // build: {
-    //   sourcemap: true
-    // },
     plugins: [
       SearchPlugin({
         encode: false,
