@@ -492,4 +492,52 @@ const courseItems = [
         url: 'https://shop.darencademy.com/index/search/tag/PDU',
     },
 ]
+
+// SEO Structued Data
+import { useData } from 'vitepress'
+import { onMounted, onBeforeUnmount } from 'vue'
+const { page, frontmatter } = useData()
+
+onMounted(() => {
+    const lastUpdated = new Date(page.value.lastUpdated).toISOString()
+    const dataJsonLD = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "職涯發展",
+                "item": "https://econ-sense.com/career"
+            },{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "軟體專案實務",
+                "item": "https://econ-sense.com/career/project"
+            }]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "author": {
+                "name": "EN Chu",
+                "url": "https://econ-sense.com/about.html",
+            },
+            "dateModified": new Date(page.value.lastUpdated).toISOString(),
+            "headline": page.value.title,
+            "image": "https://storage.googleapis.com/public.econ-sense.com/career/project/%E8%BB%9F%E9%AB%94%E5%B0%88%E6%A1%88%E5%AF%A6%E5%8B%99.webp"
+        },
+    ]
+
+    const script = document.createElement('script')
+    script.setAttribute('type', 'application/ld+json')
+    script.id = 'ldJson'
+    script.textContent = JSON.stringify(dataJsonLD)
+    document.head.appendChild(script)
+})
+
+onBeforeUnmount(()=>{
+    const existedScript = document.querySelector('#ldJson')
+    existedScript?.remove()
+})
 </script>
