@@ -27,7 +27,7 @@ outline: [2,3]
 
 金三角的核心在於，當一個要素改變（如範疇擴大），其他要素（如時間或成本）必然受到影響，甚至影響品質。例如，一位油漆工刷一間房子需三天，若要在1.5天內完成，需增加人力至兩人，這是典型的時間與成本轉換：縮短工期增加了成本。反之，若減少人力以節省成本，卻要求快速完成，可能導致塗層不均等品質問題。因此，專案經理需在時間、成本與品質間權衡，達成目標並維持合理品質。
 
-![PMP三角形](/career/project/PMP三角形.png "PMP三角形")
+![PMP三角形](https://storage.googleapis.com/public.econ-sense.com/career/project/PMP%E4%B8%89%E8%A7%92%E5%BD%A2.webp "PMP三角形")
 
 ### 軟體與房子的差異
 
@@ -45,7 +45,7 @@ outline: [2,3]
 
 [《人月神話》](https://www.taaze.tw/apredir.html?154858690/https://www.taaze.tw/usedList.html?oid=11100157020)（The Mythical Man-Month）是由 Fred Brooks 撰寫的經典書籍，被譽為軟體工程領域的奠基之作。書中以軟體開發的特性與其他專案進行對比，強調了軟體的複雜性、不確定性，以及管理中的種種挑戰。該書還對範疇變更、模組化設計、團隊協作等關鍵議題提出了深刻的見解，為軟體開發提供了長久不衰的實用指導。
 
-![人月神話](/career/project/人月神話.png "人月神話")
+![人月神話](https://storage.googleapis.com/public.econ-sense.com/career/project/%E4%BA%BA%E6%9C%88%E7%A5%9E%E8%A9%B1.webp "人月神話")
 
 ### 為什麼差這麼多-軟體特性
 
@@ -63,7 +63,7 @@ outline: [2,3]
 
 與房子建設不同，軟體專案並不是一次性的完工，而是需要不斷維護、擴展和更新的動態過程。程式碼的品質決定了這些後續工作的難度與成本，因而成為軟體開發成功的關鍵之一。高品質的程式碼不僅讓當前工作更高效，還能為未來的迭代創造良好的基礎，這是蓋房子無法比擬的特性。這些差異讓撰寫軟體的挑戰遠超蓋房子，並解釋了為什麼軟體開發需要更高的靈活性和長期視角。
 
-![閱讀特性](/career/project/閱讀特性.png "閱讀特性")
+![閱讀特性](https://storage.googleapis.com/public.econ-sense.com/career/project/閱讀特性.webp "閱讀特性")
 
 ### 為什麼差這麼多—溝通成本
 
@@ -89,7 +89,7 @@ outline: [2,3]
 
 假設一個原本由三人負責的專案新增兩人，溝通連結數從 3 增加到 10，溝通成本翻了三倍。這不僅未加速工期，反而使協作變得更為複雜，展現了 Brooks's Law 的實際影響。
 
-![溝通成本](/career/project/溝通成本.png "溝通成本")
+![溝通成本](https://storage.googleapis.com/public.econ-sense.com/career/project/溝通成本.webp "溝通成本")
 
 ### Agile敏捷的誕生
 
@@ -105,7 +105,7 @@ outline: [2,3]
 
 [敏捷開發](https://zh.wikipedia.org/zh-tw/%E6%95%8F%E6%8D%B7%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91)方法以價值驅動為核心，專注於靈活調整範疇，並在高品質的基礎上快速交付成果。這種方式避免了傳統開發中因範疇過於固定導致的延誤和返工問題，也體現了軟體開發與敏捷方法之間的高度契合性：在動態需求的環境下，範疇與品質的平衡決定了專案的成功，而敏捷的迭代方式正是解決這一平衡的最佳實踐。
 
-![品質價值](/career/project/品質價值.png "品質價值")
+![品質價值](https://storage.googleapis.com/public.econ-sense.com/career/project/品質價值.webp "品質價值")
 
 ## 理想敏捷悖論
 
@@ -126,7 +126,7 @@ outline: [2,3]
 
 這種從簡單到複雜、逐步迭代的方式，既能降低開發成本與風險，又能通過用戶反饋逐步完善產品功能，最終推出更貼合市場需求的完整產品。同樣的理念應用於軟體開發，可以讓每次功能推出都為用戶創造價值並積累市場信任。
 
-![最小可行產品](/career/project/最小可行產品.png "最小可行產品")
+![最小可行產品](https://storage.googleapis.com/public.econ-sense.com/career/project/最小可行產品.webp "最小可行產品")
 
 ### 精實創業的迷思
 
@@ -148,7 +148,7 @@ outline: [2,3]
 - **社交媒體的誕生**：Facebook 在創立初期，並不是為了滿足「市場需求」而開發，而是通過一個全新的方式，將人與人之間的聯繫數位化。用戶在使用之前並不知道自己需要這樣的工具，但一旦使用後，它改變了人們的社交方式。
 - **流媒體平台的成功**：在 Netflix 轉型為流媒體平台之前，用戶的需求僅限於「租影碟更便捷」，但流媒體的概念徹底改變了人們的觀看習慣，這種創新是市場無法預測的。
 
-![精實迷思](/career/project/精實迷思.png "精實迷思")
+![精實迷思](https://storage.googleapis.com/public.econ-sense.com/career/project/精實迷思.webp "精實迷思")
 
 ### 理想的軟體專案不存在
 
@@ -181,7 +181,7 @@ outline: [2,3]
 
 因此，真正「理想」的軟體專案並不存在。軟體開發的成功更依賴於在不完美中尋找平衡，例如利用敏捷應對需求變化，結合創新與市場反饋推動產品迭代，而非追求完全契合的理想狀態。
 
-![邏輯閉環](/career/project/邏輯閉環.png "邏輯閉環")
+![邏輯閉環](https://storage.googleapis.com/public.econ-sense.com/career/project/邏輯閉環.webp "邏輯閉環")
 
 ## 專案中的角色盲點
 
@@ -209,7 +209,7 @@ QA 的指責通常是出於對產品穩定性和開發者細心程度的高期�
 
 工程師的工作伴隨著不確定性與高壓挑戰，需求的模糊性與測試不足讓這些盲點成為開發過程中難以避免的部分。然而，通過主動釐清需求定義與測試覆蓋，這些問題是可以逐步減少的。
 
-![工程師難](/career/project/工程師難.png "工程師難")
+![工程師難](https://storage.googleapis.com/public.econ-sense.com/career/project/工程師難.webp "工程師難")
 
 ### PM 的盲點
 
@@ -236,7 +236,7 @@ PM 是專案中的核心協調角色，負責在需求、資源和進度之間�
 
 然而，PM 無法預知所有需求變更，也無法避免外部需求的干擾。因此，這樣的指責實際上是在挑戰 PM 的「通靈能力」。
 
-![PM難做](/career/project/PM難做.png "PM難做")
+![PM難做](https://storage.googleapis.com/public.econ-sense.com/career/project/PM難做.webp "PM難做")
 
 ### 設計師的盲點
 
@@ -260,7 +260,7 @@ PM 是專案中的核心協調角色，負責在需求、資源和進度之間�
 
 當設計師執著於實踐所有的創意時，本意是為了用戶著想，卻可能因過度關注少數場景而犧牲了整體效益。設計需要平衡創意與效率，從而更好地服務目標客群。
 
-![設計師難](/career/project/設計師難.png "設計師難")
+![設計師難](https://storage.googleapis.com/public.econ-sense.com/career/project/設計師難.webp "設計師難")
 
 ### 高階主管的盲點
 
@@ -288,7 +288,7 @@ PM 是專案中的核心協調角色，負責在需求、資源和進度之間�
 - **內容重複**：會議頻繁但重複性高，讓團隊感到時間被浪費。
 
 高階主管應確保會議具備清晰目標與實質行動，避免過度依賴會議，讓其成為真正推進專案的利器。
-![主管難做](/career/project/主管難做.png "主管難做")
+![主管難做](https://storage.googleapis.com/public.econ-sense.com/career/project/主管難做.webp "主管難做")
 
 ### 意識、意願、能力
 
@@ -313,7 +313,7 @@ PM 是專案中的核心協調角色，負責在需求、資源和進度之間�
 
 **團隊合作的本質，不是讓所有人變得完美，而是讓彼此的不足不再成為阻礙。** 通過合作，團隊能將個體的局限轉化為集體的優勢，最終在不完美的條件下實現專案的最佳效果。
 
-![團隊意識](/career/project/團隊意識.png "團隊意識")
+![團隊意識](https://storage.googleapis.com/public.econ-sense.com/career/project/團隊意識.webp "團隊意識")
 
 ## 實踐敏捷
 
@@ -343,7 +343,7 @@ PM 是專案中的核心協調角色，負責在需求、資源和進度之間�
 
 餐廳與糕餅店的實踐展示了 PMP 與 Agile 的應用價值。兩者的結合能在穩定與創新間找到最佳平衡，滿足市場需求的多樣化挑戰。
 
-![敏捷你會](/career/project/敏捷你會.png "敏捷你會")
+![敏捷你會](https://storage.googleapis.com/public.econ-sense.com/career/project/敏捷你會.webp "敏捷你會")
 
 ### Scrum 敏捷的實踐框架
 
@@ -368,7 +368,7 @@ Scrum 定義了三個關鍵角色，分工明確且相互配合，確保專案�
 - 與產品負責人合作參與需求討論，提供技術可行性建議並澄清需求。
 - 與 Scrum Master 配合，反映工作中的障礙和挑戰，提出改進建議以提升效率。
 
-![scrum角色](/career/project/scrum角色.png "scrum角色")
+![scrum角色](https://storage.googleapis.com/public.econ-sense.com/career/project/scrum角色.webp "scrum角色")
 
 ### Scrum 的會議
 
@@ -414,11 +414,11 @@ Scrum 定義了三個關鍵角色，分工明確且相互配合，確保專案�
 Scrum 框架中常用的工具和方法，幫助團隊提升效率並追蹤進度。然而，部分工具的適用性需要根據團隊特性進行評估和調整。
 
 1. **看板（Kanban Board）與產品待辦清單（Product Backlog）**  
-   - 看板將工作分為「待辦」、「進行中」和「完成」等狀態，讓團隊清楚了解任務進展。  
-   - 產品待辦清單是產品所有需求的有序列表，根據優先級決定下一步工作，確保資源投入在最高價值的任務上。  
+   - [看板](https://en.wikipedia.org/wiki/Kanban_board)將工作分為「待辦」、「進行中」和「完成」等狀態，讓團隊清楚了解任務進展。  
+   - [產品待辦清單](https://en.wikipedia.org/wiki/Product_backlog)是產品所有需求的有序列表，根據優先級決定下一步工作，確保資源投入在最高價值的任務上。  
 
 2. **費波那契時間估算原則**  
-   - 團隊使用費波那契數列（1、2、3、5、8……）為任務估算工作量。  
+   - 團隊使用[費波那契數列](https://zh.wikipedia.org/zh-tw/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0)（1、2、3、5、8……）為任務估算工作量。  
    - 這種方式反映了人類在處理大型任務時的估算不確定性，有助於更準確地規劃時間。
 
 3. **燃起圖（Burn Up Chart）**  
@@ -513,7 +513,7 @@ onMounted(() => {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "軟體專案實務",
-                "item": "https://econ-sense.com/career/project"
+                "item": "https://econ-sense.comhttps://storage.googleapis.com/public.econ-sense.com/career/project"
             }]
         },
         {
@@ -525,7 +525,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            "image": "https://storage.googleapis.com/public.econ-sense.com/career/project/%E8%BB%9F%E9%AB%94%E5%B0%88%E6%A1%88%E5%AF%A6%E5%8B%99.webp"
+            "image": "https://storage.googleapis.com/public.econ-sense.comhttps://storage.googleapis.com/public.econ-sense.com/career/project/%E8%BB%9F%E9%AB%94%E5%B0%88%E6%A1%88%E5%AF%A6%E5%8B%99.webp"
         },
     ]
 

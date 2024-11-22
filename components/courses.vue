@@ -5,9 +5,11 @@
                 {{ item.name }}
             </h3>
             <div class="course__body">
-                <a class="course__link" :href="item.url" target="_blank">
+                <!-- <a class="course__link" :href="item.url" target="_blank"> -->
+                <div class="course__link">
                     <img class="link__image" loading="lazy" :src="item.image" :alt="item.name">
-                </a>
+                </div>
+                <!-- </a> -->
                 <div class="course__textGroup" v-show="item.description" v-html="item.description">
 
                 </div>
