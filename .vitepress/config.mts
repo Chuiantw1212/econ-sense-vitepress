@@ -160,6 +160,7 @@ export default defineConfig({
       width: '24px',
       height: '24px',
     },
+    externalLinkIcon: true,
   },
   /**
    * Build
