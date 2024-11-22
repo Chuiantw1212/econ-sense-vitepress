@@ -1,6 +1,11 @@
 ---
 outline: [2,3]
 description: 《VitePress無本部落格(上)》涵蓋環境建置、本地運行、Github設定、發布與修改，適合前端初學者及不想負擔託管費用的人。
+head:
+  - - meta
+    - name: og:image
+      property: og:image
+      content: https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E7%84%A1%E6%9C%AC%E9%83%A8%E8%90%BD%E6%A0%BC.jpg
 ---
 
 # VitePress無本部落格 (上)
@@ -402,6 +407,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
+            "image":"https://storage.googleapis.com/public.econ-sense.com/engineer/blog-1/%E7%84%A1%E6%9C%AC%E9%83%A8%E8%90%BD%E6%A0%BC.jpg"
         },
     ]
 
