@@ -1,11 +1,11 @@
 ---
 description: 探索全面理財框架：開源、節流、投資、風險控制。針對新鮮人、理財初學者設計。提供實用策略，建立穩固財務基礎，理財更易理解與應用。一同開啟個人財務成功之路。
+outline: [2,3]
 head:
   - - meta
     - name: og:image
       property: og:image
       content: https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.webp
-outline: [2,3]
 ---
 
 # 理財框架：建立有效的財務管理策略，助您實現資產增值的目標

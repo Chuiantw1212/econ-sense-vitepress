@@ -1,6 +1,11 @@
 ---
 description: 《退休規劃(上)》涵蓋勞保勞退、公保公退、老後居住與資產變現，適合關注退休職場人士與計畫老後生活準備的人。
 outline: [2,3]
+head:
+  - - meta
+    - name: og:image
+      property: og:image
+      content: https://storage.googleapis.com/public.econ-sense.com/finance/retirement/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8A).webp
 ---
 
 # 退休規劃（上）：涵蓋退休金管理、老後居住選擇與資產變現
@@ -330,7 +335,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            "image": "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83%20(%E4%B8%8A).webp",
+            "image": "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8A).webp",
         },
     ]
 
