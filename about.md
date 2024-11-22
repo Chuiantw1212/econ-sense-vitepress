@@ -1,6 +1,11 @@
 ---
-description: 非專業講師，每週三分享於學校學不到的事。現為Job Pair共同創辦人，並任職於普鴻資訊。
 outline: [2,3]
+description: 非專業講師，每週三分享於學校學不到的事。現為Job Pair共同創辦人，並任職於普鴻資訊。
+head:
+  - - meta
+    - name: og:image
+      property: og:image
+      content: https://storage.googleapis.com/public.econ-sense.com/about/enchu.webp
 ---
 
 # 關於 EN Chu
