@@ -1,6 +1,6 @@
 ---
-description: 《VitePress無本部落格(上)》涵蓋環境建置、本地運行、Github設定、發布與修改，適合前端初學者及不想負擔託管費用的人。
 outline: [2,3]
+description: 《VitePress無本部落格(上)》涵蓋環境建置、本地運行、Github設定、發布與修改，適合前端初學者及不想負擔託管費用的人。
 ---
 
 # VitePress無本部落格 (上)
