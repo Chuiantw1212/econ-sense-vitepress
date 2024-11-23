@@ -1,4 +1,5 @@
 ---
+titleTemplate: 無為而治的財務思維
 
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
