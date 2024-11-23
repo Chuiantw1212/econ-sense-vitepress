@@ -16,8 +16,8 @@ description: 好好生活，匯聚多元生活研究，為您帶來日常中的�
 <Courses :modelValue="courseItems"></Courses>
 
 <script setup>
-import DigitalDocuments from '../components/digitalDocuments.vue'
-import Courses from '../components/courses.vue'
+import DigitalDocuments from './components/digitalDocuments.vue'
+import Courses from './components/courses.vue'
 
 const digitalDocumentItems = [
     {
