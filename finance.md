@@ -23,8 +23,8 @@ outline: deep
 <Courses :modelValue="courseItems"></Courses>
 
 <script setup>
-import DigitalDocuments from '../components/digitalDocuments.vue'
-import Courses from '../components/courses.vue'
+import DigitalDocuments from './components/digitalDocuments.vue'
+import Courses from './components/courses.vue'
 const digitalDocumentItems = [
     {
         url: './framework',

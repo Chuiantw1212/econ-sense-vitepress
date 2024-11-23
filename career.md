@@ -12,7 +12,7 @@ outline: deep
 <DigitalDocuments :items="digitalDocumentItems"></DigitalDocuments>
 
 <script setup>
-import DigitalDocuments from '../components/digitalDocuments.vue'
+import DigitalDocuments from './components/digitalDocuments.vue'
 
 const digitalDocumentItems = [
     {
