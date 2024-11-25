@@ -3,9 +3,9 @@ description: 查看講座排程，訂閱Google Calendar，了解講座流程與�
 outline: deep
 ---
 
-# 講座排程：查看行事曆與簡報內容，決定是否參加
+# 線上/實體講座
 
-行事曆上的分享內容，在左邊的選單都可以找到對應的簡報，可以先看看內容是不是自己想要的再決定是否參與。
+行事曆上的分享內容，在左邊的選單都可以找到對應的簡報或是文章，可以先看看內容是不是自己想要的再決定是否參與。
 
 ## Google Calendar訂閱
 
@@ -15,6 +15,8 @@ outline: deep
 <a href="https://calendar.google.com/calendar/u/0?cid=ZTlkYmE0YWQyYTBhNzEyZjgwMDZhZmE3NWI1NTM5MjllMjg2MWJjYmU1MTFlNmMzYzEyNWU2YTcwMmQ3NzNkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank">點此訂閱講座行事曆。</a>
 
 ## 講座流程
+
+多數時候的講座流程如下。如果是單位邀約就會再調整。
 
 <table>
     <thead>
@@ -60,6 +62,11 @@ outline: deep
 <!-- ### 齊文藝室
 
 <iframe src="https://thesingularity.tw/top-page/" width="100%" height="420px"></iframe> -->
+
+## 聯絡與邀約
+
+加入[Line群組](https://line.me/ti/g2/w2xjp79QxMO76vVw_aQuEqeH2ahdcn7uY7lQAg)，或是寄信到<a href="mailto:chuiantw1212@gmail.com">chuiantw1212@gmail.com</a>
+
 
 <style lang="scss" scoped>
 iframe {
