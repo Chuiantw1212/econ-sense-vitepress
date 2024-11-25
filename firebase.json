@@ -135,6 +135,11 @@
                 "type": 301
             },
             {
+                "source": "/career/computer.html",
+                "destination": "/engineer/computer.html",
+                "type": 301
+            },
+            {
                 "source": "/job/events.html",
                 "destination": "/calendar.html",
                 "type": 301
