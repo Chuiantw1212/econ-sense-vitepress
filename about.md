@@ -153,8 +153,12 @@ onMounted(() => {
         "@context": "https://schema.org",
         "@type": "ProfilePage",
         "mainEntity": {
+            "@context": "https://schema.org",
+            "@type": "Person",
             "name": "EN Chu",
+            "alternateName": "朱奕安",
             "url": "https://econ-sense.com/about.html",
+            "email": "mailto:chuiantw1212@gmail.com",
         },
         "description": "分享者 / 全端工程師",
         "sameAs": "https://www.facebook.com/profile.php?id=100069740545113",
