@@ -5,7 +5,7 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://storage.googleapis.com/public.econ-sense.com/career/project/%E8%BB%9F%E9%AB%94%E5%B0%88%E6%A1%88%E5%AF%A6%E5%8B%99.jpg
+      content: https://storage.googleapis.com/public.econ-sense.com/life/single/%E5%96%AE%E8%BA%AB%E7%8B%97%E5%9C%B0%E7%8D%84%E6%B1%82%E7%94%9F.jpg
 ---
 
 # 單身狗地獄求生：低生育率現狀解析與財務、生活全方位準備

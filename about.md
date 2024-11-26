@@ -29,13 +29,11 @@ head:
 
 ### 開源財務規劃表
 
-1. 金融惠普：民眾可以快速建立生涯財務觀念。
+1. 金融惠普：民眾可以[快速建立生涯財務觀念](https://econ-sense.com/plan.html)。
 2. 開源驗證：任何人都可以檢視程式碼是否有安全漏洞。 (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-hyper-express" target="_blank">後端開源</a>)。
 3. 資料安全：提供了表單離線匯出功能，不需註冊也可以保留試算結果。
 
-<a href="https://econ-sense.com/plan.html">
-    <img class="aobut__image--100" src="/finance/plan/calculator.png" alt="finance-planner">
-</a>
+<img class="aobut__image--100" src="/finance/plan/calculator.png" alt="finance-planner">
 
 ## 技術棧
 

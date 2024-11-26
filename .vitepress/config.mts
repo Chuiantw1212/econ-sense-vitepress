@@ -13,15 +13,15 @@ export default defineConfig({
     // https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/?utm_source=lighthouse&utm_medium=devtools
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    // Google Analytics
-    ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-19NFT8GVCZ' }],
-    ['script', {},
-      `window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    // // Google Analytics
+    // ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-19NFT8GVCZ' }],
+    // ['script', {},
+    //   `window.dataLayer = window.dataLayer || [];
+    //   function gtag(){dataLayer.push(arguments);}
+    //   gtag('js', new Date());
 
-      gtag('config', 'G-19NFT8GVCZ');`
-    ],
+    //   gtag('config', 'G-19NFT8GVCZ');`
+    // ],
   ],
   lang: 'zh',
   /**
@@ -41,7 +41,7 @@ export default defineConfig({
     ],
     sidebar: [
       {
-        text: '講座排程',
+        text: '線上/實體講座',
         link: '/calendar',
       },
       { text: '開源財務規劃表', link: '/plan' },
