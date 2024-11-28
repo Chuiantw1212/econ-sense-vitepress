@@ -1,19 +1,53 @@
 ---
+outline: [2,3]
 description: 深入探討「我是照顧者」課程，聚焦延緩老化、照顧資源、醫療及跨領域整合。適合為父母照顧做準備的人、關心長輩及照顧術語困惑者。提供實用資訊，協助建構愛心環境，共同探索照顧之路。
-outline: deep
 ---
 
 # 我是照顧者：從延緩老化到跨領域整合的全方位照顧理論
 
 深入探討「我是照顧者」這門課程，我們聚焦於延緩老化、照顧資源、醫療資源和跨領域整合。這門課程特別適合那些正為父母照顧做準備的人，關心家人在自己可能倒下時的情況的長輩，以及對長照術語感到困惑的人。透過這裡提供的實用資訊，我們希望協助您在照顧之路上更具信心，並一同建構一個更健康、更充滿愛心的照顧環境。讓我們攜手共同探索，為您的照顧者旅程注入更多知識和關懷。
 
-## 簡報
+## 延遲老化
+
+延緩老化是每個人都關注的目標，從日常生活入手，調整生活、飲食和運動習慣，不僅能增強健康，還能有效降低與老化相關疾病的風險。以下將從三個面向來簡單提醒如何延遲老化。
+
+### 生活習慣
+
+- **無成癮習慣**：戒除吸菸等成癮行為。如果需要過渡，可選擇電子煙，但長遠來看，完全戒除才是最有益的選擇。
+
+- **充足睡眠**：睡眠是大腦的「清潔時間」，能有效清除累積的類澱粉蛋白，減少阿茲海默症和其他認知障礙的風險。
+
+### 飲食習慣
+
+- **高蛋白**：選擇優質蛋白，如雞胸肉、魚類、豆腐，維持肌肉量與代謝。  
+- **高纖維**：多吃全穀類、蔬菜與水果，促進腸道健康，穩定血糖。  
+- **低糖**：避免精製糖與含糖飲料，選擇天然甜味來源如水果。  
+- **低油**：用橄欖油、酪梨等健康脂肪取代飽和脂肪與反式脂肪。  
+- **低鹽**：減少加工食品，使用天然香料提升風味。
+
+### 運動習慣
+
+- **規律的有氧運動**：每周至少進行150分鐘的中等強度運動，如快走、游泳、騎腳踏車等，有助於增強心血管功能。
+
+- **肌力訓練**：每周進行兩次肌肉訓練，維持肌肉量與骨密度，減少因老化導致的身體衰退。
+
+- **陽光與維生素D**：每天曬太陽15分鐘，促進維生素D合成，幫助骨骼健康並調節免疫系統。
+
+- **運動帶來的大腦益處**：運動能刺激腦源性神經滋養因子（BDNF）分泌，促進神經連結更新，維持認知功能。
+
+如果您對延遲老化及健康管理有興趣，想要深入了解更多實用技巧與知識，推薦參考 [Hiskio 的課程《打造抗老的生活習慣》](https://hiskio.com/courses/2133)。這門課程深入探討如何透過飲食、運動與生活方式的調整，提升健康品質、延緩老化進程，適合希望從科學角度改善生活的人士學習！
+
+![老化線上課](/life/carer/老化線上課.png "老化線上課")
+
+## 線上/實體講座
+
+### 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1XLi5KRDRXyIlVsU_ke4rdrFEeFGar1F6GB5mTqZ5_rM/edit?usp=drive_link">
 <iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vR1PYi7FxCz4yIF4VV2aoOG65uv1Hp8aF6KkiIrLmz77_1_qCH4DLkIidCvhqG6Ak-SDeyBeDyD-poh/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
-## 講座評價
+### 評價
 
 <iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqIwBpXMcvWHTQy80NGRVuI3_lGx4UtVjhedci_cQDcx7iB3rO9qwn1LNQJSpmPpy0YOeykE_1wKmR/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
