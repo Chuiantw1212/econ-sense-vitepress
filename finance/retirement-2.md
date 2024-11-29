@@ -30,7 +30,7 @@ head:
 
 ![保險存摺](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E4%BF%9D%E9%9A%AA%E5%AD%98%E6%91%BA.webp "保險存摺")
 
-### 保險
+### 應急保險清冊
 
 將保險內容系統化整理後，便構成了**單程行李箱**的一部分，且位於行李箱內容的最上方，方便隨時查找，特別在急需理賠或諮詢時節省時間。以下是建議的整理方式：
 
