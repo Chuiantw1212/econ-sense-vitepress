@@ -143,7 +143,7 @@ description: 深入探討「我是照顧者」課程，聚焦延緩老化、照�
 
 ### 長照四包錢  
 
-以居家照顧為例，以下說明如何應用[**長照四包錢**](https://www.gov.tw/News_Content_26_505332)來支持自行照顧的安排：
+在安排高齡者的居家照顧時，在家照總會的[試算工具](https://www.familycares.com.tw/try.php)能幫助了解可用的長照額度。以下針對[長照四包錢](https://www.gov.tw/News_Content_26_505332)的內容與應用進行說明，協助家庭靈活運用資源來分擔照顧負擔：
 
 #### **1. 照顧及專業服務補助**  
 這是長照四包錢中最核心的補助項目，用於支付居家照顧服務。根據高齡者的失能等級，政府會提供相應的每月補助金額，幫助家庭分擔照顧費用。例如：  
@@ -307,7 +307,7 @@ description: 深入探討「我是照顧者」課程，聚焦延緩老化、照�
 
 ### 民間資源-華山基金會  
 
-以下以華山基金會為例。華山基金會是台灣規模最大的高齡者民間照顧資源之一，專注於服務弱勢三失長輩（失能、失智、失依）。以下是其具體的照顧協助方式：  
+以下以[華山基金會](https://www.elder.org.tw/contents/text?id=25)為例。華山基金會是台灣規模最大的高齡者民間照顧資源之一，專注於服務弱勢三失長輩（失能、失智、失依）。以下是其具體的照顧協助方式：  
 
 #### **1. 到宅服務**  
 - 志工定期訪視長輩家中，提供基礎照護，如：  
@@ -334,7 +334,7 @@ description: 深入探討「我是照顧者」課程，聚焦延緩老化、照�
 
 ### 跌倒！歲月開的第一槍！
 
-跌倒是高齡者常見的健康危機之一，往往引發一連串的醫療與照護需求，成為歲月對老年生活的第一擊。
+根據[研究統計](https://www.airitilibrary.com/Article/Detail/18172784-200602-201101210003-201101210003-174-181)，跌倒是高齡者常見的健康危機之一，往往引發一連串的醫療與照護需求，成為歲月對老年生活的第一擊。
 
 - **跌倒住院比例**：高齡者因跌倒而住院的比例高達 **46.6%**。  
 - **平均住院天數**：跌倒後住院的平均時間為 **7.3 ± 4.3天**，顯示需要相對長時間的醫療處理與觀察。  
@@ -525,162 +525,6 @@ description: 深入探討「我是照顧者」課程，聚焦延緩老化、照�
 ### 評價
 
 <iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqIwBpXMcvWHTQy80NGRVuI3_lGx4UtVjhedci_cQDcx7iB3rO9qwn1LNQJSpmPpy0YOeykE_1wKmR/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
-
-## 外部資源
-
-### 延遲老化
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://map.dosw.gov.taipei/taipeiwelfare_map/all_new/elder_map.aspx" target="_blank">台北市銀髮族學習及活動地圖</a>
-            </td>
-            <td>台北市政府社會局所建置</td>
-        </tr>
-    </tbody>
-</table>
-
-### 照顧資源
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://ltc-learning.org/mooc/index.php" target="_blank">長期照顧專業人員數位學習平台</a>
-            </td>
-            <td>一般人也可以學習，衛生福利部提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://ltcpap.mohw.gov.tw/public/index.html" target="_blank">長照資源地圖</a>
-            </td>
-            <td>衛生福利部提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://newrepat.sfaa.gov.tw/home/prepaid-help-vendor" target="_blank">輔具資源入口網</a>
-            </td>
-            <td>衛生福利部社會及家庭署</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.familycares.com.tw/try.php" target="_blank">長照自付額計算機</a>
-            </td>
-            <td>中華民國家庭照顧者關懷總會提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://carersupport.com.tw/map/" target="_blank">家庭照顧支持性服務資源地圖</a>
-            </td>
-            <td>中華民國家庭照顧者關懷總會提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://map.dosw.gov.taipei/taipeiwelfare_map/all_new/care_map.aspx" target="_blank">台北市老人照顧地圖</a>
-            </td>
-            <td>查詢設施、床位、失智服務，台北市政府社會局提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.gov.tw/News_Content.aspx?n=26&s=556149" target="_blank">使用住宿式照顧服務機構，政府提供那些資源與補助?</a>
-            </td>
-            <td>我的E政府提供</td>
-        </tr>
-    </tbody>
-</table>
-
-### 醫療資源
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://info.nhi.gov.tw/INAE1000/INAE1030S01" target="_blank">居家醫療照護服務查詢</a>
-            </td>
-            <td>衛生福利部中央健保署提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.google.com.tw/maps/d/viewer?mid=1G3L1nvxm_WNm1pYSGIBAboQBwAQm3O5v&hl=en&femb=1&ll=25.1177722110377%2C121.52324149035303&z=15" target="_blank">居家護理機構分布圖</a>
-            </td>
-            <td>衛生福利部護理及健康照護司提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.google.com/maps/d/viewer?mid=17jOphhBqHty75Hz5h4zFDh8Wpz3A3zqM&hl=en_US&ll=25.043832751834735%2C121.54191971448165&z=14" target="_blank">臺灣物理治療所地圖</a>
-            </td>
-            <td>早安健康／愛長照編輯團隊提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.hospice.org.tw/resource" target="_blank">安寧資源地圖</a>
-            </td>
-            <td>台灣安寧照顧基金會提供</td>
-        </tr>
-    </tbody>
-</table>
-
-### 跨領域整合
-
-<table>
-    <thead>
-        <tr>
-            <th>名稱</th>
-            <th>說明</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <a href="https://1966.gov.tw/LTC/cp-6458-69942-207.html" target="_blank">出院準備銜接長照服務說明</a>
-            </td>
-            <td>衛生福利部長期照顧司提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://1966.gov.tw/LTC/cp-6572-69919-207.html" target="_blank">長照十年計畫2.0說明</a>
-            </td>
-            <td>衛生福利部長期照顧司提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://1966.gov.tw/LTC/cp-6572-69919-207.html" target="_blank">家中遭逢變故，政府提供哪些急難紓困方案？</a>
-            </td>
-            <td>若有重大傷病卡相關的補助也在其中，我的E政府提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.gov.tw/News_Content.aspx?n=26&s=604800#active3" target="_blank">從求學到就業，身心障礙者的福利懶人包！</a>
-            </td>
-            <td>我的E政府提供</td>
-        </tr>
-        <tr>
-            <td>
-                <a href="https://www.gov.tw/News_Content.aspx?n=26&s=677435" target="_blank">帶您看身心障礙證明申請流程 、 身心障礙者支持服務與措施</a>
-            </td>
-            <td>我的E政府提供</td>
-        </tr>
-    </tbody>
-</table>
 
 ## 外部優質課程
 
