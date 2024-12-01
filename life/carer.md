@@ -578,4 +578,52 @@ const bookItems = [
 何況照護父母，也是為照護明天的自己，預做準備！</p>`,
     },
 ]
+
+// SEO Structued Data
+import { useData } from 'vitepress'
+import { onMounted, onBeforeUnmount } from 'vue'
+const { page, frontmatter } = useData()
+
+onMounted(() => {
+    const lastUpdated = new Date(page.value.lastUpdated).toISOString()
+    const dataJsonLD = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "好好生活",
+                "item": "https://econ-sense.com/life"
+            },{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "我是照顧者",
+                "item": "https://econ-sense.com/life/carer"
+            }]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "author": {
+                "name": "EN Chu",
+                "url": "https://econ-sense.com/about.html",
+            },
+            "dateModified": new Date(page.value.lastUpdated).toISOString(),
+            "headline": page.value.title,
+            "image": "https://storage.googleapis.com/public.econ-sense.com/life/single/%E5%96%AE%E8%BA%AB%E7%8B%97%E5%9C%B0%E7%8D%84%E6%B1%82%E7%94%9F.jpg"
+        },
+    ]
+
+    const script = document.createElement('script')
+    script.setAttribute('type', 'application/ld+json')
+    script.id = 'ldJson'
+    script.textContent = JSON.stringify(dataJsonLD)
+    document.head.appendChild(script)
+})
+
+onBeforeUnmount(()=>{
+    const existedScript = document.querySelector('#ldJson')
+    existedScript?.remove()
+})
 </script>
