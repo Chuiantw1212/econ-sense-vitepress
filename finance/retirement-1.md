@@ -170,7 +170,7 @@ head:
    案例：[合勤健康共生宅](https://www.twhochin.com/)  
    共生宅提供了一個跨代居住的環境，住戶包括老年人、年輕人以及單身家庭，促進代際之間的互動與情感支持。這種模式不僅滿足老年人的健康需求，還能讓他們在年輕家庭的陪伴下，享受豐富的社交生活，減少孤獨感。跨代互動提升了社區活力，對老年人的心理健康有顯著好處。
 
-![老後居住差異](https://storage.googleapis.com/public.econ-sense.com/finance/retirement/%E8%80%81%E5%BE%8C%E5%B1%85%E4%BD%8F%E5%B7%AE%E7%95%B0.webp "老後居住差異")
+![老後居住差異](https://storage.googleapis.com/public.econ-sense.com/finance/retirement/%E8%80%81%E5%BE%8C%E5%B1%85%E4%BD%8F.webp "老後居住差異")
 
 這些不同的居住模式各有其適應對象與優勢。對於長者來說，除了物質生活的保障，心理健康和情感支持也是選擇居住環境時的重要考量。無論是選擇維持獨立生活，還是依賴專業的醫療支援，每種模式都應根據長者的身體狀況、心理需求以及社交互動的需要來做出選擇。
 
