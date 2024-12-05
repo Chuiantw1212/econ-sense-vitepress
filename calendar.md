@@ -59,9 +59,11 @@ outline: deep
 
 <iframe title="Accupass" src="https://www.accupass.com/organizer/detail/1907301409538062502000" width="100%" height="420px"></iframe>
 
-<!-- ### 齊文藝室
+### 齊文藝室
 
-<iframe src="https://thesingularity.tw/top-page/" width="100%" height="420px"></iframe> -->
+最新活動，請拜訪齊文藝室[活動專區](https://tinybot.cc/thesingularity-tw/product-category/7514-activity/)。
+
+<image src="https://storage.googleapis.com/public.econ-sense.com/others/%E9%BD%8A%E6%96%87%E8%97%9D%E5%AE%A4.webp" width="100%" height="420px"></image>
 
 ## 聯絡與邀約
 
