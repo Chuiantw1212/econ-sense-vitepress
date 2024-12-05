@@ -68,7 +68,7 @@ import Photos from '../components/photos.vue'
 
 const courseItems = [
     {
-        image: '/finance/financemj.webp',
+        image: 'https://storage.googleapis.com/public.econ-sense.com/finance/financemj/financemj.webp',
         description: `《小富翁大贏家》是財報講師與專業桌遊團隊共同設計的理財桌遊，MJ老師結合多年的財務教學與親子教養的經驗，讓大家能在桌遊中模擬人生決策，體驗高峰低谷、景氣循換，甚至是突發意外。希望大家從多樣化的真實事件培養時事敏感度，提早培養財務眼光，更從決策當中學會獨立思考的能力。`,
         name: '小富翁大贏家｜培養財務眼光的第一套理財桌遊',
         url: 'https://sat.cool/course/41',
