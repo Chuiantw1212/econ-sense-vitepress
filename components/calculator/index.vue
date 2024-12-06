@@ -619,8 +619,7 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
-    window.firebase = firebase
-    await initializeApp()
+    await addFirebaseListener()
 })
 // 用戶與權限
 const user = reactive({
@@ -630,18 +629,8 @@ const user = reactive({
     uid: '',
     id: '',
 })
-async function initializeApp() {
+async function addFirebaseListener() {
     try {
-        loadingDialogVisible.value = true
-        await firebase.initializeApp({
-            apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
-            authDomain: "econ-sense-9a250.firebaseapp.com",
-            projectId: "econ-sense-9a250",
-            storageBucket: "econ-sense-9a250.appspot.com",
-            messagingSenderId: "449033690264",
-            appId: "1:449033690264:web:f5e419118030eb3afe44ed",
-            measurementId: "G-19NFT8GVCZ"
-        })
         const auth = getAuth()
         onAuthStateChanged(auth, async (firebaseUser) => {
             loadingDialogVisible.value = true
