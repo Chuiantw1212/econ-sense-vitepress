@@ -146,10 +146,9 @@ import Parenting from './parenting.vue'
 import Mortgage from './mortgage.vue'
 import EstateDialogContent from './estateDialog.vue'
 // 財務報告區
-import FreedomRate from './report/freedomRate.vue'
 import LifeAsset from './report/lifeAsset.vue'
 import Story from './report/story.vue'
-const { VITE_BASE_URL } = import.meta.env
+const { VITE_BASE_URL } = (import.meta as any).env
 const ProfileRef = ref()
 const CareerRef = ref()
 const RetirementRef = ref()
@@ -631,6 +630,7 @@ const user = reactive({
 })
 async function addFirebaseListener() {
     try {
+        window.firebase = firebase as any
         const auth = getAuth()
         onAuthStateChanged(auth, async (firebaseUser) => {
             loadingDialogVisible.value = true
