@@ -128,7 +128,7 @@
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
                                 item.label
-                                }}</el-radio>
+                            }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -508,7 +508,7 @@ async function calculateRetireLife() {
     retirement.value.yearsToRetirement = yearsToRetirement
     const yearOfRetire = currentYear + yearsToRetirement
     retirement.value.yearOfRetire = yearOfRetire
-    const { VITE_BASE_URL } = import.meta.env
+    const { VITE_BASE_URL } = (import.meta as any).env
     const res = await fetch(`${VITE_BASE_URL}/calculate/lifeExpectancy`, {
         method: 'post',
         body: JSON.stringify({
