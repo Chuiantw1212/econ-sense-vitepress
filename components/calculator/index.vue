@@ -684,7 +684,12 @@ async function authFetch(appendUrl, options) {
         })
     }
     Object.assign(defaultOptions.headers, options.headers)
-    const res = await fetch(VITE_BASE_URL + appendUrl, defaultOptions)
+    const perf = firebase.performance()
+    const serviceUrl = VITE_BASE_URL + appendUrl
+    const trace = perf.trace(serviceUrl)
+    trace.start()
+    const res = await fetch(serviceUrl, defaultOptions)
+    trace.stop()
     if (res.status !== 200) {
         const result = await res.text()
         if (result.includes('auth/id-token-expired')) {
