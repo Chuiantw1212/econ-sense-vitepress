@@ -120,21 +120,85 @@
                     </el-row>
                 </el-collapse-item>
             </el-collapse>
-            <br />
+            <el-divider content-position="left">退休後</el-divider>
             <el-row>
-                <el-col :span="24">
-                    <el-form-item label="退休品質">
-                        <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
-                            :disabled="isFormDisabled">
-                            <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
-                                item.label
-                            }}</el-radio>
-                        </el-radio-group>
+                <el-col :span="12">
+                    <el-form-item label="生活費">
+                        <el-input-number v-model="retirement.monthlyLivingExpense" :min="0" :step="1000"
+                            @change="calculateRetirement($event)" />
                     </el-form-item>
                 </el-col>
-                <el-col :span="23">
-                    <el-form-item label="退休月支出">
-                        <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks" :disabled="true" />
+                <el-col :span="12">
+                    <el-form-item label="預估失能年齡">
+                        <el-input-number v-model="retirement.disability.age" :min="0"
+                            @change="calculateRetirement($event)" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="失能年">
+                        {{ retirement.disability.year }}
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="失能後餘命">
+                        {{ retirement.disability.lifeExpectancy }}
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-divider content-position="left">失能後</el-divider>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="住居">
+                        <econSelect v-model="retirement.disability.housing" :options="config.disabilityHousing"
+                            @change="calculateRetirement($event)">
+                        </econSelect>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="照顧方式">
+                        <econSelect v-model="retirement.disability.carer" :options="config.disabilityCarer"
+                            @change="calculateRetirement($event)">
+                        </econSelect>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="參考生活費">
+                        {{ Number(retirement.disability.monthlyLivingExpenseEstimated).toLocaleString() }}
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="參考照顧費">
+                        {{ Number(retirement.disability.monthlyCaringExpenseEstimated).toLocaleString() }}
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="實際生活費">
+                        <el-input-number v-model="retirement.disability.monthlyLivingExpense" :min="0" :step="1000"
+                            @change="calculateRetirement($event)" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="實際照顧費">
+                        <el-input-number v-model="retirement.disability.monthlyCaringExpense" :min="0" :step="1000"
+                            @change="calculateRetirement($event)" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="月支出總和">
+                        {{
+                            Number(retirement.disability.monthlyLivingExpense +
+                                retirement.disability.monthlyCaringExpense).toLocaleString()
+                        }}
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -161,7 +225,7 @@
                         <li>退休開支：
                             <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
                                 主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
-                            </a>
+                            </a>並整理成以下表格作為參考。
                         </li>
                     </ul>
                     <table class="table">
@@ -272,36 +336,11 @@ const props = defineProps({
         required: true
     }
 })
-const expenseQuartileMarks = reactive({})
 const detailTitle = {
     'civilServant': '查詢人事服務網ECPA後設定',
     'employee': '查詢勞保局E化服務系統後設定',
     'entrepreneur': '查詢勞保局E化服務系統後設定',
 }
-const cilvilServantPensionOptions = [
-    {
-        label: '一次退休金',
-        value: 'lumpsum',
-    },
-    {
-        label: '月退休金',
-        value: 'annuity',
-    },
-    {
-        label: '兼領',
-        value: 'halfAndHalf',
-    }
-]
-const cilvilServantInsuranceOptions = [
-    {
-        label: '一次養老給付',
-        value: 'lumpsum',
-    },
-    {
-        label: '養老年金',
-        value: 'annuity',
-    },
-]
 // hooks
 const retirement = computed(() => {
     return props.modelValue
@@ -327,9 +366,10 @@ const unableToDraw = computed(() => {
 // methods
 async function calculateRetirement(options: any = { propagate: true }) {
     resetData()
-    calculateExpenseQuartileMarks()
     const { propagate = true } = options
     await calculateRetireLife()
+    calculateAnnualExpense()
+    calculateDisability()
     calculateFutureSeniority()
     const { careerInsuranceType } = props.profile
     switch (careerInsuranceType) {
@@ -346,7 +386,7 @@ async function calculateRetirement(options: any = { propagate: true }) {
             break;
         }
     }
-    calculateRetirementExpense()
+
     const pensionLumpSumData = await drawRetirementAssetChart()
     if (propagate) {
         emits('update:modelValue', retirement.value)
@@ -364,6 +404,62 @@ function resetData() {
     retirement.value.pension.tax = 0
     retirement.value.pension.monthlyAnnuity = 0
     retirement.value.pension.lumpsum = 0
+}
+function calculateAnnualExpense() {
+    retirement.value.annualExpense = retirement.value.monthlyLivingExpense * 12
+}
+function calculateDisability() {
+    /**
+     * 2022年數據
+     * https://dep.mohw.gov.tw/DOS/cp-5082-55400-113.html
+     */
+    if (!retirement.value.disability.age) {
+        if (props.profile.gender === 'M') {
+            retirement.value.disability.age = 69.92
+        }
+        if (props.profile.gender === 'F') {
+            retirement.value.disability.age = 75.07
+        }
+    }
+
+    const { currentYear, inflationRate } = props.config
+    const { yearOfBirth } = props.profile
+    const { disability, } = retirement.value
+
+    // 失能年
+    retirement.value.disability.year = Math.round(yearOfBirth + retirement.value.disability.age)
+    retirement.value.disability.lifeExpectancy = Number(retirement.value.age + retirement.value.lifeExpectancy - retirement.value.disability.age).toFixed(2)
+
+    // 失能生活費
+    const disabilityData = {
+        year: 2022,
+        monthlyLivingExpense: {
+            home: 16510,
+            facility: 30064,
+        },
+        monthlyCaringExpense: {
+            family: 2493,
+            // localCarer: 32973, 樣本不足
+            foreignCarer: 29191,
+            facility: 24411,
+        }
+    }
+
+    const years = currentYear - disabilityData.year
+    if (disability.housing) {
+        const monthlyLivingExpenseEstimated = disabilityData.monthlyLivingExpense[disability.housing] * (1 + inflationRate / 100) ^ years
+        disability.monthlyLivingExpenseEstimated = monthlyLivingExpenseEstimated
+        if (!disability.monthlyLivingExpense) {
+            disability.monthlyLivingExpense = monthlyLivingExpenseEstimated
+        }
+    }
+    if (disability.carer) {
+        const monthlyCaringExpenseEstimated = disabilityData.monthlyCaringExpense[disability.carer] * (1 + inflationRate / 100) ^ years
+        disability.monthlyCaringExpenseEstimated = monthlyCaringExpenseEstimated
+        if (!disability.monthlyCaringExpense) {
+            disability.monthlyCaringExpense = monthlyCaringExpenseEstimated
+        }
+    }
 }
 function calculateCivilServantInsurance(): number {
     /**
@@ -474,14 +570,6 @@ function calculateLumpsumIncomeReplacementRatio(lumpsum) {
     retirement.value.pension.lumpsumIncomeReplacementRatio = lumpsumIncomeReplacementRatio
     return lumpsumIncomeReplacementRatio
 }
-function calculateExpenseQuartileMarks() {
-    props.config.retirementQuartile.forEach((item, index) => {
-        const { value } = item
-        const percentileRank = (index + 1) * 20 - 10
-        const retirementMonthlyExpense = Number(value) / 12
-        expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
-    })
-}
 
 const oldRetireAge = ref(0)
 const oldCurrentAge = ref(0)
@@ -562,15 +650,6 @@ function calculateLaborSurvivorAnnuity() {
     survivorAnnuity = Math.max(3000, survivorAnnuity)
     retirement.value.insurance.survivorAnnuity = Math.floor(survivorAnnuity)
 }
-function calculateRetirementExpense() {
-    const { qualityLevel } = retirement.value
-    if (!qualityLevel || !props.config.retirementQuartile.length) {
-        return
-    }
-    retirement.value.percentileRank = qualityLevel * 20 - 10
-    const selectedItem: IOptionItem = props.config.retirementQuartile[qualityLevel - 1]
-    retirement.value.annualExpense = Number(selectedItem.value)
-}
 
 const debounceId = ref()
 async function drawRetirementAssetChart() {
@@ -586,6 +665,7 @@ async function drawRetirementAssetChart() {
         annualExpense,
         insurance,
         pension,
+        disability
     } = retirement.value
     const {
         employerContribution,
@@ -635,9 +715,11 @@ async function drawRetirementAssetChart() {
     calculatePensionLumpsumTax(fv)
 
     // 退休後退休支出
+    const disabilityCaringExpenseData: number[] = []
     let insuranceAnnuityInflationModifier = 1
     let pmt = 0
-    let inflatedAnnualExpense = 0
+    let inflatedLivingExpense = 0
+    let inflatedCaringExpense = 0
     for (let i = 1; i <= lifeExpectancy + 1; i++) {
         // 更新參數
         inflationModifier *= inflationRate
@@ -650,9 +732,18 @@ async function drawRetirementAssetChart() {
         pmt = annutalAnnuity
         annualAnnuityData.push(annutalAnnuity)
         // 退休生活計算
-        inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
-        retirementAnnualExpenseData.push(-inflatedAnnualExpense)
-        pmt -= inflatedAnnualExpense
+        if (retirement.value.disability.year <= retirement.value.yearOfRetire + i) {
+            const disabilityLivingExpense = disability.monthlyLivingExpense * 12
+            inflatedLivingExpense = Math.floor(disabilityLivingExpense * inflationModifier)
+            const disabilityCaringExpense = disability.monthlyCaringExpense * 12
+            inflatedCaringExpense = Math.floor(disabilityCaringExpense * inflationModifier)
+        } else {
+            inflatedLivingExpense = Math.floor(annualExpense * inflationModifier)
+        }
+        retirementAnnualExpenseData.push(-inflatedLivingExpense)
+        disabilityCaringExpenseData.push(-inflatedCaringExpense)
+        pmt -= inflatedLivingExpense
+        pmt -= inflatedCaringExpense
         // 未還完的房貸支出
         const simYear = currentYear + yearsToRetirement + i
         const annualRepay = monthlyRepay * 12
@@ -689,8 +780,14 @@ async function drawRetirementAssetChart() {
             tension,
         },
         {
-            label: '退休支出',
+            label: '生活費支出',
             data: retirementAnnualExpenseData,
+            fill: true,
+            tension,
+        },
+        {
+            label: '照顧費支出',
+            data: disabilityCaringExpenseData,
             fill: true,
             tension,
         },

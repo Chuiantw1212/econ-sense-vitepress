@@ -172,6 +172,8 @@ const config = reactive({
     buildingAges: [],
     retirementQuartile: [],
     insuranceTypes: [],
+    disabilityHousing: [],
+    disabilityCarer: [],
     // object types
     townMap: {},
     portfolioIRR: {},
@@ -203,6 +205,8 @@ async function setSelecOptionSync() {
         config.genders = selectResJson.genders || []
         config.retirementQuartile = selectResJson.retirementQuartile || []
         config.insuranceTypes = selectResJson.insuranceTypes || []
+        config.disabilityHousing = selectResJson.disabilityHousing || []
+        config.disabilityCarer = selectResJson.disabilityCarer || []
         Object.assign(config.townMap, selectResJson.townMap)
         // 由爬蟲抓回的設定
         const interestRate = await bankConfigRes[1].json()
@@ -354,9 +358,14 @@ const userForm = reactive({
             irrOverDecade: 4.76,
             lumpSum: 0,
         },
-        percentileRank: 50,
-        qualityLevel: 3,
-        expenseQuartileMarks: {},
+        monthlyLivingExpense: 30346,
+        disability: {
+            age: 0,
+            monthlyLivingExpense: 0,
+            monthlyCaringExpense: 0,
+            housing: 16510,
+            carer: '',
+        }
     },
     security: {
         allocationETF: 'aok',

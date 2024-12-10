@@ -236,6 +236,7 @@ function openSignInDialog() {
          * 避免FirebaseUI重複初始化錯誤
          * https://stackoverflow.com/questions/47589209/error-in-mounted-hook-error-an-authui-instance-already-exists
          */
+        const firebaseui = (window as any).firebaseui
         if (firebaseui.auth.AuthUI.getInstance()) {
             const ui = firebaseui.auth.AuthUI.getInstance()
             ui?.start('#firebaseui-auth-container', uiConfig)
