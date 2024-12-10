@@ -354,9 +354,7 @@ const userForm = reactive({
             irrOverDecade: 4.76,
             lumpSum: 0,
         },
-        percentileRank: 50,
-        qualityLevel: 3,
-        expenseQuartileMarks: {},
+        monthlyLivingExpense: 30346,
     },
     security: {
         allocationETF: 'aok',

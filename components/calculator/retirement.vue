@@ -122,20 +122,31 @@
             </el-collapse>
             <br />
             <el-row>
+                <!-- <el-col :span="23">
+                    <el-form-item label="退休月支出">
+                        <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks" :disabled="true" />
+                    </el-form-item>
+                </el-col>
+                {{ retirement.percentileRank }} -->
+                <el-col :span="12">
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="退休後生活費">
+                        <el-input-number v-model="retirement.monthlyLivingExpense" :min="0" />
+                    </el-form-item>
+                </el-col>
                 <el-col :span="24">
-                    <el-form-item label="退休品質">
+                    <el-form-item label="預估失能年齡">
+                        <el-input-number v-model="retirement.disabledAge" :min="0" />
+                    </el-form-item>
+                    <!-- <el-form-item label="退休品質">
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
                             :disabled="isFormDisabled">
                             <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
                                 item.label
-                            }}</el-radio>
+                                }}</el-radio>
                         </el-radio-group>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="23">
-                    <el-form-item label="退休月支出">
-                        <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks" :disabled="true" />
-                    </el-form-item>
+                    </el-form-item> -->
                 </el-col>
             </el-row>
             <br />
@@ -161,7 +172,7 @@
                         <li>退休開支：
                             <a href="https://www.stat.gov.tw/News_Content.aspx?n=3908&s=231908">
                                 主計總處統計專區 家庭收支調查 統計表 調查報告 平均每戶家庭收支按家庭組織型態別分
-                            </a>
+                            </a>並整理成以下表格作為參考。
                         </li>
                     </ul>
                     <table class="table">
@@ -272,7 +283,7 @@ const props = defineProps({
         required: true
     }
 })
-const expenseQuartileMarks = reactive({})
+// const expenseQuartileMarks = reactive({})
 const detailTitle = {
     'civilServant': '查詢人事服務網ECPA後設定',
     'employee': '查詢勞保局E化服務系統後設定',
@@ -327,7 +338,8 @@ const unableToDraw = computed(() => {
 // methods
 async function calculateRetirement(options: any = { propagate: true }) {
     resetData()
-    calculateExpenseQuartileMarks()
+    // calculateExpenseQuartileMarks()
+    calculateDisabledAge()
     const { propagate = true } = options
     await calculateRetireLife()
     calculateFutureSeniority()
@@ -364,6 +376,18 @@ function resetData() {
     retirement.value.pension.tax = 0
     retirement.value.pension.monthlyAnnuity = 0
     retirement.value.pension.lumpsum = 0
+}
+function calculateDisabledAge() {
+    /**
+     * 2022年數據
+     * https://dep.mohw.gov.tw/DOS/cp-5082-55400-113.html
+     */
+    if (props.profile.gender === 'M') {
+        retirement.value.disabledAge = 69.92
+    }
+    if (props.profile.gender === 'F') {
+        retirement.value.disabledAge = 75.07
+    }
 }
 function calculateCivilServantInsurance(): number {
     /**
@@ -474,14 +498,14 @@ function calculateLumpsumIncomeReplacementRatio(lumpsum) {
     retirement.value.pension.lumpsumIncomeReplacementRatio = lumpsumIncomeReplacementRatio
     return lumpsumIncomeReplacementRatio
 }
-function calculateExpenseQuartileMarks() {
-    props.config.retirementQuartile.forEach((item, index) => {
-        const { value } = item
-        const percentileRank = (index + 1) * 20 - 10
-        const retirementMonthlyExpense = Number(value) / 12
-        expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
-    })
-}
+// function calculateExpenseQuartileMarks() {
+//     props.config.retirementQuartile.forEach((item, index) => {
+//         const { value } = item
+//         const percentileRank = (index + 1) * 20 - 10
+//         const retirementMonthlyExpense = Number(value) / 12
+//         expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
+//     })
+// }
 
 const oldRetireAge = ref(0)
 const oldCurrentAge = ref(0)
@@ -563,13 +587,13 @@ function calculateLaborSurvivorAnnuity() {
     retirement.value.insurance.survivorAnnuity = Math.floor(survivorAnnuity)
 }
 function calculateRetirementExpense() {
-    const { qualityLevel } = retirement.value
-    if (!qualityLevel || !props.config.retirementQuartile.length) {
-        return
-    }
-    retirement.value.percentileRank = qualityLevel * 20 - 10
-    const selectedItem: IOptionItem = props.config.retirementQuartile[qualityLevel - 1]
-    retirement.value.annualExpense = Number(selectedItem.value)
+    const { monthlyLivingCost } = retirement.value
+    // if (!qualityLevel || !props.config.retirementQuartile.length) {
+    //     return
+    // }
+    // retirement.value.percentileRank = qualityLevel * 20 - 10
+    // const selectedItem: IOptionItem = props.config.retirementQuartile[qualityLevel - 1]
+    // retirement.value.annualExpense = Number(selectedItem.value)
 }
 
 const debounceId = ref()
