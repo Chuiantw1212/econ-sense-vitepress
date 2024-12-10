@@ -75,7 +75,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="試算利息(%)">
-                        <el-input-number v-model="mortgage.interestRate" :min="0" :step="0.25"
+                        <el-input-number v-model="mortgage.interestRate" :min="0" :step="0.125"
                             @change="calculateMortgage()" />
                     </el-form-item>
                 </el-col>
