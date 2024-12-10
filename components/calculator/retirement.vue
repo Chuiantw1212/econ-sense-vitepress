@@ -368,6 +368,7 @@ async function calculateRetirement(options: any = { propagate: true }) {
     resetData()
     const { propagate = true } = options
     await calculateRetireLife()
+    calculateAnnualExpense()
     calculateDisability()
     calculateFutureSeniority()
     const { careerInsuranceType } = props.profile
@@ -404,6 +405,9 @@ function resetData() {
     retirement.value.pension.monthlyAnnuity = 0
     retirement.value.pension.lumpsum = 0
 }
+function calculateAnnualExpense() {
+    retirement.value.annualExpense = retirement.value.monthlyLivingExpense * 12
+}
 function calculateDisability() {
     /**
      * 2022年數據
@@ -435,7 +439,7 @@ function calculateDisability() {
             family: 2493,
             // localCarer: 32973, 樣本不足
             foreignCarer: 29191,
-            facility: 30064,
+            facility: 24411,
         }
     }
 
@@ -659,6 +663,7 @@ async function drawRetirementAssetChart() {
         annualExpense,
         insurance,
         pension,
+        disability
     } = retirement.value
     const {
         employerContribution,
@@ -708,9 +713,11 @@ async function drawRetirementAssetChart() {
     calculatePensionLumpsumTax(fv)
 
     // 退休後退休支出
+    const disabilityCaringExpenseData: number[] = []
     let insuranceAnnuityInflationModifier = 1
     let pmt = 0
-    let inflatedAnnualExpense = 0
+    let inflatedLivingExpense = 0
+    let inflatedCaringExpense = 0
     for (let i = 1; i <= lifeExpectancy + 1; i++) {
         // 更新參數
         inflationModifier *= inflationRate
@@ -723,9 +730,18 @@ async function drawRetirementAssetChart() {
         pmt = annutalAnnuity
         annualAnnuityData.push(annutalAnnuity)
         // 退休生活計算
-        inflatedAnnualExpense = Math.floor(annualExpense * inflationModifier)
-        retirementAnnualExpenseData.push(-inflatedAnnualExpense)
-        pmt -= inflatedAnnualExpense
+        if (retirement.value.disability.year <= retirement.value.yearOfRetire + i) {
+            const disabilityLivingExpense = disability.monthlyLivingExpense * 12
+            inflatedLivingExpense = Math.floor(disabilityLivingExpense * inflationModifier)
+            const disabilityCaringExpense = disability.monthlyCaringExpense * 12
+            inflatedCaringExpense = Math.floor(disabilityCaringExpense * inflationModifier)
+        } else {
+            inflatedLivingExpense = Math.floor(annualExpense * inflationModifier)
+        }
+        retirementAnnualExpenseData.push(-inflatedLivingExpense)
+        disabilityCaringExpenseData.push(-inflatedCaringExpense)
+        pmt -= inflatedLivingExpense
+        pmt -= inflatedCaringExpense
         // 未還完的房貸支出
         const simYear = currentYear + yearsToRetirement + i
         const annualRepay = monthlyRepay * 12
@@ -762,8 +778,14 @@ async function drawRetirementAssetChart() {
             tension,
         },
         {
-            label: '退休支出',
+            label: '生活費支出',
             data: retirementAnnualExpenseData,
+            fill: true,
+            tension,
+        },
+        {
+            label: '照顧費支出',
+            data: disabilityCaringExpenseData,
             fill: true,
             tension,
         },
