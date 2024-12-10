@@ -99,7 +99,7 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="退休金IRR">
-                                <el-input-number v-model="retirement.pension.irrOverDecade" :min="0"
+                                <el-input-number v-model="retirement.pension.irrOverDecade" :min="0" :step="0.125"
                                     @change="calculateRetirement($event)" />
                             </el-form-item>
                         </el-col>
@@ -712,6 +712,7 @@ async function drawRetirementAssetChart() {
 
     // 退休後退休支出
     const disabilityCaringExpenseData: number[] = []
+    const hasDisabilitySetting = disability.monthlyLivingExpense && disability.monthlyCaringExpense
     let insuranceAnnuityInflationModifier = 1
     let pmt = 0
     let inflatedLivingExpense = 0
@@ -728,7 +729,8 @@ async function drawRetirementAssetChart() {
         pmt = annutalAnnuity
         annualAnnuityData.push(annutalAnnuity)
         // 退休生活計算
-        if (retirement.value.disability.year <= retirement.value.yearOfRetire + i) {
+        const isStartDisability = retirement.value.disability.year <= retirement.value.yearOfRetire + i
+        if (hasDisabilitySetting && isStartDisability) {
             const disabilityLivingExpense = disability.monthlyLivingExpense * 12
             inflatedLivingExpense = Math.floor(disabilityLivingExpense * inflationModifier)
             const disabilityCaringExpense = disability.monthlyCaringExpense * 12
@@ -781,13 +783,16 @@ async function drawRetirementAssetChart() {
             fill: true,
             tension,
         },
-        {
+
+    ]
+    if (hasDisabilitySetting) {
+        datasets.push({
             label: '照顧費支出',
             data: disabilityCaringExpenseData,
             fill: true,
             tension,
-        },
-    ]
+        },)
+    }
     const hasMortgage = estateData.some(data => data)
     if (hasMortgage) {
         datasets.push({
