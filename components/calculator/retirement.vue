@@ -135,6 +135,18 @@
                     </el-form-item>
                 </el-col>
             </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="失能年">
+                        {{ retirement.disability.year }}
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="失能後餘命">
+                        {{ retirement.disability.lifeExpectancy }}
+                    </el-form-item>
+                </el-col>
+            </el-row>
             <el-divider content-position="left">失能後</el-divider>
             <el-row>
                 <el-col :span="12">
@@ -184,7 +196,8 @@
                 <el-col :span="12">
                     <el-form-item label="月支出總和">
                         {{
-                            Number(retirement.disability.monthlyLivingExpense + retirement.disability.monthlyCaringExpense).toLocaleString()
+                            Number(retirement.disability.monthlyLivingExpense +
+                                retirement.disability.monthlyCaringExpense).toLocaleString()
                         }}
                     </el-form-item>
                 </el-col>
@@ -353,9 +366,9 @@ const unableToDraw = computed(() => {
 // methods
 async function calculateRetirement(options: any = { propagate: true }) {
     resetData()
-    calculateDisability()
     const { propagate = true } = options
     await calculateRetireLife()
+    calculateDisability()
     calculateFutureSeniority()
     const { careerInsuranceType } = props.profile
     switch (careerInsuranceType) {
@@ -402,6 +415,15 @@ function calculateDisability() {
     if (props.profile.gender === 'F') {
         retirement.value.disability.age = 75.07
     }
+
+    const { currentYear, inflationRate } = props.config
+    const { yearOfBirth } = props.profile
+    const { disability, } = retirement.value
+
+    // 失能年
+    retirement.value.disability.year = Math.round(yearOfBirth + retirement.value.disability.age)
+    retirement.value.disability.lifeExpectancy = Number(retirement.value.age + retirement.value.lifeExpectancy - retirement.value.disability.age).toFixed(2)
+
     // 失能生活費
     const disabilityData = {
         year: 2022,
@@ -416,8 +438,6 @@ function calculateDisability() {
             facility: 30064,
         }
     }
-    const { currentYear, inflationRate } = props.config
-    const { disability, } = retirement.value
 
     const years = currentYear - disabilityData.year
     if (disability.housing) {
