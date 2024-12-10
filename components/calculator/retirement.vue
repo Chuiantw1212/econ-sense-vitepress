@@ -124,13 +124,13 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="生活費">
-                        <el-input-number v-model="retirement.monthlyLivingExpense" :min="0"
+                        <el-input-number v-model="retirement.monthlyLivingExpense" :min="0" :step="1000"
                             @change="calculateRetirement($event)" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="預估失能年齡">
-                        <el-input-number v-model="retirement.disability.age" :min="0" :disabled="true"
+                        <el-input-number v-model="retirement.disability.age" :min="0"
                             @change="calculateRetirement($event)" />
                     </el-form-item>
                 </el-col>
@@ -171,21 +171,21 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="實際生活費">
-                        <el-input-number v-model="retirement.disability.monthlyLivingExpense" :min="0"
-                            @change="calculateRetirement($event)" />
+                    <el-form-item label="參考照顧費">
+                        {{ Number(retirement.disability.monthlyCaringExpenseEstimated).toLocaleString() }}
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="參考照顧費">
-                        {{ Number(retirement.disability.monthlyCaringExpenseEstimated).toLocaleString() }}
+                    <el-form-item label="實際生活費">
+                        <el-input-number v-model="retirement.disability.monthlyLivingExpense" :min="0" :step="1000"
+                            @change="calculateRetirement($event)" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="實際照顧費">
-                        <el-input-number v-model="retirement.disability.monthlyCaringExpense" :min="0"
+                        <el-input-number v-model="retirement.disability.monthlyCaringExpense" :min="0" :step="1000"
                             @change="calculateRetirement($event)" />
                     </el-form-item>
                 </el-col>
@@ -413,11 +413,13 @@ function calculateDisability() {
      * 2022年數據
      * https://dep.mohw.gov.tw/DOS/cp-5082-55400-113.html
      */
-    if (props.profile.gender === 'M') {
-        retirement.value.disability.age = 69.92
-    }
-    if (props.profile.gender === 'F') {
-        retirement.value.disability.age = 75.07
+    if (!retirement.value.disability.age) {
+        if (props.profile.gender === 'M') {
+            retirement.value.disability.age = 69.92
+        }
+        if (props.profile.gender === 'F') {
+            retirement.value.disability.age = 75.07
+        }
     }
 
     const { currentYear, inflationRate } = props.config
