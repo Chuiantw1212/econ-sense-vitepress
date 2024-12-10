@@ -125,13 +125,13 @@
                 <el-col :span="12">
                     <el-form-item label="生活費">
                         <el-input-number v-model="retirement.monthlyLivingExpense" :min="0" :step="1000"
-                            @change="calculateRetirement($event)" />
+                            @change="calculateRetirement($event)" :disabled="isFormDisabled" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="預估失能年齡">
                         <el-input-number v-model="retirement.disability.age" :min="0"
-                            @change="calculateRetirement($event)" />
+                            @change="calculateRetirement($event)" :disabled="isFormDisabled" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -152,14 +152,14 @@
                 <el-col :span="12">
                     <el-form-item label="住居">
                         <econSelect v-model="retirement.disability.housing" :options="config.disabilityHousing"
-                            @change="calculateRetirement($event)">
+                            @change="calculateRetirement($event)" :disabled="isFormDisabled">
                         </econSelect>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="照顧方式">
                         <econSelect v-model="retirement.disability.carer" :options="config.disabilityCarer"
-                            @change="calculateRetirement($event)">
+                            @change="calculateRetirement($event)" :disabled="isFormDisabled">
                         </econSelect>
                     </el-form-item>
                 </el-col>
@@ -167,12 +167,12 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="參考生活費">
-                        {{ Number(retirement.disability.monthlyLivingExpenseEstimated).toLocaleString() }}
+                        {{ Number(retirement.disability.monthlyLivingExpenseEstimated || 0).toLocaleString() }}
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="參考照顧費">
-                        {{ Number(retirement.disability.monthlyCaringExpenseEstimated).toLocaleString() }}
+                        {{ Number(retirement.disability.monthlyCaringExpenseEstimated || 0).toLocaleString() }}
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -180,13 +180,13 @@
                 <el-col :span="12">
                     <el-form-item label="實際生活費">
                         <el-input-number v-model="retirement.disability.monthlyLivingExpense" :min="0" :step="1000"
-                            @change="calculateRetirement($event)" />
+                            @change="calculateRetirement($event)" :disabled="isFormDisabled" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="實際照顧費">
                         <el-input-number v-model="retirement.disability.monthlyCaringExpense" :min="0" :step="1000"
-                            @change="calculateRetirement($event)" />
+                            @change="calculateRetirement($event)" :disabled="isFormDisabled" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -446,19 +446,15 @@ function calculateDisability() {
     }
 
     const years = currentYear - disabilityData.year
-    if (disability.housing) {
+    if (disability.housing && !disability.monthlyLivingExpense) {
         const monthlyLivingExpenseEstimated = disabilityData.monthlyLivingExpense[disability.housing] * (1 + inflationRate / 100) ^ years
         disability.monthlyLivingExpenseEstimated = monthlyLivingExpenseEstimated
-        if (!disability.monthlyLivingExpense) {
-            disability.monthlyLivingExpense = monthlyLivingExpenseEstimated
-        }
+        disability.monthlyLivingExpense = monthlyLivingExpenseEstimated
     }
-    if (disability.carer) {
+    if (disability.carer && !disability.monthlyCaringExpense) {
         const monthlyCaringExpenseEstimated = disabilityData.monthlyCaringExpense[disability.carer] * (1 + inflationRate / 100) ^ years
         disability.monthlyCaringExpenseEstimated = monthlyCaringExpenseEstimated
-        if (!disability.monthlyCaringExpense) {
-            disability.monthlyCaringExpense = monthlyCaringExpenseEstimated
-        }
+        disability.monthlyCaringExpense = monthlyCaringExpenseEstimated
     }
 }
 function calculateCivilServantInsurance(): number {

@@ -363,7 +363,7 @@ const userForm = reactive({
             age: 0,
             monthlyLivingExpense: 0,
             monthlyCaringExpense: 0,
-            housing: 16510,
+            housing: '',
             carer: '',
         }
     },
