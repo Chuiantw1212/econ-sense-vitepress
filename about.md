@@ -23,6 +23,11 @@ head:
     title: '全端工程師',
     desc:'2024 玉山銀行委外<br/>2020-2023 凱基人壽委外<br/>2017-2020 前端工程師',
   },
+//   {
+//     avatar: `https://storage.googleapis.com/public.econ-sense.com/about/yungshiu.webp`,
+//     title: '永旭保險經紀人',
+//     desc:'2024~ 業務專員',
+//   },
 ]" />
 
 ## 主要專案
