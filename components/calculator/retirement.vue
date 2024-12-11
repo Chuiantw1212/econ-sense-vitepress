@@ -772,7 +772,7 @@ async function drawRetirementAssetChart() {
     const tension = 0.5
     const datasets = [
         {
-            label: '專戶累計',
+            label: '退休金存量',
             data: pensionLumpSumData,
             fill: true,
             tension,
