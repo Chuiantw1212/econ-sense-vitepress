@@ -45,6 +45,18 @@
     }
 }
 
+.buttonGroup {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+
+    .form__button {
+        margin-top: 16px;
+
+    }
+}
+
+
 @media screen and (min-width:992px) {
     .d-md-block {
         display: block;

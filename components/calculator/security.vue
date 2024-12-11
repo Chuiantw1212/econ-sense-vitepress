@@ -280,7 +280,6 @@ function drawLifeAssetChart() {
             downpayTotalPrice = Math.floor(totalPrice * valueModifier)
         }
         estateData.push(downpayTotalPrice)
-        // 退休後就改由退休金支出
         mortgageData.push(Math.floor(-mortgagePmt))
         calculatedPmt -= mortgagePmt
 
