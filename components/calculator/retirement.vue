@@ -745,15 +745,15 @@ async function drawRetirementAssetChart() {
         disabilityCaringExpenseData.push(-inflatedCaringExpense)
         pmt -= inflatedLivingExpense
         pmt -= inflatedCaringExpense
-        // 未還完的房貸支出
-        const simYear = currentYear + yearsToRetirement + i
-        const annualRepay = monthlyRepay * 12
-        if (loanEndYear >= simYear) {
-            pmt -= annualRepay
-            estateData.push(-annualRepay)
-        } else {
-            estateData.push(0)
-        }
+        // // 未還完的房貸支出
+        // const simYear = currentYear + yearsToRetirement + i
+        // const annualRepay = monthlyRepay * 12
+        // if (loanEndYear >= simYear) {
+        //     pmt -= annualRepay
+        //     estateData.push(-annualRepay)
+        // } else {
+        //     estateData.push(0)
+        // }
         // 更新參數
         fv = Math.max(0, fv + pmt)
         if (fv <= 0) {
