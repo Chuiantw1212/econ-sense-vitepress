@@ -147,7 +147,7 @@
                             包含獎金等等不固定薪資、以及投資股利等等後的稅後所得/12，是計算每月可投資金額的基礎。
                         </li>
                         <li>
-                            假設薪資成長率永遠剛好抵銷通膨
+                            假設薪資成長率 = 通膨率{{ config.inflationRate }}%
                         </li>
                         <li>
                             月提繳查詢：<a href="https://www.bli.gov.tw/0013083.html" target="_blank">勞動部勞工保險局</a>

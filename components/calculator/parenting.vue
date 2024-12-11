@@ -290,7 +290,6 @@ function drawParentingChart(propagate = true) {
     let fv: number = 0
 
     for (let i = 0; i < parentingDuration; i++) {
-        inflationModifier *= inflationRatio
         const simYear: number = firstBornYear + i
         labels.push(simYear)
         /**
@@ -352,6 +351,7 @@ function drawParentingChart(propagate = true) {
         lifeInsuranceCash.push([floorPmt, Math.floor(Math.max(0, cash))])
 
         pv = fv
+        inflationModifier *= inflationRatio
     }
     const datasets: {
         label: string,

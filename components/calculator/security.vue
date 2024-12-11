@@ -248,9 +248,8 @@ function drawLifeAssetChart() {
     const spouseContribution: number[] = []
     const childExpenseData: number[] = []
 
-    for (let i = 1; i <= yearsToRetirement + lifeExpectancy + 1; i++) {
+    for (let i = 1; i <= yearsToRetirement + lifeExpectancy; i++) {
         const simYear = currentYear + i
-        valueModifier *= inflatoinRatio
         /**
          * 影響存量重大事件
          */
@@ -281,6 +280,7 @@ function drawLifeAssetChart() {
         estateData.push(downpayTotalPrice)
         mortgageData.push(Math.floor(-mortgagePmt))
         calculatedPmt -= mortgagePmt
+
         /**
          * 會受到通膨影響的PMT
          */
@@ -316,21 +316,25 @@ function drawLifeAssetChart() {
             childExpenseData.push(0)
         }
 
-        // 計算複利終值
-        const principle = pv
+        // 計算本金
+        const principle: number = pv
         principleData.push(Math.floor(principle))
-        const appreciation = principle * irr / 100
+        // 計算增值
+        const appreciation: number = principle * irr / 100
         securityAppreciationData.push(Math.floor(appreciation))
-        fv = principle + appreciation
-        securityAssetData.push(Math.floor(fv))
+
         fv += calculatedPmt
         if (fv <= 0) {
             fv = 0
             valueModifier = 0
         }
-
         labels.push(simYear)
         pv = fv
+
+        // 計算複利終值
+        fv += appreciation
+        securityAssetData.push(Math.floor(fv))
+        valueModifier *= inflatoinRatio
     }
     const datasets = [
         {
@@ -338,15 +342,15 @@ function drawLifeAssetChart() {
             data: securityAssetData.slice(0, yearsToRetirement),
         },
         // {
-        //     label: '增值',
+        //     label: '資產增值',
         //     data: securityAppreciationData.slice(0, yearsToRetirement),
         // },
+        {
+            label: '定期定額',
+            data: investingData,
+        }
     ]
 
-    datasets.push({
-        label: '定期定額',
-        data: investingData,
-    })
     const hasChildExpense = childExpenseData.some(value => value !== 0)
     if (hasChildExpense) {
         datasets.push({
