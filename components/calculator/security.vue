@@ -319,21 +319,19 @@ function drawLifeAssetChart() {
         // 計算本金
         const principle: number = pv
         principleData.push(Math.floor(principle))
+        pv += calculatedPmt
         // 計算增值
         const appreciation: number = principle * irr / 100
         securityAppreciationData.push(Math.floor(appreciation))
-
-        fv += calculatedPmt
+        // 計算複利終值
+        pv += appreciation
+        securityAssetData.push(Math.floor(fv))
+        fv = pv
         if (fv <= 0) {
             fv = 0
             valueModifier = 0
         }
         labels.push(simYear)
-        pv = fv
-
-        // 計算複利終值
-        fv += appreciation
-        securityAssetData.push(Math.floor(fv))
         valueModifier *= inflatoinRatio
     }
     const datasets = [
