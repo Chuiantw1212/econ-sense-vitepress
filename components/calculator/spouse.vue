@@ -16,7 +16,7 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="出生年">
+                    <el-form-item label="配偶出生年">
                         <econSelect v-model="spouse.yearOfBirth" placeholder="無配偶" :options="birthYearOptions"
                             :disabled="!spouse.yearOfMarriage" @change="calculatecSpouse()"></econSelect>
                     </el-form-item>

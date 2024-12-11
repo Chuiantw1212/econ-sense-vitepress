@@ -331,34 +331,34 @@ function drawDownpayChart() {
 
     let period = 0
     do {
-        pmt *= inflationRatio
-        goal *= inflationRatio
-        downpayTotalPrice *= inflationRatio
-
-        fv = pv * irrModifier
+        fv = pv
         preparedDownpayData.push(Math.floor(fv))
         fv += pmt
         annualSavingData.push(Math.floor(pmt))
         labels.push(currentYear + ++period)
         estateTotalPrice.push(Math.floor(goal))
-        pv = fv
+        pv = fv * irrModifier
+        // 通膨調整
+        pmt *= inflationRatio
+        goal *= inflationRatio
+        downpayTotalPrice *= inflationRatio
     } while (fv < goal)
 
     mortgage.value.yearsToDownpay = period
     mortgage.value.downpayYearEstimated = props.config.currentYear + period
     if (downpayYear > mortgage.value.downpayYearEstimated) {
         for (let i = 0; i < downpayYear - mortgage.value.downpayYearEstimated; i++) {
-            pmt *= inflationRatio
-            goal *= inflationRatio
-            downpayTotalPrice *= inflationRatio
-
-            fv = pv * irrModifier
             preparedDownpayData.push(Math.floor(fv))
             fv += pmt
             annualSavingData.push(Math.floor(pmt))
             labels.push(currentYear + ++period)
             estateTotalPrice.push(Math.floor(goal))
             pv = fv
+            // 通膨調整
+            pmt *= inflationRatio
+            goal *= inflationRatio
+            downpayTotalPrice *= inflationRatio
+            fv = pv * irrModifier
         }
     }
     mortgage.value.downpayTotalPrice = Math.floor(downpayTotalPrice)
@@ -381,7 +381,7 @@ function drawDownpayChart() {
 
     const datasets = [
         {
-            label: '已備增值',
+            label: '已備資產',
             data: preparedDownpayData,
             stack: '已備',
         },
@@ -434,6 +434,7 @@ function drawDownpayChart() {
 }
 function formatNumber(tooltipItems) {
     const { raw, } = tooltipItems
+    // return Number(raw).toLocaleString() // 驗算可用
     let formatRaw: string | number = Math.ceil(raw / 10000)
     formatRaw = Number(formatRaw).toLocaleString()
     return `${formatRaw}萬`

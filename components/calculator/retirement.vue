@@ -446,15 +446,19 @@ function calculateDisability() {
     }
 
     const years = currentYear - disabilityData.year
-    if (disability.housing && !disability.monthlyLivingExpense) {
+    if (disability.housing) {
         const monthlyLivingExpenseEstimated = disabilityData.monthlyLivingExpense[disability.housing] * (1 + inflationRate / 100) ^ years
         disability.monthlyLivingExpenseEstimated = monthlyLivingExpenseEstimated
-        disability.monthlyLivingExpense = monthlyLivingExpenseEstimated
+        if (!disability.monthlyLivingExpense) {
+            disability.monthlyLivingExpense = monthlyLivingExpenseEstimated
+        }
     }
-    if (disability.carer && !disability.monthlyCaringExpense) {
+    if (disability.carer) {
         const monthlyCaringExpenseEstimated = disabilityData.monthlyCaringExpense[disability.carer] * (1 + inflationRate / 100) ^ years
         disability.monthlyCaringExpenseEstimated = monthlyCaringExpenseEstimated
-        disability.monthlyCaringExpense = monthlyCaringExpenseEstimated
+        if (!disability.monthlyCaringExpense) {
+            disability.monthlyCaringExpense = monthlyCaringExpenseEstimated
+        }
     }
 }
 function calculateCivilServantInsurance(): number {
@@ -693,9 +697,9 @@ async function drawRetirementAssetChart() {
     pv = employerContribution + employeeContrubution + employerContributionIncome + employeeContrubutionIncome
     // 退休前資產累積
     for (let i = 1; i <= n; i++) {
-        const pmt = pensionContribution * inflationModifier
+        const pmt = pensionContribution
         pv *= pensionIrr
-        fv = Math.floor(pv + pmt)
+        fv = pv + pmt
         /** 驗算勞動退休金累積可用 */
         // pensionLumpSumData.push(Math.floor(fv))
         // estateData.push(0)
@@ -717,13 +721,10 @@ async function drawRetirementAssetChart() {
     let pmt = 0
     let inflatedLivingExpense = 0
     let inflatedCaringExpense = 0
-    for (let i = 1; i <= lifeExpectancy + 1; i++) {
+    for (let i = 1; i < lifeExpectancy; i++) {
         // 更新參數
         inflationModifier *= inflationRate
         insuranceAnnuityInflationModifier *= inflationRate
-        // 現值增值
-        fv = Math.floor(pv * pensionIrr)
-        pensionLumpSumData.push(Math.floor(fv))
         // 年金收入計算
         const annutalAnnuity = Math.floor(monthlyAnnuity * 12 * insuranceAnnuityInflationModifier)
         pmt = annutalAnnuity
@@ -731,26 +732,28 @@ async function drawRetirementAssetChart() {
         // 退休生活計算
         const isStartDisability = retirement.value.disability.year <= retirement.value.yearOfRetire + i
         if (hasDisabilitySetting && isStartDisability) {
+            // 失能照顧與生活費
             const disabilityLivingExpense = disability.monthlyLivingExpense * 12
             inflatedLivingExpense = Math.floor(disabilityLivingExpense * inflationModifier)
             const disabilityCaringExpense = disability.monthlyCaringExpense * 12
             inflatedCaringExpense = Math.floor(disabilityCaringExpense * inflationModifier)
         } else {
+            // 未失能生活費
             inflatedLivingExpense = Math.floor(annualExpense * inflationModifier)
         }
         retirementAnnualExpenseData.push(-inflatedLivingExpense)
         disabilityCaringExpenseData.push(-inflatedCaringExpense)
         pmt -= inflatedLivingExpense
         pmt -= inflatedCaringExpense
-        // 未還完的房貸支出
-        const simYear = currentYear + yearsToRetirement + i
-        const annualRepay = monthlyRepay * 12
-        if (loanEndYear >= simYear) {
-            pmt -= annualRepay
-            estateData.push(-annualRepay)
-        } else {
-            estateData.push(0)
-        }
+        // // 未還完的房貸支出
+        // const simYear = currentYear + yearsToRetirement + i
+        // const annualRepay = monthlyRepay * 12
+        // if (loanEndYear >= simYear) {
+        //     pmt -= annualRepay
+        //     estateData.push(-annualRepay)
+        // } else {
+        //     estateData.push(0)
+        // }
         // 更新參數
         fv = Math.max(0, fv + pmt)
         if (fv <= 0) {
@@ -761,6 +764,9 @@ async function drawRetirementAssetChart() {
         const calculatedYear = currentYear + n + i
         labels.push(calculatedYear)
         pv = fv
+        // 現值增值
+        fv = pv * pensionIrr
+        pensionLumpSumData.push(Math.floor(fv))
     }
     // 繪圖
     const tension = 0.5
@@ -772,7 +778,7 @@ async function drawRetirementAssetChart() {
             tension,
         },
         {
-            label: '年金',
+            label: '年金收入',
             data: annualAnnuityData,
             fill: true,
             tension,

@@ -248,9 +248,10 @@ function drawLifeAssetChart() {
     const spouseContribution: number[] = []
     const childExpenseData: number[] = []
 
+    let brokeYear = 0;
     for (let i = 1; i <= yearsToRetirement + lifeExpectancy + 1; i++) {
         const simYear = currentYear + i
-        valueModifier *= inflatoinRatio
+        labels.push(simYear)
         /**
          * 影響存量重大事件
          */
@@ -279,8 +280,10 @@ function drawLifeAssetChart() {
             downpayTotalPrice = Math.floor(totalPrice * valueModifier)
         }
         estateData.push(downpayTotalPrice)
+        // 退休後就改由退休金支出
         mortgageData.push(Math.floor(-mortgagePmt))
         calculatedPmt -= mortgagePmt
+
         /**
          * 會受到通膨影響的PMT
          */
@@ -305,7 +308,9 @@ function drawLifeAssetChart() {
         if (hasSecondBorn) {
             childExpense += childAnnualExpense * valueModifier
         }
-        if (hasFirstBorn || hasSecondBorn) {
+
+        const hasChildren = hasFirstBorn || hasSecondBorn
+        if (hasChildren) {
             const inflatedContribution = Math.floor(spouseAnnualContribution * valueModifier)
             childExpense -= inflatedContribution
             calculatedPmt -= childExpense
@@ -316,52 +321,62 @@ function drawLifeAssetChart() {
             childExpenseData.push(0)
         }
 
-        // 計算複利終值
-        const principle = pv
+        // 計算本金
+        const principle: number = pv
         principleData.push(Math.floor(principle))
-        const appreciation = principle * irr / 100
+        pv += calculatedPmt
+        // 計算複利終值
+        securityAssetData.push(Math.floor(pv))
+        // 計算增值
+        const appreciation: number = principle * irr / 100
         securityAppreciationData.push(Math.floor(appreciation))
-        fv = principle + appreciation
-        securityAssetData.push(Math.floor(fv))
-        fv += calculatedPmt
+        pv += appreciation
+
+        fv = pv
         if (fv <= 0) {
             fv = 0
+            if (!brokeYear) {
+                brokeYear = i
+            }
             valueModifier = 0
         }
-
-        labels.push(simYear)
-        pv = fv
+        valueModifier *= inflatoinRatio
     }
+
+    if (!brokeYear) {
+        brokeYear = yearsToRetirement
+    }
+
     const datasets = [
         {
             label: 'ETF',
-            data: securityAssetData.slice(0, yearsToRetirement),
+            data: securityAssetData.slice(0, brokeYear),
         },
+        {
+            label: '定期定額',
+            data: investingData.slice(0, brokeYear),
+        }
         // {
-        //     label: '增值',
-        //     data: securityAppreciationData.slice(0, yearsToRetirement),
+        //     label: '資產增值',
+        //     data: securityAppreciationData,
         // },
     ]
 
-    datasets.push({
-        label: '定期定額',
-        data: investingData,
-    })
     const hasChildExpense = childExpenseData.some(value => value !== 0)
     if (hasChildExpense) {
         datasets.push({
             label: '育兒支出',
-            data: childExpenseData.slice(0, yearsToRetirement),
+            data: childExpenseData.slice(0, brokeYear),
         })
     }
     if (downpayYear && downpayYear < yearOfRetire) {
         datasets.push({
             label: '房貸支出',
-            data: mortgageData.slice(0, yearsToRetirement),
+            data: mortgageData.slice(0, brokeYear),
         })
         datasets.push({
             label: '頭期款',
-            data: downpayData,
+            data: downpayData.slice(0, brokeYear),
         })
         // datasets.push({
         //     label: '房地產',
@@ -370,9 +385,10 @@ function drawLifeAssetChart() {
     }
     const chartData = {
         datasets,
-        labels: labels.slice(0, yearsToRetirement)
+        labels: labels.slice(0, brokeYear)
     }
     clearTimeout(debounceId.value)
+
     debounceId.value = setTimeout(async () => {
         // 派送訊息
         if (fv <= 0) {

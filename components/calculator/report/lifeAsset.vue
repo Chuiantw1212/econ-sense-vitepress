@@ -94,10 +94,8 @@ function drawLifeAsset(payload) {
         propagate = [],
     } = payload
 
-    const { irr } = props.security
     const { currentYear, inflationRate } = props.config
     const { downpayTotalPrice, downpayYear } = props.mortgage
-    const { irrOverDecade } = props.retirement.pension
     const { yearsToRetirement, yearOfRetire, lifeExpectancy } = props.retirement
 
 
@@ -109,11 +107,11 @@ function drawLifeAsset(payload) {
     const inflationModifier = 1 + inflationRate / 100
     let inflatedEstateAsset = downpayTotalPrice
 
-    for (let i = 0; i < yearsToRetirement + lifeExpectancy; i++) {
-        const year = currentYear + 1 + i
+    for (let i = 1; i <= yearsToRetirement + lifeExpectancy + 1; i++) {
+        const year = currentYear + i
         labels.push(year)
         // data
-        const secutiryValue = securityAssetData[i]
+        const secutiryValue = securityAssetData[i - 1]
         if (secutiryValue) {
             securityData.push(secutiryValue)
         }
