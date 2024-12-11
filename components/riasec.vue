@@ -633,13 +633,4 @@ function downloadObjectAsJson(exportObj, exportName = 'test') {
     display: flex;
     justify-content: space-between;
 }
-
-.form__button {
-    width: 100%;
-    margin-top: 16px;
-}
-
-.buttonGroup {
-    display: flex;
-}
 </style>

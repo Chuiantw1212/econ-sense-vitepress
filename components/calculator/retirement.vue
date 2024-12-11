@@ -280,6 +280,9 @@
                 </el-collapse-item>
             </el-collapse>
         </template>
+        <div class="buttonGroup">
+            <el-button class="form__button" type="primary" @click="shareChart">分享圖表</el-button>
+        </div>
     </el-card>
 </template>
 <script setup lang="ts">
@@ -364,6 +367,44 @@ const unableToDraw = computed(() => {
     return noIncome || noBefore || noAfter
 })
 // methods
+const fullscreenLoading = ref<boolean>(false)
+function shareChart() {
+    fullscreenLoading.value = true
+    const canvas = pensionChartInstance.value.canvas
+    callNavigatorShare(canvas)
+    fullscreenLoading.value = false
+}
+async function callNavigatorShare(canvas) {
+    if (!navigator.share) {
+        ElMessage.info('不支援Web Share API')
+        return
+    }
+    const dataUrl = canvas.toDataURL();
+    const blob = await (await fetch(dataUrl)).blob();
+    const filesArray = [
+        new File(
+            [blob],
+            'retirement.png',
+            {
+                type: blob.type,
+                lastModified: new Date().getTime()
+            }
+        )
+    ];
+
+    const shareConfig = {
+        files: filesArray,
+        title: '開源財務規劃表',
+        url: `${window.location.href}?openExternalBrowser=1` || 'https://econ-sense.com?openExternalBrowser=1',
+        text: '快來算算自己的退休金夠不夠！',
+    }
+
+    try {
+        navigator.share(shareConfig);
+    } catch (error) {
+        ElMessage.info(error.message || error)
+    }
+}
 async function calculateRetirement(options: any = { propagate: true }) {
     resetData()
     const { propagate = true } = options
@@ -616,7 +657,7 @@ function calculateFutureSeniority() { // 退休時年資
     retirement.value.insurance.futureSeniority = Number(futureSeniority).toFixed(1)
 }
 function calculateLaborInsuranceMonthlyAnnuity(): number {
-    const { lifeExpectancy, age } = retirement.value
+    const { age } = retirement.value
     const { futureSeniority, } = retirement.value.insurance
     const { salary } = props.career.insurance
     if (!age || !futureSeniority || !salary) {
@@ -745,15 +786,7 @@ async function drawRetirementAssetChart() {
         disabilityCaringExpenseData.push(-inflatedCaringExpense)
         pmt -= inflatedLivingExpense
         pmt -= inflatedCaringExpense
-        // // 未還完的房貸支出
-        // const simYear = currentYear + yearsToRetirement + i
-        // const annualRepay = monthlyRepay * 12
-        // if (loanEndYear >= simYear) {
-        //     pmt -= annualRepay
-        //     estateData.push(-annualRepay)
-        // } else {
-        //     estateData.push(0)
-        // }
+
         // 更新參數
         fv = Math.max(0, fv + pmt)
         if (fv <= 0) {
