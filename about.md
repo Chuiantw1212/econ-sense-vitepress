@@ -16,7 +16,7 @@ head:
     title: '分享者',
     desc:'群益期貨、潛能聚、普鴻資訊、誠遠國際、LearnWeb、韶光心理學苑、宜蘭縣社會處、PMI Taiwan(2025/01)',
     org: '學校學不到的事',
-    orgLink: 'https://www.facebook.com/groups/304681766894402',
+    orgLink: 'https://www.facebook.com/groups/304681766894402', 
   },
   {
     avatar: `https://storage.googleapis.com/public.econ-sense.com/about/nodejs.webp`,
@@ -31,6 +31,12 @@ head:
 ]" />
 
 ## 主要專案
+
+### Job Pair 工作配
+
+求職找工作可以很簡單！[Job Pair媒合型人力銀行](https://job-pair.com)，勾選你理想的企業文化、工作環境、組織階段、管理模式、人際風格和工作模式，即刻為你配對最合適的職缺，開啟專屬於你的職場旅程。
+
+<img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/jobPair.webp" alt=job-pair>
 
 ### 開源財務規劃表
 
