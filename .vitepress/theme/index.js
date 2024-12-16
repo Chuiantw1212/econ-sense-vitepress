@@ -33,7 +33,7 @@ export default {
         appId: "1:449033690264:web:f5e419118030eb3afe44ed",
         measurementId: "G-19NFT8GVCZ"
       })
-      firebase.performance()
+      // firebase.performance()
     }
   }
 }
