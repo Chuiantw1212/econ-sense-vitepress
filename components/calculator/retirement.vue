@@ -121,7 +121,7 @@
                 </el-collapse-item>
             </el-collapse>
             <el-divider content-position="left">退休後</el-divider>
-            <el-row>
+            <!-- <el-row>
                 <el-col :span="24">
                     <el-form-item label="退休品質">
                         <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
@@ -138,7 +138,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <br />
+            <br /> -->
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="生活費">
