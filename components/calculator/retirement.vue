@@ -122,6 +122,24 @@
             </el-collapse>
             <el-divider content-position="left">退休後</el-divider>
             <el-row>
+                <el-col :span="24">
+                    <el-form-item label="退休品質">
+                        <el-radio-group v-model="retirement.qualityLevel" @change="calculateRetirement($event)"
+                            :disabled="isFormDisabled">
+                            <el-radio v-for="(item, key) in config.retirementQuartile" :value="key + 1">{{
+                                item.label
+                                }}</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="23">
+                    <el-form-item label="參考生活費">
+                        <el-slider v-model="retirement.percentileRank" :marks="expenseQuartileMarks" :disabled="true" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <br />
+            <el-row>
                 <el-col :span="12">
                     <el-form-item label="生活費">
                         <el-input-number v-model="retirement.monthlyLivingExpense" :min="0" :step="1000"
@@ -339,6 +357,7 @@ const props = defineProps({
         required: true
     }
 })
+const expenseQuartileMarks = reactive({})
 const detailTitle = {
     'civilServant': '查詢人事服務網ECPA後設定',
     'employee': '查詢勞保局E化服務系統後設定',
@@ -407,6 +426,7 @@ async function callNavigatorShare(canvas) {
 }
 async function calculateRetirement(options: any = { propagate: true }) {
     resetData()
+    calculateExpenseQuartileMarks()
     const { propagate = true } = options
     await calculateRetireLife()
     calculateAnnualExpense()
@@ -427,7 +447,7 @@ async function calculateRetirement(options: any = { propagate: true }) {
             break;
         }
     }
-
+    calculateRetirementExpense()
     const pensionLumpSumData = await drawRetirementAssetChart()
     if (propagate) {
         emits('update:modelValue', retirement.value)
@@ -448,6 +468,14 @@ function resetData() {
 }
 function calculateAnnualExpense() {
     retirement.value.annualExpense = retirement.value.monthlyLivingExpense * 12
+}
+function calculateExpenseQuartileMarks() {
+    props.config.retirementQuartile.forEach((item, index) => {
+        const { value } = item
+        const percentileRank = (index + 1) * 20 - 10
+        const retirementMonthlyExpense = Number(value) / 12
+        expenseQuartileMarks[percentileRank] = Number(Math.floor(retirementMonthlyExpense)).toLocaleString()
+    })
 }
 function calculateDisability() {
     /**
@@ -691,7 +719,15 @@ function calculateLaborSurvivorAnnuity() {
     survivorAnnuity = Math.max(3000, survivorAnnuity)
     retirement.value.insurance.survivorAnnuity = Math.floor(survivorAnnuity)
 }
-
+function calculateRetirementExpense() {
+    const { qualityLevel } = retirement.value
+    if (!qualityLevel || !props.config.retirementQuartile.length) {
+        return
+    }
+    retirement.value.percentileRank = qualityLevel * 20 - 10
+    const selectedItem: IOptionItem = props.config.retirementQuartile[qualityLevel - 1]
+    retirement.value.annualExpense = Number(selectedItem.value)
+}
 const debounceId = ref()
 async function drawRetirementAssetChart() {
     if (unableToDraw.value) {
