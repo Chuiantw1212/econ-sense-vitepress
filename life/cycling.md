@@ -34,8 +34,6 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 
 這些多樣化的路線讓台北的河濱自行車道成為休閒與探索的絕佳選擇，不論是單日行程還是多日冒險，都能滿足不同需求的騎行者。
 
-https://storage.googleapis.com/public.econ-sense.comhttps://storage.googleapis.com/public.econ-sense.com/life/cycling/day1%E4%BA%AE%E9%BB%9E.webp
-
 ![環騎台北](https://storage.googleapis.com/public.econ-sense.com/life/cycling/環騎台北.webp "環騎台北")
 
 ### 大鶯綠野景觀自行車道
