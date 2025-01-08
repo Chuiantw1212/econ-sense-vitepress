@@ -34,7 +34,9 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 
 這些多樣化的路線讓台北的河濱自行車道成為休閒與探索的絕佳選擇，不論是單日行程還是多日冒險，都能滿足不同需求的騎行者。
 
-![環騎台北](/life/cycling/環騎台北.png "環騎台北")
+https://storage.googleapis.com/public.econ-sense.comhttps://storage.googleapis.com/public.econ-sense.com/life/cycling/day1%E4%BA%AE%E9%BB%9E.webp
+
+![環騎台北](https://storage.googleapis.com/public.econ-sense.com/life/cycling/環騎台北.webp "環騎台北")
 
 ### 大鶯綠野景觀自行車道
 
@@ -56,7 +58,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 
 大鶯綠野景觀自行車道是一條適合各種單車愛好者的絕佳路線，融合了新北與桃園的自然景觀與文化特色，是一趟不可錯過的單車旅行體驗。
 
-![大鶯綠野](/life/cycling/大鶯綠野.png "大鶯綠野")
+![大鶯綠野](https://storage.googleapis.com/public.econ-sense.com/life/cycling/大鶯綠野.webp "大鶯綠野")
 
 ### 南港站到深坑老街
 
@@ -83,7 +85,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 
 這條路線不僅是一趟挑戰體能與享受美食的旅程，更能與台北的河濱自行車道網絡相結合，升級成一場豐富且多元的騎行冒險，非常適合熱愛挑戰的單車愛好者！
 
-![南港深坑](/life/cycling/南港深坑.png "南港深坑")
+![南港深坑](https://storage.googleapis.com/public.econ-sense.com/life/cycling/南港深坑.webp "南港深坑")
 
 ### 士林捷運站到風櫃嘴
 
@@ -105,7 +107,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 
 士林捷運站到風櫃嘴的路線，結合了挑戰性與風景性，是一條能滿足進階騎士的經典路線。無論是為了鍛煉體能還是欣賞台北的壯麗山景，這段旅程都將成為你單車生涯中難忘的一頁！
 
-![士林風櫃](/life/cycling/士林風櫃.png "士林風櫃")
+![士林風櫃](https://storage.googleapis.com/public.econ-sense.com/life/cycling/士林風櫃.webp "士林風櫃")
 
 ### 更多路線參考
 
@@ -139,7 +141,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 
 透過這些路線的測試，騎行者可以逐步了解自己的體能極限與不足之處，並進一步針對性地進行訓練。若能在耐力與爬坡能力上都表現穩定，就代表你已經為環島做好了充分準備！
 
-![體力評估](/life/cycling/體力評估.png "體力評估")
+![體力評估](https://storage.googleapis.com/public.econ-sense.com/life/cycling/體力評估.webp "體力評估")
 
 ### 環島良辰吉時
 
@@ -165,7 +167,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 
 選擇在3月或11月環島，特別是騎行花東縱谷時，能讓你享受晴朗的好天氣與壯麗的自然風光，為旅程增添更多難忘的回憶！
 
-![良辰吉時](/life/cycling/良辰吉時.png "良辰吉時")
+![良辰吉時](https://storage.googleapis.com/public.econ-sense.com/life/cycling/良辰吉時.webp "良辰吉時")
 
 ### 環島標準天數與路線安排
 
@@ -267,7 +269,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 
 這樣的節奏設計能靈活應對個人需求，既兼顧效率，也給參與者留有空間享受旅程中的休閒時光。
 
-![投幣洗衣](/life/cycling/投幣洗衣.png "投幣洗衣")
+![投幣洗衣](https://storage.googleapis.com/public.econ-sense.com/life/cycling/投幣洗衣.webp "投幣洗衣")
 
 ## 環島紀實
 
@@ -287,7 +289,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 **個人感受**  
 第一天的行程設計既有適應環島的暖身段，又融入爬坡與下坡的騎行挑戰，幫助我迅速進入狀態。特別是新竹城隍廟夜市的美食，不僅滿足了味覺，更讓我感受到台灣在地文化的魅力，為接下來的旅程注入更多動力與期待。
 
-![day1亮點](/life/cycling/day1亮點.png "day1亮點")
+![day1亮點](https://storage.googleapis.com/public.econ-sense.com/life/cycling/day1亮點.webp "day1亮點")
 
 ### 第二天：新竹 ~ 台中  
 
@@ -302,7 +304,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 **個人感受**  
 第二天的騎行路線在風景與節奏上都令人舒適，香山濕地的自然美景為早晨騎行帶來了極大的愉悅感，沿途的鄉村田園風光也讓人身心放鬆。捷安特博物館的參觀更是整日行程的亮點，作為單車愛好者，能親身感受到單車技術的演進，無疑是一次深刻的體驗。抵達台中後，充分的休息為後續的旅程做好了準備。
 
-![day2亮點](/life/cycling/day2亮點.png "day2亮點")
+![day2亮點](https://storage.googleapis.com/public.econ-sense.com/life/cycling/day2亮點.webp "day2亮點")
 
 ### 第三天：台中 ~ 嘉義  
 
@@ -317,7 +319,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 **個人感受**  
 今天因為眼鏡斷掉，導致我未能跟上行程，但過往的經驗中，這段路線的體驗與此次安排基本一致。溪湖糖廠的甘蔗冰是消暑的絕佳選擇，而西螺大橋的壯觀景致更是讓人無法忘懷的打卡地點。雖然未能親身參與，但對這段路程的美好印象依然深刻，也期待能在未來的旅程中再次感受這份樂趣與挑戰。
 
-![day3亮點](/life/cycling/day3亮點.png "day3亮點")
+![day3亮點](https://storage.googleapis.com/public.econ-sense.com/life/cycling/day3亮點.webp "day3亮點")
 
 ### 第四天：嘉義 ~ 高雄  
 
@@ -332,7 +334,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 **個人感受**  
 第四天的長距離騎行對身體和精神都是一項挑戰，特別是進入南台灣後逐漸升高的氣溫，讓人覺得昏昏欲睡。然而，台南的小吃與冰鎮紅茶帶來了滿滿的能量，讓旅程充滿期待。雖然途中經過北回歸線與後壁火車站未作停留，但高雄的情人碼頭讓人感受到南部的熱情與漁港風光，為一天的騎行劃上充實的句點。
 
-![day4亮點](/life/cycling/day4亮點.png "day4亮點")
+![day4亮點](https://storage.googleapis.com/public.econ-sense.com/life/cycling/day4亮點.webp "day4亮點")
 
 ### 第五天：高雄 ~ 屏東恆春  
 
@@ -346,7 +348,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 **個人感受**  
 今天的騎行是一次難忘的挑戰，尤其是台26線與鵝屏公路的落山風與起伏路段，需要穩定的節奏與持續的專注。沿途的海景為整段行程增添了無數亮點，而潮州冷熱冰則成為一個絕佳的中途補給點，讓疲憊的身心得以短暫恢復。抵達屏東恆春後，順利完成一天的騎行，為接下來的旅程做好準備。
 
-![day5亮點](/life/cycling/day5亮點.png "day5亮點")
+![day5亮點](https://storage.googleapis.com/public.econ-sense.com/life/cycling/day5亮點.webp "day5亮點")
 
 ### 第六天：屏東恆春 ~ 台東知本  
 
@@ -361,7 +363,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 **個人感受**  
 今天的路程充滿挑戰，壽卡的爬坡對體能與意志都是考驗，但沿途的自然景觀讓人感到安慰，下坡則成為最放鬆的部分，即使控制速度，仍能享受下坡的流暢感。知本溫泉是一天辛勞的最佳慰藉，溫暖的泉水洗滌疲憊，讓人身心都得到充足的恢復，準備迎接接下來的旅程。
 
-![day6亮點](/life/cycling/day6亮點.png "day6亮點")
+![day6亮點](https://storage.googleapis.com/public.econ-sense.com/life/cycling/day6亮點.webp "day6亮點")
 
 ### 第七天：台東知本 ~ 花蓮瑞穗  
 
@@ -377,7 +379,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 **個人感受**  
 這次的環島旅程天氣不佳，多數路段為陰天，但即便如此，花東縱谷的風光依然令人難忘。特別是在少數晴朗的時刻，稻田與山脈交織出的壯麗景色，是整段辛苦旅程中的一大回報。午後縣道193的安靜與療癒氛圍，讓疲憊的身心逐漸放鬆，而瑞穗溫泉更是結束一天騎行後的絕佳享受。
 
-![day7亮點](/life/cycling/day7亮點.png "day7亮點")
+![day7亮點](https://storage.googleapis.com/public.econ-sense.com/life/cycling/day7亮點.webp "day7亮點")
 
 ### 第八天：花蓮瑞穗 ~ 宜蘭礁溪  
 
@@ -393,7 +395,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 **個人感受**  
 第八天的行程輕鬆且節奏舒適。花東縱谷的景色依舊讓人陶醉，搭乘火車的安排為一天的旅程節省了不少體力，也提供了短暫的放鬆時光。礁溪溫泉是整天的亮點，讓連日的疲憊徹底舒緩，而火車站商圈則為晚上增添了活力，可以輕鬆享受當地美食並為最後一天做好準備。
 
-![day8亮點](/life/cycling/day8亮點.png "day8亮點")
+![day8亮點](https://storage.googleapis.com/public.econ-sense.com/life/cycling/day8亮點.webp "day8亮點")
 
 ### 第九天：宜蘭礁溪 ~ 台北松山  
 
@@ -408,7 +410,7 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 **個人感受**  
 第九天是旅程的完美收尾，雖然內心充滿成就感，但也對這趟環島冒險感到不捨。東北角海岸線的壯麗景色與舊草嶺隧道的復古氛圍，是當天最令人印象深刻的部分。隧道後的長下坡令人放鬆，但進入市區後的車流與交通路況也需要格外小心。當抵達台北松山的那一刻，環島的努力與挑戰都化為無數的回憶，成為人生中難以忘懷的一段旅程。
 
-![day9亮點](/life/cycling/day9亮點.png "day9亮點")
+![day9亮點](https://storage.googleapis.com/public.econ-sense.com/life/cycling/day9亮點.webp "day9亮點")
 
 ## 總結
 
@@ -474,7 +476,7 @@ onMounted(() => {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "從單車休閒到環島旅行",
-                "item": "https://econ-sense.com/life/cycling"
+                "item": "https://econ-sense.comhttps://storage.googleapis.com/public.econ-sense.com/life/cycling"
             }]
         },
         {
