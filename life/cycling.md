@@ -364,30 +364,141 @@ description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島
 ![day6亮點](/life/cycling/day6亮點.png "day6亮點")
 
 ### 第七天：台東知本 ~ 花蓮瑞穗  
-**路程亮點**：  
-- 騎行鹿野農會與池上便當的經典縱谷路線，天氣晴朗時風景如畫。  
-- 午餐享用著名的池上便當，品味當地的樸實美味。
 
-**個人感受**：  
-縱谷的風景是我個人最喜歡的部分之一，搭配池上便當，更是對味覺與視覺的雙重滿足。
+**本日行程概述**  
+第七天的路線從台東知本出發，沿著花東縱谷一路北上，至花蓮瑞穗，全程約115公里，是東半部騎行距離最長的一天。上午的騎行以丘陵地形為主，經過卑南後開始逐漸爬升，攀登至海拔250公尺的龍過脈山頂，隨後是一段長下坡進入鹿野與池上。池上位於秀姑巒溪與卑南溪的分水嶺（海拔285公尺），接近午餐前多為緩上坡。下午轉入縣道193，路線兩側綠蔭茂密，稻田與中央山脈相映成趣，景色療癒身心，最終抵達瑞穗休息。
+
+**路程亮點**  
+- **花東縱谷**：中央山脈與海岸山脈間的狹長谷地，因特殊地質地形，形成多樣的自然景觀。沿途的稻田與山脈景色令人陶醉。  
+- **龍過脈與池上**：龍過脈爬坡後的下坡路段為今日的一大樂趣，池上的稻田與知名的池上便當則是必停的美食與景點。  
+- **縣道193**：下午的路段選擇這條與台9線平行的縣道，被譽為最適合單車騎行的路線之一，沿途綠蔭與景色令人心曠神怡。  
+- **瑞穗溫泉**：抵達瑞穗後，入住以溫泉著稱的地區，浸泡於富含礦物質的溫泉中，是一天騎行後最好的放鬆方式。  
+
+**個人感受**  
+這次的環島旅程天氣不佳，多數路段為陰天，但即便如此，花東縱谷的風光依然令人難忘。特別是在少數晴朗的時刻，稻田與山脈交織出的壯麗景色，是整段辛苦旅程中的一大回報。午後縣道193的安靜與療癒氛圍，讓疲憊的身心逐漸放鬆，而瑞穗溫泉更是結束一天騎行後的絕佳享受。
+
+![day7亮點](/life/cycling/day7亮點.png "day7亮點")
 
 ### 第八天：花蓮瑞穗 ~ 宜蘭礁溪  
-**路程亮點**：  
-- 為安全起見，花蓮到蘇澳新段採用火車運輸，避免危險路段。  
-- 晚上在礁溪泡湯，放鬆身心。
 
-**個人感受**：  
-這天的節奏相對輕鬆，火車段讓人有機會整理心情，而礁溪溫泉為第二天的騎行提供了充足的放鬆。
+**本日行程概述**  
+第八天的行程從花蓮瑞穗出發，騎行約70公里至花蓮車站，沿途經過花東縱谷的田園風光。午餐後搭乘火車前往宜蘭車站，避開蘇花公路的險峻地形，最後騎行約10公里抵達礁溪飯店。抵達後，可以放鬆浸泡礁溪溫泉，舒緩連日騎行的疲憊，晚上則可前往礁溪火車站商圈，享受在地美食與輕鬆氛圍。
+
+**路程亮點**  
+- **大農大富平地森林園區**：途中經過這片超大型綠地，相當於48座大安森林公園，是名副其實的「超級吸碳造氧機」，沿途的自然景觀令人心曠神怡。  
+- **搭乘火車**：從花蓮車站到宜蘭車站的火車旅程，不僅避開了蘇花公路的險峻地形，也讓人有更多體力迎接最後一段騎行。  
+- **礁溪溫泉**：宜蘭礁溪的碳酸氫鈉泉被譽為「溫泉中的溫泉」，溫泉水富含礦物質，浸泡後讓肌膚柔滑並有效消除疲憊。  
+- **礁溪火車站商圈**：晚上可以步行到礁溪火車站附近的商圈，品嚐當地特色小吃，感受輕鬆的旅遊氛圍，是一天行程的愜意收尾。
+
+**個人感受**  
+第八天的行程輕鬆且節奏舒適。花東縱谷的景色依舊讓人陶醉，搭乘火車的安排為一天的旅程節省了不少體力，也提供了短暫的放鬆時光。礁溪溫泉是整天的亮點，讓連日的疲憊徹底舒緩，而火車站商圈則為晚上增添了活力，可以輕鬆享受當地美食並為最後一天做好準備。
+
+![day8亮點](/life/cycling/day8亮點.png "day8亮點")
 
 ### 第九天：宜蘭礁溪 ~ 台北松山  
-**路程亮點**：  
-- 騎行平溪放天燈，體驗傳統文化的魅力。  
-- 經過草嶺隧道，全長2167公尺，為環島的尾聲增添一份獨特的回憶。
 
-**個人感受**：  
-最後一天的行程雖有不捨，但順利完成環島帶來的成就感，無與倫比。
+**本日行程概述**  
+環島的最後一天從宜蘭礁溪出發，沿著東北角海岸線騎行返回台北松山，全程約80公里。上午騎行經過北關海潮公園與舊草嶺隧道，沿途欣賞東北角壯麗的海岸景觀，並逐漸進入台2丙緩坡段，攀升至隧道口約海拔210公尺。穿過隧道後，迎來一段陡下坡進入十分小鎮，享用午餐並稍作休息。下午繼續騎行，通過另一座隧道後再度下坡，進入暖暖、七堵與南港的市區路段，最終抵達台北松山，完成整段環島旅程。
 
-這次的捷安特環島團，從細膩的行程規劃到沿途的支持服務，讓整趟旅程充滿了回憶與收穫。輔以過往的環島經驗，每一段路程都能找回當時的感動與挑戰，期待下一次的旅程再創新篇！
+**路程亮點**  
+- **北關海潮公園**：沿途經過的東北角景點之一，公園內有單面山、豆腐岩等特殊地質景觀，可遠眺龜山島與蘭陽平原，展現東北角獨特的海岸風光。  
+- **舊草嶺隧道**：這條以鐵路隧道改建的鐵馬隧道，內部設計保留鐵路元素，搭配復古風格的照明與火車音效，讓騎行多了一份懷舊與趣味。  
+- **十分小鎮**：中午的休息點，以其懷舊鐵道氛圍和在地美食聞名，是整段路程中的一處輕鬆站點。  
+
+**個人感受**  
+第九天是旅程的完美收尾，雖然內心充滿成就感，但也對這趟環島冒險感到不捨。東北角海岸線的壯麗景色與舊草嶺隧道的復古氛圍，是當天最令人印象深刻的部分。隧道後的長下坡令人放鬆，但進入市區後的車流與交通路況也需要格外小心。當抵達台北松山的那一刻，環島的努力與挑戰都化為無數的回憶，成為人生中難以忘懷的一段旅程。
+
+![day9亮點](/life/cycling/day9亮點.png "day9亮點")
+
+## 總結
+
+這次的捷安特環島團，以細膩的行程規劃與貼心的支持服務，為整趟旅程增添了無數回憶與收穫。從台北出發到松山凱旋，每一天的挑戰與驚喜，都是對體能與心靈的雙重鍛煉。沿途的壯麗風景、地方特色以及過往的環島經驗交織，讓每一段路程都重拾當年的感動與挑戰，為這趟旅程增添深刻的意義。  
+
+環島不僅是一場體能挑戰，更是一種貼近土地與自然的方式。無論是騎行在花東縱谷的田園風光，還是征服壽卡、鵝屏公路的連續爬坡，這些記憶中的片段構成了完整的旅程，也為人生留下了珍貴的回憶。  
+
+對於初次嘗試環島的騎行者，這是一次全新的突破；對於已經熟悉路線的老手，每一次的環島又是一場與自己的對話。希望透過這次分享，讓更多人能夠感受到環島的樂趣與台灣的美好，也期待未來有更多的旅程，為騎行人生開啟新的篇章！
+
+## 線上/實體講座
+
+### 簡報
+
+<LazySlide shareLink="https://docs.google.com/presentation/d/1Nxescjyu80LsAQs7oZ0OqQQOEqIhkk1vWDZRLjQn8X8/edit?usp=sharing">
+    <iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vT4u134hS1f04wXYk56WYfCS2VZ9h5xmAwcoq6LltwW3aOwbfiygWgVXGx1QCnTT90uOvzjuDplA9H5/embed?start=false&loop=false&delayms=3000" frameborder="0"  width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</LazySlide>
+
+### 評價
+
+<iframe title="Google Sheets" width="100%" height="420" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRnotofcp2xuon5SrTl690jOREvTJQFCk7e7bM67kzV6a4SCZ7PdJPd0UPtTVrT1flaMuwddEMeVFBQ/pubhtml?widget=true&amp;headers=false"></iframe>
+
+## 延伸閱讀
+
+<Books :modelValue="bookItems"></Books>
 
 <script setup lang="ts">
+import LazySlide from '../components/lazySlide.vue'
+import Books from '../components/books.vue'
+
+const bookItems = [
+    {
+        id: '11100876551',
+        name: '單車環島，停不了：台灣、四國、琵琶湖、能登半島……',
+        desc: `<p>一生中至少要挑戰過一次！
+跟著一青妙一起瘋「環島」！</p>
+
+<p>某日，作家一青妙收到一封信，邀請她到台灣騎自行車環島，
+她原本打算婉拒，誰知卻誤打誤撞踏上這一趟特別的旅程，
+途中發生了哪些事？看到哪些不一樣的風景？
+竟讓她從此愛上「環島」這種旅行型態，從此停不了！我們常說，要追求幸福人生！以為只要有個念想，全世界就會聯合起來幫助我們。但是，除了等待神奇的力量，我們應該有計畫、有效率的實踐。</p>
+`,
+    },
+]
+
+
+// SEO Structued Data
+import { useData } from 'vitepress'
+import { onMounted, onBeforeUnmount } from 'vue'
+const { page, frontmatter } = useData()
+
+onMounted(() => {
+    const lastUpdated = new Date(page.value.lastUpdated).toISOString()
+    const dataJsonLD = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "好好生活",
+                "item": "https://econ-sense.com/life"
+            },{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "從單車休閒到環島旅行",
+                "item": "https://econ-sense.com/life/cycling"
+            }]
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "author": {
+                "name": "EN Chu",
+                "url": "https://econ-sense.com/about.html",
+            },
+            "dateModified": new Date(page.value.lastUpdated).toISOString(),
+            "headline": page.value.title,
+            // "image": "https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.jpg"
+        },
+    ]
+
+    const script = document.createElement('script')
+    script.setAttribute('type', 'application/ld+json')
+    script.id = 'ldJson'
+    script.textContent = JSON.stringify(dataJsonLD)
+    document.head.appendChild(script)
+})
+
+onBeforeUnmount(()=>{
+    const existedScript = document.querySelector('#ldJson')
+    existedScript?.remove()
+})
 </script>
