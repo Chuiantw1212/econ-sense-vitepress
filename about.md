@@ -48,11 +48,24 @@ head:
 
 ### 其他線上財務計算機
 
-<ul>
-    <li>
-        以諾理財規劃顧問：<a href="https://enoch-259ad.web.app/calculator" target="_blank">速算多目標理財規劃</a>
-    </li>
-</ul>
+<table>
+    <tr>
+        <th>
+            合作單位
+        </th>
+        <th>
+            計算機網址
+        </th>
+         <th>
+            開源網址
+        </th>
+    </tr>
+    <tr>
+        <td><a href="https://enochfp.com/" target="_blank">以諾理財規劃顧問</a></td>
+        <td><a href="https://github.com/Chuiantw1212/enoch-client/">速算多目標理財規劃</a></td>
+        <td><a href="https://github.com/Chuiantw1212/enoch-client" target="_blank">前端開源</a></td>
+    </tr>
+</table>
 
 ## 技術棧
 
