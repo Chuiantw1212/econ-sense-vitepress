@@ -16,7 +16,7 @@ head:
     title: '分享者',
     desc:'群益期貨、潛能聚、普鴻資訊、誠遠國際、LearnWeb、韶光心理學苑、宜蘭縣社會處、PMI Taiwan(2025/01)',
     org: '學校學不到的事',
-    orgLink: 'https://www.facebook.com/groups/304681766894402', 
+    orgLink: 'https://www.facebook.com/groups/304681766894402',
   },
   {
     avatar: `https://storage.googleapis.com/public.econ-sense.com/about/nodejs.webp`,
@@ -32,11 +32,11 @@ head:
 
 ## 主要專案
 
-### Job Pair 工作配
+<!-- ### Job Pair 工作配
 
 求職找工作可以很簡單！[Job Pair媒合型人力銀行](https://job-pair.com)，勾選你理想的企業文化、工作環境、組織階段、管理模式、人際風格和工作模式，即刻為你配對最合適的職缺，開啟專屬於你的職場旅程。
 
-<img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/jobPair.webp" alt=job-pair>
+<img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/jobPair.webp" alt=job-pair> -->
 
 ### 開源財務規劃表
 
@@ -45,6 +45,14 @@ head:
 3. 資料安全：提供了表單離線匯出功能，不需註冊也可以保留試算結果。
 
 <img class="aobut__image--100" src="/finance/plan/calculator.png" alt="finance-planner">
+
+### 其他線上財務計算機
+
+<ul>
+    <li>
+        以諾理財規劃顧問：<a href="https://enoch-259ad.web.app/calculator" target="_blank">速算多目標理財規劃</a>
+    </li>
+</ul>
 
 ## 技術棧
 
@@ -89,12 +97,13 @@ head:
 ### 其他金融證明書
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/morale.webp" alt=金融市場常識與職業道德>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/fundLaw.webp" alt=投信投顧相關法規(含自律規範)>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/trust.webp" alt=信託業務專業>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/finTech.webp" alt=金融科技力>
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/planner.webp" alt=理財規劃人員>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/finTech.webp" alt=金融科技力>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/morale.webp" alt=金融市場常識與職業道德>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/trust.webp" alt=信託業務專業>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/fundLaw.webp" alt=投信投顧相關法規(含自律規範)>
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/insurance.webp" alt=人身保險業務員>
+     <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/%E4%BF%9D%E6%A5%AD%E7%99%BB%E9%8C%84.webp" alt=保險業務員登錄證>
 </div>
 
 ## 教育背景
