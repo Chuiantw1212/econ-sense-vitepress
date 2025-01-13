@@ -21,11 +21,11 @@ import Courses from './components/courses.vue'
 
 const digitalDocumentItems = [
     {
-        url: './single',
-        name: '單身狗地獄求生',
-        keywords: ['生育率的歷史', '台灣現狀', '財務面的準備', '非財務的準備'],
-        audience: ['想了解低生育率成因的人', '選擇或被迫單身一輩子的人', '介於兩者之間的人'],
-        rating: 2
+        url: './cycling',
+        name: '從休閒騎車到9天環島全攻略',
+        keywords: ['休閒騎車路線', '環島的準備', '單車環島紀實9天8夜',],
+        audience: ['想單車休閒的人', '好奇單車旅行的人', '評估環島的人',],
+        rating: 3
     },
     {
         url: './education',
@@ -40,6 +40,13 @@ const digitalDocumentItems = [
         keywords: ['延遲老化', '照顧資源', '醫療資源', '跨領域整合'],
         audience: ['想為了照顧父母做準備的人', '想減輕家人負擔的長輩', '被各種長照術語搞得很亂的人'],
         rating: 1
+    },
+    {
+        url: './single',
+        name: '單身狗地獄求生',
+        keywords: ['生育率的歷史', '台灣現狀', '財務面的準備', '非財務的準備'],
+        audience: ['想了解低生育率成因的人', '選擇或被迫單身一輩子的人', '介於兩者之間的人'],
+        rating: 2
     },
     {
         url: './housing',
