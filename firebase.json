@@ -40,6 +40,11 @@
                 "type": 301
             },
             {
+                "source": "/career/outline.html",
+                "destination": "/career.html",
+                "type": 301
+            },
+            {
                 "source": "/engineer/outline.html",
                 "destination": "/engineer.html",
                 "type": 301

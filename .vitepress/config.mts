@@ -65,8 +65,8 @@ export default defineConfig({
         link: '/life',
         collapsed: false,
         items: [
+          { text: '從單車休閒到環島全攻略', link: '/life/cycling' },
           { text: '我是照顧者', link: '/life/carer' },
-          { text: '單車與環島旅行', link: '/life/cycling' },
           { text: '我是學渣，也是黑馬', link: '/life/education' },
           { text: '單身狗地獄求生', link: '/life/single' },
           { text: '極簡全齡宅', link: '/life/housing' },
