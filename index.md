@@ -9,7 +9,7 @@ hero:
   text: 無為而治的財務思維
   tagline: 生活就該簡單心安
   image:
-    src: /logo/banner2.webp
+    src: /logo/banner_320.webp
     alt: 釣魚老翁
   actions:
     # alt  
