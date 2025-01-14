@@ -62,7 +62,7 @@ head:
     </tr>
     <tr>
         <td><a href="https://enochfp.com/" target="_blank">以諾理財規劃顧問</a></td>
-        <td><a href="https://github.com/Chuiantw1212/enoch-client/">速算多目標理財規劃</a></td>
+        <td><a href="https://enoch-259ad.web.app/calculator" target="_blank">速算多目標理財規劃</a></td>
         <td><a href="https://github.com/Chuiantw1212/enoch-client" target="_blank">前端開源</a></td>
     </tr>
 </table>
