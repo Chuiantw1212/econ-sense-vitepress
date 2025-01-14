@@ -91,13 +91,13 @@ head:
 
 這份何倫碼測驗的結果，突出了以下幾個我深感興趣的職業類型：
 
-| 專業頭銜                 | 求職門檻 | 何倫碼 | 潛力指數 |
-|------------------------|--------|------|--------|
-| 神經心理學家           | 5      | IS   | 88     |
-| 人類學家和考古學家     | 5      | IR   | 85     |
-| 電腦與資訊研究科學家   | 5      | ICR  | 84     |
-| 軟體開發工程師         | 4      | ICR  | 80     |
-| 電腦系統工程師/架構師   | 3      | ICR  | 79     |
+| 專業頭銜              | 求職門檻 | 何倫碼 | 潛力指數 |
+| --------------------- | -------- | ------ | -------- |
+| 神經心理學家          | 5        | IS     | 88       |
+| 人類學家和考古學家    | 5        | IR     | 85       |
+| 電腦與資訊研究科學家  | 5        | ICR    | 84       |
+| 軟體開發工程師        | 4        | ICR    | 80       |
+| 電腦系統工程師/架構師 | 3        | ICR    | 79       |
 
 這些職業不僅與我的全端開發工程師職業相關，也涵蓋了我個人的深刻興趣，如神經心理學和人類學。這些領域的專業知識可以結合我的技術背景，開啟跨學科的職業道路，促進創新和研究的發展。
 
@@ -113,7 +113,7 @@ head:
 
 ### 評價
 
-<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/1K083vkWl1wKAKkLOga1G0Qvazeyu7KM_VxbhdypPsEU/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS2JUUTwAHHECSWozBVPUfdbbN9x1a3eCVIltV2gpT_xBi85HMhuhvFijyZ1juD8nq_QtcomjM7IxFg/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 
 ### 簡報
 
