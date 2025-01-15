@@ -2,7 +2,11 @@
 outline: [2,3]
 title: 從單車休閒到環島旅行
 description: 《從單車休閒到環島旅行》紀錄了從2020年初次環島到2024年參與捷安特旅行團環島的精彩旅程，途中發生許多難忘的奇遇，如屏東夜半火災與龜山島放晴的壯麗景色。文章詳細分享了環島的準備過程，包括最佳季節選擇、體能訓練建議、裝備清單及行程規劃，並融入豐富的環島故事與實用資訊，適合初次嘗試或希望挑戰進階騎行的讀者參考。
-
+head:
+  - - meta
+    - name: og:image
+      property: og:image
+      content: https://storage.googleapis.com/public.econ-sense.com/life/cycling/banner.jpg
 ---
 
 # {{ $frontmatter.title }}
@@ -524,7 +528,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            // "image": "https://storage.googleapis.com/public.econ-sense.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.jpg"
+            "image": "https://storage.googleapis.com/public.econ-sense.com/life/cycling/banner.jpg"
         },
     ]
 

@@ -62,12 +62,12 @@ head:
     </tr>
     <tr>
         <td><a href="https://enochfp.com/" target="_blank">以諾理財規劃顧問</a></td>
-        <td><a href="https://github.com/Chuiantw1212/enoch-client/">速算多目標理財規劃</a></td>
+        <td><a href="https://enoch-259ad.web.app/calculator" target="_blank">速算多目標理財規劃</a></td>
         <td><a href="https://github.com/Chuiantw1212/enoch-client" target="_blank">前端開源</a></td>
     </tr>
 </table>
 
-## 技術棧
+## JS全端技術棧
 
 ### 前端
 
@@ -75,11 +75,15 @@ head:
 
 ### 後端
 
-<SkillIcon :modelValue="'bun,nodejs,ts,express,mongodb,postgres,postman'"></SkillIcon>
+<SkillIcon :modelValue="'nodejs,ts,elysia,express,mongodb,postgres,postman'"></SkillIcon>
 
-### 雲服務與其他
+### 雲服務
 
-<SkillIcon :modelValue="'firebase,gcp,git,github,gitlab,bitbucket,githubactions,npm,vscode,regex,windows,linux,stackoverflow'"></SkillIcon>
+<SkillIcon :modelValue="'firebase,gcp,git,github,githubactions,gitlab,bitbucket'"></SkillIcon>
+
+<!-- ### 其他
+
+<SkillIcon :modelValue="'vscode,regex,windows,linux,stackoverflow'"></SkillIcon> -->
 
 <!-- ### 前端
 
@@ -116,7 +120,7 @@ head:
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/trust.webp" alt=信託業務專業>
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/fundLaw.webp" alt=投信投顧相關法規(含自律規範)>
     <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/insurance.webp" alt=人身保險業務員>
-     <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/%E4%BF%9D%E6%A5%AD%E7%99%BB%E9%8C%84.webp" alt=保險業務員登錄證>
+     <!-- <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/%E4%BF%9D%E6%A5%AD%E7%99%BB%E9%8C%84.webp" alt=保險業務員登錄證> -->
 </div>
 
 ## 教育背景
@@ -141,8 +145,8 @@ head:
 ### 心理學
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/nlp2.webp" alt=NLP高階執行師>
-    <img class="aobut__image--100" src="https://storage.googleapis.com/public.econ-sense.com/about/nlp1.webp" alt=NLP專業執行師>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/nlp2.webp" alt=NLP高階執行師>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/public.econ-sense.com/about/nlp1.webp" alt=NLP專業執行師>
 </div>
 
 ### 桌遊
@@ -210,7 +214,7 @@ onBeforeUnmount(()=>{
 })
 </script>
 
-<style lang=scss>
+<style lang="scss" scoped>
 .aobut__image--100 {
     width:100%;
     border: 1px solid #e2e2e3;
