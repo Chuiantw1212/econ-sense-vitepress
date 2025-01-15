@@ -503,7 +503,13 @@ const bookItems = [
 
 const courseItems = [
     {
-        image: '/career/daren.png',
+        image: 'https://storage.googleapis.com/public.econ-sense.com/career/project/%E5%8D%94%E6%9C%83Logo.webp',
+        description: `社團法人國際專案管理學會台灣分會(PMI Taipei, Taiwan Chapter, 簡稱簡稱「PMI-台灣分會」，或PMI-TW) 於1999年10月由PMI總會授權在台北成立，亦於2003年9月獲內政部核定為全國性非營利性組織。`,
+        name: 'PMI台灣分會',
+        url: 'https://www.pmi.org.tw/?post_type=tribe_events',
+    },
+    {
+        image: 'https://storage.googleapis.com/public.econ-sense.com/career/project/%E5%A4%A7%E4%BA%BA%E5%AD%B8Logo.webp',
         description: `「這裡是《大人學》課程報名網站。您可以在這裡參與我們優質的實體與線上課程，註冊學員也能下載豐富的學習資源。讓我們一同往成熟大人之路邁進！」`,
         name: '大人學',
         url: 'https://shop.darencademy.com/index/search/tag/PDU',
