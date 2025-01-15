@@ -75,11 +75,15 @@ head:
 
 ### 後端
 
-<SkillIcon :modelValue="'bun,nodejs,ts,express,mongodb,postgres,postman'"></SkillIcon>
+<SkillIcon :modelValue="'nodejs,ts,elysia,express,mongodb,postgres,postman'"></SkillIcon>
 
-### 雲服務與其他
+### 雲服務
 
-<SkillIcon :modelValue="'firebase,gcp,git,github,gitlab,bitbucket,githubactions,npm,vscode,regex,windows,linux,stackoverflow'"></SkillIcon>
+<SkillIcon :modelValue="'firebase,gcp,git,github,githubactions,gitlab,bitbucket'"></SkillIcon>
+
+<!-- ### 其他
+
+<SkillIcon :modelValue="'vscode,regex,windows,linux,stackoverflow'"></SkillIcon> -->
 
 <!-- ### 前端
 
