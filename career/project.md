@@ -453,6 +453,14 @@ Scrum 工具的選擇應根據團隊的需求和實際情境靈活調整。像�
 
 ## 線上/實體講座
 
+### 照片
+
+<Photos :modelValue="photoItems"></Photos>
+
+### 評價
+
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSxLBco_B9XCPn9zKnGb9aoOSYP8IRkyqoU2lJhpJdRAAR0WLPs6nEtq0igY65NzlvqcRIMqaegIcPG/pubhtml?widget=true&amp;headers=false" width="100%" height="420" ></iframe>
+
 ### 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1NuG7ObTRMwNXZs76CeU0B73nYg-tbGtFH2mXtkAoLx0/edit?usp=drive_link">
@@ -461,10 +469,6 @@ Scrum 工具的選擇應根據團隊的需求和實際情境靈活調整。像�
     width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
     webkitallowfullscreen="true"></iframe>
 </LazySlide>
-
-### 評價
-
-<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSxLBco_B9XCPn9zKnGb9aoOSYP8IRkyqoU2lJhpJdRAAR0WLPs6nEtq0igY65NzlvqcRIMqaegIcPG/pubhtml?widget=true&amp;headers=false" width="100%" height="420" ></iframe>
 
 ## 延伸閱讀
 
@@ -478,6 +482,7 @@ Scrum 工具的選擇應根據團隊的需求和實際情境靈活調整。像�
 import LazySlide from '../components/lazySlide.vue'
 import Books from '../components/books.vue'
 import Courses from '../components/courses.vue'
+import Photos from '../components/photos.vue'
 
 const bookItems = [
     {
@@ -502,6 +507,17 @@ const courseItems = [
         description: `「這裡是《大人學》課程報名網站。您可以在這裡參與我們優質的實體與線上課程，註冊學員也能下載豐富的學習資源。讓我們一同往成熟大人之路邁進！」`,
         name: '大人學',
         url: 'https://shop.darencademy.com/index/search/tag/PDU',
+    },
+]
+
+const photoItems = [
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/career/project/%E5%9C%98%E9%AB%94%E5%90%88%E7%85%A7.webp",
+        alt: "團體合照",
+    },
+    {
+        src: "https://storage.googleapis.com/public.econ-sense.com/career/project/%E5%88%86%E4%BA%AB%E8%AA%8D%E8%AD%89.webp",
+        alt: "分享認證",
     },
 ]
 
