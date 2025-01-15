@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
+    "predeploy": "pnpm run build",
     "deploy": "firebase use econ-sense && firebase deploy"
   },
   "repository": {
