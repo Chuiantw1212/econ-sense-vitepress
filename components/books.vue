@@ -5,11 +5,9 @@
                 {{ item.name }}
             </h3>
             <div class="book__body">
-                <!-- <a class="book__link" :href="getApredir(item)" target="_blank"> -->
                 <div class="book__link">
                     <img class="link__image" loading="lazy" :src="getImageLink(item)" alt="封面">
                 </div>
-                <!-- </a> -->
                 <div class="book__textGroup">
                     <div v-show="item.desc" v-html="item.desc">
                     </div>
