@@ -17,8 +17,7 @@
             <div class="course__footer">
                 <VPButton :href="item.url" text="前往學習">前往學習</VPButton>
             </div>
-            <br>
-            <hr v-show="index !== modelValue.length - 1">
+            <br v-show="index !== modelValue.length - 1">
         </div>
     </div>
 </template>

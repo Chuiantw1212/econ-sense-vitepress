@@ -16,8 +16,7 @@
             <div class="book__footer">
                 <VPButton :href="getApredir(item)" text="讀冊生活"></VPButton>
             </div>
-            <br>
-            <hr>
+            <br v-show="index !== modelValue.length - 1">
         </div>
     </div>
 </template>
