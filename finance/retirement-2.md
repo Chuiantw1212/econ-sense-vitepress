@@ -457,21 +457,21 @@ const bookItems = [
 
 const photoItems = [
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727509.webp",
-        alt: "過程",
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%BD%8A%E6%96%87%E8%97%9D%E5%AE%A41.webp",
+        alt: "齊文藝室",
     },
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727522.webp",
-        alt: "過程",
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E7%BE%A4%E7%9B%8A%E8%AD%89%E5%88%B8.webp",
+        alt: "群益證券",
     },
-    {
-        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727523.webp",
-        alt: "過程",
-    },
-    {
-       src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727516.webp",
-        alt: "合照",
-    },
+    // {
+    //     src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727523.webp",
+    //     alt: "過程",
+    // },
+    // {
+    //    src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727516.webp",
+    //     alt: "合照",
+    // },
 ]
 
 // SEO Structued Data
