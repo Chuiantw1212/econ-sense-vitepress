@@ -377,6 +377,14 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 ## 線上/實體講座
 
+### 照片
+
+<Photos :modelValue="photoItems"></Photos>
+
+### 評價
+
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
+
 ### 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1k2jUNx0oeChEQuNQGEHy75xt3N7vIt8NH2VHR0BthAc/edit?usp=drive_link">
@@ -385,14 +393,6 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
     width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
     webkitallowfullscreen="true"></iframe>
 </LazySlide>
-
-### 評價
-
-<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
-
-### 照片
-
-<Photos :modelValue="photoItems"></Photos>
 
 ## 外部優質課程
 

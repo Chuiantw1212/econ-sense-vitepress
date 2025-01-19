@@ -38,7 +38,7 @@ description: 透過桌遊《小富翁大贏家》學習開源、節流、投資�
 
 ## 線上/實體講座
 
-### 活動照片
+### 照片
 
 <Photos :modelValue="photoItems"></Photos>
 

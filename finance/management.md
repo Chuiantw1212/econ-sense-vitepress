@@ -12,19 +12,21 @@ head:
 
 這邊未來要改寫。
 
-## 簡報
+## 線上/實體講座
+
+### 照片
+
+<Photos :modelValue="photoItems"></Photos>
+
+### 評價
+
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS-dd3TtGo9ZL7PyKHDVIRIBC0TvbzSP6rrjnQZTtQ_pyZJw7pDIR1opRm8f-ZaShvJb-0OKIA_5U0Z/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+
+### 簡報
 
 <LazySlide shareLink="https://docs.google.com/presentation/d/1JfEgsq_FnDGqdf8ODT80rnYSnGvOhw4jxBPDGsh9yRA/edit?usp=drive_link">
     <iframe title="Google Slides" src="https://docs.google.com/presentation/d/e/2PACX-1vQmCUJNXjyzyGaPc6_NXyjwmAshXjLOjfcG-fJrUb7XdVdEZhI2w_dD0WI0vwmf_cfOmoy3zKsNlTpz/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
-
-## 講座評價
-
-<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS-dd3TtGo9ZL7PyKHDVIRIBC0TvbzSP6rrjnQZTtQ_pyZJw7pDIR1opRm8f-ZaShvJb-0OKIA_5U0Z/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
-
-## 活動照片
-
-<Photos :modelValue="photoItems"></Photos>
 
 ## 外部資源
 
