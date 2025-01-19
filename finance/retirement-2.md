@@ -234,9 +234,9 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 [特留份](https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=1223)是法定繼承人保護機制，確保親近家庭成員如配偶、子女或父母，在遺產分配中能獲得一定比例的保障。以下表格詳細說明了在不同繼承組合下的應繼份與特留份分配情況：
 
-| **繼承組合**        | **應繼份分配**          | **特留份** |
-|---------------------|-------------------------|------------|
-| **配偶 + 子女**     | 人數均分                | 1/2        |
+| **繼承組合**        | **應繼份分配**         | **特留份** |
+| ------------------- | ---------------------- | ---------- |
+| **配偶 + 子女**     | 人數均分               | 1/2        |
 | **配偶 + 父母**     | 配偶 1/2，父母 1/2     | 1/2        |
 | **配偶 + 兄弟姐妹** | 配偶 1/2，兄弟姐妹 1/2 | 1/3        |
 
@@ -302,19 +302,50 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 ![環保葬](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E7%92%B0%E4%BF%9D%E8%91%AC.webp "環保葬")
 
-### 喪葬補貼與死亡給付
+### 身後事之後 - 遺產稅
 
-勞工在家屬過世時，除了可以申請**勞工保險的家屬死亡給付**，公司內的**職工福利委員會（職福會）**也可能提供**喪葬互助**等相關補助。以下是詳細說明：
+處理遺產稅的過程涉及多個地點和文件，了解每個步驟的意義與順序至關重要。以下是名詞定義：
 
-#### 勞工保險的家屬死亡給付
+- **除戶戶籍謄本**：類似於死亡證明書，用於確認被繼承人的死亡狀態，為後續遺產申請的基礎文件。
+- **全體繼承人現戶戶籍資料**：是所有繼承人目前的戶籍謄本，用於確認繼承人與被繼承人的親屬關係。
 
-根據勞工保險規定，當被保險人的直系親屬（如配偶、父母、子女）過世時，被保險人可以申請家屬死亡給付。
+造訪地點的順序尤為重要，因為遺產的正式繼承需要先繳清遺產稅。保險公司的死亡保險給付在此環節中發揮關鍵作用，能在初期提供喪葬費用以及繳納遺產稅所需的資金，減輕家屬的經濟壓力。戶政事務所負責核發除戶戶籍謄本和全體繼承人現戶戶籍資料，這些是申請遺產稅與保險給付的關鍵文件。此外：
 
-- **給付對象**：被保險人的配偶、父母、子女
-- **給付標準**：喪葬津貼為被保險人月投保薪資的三個月金額
-- **申請期限**：應於家屬死亡之翌日起五年內提出申請
+- **勞保死亡給付**：戶政事務所可協助申請[家屬死亡給付](https://www.bli.gov.tw/0007881.html)，提供喪葬費用的資金支持，需準備死亡證明書和除戶戶籍謄本。
+- **公保死亡給付**：需向各級公務人員退休撫卹基金管理單位（如地方政府人事部門或全國性退休基金管理機構）申請，並提交相關文件如死亡證明書、除戶戶籍謄本及全體繼承人現戶戶籍資料。
 
-詳細資訊可參考[勞動部勞工保險局的官方說明](https://www.bli.gov.tw/0017482.html)。
+以下是處理遺產稅所需造訪地點的詳細說明：
+
+| **地點**     | **需事先準備的文件**                             | **結果**                                                                                                                                                  |
+| ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 醫院或派出所 | -                                                | [死亡證明書](https://owt.com.tw/death-certificate/)                                                                                                       |
+| 戶政事務所   | 死亡證明書、死者配偶近兩年證件照                 | 除戶戶籍謄本、全體繼承人現戶戶籍資料                                                                                                                      |
+| 保險公司     | 死亡證明書、除戶戶籍謄本、全體繼承人現戶戶籍資料 | [15天內](https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0390002&flno=34)完成[死亡保險給付 ](https://www.nanshanlife.com.tw/web/Indemnity.html)     |
+| 國稅局       | 死亡證明書或除戶戶籍謄本、全體繼承人現戶戶籍資料 | [財產查調（各種財產）](https://www.ntbca.gov.tw/singlehtml/73956170c8c84f6caf14e77161f938ab?cntId=4fcf816aa64a41d0aca0af6bfb99b18d#gsc.tab=0)、免稅證明書 |
+| 地方稅捐機關 | 免稅證明書                                       | [免稅證明書加蓋查欠章 ](https://www.etax.nat.gov.tw/etwmain/tax-info/house-land-transfer-taxtation-calculation-area/inheritance/file-process)             |
+
+**補充說明**  
+保險給付在整個流程中至關重要，不僅能快速提供喪葬費用，還可以作為遺產稅的主要繳納來源，確保整體過程順利完成。遺產的正式繼承需要先繳納遺產稅，而壽險的死亡給付能填補這一需求，避免家屬在短時間內承受額外的財務壓力。即便94%的家庭實際無需繳納遺產稅，喪葬費用和相關法律手續仍需準備充分。建議家屬按照表格中的順序辦理相關手續，以避免任何流程延誤或文件遺漏。
+
+
+![單一窗口查詢金融遺產](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E5%96%AE%E4%B8%80%E7%AA%97%E5%8F%A3%E6%9F%A5%E8%A9%A2%E9%87%91%E8%9E%8D%E9%81%BA%E7%94%A2.webp "單一窗口查詢金融遺產")
+
+### 身後事之後 - 財產繼承
+
+處理財產繼承的過程需要造訪多個地點，準備相關文件，並按照法定程序辦理。每個財產類型的繼承都有其特定的要求與步驟。以下是一些常見的財產類型及其處理地點：
+
+| **地點**       | **需事先準備的文件**                                              | **結果**                                                                                                                                          |
+| -------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **地政事務所** | 繼承系統表、死亡證明書、除戶戶籍謄本、全戶戶籍謄本、免稅證明書    | [房地產繼承登記](https://www.etax.nat.gov.tw/etwmain/tax-info/house-land-transfer-taxtation-calculation-area/inheritance/file-process)            |
+| **監理所**     | 免稅證明書、財產分割協議書                                        | [汽機車繼承登記 ](https://168.motc.gov.tw/PostDownLoad/krDyKwFtJVP8rYbsKIx-MA)                                                                    |
+| **銀行與郵局** | 死亡證明書、全戶戶籍謄本、(全體繼承人親持身分證 & 印章)或印鑑證明 | [存款繼承](https://www.post.gov.tw/post/internet/Customer_service/index.jsp?ID=16020402&defaultAllOpen=1&sn=A285E931-F49B-41A7-AEE6-A63AB99481DA) |
+| **證券商**     | 免稅證明書、繼承系統表、全戶戶籍謄本                              | [證券繼承 ](https://www.yuanta.com.tw/eyuanta/webfile/resourcesFile/f45f845c-e8fe-4434-9713-08747e74ce94.pdf)                                     |
+
+#### 補充說明
+
+在處理財產繼承時，**地政事務所**負責不動產的繼承登記，這需要準備完整的文件如免稅證明書及繼承系統表，並依遺產分割協議辦理。汽機車的繼承需到**監理所**辦理，銀行和郵局則負責處理逝者的存款繼承，需全體繼承人共同完成手續。若涉及證券繼承，則需提交至**證券商**辦理過戶。
+
+每個階段的手續可能需要多次確認與補件，建議繼承人提前了解各地點所需的文件要求，避免延誤繼承進程。若遇到複雜的分配情形或有爭議，建議尋求法律或專業諮詢的協助，以確保流程順利進行。
 
 #### 職工福利委員會的喪葬互助
 
@@ -329,42 +360,6 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 ![職工福利委員會](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E8%81%B7%E5%B7%A5%E7%A6%8F%E5%88%A9%E5%A7%94%E5%93%A1%E6%9C%83.webp "職工福利委員會")
 
-### 遺產稅流程
-
-1. **申請死亡證明書**：向醫院申請逝者的[死亡證明書](https://owt.com.tw/death-certificate/)，作為後續辦理除戶登記及其他手續的必要文件。
-
-2. **除戶登記**：至戶政事務所或是[線上申辦](https://www.gov.tw/News_Content_2_371549)逝者的除戶登記，並取得除戶戶籍謄本等相關文件。
-
-3. **查調與申報遺產稅**：利用死亡證明書及除戶戶籍謄本，向金融機構或政府機關查詢逝者的財產（如存款、不動產、證券等）。同時，透過國稅局提供的「[單一窗口查詢金融遺產](https://tax.nat.gov.tw/alltax.html?id=32)」服務查詢金融資產，準確申報遺產稅。
-
-4. **申請保險死亡給付**：利用死亡證明書及除戶戶籍謄本，向保險公司申請人壽保險的死亡給付，可用於支付遺產稅或其他相關費用。
-
-5. **取得遺產稅證明**：[申報遺產稅](https://tax.nat.gov.tw/alltax.html?id=32)完稅後，國稅局核發遺產稅完稅或免稅證明，為後續財產處理提供法律依據。
-
-6. **查詢有無欠稅**：到[國稅局的欠稅資料查詢](https://www.etax.nat.gov.tw/etwmain/etw103w)確認逝者是否尚有未繳稅款，避免遺產過戶後出現稅務問題。
-
-7. **辦理遺產過戶**：持遺產稅證明、繼承權文件等，辦理財產過戶手續，將遺產正式轉移給繼承人。
-
-#### 房地產
-
-房地產繼承需辦理[不動產過戶手續](https://www.etax.nat.gov.tw/etwmain/tax-info/house-land-transfer-taxtation-calculation-area/inheritance/file-process)，繼承人向地政事務所申請繼承登記，並依公告現值計算遺產稅，需提供繼承權證明文件和不動產登記證明等資料。
-
-#### 汽機車
-
-車主過世後，車輛繼承過戶需由繼承人持遺產稅證明、身份證、行車執照、有效30日以上的強制保險證明和遺產分割協議書，到監理站[辦理手續](https://168.motc.gov.tw/theme/news/post/1906121102219)。此外，若汽車已滿10年或機車已滿5年，過戶前需先完成臨時檢驗。
-
-#### 銀行存摺
-
-銀行存款的繼承需持法院核發的繼承權證明書或遺囑執行文件至[銀行辦理](https://www.taishinbank.com.tw/TSB/export/sites/TSB/files/Deposit-and-safe-deposit-box-inheritance-application-form11212.pdf)，並提供身份證明等文件。銀行會凍結帳戶，待文件審核後方可提領。
-
-#### 證券
-
-證券如股票、債券等的繼承需持繼承權證明、身份證等文件至證券公司辦理[過戶手續](https://www.yuanta.com.tw/eyuanta/webfile/resourcesFile/767551c5-f983-4b2a-9c01-d0ad315bf62c.pdf)。過戶後，繼承人可選擇持有或變現，並需依公告市值計算遺產稅。
-
-不同資產類型的繼承手續和所需文件有所不同，建議繼承人熟悉流程，以確保資產順利合法過戶。
-
-![單一窗口查詢金融遺產](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E5%96%AE%E4%B8%80%E7%AA%97%E5%8F%A3%E6%9F%A5%E8%A9%A2%E9%87%91%E8%9E%8D%E9%81%BA%E7%94%A2.webp "單一窗口查詢金融遺產")
-
 ### 單程行李箱
 
 在我的單程行李箱裡，有一個小小的保險箱，裡面放著我的印鑑和存摺——這是留給家人的經濟基石，是支撐他們未來的一份心意。行李箱中還收納著保單、資產記錄、專利與股權協議，象徵著我對未來的預備與承諾。最重要的，還有一份詳細的保險清冊和雲端硬碟的帳號密碼，這些資訊已妥善打印，放在顯眼的位置，方便家人隨時取用。
@@ -373,12 +368,22 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 這個單程行李箱，裝載的不僅是財務、醫療、法律和身後安排的每一項細節，更是對家人深沉無言的關懷。這些看似平凡的準備，卻能在家人需要時為他們提供踏實的依靠。當離別時刻來臨，他們將不會徬徨，因為這個行李箱已為他們鋪好前路，傳達著我無需多言的心意。這是留給家人的最後禮物，也是對自己生命的最後整理。透過這份儉樸而完整的規劃，我可以坦然地說，再多的不捨也已安排妥當，而這份心意將如細水長流，伴隨家人繼續走下去。
 
-## 單程行李箱參考
+## 我的單程行李箱參考
+
+基於小冬瓜的單程行李箱概念，但是把保險跟數位資產獨立整理，讓保險比較好找。
 
 <iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSIJersD6EEXxhLmOn9BbpW2pIVMsuJQoIICMehx0DUhP2ovM4rkUqbpsyUvFIr2KCJ3DLfsr7cg9YG/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
 <a href="https://docs.google.com/spreadsheets/d/1qAUQ9g9KNfyhWxWyJtRNwRiff7H1bYLDb6yeVU-zjPA/export/xlsx">單程行李箱模板下載</a>
 
 ## 線上/實體講座
+
+### 照片
+
+<Photos :modelValue="photoItems"></Photos>
+
+### 評價
+
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
 
 ### 簡報
 
@@ -388,14 +393,6 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
     width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true"
     webkitallowfullscreen="true"></iframe>
 </LazySlide>
-
-### 評價
-
-<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vROu9agTusNXkbj8TxZKGouww4J7qXIikOUFAgTex9qQuXpKXVODec913TI3_I6hNwxU5De4AUI-BMu/pubhtml?widget=true&amp;headers=false"  width="100%" height="420"></iframe>
-
-### 照片
-
-<Photos :modelValue="photoItems"></Photos>
 
 ## 外部優質課程
 
@@ -457,21 +454,21 @@ const bookItems = [
 
 const photoItems = [
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727509.webp",
-        alt: "過程",
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%BD%8A%E6%96%87%E8%97%9D%E5%AE%A41.webp",
+        alt: "齊文藝室",
     },
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727522.webp",
-        alt: "過程",
+        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E7%BE%A4%E7%9B%8A%E8%AD%89%E5%88%B8.webp",
+        alt: "群益證券",
     },
-    {
-        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727523.webp",
-        alt: "過程",
-    },
-    {
-       src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727516.webp",
-        alt: "合照",
-    },
+    // {
+    //     src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727523.webp",
+    //     alt: "過程",
+    // },
+    // {
+    //    src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727516.webp",
+    //     alt: "合照",
+    // },
 ]
 
 // SEO Structued Data
