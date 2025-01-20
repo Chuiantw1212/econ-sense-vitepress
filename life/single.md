@@ -213,7 +213,9 @@ head:
 
 這些潛在疑慮提醒委託人在設立安養信託時，應深入了解合約細節，並針對無繼承人和年金收入管理等問題進行額外安排，以確保信託設立能夠有效且持續地支持晚年生活。為了幫助讀者更好地理解安養信託，我在下方附上節錄重點版的合約，以便讀者快速掌握核心內容。
 
-<iframe title="老人安養信託定型化契約參考範本" src="https://storage.googleapis.com/public.econ-sense.com/%E8%80%81%E4%BA%BA%E5%AE%89%E9%A4%8A%E4%BF%A1%E8%A8%97%E5%AE%9A%E5%9E%8B%E5%8C%96%E5%A5%91%E7%B4%84%E5%8F%83%E8%80%83%E7%AF%84%E6%9C%AC.pdf" width="100%" height="420"></iframe>
+<LazySlide name="老人安養信託定型化契約參考範本">
+    <iframe title="老人安養信託定型化契約參考範本" src="https://storage.googleapis.com/public.econ-sense.com/%E8%80%81%E4%BA%BA%E5%AE%89%E9%A4%8A%E4%BF%A1%E8%A8%97%E5%AE%9A%E5%9E%8B%E5%8C%96%E5%A5%91%E7%B4%84%E5%8F%83%E8%80%83%E7%AF%84%E6%9C%AC.pdf" width="100%" height="420"></iframe>
+</LazySlide>
 
 ## 非財務面的準備
 
