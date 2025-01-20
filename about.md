@@ -14,7 +14,7 @@ head:
   {
     avatar: `https://storage.googleapis.com/public.econ-sense.com/about/enchu.webp`,
     title: '分享者',
-    desc:'群益期貨、潛能聚、普鴻資訊、誠遠國際、LearnWeb、韶光心理學苑、宜蘭縣社會處、PMI Taiwan',
+    desc:'群益期貨、潛能聚、誠遠國際、LearnWeb、韶光心理學苑、宜蘭縣社會處、PMI Taiwan',
     org: '學校學不到的事',
     orgLink: 'https://www.facebook.com/groups/304681766894402',
   },
