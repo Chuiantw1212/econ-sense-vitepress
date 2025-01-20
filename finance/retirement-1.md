@@ -228,9 +228,10 @@ head:
 
 費用也因地區與年齡有所不同，建議參考[老人狀況調查報告](https://dep.mohw.gov.tw/DOS/lp-5095-113.html)，結合自身財務情況與需求，配合[開源財務規劃](/plan)表進行試算，以便制定更精確的退休金策略，為安心的退休生活奠定基礎。
 
-<iframe title="111年老人狀況調查報告(生活費用支出)" src="https://storage.googleapis.com/public.econ-sense.com/finance/retirement/%E7%94%9F%E6%B4%BB%E8%B2%BB%E7%94%A8.pdf" width="100%" height="420"></iframe>
-
-<iframe title="111年老人狀況調查報告(照顧費用支出)" src="https://storage.googleapis.com/public.econ-sense.com/finance/retirement/%E7%85%A7%E9%A1%A7%E8%B2%BB%E7%94%A8.pdf" width="100%" height="420"></iframe>
+<LazySlide name="111年老人狀況調查報告(節錄)">
+    <iframe title="111年老人狀況調查報告(生活費用支出)" src="https://storage.googleapis.com/public.econ-sense.com/finance/retirement/%E7%94%9F%E6%B4%BB%E8%B2%BB%E7%94%A8.pdf" width="100%" height="420"></iframe>
+    <iframe title="111年老人狀況調查報告(照顧費用支出)" src="https://storage.googleapis.com/public.econ-sense.com/finance/retirement/%E7%85%A7%E9%A1%A7%E8%B2%BB%E7%94%A8.pdf" width="100%" height="420"></iframe>
+</LazySlide>
 
 ## 老後變現
 

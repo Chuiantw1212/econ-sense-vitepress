@@ -6,7 +6,7 @@
         <!-- <el-button v-if="downloadLink" @click="loadAndDownload()">點此下載</el-button> -->
     </div>
     <el-card v-else class="card">
-        為節省用戶流量，簡報採手動載入。
+        為節省用戶流量，{{ name }}採手動載入。
         <template #footer>
             <div class="card__footer">
                 <el-button @click="isLoaded = true">點此線上瀏覽</el-button>
@@ -25,6 +25,10 @@ const props = defineProps({
     modelValue: {
         type: Boolean,
         default: false
+    },
+    name: {
+        type: String,
+        default: '此簡報或PDF'
     },
     shareLink: {
         type: String,
