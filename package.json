@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
-    "preview": "vitepress preview",
-    "update": "npx npm-check-updates -u"
+    "predeploy": "pnpm run build",
+    "deploy": "firebase use econ-sense && firebase deploy"
   },
   "repository": {
     "type": "git",
