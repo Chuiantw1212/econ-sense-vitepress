@@ -433,7 +433,7 @@ head:
 ![不保老人](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/不保老人.webp "不保老人")
 
 <LazySlide name="自述單獨進行各項日常生活活動(ADL)有困難累積項目數之百分比">
-   <iframe title="自述單獨進行各項日常生活活動(ADL)有困難累積項目數之百分比" src="https://storage.googleapis.com/public.econ-sense.comhttps://storage.googleapis.com/public.econ-sense.com/finance/insurance/ADLs%E7%B4%AF%E8%A8%88%E7%B5%B1%E8%A8%88.pdf" width="100%" height="420"></iframe>
+   <iframe title="自述單獨進行各項日常生活活動(ADL)有困難累積項目數之百分比" src="https://storage.googleapis.com/public.econ-sense.com/finance/insurance/ADLs%E7%B4%AF%E8%A8%88%E7%B5%B1%E8%A8%88.pdf" width="100%" height="420"></iframe>
 </LazySlide>
 
 ### 緩慢吃掉保障的通貨膨脹
