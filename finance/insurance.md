@@ -1,17 +1,17 @@
 ---
-title: 不買保險的保險觀
-description: 探討醫療與財務規劃中的關鍵險種，包括健保與醫療險、癌症險、長照險、儲蓄險等，並解析如何選擇合適的保單。適合保險新手、不確定是否需要投保的人，以及對自己已有保單感到疑惑的人。從基本概念到實務經驗，協助受眾理解醫療與保險的核心知識。
+title: 不買保險的保險觀：不挑食的風險管理哲學
+description: 探「不買保險的保險觀」強調在不完全依賴保險的前提下，靈活應對健康、癌症、長照等風險。本文將探討如何結合保險、緊急預備金、投資規劃與社會資源，以多元方式降低風險暴露，避免過度倚賴單一保障工具，實現更全面的風險管理策略。
 outline: [2,3]
 head:
   - - meta
     - name: og:image
       property: og:image
-      content: /finance/insurance.jpeg
+      content: https://storage.googleapis.com/public.econ-sense.com/finance/insurance/banner.jpg
 ---
 
-# {{ $frontmatter.title }}
+# 不買保險的保險觀：不挑食的風險管理哲學
 
-{{ $frontmatter.description }}
+「不買保險的保險觀」強調在不完全依賴保險的前提下，靈活應對健康、癌症、長照等風險。本文將探討如何結合保險、緊急預備金、投資規劃與社會資源，以多元方式降低風險暴露，避免過度倚賴單一保障工具，實現更全面的風險管理策略。
 
 ## 健保與醫療險
 
@@ -46,7 +46,7 @@ head:
 
 因此，在投保醫療險前，了解健保提供的保障範圍與退費機制尤為重要。理性評估自身需求後，再選擇適合的醫療險，才能真正發揮保險的補充作用，避免過度或不必要的保費支出。
 
-![健保支出](/finance/insurance/健保支出.png "健保支出")
+![健保支出](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/健保支出.webp "健保支出")
 
 ### 嚇死人的健保點數
 
@@ -73,7 +73,7 @@ head:
 
 即使一次手術的健保點數高達百萬，實際上患者只需負擔上述三部分，且部分負擔金額有明確上限保障。瞭解這一點能幫助患者理性評估醫療支出，避免被誇大的數據誤導。
 
-![負擔上限](/finance/insurance/負擔上限.png "負擔上限")
+![負擔上限](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/負擔上限.webp "負擔上限")
 
 ### **住院部分負擔與統計**
 
@@ -194,7 +194,7 @@ head:
    - **醫療費用補償**：涵蓋骨折治療的自費部分。
    - **失能給付**：若骨折導致永久傷殘，提供相應的賠償。
 
-![骨折保險](/finance/insurance/骨折保險.png "骨折保險")
+![骨折保險](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/骨折保險.webp "骨折保險")
 
 ### 白擔心的住院住不起
 
@@ -218,7 +218,7 @@ head:
 總之，住院費用不必過度擔心，健保制度和醫療體系會提供相應的保障。然而，避免不必要的延長住院時間，確保病床資源的合理使用，對於每一位患者來說都至關重要。
 
 <LazySlide name="國人每住院者平均住院日數前二十大疾病">
-    <iframe width="100%" height="420px" src="https://storage.googleapis.com/public.econ-sense.com/finance/insurance/%E4%BD%8F%E9%99%A2%E6%97%A5%E6%95%B8.pdf"></iframe>
+    <iframe width="100%" height="420px" src="https://storage.googleapis.com/public.econ-sense.comhttps://storage.googleapis.com/public.econ-sense.com/finance/insurance/%E4%BD%8F%E9%99%A2%E6%97%A5%E6%95%B8.pdf"></iframe>
 </LazySlide>
 
 ### 自負額與限額限次試算案例
@@ -258,7 +258,7 @@ head:
 
 患者需自行負擔2,500元，保險理賠7,500元。若住院天數或每日費用超出限制，患者的自行負擔金額將進一步增加。
 
-![限額限次](/finance/insurance/限額限次.png "限額限次")
+![限額限次](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/限額限次.webp "限額限次")
 
 <!-- ### 模擬車禍住院
 
@@ -332,7 +332,7 @@ head:
 
 這些限制顯示，醫療險的保障範圍比想像中更有限，部分費用需要患者自行負擔。通過良好的健康管理與預防措施，並搭配意外險或勞保補充工具，許多人可以有效降低對醫療險的依賴，將風險控制在可承擔的範圍內，實現更合理的財務規劃。
 
-![醫療自留](/finance/insurance/醫療自留.png "醫療自留")
+![醫療自留](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/醫療自留.webp "醫療自留")
 
 ## 癌症與特別傷病保險
 
@@ -346,7 +346,7 @@ head:
 
 癌細胞並非外來的入侵者，而是我們自身細胞的變異產物。它們雖然起源於正常細胞，但在基因層面發生了結構性改變，導致行為異常。這也提醒我們，與其單純地將癌細胞視為敵人，不如反思它們的出現是否在提示我們改變對待身體的方式，例如生活習慣、飲食模式以及情緒管理。癌細胞的存在，或許是一個極端的訊號，警示我們應該重新審視自己的健康狀況和生活方式。
 
-![癌症細胞](/finance/insurance/癌症細胞.png "癌症細胞")
+![癌症細胞](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/癌症細胞.webp "癌症細胞")
 
 ### 內共生理論
 
@@ -372,7 +372,7 @@ head:
 
 內共生理論為我們提供了理解細胞生命歷程的新視角，它不僅解釋了細胞如何從獨立的生命體演化成為協作的細胞結構，也幫助我們更深入地理解癌細胞是如何在現代生物體中「回歸」獨立的狀態，從而進一步探討癌症的發生機制。
 
-![細胞叛變](/finance/insurance/細胞叛變.png "細胞叛變")
+![細胞叛變](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/細胞叛變.webp "細胞叛變")
 
 ### 只有治療，就會復發
 
@@ -384,7 +384,7 @@ head:
 
 因此，要想真正根治癌症，不僅需要治療，更需要徹底改變我們對待身體的方式。只有在調整生活方式、飲食習慣、改善情緒管理，增強免疫系統的基礎上，癌症的復發才有可能得到有效控制。這是一個身心靈綜合的治療過程，而不僅僅是依賴外部的藥物和醫療手段。
 
-![多方治癌](/finance/insurance/多方治癌.png "多方治癌")
+![多方治癌](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/多方治癌.webp "多方治癌")
 
 ### 商業保險的取捨與成本
 
@@ -430,10 +430,10 @@ head:
 
 長照險並非萬能的保障工具，而是應作為整體財務規劃的一部分。透過了解其限制，確保個人在年老時有充足的儲蓄和其他替代方案，才能真正應對未來的長期照護需求。 -->
 
-![不保老人](/finance/insurance/不保老人.png "不保老人")
+![不保老人](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/不保老人.webp "不保老人")
 
 <LazySlide name="自述單獨進行各項日常生活活動(ADL)有困難累積項目數之百分比">
-   <iframe title="自述單獨進行各項日常生活活動(ADL)有困難累積項目數之百分比" src="https://storage.googleapis.com/public.econ-sense.com/finance/insurance/ADLs%E7%B4%AF%E8%A8%88%E7%B5%B1%E8%A8%88.pdf" width="100%" height="420"></iframe>
+   <iframe title="自述單獨進行各項日常生活活動(ADL)有困難累積項目數之百分比" src="https://storage.googleapis.com/public.econ-sense.comhttps://storage.googleapis.com/public.econ-sense.com/finance/insurance/ADLs%E7%B4%AF%E8%A8%88%E7%B5%B1%E8%A8%88.pdf" width="100%" height="420"></iframe>
 </LazySlide>
 
 ### 緩慢吃掉保障的通貨膨脹
@@ -502,7 +502,7 @@ head:
 
 這樣的策略不僅能避免投資型保險的高昂費用與繁瑣限制，還能最大化資金的運用效率，讓投資和保障各司其職，達到更清晰、靈活的財務規劃目標。
 
-![投資保險](/finance/insurance/投資保險.png "投資保險")
+![投資保險](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/投資保險.webp "投資保險")
 
 ### 保險與特別股的比較
 
@@ -573,7 +573,7 @@ head:
 3. **個別化專業評估**：  
    即便符合失能程度第1至7等級，仍需經個別化專業評估確認工作能力減損達70％以上，且無法返回職場，才具備請領年金資格。
 
-![勞保缺口](/finance/insurance/勞保缺口.png "勞保缺口")
+![勞保缺口](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/勞保缺口.webp "勞保缺口")
 
 #### **給付的不足與案例模擬**
 
@@ -622,7 +622,7 @@ head:
 
 壽險的意義在於提供即時救助，而後續資金的靈活管理則決定了能否真正穩住家庭的財務基石。這不僅是對風險的對沖，也是對未來的深思熟慮。
 
-![壽險責任](/finance/insurance/壽險責任.png "壽險責任")
+![壽險責任](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/壽險責任.webp "壽險責任")
 
 ### 健保不給付，就靠吃睡動
 
@@ -652,7 +652,7 @@ head:
 
 與其將希望寄託在理賠上，不如從日常生活中扎實積累健康，讓自己在面對未知風險時，更有底氣，也更從容應對。
 
-![核心保險](/finance/insurance/核心保險.png "核心保險")
+![核心保險](https://storage.googleapis.com/public.econ-sense.com/finance/insurance/核心保險.webp "核心保險")
 
 ## 線上/實體講座
 
