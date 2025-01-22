@@ -2,6 +2,9 @@
 
 這是「常識經濟學」部落格的前端專案，採用 [Vitepress](https://vitepress.dev/)（基於 [Vue 3](https://vuejs.org/)）作為靜態網站生成工具，打造輕量化、高效能的部落格平台。前端功能包含多樣化的互動工具，提升使用者體驗。
 
+![網站截圖](https://storage.googleapis.com/public.econ-sense.com/others/econ-sense.com_.webp "網站截圖")
+
+
 ## 主要功能
 
 1. 開源財務計算機: 提供[免費且即時的財務計算工具](https://econ-sense.com/plan.html)，協助使用者進行個人財務規劃與管理。
