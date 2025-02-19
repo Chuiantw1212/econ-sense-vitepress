@@ -89,8 +89,9 @@
     </el-card>
     <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
         <p>
-            歡迎您使用我們的服務！註冊後，您可以輕鬆使用我們的平台，因為您的資料將被安全儲存，包括電子郵件地址和填寫的表單內容。這樣做是為了方便您下次登入時無需重新輸入表單資料，提供更順暢的使用體驗。我們十分尊重您的隱私，您的資料將受到保護並嚴格保密。
+            請不要註冊，目前Server有BUG，只有已經有註冊成功的人可以用，但是只有作者本人在系統中所以自己爽就好不用刻意修。
         </p>
+        <p>請不要註冊增加作者負擔，謝謝。</p>
         <div id="firebaseui-auth-container"></div>
     </el-dialog>
 </template>
