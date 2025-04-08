@@ -21,35 +21,35 @@ import Courses from './components/courses.vue'
 
 const digitalDocumentItems = [
     {
-        url: './cycling',
+        url: './life/cycling',
         name: '從休閒騎車到9天環島全攻略',
         keywords: ['休閒騎車路線', '環島的準備', '單車環島紀實9天8夜',],
         audience: ['想單車休閒的人', '好奇單車旅行的人', '評估環島的人',],
         rating: 3
     },
     {
-        url: './education',
+        url: './life/education',
         name: '我是學渣，也是黑馬',
         keywords: ['傷仲永', '教育問題', '喚醒黑馬', '教養假想'],
         audience: ['正在尋求個人成長和突破的人', '面臨教育或職業困境的學生和年輕人', '在教育與教養中受過傷的人'],
         rating: 3
     },
     {
-        url: './carer',
+        url: './life/carer',
         name: '我是照顧者',
         keywords: ['延遲老化', '照顧資源', '醫療資源', '跨領域整合'],
         audience: ['想為了照顧父母做準備的人', '想減輕家人負擔的長輩', '被各種長照術語搞得很亂的人'],
         rating: 1
     },
     {
-        url: './single',
+        url: './life/single',
         name: '單身狗地獄求生',
         keywords: ['生育率的歷史', '台灣現狀', '財務面的準備', '非財務的準備'],
         audience: ['想了解低生育率成因的人', '選擇或被迫單身一輩子的人', '介於兩者之間的人'],
         rating: 2
     },
     {
-        url: './housing',
+        url: './life/housing',
         name: '極簡全齡宅',
         keywords: ['斷捨離', '全齡宅設計'],
         audience: ['想看斷捨離如何實踐的人', '好奇斷捨離與裝修有何關聯的人', '想準備宜居的房子給自己與家人者'],

@@ -52,28 +52,28 @@ import Courses from './components/courses.vue'
 
 const digitalDocumentItems = [
 {
-        url: './beginner',
+        url: './engineer/beginner',
         name: '軟體職涯入門',
         keywords: ['職涯探索', '學習', '履歷', '求職'],
         audience: ['資訊工程相關科系大三以上學生','欲轉職為軟體工程師的社會人士', '寫程式寫出興趣的初學者'],
         rating: 2
     },
     {
-        url: './web',
+        url: './engineer/web',
         name: '網站初學須知',
         keywords: ['較早的網站演進', '2016後的網站演進', '工程師作業環境', '全端自學經驗分享'],
         audience: ['想學習網站基本概念的初學者','想當工程師寫程式的待轉職者', '需要架站與工程師溝通的PM'],
         rating: 3
     },
     {
-        url: './computer',
+        url: './engineer/computer',
         name: '電腦DIY',
         keywords: ['主要元件', '次要元件', '其他周邊', '組裝'],
         audience: ['價格敏感型消費者', '想自己裝修電腦的人', '總感覺自己被店家宰羊的人'],
         rating: 3
     },
     {
-        url: './blog-1',
+        url: './engineer/blog-1',
         name: 'Vitepress無本部落格',
         keywords: ['環境建置', '本機運行', '發布與修改', '進階設定'],
         audience: ['想學習前端的初學者','厭倦隨著平台倒閉到處搬家的文字工作者', '不想負擔部落格託管費用的使用者'],

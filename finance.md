@@ -25,30 +25,31 @@ outline: deep
 <script setup>
 import DigitalDocuments from './components/digitalDocuments.vue'
 import Courses from './components/courses.vue'
+
 const digitalDocumentItems = [
     {
-        url: './framework',
+        url: './finance/framework',
         name: '理財框架',
         keywords: ['開源', '節流', '投資', '風險控制'],
         audience: ['剛出社會的新鮮人', '想掌握理財觀念全貌的人', '總覺得理財很難的人'],
         rating: 3
     },
     {
-        url: './retirement-1',
+        url: './finance/retirement-1',
         name: '退休規劃(上)',
         keywords: ['勞保勞退', '公保公退', '老後居住', '老後變現'],
         audience: ['關注退休的職場人士與公務員', '計畫為老後居住做準備的人', '想為退休資產變現做準備的人'],
         rating: 2
     },
     {
-        url: './retirement-2',
+        url: './finance/retirement-2',
         name: '退休規劃(下)',
         keywords: ['財務', '醫療', '法律', '生死'],
         audience: ['即將進入退休或正在規劃退休生活的人', '希望為未來做好醫療和法律安排的人', '希望減少家人在處理後事時壓力的人'],
         rating: 3
     },
     {
-        url: './investment',
+        url: './finance/investment',
         name: '投資進階管道',
         keywords: ['證券', '太陽能', '加密貨幣', '天使投資'],
         audience: ['對純被動收入好奇的人', '想遠離看盤或沒時間看盤的人', '怕被騙或是歸零的人'],
@@ -58,14 +59,14 @@ const digitalDocumentItems = [
 
 const storyItems = [
     {
-        url: './single',
+        url: './finance/single',
         name: '金錢整理術',
         keywords: ['金錢整理術', '小錢包存錢法', '存錢筆記本', '培養整理習慣'],
         audience: ['意識到"整理"財務很重要的人', '想自動化收支管理的人', '對如何實踐省錢概念感到好奇的人'],
         rating: 3
     },
     {
-        url: './insurance',
+        url: './finance/insurance',
         name: '醫生買保險',
         keywords: ['健保與醫療險', '癌症險', '長照險', '儲蓄險', '自己保保險'],
         audience: ['沒保過保險的新鮮人', '不想保保險的人', '不太知道自己保了什麼鬼東西的人'],
@@ -75,7 +76,7 @@ const storyItems = [
 
 const gameItems = [
     {
-        url: './financemj',
+        url: './finance/financemj',
         name: '小富翁大贏家',
         keywords: ['開源', '節流', '投資', '風險控制'],
         audience: ['國二至高中(職)',],
