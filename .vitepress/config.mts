@@ -69,6 +69,7 @@ export default defineConfig({
           { text: '我是照顧者', link: '/life/carer' },
           { text: '我是學渣，也是黑馬', link: '/life/education' },
           { text: '單身狗地獄求生', link: '/life/single' },
+          { text: '後備預官的民防心得', link: '/life/war' },
           { text: '極簡全齡宅', link: '/life/housing' },
           { text: '愛之語', link: '/life/love-language' },
         ]
