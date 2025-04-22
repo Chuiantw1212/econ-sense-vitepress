@@ -8,7 +8,7 @@ head:
       content: https://storage.googleapis.com/public.econ-sense.com/about/enchu.webp
 ---
 
-# 關於 EN Chu
+# 關於 EN Chu 朱奕安
 
 <VPTeamMembers size="medium" :members="[
   {
