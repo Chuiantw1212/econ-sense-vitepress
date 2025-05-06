@@ -2,4 +2,4 @@ User-agent: *
 Allow: *
 Disallow: /readme.html
 
-Sitemap: https://econ-sense.com/sitemap.xml
+Sitemap: https://en-chu.com/sitemap.xml

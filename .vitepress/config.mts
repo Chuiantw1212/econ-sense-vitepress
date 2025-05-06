@@ -203,6 +203,6 @@ export default defineConfig({
   },
   /** Experimental */
   sitemap: {
-    hostname: 'https://econ-sense.com'
+    hostname: 'https://en-chu.com'
   },
 })

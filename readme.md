@@ -2,13 +2,13 @@
 
 這是「海德堡社畜」部落格的前端專案，採用 [Vitepress](https://vitepress.dev/)（基於 [Vue 3](https://vuejs.org/)）作為靜態網站生成工具，打造輕量化、高效能的部落格平台。前端功能包含多樣化的互動工具，提升使用者體驗。
 
-![網站截圖](https://storage.googleapis.com/public.econ-sense.com/others/econ-sense.com_.webp "網站截圖")
+![網站截圖](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/others/econ-sense.com_.webp "網站截圖")
 
 
 ## 主要功能
 
-1. 開源財務計算機: 提供[免費且即時的財務計算工具](https://econ-sense.com/plan.html)，協助使用者進行個人財務規劃與管理。
-2. Holland Code (何倫碼) 興趣測驗: 提供完整的 [RIASEC 興趣測驗](https://econ-sense.com/framework/riasec.html)，幫助使用者發掘自己的職業興趣，並依據「海德堡社畜」的理念提供職涯規劃建議。
+1. 開源財務計算機: 提供[免費且即時的財務計算工具](https://en-chu.com/plan.html)，協助使用者進行個人財務規劃與管理。
+2. Holland Code (何倫碼) 興趣測驗: 提供完整的 [RIASEC 興趣測驗](https://en-chu.com/framework/riasec.html)，幫助使用者發掘自己的職業興趣，並依據「海德堡社畜」的理念提供職涯規劃建議。
 3. Google Drive 文件嵌入: 將 Google Drive 文件（如 Google 文件、Google 簡報、Google 試算表）透過 iframe 嵌入頁面，用於展示課堂使用的簡報和教材。
 
 ## 使用的技術模組

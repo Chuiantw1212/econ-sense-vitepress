@@ -60,7 +60,7 @@ onMounted(() => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "職涯發展",
-                "item": "https://econ-sense.com/framework"
+                "item": "https://en-chu.com/framework"
             }]
         },
     ]

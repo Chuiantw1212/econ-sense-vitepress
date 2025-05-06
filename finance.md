@@ -115,7 +115,7 @@ onMounted(() => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "金融理財",
-                "item": "https://econ-sense.com/finance"
+                "item": "https://en-chu.com/finance"
             }]
         },
     ]

@@ -25,13 +25,13 @@ export default {
      */
     if (!import.meta.env.SSR) {
       firebase.initializeApp({
-        apiKey: "AIzaSyDzxiXnAvtkAW5AzoV-CsBLNbryVJZrGqI",
-        authDomain: "econ-sense-9a250.firebaseapp.com",
-        projectId: "econ-sense-9a250",
-        storageBucket: "econ-sense-9a250.appspot.com",
-        messagingSenderId: "449033690264",
-        appId: "1:449033690264:web:f5e419118030eb3afe44ed",
-        measurementId: "G-19NFT8GVCZ"
+        apiKey: "AIzaSyADacfSXAMQ3XLIho3-xvzhb04_YcHQ1Vc",
+        authDomain: "enchu-8085a.firebaseapp.com",
+        projectId: "enchu-8085a",
+        storageBucket: "enchu-8085a.firebasestorage.app",
+        messagingSenderId: "592400229145",
+        appId: "1:592400229145:web:858fc1199d18601dc25b88",
+        measurementId: "G-9860DS47Z6"
       })
       firebase.performance()
     }

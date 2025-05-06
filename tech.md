@@ -77,7 +77,7 @@ const digitalDocumentItems = [
 
 const courseItems = [
     {
-        image: '/engineer/learnWeb.png',
+        image: '/tech/learnWeb.png',
         description: `LearnWeb Taiwan 旨在交流網頁領域相關資訊與技術，包含但不限於「前端」/「後端」/「UI、UX」/「PM」等職務相關內容，我們不定時會舉辦工作坊、講座、純聊天場，也歡迎剛入門與想學習網頁技術的朋友加入！`,
         name: 'LearnWeb-Taiwan',
         url: 'https://learnweb.tw/',
@@ -99,7 +99,7 @@ onMounted(() => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "工程師專區",
-                "item": "https://econ-sense.com/practice"
+                "item": "https://en-chu.com/tech"
             }]
         },
     ]

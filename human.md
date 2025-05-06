@@ -50,8 +50,8 @@ onMounted(() => {
             "itemListElement": [{
                 "@type": "ListItem",
                 "position": 1,
-                "name": "職涯發展",
-                "item": "https://econ-sense.com/framework"
+                "name": "人類觀察室",
+                "item": "https://en-chu.com/human"
             }]
         },
     ]

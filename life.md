@@ -67,7 +67,7 @@ onMounted(() => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "好好生活",
-                "item": "https://econ-sense.com/life"
+                "item": "https://en-chu.com/life"
             }]
         },
     ]
