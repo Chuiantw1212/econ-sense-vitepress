@@ -25,8 +25,8 @@
                 "type": 301
             },
             {
-                "source": "/life/communicate.html",
-                "destination": "/life.html",
+                "source": "/system/communicate.html",
+                "destination": "/system.html",
                 "type": 301
             },
             {
@@ -35,23 +35,23 @@
                 "type": 301
             },
             {
-                "source": "/life/outline.html",
-                "destination": "/life.html",
+                "source": "/system/outline.html",
+                "destination": "/system.html",
                 "type": 301
             },
             {
-                "source": "/career/outline",
+                "source": "/framework/outline",
                 "destination": "/career.html",
                 "type": 301
             },
             {
-                "source": "/career/outline.html",
+                "source": "/framework/outline.html",
                 "destination": "/career.html",
                 "type": 301
             },
             {
-                "source": "/engineer/outline.html",
-                "destination": "/engineer.html",
+                "source": "/practice/outline.html",
+                "destination": "/practice.html",
                 "type": 301
             },
             {
@@ -75,38 +75,38 @@
                 "type": 301
             },
             {
-                "source": "/career/outline",
-                "destination": "/career/outline.html",
+                "source": "/framework/outline",
+                "destination": "/framework/outline.html",
                 "type": 301
             },
             {
-                "source": "/career/flywheel",
-                "destination": "/career/flywheel.html",
+                "source": "/framework/flywheel",
+                "destination": "/framework/flywheel.html",
                 "type": 301
             },
             {
-                "source": "/engineer/outline",
-                "destination": "/engineer/outline.html",
+                "source": "/practice/outline",
+                "destination": "/practice/outline.html",
                 "type": 301
             },
             {
-                "source": "/engineer/blog",
-                "destination": "/engineer/blog-1.html",
+                "source": "/practice/blog",
+                "destination": "/practice/blog-1.html",
                 "type": 301
             },
             {
-                "source": "/engineer/blog.html",
-                "destination": "/engineer/blog-1.html",
+                "source": "/practice/blog.html",
+                "destination": "/practice/blog-1.html",
                 "type": 301
             },
             {
-                "source": "/engineer/blog.html",
-                "destination": "/engineer/blog-2.html",
+                "source": "/practice/blog.html",
+                "destination": "/practice/blog-2.html",
                 "type": 301
             },
             {
-                "source": "/career/holland.html",
-                "destination": "/career/riasec.html",
+                "source": "/framework/holland.html",
+                "destination": "/framework/riasec.html",
                 "type": 301
             },
             {
@@ -120,18 +120,18 @@
                 "type": 301
             },
             {
-                "source": "/engineer/plan.html",
+                "source": "/practice/plan.html",
                 "destination": "/plan.html",
                 "type": 301
             },
             {
                 "source": "/finance/single.html",
-                "destination": "/life/single.html",
+                "destination": "/system/single.html",
                 "type": 301
             },
             {
-                "source": "/career/blog.html",
-                "destination": "/engineer/blog-1.html",
+                "source": "/framework/blog.html",
+                "destination": "/practice/blog-1.html",
                 "type": 301
             },
             {
@@ -140,8 +140,8 @@
                 "type": 301
             },
             {
-                "source": "/career/computer.html",
-                "destination": "/engineer/computer.html",
+                "source": "/framework/computer.html",
+                "destination": "/practice/computer.html",
                 "type": 301
             },
             {

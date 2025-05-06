@@ -28,25 +28,11 @@ const digitalDocumentItems = [
         rating: 3
     },
     {
-        url: './life/education',
-        name: '我是學渣，也是黑馬',
-        keywords: ['傷仲永', '教育問題', '喚醒黑馬', '教養假想'],
-        audience: ['正在尋求個人成長和突破的人', '面臨教育或職業困境的學生和年輕人', '在教育與教養中受過傷的人'],
-        rating: 3
-    },
-    {
         url: './life/carer',
         name: '我是照顧者',
         keywords: ['延遲老化', '照顧資源', '醫療資源', '跨領域整合'],
         audience: ['想為了照顧父母做準備的人', '想減輕家人負擔的長輩', '被各種長照術語搞得很亂的人'],
         rating: 1
-    },
-    {
-        url: './life/single',
-        name: '單身狗地獄求生',
-        keywords: ['生育率的歷史', '台灣現狀', '財務面的準備', '非財務的準備'],
-        audience: ['想了解低生育率成因的人', '選擇或被迫單身一輩子的人', '介於兩者之間的人'],
-        rating: 2
     },
     {
         url: './life/housing',
