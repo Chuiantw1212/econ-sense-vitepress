@@ -46,10 +46,6 @@ export default defineConfig({
         link: '/calendar',
       },
       {
-        text: '開源財務規畫表',
-        link: '/plan',
-      },
-      {
         text: '理財機房',
         link: '/finance',
         collapsed: false,

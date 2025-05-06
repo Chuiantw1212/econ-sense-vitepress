@@ -25,7 +25,7 @@ outline: deep
         </tr>
         <tr>
             <td>
-                <a href="../framework/riasec.html">職業興趣探索</a>
+                <a href="../growth/riasec.html">職業興趣探索</a>
             </td>
             <td>基於何倫碼做出的職涯適性速查。</td>
         </tr>

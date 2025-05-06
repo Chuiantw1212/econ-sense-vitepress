@@ -8,7 +8,7 @@
 ## 主要功能
 
 1. 開源財務計算機: 提供[免費且即時的財務計算工具](https://en-chu.com/plan.html)，協助使用者進行個人財務規劃與管理。
-2. Holland Code (何倫碼) 興趣測驗: 提供完整的 [RIASEC 興趣測驗](https://en-chu.com/framework/riasec.html)，幫助使用者發掘自己的職業興趣，並依據「海德堡社畜」的理念提供職涯規劃建議。
+2. Holland Code (何倫碼) 興趣測驗: 提供完整的 [RIASEC 興趣測驗](https://en-chu.com/growth/riasec.html)，幫助使用者發掘自己的職業興趣，並依據「海德堡社畜」的理念提供職涯規劃建議。
 3. Google Drive 文件嵌入: 將 Google Drive 文件（如 Google 文件、Google 簡報、Google 試算表）透過 iframe 嵌入頁面，用於展示課堂使用的簡報和教材。
 
 ## 使用的技術模組
