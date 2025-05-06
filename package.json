@@ -7,7 +7,7 @@
     "dev": "vitepress dev",
     "build": "vitepress build",
     "predeploy": "pnpm run build",
-    "deploy": "firebase use econ-sense && firebase deploy"
+    "deploy": "firebase use en-chu && firebase deploy"
   },
   "repository": {
     "type": "git",
