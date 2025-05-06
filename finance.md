@@ -18,10 +18,6 @@ outline: deep
 
 <DigitalDocuments :items="storyItems"></DigitalDocuments>
 
-## 外部優質課程
-
-<Courses :modelValue="courseItems"></Courses>
-
 <script setup>
 import DigitalDocuments from './components/digitalDocuments.vue'
 import Courses from './components/courses.vue'
