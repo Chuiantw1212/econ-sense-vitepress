@@ -35,10 +35,10 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '理財機房', link: '/finance' },
-      { text: '成長艙室', link: '/growth' },
-      { text: '生活實驗室', link: '/life' },
       { text: '人類觀察室', link: '/human' },
+      { text: '成長艙室', link: '/growth' },
       { text: '技術研究室', link: '/tech' },
+      { text: '生活實驗室', link: '/life' },
     ],
     sidebar: [
       {
@@ -72,19 +72,6 @@ export default defineConfig({
         ]
       },
       {
-        text: '技術研究室',
-        link: '/tech',
-        collapsed: false,
-        items: [
-          { text: '軟體職涯入門', link: '/tech/beginner' },
-          { text: '網站初學須知', link: '/tech/web' },
-          { text: '地表最快Node.js', link: '/tech/nodejs' },
-          { text: 'VitePress無本部落格(上)', link: '/tech/blog-1' },
-          { text: 'VitePress無本部落格(下)', link: '/tech/blog-2' },
-          { text: '電腦DIY', link: '/tech/computer' },
-        ]
-      },
-      {
         text: '人類觀察室',
         link: '/human',
         collapsed: false,
@@ -102,6 +89,19 @@ export default defineConfig({
           { text: '我是照顧者', link: '/life/carer' },
           { text: '從單車休閒到環島全攻略', link: '/life/cycling' },
           { text: '極簡全齡宅', link: '/life/housing' },
+        ]
+      },
+      {
+        text: '技術研究室',
+        link: '/tech',
+        collapsed: false,
+        items: [
+          { text: '軟體職涯入門', link: '/tech/beginner' },
+          { text: '網站初學須知', link: '/tech/web' },
+          { text: '地表最快Node.js', link: '/tech/nodejs' },
+          { text: 'VitePress無本部落格(上)', link: '/tech/blog-1' },
+          { text: 'VitePress無本部落格(下)', link: '/tech/blog-2' },
+          { text: '電腦DIY', link: '/tech/computer' },
         ]
       },
       {
