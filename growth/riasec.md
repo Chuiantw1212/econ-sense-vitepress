@@ -85,7 +85,7 @@ head:
 
 這個測驗對我來說非常有價值，因為它不僅確認了我的多個職業興趣和技能，還提供了寶貴的洞見，幫助我更深入地理解我與現有職業和個人興趣相關的潛在職業道路。以下是我的何倫碼雷達圖，它呈現了我的興趣分佈，這幫助我理解了自己在各領域的潛力和偏好：
 
-![何倫碼雷達圖](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/growth/riasec/%E4%BD%95%E5%80%AB%E9%9B%B7%E9%81%94.webp)
+![何倫碼雷達圖](https://storage.googleapis.com/enchu-12074.firebasestorage.app/growth/riasec/%E4%BD%95%E5%80%AB%E9%9B%B7%E9%81%94.webp)
 
 ### 個人職業興趣結果
 
@@ -171,19 +171,19 @@ const bookItems = [
 
 const photoItems = [
     {
-        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/growth/riasec/%E6%B5%B7%E5%A0%B1.webp",
+        src: "https://storage.googleapis.com/enchu-12074.firebasestorage.app/growth/riasec/%E6%B5%B7%E5%A0%B1.webp",
         alt: "聯合海報",
     },
     {
-        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/growth/riasec/%E5%B0%88%E6%A5%AD%E8%BF%91%E7%85%A7.webp",
+        src: "https://storage.googleapis.com/enchu-12074.firebasestorage.app/growth/riasec/%E5%B0%88%E6%A5%AD%E8%BF%91%E7%85%A7.webp",
         alt: "專業近照",
     },
     {
-        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/growth/riasec/%E5%A4%A7%E5%A0%B4%E9%81%A0%E7%85%A7.webp",
+        src: "https://storage.googleapis.com/enchu-12074.firebasestorage.app/growth/riasec/%E5%A4%A7%E5%A0%B4%E9%81%A0%E7%85%A7.webp",
         alt: "大場遠照",
     },
     {
-        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/growth/riasec/%E5%A4%A7%E6%9C%83%E5%90%88%E7%85%A7.webp",
+        src: "https://storage.googleapis.com/enchu-12074.firebasestorage.app/growth/riasec/%E5%A4%A7%E6%9C%83%E5%90%88%E7%85%A7.webp",
         alt: "大會合照",
     },
 ]

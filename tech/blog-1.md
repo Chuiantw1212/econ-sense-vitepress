@@ -5,7 +5,7 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E7%84%A1%E6%9C%AC%E9%83%A8%E8%90%BD%E6%A0%BC.jpg
+      content: https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E7%84%A1%E6%9C%AC%E9%83%A8%E8%90%BD%E6%A0%BC.jpg
 ---
 
 # VitePress無本部落格 (上)
@@ -137,7 +137,7 @@ GitHub 是用來存放及分享代碼的平台。如果你還沒有 GitHub 帳�
 3. **設定使用者名稱**  
    設定使用者名稱時請注意，這個名稱將成為你 GitHub Pages 網址的一部分。未來你的 GitHub Pages 網址會是 `https://your-username.github.io`，所以請選擇一個合適的 ID。
 
-   ![未來url](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E6%9C%AA%E4%BE%86url.webp "未來url")
+   ![未來url](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E6%9C%AA%E4%BE%86url.webp "未來url")
 
 4. **完成註冊**  
    按照頁面的引導完成帳號的設置，包括設定使用者名稱和選擇方案（你可以選擇免費方案）。
@@ -194,14 +194,14 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 2. **點擊專案右上角的 Fork**  
    在儲存庫頁面的右上角，你會看到一個 **Fork** 按鈕，點擊它。  
    - **Fork** 是 GitHub 提供的一個功能，允許你將他人的專案複製到你自己的 GitHub 帳戶中，這樣你就可以對該專案進行更改或擴展，而不會影響原始專案。
-   ![從github去fork](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E5%BE%9Egithub%E5%8E%BBfork.webp "從github去fork")
+   ![從github去fork](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E5%BE%9Egithub%E5%8E%BBfork.webp "從github去fork")
 
 3. **變更名稱**  
    在跳轉到 **Create a new fork** 畫面時，你會看到一個名為 **Repository name** 的欄位。  
    - **Repository name** 是你要給這個專案的名稱。GitHub Pages 有[特定的命名要求](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site#creating-a-repository-for-your-site)，個人主頁必須使用 `your-username.github.io` 作為儲存庫名稱。
    - 因此，請將這個欄位的名稱修改為 `your-username.github.io`，其中 `your-username` 是你的 GitHub 使用者名稱。
    - 這個名稱設定非常重要，因為它決定了你的 GitHub Pages 網站的 URL。
-   ![變更repo名](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E8%AE%8A%E6%9B%B4repo%E5%90%8D.webp "變更repo名")
+   ![變更repo名](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E8%AE%8A%E6%9B%B4repo%E5%90%8D.webp "變更repo名")
 
 4. **按下綠色的 Create Fork**  
    完成名稱修改後，點擊畫面下方的綠色 **Create Fork** 按鈕，系統將開始將專案 Fork 到你的 GitHub 帳戶中。
@@ -214,24 +214,24 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 
 2. **選擇 Open with GitHub Desktop**  
    在彈出的選單中，選擇 **Open with GitHub Desktop**。這個選項會將儲存庫直接打開到 GitHub Desktop 應用程式中。如果你的電腦尚未安裝 GitHub Desktop，系統會提示你安裝。點擊這個選項後，系統會自動切換到 GitHub Desktop 應用程式，並顯示複製專案到本地端的界面。
-   ![用desktop打開](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E7%94%A8desktop%E6%89%93%E9%96%8B.webp "用desktop打開")
+   ![用desktop打開](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E7%94%A8desktop%E6%89%93%E9%96%8B.webp "用desktop打開")
 
 3. **複製專案到本地端**  
    在 GitHub Desktop 中，會看到一個視窗詢問你將專案儲存到哪個資料夾。你可以選擇本地端一個你偏好的資料夾來存放這個專案。在選擇好存放路徑後，點擊 **Clone** 按鈕。這個動作會複製整個專案到你選擇的本地資料夾中，讓你可以在本地環境下進行開發和修改。
-   ![用desktop去clone](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E7%94%A8desktop%E5%8E%BBclone.webp "用desktop去clone")
+   ![用desktop去clone](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E7%94%A8desktop%E5%8E%BBclone.webp "用desktop去clone")
 
 4. **選擇用途**  
    在複製過程中，GitHub Desktop 可能會詢問你專案的用途。這是為了幫助你更好地配置開發環境。當出現選項時，選擇 **For my own purpose**，這意味著你將這個專案作為個人開發使用。點擊 **繼續** 完成這個步驟。
 
-   ![為了自己](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E7%82%BA%E4%BA%86%E8%87%AA%E5%B7%B1.webp "為了自己")
+   ![為了自己](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E7%82%BA%E4%BA%86%E8%87%AA%E5%B7%B1.webp "為了自己")
 
 5. **開啟 VS Code**  
    在 GitHub Desktop 的右上角，點擊 **Open in Visual Studio Code** 按鈕，系統會自動打開 VS Code 並將專案載入編輯器中。
-   ![用Code打開](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E7%94%A8Code%E6%89%93%E9%96%8B.webp "用Code打開")
+   ![用Code打開](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E7%94%A8Code%E6%89%93%E9%96%8B.webp "用Code打開")
 
 6. **信任專案作者**  
    當專案在 VS Code 中打開時，可能會彈出訊息要求你選擇是否信任專案。請勾選 **Yes, I trust the authors**，這樣你就可以開始查看、編輯和修改專案文件。
-   ![信任作者](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E4%BF%A1%E4%BB%BB%E4%BD%9C%E8%80%85.webp "信任作者")
+   ![信任作者](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E4%BF%A1%E4%BB%BB%E4%BD%9C%E8%80%85.webp "信任作者")
 
 通過這些步驟，你已經成功將專案從 GitHub 複製到本地端，並在 VS Code 中打開，可以開始進行開發工作。
 
@@ -270,7 +270,7 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 4. **注意鍵盤輸入法**  
    確保使用英文輸入模式，否則終端機可能無法正確輸入指令。
 
-![打開terminal](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E6%89%93%E9%96%8Bterminal.webp "打開terminal")
+![打開terminal](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E6%89%93%E9%96%8Bterminal.webp "打開terminal")
 
 #### 輸入對應的指令
 
@@ -288,7 +288,7 @@ GitHub Desktop 是 Git 的圖形化工具，讓你可以更加方便地管理和
 
 3. 運行該指令後，VS Code 終端機會顯示本地開發伺服器的網址，預設為 `http://localhost:5173`。你可以打開瀏覽器，訪問該網址來預覽你的網站。
 
-![打開localhost](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E6%89%93%E9%96%8Blocalhost.webp "打開localhost")
+![打開localhost](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E6%89%93%E9%96%8Blocalhost.webp "打開localhost")
 
 ## GitHub 說明與設定
 
@@ -304,7 +304,7 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
 2. **啟用 GitHub Actions**  
    在 **Actions** 頁面中，GitHub 會提示你啟用工作流程。找到提示並點擊 **I understand my workflows, go ahead and enable them** 按鈕。這個步驟是啟用 GitHub Actions 的關鍵，它允許 GitHub 自動執行專案的工作流程。
 
-   ![設定workflows](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E8%A8%AD%E5%AE%9Aworkflows.webp "設定workflows")
+   ![設定workflows](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E8%A8%AD%E5%AE%9Aworkflows.webp "設定workflows")
 
 3. **觸發條件的預設設定**  
    我已經在 .github/workflows/deploy.yml 檔案中配置好[自動觸發條件](https://vitepress.dev/guide/deploy#github-pages)。當你推送代碼到 main 分支時，GitHub Actions 會自動執行構建並部署網站的工作流程。
@@ -318,7 +318,7 @@ GitHub Actions 與 GitHub Pages 是 GitHub 提供的兩項功能，它們可以�
 3. 在 **Source** 的下拉選單中，選擇 **GitHub Actions** 作為網站的部署來源。這會讓 GitHub Pages 根據你的 GitHub Actions 工作流程自動構建和部署網站。
 4. 點擊 **Save** 保存設定。
 
-![設定pages](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E8%A8%AD%E5%AE%9Apages.webp "設定pages")
+![設定pages](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E8%A8%AD%E5%AE%9Apages.webp "設定pages")
 
 完成這些步驟後，GitHub Pages 會自動通過 GitHub Actions 工作流程，從專案的正確分支和目錄中生成並部署你的網站。
 
@@ -424,7 +424,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            "image":"https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/blog-1/%E7%84%A1%E6%9C%AC%E9%83%A8%E8%90%BD%E6%A0%BC.jpg"
+            "image":"https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/blog-1/%E7%84%A1%E6%9C%AC%E9%83%A8%E8%90%BD%E6%A0%BC.jpg"
         },
     ]
 

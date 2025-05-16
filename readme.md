@@ -2,7 +2,7 @@
 
 這是「海德堡社畜」部落格的前端專案，採用 [Vitepress](https://vitepress.dev/)（基於 [Vue 3](https://vuejs.org/)）作為靜態網站生成工具，打造輕量化、高效能的部落格平台。前端功能包含多樣化的互動工具，提升使用者體驗。
 
-![網站截圖](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/others/econ-sense.com_.webp "網站截圖")
+![網站截圖](https://storage.googleapis.com/enchu-12074.firebasestorage.app/others/econ-sense.com_.webp "網站截圖")
 
 
 ## 主要功能

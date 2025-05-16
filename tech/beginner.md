@@ -5,7 +5,7 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/bootcamp.webp
+      content: https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/bootcamp.webp
 ---
 
 # 軟體職涯入門：從學習策略到求職技巧的完整指南
@@ -22,7 +22,7 @@ head:
 
 當然，即使測試結果與你的預期有所不同，也不必過於擔心。每個人的興趣與技能都是可以逐步塑造的。隨著學習與實踐，你可能會發現自己對某些領域產生了意想不到的熱情。因此，職涯的核心不是追求當下最火的職位，而是找到真正讓自己持續成長與快樂的方向。
 
-![riasec](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/riasec.webp "riasec")
+![riasec](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/riasec.webp "riasec")
 
 ### 語言選擇與技術趨勢
 
@@ -95,7 +95,7 @@ head:
 - Stack Overflow 被仰慕語言分數：43.8%
 - 台灣市場佔比：5.9%
 
-![stackoverflow](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/stackoverflow.webp "stackoverflow")
+![stackoverflow](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/stackoverflow.webp "stackoverflow")
 
 ### Best In Class
 
@@ -130,7 +130,7 @@ Java 雖然已經不是最熱門的語言，但它在企業級應用中依然穩
 
 無論是在實習中的表現，還是參與職涯活動的積極性，都能讓你在競爭激烈的職場中脫穎而出。保持良好的在校成績也有助於獲得實習機會，特別是在競爭激烈的場合，成績是一個明確且可量化的參考標準。
 
-![schedule](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/schedule.webp "schedule")
+![schedule](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/schedule.webp "schedule")
 
 #### 個人經驗與反思
 
@@ -151,7 +151,7 @@ Java 雖然已經不是最熱門的語言，但它在企業級應用中依然穩
 
 透過在職進修和自學的結合，非資訊背景的職場人士能夠有系統地掌握軟體開發的知識和技能，為轉職打下堅實的基礎，並在碩士專班中更好地應對高階的技術學習。
 
-![inservice](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/inservice.webp "inservice")
+![inservice](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/inservice.webp "inservice")
 
 ### 研習營
 
@@ -177,7 +177,7 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 
 無論是希望快速進入軟體開發領域的轉職者，還是想在職進修的上班族，資策會都提供了多樣的學習選擇，滿足不同需求的學員，並且其課程與業界緊密結合，能幫助學員更好地應對職場挑戰。
 
-![bootcamp](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/bootcamp.webp "bootcamp")
+![bootcamp](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/bootcamp.webp "bootcamp")
 
 ### 自學
 
@@ -197,7 +197,7 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 
 使用 [GitHub Pages](https://pages.github.com/) 是一個很好的方式來展示你的專案。GitHub Pages 可以幫助你將專案部署為線上網站，不僅能展示你的程式碼，還能讓其他人輕鬆查看你的成果。這樣的展示對於求職過程尤其有幫助，因為潛在的雇主可以直接查看你的專案和網站，瞭解你的能力與創新思維。
 
-![github](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/github.webp "github")
+![github](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/github.webp "github")
 
 #### Line群組與社群支持
 
@@ -215,7 +215,7 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 
 2. iThome 鐵人賽 則是一個持續撰寫技術文章的挑戰，要求參賽者在固定的時間內完成一系列的技術內容創作。這不僅能夠加深你對技術的理解，還能通過與社群互動保持學習動力。雖然這類活動的門檻較高，但它們能顯著提升你的技術能力，並讓你在技術社群中建立良好的影響力。
 
-![iThome](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/iThome.webp "iThome")
+![iThome](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/iThome.webp "iThome")
 
 ## 履歷
 
@@ -231,7 +231,7 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 
 透過接案平台如[pro360](https://www.pro360.com.tw/)，你可以靈活承接各類專案，不僅能擴充你的作品集，展現多樣的技能與實際經驗，同時還能在求職期間獲得額外的收入，減少財務壓力。
 
-![pro360](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/pro360.webp "pro360")
+![pro360](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/pro360.webp "pro360")
 
 ### 尋找專家服務
 
@@ -266,7 +266,7 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 
 這些方法能夠有效提高你的履歷可見性，讓你在求職過程中有更多的曝光機會。
 
-![githubProfile](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/githubProfile.webp "githubProfile")
+![githubProfile](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/githubProfile.webp "githubProfile")
 
 ## 篩選與面試
 
@@ -302,7 +302,7 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 
 如果你想進一步了解特定公司或職位的面試流程和常見問題，可以參考 [面試趣](https://interview.tw/)。這是一個專門分享面試經驗的平台，透過其他求職者的心得與反饋，你可以預先掌握面試的重點問題和企業文化，並做好相應準備。此外，面試趣還提供各企業的薪資資訊和評價，幫助你在職業選擇上做出更明智的決策。這種實際的經驗分享不僅能幫助你提升面試成功的機率，也能避免一些潛在的職場風險​
 
-![outfit](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/outfit.webp "outfit")
+![outfit](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/outfit.webp "outfit")
 
 ### 職缺比較的三個面向
 
@@ -326,7 +326,7 @@ Campus Program 是專為應屆畢業生設計的課程模式，旨在為那些�
 2. 大公司優勢  
 大公司則提供了不同的學習機會，特別是在系統架構和流程管理上更為完善。工程師可以接觸到高水準的架構設計，學習如何在大規模的環境中開發和維護複雜系統。除了技術上的成長，大公司通常也能提供更豐厚的福利，如企業內訓、職業發展規劃，以及較好的公司福利和銀行優惠貸款利息等。此外，大公司還可能提供 [員工持股信託](https://www.bankunions.org.tw/?q=taxonomy/term/1186) 計劃，這讓員工有機會購買公司股票，並享受額外的配股或優惠購股機會。這不僅是長期的財務回報，也讓員工在公司成長中受益，參與度和財務回報都會更為直接。
 
-![jobCompare](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/tech/beginner/jobCompare.webp "jobCompare")
+![jobCompare](https://storage.googleapis.com/enchu-12074.firebasestorage.app/tech/beginner/jobCompare.webp "jobCompare")
 
 軟體工程師的職涯發展是一個多面向的過程，從職涯探索開始，通過了解自身興趣與市場需求來確定方向。接著，透過學校教育、研習營、自學等多種方式，不斷提升自己的技術能力。在履歷的打造上，展示你的專案成果、尋找專家服務協助、取得證照，這些都能幫助你脫穎而出。求職過程中，曝光度與面試技巧也至關重要，特別是要精準評估職缺，找到最符合自己需求的機會。
 

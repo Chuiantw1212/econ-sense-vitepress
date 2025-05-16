@@ -64,7 +64,7 @@ outline: deep
 最新活動，請拜訪齊文藝室[活動專區](https://tinybot.cc/thesingularity-tw/product-category/7514-activity/)。
 地址：[10047台北市中正區南陽街32號](https://maps.app.goo.gl/4QrjHaLhHXbjMd967)
 
-<image src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/others/%E9%BD%8A%E6%96%87%E8%97%9D%E5%AE%A4.webp" width="100%" height="420px"></image>
+<image src="https://storage.googleapis.com/enchu-12074.firebasestorage.app/others/%E9%BD%8A%E6%96%87%E8%97%9D%E5%AE%A4.webp" width="100%" height="420px"></image>
 
 ## 聯絡與邀約
 
