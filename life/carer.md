@@ -5,7 +5,7 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/%E6%88%91%E6%98%AF%E7%85%A7%E9%A1%A7%E8%80%85.jpg
+      content: https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/%E6%88%91%E6%98%AF%E7%85%A7%E9%A1%A7%E8%80%85.jpg
 ---
 
 # 我是照顧者：從延緩老化到跨領域整合的全方位照顧理論
@@ -44,7 +44,7 @@ head:
 
 如果您對延遲老化及健康管理有興趣，想要深入了解更多實用技巧與知識，推薦參考 [Hiskio 的課程《打造抗老的生活習慣》](https://hiskio.com/courses/2133)。這門課程深入探討如何透過飲食、運動與生活方式的調整，提升健康品質、延緩老化進程，適合希望從科學角度改善生活的人士學習！
 
-![老化線上課](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/老化線上課.webp "老化線上課")
+![老化線上課](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/老化線上課.webp "老化線上課")
 
 ### 擇地而居  
 
@@ -68,7 +68,7 @@ head:
 
 長青學苑不僅提供學習的機會，還促進了高齡者的社交互動與心理健康，為高齡生活增添更多可能性。
 
-![樂齡基地](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/樂齡基地.webp "樂齡基地")
+![樂齡基地](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/樂齡基地.webp "樂齡基地")
 
 #### **台灣老年醫學會認可的專科醫師與醫療單位**  
 
@@ -101,7 +101,7 @@ head:
 - **申請條件**：雇主需提供退休規劃輔導與再就業協助方案。  
 - **補助標準**：每位雇主每年最高補助50萬元，用於提供退休準備輔導與再就業支持措施。  
 
-![繼續工作](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/繼續工作.webp "繼續工作")
+![繼續工作](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/繼續工作.webp "繼續工作")
 
 ## 照顧資源
 
@@ -131,7 +131,7 @@ head:
 
 申請長照服務並結合自行學習，能有效減輕家庭的照顧壓力，並確保高齡者獲得專業、系統化的支持，讓自行照顧更加完善且有信心。
 
-![照服專線](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/照服專線.webp "照服專線")
+![照服專線](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/照服專線.webp "照服專線")
 
 ### 自行照顧幫手-社區式照顧
 
@@ -152,7 +152,7 @@ head:
 小規模多機能結合日間照顧、短期住宿及到宅服務，為高齡者提供靈活且綜合的支持方案，適合需要多層次照護的家庭。  
 以[財團法人永信社會福利基金會](https://www.yongxin.org.tw/)為例，該機構提供小規模多機能服務，幫助高齡者在不同階段獲得妥善照護。
 
-![日間照顧](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/日間照顧.webp "日間照顧")
+![日間照顧](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/日間照顧.webp "日間照顧")
 
 ### 長照四包錢  
 
@@ -196,7 +196,7 @@ head:
 
 透過長照四包錢的靈活應用，家庭能獲得多方位的資助與支持，有效降低照顧壓力，確保高齡者的生活品質與安全。
 
-![長照補助](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/長照補助.webp "長照補助")
+![長照補助](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/長照補助.webp "長照補助")
 
 ### 長照四包錢: 照顧及專業服務範例
 
@@ -235,7 +235,7 @@ head:
 
 此案例展示了如何靈活運用長照四包錢補助，既符合政策規定，又能有效滿足家庭的照顧需求。
   
-![多元連續](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/多元連續.webp "多元連續")
+![多元連續](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/多元連續.webp "多元連續")
 
 ### 長照四包錢: 喘息服務範例
 
@@ -272,7 +272,7 @@ head:
 - **日間照顧**：在白天提供陳婆婆全日的生活支持與照顧，讓家屬安心處理其他事務。  
 - **夜間喘息服務**：利用小規模多機能的夜間照顧安排，確保夜間的照護無縫銜接。  
 
-![喘息服務](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/喘息服務.webp "喘息服務")
+![喘息服務](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/喘息服務.webp "喘息服務")
 
 ### 外籍看護工  
 
@@ -293,7 +293,7 @@ head:
 
 外籍看護工的照顧模式適合需要長期日常照護的高齡者，但家庭仍需評估是否搭配其他專業資源，確保高齡者的特殊需求得到滿足。如需進一步了解相關服務或協助申請，可撥打長照專線1966，獲取詳細資訊並接受專業建議。
 
-![外籍看護](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/外籍看護.webp "外籍看護")
+![外籍看護](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/外籍看護.webp "外籍看護")
 
 ### 住宿式照顧機構  
 
@@ -324,7 +324,7 @@ head:
         - **養護型**：著重**生活支持與特殊護理**，如三管護理和全面生活協助。  
         - **失智照顧型**：專注於**失智症專業服務**，如行為干預和記憶訓練。  
 
-![住宿機構](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/住宿機構.webp "住宿機構")
+![住宿機構](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/住宿機構.webp "住宿機構")
 
 ### 有關住宿機構的補充說明  
 
@@ -362,7 +362,7 @@ head:
 
 - 協助申請政府補助或其他民間機構服務，如長照2.0服務項目，讓長輩享有更全面的支持。
 
-![民間資源](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/民間資源.webp "民間資源")
+![民間資源](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/民間資源.webp "民間資源")
 
 ## 醫療與照護整合
 
@@ -409,7 +409,7 @@ head:
 
 醫院看護工與住院整合照護計畫透過專業分工，確保患者的醫療與生活需求都能被全面照顧，是住院期間重要的支持資源。
 
-![住院整合](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/住院整合.webp "住院整合")
+![住院整合](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/住院整合.webp "住院整合")
 
 ### 出院準備服務
 
@@ -431,7 +431,7 @@ head:
 
 患者或家屬可在住院期間聯繫醫院社工部門啟動出院準備流程，或透過長照專線1966安排後續服務。這項服務能有效整合醫療與長照資源，減輕家庭照護壓力，並保障患者健康與生活品質。
 
-![出院準備](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/出院準備.webp "出院準備")
+![出院準備](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/出院準備.webp "出院準備")
 
 ### 居家醫療
 
@@ -459,7 +459,7 @@ head:
 
 如需更多資訊，請參考[全民健康保險居家醫療照護整合計畫](https://www.nhi.gov.tw/ch/cp-5195-2e804-2875-1.html)。
 
-![居家醫療](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/居家醫療.webp "居家醫療")
+![居家醫療](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/居家醫療.webp "居家醫療")
 
 ## 照顧者的作為
 
@@ -494,7 +494,7 @@ head:
 
 跨專業團隊的目標是充分整合資源，為個案量身打造最合適的介入計畫。照顧者的積極參與，能確保計畫順利執行，並為個案的健康與生活品質提供更多保障。
 
-![整合照護](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/整合照護.webp "整合照護")
+![整合照護](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/整合照護.webp "整合照護")
 
 ### 自立支援
 
@@ -546,7 +546,7 @@ head:
 
 透過意定監護契約，個人能及早規劃護養與財產安排，確保未來的需求與願景得以實現，也為家人減輕負擔。
 
-![意定監護](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/意定監護.webp "意定監護")
+![意定監護](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/意定監護.webp "意定監護")
 
 ## 總結
 
@@ -585,13 +585,13 @@ import Books from '../components/books.vue'
 
 const courseItems = [
     {
-        image: 'https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/%E5%AE%B6%E7%85%A7%E7%B8%BD%E6%9C%83.webp',
+        image: 'https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/%E5%AE%B6%E7%85%A7%E7%B8%BD%E6%9C%83.webp',
         description: `中華民國家庭照顧者關懷總會(家總)成立於85年，其倡議目標為發展多元且充足的長照資源，讓家庭有選擇權，以及對自願選擇成為家庭照顧者，提供符合需求的支持性服務。`,
         name: '中華民國家庭照顧者關懷總會',
         url: 'https://www.youtube.com/@familycaretw/videos',
     },
     {
-        image: 'https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/%E8%80%81%E5%8C%96%E7%B7%9A%E4%B8%8A%E8%AA%B2.webp',
+        image: 'https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/%E8%80%81%E5%8C%96%E7%B7%9A%E4%B8%8A%E8%AA%B2.webp',
         description: `隨著年齡增長，老化不只生理上的變化而已，而是各種問題的開始，這堂課讓你聰明的應對老化問題，學會維護身體的機能，使自己保持最佳狀態，應對各種生活和工作的挑戰，正常扮演社會與家庭的角色。`,
         name: '老化全方位應對手冊 | 機能維持 X 聰明就醫 X 照護策略 X 風險規劃',
         url: 'https://hiskio.com/courses/2133/about',
@@ -655,7 +655,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            "image": "https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/carer/%E6%88%91%E6%98%AF%E7%85%A7%E9%A1%A7%E8%80%85.jpg"
+            "image": "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/%E6%88%91%E6%98%AF%E7%85%A7%E9%A1%A7%E8%80%85.jpg"
         },
     ]
 

@@ -35,7 +35,7 @@ description: 探索多元投資管道：證券、加密貨幣、太陽能、天�
 
 **投資型保險**的整體架構建立在基金之上，除了基金本身的費用外，還多了超額保險費等額外支出，這進一步拉低了整體的投資績效。對我來說，這類商品在費用結構上不夠透明，且回報率通常不理想。因此，我更傾向於將**投資與保險分開進行**，投資專注於資產增值，保險則聚焦於風險管理，這樣能更有效地達成各自的目的。
 
-![投資型保險](https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/investment/投資型保險.webp "投資型保險")
+![投資型保險](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/investment/投資型保險.webp "投資型保險")
 
 在介紹完一些常見的投資管道及其缺點後，接下來要進入真正能夠為你帶來長期成長的投資工具。這些工具不僅可以對抗通貨膨脹，還有潛力讓你的資產實現穩定的增值。接下來我們會依次介紹證券投資、加密貨幣、太陽能板以及天使投資，並探討這些投資方式的特點與適合的投資者類型。
 
@@ -65,7 +65,7 @@ description: 探索多元投資管道：證券、加密貨幣、太陽能、天�
 
 如果你對特別股有興趣，並希望進一步研究相關資訊，可以在[FindBillion](https://www.findbillion.com/twstock/preferred_stock/detail) 或是[GoodInfo](https://goodinfo.tw/tw/StockList.asp?MARKET_CAT=%E5%85%A8%E9%83%A8&STOCK_ID=2887C)找到更多特別股的詳細資料。
 
-![特別股](https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/investment/特別股.webp "特別股")
+![特別股](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/investment/特別股.webp "特別股")
 
 ### 投資哲學
 
@@ -95,7 +95,7 @@ description: 探索多元投資管道：證券、加密貨幣、太陽能、天�
 
 全球分散、股債平衡與買進忘記這三個策略的結合，能夠幫助投資者不僅穩步增長資產，還能更好地應對市場的不確定性，實現長期的財務穩定與成長。
 
-![ishares](https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/investment/ishares.webp "ishares")
+![ishares](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/investment/ishares.webp "ishares")
 
 ### 複委託
 
@@ -129,7 +129,7 @@ description: 探索多元投資管道：證券、加密貨幣、太陽能、天�
    - [**太陽人全民電廠**](https://www.hellosolarman.com?share_code=mxPrGsrm&openExternalBrowser=1)：主打群眾集資模式，讓投資者可以小額參與太陽能專案，共享收益。需注意，太陽人全民電廠的公益電廠計算方式與預期不同，該平台會先扣除公益比例再扣除其他費用，因此即使預設公益比例為10%，最終實際公益比例可能達到14%左右。
    - [**中租全民電廠**](https://www.finmart.com.tw/Home/)：由中租推動，鼓勵全民參與太陽能電廠建設，並從中獲得穩定的發電收入。
 
-![公益注意](https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/investment/公益注意.webp "公益注意")
+![公益注意](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/investment/公益注意.webp "公益注意")
 
 ### 收益模式與稅務申報
 
@@ -165,7 +165,7 @@ description: 探索多元投資管道：證券、加密貨幣、太陽能、天�
 
 值得注意的是，根據[**產業創新條例第23條之2**](https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=J0040051&flno=23-2)，台灣的天使投資人可以享有租稅優惠。凡個人以現金投資於成立未滿兩年的國內[高風險新創事業公司](https://www.google.com/search?q=site:https://www.ida.gov.tw/+%E9%AB%98%E9%A2%A8%E9%9A%AA%E6%96%B0%E5%89%B5%E4%BA%8B%E6%A5%AD%E5%90%8D%E5%96%AE)，並在同一年度對同一家公司投資金額達到100萬元，且持有股份達兩年者，可享有以下稅務優惠：投資金額的**50%**可自個人綜合所得總額中減除，減除金額上限為**300萬元**。這項政策鼓勵更多人參與高風險新創企業的投資，同時降低部分風險。
 
-![天使投資人租稅優惠](https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/investment/天使投資人租稅優惠.webp "天使投資人租稅優惠")
+![天使投資人租稅優惠](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/investment/天使投資人租稅優惠.webp "天使投資人租稅優惠")
 
 ### 天使投資會
 
@@ -193,7 +193,7 @@ description: 探索多元投資管道：證券、加密貨幣、太陽能、天�
 
 因此，真正有效的財務策略不是急功近利的冒險，而是根據自身能力和目標，穩紮穩打地積累資源和經驗。只有在積累足夠的知識和財力後，才能在適當時機發揮出更大的潛力，達到「一鳴驚人」的效果。這才是投資和人生中真正持久穩定的致富之道。
 
-![本業為主](https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/investment/本業為主.webp "本業為主")
+![本業為主](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/investment/本業為主.webp "本業為主")
 
 ## 實體/線上講座
 

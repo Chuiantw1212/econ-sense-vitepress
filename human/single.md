@@ -5,7 +5,7 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/%E5%96%AE%E8%BA%AB%E7%8B%97%E5%9C%B0%E7%8D%84%E6%B1%82%E7%94%9F.jpg
+      content: https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/%E5%96%AE%E8%BA%AB%E7%8B%97%E5%9C%B0%E7%8D%84%E6%B1%82%E7%94%9F.jpg
 ---
 
 # 單身狗地獄求生：低生育率現狀解析與財務、生活全方位準備
@@ -24,7 +24,7 @@ head:
 
 隨著產業轉型，家庭結構從傳統的大家庭轉變為城市中的小家庭，生育意願隨之降低。這些因素共同促使台灣在經濟成長的同時，生育率進入長期下降的趨勢，顯示出台灣的生育率變遷深受經濟轉型的影響，而不僅僅是文化或個人選擇的結果。
 
-![產業轉型](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/%E7%94%A2%E6%A5%AD%E8%BD%89%E5%9E%8B.webp "產業轉型")
+![產業轉型](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/%E7%94%A2%E6%A5%AD%E8%BD%89%E5%9E%8B.webp "產業轉型")
 
 ### 婆媳問題
 
@@ -36,7 +36,7 @@ head:
 
 隨著產業結構逐漸穩定，激烈的婆媳問題也有逐步淡化的趨勢。過去數十年中，台灣經濟從農業向工業轉型，隨之帶來的女性勞動參與率提升和性別角色變化，讓不同世代的家庭價值觀產生了碰撞。然而，隨著產業變化趨於穩定，台灣社會對性別平等、雙薪家庭和個人自由的接受度不斷提升，年輕一代也更加注重生活平衡和自主選擇。許多新婚夫婦選擇與父母分開居住，這減少了婆媳之間的摩擦和潛在的矛盾。隨著越來越多家庭選擇適合自己的居住安排，家庭關係更加和諧，傳統的婆媳問題有望進一步淡化。
 
-![婆媳問題](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/婆媳問題.webp "婆媳問題")
+![婆媳問題](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/婆媳問題.webp "婆媳問題")
 
 ### 第二波：房價飆漲
 
@@ -50,7 +50,7 @@ head:
 
 長遠來看，僅從需求面著手的打房政策難以從根本上抑制高房價，供需失衡的情況反而可能推動房價持續上升。若要真正緩解住房壓力，還需配合供應端的調整，並重新審視遺產稅制度對房地產市場的影響，以實現住房市場的穩定。
 
-![房價飆漲](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/房價飆漲.webp "房價飆漲")
+![房價飆漲](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/房價飆漲.webp "房價飆漲")
 
 ### 性別平權
 
@@ -64,7 +64,7 @@ head:
 
 整體而言，1990年代以來的性別平權運動對台灣的教育、職場和家庭結構產生了深刻影響，讓性別角色不再受到傳統束縛，推動台灣社會朝向性別平等和多元價值觀的方向發展。這種趨勢讓台灣的年輕世代在生活選擇上更加自主，進一步促進了台灣社會的開放和包容。
 
-![性別平權](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/性別平權.webp "性別平權")
+![性別平權](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/性別平權.webp "性別平權")
 
 ### 第三波：平權的隱性矛盾
 
@@ -78,7 +78,7 @@ head:
 
 因此，性別平權在推動兩性平等的同時，也面臨傳統擇偶觀念的挑戰。隨著平權觀念的深入，解決這些內在矛盾需要更多對個人價值觀的反思。女性在追求個人成就的同時，或許也可以重新思考對伴侶的期待，從而實現更平等、和諧的關係。
 
-![平權的矛盾](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/平權的矛盾.webp "平權的矛盾")
+![平權的矛盾](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/平權的矛盾.webp "平權的矛盾")
 
 ## 台灣現狀
 
@@ -92,7 +92,7 @@ head:
 
 在這樣的經濟環境下，EN個人試算和[台北市的家庭收支訪問調查](https://dbas.gov.taipei/News.aspx?n=783F3F5F4E6C457E&sms=58DD720924C1B772)得到類似的結果，2024年成家門檻已達到220萬元左右。這筆數字讓許多年輕人望而卻步，不僅是日常生活和育兒成本難以負荷，成家立業的門檻也顯得遙不可及。
 
-![單身支出](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/單身支出.webp "單身支出")
+![單身支出](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/單身支出.webp "單身支出")
 
 ### 不生、不婚、不離家
 
@@ -106,7 +106,7 @@ head:
 
 「不生、不婚、不離家」的選擇看似為年輕人提供了暫時的生活平衡，創造了一種中產階級的穩定幻象。但隨著年齡增長，這種模式的脆弱性將逐漸顯現。未來，當這些年輕人進入老年時，缺乏家庭支持可能使他們的老年生活面臨更大挑戰。此外，這樣的趨勢加劇了少子化和人口老化，讓社會保險制度的負擔更加沉重，形成惡性循環，使台灣的社會結構面臨更為嚴峻的困境。
 
-![高同住率](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/高同住率.webp "高同住率")
+![高同住率](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/高同住率.webp "高同住率")
 
 ### 逐底下流
 
@@ -118,7 +118,7 @@ head:
 
 日本的經濟變遷過程正是這一趨勢的前車之鑑。20世紀末，日本經濟泡沫破裂後，勞動市場逐漸轉向非正職工作，穩定性急劇下降，導致大量勞動者收入不穩，保障缺乏，最終形成了「[下流老人](https://www.taaze.tw/apredir.html?154858690/https://www.taaze.tw/usedList.html?oid=11100778834)」的現象。這些人在退休後收入無保障，依賴社會救助生活，面臨著經濟上的困境和孤立無援的老年生活。台灣若不及時調整政策和社會保障體系，可能會重蹈日本覆轍，逐底下流現象將進一步加劇，貧富差距持續擴大，最終威脅到社會的整體穩定和年輕世代的未來發展。
 
-![逐底下流](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/逐底下流.webp "逐底下流")
+![逐底下流](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/逐底下流.webp "逐底下流")
 
 ### 史上最大規模人擇
 
@@ -132,7 +132,7 @@ head:
 
 在這場「史上最大規模人擇」中，那些堅守傳統擇偶觀的群體，無論是過於依賴「慕強」的女性，還是只具備硬價值而缺乏情感支持能力的男性，未來可能都會將自己的基因從人類基因庫中淘汰。單純依賴傳統擇偶標準已經不足以支持現代婚姻的穩定，反而讓許多人在擇偶上遭遇瓶頸，影響婚姻與生育選擇。能夠適應並調整自身擇偶觀念的人，將更能在伴侶關係中找到平衡，實現家庭的長久穩定，繼續傳承基因，成為這一新時代中的「適應者」。
 
-![史上最大規模人擇](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/史上最大規模人擇.webp "史上最大規模人擇")
+![史上最大規模人擇](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/史上最大規模人擇.webp "史上最大規模人擇")
 
 ## 財務面的準備
 
@@ -162,7 +162,7 @@ head:
 
 為了確保資金管理的透明和符合委託人意願，安養信託中通常會設立監察人。監察人可以是委託人的家人、朋友或獨立第三方專業機構，負責監督受託人的執行情況，確保受託人按合約進行資金管理，避免資金被不當使用或管理不善。監察人的設立讓信託機制更加透明，為委託人提供額外的安全保障。
 
-![信託架構](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/信託架構.webp "信託架構")
+![信託架構](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/信託架構.webp "信託架構")
 
 ### 信託財產與委託人
 
@@ -182,7 +182,7 @@ head:
 
 信託財產的配置取決於委託人的生活需求、風險承受度和投資目標，這些資產在受託人的管理下會按照信託合約的要求進行分配，以滿足委託人的各項生活需求並確保晚年生活的財務穩定。
 
-![金錢信託](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/金錢信託.webp "金錢信託")
+![金錢信託](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/金錢信託.webp "金錢信託")
 
 ### 社福團體擔任信託監察人
 
@@ -201,7 +201,7 @@ head:
 
 這些費用項目與服務內容將在信託合約中清楚說明，讓委託人對服務範圍和收費標準有明確的了解，確保信託監察人的職責得以有效執行。
 
-![社福監察](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/社福監察.webp "社福監察")
+![社福監察](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/社福監察.webp "社福監察")
 
 ### 潛在的疑慮
 
@@ -214,7 +214,7 @@ head:
 這些潛在疑慮提醒委託人在設立安養信託時，應深入了解合約細節，並針對無繼承人和年金收入管理等問題進行額外安排，以確保信託設立能夠有效且持續地支持晚年生活。為了幫助讀者更好地理解安養信託，我在下方附上節錄重點版的合約，以便讀者快速掌握核心內容。
 
 <LazySlide name="老人安養信託定型化契約參考範本">
-    <iframe title="老人安養信託定型化契約參考範本" src="https://storage.googleapis.com/enchu-12074.firebasestorage.app/%E8%80%81%E4%BA%BA%E5%AE%89%E9%A4%8A%E4%BF%A1%E8%A8%97%E5%AE%9A%E5%9E%8B%E5%8C%96%E5%A5%91%E7%B4%84%E5%8F%83%E8%80%83%E7%AF%84%E6%9C%AC.pdf" width="100%" height="420"></iframe>
+    <iframe title="老人安養信託定型化契約參考範本" src="https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/%E8%80%81%E4%BA%BA%E5%AE%89%E9%A4%8A%E4%BF%A1%E8%A8%97%E5%AE%9A%E5%9E%8B%E5%8C%96%E5%A5%91%E7%B4%84%E5%8F%83%E8%80%83%E7%AF%84%E6%9C%AC.pdf" width="100%" height="420"></iframe>
 </LazySlide>
 
 ## 非財務面的準備
@@ -231,7 +231,7 @@ head:
 
 如果您需要了解有哪些可行的居住選項，歡迎參考退休規劃中的[「老後居住選擇」](/finance/retirement-1.html#老後居住選擇)，探索更多適合不同需求的養老方案。
 
-![無床可睡](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/無床可睡.webp "無床可睡")
+![無床可睡](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/無床可睡.webp "無床可睡")
 
 ### 單身更要保健
 
@@ -249,7 +249,7 @@ head:
 
 健康的生活習慣在年輕時就開始養成，對年老後的生活品質能產生深遠影響。如果想進一步了解如何全面預防失智和失能，建議參考姜冠宇醫師的線上課程「[老化全方位應對手冊](https://hiskio.com/courses/2133)」，該課程詳細介紹了如何從日常生活中做起，有效預防老年時期的健康問題，幫助單身者做好全面的健康管理。
 
-![老化應對](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/老化應對.webp "老化應對")
+![老化應對](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/老化應對.webp "老化應對")
 
 ### 互助喘息
 
@@ -261,7 +261,7 @@ head:
 
 目前，全台設有4個互助喘息據點（台北市和嘉義市各兩處），提供「預約喘息」、「預約值班」和「提供空間」等多功能服務，促進了照顧者、專業照護人員和志工之間的協同合作，實現資源的高效配置。這項創新模式讓家庭照顧者在無法喘息的壓力中找到解決方案，逐步推廣和拓展的過程中，透過這樣的數位平台，科技賦能讓照顧者得以在照護責任中獲得寶貴的休息時間。
 
-![互助喘息](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/互助喘息.webp "互助喘息")
+![互助喘息](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/互助喘息.webp "互助喘息")
 
 ### 避免獨居
 
@@ -269,7 +269,7 @@ head:
 
 即便無法找到穩定伴侶，單身者仍可以選擇與好友或閨蜜組成「[共居家庭](https://www.housing.org.tw/sites/default/files/journal_file/2022-10/31-1-4%20%E6%96%B0%E5%AE%B6%E4%BA%BA%E9%97%9C%E4%BF%82%E5%BB%BA%E6%A7%8B%E5%96%AE%E8%BA%AB%E5%A5%B3%E6%80%A7%E8%B7%A8%E4%BB%A3%E5%85%B1%E5%B1%85%E4%BD%8F%E5%AE%85%E6%84%8F%E8%B1%A1.pdf)」，藉此營造穩定的社交圈。共居模式不僅是分擔家務和租金，更是一種情感上的支持。幾位好友或閨蜜一起生活，彼此能在困難時互相扶持，節假日一起慶祝，日常中分享心情與經歷，減少孤單感。這樣的共居安排尤其適合單身女性和單身老人，彼此既能在精神上支持，也能在生活中相互照顧。
 
-![結伴共居](https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/結伴共居.webp "結伴共居")
+![結伴共居](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/結伴共居.webp "結伴共居")
 
 在當今社會中，單身者面臨的挑戰不僅僅來自於社會和經濟壓力，還包括如何在年老時維持生活質量並確保身心健康。隨著房價上升、生活成本高漲、長照資源有限，單身者需要早早為未來做準備，不僅在財務上保障自己，也要考慮老年生活的支持網絡。無論是選擇安養信託、參與互助喘息服務，還是選擇共享住房，共同生活的模式和可靠的社交圈都能夠為晚年生活提供支撐，減少孤單感和對外界依賴。
 
@@ -302,7 +302,7 @@ import Books from '../components/books.vue'
 
 const courseItems = [
     {
-        image: 'https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/%E8%80%81%E5%8C%96%E6%87%89%E5%B0%8D.webp',
+        image: 'https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/%E8%80%81%E5%8C%96%E6%87%89%E5%B0%8D.webp',
         description: `隨著年齡增長，老化不只生理上的變化而已，而是各種問題的開始，這堂課讓你聰明的應對老化問題，學會維護身體的機能，使自己保持最佳狀態，應對各種生活和工作的挑戰，正常扮演社會與家庭的角色。`,
         name: '老化全方位應對手冊 | 機能維持 X 聰明就醫 X 照護策略 X 風險規劃',
         url: 'https://hiskio.com/courses/2133/about',
@@ -373,7 +373,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            "image": "https://storage.googleapis.com/enchu-12074.firebasestorage.app/life/single/%E5%96%AE%E8%BA%AB%E7%8B%97%E5%9C%B0%E7%8D%84%E6%B1%82%E7%94%9F.jpg"
+            "image": "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/single/%E5%96%AE%E8%BA%AB%E7%8B%97%E5%9C%B0%E7%8D%84%E6%B1%82%E7%94%9F.jpg"
         },
     ]
 

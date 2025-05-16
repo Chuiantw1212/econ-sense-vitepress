@@ -68,7 +68,7 @@ import Photos from '../components/photos.vue'
 
 const courseItems = [
     {
-        image: 'https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/financemj/financemj.webp',
+        image: 'https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/financemj/financemj.webp',
         description: `《小富翁大贏家》是財報講師與專業桌遊團隊共同設計的理財桌遊，MJ老師結合多年的財務教學與親子教養的經驗，讓大家能在桌遊中模擬人生決策，體驗高峰低谷、景氣循換，甚至是突發意外。希望大家從多樣化的真實事件培養時事敏感度，提早培養財務眼光，更從決策當中學會獨立思考的能力。`,
         name: '小富翁大贏家｜培養財務眼光的第一套理財桌遊',
         url: 'https://sat.cool/course/41',
@@ -85,27 +85,27 @@ const bookItems = [
 
 const photoItems = [
     {
-        src: "https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/financemj/%E6%A1%8C%E9%81%8A%E5%A5%BD%E7%8E%A9.webp",
+        src: "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/financemj/%E6%A1%8C%E9%81%8A%E5%A5%BD%E7%8E%A9.webp",
         alt: "桌遊好玩",
     },
     {
-        src: "https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/financemj/%E5%85%A9%E4%BA%BA%E5%90%88%E4%BD%9C.webp",
+        src: "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/financemj/%E5%85%A9%E4%BA%BA%E5%90%88%E4%BD%9C.webp",
         alt: "兩人合作",
     },
     {
-        src: "https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/financemj/%E9%96%92%E9%80%9B%E8%A6%96%E5%AF%9F.webp",
+        src: "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/financemj/%E9%96%92%E9%80%9B%E8%A6%96%E5%AF%9F.webp",
         alt: "閒逛視察",
     },
     {
-        src: "https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/financemj/%E6%A1%8C%E9%82%8A%E6%8C%87%E5%B0%8E.webp",
+        src: "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/financemj/%E6%A1%8C%E9%82%8A%E6%8C%87%E5%B0%8E.webp",
         alt: "桌邊指導",
     },
     {
-        src: "https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/financemj/%E6%9C%AC%E6%A5%AD%E7%82%BA%E4%B8%BB.webp",
+        src: "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/financemj/%E6%9C%AC%E6%A5%AD%E7%82%BA%E4%B8%BB.webp",
         alt: "本業為主",
     },
     {
-        src: "https://storage.googleapis.com/enchu-12074.firebasestorage.app/finance/financemj/%E6%9C%80%E5%BE%8C%E5%90%88%E7%85%A7.webp",
+        src: "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/financemj/%E6%9C%80%E5%BE%8C%E5%90%88%E7%85%A7.webp",
         alt: "最後合照",
     },
 ]
