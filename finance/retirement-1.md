@@ -7,7 +7,7 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8A).webp
+      content: https://storage.googleapis.com/public.en-chu.com/finance/retirement/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8A).webp
 ---
 
 # {{ $frontmatter.title }}
@@ -88,7 +88,7 @@ head:
 
 我個人也傾向於一次性領取退休金，並將這筆資金進行穩健的投資。這樣不僅能避免遺產稅的負擔，還能靈活運用這筆資金，實現更高的財務增值。
 
-![勞退一次領](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/%E5%8B%9E%E9%80%80%E4%B8%80%E6%AC%A1%E9%A0%98.webp "勞退一次領")
+![勞退一次領](https://storage.googleapis.com/public.en-chu.com/finance/retirement/%E5%8B%9E%E9%80%80%E4%B8%80%E6%AC%A1%E9%A0%98.webp "勞退一次領")
 
 ## 公保公退
 
@@ -106,7 +106,7 @@ head:
 
 具體來說，**公務人員退撫與勞保勞退的最大差異**在於，**勞保與勞退是完全分開計算**的，勞工會分別領取勞保的老年年金和勞退的個人專戶退休金，而這兩者並不會合併計算。然而，**公務人員退撫**則將公保養老年金和公退月退休金**合併計算**，並根據合併的金額設立**天花板**。當合併後的金額超過法定上限時，系統會根據規定進行調整，確保所領取的金額不會超過政府設立的最高限制。
 
-![年改天花板](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/%E5%B9%B4%E6%94%B9%E5%A4%A9%E8%8A%B1%E6%9D%BF.webp "年改天花板")
+![年改天花板](https://storage.googleapis.com/public.en-chu.com/finance/retirement/%E5%B9%B4%E6%94%B9%E5%A4%A9%E8%8A%B1%E6%9D%BF.webp "年改天花板")
 
 ### 公務人員的退休選擇
 
@@ -124,7 +124,7 @@ head:
 
 在公務人員的[遺屬年金規定](https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=43)中，當公務人員去世後，遺屬可以領取部分的退休金，但有特殊的規定。若配偶同樣是具有退職身份的公務人員，他們[無法同時領取](https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=S0080034&flno=45)自己的退休金和配偶的遺屬年金。因此，從財務規劃的角度來看，如果公務人員與勞工結婚，勞工身份的配偶則可以領取遺屬年金，這樣能更好地最大化家庭的整體退休資產。
 
-![公退選擇](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/%E5%85%AC%E9%80%80%E9%81%B8%E6%93%87.webp "公退選擇")
+![公退選擇](https://storage.googleapis.com/public.en-chu.com/finance/retirement/%E5%85%AC%E9%80%80%E9%81%B8%E6%93%87.webp "公退選擇")
 
 ### 勞保勞退 vs 公保公退兼領
 
@@ -136,7 +136,7 @@ head:
 
 因此，希望年金改革後，無論是勞工還是公務人員，都能對目前的制度感到安心，因為它已經考慮到了雙方的處境和需求，並在公平性方面進行了有效的調整。
 
-![兼領公平](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/%E5%85%BC%E9%A0%98%E5%85%AC%E5%B9%B3.webp "兼領公平")
+![兼領公平](https://storage.googleapis.com/public.en-chu.com/finance/retirement/%E5%85%BC%E9%A0%98%E5%85%AC%E5%B9%B3.webp "兼領公平")
 
 ## 老後居住選擇
 
@@ -209,7 +209,7 @@ head:
 
 共生宅提供無障礙設施及公共活動空間，住戶能參與社區活動並享受跨代互動，減少孤獨感。對於希望在活力社區中安享晚年的長者，共生宅是一個創新且富有社交性的選擇。
 
-![老後居住差異](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/%E8%80%81%E5%BE%8C%E5%B1%85%E4%BD%8F.webp "老後居住差異")
+![老後居住差異](https://storage.googleapis.com/public.en-chu.com/finance/retirement/%E8%80%81%E5%BE%8C%E5%B1%85%E4%BD%8F.webp "老後居住差異")
 
 這些不同的居住模式各有其適應對象與優勢。對於長者來說，除了物質生活的保障，心理健康和情感支持也是選擇居住環境時的重要考量。無論是選擇維持獨立生活，還是依賴專業的醫療支援，每種模式都應根據長者的身體狀況、心理需求以及社交互動的需要來做出選擇。
 
@@ -229,8 +229,8 @@ head:
 費用也因地區與年齡有所不同，建議參考[老人狀況調查報告](https://dep.mohw.gov.tw/DOS/lp-5095-113.html)，結合自身財務情況與需求，配合[開源財務規劃](/plan)表進行試算，以便制定更精確的退休金策略，為安心的退休生活奠定基礎。
 
 <LazySlide name="111年老人狀況調查報告(節錄)">
-    <iframe title="111年老人狀況調查報告(生活費用支出)" src="https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/%E7%94%9F%E6%B4%BB%E8%B2%BB%E7%94%A8.pdf" width="100%" height="420"></iframe>
-    <iframe title="111年老人狀況調查報告(照顧費用支出)" src="https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/%E7%85%A7%E9%A1%A7%E8%B2%BB%E7%94%A8.pdf" width="100%" height="420"></iframe>
+    <iframe title="111年老人狀況調查報告(生活費用支出)" src="https://storage.googleapis.com/public.en-chu.com/finance/retirement/%E7%94%9F%E6%B4%BB%E8%B2%BB%E7%94%A8.pdf" width="100%" height="420"></iframe>
+    <iframe title="111年老人狀況調查報告(照顧費用支出)" src="https://storage.googleapis.com/public.en-chu.com/finance/retirement/%E7%85%A7%E9%A1%A7%E8%B2%BB%E7%94%A8.pdf" width="100%" height="420"></iframe>
 </LazySlide>
 
 ## 老後變現
@@ -275,7 +275,7 @@ head:
 
 這種方式特別適合希望保有房產並傳承給後代，同時希望利用房屋產生被動收入的長者。透過權衡包租與代管的選擇，長者可以根據自身風險承受能力和財務需求來決定最適合的方案。
 
-![包租代管](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/%E5%8C%85%E7%A7%9F%E4%BB%A3%E7%AE%A1.webp "包租代管")
+![包租代管](https://storage.googleapis.com/public.en-chu.com/finance/retirement/%E5%8C%85%E7%A7%9F%E4%BB%A3%E7%AE%A1.webp "包租代管")
 
 ### 證券投資
 
@@ -293,7 +293,7 @@ head:
 
 綜合來看，逆向抵押貸款與包租貸款的並行運用為退休後資產管理提供了更多選擇，既能確保房產帶來的現金流穩定，又能藉由投資增值放大資產，但也需要謹慎操作以平衡風險與回報。
 
-![簡易槓桿](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/%E7%B0%A1%E6%98%93%E6%A7%93%E6%A1%BF.webp "簡易槓桿")
+![簡易槓桿](https://storage.googleapis.com/public.en-chu.com/finance/retirement/%E7%B0%A1%E6%98%93%E6%A7%93%E6%A1%BF.webp "簡易槓桿")
 
 ## 總結
 
@@ -347,19 +347,19 @@ const bookItems = [
 
 const photoItems = [
     {
-        src: "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/727509.webp",
+        src: "https://storage.googleapis.com/public.en-chu.com/finance/retirement/727509.webp",
         alt: "過程",
     },
     {
-        src: "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/727522.webp",
+        src: "https://storage.googleapis.com/public.en-chu.com/finance/retirement/727522.webp",
         alt: "過程",
     },
     {
-        src: "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/727523.webp",
+        src: "https://storage.googleapis.com/public.en-chu.com/finance/retirement/727523.webp",
         alt: "過程",
     },
     {
-       src: "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/727516.webp",
+       src: "https://storage.googleapis.com/public.en-chu.com/finance/retirement/727516.webp",
         alt: "合照",
     },
 ]
@@ -396,7 +396,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            "image": "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/retirement/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8A).webp",
+            "image": "https://storage.googleapis.com/public.en-chu.com/finance/retirement/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8A).webp",
         },
     ]
 

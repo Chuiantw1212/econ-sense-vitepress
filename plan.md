@@ -18,7 +18,7 @@ head:
 <el-dialog :modelValue="isOpenPreview" title="示意圖" center destroy-on-close lock-scroll
     @close="isOpenPreview = false">
     <div class="preview__div">
-      <img class="div__image" src="https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/plan/%E7%A4%BA%E6%84%8F%E5%9C%96.webp" alt="示意圖"></img>
+      <img class="div__image" src="https://storage.googleapis.com/public.en-chu.com/finance/plan/%E7%A4%BA%E6%84%8F%E5%9C%96.webp" alt="示意圖"></img>
     </div>
     <template #footer>
       <div class="dialog-footer">

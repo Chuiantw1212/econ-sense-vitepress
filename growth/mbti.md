@@ -29,13 +29,13 @@ import Books from '../components/books.vue'
 
 const courseItems = [
     {
-        image: 'https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/%E5%AE%B6%E7%85%A7%E7%B8%BD%E6%9C%83.webp',
+        image: 'https://storage.googleapis.com/public.en-chu.com/life/carer/%E5%AE%B6%E7%85%A7%E7%B8%BD%E6%9C%83.webp',
         description: `中華民國家庭照顧者關懷總會(家總)成立於85年，其倡議目標為發展多元且充足的長照資源，讓家庭有選擇權，以及對自願選擇成為家庭照顧者，提供符合需求的支持性服務。`,
         name: '中華民國家庭照顧者關懷總會',
         url: 'https://www.youtube.com/@familycaretw/videos',
     },
     {
-        image: 'https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/life/carer/%E8%80%81%E5%8C%96%E7%B7%9A%E4%B8%8A%E8%AA%B2.webp',
+        image: 'https://storage.googleapis.com/public.en-chu.com/life/carer/%E8%80%81%E5%8C%96%E7%B7%9A%E4%B8%8A%E8%AA%B2.webp',
         description: `隨著年齡增長，老化不只生理上的變化而已，而是各種問題的開始，這堂課讓你聰明的應對老化問題，學會維護身體的機能，使自己保持最佳狀態，應對各種生活和工作的挑戰，正常扮演社會與家庭的角色。`,
         name: '老化全方位應對手冊 | 機能維持 X 聰明就醫 X 照護策略 X 風險規劃',
         url: 'https://hiskio.com/courses/2133/about',

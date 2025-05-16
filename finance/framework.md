@@ -7,7 +7,7 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.jpg
+      content: https://storage.googleapis.com/public.en-chu.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.jpg
 ---
 
 # {{ $frontmatter.title }}
@@ -31,7 +31,7 @@ head:
 
 這些領域不僅相輔相成，也同等重要。當我們全面看待生活，理財才不會變成一種壓力，而是成為我們實現幸福生活的基石。
 
-![價值觀](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E7%90%86%E8%B2%A1%E5%89%8D%E6%8F%90.webp "價值觀")
+![價值觀](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E7%90%86%E8%B2%A1%E5%89%8D%E6%8F%90.webp "價值觀")
 
 ### 認知頻寬、價值觀與訊息：為什麼我們無法專注於真正重要的事物？
 
@@ -55,7 +55,7 @@ head:
 
 當我們被短期的危機與壓力牽著走時，注意力自然無法集中在長期價值上。窮忙者通常日復一日地忙碌，卻看不到長期的改變，因為他們無法擺脫這些耗費認知頻寬的干擾。
 
-![認知有限](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E8%AA%8D%E7%9F%A5%E6%9C%89%E9%99%90.webp "認知有限")
+![認知有限](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E8%AA%8D%E7%9F%A5%E6%9C%89%E9%99%90.webp "認知有限")
 
 #### 擺脫窮忙，重拾真正的價值
 
@@ -75,7 +75,7 @@ head:
 
 這些例子揭示了價值觀的優先順序如何影響我們的選擇，從而導致不同的生活結果。重新審視並調整價值排序，可以讓我們更接近理想中的生活狀態。
 
-![認知開源](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E8%AA%8D%E7%9F%A5%E9%96%8B%E6%BA%90.webp "認知開源")
+![認知開源](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E8%AA%8D%E7%9F%A5%E9%96%8B%E6%BA%90.webp "認知開源")
 
 ## 節流
 
@@ -85,7 +85,7 @@ head:
 
 首先談到的是勞退（勞工退休金）。勞退除了提供<a target="_blank" href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00">穩健的年化報酬率（約4.5%）</a>，還能幫助你節省稅金。這是一項非常適合長期穩定成長的投資選擇，同時具備節稅效益，是勞工應該善加利用的福利之一。
 
-![勞退績效](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E5%8B%9E%E9%80%80%E6%AD%B7%E5%B9%B4%E6%94%B6%E7%9B%8A.webp "勞退績效")
+![勞退績效](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E5%8B%9E%E9%80%80%E6%AD%B7%E5%B9%B4%E6%94%B6%E7%9B%8A.webp "勞退績效")
 
 #### 員工持股信託：打折買股票的機會
 
@@ -107,7 +107,7 @@ head:
 
 2. **家內信用卡=固定支出**：如水電瓦斯、影音串流服務、雜誌訂閱等。這張卡集中管理固定的訂閱服務，使你能夠清晰地看到這部分的支出。
 
-![刷卡管理](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E6%94%B6%E6%94%AF%E7%AE%A1%E7%90%86%E5%88%B7%E5%8D%A1.webp "刷卡管理")
+![刷卡管理](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E6%94%B6%E6%94%AF%E7%AE%A1%E7%90%86%E5%88%B7%E5%8D%A1.webp "刷卡管理")
 
 #### 更好地控制支出
 
@@ -136,7 +136,7 @@ head:
 5. **無腦刷、無痛記帳、無痛兑獎**  
    完成上述設定後，你可以輕鬆享受無腦刷卡的便利。透過發票載具和行動支付自動記錄每筆交易，讓你<a target="_blank" href="https://www.ecloudlife.com/w/">無痛記帳</a>，同時也讓兌獎變得毫不費力。
 
-![雲端發票](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E9%9B%B2%E7%AB%AF%E7%99%BC%E7%A5%A8.webp "雲端發票")
+![雲端發票](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E9%9B%B2%E7%AB%AF%E7%99%BC%E7%A5%A8.webp "雲端發票")
 
 ### 如何有效利用扣除額來節省稅金
 
@@ -166,7 +166,7 @@ head:
 
 透過這些策略，我們可以更有效地降低稅負，享受合理的節稅福利。
 
-![報稅](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E5%A0%B1%E7%A8%85.webp "報稅")
+![報稅](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E5%A0%B1%E7%A8%85.webp "報稅")
 
 ## 投資
 
@@ -195,7 +195,7 @@ ETF（交易型基金）也是一籃子的股票，實際上屬於基金的一�
 - **代表特徵**：一籃子的股票、定期追蹤指數、被動修正、費用更低
 - **代表ETF**：元大0050
 
-![ETF進化史](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/ETF%E9%80%B2%E5%8C%96%E5%8F%B2.webp "ETF進化史")
+![ETF進化史](https://storage.googleapis.com/public.en-chu.com/finance/framework/ETF%E9%80%B2%E5%8C%96%E5%8F%B2.webp "ETF進化史")
 
 ### 為什麼要投資ETF?
 
@@ -211,7 +211,7 @@ ETF的表現通常較佳，原因多方面：
 
 值得注意的是，市場的定價效率通常不利於試圖通過選股或擇時來跑贏大盤的基金經理人。事實上，在過去20年間，只有約17%的美國註冊股票基金和14%的固定收益基金能夠倖存並跑贏基準指數。這進一步說明了ETF在成本效益和長期績效方面的優勢，使其成為許多投資者的首選工具。
 
-![主動績效](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E4%B8%BB%E5%8B%95%E7%B8%BE%E6%95%88.webp "主動績效")
+![主動績效](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E4%B8%BB%E5%8B%95%E7%B8%BE%E6%95%88.webp "主動績效")
 
 ### 台股ETF的多重效益：股利、借券、抵稅與股東贈品
 
@@ -229,7 +229,7 @@ ETF的表現通常較佳，原因多方面：
 
 根據[所得稅法規定](https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/taxation-scope/which-income/vxelQY9#:~:text=%E5%85%A8%E6%88%B6%E8%82%A1%E5%88%A9%E5%8F%8A%E7%9B%88%E9%A4%98,%E4%BA%AB%E6%9C%89%E6%8A%B5%E6%B8%9B%E7%A8%85%E9%A1%8D%E3%80%82)，股利所得需要併入綜合所得課稅，但投資者可以享有股利金額8.5%的稅額抵減，每一申報戶最高可抵減8萬元。這意味著，如果您的全年股利金額在94萬元以下，您可以充分利用這項稅收優惠。更重要的是，如果抵減稅額超過應納稅額，差額部分還可以申請退稅，進一步提升您的實際收益。
 
-![抵稅優勢](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E6%8A%B5%E7%A8%85%E5%84%AA%E5%8B%A2.webp "抵稅優勢")
+![抵稅優勢](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E6%8A%B5%E7%A8%85%E5%84%AA%E5%8B%A2.webp "抵稅優勢")
 
 #### 股東贈品
 
@@ -257,7 +257,7 @@ ETF的表現通常較佳，原因多方面：
 
 至於保額的計算，應根據家庭的實際收支情況來進行。一般來說，合理的壽險保額應為稅後所得的5.6倍至8.4倍。這樣的保額設定可以有效覆蓋家庭的財務需求，確保在發生意外時能提供足夠的經濟支持。具體的計算方法和細節我已整理在簡報中，供有需要的讀者進一步參考。
 
-![壽險差異](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E5%A3%BD%E9%9A%AA%E5%B7%AE%E7%95%B0.webp "壽險差異")
+![壽險差異](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E5%A3%BD%E9%9A%AA%E5%B7%AE%E7%95%B0.webp "壽險差異")
 
 ### 醫療險購買指南：理性看待統計數字與保險需求
 
@@ -277,7 +277,7 @@ ETF的表現通常較佳，原因多方面：
 
 此外，在購買保險時，還需特別留意保險的條款細節。雖然許多保險公司會製作精美的宣傳材料，試圖吸引消費者購買，但保險產品的真正品質如何，還是要通過仔細閱讀和比較條款才能看出來。不要讓華麗的DM刺激了購買慾望，而忽略了保障的實質內容。
 
-![醫療險](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E9%86%AB%E7%99%82%E9%9A%AA.webp "醫療險")
+![醫療險](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E9%86%AB%E7%99%82%E9%9A%AA.webp "醫療險")
 
 ### 失能險的重要性：為家庭提供更全面的保障
 
@@ -289,7 +289,7 @@ ETF的表現通常較佳，原因多方面：
 
 通過合理配置失能險保額，我們可以在面對不測時，為自己和家人建立一個更加穩固的財務屏障，確保家庭能夠在困境中保持經濟穩定。
 
-![失能險](https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E5%A4%B1%E8%83%BD%E9%9A%AA.webp "失能險")
+![失能險](https://storage.googleapis.com/public.en-chu.com/finance/framework/%E5%A4%B1%E8%83%BD%E9%9A%AA.webp "失能險")
 
 綜合來看，壽險、醫療險和失能險這三者相輔相成，構成了完整的保障體系。壽險主要應對因家庭支柱缺席而造成的收入損失，醫療險補足自費醫療支出，而失能險則確保在失能情況下家庭的經濟穩定。通過合理的保險規劃，我們能夠為自己和家人提供全方位的經濟保障，無論面對何種不測，都能有效應對。
 
@@ -400,7 +400,7 @@ onMounted(() => {
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            "image": "https://storage.googleapis.com/public.en-chu.com.firebasestorage.app/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.jpg"
+            "image": "https://storage.googleapis.com/public.en-chu.com/finance/framework/%E7%90%86%E8%B2%A1%E6%A1%86%E6%9E%B6.jpg"
         },
     ]
 
