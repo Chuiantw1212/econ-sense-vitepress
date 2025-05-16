@@ -64,6 +64,7 @@ export default defineConfig({
         link: '/growth',
         collapsed: false,
         items: [
+          { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
           { text: '何倫碼測驗&NLP職涯', link: '/growth/riasec' },
           { text: '軟體專案實務', link: '/growth/project' },
           { text: '我是學渣，也是黑馬', link: '/growth/education' },
