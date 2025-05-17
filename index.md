@@ -5,7 +5,7 @@ titleTemplate: 文明飛上太空，大腦已知用火
 layout: home
 
 hero:
-  name: 海德堡部落
+  name: 海德堡隱士居
   text: 文明飛上太空<br>大腦已知用火
   tagline: 深度讀懂自己，用CP值最高的方式接上世界
   image:

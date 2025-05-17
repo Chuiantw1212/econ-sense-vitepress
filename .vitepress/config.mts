@@ -6,8 +6,8 @@ export default defineConfig({
    * Site Metadata
    * https://vitepress.dev/reference/site-config#site-metadata
    */
-  title: "海德堡部落",
-  description: "海德堡部落是一座認知基地，從本能、制度、架構到實驗，拆解人生的運作邏輯，探索一種有設計感的活法。",
+  title: "海德堡隱士居",
+  description: "海德堡隱士居是一座認知基地，從本能、制度、架構到實驗，拆解人生的運作邏輯，探索一種有設計感的活法。",
   head: [
     ['link', { rel: 'icon', href: '/logo/常-白底_36.webp' }],
     // https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/?utm_source=lighthouse&utm_medium=devtools
