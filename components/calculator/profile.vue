@@ -229,9 +229,9 @@ function openSignInDialog() {
             ],
             signInFlow: 'popup',
             // Terms of service url.
-            tosUrl: 'https://storage.googleapis.com/public.en-chu.com/Terms%20of%20Use.pdf',
+            tosUrl: 'https://storage.googleapis.com/enchu-8085a.firebasestorage.app/Terms%20of%20Use.pdf',
             // Privacy policy url.
-            privacyPolicyUrl: 'https://storage.googleapis.com/public.en-chu.com/Privacy%20Policy%20for%20Econ-Sense.com.pdf'
+            privacyPolicyUrl: 'https://storage.googleapis.com/enchu-8085a.firebasestorage.app/Privacy%20Policy%20for%20Econ-Sense.com.pdf'
         };
         /**
          * 避免FirebaseUI重複初始化錯誤

@@ -5,26 +5,26 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://storage.googleapis.com/public.en-chu.com/about/enchu.webp
+      content: https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/enchu.webp
 ---
 
 # 關於 EN Chu 朱奕安
 
 <VPTeamMembers size="medium" :members="[
   {
-    avatar: `https://storage.googleapis.com/public.en-chu.com/about/enchu.webp`,
+    avatar: `https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/enchu.webp`,
     title: '分享者',
     desc:'群益期貨、潛能聚、誠遠國際、LearnWeb、韶光心理學苑、宜蘭縣社會處、PMI Taiwan',
     org: '學校學不到的事',
     orgLink: 'https://www.facebook.com/groups/304681766894402',
   },
   {
-    avatar: `https://storage.googleapis.com/public.en-chu.com/about/nodejs.webp`,
+    avatar: `https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/nodejs.webp`,
     title: '全端工程師',
     desc:'2024 玉山銀行委外<br/>2020-2023 凱基人壽委外<br/>2017-2020 前端工程師',
   },
 //   {
-//     avatar: `https://storage.googleapis.com/public.en-chu.com/about/yungshiu.webp`,
+//     avatar: `https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/yungshiu.webp`,
 //     title: '永旭保險經紀人',
 //     desc:'2024~ 業務專員',
 //   },
@@ -36,7 +36,7 @@ head:
 
 求職找工作可以很簡單！[Job Pair媒合型人力銀行](https://job-pair.com)，勾選你理想的企業文化、工作環境、組織階段、管理模式、人際風格和工作模式，即刻為你配對最合適的職缺，開啟專屬於你的職場旅程。
 
-<img class="aobut__image--100" src="https://storage.googleapis.com/public.en-chu.com/about/jobPair.webp" alt=job-pair> -->
+<img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/jobPair.webp" alt=job-pair> -->
 
 ### 開源財務規劃表
 
@@ -102,59 +102,59 @@ head:
 ### AFP理財規劃顧問
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="https://storage.googleapis.com/public.en-chu.com/about/afp.webp" alt=AFP理財規劃顧問>
+    <img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/afp.webp" alt=AFP理財規劃顧問>
 </div>
 
 ### PMP國際專案管理師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="https://storage.googleapis.com/public.en-chu.com/about/pmp.webp" alt=PMP國際專案管理師>
+    <img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/pmp.webp" alt=PMP國際專案管理師>
 </div>
 
 ### 其他金融證明書
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/planner.webp" alt=理財規劃人員>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/finTech.webp" alt=金融科技力>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/morale.webp" alt=金融市場常識與職業道德>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/trust.webp" alt=信託業務專業>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/fundLaw.webp" alt=投信投顧相關法規(含自律規範)>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/insurance.webp" alt=人身保險業務員>
-     <!-- <img class="aobut__image--100" src="https://storage.googleapis.com/public.en-chu.com/about/%E4%BF%9D%E6%A5%AD%E7%99%BB%E9%8C%84.webp" alt=保險業務員登錄證> -->
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/planner.webp" alt=理財規劃人員>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/finTech.webp" alt=金融科技力>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/morale.webp" alt=金融市場常識與職業道德>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/trust.webp" alt=信託業務專業>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/fundLaw.webp" alt=投信投顧相關法規(含自律規範)>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/insurance.webp" alt=人身保險業務員>
+     <!-- <img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/%E4%BF%9D%E6%A5%AD%E7%99%BB%E9%8C%84.webp" alt=保險業務員登錄證> -->
 </div>
 
 ## 教育背景
 
 ### Master in Informatics
 
-<img class="aobut__image--100" src="https://storage.googleapis.com/public.en-chu.com/about/northeastern.webp" alt=Northeastern>
+<img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/northeastern.webp" alt=Northeastern>
 
 ### 義務役預備軍官
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/military1.webp" alt=義務役預備軍官正面>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/military2.webp" alt=義務役預備軍官反面>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/military1.webp" alt=義務役預備軍官正面>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/military2.webp" alt=義務役預備軍官反面>
 </div>
 
 ### 中興大學資訊科學學士
 
-<img class="aobut__image--100" src="https://storage.googleapis.com/public.en-chu.com/about/nchu.webp" alt=nchu>
+<img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/nchu.webp" alt=nchu>
 
 ## 興趣認證
 
 ### 心理學
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/nlp2.webp" alt=NLP高階執行師>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/nlp1.webp" alt=NLP專業執行師>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/nlp2.webp" alt=NLP高階執行師>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/nlp1.webp" alt=NLP專業執行師>
 </div>
 
 ### 桌遊
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/swan2.webp" alt=新天鵝堡進階桌遊師>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/swan1.webp" alt=新天鵝堡初階桌遊師>
-    <!-- <img class="aobut__image--100" src="https://storage.googleapis.com/public.en-chu.com/about/cafe.webp" alt=精實創業咖啡館認證講師> -->
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/swan2.webp" alt=新天鵝堡進階桌遊師>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/swan1.webp" alt=新天鵝堡初階桌遊師>
+    <!-- <img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cafe.webp" alt=精實創業咖啡館認證講師> -->
 </div>
 
 ### 環島/泳渡
@@ -164,8 +164,8 @@ head:
 泳渡：2023, 2024
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/cycling1.webp" alt=環島>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/public.en-chu.com/about/swimming.webp" alt=泳渡>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cycling1.webp" alt=環島>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/swimming.webp" alt=泳渡>
 </div>
 
 <script setup>
@@ -197,7 +197,7 @@ onMounted(() => {
         },
         "description": "分享者 / 全端工程師",
         "sameAs": "https://www.facebook.com/profile.php?id=100069740545113",
-        "image": "https://storage.googleapis.com/public.en-chu.com/about/enchu.webp",
+        "image": "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/enchu.webp",
         "dateModified": new Date(page.value.lastUpdated).toISOString(),
     }
 

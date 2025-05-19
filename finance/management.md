@@ -116,19 +116,19 @@ const bookItems = [
 
 const photoItems = [
     {
-        src: "https://storage.googleapis.com/public.en-chu.com/finance/management/1724647114048_344.webp",
+        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/management/1724647114048_344.webp",
         alt: "說書",
     },
     {
-        src: "https://storage.googleapis.com/public.en-chu.com/finance/management/1724647114120_344.webp",
+        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/management/1724647114120_344.webp",
         alt: "破題",
     },
     {
-        src: "https://storage.googleapis.com/public.en-chu.com/finance/management/1724647113757_344.webp",
+        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/management/1724647113757_344.webp",
         alt: "頒獎",
     },
     {
-        src: "https://storage.googleapis.com/public.en-chu.com/finance/management/1724647113986_344.webp",
+        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/management/1724647113986_344.webp",
         alt: "合照",
     },
 ]
