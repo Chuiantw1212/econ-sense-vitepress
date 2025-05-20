@@ -414,7 +414,7 @@ async function callNavigatorShare(canvas) {
     const shareConfig = {
         files: filesArray,
         title: '開源財務規劃表',
-        url: `${window.location.href}?openExternalBrowser=1` || 'https://econ-sense.com?openExternalBrowser=1',
+        url: `${window.location.href}?openExternalBrowser=1` || 'https://en-chu.com?openExternalBrowser=1',
         text: '快來算算自己的退休金夠不夠！',
     }
 

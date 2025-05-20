@@ -1,10 +1,10 @@
 ---
-description: 《金錢整理術》：金錢整理術、小錢包存錢法、存錢筆記本、培養整理習慣。適合重視財務整理、想自動化收支管理、好奇如何實踐省錢的人。
+description: 從保險與退休到投資與收支分配，用工程師的視角打造一套自動化、抗情緒、能跑一輩子的理財架構。
 outline: deep
 ---
-# 無痛理財：涵蓋理財框架、退休規劃及投資進階的全方位指南
+# 理財機房：設計穩定、無腦又好用的金錢系統
 
-探索深入的無痛理財世界。這裡涵蓋了理財框架、退休規劃以及投資進階管道等多樣化主題，為您提供專業的資訊和實用建議。無論您是金融新手或有一定經驗，這些內容都能夠幫助您理解金融領域中的重要概念和方法。讓我們一同探索，有效管理財富，為未來做好準備。
+從保險與退休到投資與收支分配，用工程師的視角打造一套自動化、抗情緒、能跑一輩子的理財架構。
 
 ## 講座系列
 
@@ -18,10 +18,6 @@ outline: deep
 
 <DigitalDocuments :items="storyItems"></DigitalDocuments>
 
-## 外部優質課程
-
-<Courses :modelValue="courseItems"></Courses>
-
 <script setup>
 import DigitalDocuments from './components/digitalDocuments.vue'
 import Courses from './components/courses.vue'
@@ -32,6 +28,13 @@ const digitalDocumentItems = [
         name: '理財框架',
         keywords: ['開源', '節流', '投資', '風險控制'],
         audience: ['剛出社會的新鮮人', '想掌握理財觀念全貌的人', '總覺得理財很難的人'],
+        rating: 3
+    },
+    {
+        url: './finance/investment',
+        name: '投資進階管道',
+        keywords: ['證券', '太陽能', '加密貨幣', '天使投資'],
+        audience: ['對純被動收入好奇的人', '想遠離看盤或沒時間看盤的人', '怕被騙或是歸零的人'],
         rating: 3
     },
     {
@@ -49,28 +52,21 @@ const digitalDocumentItems = [
         rating: 3
     },
     {
-        url: './finance/investment',
-        name: '投資進階管道',
-        keywords: ['證券', '太陽能', '加密貨幣', '天使投資'],
-        audience: ['對純被動收入好奇的人', '想遠離看盤或沒時間看盤的人', '怕被騙或是歸零的人'],
-        rating: 3
+        url: './finance/insurance',
+        name: '不買保險的保險觀',
+        keywords: ['健保與醫療險', '癌症險', '長照險', '儲蓄險', '自己保保險'],
+        audience: ['沒保過保險的新鮮人', '不想保保險的人', '不太知道自己保了什麼鬼東西的人'],
+        rating: 2
     },
 ]
 
 const storyItems = [
     {
-        url: './finance/single',
+        url: './finance/management',
         name: '金錢整理術',
         keywords: ['金錢整理術', '小錢包存錢法', '存錢筆記本', '培養整理習慣'],
         audience: ['意識到"整理"財務很重要的人', '想自動化收支管理的人', '對如何實踐省錢概念感到好奇的人'],
         rating: 3
-    },
-    {
-        url: './finance/insurance',
-        name: '醫生買保險',
-        keywords: ['健保與醫療險', '癌症險', '長照險', '儲蓄險', '自己保保險'],
-        audience: ['沒保過保險的新鮮人', '不想保保險的人', '不太知道自己保了什麼鬼東西的人'],
-        rating: 2
     },
 ]
 
@@ -115,7 +111,7 @@ onMounted(() => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "金融理財",
-                "item": "https://econ-sense.com/finance"
+                "item": "https://en-chu.com/finance"
             }]
         },
     ]

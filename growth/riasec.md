@@ -5,11 +5,11 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: /career/holland.webp
+      content: /growth/holland.webp
   - - meta
     - name: og:url
       property: og:url
-      content: /career/holland.html
+      content: /growth/holland.html
 ---
 
 # NLP職涯與興趣何倫碼測驗：探索適合你的職業發展方向
@@ -85,7 +85,7 @@ head:
 
 這個測驗對我來說非常有價值，因為它不僅確認了我的多個職業興趣和技能，還提供了寶貴的洞見，幫助我更深入地理解我與現有職業和個人興趣相關的潛在職業道路。以下是我的何倫碼雷達圖，它呈現了我的興趣分佈，這幫助我理解了自己在各領域的潛力和偏好：
 
-![何倫碼雷達圖](https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E4%BD%95%E5%80%AB%E9%9B%B7%E9%81%94.webp)
+![何倫碼雷達圖](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/growth/riasec/%E4%BD%95%E5%80%AB%E9%9B%B7%E9%81%94.webp)
 
 ### 個人職業興趣結果
 
@@ -138,14 +138,14 @@ import Photos from '../components/photos.vue'
 
 const courseItems = [
     {
-        image: '/career/springTime.png',
+        image: '/growth/springTime.png',
         description: `「探索潛意識，聆聽內心的回聲，擁抱真實，成為你心靈的騎象人。」
 助人 NLP 國際認證課程・心理學專業培訓課程・沙龍活動體驗`,
         name: '韶光心理學苑',
         url: 'https://springtimenlp.com/',
     },
     {
-        image: '/career/education.png',
+        image: '/growth/education.png',
         description: `人生設計心理諮商專業團隊成立於2010年，總部亞洲職業生涯發展中心位於香港，於北京、上海與成都設有分中心，由海內外一流心理、教育與商業諮詢碩博士組成。
 結合臨床實務經驗與數據分析技術, 提供中英文專業心理諮商、情感與伴侶諮詢、職業生涯諮詢、企業內部訓練、線上/線下課程、學校生涯輔導、專業人員訓練…等服務，為來談者找理想的人生方向。`,
         name: '人生設計卡課程',
@@ -171,19 +171,19 @@ const bookItems = [
 
 const photoItems = [
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E6%B5%B7%E5%A0%B1.webp",
+        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/growth/riasec/%E6%B5%B7%E5%A0%B1.webp",
         alt: "聯合海報",
     },
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E5%B0%88%E6%A5%AD%E8%BF%91%E7%85%A7.webp",
+        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/growth/riasec/%E5%B0%88%E6%A5%AD%E8%BF%91%E7%85%A7.webp",
         alt: "專業近照",
     },
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E5%A4%A7%E5%A0%B4%E9%81%A0%E7%85%A7.webp",
+        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/growth/riasec/%E5%A4%A7%E5%A0%B4%E9%81%A0%E7%85%A7.webp",
         alt: "大場遠照",
     },
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/career/riasec/%E5%A4%A7%E6%9C%83%E5%90%88%E7%85%A7.webp",
+        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/growth/riasec/%E5%A4%A7%E6%9C%83%E5%90%88%E7%85%A7.webp",
         alt: "大會合照",
     },
 ]
