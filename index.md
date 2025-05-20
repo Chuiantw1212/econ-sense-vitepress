@@ -15,6 +15,9 @@ hero:
     - theme: brand 
       text: 講座排程
       link: /calendar
+    - theme: brand 
+      text: 心火七職測驗
+      link: /calendar
     - theme: alt
       text: 關於EN Chu
       link: /about 

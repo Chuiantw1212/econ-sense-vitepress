@@ -45,6 +45,10 @@ export default defineConfig({
         text: '線上/實體講座',
         link: '/calendar',
       },
+        {
+        text: '心火七職測驗',
+        link: '/core7',
+      },
       {
         text: '理財機房',
         link: '/finance',
