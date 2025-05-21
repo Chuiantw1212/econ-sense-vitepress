@@ -54,12 +54,12 @@ export default defineConfig({
         link: '/finance',
         collapsed: false,
         items: [
+          { text: '金錢人格DNA', link: '/finance/personality' },
           { text: '理財框架', link: '/finance/framework' },
           { text: '投資進階管道', link: '/finance/investment' },
           { text: '退休規劃(上)', link: '/finance/retirement-1' },
           { text: '退休規劃(下)', link: '/finance/retirement-2' },
           { text: '不買保險的保險觀', link: '/finance/insurance' },
-          { text: '金錢人格DNA', link: '/finance/behavior' },
           { text: '財商桌遊-小富翁大贏家', link: '/finance/financemj' },
         ]
       },
