@@ -5,7 +5,7 @@ head:
   - - meta
     - name: og:image
       property: og:image
-      content: https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8B).jpg
+      content: https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8B).jpg
 ---
 
 # 退休規劃（下）：全面考量財務、醫療、法律及生死規劃
@@ -14,7 +14,7 @@ head:
 
 這篇退休規劃指南綜合了各方資源，旨在為讀者提供在財務、醫療、法律及生死議題上的清晰路徑，助您規劃一個安心、充實的退休生活。
 
-![冬瓜行旅](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E5%86%AC%E7%93%9C%E8%A1%8C%E6%97%85.webp "冬瓜行旅")
+![冬瓜行旅](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E5%86%AC%E7%93%9C%E8%A1%8C%E6%97%85.webp "冬瓜行旅")
 
 ## 財務
 
@@ -38,7 +38,7 @@ head:
 推薦好友加入還可獲得**LINE POINTS**，並增加中獎機會，機會難得，快來參加！  
 詳情請上[壽險公會保險存摺網站](https://insurtech.lia-roc.org.tw/)了解更多資訊！
 
-![保險存摺](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E4%BF%9D%E9%9A%AA%E5%AD%98%E6%91%BA.webp "保險存摺")
+![保險存摺](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E4%BF%9D%E9%9A%AA%E5%AD%98%E6%91%BA.webp "保險存摺")
 
 ### 應急保險清冊
 
@@ -50,7 +50,7 @@ head:
 
 透過這樣的表格整理，保戶可以在急需理賠或諮詢時迅速找到對應的聯絡人，縮短處理時間，確保保障及時到位。此外，這種方式也方便家屬在不熟悉保單細節的情況下，快速找到適合的保障和聯絡窗口，確保需求得到即時處理，使保障安排更加完善與透明。
 
-![保險清冊示意圖](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E4%BF%9D%E9%9A%AA%E6%B8%85%E5%86%8A%E7%A4%BA%E6%84%8F%E5%9C%96.webp "保險清冊示意圖")
+![保險清冊示意圖](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E4%BF%9D%E9%9A%AA%E6%B8%85%E5%86%8A%E7%A4%BA%E6%84%8F%E5%9C%96.webp "保險清冊示意圖")
 
 ### 數位資產
 
@@ -68,7 +68,7 @@ head:
 
 通過將以上數位資產資訊妥善記錄並傳達給信任的家人或朋友，可以確保在不幸離世後，家屬能順利處理和保留這些資產，避免因密碼遺失或無法管理而造成的損失。
 
-![數位資產範例](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E6%95%B8%E4%BD%8D%E8%B3%87%E7%94%A2%E7%AF%84%E4%BE%8B.webp "數位資產範例")
+![數位資產範例](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E6%95%B8%E4%BD%8D%E8%B3%87%E7%94%A2%E7%AF%84%E4%BE%8B.webp "數位資產範例")
 
 ### 海外券商 vs 國內複委託
 
@@ -88,7 +88,7 @@ head:
 
 總結而言，從退休規劃角度看，複委託雖然在手續費上較高，但其資產管理、法律風險及繼承便捷性上更具優勢，更適合退休後長期的資產配置需求。
 
-![複委託](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E8%A4%87%E5%A7%94%E8%A8%97.webp "複委託")
+![複委託](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E8%A4%87%E5%A7%94%E8%A8%97.webp "複委託")
 
 ### 金融資產
 
@@ -150,7 +150,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 因此，為了確保能夠順利進行大體捐贈，建議大家在生前保持身體健康，維持適當的體重和身材。不僅有助於健康生活，也能讓這項捐贈心願更容易實現。更多有關大體捐贈的具體條件和流程，可參考[高雄醫學大學的捐獻遺體作業準則](http://lawdb.kmu.edu.tw/index.php/%E6%8D%90%E7%8D%BB%E9%81%BA%E9%AB%94%E4%BD%9C%E6%A5%AD%E6%BA%96%E5%89%87)，該準則提供詳細的條件說明和捐贈流程。
 
-![大體捐贈](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E5%A4%A7%E9%AB%94%E6%8D%90%E8%B4%88.webp "大體捐贈")
+![大體捐贈](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E5%A4%A7%E9%AB%94%E6%8D%90%E8%B4%88.webp "大體捐贈")
 
 ## 法律
 
@@ -179,7 +179,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 意定監護契約不僅節省時間，也確保個人意願靈活地得以實行，為未來的生活提供更高的靈活性和保障。
 
-![監護差異](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E7%9B%A3%E8%AD%B7%E5%B7%AE%E7%95%B0.webp "監護差異")
+![監護差異](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E7%9B%A3%E8%AD%B7%E5%B7%AE%E7%95%B0.webp "監護差異")
 
 ### 遺產稅與壽險給付
 
@@ -211,7 +211,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 妥善利用壽險作為稅源，不僅能確保遺產的合法分配，還能有效降低家屬的稅務負擔，讓資產傳承更加穩定有序。
 
-![房地現值](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E6%88%BF%E5%9C%B0%E7%8F%BE%E5%80%BC.webp "房地現值")
+![房地現值](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E6%88%BF%E5%9C%B0%E7%8F%BE%E5%80%BC.webp "房地現值")
 
 ### 各種節稅管道
 
@@ -252,7 +252,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 特留份的規定旨在確保法定繼承人，在面對遺產分配時能保有基本的經濟安全，並避免因遺囑內容設定不當而造成的不公平現象。然而，主張特留份的過程可能涉及複雑的法律程序。因此，對於有此需求的社會大眾來說，尋求專業法律援助以撰寫合適的遺囑至關重要，這不僅有助於確保法律權益，也可以避免未來可能出現的繁瑣法律糾紛。
 
-![特留分割](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E7%89%B9%E7%95%99%E5%88%86%E5%89%B2.webp "特留分割")
+![特留分割](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E7%89%B9%E7%95%99%E5%88%86%E5%89%B2.webp "特留分割")
 
 ### 遺囑種類及差異
 
@@ -280,7 +280,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 最終，法院裁定張榮發的密封遺囑符合程序，具法律效力。此案例提醒立遺囑人，密封遺囑雖具隱密性，但應同時考慮與家族成員之間的溝通，以避免遺囑公開後引發不必要的爭議。
 
-![遺囑參考](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%81%BA%E5%9B%91%E5%8F%83%E8%80%83.webp "遺囑參考")
+![遺囑參考](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E9%81%BA%E5%9B%91%E5%8F%83%E8%80%83.webp "遺囑參考")
 
 ## 生死
 
@@ -298,7 +298,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 即便以最簡化的方式進行，葬禮對生者而言仍是重要的告別儀式。家屬如需適度的紀念儀式或情感支持，建議可向[冬瓜行旅](https://owt.com.tw/)等專業服務者尋求協助，確保在儉約之餘滿足心靈上的慰藉。
 
-![環保葬](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E7%92%B0%E4%BF%9D%E8%91%AC.webp "環保葬")
+![環保葬](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E7%92%B0%E4%BF%9D%E8%91%AC.webp "環保葬")
 
 ### 身後事之後 - 遺產稅
 
@@ -326,7 +326,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 保險給付在整個流程中至關重要，不僅能快速提供喪葬費用，還可以作為遺產稅的主要繳納來源，確保整體過程順利完成。遺產的正式繼承需要先繳納遺產稅，而壽險的死亡給付能填補這一需求，避免家屬在短時間內承受額外的財務壓力。即便94%的家庭實際無需繳納遺產稅，喪葬費用和相關法律手續仍需準備充分。建議家屬按照表格中的順序辦理相關手續，以避免任何流程延誤或文件遺漏。
 
 
-![單一窗口查詢金融遺產](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E5%96%AE%E4%B8%80%E7%AA%97%E5%8F%A3%E6%9F%A5%E8%A9%A2%E9%87%91%E8%9E%8D%E9%81%BA%E7%94%A2.webp "單一窗口查詢金融遺產")
+![單一窗口查詢金融遺產](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E5%96%AE%E4%B8%80%E7%AA%97%E5%8F%A3%E6%9F%A5%E8%A9%A2%E9%87%91%E8%9E%8D%E9%81%BA%E7%94%A2.webp "單一窗口查詢金融遺產")
 
 ### 身後事之後 - 財產繼承
 
@@ -356,7 +356,7 @@ ACP 和 AD 的設置能讓個人更早確立並傳達其醫療意願，減輕家
 
 透過上述兩種途徑，勞工在家屬過世時可以獲得一定的經濟協助，減輕喪葬負擔。
 
-![職工福利委員會](https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E8%81%B7%E5%B7%A5%E7%A6%8F%E5%88%A9%E5%A7%94%E5%93%A1%E6%9C%83.webp "職工福利委員會")
+![職工福利委員會](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E8%81%B7%E5%B7%A5%E7%A6%8F%E5%88%A9%E5%A7%94%E5%93%A1%E6%9C%83.webp "職工福利委員會")
 
 ### 單程行李箱
 
@@ -452,19 +452,19 @@ const bookItems = [
 
 const photoItems = [
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%BD%8A%E6%96%87%E8%97%9D%E5%AE%A41.webp",
+        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E9%BD%8A%E6%96%87%E8%97%9D%E5%AE%A41.webp",
         alt: "齊文藝室",
     },
     {
-        src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E7%BE%A4%E7%9B%8A%E8%AD%89%E5%88%B8.webp",
+        src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E7%BE%A4%E7%9B%8A%E8%AD%89%E5%88%B8.webp",
         alt: "群益證券",
     },
     // {
-    //     src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727523.webp",
+    //     src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement/727523.webp",
     //     alt: "過程",
     // },
     // {
-    //    src: "https://storage.googleapis.com/public.econ-sense.com/finance/retirement/727516.webp",
+    //    src: "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement/727516.webp",
     //     alt: "合照",
     // },
 ]
@@ -484,12 +484,12 @@ onMounted(() => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "金融理財",
-                "item": "https://econ-sense.com/finance"
+                "item": "https://en-chu.com/finance"
             },{
                 "@type": "ListItem",
                 "position": 2,
                 "name": "退休規劃(下)",
-                "item": "https://econ-sense.com/finance/retirement-2"
+                "item": "https://en-chu.com/finance/retirement-2"
             }]
         },
         {
@@ -497,11 +497,11 @@ onMounted(() => {
             "@type": "BlogPosting",
             "author": {
                 "name": "EN Chu",
-                "url": "https://econ-sense.com/about.html",
+                "url": "https://en-chu.com/about.html",
             },
             "dateModified": new Date(page.value.lastUpdated).toISOString(),
             "headline": page.value.title,
-            "image": "https://storage.googleapis.com/public.econ-sense.com/finance/retirement-2/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8B).jpg"
+            "image": "https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/retirement-2/%E9%80%80%E4%BC%91%E8%A6%8F%E5%8A%83(%E4%B8%8B).jpg"
         },
     ]
 

@@ -237,7 +237,7 @@ async function callNavigatorShare(canvas) {
     const shareConfig = {
         files: filesArray,
         title: 'NLP的愛之語',
-        url: `${window.location.href}?openExternalBrowser=1` || 'https://econ-sense.com?openExternalBrowser=1',
+        url: `${window.location.href}?openExternalBrowser=1` || 'https://en-chu.com?openExternalBrowser=1',
         text: '快來測試你的愛之語吧！',
     }
     shareConfig.text = `快來測試你的愛之語吧！`

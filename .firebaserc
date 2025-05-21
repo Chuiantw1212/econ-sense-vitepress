@@ -1,7 +1,7 @@
 {
   "projects": {
-    "default": "econ-sense-9a250",
-    "econ-sense": "econ-sense-9a250"
+    "default": "enchu-8085a",
+    "enchu": "enchu-8085a"
   },
   "targets": {},
   "etags": {}

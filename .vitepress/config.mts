@@ -6,8 +6,8 @@ export default defineConfig({
    * Site Metadata
    * https://vitepress.dev/reference/site-config#site-metadata
    */
-  title: "常識經濟學",
-  description: "歡迎來到『常識經濟學』，您的理財省心好幫手！主打主業省心省力，無需看盤，專注投資自己，陪伴家人。我們以投資為輔，強調輕鬆投資，主打ETF、被動收入、自動化理財，讓您買進忘記，輕鬆無腦。不僅關注金錢，更注重全方位發展，包括心理、法務、醫療等，培養長線思維，免於匱乏。在『常識經濟學』，實用至上，提供流程、表格、SOP等實用工具，即使聽不懂，照著做也能取得成效。讓您輕鬆追求完整不偏食的理財觀念，一同開啟更豐富的生活！",
+  title: "海德堡隱士居",
+  description: "海德堡隱士居是一座認知基地，從本能、制度、架構到實驗，拆解人生的運作邏輯，探索一種有設計感的活法。",
   head: [
     ['link', { rel: 'icon', href: '/logo/常-白底_36.webp' }],
     // https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/?utm_source=lighthouse&utm_medium=devtools
@@ -34,68 +34,79 @@ export default defineConfig({
    */
   themeConfig: {
     nav: [
-      { text: '無痛理財', link: '/finance' },
-      { text: '好好生活', link: '/life' },
-      { text: '職涯發展', link: '/career' },
-      { text: '線上工具', link: '/engineer' },
+      { text: '理財機房', link: '/finance' },
+      { text: '人類觀察室', link: '/human' },
+      { text: '成長艙室', link: '/growth' },
+      { text: '技術研究室', link: '/tech' },
+      { text: '生活實驗室', link: '/life' },
     ],
     sidebar: [
       {
         text: '線上/實體講座',
         link: '/calendar',
       },
-      { text: '開源財務規劃表', link: '/plan' },
+        {
+        text: '心火七職測驗',
+        link: '/core7',
+      },
       {
-        text: '無痛理財',
+        text: '理財機房',
         link: '/finance',
         collapsed: false,
         items: [
+          { text: '金錢人格DNA', link: '/finance/personality' },
           { text: '理財框架', link: '/finance/framework' },
+          { text: '投資進階管道', link: '/finance/investment' },
           { text: '退休規劃(上)', link: '/finance/retirement-1' },
           { text: '退休規劃(下)', link: '/finance/retirement-2' },
-          { text: '投資進階管道', link: '/finance/investment' },
           { text: '不買保險的保險觀', link: '/finance/insurance' },
           { text: '財商桌遊-小富翁大贏家', link: '/finance/financemj' },
-          { text: '說書-金錢整理術', link: '/finance/management' },
-          { text: '說書-金錢性格(含測驗)', link: '/finance/disc' },
         ]
       },
       {
-        text: '好好生活',
+        text: '成長艙室',
+        link: '/growth',
+        collapsed: false,
+        items: [
+          { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
+          { text: '何倫碼測驗&NLP職涯', link: '/growth/riasec' },
+          { text: '軟體專案實務', link: '/growth/project' },
+          { text: '我是學渣，也是黑馬', link: '/growth/education' },
+          { text: '打造知識飛輪', link: '/growth/flywheel' },
+          { text: '說書-金錢整理術', link: '/finance/management' },
+        ]
+      },
+      {
+        text: '人類觀察室',
+        link: '/human',
+        collapsed: false,
+        items: [
+          { text: '愛之語', link: '/human/love-language' },
+          { text: '後備預官的民防心得', link: '/human/war' },
+          { text: '單身狗地獄求生', link: '/human/single' },
+        ]
+      },
+      {
+        text: '生活實驗室',
         link: '/life',
         collapsed: false,
         items: [
-          { text: '從單車休閒到環島全攻略', link: '/life/cycling' },
           { text: '我是照顧者', link: '/life/carer' },
-          { text: '我是學渣，也是黑馬', link: '/life/education' },
-          { text: '單身狗地獄求生', link: '/life/single' },
-          { text: '後備預官的民防心得', link: '/life/war' },
+          { text: '從單車休閒到環島全攻略', link: '/life/cycling' },
           { text: '極簡全齡宅', link: '/life/housing' },
-          { text: '愛之語', link: '/life/love-language' },
         ]
       },
       {
-        text: '職涯發展',
-        link: '/career',
+        text: '技術研究室',
+        link: '/tech',
         collapsed: false,
         items: [
-          { text: 'NLP職涯&何倫碼測驗', link: '/career/riasec' },
-          { text: '軟體專案實務', link: '/career/project' },
-          { text: '打造知識飛輪', link: '/career/flywheel' },
-          { text: '撒豆成兵簡報法', link: '/career/presentation' },
-        ]
-      },
-      {
-        text: '線上工具&工程師專區',
-        link: '/engineer',
-        collapsed: false,
-        items: [
-          { text: '軟體職涯入門', link: '/engineer/beginner' },
-          { text: '網站初學須知', link: '/engineer/web' },
-          { text: '地表最快Node.js', link: '/engineer/nodejs' },
-          { text: 'VitePress無本部落格(上)', link: '/engineer/blog-1' },
-          { text: 'VitePress無本部落格(下)', link: '/engineer/blog-2' },
-          { text: '電腦DIY', link: '/engineer/computer' },
+          { text: '軟體職涯入門', link: '/tech/beginner' },
+          { text: '網站初學須知', link: '/tech/web' },
+          { text: '地表最快Node.js', link: '/tech/nodejs' },
+          { text: 'VitePress無本部落格(上)', link: '/tech/blog-1' },
+          { text: 'VitePress無本部落格(下)', link: '/tech/blog-2' },
+          { text: '電腦DIY', link: '/tech/computer' },
         ]
       },
       {
@@ -158,7 +169,7 @@ export default defineConfig({
       copyright: `Copyright © 2023-${new Date().getFullYear()} EN Chu`
     },
     logo: {
-      src: '/logo/常-白底_36.webp',
+      src: '/logo/logo_24.webp',
       width: '24px',
       height: '24px',
     },
@@ -193,6 +204,6 @@ export default defineConfig({
   },
   /** Experimental */
   sitemap: {
-    hostname: 'https://econ-sense.com'
+    hostname: 'https://en-chu.com'
   },
 })
