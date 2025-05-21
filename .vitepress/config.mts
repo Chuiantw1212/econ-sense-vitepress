@@ -7,7 +7,7 @@ export default defineConfig({
    * https://vitepress.dev/reference/site-config#site-metadata
    */
   title: "海德堡隱士居",
-  description: "海德堡隱士居是一座認知基地，從本能、制度、架構到實驗，拆解人生的運作邏輯，探索一種有設計感的活法。",
+  description: "海德堡隱士居是一座認知實驗基地，專注於性格測驗、財務思維與個人成長策略，帶你深度讀懂自己，用最高CP值接軌世界。",
   head: [
     ['link', { rel: 'icon', href: '/logo/常-白底_36.webp' }],
     // https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/?utm_source=lighthouse&utm_medium=devtools
@@ -35,10 +35,10 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '理財機房', link: '/finance' },
-      { text: '人類觀察室', link: '/human' },
       { text: '成長艙室', link: '/growth' },
-      { text: '技術研究室', link: '/tech' },
+      { text: '人類觀察室', link: '/human' },
       { text: '生活實驗室', link: '/life' },
+      { text: '技術研究室', link: '/tech' },
     ],
     sidebar: [
       {
