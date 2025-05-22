@@ -8,7 +8,6 @@
                 <el-button @click="selectedKeywords = []">重做測驗</el-button>
             </div>
         </template>
-        {{shuffledKeywords}}
         <el-row>
             <el-checkbox-group v-model="selectedKeywords">
                 <el-checkbox v-for="(item, index) in shuffledKeywords" :key="index" :label="item.label"
@@ -166,31 +165,35 @@ const shuffledKeywords = ref<any[]>([])
 const selectedKeywords = ref<any[]>([])
 const core7Codes = ref<{
     label: string,
-    value: 'R' | 'I' | 'A' | 'S' | 'E' | 'C'
+    value: 'Hunter' | 'Gatherer' | 'Helper' | 'Keeper' | 'Maker' | 'Dreamer' | 'Elder'
 }[]>([
     {
-        label: '實做型',
-        value: 'R'
+        label: '狩獵者',
+        value: 'Hunter'
     },
     {
-        label: '研究型',
-        value: 'I'
+        label: '採集者',
+        value: 'Gatherer'
     },
     {
-        label: '藝術型',
-        value: 'A'
+        label: '助人者',
+        value: 'Helper'
     },
     {
-        label: '社會型',
-        value: 'S'
+        label: '傳夢人',
+        value: 'Dreamer',
     },
     {
-        label: '企業型',
-        value: 'E'
+        label: '守夜人',
+        value: 'Keeper'
     },
     {
-        label: '事務型',
-        value: 'C'
+        label: '工匠',
+        value: 'Maker'
+    },
+    {
+        label: '長老',
+        value: 'Elder'
     },
 ])
 const userHollandVectors = ref<number[]>([])
@@ -388,15 +391,16 @@ function drawCharts() {
         return selectedItem?.value || ''
     })
     const core7Raw = {
-        'R': 0,
-        'I': 0,
-        'A': 0,
-        'S': 0,
-        'E': 0,
-        'C': 0,
+        'Hunter': 0,
+        'Gatherer': 0,
+        'Dreamer': 0,
+        'Helper': 0,
+        'Maker': 0,
+        'Elder': 0,
+        'Keeper': 0,
     }
     hollandCodeKeywords.forEach(value => {
-        const code = value[0]
+        const code = value
         core7Raw[code] += 1
     })
     const riasecVectors: number[] = []
@@ -436,7 +440,7 @@ function drawCharts() {
     onHollandCodeChanged()
     // update chart
     const data: any = {
-        labels: ['狩獵者', '採集者', '守夜人', '助人者', '工匠', '長老', '傳夢人'],
+        labels: ['狩獵者', '採集者', '助人者', '傳夢人', '守夜人', '工匠', '長老',],
         datasets: [{
             label: '心火七職',
             data: riasecVectors,
@@ -464,7 +468,7 @@ function drawCharts() {
                 },
                 title: {
                     display: true,
-                    text: '何倫碼雷達圖'
+                    text: '心火七職雷達圖'
                 }
             }
         },
