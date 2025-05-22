@@ -79,9 +79,9 @@
     },
     {
         "Element Name": "Hunter",
-        "Keyword Zh": "領導",
+        "Keyword Zh": "追蹤",
         "Keyword Type": "Action",
-        "Keyword En": "Lead"
+        "Keyword En": "Track"
     },
     {
         "Element Name": "Hunter",
@@ -217,9 +217,9 @@
     },
     {
         "Element Name": "Helper",
-        "Keyword Zh": "安全感",
+        "Keyword Zh": "安定",
         "Keyword Type": "Object",
-        "Keyword En": "Security"
+        "Keyword En": "Stability"
     },
     {
         "Element Name": "Helper",
@@ -243,7 +243,7 @@
         "Element Name": "Gatherer",
         "Keyword Zh": "紀錄",
         "Keyword Type": "Action",
-        "Keyword En": "Record"
+        "Keyword En": "Log"
     },
     {
         "Element Name": "Gatherer",
@@ -295,9 +295,9 @@
     },
     {
         "Element Name": "Gatherer",
-        "Keyword Zh": "記錄",
+        "Keyword Zh": "清單",
         "Keyword Type": "Object",
-        "Keyword En": "Records"
+        "Keyword En": "Inventory"
     },
     {
         "Element Name": "Gatherer",
@@ -313,15 +313,15 @@
     },
     {
         "Element Name": "Maker",
-        "Keyword Zh": "組裝",
+        "Keyword Zh": "配置",
         "Keyword Type": "Action",
-        "Keyword En": "Assemble"
+        "Keyword En": "Configure"
     },
     {
         "Element Name": "Maker",
-        "Keyword Zh": "建造",
+        "Keyword Zh": "工藝",
         "Keyword Type": "Action",
-        "Keyword En": "Construct"
+        "Keyword En": "Craft"
     },
     {
         "Element Name": "Maker",
@@ -397,9 +397,9 @@
     },
     {
         "Element Name": "Elder",
-        "Keyword Zh": "主持",
+        "Keyword Zh": "統整",
         "Keyword Type": "Action",
-        "Keyword En": "Chair"
+        "Keyword En": "Orchestrate"
     },
     {
         "Element Name": "Elder",
@@ -511,9 +511,9 @@
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "異常",
+        "Keyword Zh": "錯位",
         "Keyword Type": "Object",
-        "Keyword En": "Anomaly"
+        "Keyword En": "Disruption"
     },
     {
         "Element Name": "Keeper",
@@ -523,9 +523,9 @@
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "安全",
+        "Keyword Zh": "防護",
         "Keyword Type": "Object",
-        "Keyword En": "Safety"
+        "Keyword En": "Protection"
     },
     {
         "Element Name": "Keeper",
@@ -535,9 +535,9 @@
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "警訊",
+        "Keyword Zh": "風險提示",
         "Keyword Type": "Object",
-        "Keyword En": "Alert"
+        "Keyword En": "Warning"
     },
     {
         "Element Name": "Keeper",
