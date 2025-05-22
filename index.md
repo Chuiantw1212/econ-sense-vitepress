@@ -17,7 +17,7 @@ hero:
       link: /calendar
     - theme: brand 
       text: 心火七職測驗
-      link: /calendar
+      link: /core7
     - theme: alt
       text: 關於EN Chu
       link: /about 
