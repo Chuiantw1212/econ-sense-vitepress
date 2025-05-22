@@ -14,3 +14,9 @@
 你不需要改變本性，只需要照見它，
 順著你內在的節奏理財，才能走得長遠，不再卡住。
 這不是速效解方，而是讓你回到原廠設定的財務使用說明書。
+
+<Core7></Core7>
+
+<script setup lang="ts">
+import Core7 from './components/core7.vue'
+</script>

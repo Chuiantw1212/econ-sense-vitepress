@@ -1,0 +1,548 @@
+[
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "創造",
+        "Keyword Type": "Action",
+        "Keyword En": "Create"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "設計",
+        "Keyword Type": "Action",
+        "Keyword En": "Design"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "構思",
+        "Keyword Type": "Action",
+        "Keyword En": "Ideate"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "寫作",
+        "Keyword Type": "Action",
+        "Keyword En": "Write"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "表演",
+        "Keyword Type": "Action",
+        "Keyword En": "Perform"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "構圖",
+        "Keyword Type": "Action",
+        "Keyword En": "Sketch"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "神話",
+        "Keyword Type": "Object",
+        "Keyword En": "Myth"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "圖像",
+        "Keyword Type": "Object",
+        "Keyword En": "Imagery"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "象徵",
+        "Keyword Type": "Object",
+        "Keyword En": "Symbol"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "角色",
+        "Keyword Type": "Object",
+        "Keyword En": "Character"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "詩意",
+        "Keyword Type": "Object",
+        "Keyword En": "Poetics"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "虛構",
+        "Keyword Type": "Object",
+        "Keyword En": "Fiction"
+    },
+    {
+        "Element Name": "Dreamer",
+        "Keyword Zh": "世界觀",
+        "Keyword Type": "Object",
+        "Keyword En": "Worldview"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "領導",
+        "Keyword Type": "Action",
+        "Keyword En": "Lead"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "行銷",
+        "Keyword Type": "Action",
+        "Keyword En": "Market"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "談判",
+        "Keyword Type": "Action",
+        "Keyword En": "Negotiate"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "衝刺",
+        "Keyword Type": "Action",
+        "Keyword En": "Sprint"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "爭取",
+        "Keyword Type": "Action",
+        "Keyword En": "Pursue"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "挑戰",
+        "Keyword Type": "Action",
+        "Keyword En": "Challenge"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "目標",
+        "Keyword Type": "Object",
+        "Keyword En": "Goal"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "回報",
+        "Keyword Type": "Object",
+        "Keyword En": "Return"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "市場",
+        "Keyword Type": "Object",
+        "Keyword En": "Marketplace"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "競爭",
+        "Keyword Type": "Object",
+        "Keyword En": "Competition"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "風險",
+        "Keyword Type": "Object",
+        "Keyword En": "Risk"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "勝負",
+        "Keyword Type": "Object",
+        "Keyword En": "WinLoss"
+    },
+    {
+        "Element Name": "Hunter",
+        "Keyword Zh": "機會",
+        "Keyword Type": "Object",
+        "Keyword En": "Opportunity"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "教導",
+        "Keyword Type": "Action",
+        "Keyword En": "Teach"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "建議",
+        "Keyword Type": "Action",
+        "Keyword En": "Advise"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "培育",
+        "Keyword Type": "Action",
+        "Keyword En": "Nurture"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "輔導",
+        "Keyword Type": "Action",
+        "Keyword En": "Mentor"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "陪伴",
+        "Keyword Type": "Action",
+        "Keyword En": "Accompany"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "協助",
+        "Keyword Type": "Action",
+        "Keyword En": "Assist"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "人群",
+        "Keyword Type": "Object",
+        "Keyword En": "People"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "健康",
+        "Keyword Type": "Object",
+        "Keyword En": "Health"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "情感",
+        "Keyword Type": "Object",
+        "Keyword En": "Emotion"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "需求",
+        "Keyword Type": "Object",
+        "Keyword En": "Needs"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "安全感",
+        "Keyword Type": "Object",
+        "Keyword En": "Security"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "支持",
+        "Keyword Type": "Object",
+        "Keyword En": "Support"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "關係",
+        "Keyword Type": "Object",
+        "Keyword En": "Relationship"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "分類",
+        "Keyword Type": "Action",
+        "Keyword En": "Categorize"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "紀錄",
+        "Keyword Type": "Action",
+        "Keyword En": "Record"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "觀察",
+        "Keyword Type": "Action",
+        "Keyword En": "Observe"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "分析",
+        "Keyword Type": "Action",
+        "Keyword En": "Analyze"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "整理",
+        "Keyword Type": "Action",
+        "Keyword En": "Organize"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "研究",
+        "Keyword Type": "Action",
+        "Keyword En": "Research"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "樣本",
+        "Keyword Type": "Object",
+        "Keyword En": "Samples"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "資訊",
+        "Keyword Type": "Object",
+        "Keyword En": "Information"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "數據",
+        "Keyword Type": "Object",
+        "Keyword En": "Data"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "標籤",
+        "Keyword Type": "Object",
+        "Keyword En": "Labels"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "記錄",
+        "Keyword Type": "Object",
+        "Keyword En": "Records"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "文獻",
+        "Keyword Type": "Object",
+        "Keyword En": "Literature"
+    },
+    {
+        "Element Name": "Gatherer",
+        "Keyword Zh": "資料庫",
+        "Keyword Type": "Object",
+        "Keyword En": "Database"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "組裝",
+        "Keyword Type": "Action",
+        "Keyword En": "Assemble"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "建造",
+        "Keyword Type": "Action",
+        "Keyword En": "Construct"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "修理",
+        "Keyword Type": "Action",
+        "Keyword En": "Repair"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "操作",
+        "Keyword Type": "Action",
+        "Keyword En": "Operate"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "安裝",
+        "Keyword Type": "Action",
+        "Keyword En": "Install"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "調整",
+        "Keyword Type": "Action",
+        "Keyword En": "Adjust"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "工具",
+        "Keyword Type": "Object",
+        "Keyword En": "Tools"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "設備",
+        "Keyword Type": "Object",
+        "Keyword En": "Equipment"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "材料",
+        "Keyword Type": "Object",
+        "Keyword En": "Materials"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "零件",
+        "Keyword Type": "Object",
+        "Keyword En": "Parts"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "構造",
+        "Keyword Type": "Object",
+        "Keyword En": "Structure"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "原型",
+        "Keyword Type": "Object",
+        "Keyword En": "Prototype"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "成品",
+        "Keyword Type": "Object",
+        "Keyword En": "Product"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "決策",
+        "Keyword Type": "Action",
+        "Keyword En": "Decide"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "主持",
+        "Keyword Type": "Action",
+        "Keyword En": "Chair"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "治理",
+        "Keyword Type": "Action",
+        "Keyword En": "Govern"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "統籌",
+        "Keyword Type": "Action",
+        "Keyword En": "Coordinate"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "裁定",
+        "Keyword Type": "Action",
+        "Keyword En": "Arbitrate"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "規劃",
+        "Keyword Type": "Action",
+        "Keyword En": "Plan"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "制度",
+        "Keyword Type": "Object",
+        "Keyword En": "Systems"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "資源",
+        "Keyword Type": "Object",
+        "Keyword En": "Resources"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "準則",
+        "Keyword Type": "Object",
+        "Keyword En": "Standards"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "格局",
+        "Keyword Type": "Object",
+        "Keyword En": "Scope"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "原則",
+        "Keyword Type": "Object",
+        "Keyword En": "Principles"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "遠見",
+        "Keyword Type": "Object",
+        "Keyword En": "Vision"
+    },
+    {
+        "Element Name": "Elder",
+        "Keyword Zh": "傳承",
+        "Keyword Type": "Object",
+        "Keyword En": "Legacy"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "監測",
+        "Keyword Type": "Action",
+        "Keyword En": "Monitor"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "防範",
+        "Keyword Type": "Action",
+        "Keyword En": "Prevent"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "巡查",
+        "Keyword Type": "Action",
+        "Keyword En": "Patrol"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "警戒",
+        "Keyword Type": "Action",
+        "Keyword En": "Guard"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "保全",
+        "Keyword Type": "Action",
+        "Keyword En": "Secure"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "備援",
+        "Keyword Type": "Action",
+        "Keyword En": "Backup"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "邊界",
+        "Keyword Type": "Object",
+        "Keyword En": "Boundary"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "異常",
+        "Keyword Type": "Object",
+        "Keyword En": "Anomaly"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "紀律",
+        "Keyword Type": "Object",
+        "Keyword En": "Discipline"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "安全",
+        "Keyword Type": "Object",
+        "Keyword En": "Safety"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "徵兆",
+        "Keyword Type": "Object",
+        "Keyword En": "Signal"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "警訊",
+        "Keyword Type": "Object",
+        "Keyword En": "Alert"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "耐性",
+        "Keyword Type": "Object",
+        "Keyword En": "Endurance"
+    }
+]
