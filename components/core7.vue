@@ -19,8 +19,8 @@
         <div class="buttonGroup">
             <el-button v-if="isAnalyzed" class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
                 @click="shareRadar()">分享雷達圖</el-button>
-            <el-button v-else class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
-                @click="forwardToTable()">前往職務適性比較</el-button>
+            <!-- <el-button v-else class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
+                @click="forwardToTable()">前往職務適性比較</el-button> -->
         </div>
         <template #footer>
             <el-collapse>
@@ -35,7 +35,7 @@
             </el-collapse>
         </template>
     </el-card>
-    <h2 id="職務適性比較" tabindex="-1">職務適性比較 <a class="header-anchor" href="#職務適性比較"
+    <!-- <h2 id="職務適性比較" tabindex="-1">職務適性比較 <a class="header-anchor" href="#職務適性比較"
             aria-label="Permalink to &quot;職務適性比較&quot;">&ZeroWidthSpace;</a></h2>
     <el-card>
         <el-form-item label="何倫碼">
@@ -139,7 +139,7 @@
                 </el-collapse-item>
             </el-collapse>
         </template>
-    </el-card>
+    </el-card> -->
 </template>
 <script setup lang="ts">
 interface hollandItem {
