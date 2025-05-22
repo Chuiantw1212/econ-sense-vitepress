@@ -372,7 +372,6 @@ async function initializeKeywords() {
             value: item['Element Name']
         }
     })
-    console.log(formatKeywords)
     const firstShuffledResult: {
         label: string,
         value: string,
@@ -393,11 +392,11 @@ function drawCharts() {
     const core7Raw = {
         'Hunter': 0,
         'Gatherer': 0,
-        'Dreamer': 0,
         'Helper': 0,
+        'Dreamer': 0,
+        'Keeper': 0,
         'Maker': 0,
         'Elder': 0,
-        'Keeper': 0,
     }
     hollandCodeKeywords.forEach(value => {
         const code = value
