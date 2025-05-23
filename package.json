@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
-    "predeploy": "pnpm run build",
+    "predeploy": "pnpm run build"
   },
   "repository": {
     "type": "git",
