@@ -17,8 +17,8 @@
         <br />
         <canvas id="core7"></canvas>
         <div class="buttonGroup">
-            <el-button v-if="isAnalyzed" class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
-                @click="shareRadar()">分享雷達圖</el-button>
+            <el-button v-if="isAnalyzed || selectedKeywords.length >= 20" class="form__button" type="primary"
+                :disabled="selectedKeywords.length < 10" @click="shareRadar()">分享雷達圖</el-button>
             <!-- <el-button v-else class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
                 @click="forwardToTable()">前往職務適性比較</el-button> -->
         </div>
