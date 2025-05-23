@@ -258,13 +258,13 @@ async function callNavigatorShare(canvas) {
         url: `${window.location.href}?openExternalBrowser=1` || 'https://en-chu.com?openExternalBrowser=1',
         text: '透過七種人類原型角色，探索你內在的行動偏好與生存天性，產出專屬雷達圖！',
     }
-    if (selectedCodesOrigin.value.length) {
-        const core7CodeString = selectedCodesOrigin.value.join()
-        const userLabels = core7Codes.value.filter(item => {
-            return selectedCodesOrigin.value.includes(item.value)
-        }).map(item => item.label).join('、')
-        shareConfig.text = `我的Holland Code是${core7CodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`
-    }
+    // if (selectedCodesOrigin.value.length) {
+    //     const core7CodeString = selectedCodesOrigin.value.join()
+    //     const userLabels = core7Codes.value.filter(item => {
+    //         return selectedCodesOrigin.value.includes(item.value)
+    //     }).map(item => item.label).join('、')
+    //     shareConfig.text = `我的心火七職是${core7CodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`
+    // }
 
     try {
         navigator.share(shareConfig);
