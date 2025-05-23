@@ -9,7 +9,7 @@ export default defineConfig({
   title: "海德堡隱士居",
   description: "海德堡隱士居是一座認知實驗基地，專注於性格測驗、財務思維與個人成長策略，帶你深度讀懂自己，用最高CP值接軌世界。",
   head: [
-    ['link', { rel: 'icon', href: '/logo/常-白底_36.webp' }],
+    ['link', { rel: 'icon', href: '/logo/favicon.ico' }],
     // https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/?utm_source=lighthouse&utm_medium=devtools
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
