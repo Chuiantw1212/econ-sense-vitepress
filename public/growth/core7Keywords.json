@@ -55,9 +55,9 @@
     },
     {
         "Element Name": "Dreamer",
-        "Keyword Zh": "意象",
+        "Keyword Zh": "虛構",
         "Keyword Type": "Object",
-        "Keyword En": "Motif"
+        "Keyword En": "Fiction"
     },
     {
         "Element Name": "Dreamer",
@@ -121,15 +121,15 @@
     },
     {
         "Element Name": "Hunter",
-        "Keyword Zh": "回報",
+        "Keyword Zh": "獎酬",
         "Keyword Type": "Object",
-        "Keyword En": "Return"
+        "Keyword En": "Reward"
     },
     {
         "Element Name": "Hunter",
-        "Keyword Zh": "市場",
+        "Keyword Zh": "領地",
         "Keyword Type": "Object",
-        "Keyword En": "Market"
+        "Keyword En": "Territory"
     },
     {
         "Element Name": "Hunter",
@@ -223,9 +223,9 @@
     },
     {
         "Element Name": "Helper",
-        "Keyword Zh": "陪伴",
+        "Keyword Zh": "同理",
         "Keyword Type": "Object",
-        "Keyword En": "Companionship"
+        "Keyword En": "Empathy"
     },
     {
         "Element Name": "Helper",
@@ -277,9 +277,9 @@
     },
     {
         "Element Name": "Gatherer",
-        "Keyword Zh": "資訊",
+        "Keyword Zh": "洞見",
         "Keyword Type": "Object",
-        "Keyword En": "Information"
+        "Keyword En": "Insight"
     },
     {
         "Element Name": "Gatherer",
@@ -319,9 +319,9 @@
     },
     {
         "Element Name": "Maker",
-        "Keyword Zh": "建造",
+        "Keyword Zh": "打造",
         "Keyword Type": "Action",
-        "Keyword En": "Build"
+        "Keyword En": "Craft"
     },
     {
         "Element Name": "Maker",
@@ -355,9 +355,9 @@
     },
     {
         "Element Name": "Maker",
-        "Keyword Zh": "設備",
+        "Keyword Zh": "工作坊",
         "Keyword Type": "Object",
-        "Keyword En": "Equipment"
+        "Keyword En": "Workshop"
     },
     {
         "Element Name": "Maker",
@@ -493,9 +493,9 @@
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "維護",
+        "Keyword Zh": "保存",
         "Keyword Type": "Action",
-        "Keyword En": "Maintain"
+        "Keyword En": "Preserve"
     },
     {
         "Element Name": "Keeper",
