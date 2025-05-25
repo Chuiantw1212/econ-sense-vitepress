@@ -97,9 +97,9 @@
     },
     {
         "Element Name": "Hunter",
-        "Keyword Zh": "爭取",
+        "Keyword Zh": "突襲",
         "Keyword Type": "Action",
-        "Keyword En": "Pursue"
+        "Keyword En": "Raid"
     },
     {
         "Element Name": "Hunter",
@@ -475,15 +475,15 @@
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "護送",
+        "Keyword Zh": "巡守",
         "Keyword Type": "Action",
-        "Keyword En": "Escort"
+        "Keyword En": "Patrol"
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "鞏固",
+        "Keyword Zh": "守護",
         "Keyword Type": "Action",
-        "Keyword En": "Fortify"
+        "Keyword En": "Safeguard"
     },
     {
         "Element Name": "Keeper",
@@ -505,7 +505,7 @@
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "守護",
+        "Keyword Zh": "防護",
         "Keyword Type": "Object",
         "Keyword En": "Protection"
     },
