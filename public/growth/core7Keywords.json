@@ -469,43 +469,43 @@
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "監測",
+        "Keyword Zh": "留意",
         "Keyword Type": "Action",
-        "Keyword En": "Monitor"
+        "Keyword En": "Notice"
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "巡守",
+        "Keyword Zh": "照看",
         "Keyword Type": "Action",
-        "Keyword En": "Patrol"
+        "Keyword En": "Look after"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "確保",
+        "Keyword Type": "Action",
+        "Keyword En": "Ensure"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "檢查",
+        "Keyword Type": "Action",
+        "Keyword En": "Check"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "維護",
+        "Keyword Type": "Action",
+        "Keyword En": "Maintain"
+    },
+    {
+        "Element Name": "Keeper",
+        "Keyword Zh": "防範",
+        "Keyword Type": "Action",
+        "Keyword En": "Prevent"
     },
     {
         "Element Name": "Keeper",
         "Keyword Zh": "守護",
-        "Keyword Type": "Action",
-        "Keyword En": "Safeguard"
-    },
-    {
-        "Element Name": "Keeper",
-        "Keyword Zh": "稽核",
-        "Keyword Type": "Action",
-        "Keyword En": "Audit"
-    },
-    {
-        "Element Name": "Keeper",
-        "Keyword Zh": "保存",
-        "Keyword Type": "Action",
-        "Keyword En": "Preserve"
-    },
-    {
-        "Element Name": "Keeper",
-        "Keyword Zh": "保全",
-        "Keyword Type": "Action",
-        "Keyword En": "Secure"
-    },
-    {
-        "Element Name": "Keeper",
-        "Keyword Zh": "防護",
         "Keyword Type": "Object",
         "Keyword En": "Protection"
     },
@@ -517,9 +517,9 @@
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "徵兆",
+        "Keyword Zh": "異動",
         "Keyword Type": "Object",
-        "Keyword En": "Signal"
+        "Keyword En": "Anomaly"
     },
     {
         "Element Name": "Keeper",
@@ -529,20 +529,20 @@
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "韌性",
+        "Keyword Zh": "穩定性",
         "Keyword Type": "Object",
-        "Keyword En": "Resilience"
+        "Keyword En": "Stability"
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "延續",
+        "Keyword Zh": "備案",
         "Keyword Type": "Object",
-        "Keyword En": "Continuity"
+        "Keyword En": "Backup Plan"
     },
     {
         "Element Name": "Keeper",
-        "Keyword Zh": "耐性",
+        "Keyword Zh": "餘裕",
         "Keyword Type": "Object",
-        "Keyword En": "Endurance"
+        "Keyword En": "Margin"
     }
 ]
