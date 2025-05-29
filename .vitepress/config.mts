@@ -60,6 +60,7 @@ export default defineConfig({
           { text: '退休規劃(上)', link: '/finance/retirement-1' },
           { text: '退休規劃(下)', link: '/finance/retirement-2' },
           { text: '不買保險的保險觀', link: '/finance/insurance' },
+          { text: '說書-金錢整理術', link: '/finance/management' },
           { text: '財商桌遊-小富翁大贏家', link: '/finance/financemj' },
         ]
       },
@@ -73,7 +74,6 @@ export default defineConfig({
           { text: '軟體專案實務', link: '/growth/project' },
           { text: '我是學渣，也是黑馬', link: '/growth/education' },
           { text: '打造知識飛輪', link: '/growth/flywheel' },
-          { text: '說書-金錢整理術', link: '/finance/management' },
         ]
       },
       {
