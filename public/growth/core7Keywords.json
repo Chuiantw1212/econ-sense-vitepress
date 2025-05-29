@@ -37,15 +37,15 @@
     },
     {
         "Element Name": "Dreamer",
-        "Keyword Zh": "神話",
-        "Keyword Type": "Object",
-        "Keyword En": "Myth"
+        "Keyword Zh": "插畫",
+        "Keyword Type": "Action",
+        "Keyword En": "Illustrate"
     },
     {
         "Element Name": "Dreamer",
-        "Keyword Zh": "圖像",
+        "Keyword Zh": "神話",
         "Keyword Type": "Object",
-        "Keyword En": "Imagery"
+        "Keyword En": "Myth"
     },
     {
         "Element Name": "Dreamer",
@@ -55,15 +55,15 @@
     },
     {
         "Element Name": "Dreamer",
-        "Keyword Zh": "虛構",
+        "Keyword Zh": "圖像",
         "Keyword Type": "Object",
-        "Keyword En": "Fiction"
+        "Keyword En": "Imagery"
     },
     {
         "Element Name": "Dreamer",
-        "Keyword Zh": "詩意",
+        "Keyword Zh": "虛構",
         "Keyword Type": "Object",
-        "Keyword En": "Poetry"
+        "Keyword En": "Fiction"
     },
     {
         "Element Name": "Dreamer",
@@ -115,6 +115,12 @@
     },
     {
         "Element Name": "Hunter",
+        "Keyword Zh": "偵察",
+        "Keyword Type": "Action",
+        "Keyword En": "Scout"
+    },
+    {
+        "Element Name": "Hunter",
         "Keyword Zh": "標靶",
         "Keyword Type": "Object",
         "Keyword En": "Target"
@@ -130,12 +136,6 @@
         "Keyword Zh": "領地",
         "Keyword Type": "Object",
         "Keyword En": "Territory"
-    },
-    {
-        "Element Name": "Hunter",
-        "Keyword Zh": "競爭",
-        "Keyword Type": "Object",
-        "Keyword En": "Competition"
     },
     {
         "Element Name": "Hunter",
@@ -187,21 +187,21 @@
     },
     {
         "Element Name": "Helper",
-        "Keyword Zh": "安慰",
+        "Keyword Zh": "安撫",
         "Keyword Type": "Action",
         "Keyword En": "Soothe"
+    },
+    {
+        "Element Name": "Helper",
+        "Keyword Zh": "舒緩",
+        "Keyword Type": "Action",
+        "Keyword En": "Comfort"
     },
     {
         "Element Name": "Helper",
         "Keyword Zh": "人群",
         "Keyword Type": "Object",
         "Keyword En": "People"
-    },
-    {
-        "Element Name": "Helper",
-        "Keyword Zh": "健康",
-        "Keyword Type": "Object",
-        "Keyword En": "Health"
     },
     {
         "Element Name": "Helper",
@@ -223,9 +223,9 @@
     },
     {
         "Element Name": "Helper",
-        "Keyword Zh": "同理",
+        "Keyword Zh": "健康",
         "Keyword Type": "Object",
-        "Keyword En": "Empathy"
+        "Keyword En": "Health"
     },
     {
         "Element Name": "Helper",
@@ -271,15 +271,15 @@
     },
     {
         "Element Name": "Gatherer",
-        "Keyword Zh": "樣本",
-        "Keyword Type": "Object",
-        "Keyword En": "Samples"
+        "Keyword Zh": "收集",
+        "Keyword Type": "Action",
+        "Keyword En": "Collect"
     },
     {
         "Element Name": "Gatherer",
-        "Keyword Zh": "洞見",
+        "Keyword Zh": "樣本",
         "Keyword Type": "Object",
-        "Keyword En": "Insight"
+        "Keyword En": "Samples"
     },
     {
         "Element Name": "Gatherer",
@@ -295,6 +295,12 @@
     },
     {
         "Element Name": "Gatherer",
+        "Keyword Zh": "洞見",
+        "Keyword Type": "Object",
+        "Keyword En": "Insight"
+    },
+    {
+        "Element Name": "Gatherer",
         "Keyword Zh": "證據",
         "Keyword Type": "Object",
         "Keyword En": "Evidence"
@@ -304,12 +310,6 @@
         "Keyword Zh": "文獻",
         "Keyword Type": "Object",
         "Keyword En": "Literature"
-    },
-    {
-        "Element Name": "Gatherer",
-        "Keyword Zh": "資料庫",
-        "Keyword Type": "Object",
-        "Keyword En": "Database"
     },
     {
         "Element Name": "Maker",
@@ -427,6 +427,12 @@
     },
     {
         "Element Name": "Elder",
+        "Keyword Zh": "授權",
+        "Keyword Type": "Action",
+        "Keyword En": "Delegate"
+    },
+    {
+        "Element Name": "Elder",
         "Keyword Zh": "制度",
         "Keyword Type": "Object",
         "Keyword En": "Systems"
@@ -454,12 +460,6 @@
         "Keyword Zh": "遠見",
         "Keyword Type": "Object",
         "Keyword En": "Vision"
-    },
-    {
-        "Element Name": "Elder",
-        "Keyword Zh": "格局",
-        "Keyword Type": "Object",
-        "Keyword En": "Scale"
     },
     {
         "Element Name": "Elder",
@@ -505,6 +505,12 @@
     },
     {
         "Element Name": "Keeper",
+        "Keyword Zh": "示警",
+        "Keyword Type": "Action",
+        "Keyword En": "Alert"
+    },
+    {
+        "Element Name": "Keeper",
         "Keyword Zh": "守護",
         "Keyword Type": "Object",
         "Keyword En": "Protection"
@@ -538,11 +544,5 @@
         "Keyword Zh": "備案",
         "Keyword Type": "Object",
         "Keyword En": "Backup Plan"
-    },
-    {
-        "Element Name": "Keeper",
-        "Keyword Zh": "餘裕",
-        "Keyword Type": "Object",
-        "Keyword En": "Margin"
     }
 ]
