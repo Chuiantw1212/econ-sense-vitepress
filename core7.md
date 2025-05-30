@@ -77,7 +77,7 @@ head:
 | 🛠 Maker    | ★★★          | ★★★★         |
 | 🦉 Elder    | ★★★          | ★★★★★        |
 | 🍇 Gatherer | ★★           | ★★★★         |
-| 🫂 Helper   | ★★           | ★★           |
+| 🫂 Helper   | ★★           | ★★★           |
 | 🛡 Keeper   | ★            | ★★★          |
 
 ## 心火七職脈絡
