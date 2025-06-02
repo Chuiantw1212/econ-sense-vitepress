@@ -60,8 +60,8 @@ export default defineConfig({
           { text: '退休規劃(上)', link: '/finance/retirement-1' },
           { text: '退休規劃(下)', link: '/finance/retirement-2' },
           { text: '不買保險的保險觀', link: '/finance/insurance' },
-          { text: '說書-金錢整理術', link: '/finance/management' },
-          { text: '財商桌遊-小富翁大贏家', link: '/finance/financemj' },
+          { text: '說書: 金錢整理術', link: '/finance/management' },
+          { text: '財商桌遊: 小富翁大贏家', link: '/finance/financemj' },
         ]
       },
       {
@@ -81,6 +81,7 @@ export default defineConfig({
         link: '/human',
         collapsed: false,
         items: [
+          { text: '說書: 人類大歷史', link: '/human/sapiens' },
           { text: '愛之語', link: '/human/love-language' },
           { text: '後備預官的民防心得', link: '/human/war' },
           { text: '單身狗地獄求生', link: '/human/single' },
