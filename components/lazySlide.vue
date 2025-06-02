@@ -18,7 +18,7 @@
 </template>
 <script setup lang="ts">
 import { ref, useTemplateRef, onMounted, } from 'vue'
-import { ElMessage, } from 'element-plus'
+import { ElMessage } from 'element-plus'
 const isLoaded = ref(false)
 const downloadLink = ref('')
 const slideWrap = useTemplateRef<Element>('slideWrap')
@@ -56,15 +56,15 @@ function setDownloadLink() {
     }
 }
 function loadAndDownload() {
-    ElMessage({
-        dangerouslyUseHTMLString: true,
-        message: `分享連結於社群後，截圖通知<a href='mailto:chuiantw1212@gmail.com'>chuiantw1212@gmail.com</a>即可索取`,
-    })
-    // const link = document.createElement('a')
-    // link.href = downloadLink.value
-    // document.body.appendChild(link);
-    // link.click()
-    // document.body.removeChild(link);
+    // ElMessage({
+    //     dangerouslyUseHTMLString: true,
+    //     message: `分享連結於社群後，截圖通知<a href='mailto:chuiantw1212@gmail.com'>chuiantw1212@gmail.com</a>即可索取`,
+    // })
+    const link = document.createElement('a')
+    link.href = downloadLink.value
+    document.body.appendChild(link);
+    link.click()
+    document.body.removeChild(link);
 }
 </script>
 <style lang="scss" scoped>
