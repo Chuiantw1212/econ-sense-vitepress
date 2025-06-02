@@ -18,6 +18,23 @@
     <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vScrdcYzDXvdhj_n3HN0hCWAr3WcrcxzF41kOeBwtPs4raiLhJG_H08PPMWL_Pwelf40grEZo7SrJty/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420px" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
+## 延伸閱讀
+
+<Books :modelValue="bookItems"></Books>
+
 <script setup>
 import LazySlide from '../components/lazySlide.vue'
+import Books from '../components/books.vue'
+
+const bookItems = [
+    {
+        id: '11100833200',
+        name: '人類大歷史：從野獸到扮演上帝',
+        desc: `<p>《人類大歷史》為什麼能夠在國際暢銷書榜上爆衝？
+原因很簡單，它處理的是歷史的大問題、現代世界的大問題，
+而且，它的寫作風格是刻骨銘心的生動。你會愛上它！</p>
+<p>——戴蒙（Jared Diamond），普立茲獎巨著《槍炮、病菌與鋼鐵》作者</p>`,
+    },
+]
+
 </script>
