@@ -191,7 +191,7 @@ async function setSelecOptionSync() {
     }
     try {
         const bankConfigPromises = [
-            fetch(`${VITE_BASE_URL}/select`),
+            fetch(`${VITE_BASE_URL}/meta/select`),
             fetch(`${VITE_BASE_URL}/bank/config/interestRate`),
             fetch(`${VITE_BASE_URL}/bank/config/portfolioIrr`),
         ]
