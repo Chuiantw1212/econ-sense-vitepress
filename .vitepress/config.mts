@@ -60,8 +60,8 @@ export default defineConfig({
           { text: '退休規劃(上)', link: '/finance/retirement-1' },
           { text: '退休規劃(下)', link: '/finance/retirement-2' },
           { text: '不買保險的保險觀', link: '/finance/insurance' },
-          { text: '說書: 金錢整理術', link: '/finance/management' },
-          { text: '財商桌遊: 小富翁大贏家', link: '/finance/financemj' },
+          // { text: '說書: 金錢整理術', link: '/finance/management' },
+          // { text: '財商桌遊: 小富翁大贏家', link: '/finance/financemj' },
         ]
       },
       {
@@ -72,8 +72,8 @@ export default defineConfig({
           { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
           { text: '何倫碼測驗&NLP職涯', link: '/growth/riasec' },
           { text: '軟體專案實務', link: '/growth/project' },
-          { text: '我是學渣，也是黑馬', link: '/growth/education' },
-          { text: '打造知識飛輪', link: '/growth/flywheel' },
+          // { text: '我是學渣，也是黑馬', link: '/growth/education' },
+          // { text: '打造知識飛輪', link: '/growth/flywheel' },
         ]
       },
       {
@@ -82,7 +82,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '說書: 人類大歷史', link: '/human/sapiens' },
-          { text: '愛之語', link: '/human/love-language' },
+          { text: '人生關卡的演化解答', link: '/human/evolution' },
           { text: '後備預官的民防心得', link: '/human/war' },
           { text: '單身狗地獄求生', link: '/human/single' },
         ]
@@ -93,8 +93,9 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '我是照顧者', link: '/life/carer' },
+          { text: '愛之語', link: '/life/love-language' },
           { text: '從單車休閒到環島全攻略', link: '/life/cycling' },
-          { text: '極簡全齡宅', link: '/life/housing' },
+          // { text: '極簡全齡宅', link: '/life/housing' },
         ]
       },
       {

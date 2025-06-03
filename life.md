@@ -34,13 +34,13 @@ const digitalDocumentItems = [
         audience: ['想為了照顧父母做準備的人', '想減輕家人負擔的長輩', '被各種長照術語搞得很亂的人'],
         rating: 1
     },
-    {
-        url: './life/housing',
-        name: '極簡全齡宅',
-        keywords: ['斷捨離', '全齡宅設計'],
-        audience: ['想看斷捨離如何實踐的人', '好奇斷捨離與裝修有何關聯的人', '想準備宜居的房子給自己與家人者'],
-        rating: 2
-    },
+//     {
+//         url: './life/housing',
+//         name: '極簡全齡宅',
+//         keywords: ['斷捨離', '全齡宅設計'],
+//         audience: ['想看斷捨離如何實踐的人', '好奇斷捨離與裝修有何關聯的人', '想準備宜居的房子給自己與家人者'],
+//         rating: 2
+//     },
 ]
 
 const courseItems = [

@@ -19,6 +19,12 @@ outline: deep
     <tbody>
         <tr>
             <td>
+                <a href="../core7.html">心火七職測驗</a>
+            </td>
+            <td>基於人類學假說做出的財務行為預測。</td>
+        </tr>
+        <tr>
+            <td>
                 <a href="../plan.html">開源財務規畫表</a>
             </td>
             <td>主要做給有勞保身份的社會大眾(受僱員工/中小企業主)的財務計算機。</td>
