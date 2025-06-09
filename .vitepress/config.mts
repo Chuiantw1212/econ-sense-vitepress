@@ -35,8 +35,8 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '理財機房', link: '/finance' },
-      { text: '成長艙室', link: '/growth' },
       { text: '人類觀察室', link: '/human' },
+      { text: '成長艙室', link: '/growth' },
       { text: '生活實驗室', link: '/life' },
       { text: '技術研究室', link: '/tech' },
     ],
@@ -65,6 +65,18 @@ export default defineConfig({
         ]
       },
       {
+        text: '人類觀察室',
+        link: '/human',
+        collapsed: false,
+        items: [
+          { text: '心火七職: 🏹 狩獵者', link: '/human/hunter' },
+          { text: '說書: 人類大歷史', link: '/human/sapiens' },
+          { text: '人生關卡的演化解答', link: '/human/evolution' },
+          { text: '後備預官的民防心得', link: '/human/war' },
+          { text: '單身狗地獄求生', link: '/human/single' },
+        ]
+      },
+      {
         text: '成長艙室',
         link: '/growth',
         collapsed: false,
@@ -74,18 +86,6 @@ export default defineConfig({
           { text: '軟體專案實務', link: '/growth/project' },
           // { text: '我是學渣，也是黑馬', link: '/growth/education' },
           // { text: '打造知識飛輪', link: '/growth/flywheel' },
-        ]
-      },
-      {
-        text: '人類觀察室',
-        link: '/human',
-        collapsed: false,
-        items: [
-          { text: '心火七職: 狩獵者', link: '/human/hunter' },
-          { text: '說書: 人類大歷史', link: '/human/sapiens' },
-          { text: '人生關卡的演化解答', link: '/human/evolution' },
-          { text: '後備預官的民防心得', link: '/human/war' },
-          { text: '單身狗地獄求生', link: '/human/single' },
         ]
       },
       {
