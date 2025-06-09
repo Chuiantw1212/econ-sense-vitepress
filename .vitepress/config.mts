@@ -81,6 +81,7 @@ export default defineConfig({
         link: '/human',
         collapsed: false,
         items: [
+          { text: '心火七職: 狩獵者', link: '/human/hunter' },
           { text: '說書: 人類大歷史', link: '/human/sapiens' },
           { text: '人生關卡的演化解答', link: '/human/evolution' },
           { text: '後備預官的民防心得', link: '/human/war' },
