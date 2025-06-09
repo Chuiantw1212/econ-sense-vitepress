@@ -71,6 +71,7 @@ export default defineConfig({
         items: [
           { text: '心火七職: 🏹 狩獵者', link: '/human/hunter' },
           { text: '心火七職: 🍇 採集者', link: '/human/gatherer' },
+          { text: '心火七職: 🫂 助人者', link: '/human/helper' },
           { text: '說書: 人類大歷史', link: '/human/sapiens' },
           { text: '人生關卡的演化解答', link: '/human/evolution' },
           { text: '後備預官的民防心得', link: '/human/war' },
