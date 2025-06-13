@@ -38,7 +38,7 @@ export default defineConfig({
       { text: '人類觀察室', link: '/human' },
       { text: '成長艙室', link: '/growth' },
       { text: '生活實驗室', link: '/life' },
-      { text: '技術研究室', link: '/tech' },
+      // { text: '技術研究室', link: '/tech' },
     ],
     sidebar: [
       {
