@@ -38,7 +38,7 @@ head:
 | ⛰️ Elder    | 記憶保留、節奏定錨 | [了解長老](/human/elder.html)      |
 | 🛡 Keeper   | 邊界防守、風險警覺 | [了解守夜人](/human/keeper.html)   |
 | 🦋 Dreamer  | 意象構築、直覺敘事 | [了解傳夢人](/human/dreamer.html)  |
-| 🫂 Helper   | 情感照應、人際補位 | [了解助人者](/human/helper.htmlr)   |
+| 🫂 Helper   | 情感照應、人際補位 | [了解助人者](/human/helper.html)   |
 
 ## 心火七職角色排行
 
