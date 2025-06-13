@@ -319,51 +319,9 @@
     },
     {
         "Element Name": "Maker",
-        "Keyword Zh": "拼貼",
+        "Keyword Zh": "修理",
         "Keyword Type": "Action",
-        "Keyword En": "Collage"
-    },
-    {
-        "Element Name": "Maker",
-        "Keyword Zh": "色感",
-        "Keyword Type": "Object",
-        "Keyword En": "Color Sense"
-    },
-    {
-        "Element Name": "Maker",
-        "Keyword Zh": "工藝",
-        "Keyword En": "Craft",
-        "Keyword Type": "Object"
-    },
-    {
-        "Element Name": "Maker",
-        "Keyword Zh": "裝飾",
-        "Keyword Type": "Action",
-        "Keyword En": "Decorate"
-    },
-    {
-        "Element Name": "Maker",
-        "Keyword Zh": "光澤",
-        "Keyword Type": "Object",
-        "Keyword En": "Finish"
-    },
-    {
-        "Element Name": "Maker",
-        "Keyword Zh": "線條",
-        "Keyword Type": "Object",
-        "Keyword En": "Linework"
-    },
-    {
-        "Element Name": "Maker",
-        "Keyword Zh": "素材",
-        "Keyword Type": "Object",
-        "Keyword En": "Materials"
-    },
-    {
-        "Element Name": "Maker",
-        "Keyword Zh": "改造",
-        "Keyword Type": "Action",
-        "Keyword En": "Modify"
+        "Keyword En": "Repair"
     },
     {
         "Element Name": "Maker",
@@ -373,15 +331,57 @@
     },
     {
         "Element Name": "Maker",
-        "Keyword Zh": "優化",
-        "Keyword En": "Refine",
-        "Keyword Type": "Action"
+        "Keyword Zh": "改造",
+        "Keyword Type": "Action",
+        "Keyword En": "Modify"
     },
     {
         "Element Name": "Maker",
-        "Keyword Zh": "修理",
+        "Keyword Zh": "優化",
         "Keyword Type": "Action",
-        "Keyword En": "Repair"
+        "Keyword En": "Refine"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "打樣",
+        "Keyword Type": "Action",
+        "Keyword En": "Prototype"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "組裝",
+        "Keyword Type": "Action",
+        "Keyword En": "Assemble"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "素材",
+        "Keyword Type": "Object",
+        "Keyword En": "Materials"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "工藝",
+        "Keyword Type": "Object",
+        "Keyword En": "Craft"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "線條",
+        "Keyword Type": "Object",
+        "Keyword En": "Linework"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "光澤",
+        "Keyword Type": "Object",
+        "Keyword En": "Finish"
+    },
+    {
+        "Element Name": "Maker",
+        "Keyword Zh": "結構",
+        "Keyword Type": "Object",
+        "Keyword En": "Structure"
     },
     {
         "Element Name": "Maker",
