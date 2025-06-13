@@ -78,7 +78,7 @@ export default defineConfig({
           { text: '心火七職: ⛰️ 長老', link: '/human/elder' },
           { text: '說書: 人類大歷史', link: '/human/sapiens' },
           { text: '人生關卡的演化解答', link: '/human/evolution' },
-          { text: '後備預官的民防心得', link: '/human/war' },
+          // { text: '後備預官的民防心得', link: '/human/war' },
           { text: '單身狗地獄求生', link: '/human/single' },
         ]
       },

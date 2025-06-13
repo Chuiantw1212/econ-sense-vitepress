@@ -27,13 +27,13 @@ const digitalDocumentItems = [
         audience: ['想了解低生育率成因的人', '選擇或被迫單身一輩子的人', '介於兩者之間的人'],
         rating: 2
     },
-     {
-        url: './human/war',
-        name: '後備預官的民防心得',
-        keywords: ['統一大夢', '備戰與反戰', '戰爭期間的假想','人民真正能做的事'],
-        audience: ['台灣人',],
-        rating: 2
-    },
+    // {
+    //     url: './human/war',
+    //     name: '後備預官的民防心得',
+    //     keywords: ['統一大夢', '備戰與反戰', '戰爭期間的假想','人民真正能做的事'],
+    //     audience: ['台灣人',],
+    //     rating: 2
+    // },
 ]
 
 // SEO Structued Data
