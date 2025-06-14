@@ -75,7 +75,7 @@ export default defineConfig({
           { text: '心火七職: 🛡 守夜人', link: '/human/keeper' },
           { text: '心火七職: 🦋 傳夢人', link: '/human/dreamer' },
           { text: '心火七職: 🛠 工匠', link: '/human/maker' },
-          { text: '心火七職: ⛰️ 長老', link: '/human/elder' },
+          { text: '心火七職: 🌳 長老', link: '/human/elder' },
           { text: '說書: 人類大歷史', link: '/human/sapiens' },
           { text: '人生關卡的演化解答', link: '/human/evolution' },
           // { text: '後備預官的民防心得', link: '/human/war' },
