@@ -15,11 +15,11 @@ outline: deep
 import DigitalDocuments from './components/digitalDocuments.vue'
 
 const digitalDocumentItems = [
-    {
-        url: './human/love-language',
-        name: '愛之語測驗',
-        rating: 1
-    },
+    // {
+    //     url: './human/love-language',
+    //     name: '愛之語測驗',
+    //     rating: 1
+    // },
     {
         url: './human/single',
         name: '單身狗地獄求生',
