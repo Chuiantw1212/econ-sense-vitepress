@@ -157,15 +157,22 @@ head:
     <!-- <img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cafe.webp" alt=精實創業咖啡館認證講師> -->
 </div>
 
-### 環島/泳渡
+### 單車環島
 
-環島：2020, 2022, 2023, 2024
-
-泳渡：2023, 2024
+2020, 2022, 2023, 2024
 
 <div style="display:flex;flex-wrap:wrap;">
     <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cycling1.webp" alt=環島>
+</div>
+
+
+### 泳渡
+
+2023, 2024, 2025
+
+<div style="display:flex;flex-wrap:wrap;">
     <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/swimming.webp" alt=泳渡>
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/keelung.webp" alt=環島>
 </div>
 
 <script setup>
