@@ -77,7 +77,7 @@ export default defineConfig({
           { text: '心火七職: 🌳 長老', link: '/human/elder' },
           { text: '心火七職: 🤝 協商者', link: '/human/negotiator' },
           { text: '說書: 人類大歷史', link: '/human/sapiens' },
-          { text: '人生關卡的演化解答', link: '/human/evolution' },
+          // { text: '人生關卡的演化解答', link: '/human/evolution' },
           // { text: '後備預官的民防心得', link: '/human/war' },
           { text: '單身狗地獄求生', link: '/human/single' },
         ]
@@ -89,7 +89,7 @@ export default defineConfig({
         items: [
           { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
           { text: '何倫碼測驗&NLP職涯', link: '/growth/riasec' },
-          { text: '軟體專案實務', link: '/growth/project' },
+          // { text: '軟體專案實務', link: '/growth/project' },
           // { text: '我是學渣，也是黑馬', link: '/growth/education' },
           // { text: '打造知識飛輪', link: '/growth/flywheel' },
         ]
@@ -100,7 +100,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: '我是照顧者', link: '/life/carer' },
-          { text: '愛之語', link: '/life/love-language' },
+          // { text: '愛之語', link: '/life/love-language' },
           { text: '從單車休閒到環島全攻略', link: '/life/cycling' },
         ]
       },
