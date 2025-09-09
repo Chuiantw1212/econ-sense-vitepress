@@ -30,7 +30,7 @@ description: 人類社會的性別制度如何從母系走向父權？本文透�
 
 在母系社會的假想場景中，**共育（co-parenting / cooperative breeding）** 是核心概念：**「一群人養一群小孩」**，育兒責任分攤至母親以外的照顧者（alloparents），降低單一雙親的負擔。這一路徑最具代表性的學術論述，見人類學家 Sarah Blaffer Hrdy 對「同育／旁育」的系統整理，以及靈長類比較研究對人類合作養育與社會認知演化的關聯分析（[Hrdy, *Mothers and Others*, 2009](https://www.hup.harvard.edu/books/9780674060326)；[Burkart, Hrdy & van Schaik, 2009](https://onlinelibrary.wiley.com/doi/10.1002/evan.20222)）。  
 
-支持「共育可提高群體反應與照護投入」的證據之一，來自**嬰兒哭聲的聲學量測**。研究對新生兒的哭聲刺激量測顯示可達約 **80–86 dB** 的峰值（[Field et al., 2007](https://pmc.ncbi.nlm.nih.gov/articles/PMC2031923/)），而針對較大年齡嬰幼兒與兒童的實測則記錄到約 **99–120 dB(A)** 的範圍（[Calderon et al., 2016](https://pubmed.ncbi.nlm.nih.gov/25844672/)；另見學生研究報告綜整 **99–110 dB(A)** 的紀錄，[Carney, 2014](https://encompass.eku.edu/cgi/viewcontent.cgi?article=1011&context=ugra)）。此類**高強度、具穿透性**的哭聲，在群體近距離生活情境中，具備迅速喚起周遭成人注意與協助的功能，與「多位看護者被動／主動投入」的共育機制相容。 
+支持「共育可提高群體反應與照護投入」的證據之一，來自**嬰兒哭聲的聲學量測**。研究對新生兒的哭聲刺激量測顯示可達約 **80–86 dB** 的峰值（[Field et al., 2007](https://pmc.ncbi.nlm.nih.gov/articles/PMC2031923/)），而針對較大年齡嬰幼兒與兒童的實測則記錄到約 **99–120 dB(A)** 的範圍（[Calderon et al., 2016](https://pubmed.ncbi.nlm.nih.gov/25844672/)。此類**高強度、具穿透性**的哭聲，在群體近距離生活情境中，具備迅速喚起周遭成人注意與協助的功能，與「多位看護者被動／主動投入」的共育機制相容。 
 
 綜合而論，「共育」並非僅指母親與固定伴侶的合作，而是**整個社群的照護分工**：從祖母、舅舅到年長手足，皆可能成為有效的照顧者。這種制度安排，降低了個體對單一父親長期供養與在場的依賴，讓**社群本身**成為嬰兒的主要保護網（[Hrdy, 2009](https://www.hup.harvard.edu/books/9780674060326)；[Burkart et al., 2009](https://onlinelibrary.wiley.com/doi/10.1002/evan.20222)）。  
 
