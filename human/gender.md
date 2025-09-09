@@ -13,23 +13,26 @@ description: 人類社會的性別制度如何從母系走向父權？本文透�
 
 如果說歷史是一場巨大的實驗，那麼性別制度正是人類在這場實驗中不斷調整的解答。理解這些制度的多樣性，不僅能幫助我們看清過去，也能啟發我們思考：未來的人類，在新的挑戰與環境壓力下，會走向怎樣的制度？
 
-## 產道困境前：母系社會
+## 產道困境前：母系社會  
 
-在人類演化史的早期，「產道困境」尚未成為顯著問題，嬰兒的頭部尺寸相對較小，分娩難度也沒有後來那麼高。這意味著，母親不需要長期、專一的伴侶投入，也能獨立撫養孩子。在這樣的條件下，群體更可能呈現**母系社會**的樣貌。
+在人類演化史的早期，「產道困境」尚未成為顯著問題：嬰兒的頭部相對較小、分娩難度不如現代明顯。母親無需長期依賴特定伴侶，也能獨立撫養孩子。在此環境下，群體更可能呈現**母系社會**的樣貌。  
 
-### 靈長類對照與母系模式
+### 靈長類對照與母系模式  
 
-理解這段歷史，我們常透過靈長類的行為來推測。倭黑猩猩是一個極具啟發性的對照案例：牠們以母系聯盟維繫群體秩序，雄性地位多半取決於母親的社會資源。倭黑猩猩的「鼓掌」行為（性行為）頻繁且多為社交用途，而非單純繁殖——研究顯示，平均每兩小時就會發生一次，而且有 60% 是雌性彼此之間的互動。這種模式降低了雄性之間的競爭，讓母系聯盟能夠主導群體。
+理解這段歷史，我們往往觀察靈長類—尤其[倭黑猩猩](https://doi.org/10.1016/j.anbehav.1999.08.006)的行為。牠們展現母系聯盟主導社群秩序，雄性地位多取決於母親的影響力。研究指出，當性的功能超越繁衍目的時，其社交用途更為突出。例如雌性同伴之間的互動平均每兩小時就有一次，這有助於降低雄性間競爭，強化母系聯盟的穩定性（[Hohmann & Fruth, *Animal Behaviour*, 2000](https://doi.org/10.1006/anbe.1999.1319)）。  
 
-另一個值得注意的特徵是「陰莖骨」。許多雄性競爭激烈的物種（如海象、獅子）都有明顯的陰莖骨，以支撐高頻交配壓力。然而在人類祖先中，陰莖骨逐漸退化甚至消失。有學者認為，這可能與母系社會下的「群交模式」相關：性行為不再只是繁殖手段，而是社交與合作的黏合劑，降低了雄性競爭的必要性。
+另一個值得注意的特徵是[陰莖骨](https://doi.org/10.1098/rspb.2016.1046)（baculum）。在靈長類與其他哺乳動物中，它普遍存在，支撐長時間或頻繁交配；但在人類演化過程中逐漸消失。研究者提出，這可能與人類轉向較穩定的配偶制有關，使得性行為更短暫、更頻繁，而非依靠陰莖骨來維持（[Brindle & Opie, *Proceedings of the Royal Society B*, 2016](https://doi.org/10.1098/rspb.2016.1046)）。  
+
 
 ![海象雄競](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/human/gender/海象雄競.webp "海象雄競")
 
-### 共育假說與群體撫養
+### 共育假說與群體撫養  
 
-在母系社會的假想場景中，**共育（co-parenting）** 是一個核心概念。這種模式假設「一群人養一群小孩」，因此誰是孩子的父親並不重要。考古與人類學推測，早期人類可能沒有嚴格的親子觀念，而是將生育成本視為整個部落的責任。
+在母系社會的假想場景中，**共育（co-parenting / cooperative breeding）** 是核心概念：**「一群人養一群小孩」**，育兒責任分攤至母親以外的照顧者（alloparents），降低單一雙親的負擔。這一路徑最具代表性的學術論述，見人類學家 Sarah Blaffer Hrdy 對「同育／旁育」的系統整理，以及靈長類比較研究對人類合作養育與社會認知演化的關聯分析（[Hrdy, *Mothers and Others*, 2009](https://www.hup.harvard.edu/books/9780674060326)；[Burkart, Hrdy & van Schaik, 2009](https://onlinelibrary.wiley.com/doi/10.1002/evan.20222)）。  
 
-支持這個觀點的證據之一來自於「嬰兒夜哭」。研究指出，嬰兒夜間的哭聲音量可達 80–110 分貝，幾乎能吵醒整個營地。在沒有火與堅固庇護的時代，這種現象反而促進了「全營警覺」的效果。部落中的成年人因而共同投入嬰兒照料，無形中強化了共育的需求。這也意味著，母親不必完全依賴某一位父親，整個群體就是嬰兒的保護傘。
+支持「共育可提高群體反應與照護投入」的證據之一，來自**嬰兒哭聲的聲學量測**。研究對新生兒的哭聲刺激量測顯示可達約 **80–86 dB** 的峰值（[Field et al., 2007](https://pmc.ncbi.nlm.nih.gov/articles/PMC2031923/)），而針對較大年齡嬰幼兒與兒童的實測則記錄到約 **99–120 dB(A)** 的範圍（[Calderon et al., 2016](https://pubmed.ncbi.nlm.nih.gov/25844672/)；另見學生研究報告綜整 **99–110 dB(A)** 的紀錄，[Carney, 2014](https://encompass.eku.edu/cgi/viewcontent.cgi?article=1011&context=ugra)）。此類**高強度、具穿透性**的哭聲，在群體近距離生活情境中，具備迅速喚起周遭成人注意與協助的功能，與「多位看護者被動／主動投入」的共育機制相容。 
+
+綜合而論，「共育」並非僅指母親與固定伴侶的合作，而是**整個社群的照護分工**：從祖母、舅舅到年長手足，皆可能成為有效的照顧者。這種制度安排，降低了個體對單一父親長期供養與在場的依賴，讓**社群本身**成為嬰兒的主要保護網（[Hrdy, 2009](https://www.hup.harvard.edu/books/9780674060326)；[Burkart et al., 2009](https://onlinelibrary.wiley.com/doi/10.1002/evan.20222)）。  
 
 ### 母系社會的限制與現代痕跡
 
@@ -206,3 +209,7 @@ description: 人類社會的性別制度如何從母系走向父權？本文透�
 <LazySlide shareLink="https://docs.google.com/presentation/d/1TXARZTneU8njHQKdWR9KhMT4CjxGQmoh6NtSytsfm-k/edit?usp=sharing">
     <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vToPjtvf77p5xwoP1qIfFjxYxokxp1Pn3ULrNb7mKliGRHjZ6G9X1m_8JpquE32wOTAVTWULKnTe624/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420px" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
+
+### 評價
+
+<iframe title="Google Sheets" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS8Euw-oaxIyE9R2dNCjOOEi0V6iqMIg-Ctt7h3MsxM1SFQW6qsIqJWau_173COicXj9bd-frcWIPwa/pubhtml?widget=true&amp;headers=false" width="100%" height="420">></iframe>
