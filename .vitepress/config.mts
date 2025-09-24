@@ -49,6 +49,21 @@ export default defineConfig({
         link: '/core7',
       },
       {
+        text: '七職詳細解說',
+        collapsed: true,
+        items: [
+          { text: '心火七職: 🏹 狩獵者', link: '/core7/hunter' },
+          { text: '心火七職: 🍇 採集者', link: '/core7/gatherer' },
+          { text: '心火七職: 🫂 助人者', link: '/core7/helper' },
+          { text: '心火七職: 🛡 守夜人', link: '/core7/keeper' },
+          { text: '心火七職: 🦋 傳夢人', link: '/core7/dreamer' },
+          { text: '心火七職: 🛠 工匠', link: '/core7/maker' },
+          { text: '心火七職: 🌳 長老', link: '/core7/elder' },
+          { text: '心火七職: 🤝 協商者', link: '/core7/negotiator' },
+        ]
+        // link: 'core7'
+      },
+      {
         text: '理財機房',
         link: '/finance',
         collapsed: false,
@@ -68,19 +83,12 @@ export default defineConfig({
         link: '/human',
         collapsed: false,
         items: [
-          { text: '心火七職: 🏹 狩獵者', link: '/human/hunter' },
-          { text: '心火七職: 🍇 採集者', link: '/human/gatherer' },
-          { text: '心火七職: 🫂 助人者', link: '/human/helper' },
-          { text: '心火七職: 🛡 守夜人', link: '/human/keeper' },
-          { text: '心火七職: 🦋 傳夢人', link: '/human/dreamer' },
-          { text: '心火七職: 🛠 工匠', link: '/human/maker' },
-          { text: '心火七職: 🌳 長老', link: '/human/elder' },
-          { text: '心火七職: 🤝 協商者', link: '/human/negotiator' },
-          { text: '說書: 人類大歷史', link: '/human/sapiens' },
           { text: '人類學性別', link: '/human/gender' },
+          { text: '人類學工作', link: '/human/work' },
           // { text: '人生關卡的演化解答', link: '/human/evolution' },
           // { text: '後備預官的民防心得', link: '/human/war' },
           { text: '單身狗地獄求生', link: '/human/single' },
+          { text: '說書: 人類大歷史', link: '/human/sapiens' },
         ]
       },
       {
