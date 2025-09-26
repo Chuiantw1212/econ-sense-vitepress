@@ -45,13 +45,11 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 ### 植物栽培與女性的勞動角色
 
-早期農業多以 [鋤耕](https://en.wikipedia.org/wiki/Hoe-farming) 為主。女性在農業革命初期常是主要的植物耕作者，負責播種、除草與翻土；這與她們在採集社會累積的植物識別與季節知識相關，也見於對近東新石器時代的性別—生計研究（可參考 [早期農業社會的性別動態](https://www.jstor.org/stable/10.1086/605512)）。
+早期農業多以 **[鋤耕／鍬作](https://en.wikipedia.org/wiki/Hoe-farming)** 為主。女性在農業革命初期常是主要的植物耕作者，負責播種、除草與翻土；這與她們在採集社會累積的植物辨識與季節知識相連，使其在作物選擇與田間管理上占有優勢。
 
-長期重複的田間勞動，會在骨骼上留下痕跡，例如脊椎、膝關節或上肢的負荷變化。這類現象在考古人骨的上肢 **[肌肉骨骼壓力標記](https://pubmed.ncbi.nlm.nih.gov/15022359/)** 研究中有被量化與比較，用以推測不同性別在勞動類型上的差異。
+就動機而言，最初的「女性帶頭種植」完全有可能與生存壓力相關，用以降低 **[資源競爭](https://en.wikipedia.org/wiki/Broad_spectrum_revolution)** 的風險。考古學已在農業興起之前就發現明確的人際暴力證據，例如尼羅河流域 **[Jebel Sahaba](https://www.nature.com/articles/s41598-021-89386-y)** 與東非 **[Nataruk](https://www.cam.ac.uk/research/news/evidence-of-a-prehistoric-massacre-extends-the-history-of-warfare)**，顯示在狩獵採集群體之間，衝突與競逐早已存在。就此脈絡來看，嘗試在定居點周邊穩定取得植物性食物，很可能是一種降低衝突成本的策略。
 
-因此，在農業革命初期，女性不僅是田間的主要勞動力，也是農作知識與技術傳承的重要節點，促成定居社會糧食來源的穩定與管理。
-
-然而，隨著 **[犁耕技術](https://www.nature.com/articles/s41599-024-02837-5)** 的普及，農具更重型、牽引需求更高，勞動重心逐步轉向男性，並與土地所有權、徵役制度等社會結構緊密連動。
+因此，在農業革命初期，女性不僅是田間的主要勞動力，也是農作知識與技術傳承的重要節點，支撐了定居社會糧食來源的穩定。隨著 **[金屬農具的普及（鐵器時代）](https://www.britannica.com/event/Iron-Age)** 與 **[犁耕技術](https://en.wikipedia.org/wiki/Plough)** 的推廣，農具更重型、牽引需求更高，勞動重心逐步轉向男性；跨文化研究亦指出，傳統犁耕社會更傾向由男性主導田間工作，可參見開放版 **[Women and the Plough](https://scholar.harvard.edu/files/nunn/files/alesina_giuliano_nunn_qje_2013.pdf)**。
 
 
 ### 犁耕與男性的勞動分工
