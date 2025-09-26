@@ -49,11 +49,15 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 就動機而言，最初的「女性帶頭種植」完全有可能與生存壓力相關，用以降低 **[資源競爭](https://en.wikipedia.org/wiki/Broad_spectrum_revolution)** 的風險。考古學已在農業興起之前就發現明確的人際暴力證據，例如尼羅河流域 **[Jebel Sahaba](https://www.nature.com/articles/s41598-021-89386-y)** 與東非 **[Nataruk](https://www.cam.ac.uk/research/news/evidence-of-a-prehistoric-massacre-extends-the-history-of-warfare)**，顯示在狩獵採集群體之間，衝突與競逐早已存在。就此脈絡來看，嘗試在定居點周邊穩定取得植物性食物，很可能是一種降低衝突成本的策略。
 
-因此，在農業革命初期，女性不僅是田間的主要勞動力，也是農作知識與技術傳承的重要節點，支撐了定居社會糧食來源的穩定。隨著 **[金屬農具的普及（鐵器時代）](https://www.britannica.com/event/Iron-Age)** 與 **[犁耕技術](https://en.wikipedia.org/wiki/Plough)** 的推廣，農具更重型、牽引需求更高，勞動重心逐步轉向男性；跨文化研究亦指出，傳統犁耕社會更傾向由男性主導田間工作，可參見開放版 **[Women and the Plough](https://scholar.harvard.edu/files/nunn/files/alesina_giuliano_nunn_qje_2013.pdf)**。
-
+因此，在農業革命初期，女性不僅是田間的主要勞動力，也是農作知識與技術傳承的重要節點，支撐了定居社會糧食來源的穩定。隨時間推移，部分地區開始出現更大尺度的土地經營與新的耕作體系，鋤耕的主導地位逐步鬆動，為下一階段的轉變埋下伏筆。
 
 ### 犁耕與男性的勞動分工
-大約在公元前四千年至三千年間，隨著金屬工具與犁耕技術的普及，男性逐漸成為農業的主力。犁耕大幅提升了生產力，糧食產量增加了五到十倍，但同時也加重了勞動強度。這種轉變強化了以男性為核心的生產模式，並與土地所有權、軍事徵召與社會制度緊密結合，影響深遠。而糧食產能的快速提升，也帶來了另一個深刻的後果：人口急速成長。
+
+約在公元前四千年至三千年間，簡單的 **[犁（ard）](https://en.wikipedia.org/wiki/Ard_%28plough%29)** 搭配動物牽引在多地出現，歐洲考古亦紀錄了距今約 4300–4000 年前的 **[耕犁痕跡](https://www.nature.com/articles/s41599-024-02837-5)**。相較鋤耕，犁能連續翻動大片土壤、處理較硬或更厚的表土層，並促進田區整併與穀物栽培的規模化（見 **[Plough](https://en.wikipedia.org/wiki/Plough)** 條目）。
+
+在這種更大面積、節奏更緊密的耕作環境下，核心工序對體能與牽引控制的要求提高，男性逐步成為主要執行者。跨文化比較也顯示，依賴犁耕的社會更傾向由男性主導田間工作，可參見開放版 **[On the Origins of Gender Roles: Women and the Plough](https://scholar.harvard.edu/files/nunn/files/alesina_giuliano_nunn_qje_2013.pdf)**。此後，農作與 **土地占有、課稅、徵役** 的連動更為緊密，並與早期城邦與國家形成（如 **[烏魯克時期](https://en.wikipedia.org/wiki/Uruk_period)**）的制度化進程相互強化。
+
+犁耕帶來的產能提升，提高了人口承載上限；從長時段看，農業興起與 **[人口增長加速](https://pmc.ncbi.nlm.nih.gov/articles/PMC3076817/)** 相伴而行，進一步推動土地制度與勞動關係的重組。
 
 ### 馬爾薩斯陷阱與人口壓力
 農業革命雖然提高了糧食供應，但也帶來了「馬爾薩斯陷阱」。人口呈指數增長，而資源卻僅能線性增加，導致社會週期性出現動亂、戰爭或疾病來調節人口。這種人口與資源之間的矛盾，使得勞動制度與社會階級逐步固化，並為後續的封建與莊園時代埋下伏筆。
