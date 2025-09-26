@@ -17,13 +17,11 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 ### 狩獵與採集的工時分配
 
-在 **[狩獵採集社會](https://www.routledge.com/Stone-Age-Economics/Sahlins/p/book/9781138702615)**，日常勞動多半依資源狀況彈性調整，並不等同於現代長時工作。關鍵轉折在於火：火光把可用時間從白天延伸到夜晚，晚間不再只是黑暗與休息，而是多了修整工具、處理食材與交流資訊的空檔。
+在 **[狩獵採集社會](https://www.routledge.com/Stone-Age-Economics/Sahlins/p/book/9781138702615)**，勞動隨季節與資源起伏而調整，與現代固定長工時不同。關鍵轉折在於火：火光把白天延伸到夜裡，晚間不再只是休息，還多了修整工具、處理食材與交換訊息的時段。
 
-火把夜晚從純休息時段轉為可利用的「第二工作場景」（參見 **[營火夜間交談](https://www.pnas.org/doi/10.1073/pnas.1404212111)**）。在營火邊，人們得以聚集與辨識彼此，講故事、交換資訊、演練動作並協調隔日分工；合作不再受限於白天，群體節奏因此更穩定。
+營火讓夜晚成為可協作的「第二工作場景」（參見 **[營火夜間交談](https://www.pnas.org/doi/10.1073/pnas.1404212111)**）。圍火而坐，人們講故事、交換路徑與資源訊息、演練動作並敲定隔日分工；在低強度的互動中，群體更容易對齊節奏。
 
-另一方面，**[烹飪](https://pubmed.ncbi.nlm.nih.gov/14527628/)** 改變了能量獲取的方式，縮短取食所占用的時間並提升吸收效率，留下可自由調度的餘裕。於是人們有空在火邊試敲石料、比對斷口、修磨刃緣——這種閒工夫完全有可能催生最早的「加班」與「發明」：火 ➜ 有閒 ➜ 火邊敲石 ➜ 石器進步。
-
-於是，一種以成果為導向、以社群協作為核心的時間觀逐漸成形：工作、休息與學習彼此穿插，隨季節與資源彈性調度。這樣的節奏與夜間活動的延伸，為後續定居農業與制度化工時的出現，提供了鮮明而有力的對照。
+同時，**[烹飪](https://pubmed.ncbi.nlm.nih.gov/14527628/)** 提高能量吸收、縮短取食時間，釋放出更多可支配空檔。人們 **完全有可能**在火邊試敲石料、觀察斷口、修磨刃緣——看似打發時間，卻推進了技術。簡單概括：火 ➜ 多出空檔 ➜ 火邊敲石 ➜ 石器改良。
 
 ### 性別分工的起源
 
@@ -88,6 +86,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 在直營地之外，農戶通常持有分散、狹長的**份地**（strips），隸屬於 **[開放田地制度](https://en.wikipedia.org/wiki/Open-field_system)** 的大田區塊中，由村社統一排程耕作與休耕。這些份地組合起來，構成家戶的口糧與地租來源，也讓社群能以共同規則分擔風險與勞務。
 
 中世紀常見的 **[三圃制](https://en.wikipedia.org/wiki/Three-field_system)**，將耕地分成三大區：  
+
 - 秋地：種 **冬小麥／大麥**  
 - 春地：種 **燕麥／豆類**  
 - 休耕地：輪流**恢復地力**，或在季節內作為牧放區  
@@ -125,6 +124,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 進入工廠後，雇主以**場所、機器與監督**把分散家務拉進同一屋簷，換取的是工人的**出勤時間**與對**節拍**的服從（[Factory system](https://en.wikipedia.org/wiki/Factory_system)）。19 世紀前期的工廠工作常見 **長工時（每日 14–16 小時、每週 6 天）** 的描述，後來立法才開始往下壓；例如 **1833 年《工廠法》** 對兒童與少年工時設下上限（9–13 歲每週 **48 小時**、13–18 歲每日 **12 小時**），也反襯了當時成人與兒少原本的高強度工時環境（[Factory Acts](https://en.wikipedia.org/wiki/Factory_Acts)、[Child labour in the Industrial Revolution](https://en.wikipedia.org/wiki/Child_labour_in_the_Industrial_Revolution)）。
 
 **量化對比（概念）**  
+
 - **家庭手工業**：計件、接單即開工、家中全員上陣 → 時段可被無限切割與延長，收入波動大。  
 - **工廠勞動**：長工時但有**固定日程**與**現金工資**，原料與設備由雇主提供 → 在動盪市況下更「可預期」。  
 
@@ -229,6 +229,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 ## 線上/實體講座
 
 ### 簡報
+
 <LazySlide shareLink="https://docs.google.com/presentation/d/1O8N_N0XFHW61heTHcb0cl1Aix3jWTiHr-gbGxsOTk6I/edit?usp=sharing">
     <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vS5XD1yRp_y4Ad3DfCnUUaZoG1NL8Y297WJfDEYBE008J8iS7PVPQALUgi-Rh-BHPHLByAZTlskc1fJ/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
