@@ -60,7 +60,12 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 犁耕帶來的產能提升，提高了人口承載上限；從長時段看，農業興起與 **[人口增長加速](https://pmc.ncbi.nlm.nih.gov/articles/PMC3076817/)** 相伴而行，進一步推動土地制度與勞動關係的重組。
 
 ### 馬爾薩斯陷阱與人口壓力
-農業革命雖然提高了糧食供應，但也帶來了「馬爾薩斯陷阱」。人口呈指數增長，而資源卻僅能線性增加，導致社會週期性出現動亂、戰爭或疾病來調節人口。這種人口與資源之間的矛盾，使得勞動制度與社會階級逐步固化，並為後續的封建與莊園時代埋下伏筆。
+
+農業革命帶來更穩定的糧食來源，但也觸發了典型的 **馬爾薩斯動態**：食物增加會推升人口，最終把人均資源再度推回承載邊緣。概念脈絡可見 **[Breaking out of the Malthusian trap](https://ourworldindata.org/breaking-the-malthusian-trap)** 的長文解釋。
+
+從長時段資料來看，總人口自距今約 **1.2 萬年** 前持續上升，但在工業化以前多半緩慢且反覆受限。可直接查看 **[過去 1.2 萬年的世界人口圖表](https://ourworldindata.org/population-growth-over-time)** 與其互動數據 **[Population, 10000 BCE–2023](https://ourworldindata.org/grapher/population)**（資料來源包含 **[HYDE 長期歷史估計](https://www.pbl.nl/en/hyde-history-database-of-the-global-environment)**）。
+
+在「人口擴張—資源緊張」的壓力下，社會往往以更嚴密的地權分配、租稅與徵役機制來穩定生產，勞動與身份也更容易被鎖定於地方與階層。這種制度化收斂，可與中世紀歐洲的 **[莊園制度（Manorialism）](https://en.wikipedia.org/wiki/Manorialism)** 對照，為後續篇章鋪墊。
 
 ## 封建與莊園：制度化的勞動模式
 
