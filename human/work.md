@@ -181,13 +181,12 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 第一次世界大戰後，國際層面以 **[ILO 1919 年 C1 公約](https://www.ilo.org/dyn/normlex/en/f?p=NORMLEXPUB:12100:0::NO::P12100_ILO_CODE:C001)** 將工時上限納入規範；美國則以 **[FLSA 1938](https://www.dol.gov/agencies/whd/flsa)** 制度化最低工資、加班費與童工限制。總結來看，**移工語言不通 → 流程標準化**讓工業化得以放大；而標準化引發的勞資張力，最終又以**八小時工時**的法制化作為回應，固定了我們今日熟悉的工作日長度。
 
 #### 粉領階級與都市生活
-打字機、百貨零售與辦公室事務催生大規模 **粉領工作**；同時，地鐵與路面電車縮短距離、拉長通勤，家庭功能被學校、醫院與公共衛生體系分流，城市的「時間地理」成為現代工作的外框。
 
----
+在 **工業革命** 之前，歐洲與北美多數女性仍緊繫於土地與家戶經濟，能脫離農事換取現金工資的機會極少；城市職缺多為家僕與零散家內手工，尚未形成可觀的辦公室與服務業市場（可對照 **[家庭主婦](https://en.wikipedia.org/wiki/Housewife)** 與 **[家庭主婦崇拜](https://en.wikipedia.org/wiki/Cult_of_Domesticity)** 的社會期待）。早期工業化後，才出現有限且條件嚴格的女工崗位，例如新英格蘭的 **[Lowell mill girls](https://en.wikipedia.org/wiki/Lowell_mill_girls)**，但多以未婚年輕女性為主，且常為短期輪替。
 
-### 收束：從土地到時間
-英國以羊毛與圈地開場、德國以技術—制度耦合緊後，美國則將科學管理與法制化的工時推至全球。工業時代把勞動從土地與季節中抽離，改以鐘點與流程編排，最終凝結為我們今日熟悉的 **八小時工作日**。
+**第一次世界大戰**的全面動員，首次大規模把女性納入工業與行政體系（見 **[Women in World War I](https://en.wikipedia.org/wiki/Women_in_World_War_I)**）；二戰將此推至高峰，亦以 **[Rosie the Riveter](https://en.wikipedia.org/wiki/Rosie_the_Riveter)** 成為象徵（參 **[Women in World War II](https://en.wikipedia.org/wiki/Women_in_World_War_II)**）。戰後，隨城市辦公室、零售與服務業擴張，逐步形成以文書與客服為主的 **[粉領工作](https://en.wikipedia.org/wiki/Pink-collar_worker)**，女性從土地與家務轉向「九到五」的都市節奏。
 
+技術與基建重塑了這種節奏：**[打字機](https://en.wikipedia.org/wiki/Typewriter)**、**[電話總機](https://en.wikipedia.org/wiki/Telephone_switchboard_operator)** 與票據結算將紙本與數據處理集中到市中心；**[百貨公司](https://en.wikipedia.org/wiki/Department_store)** 以標準化的展示、定價與售後服務打造消費前台；**[地鐵](https://en.wikipedia.org/wiki/New_York_City_Subway)** 與電車擴大通勤半徑，車站周邊形成商務與零售聚落。結果是，都市的一日被更細緻地切分：清晨通勤、午間短休、傍晚購物與社交，工作與生活在可預期的鐘點中緊密相扣。
 
 ## 線上/實體講座
 
