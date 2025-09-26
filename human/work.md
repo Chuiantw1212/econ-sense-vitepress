@@ -33,7 +33,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 在這種情境下，女性逐漸專注於懷孕、生育與育兒，並維持植物採集等相對穩定的工作；男性則更多投入於長途狩獵與群體防衛。因此，性別分工的起源，既與火帶來的營養變革有關，也與腦容量增大所引發的生理挑戰密切相連。
 
-![性別分工](/human/work/性別分工.png "性別分工")
+![性別分工](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/human/work/性別分工.webp "性別分工")
 
 ### 火與烹飪革命：從進食到社交
 
@@ -51,7 +51,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 因此，在農業革命初期，女性不僅是田間的主要勞動力，也是農作知識與技術傳承的重要節點，支撐了定居社會糧食來源的穩定。隨時間推移，部分地區開始出現更大尺度的土地經營與新的耕作體系，鋤耕的主導地位逐步鬆動，為下一階段的轉變埋下伏筆。
 
-![石器戰爭](/human/work/石器戰爭.png "石器戰爭")
+![石器戰爭](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/human/work/石器戰爭.webp "石器戰爭")
 
 ### 犁耕與男性的勞動分工
 
@@ -69,7 +69,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 在「人口擴張—資源緊張」的壓力下，社會往往以更嚴密的地權分配、租稅與徵役機制來穩定生產，勞動與身份也更容易被鎖定於地方與階層。這種制度化收斂，可與中世紀歐洲的 **[莊園制度（Manorialism）](https://en.wikipedia.org/wiki/Manorialism)** 對照，為後續篇章鋪墊。
 
-![馬爾薩斯](/human/work/馬爾薩斯.png "馬爾薩斯")
+![馬爾薩斯](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/human/work/馬爾薩斯.webp "馬爾薩斯")
 
 ## 封建與莊園：制度化的勞動模式
 
@@ -94,7 +94,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 這套輪作能提升氮素循環與土壤肥力，兼顧**連續產出與地力維護**。因各家份地分散在不同圃位，若某一圃歉收，仍可由其他圃位補足，等於把天候與病蟲害的風險**分攤到整個村社**。此種安排，使莊園在貨幣流通有限、自然波動頻繁的背景下，仍能維持相對穩定的糧食與租稅供給。
 
-![共同資源](/human/work/共同資源.png "共同資源")
+![共同資源](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/human/work/共同資源.webp "共同資源")
 
 ### 共同資源與村落社會凝聚力
 
@@ -116,7 +116,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 與後來的工廠不同，家庭手工業沒有統一鐘聲與機械節拍；但**計件工資**的收益邏輯，驅動家戶把日常切成更多「可利用工段」。結果就是：看似在家、實則**超長工時**、**高強度**且**缺乏保障**的工作常態。這也使「羊吃人」不僅是圈地的社會隱喻，更是對**家內時間被吞噬**的辛辣嘲諷（可對照 **[enclosure](https://en.wikipedia.org/wiki/Enclosure)**）。
 
-![圈地養羊](/human/work/圈地養羊.png "圈地養羊")
+![圈地養羊](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/human/work/圈地養羊.webp "圈地養羊")
 
 #### 工廠制度與「勤勉革命」
 
@@ -136,7 +136,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 同時，班表也催生固定的**茶歇／點心**節點，例如上午的 **[elevenses](https://en.wikipedia.org/wiki/Elevenses)** 與傍晚較為豐盛的茶點，用以補充熱量並維持產線節奏。隨著都市照明與鐵路通勤普及，城市的一日被切分為更明確的時段：早飯在家或工廠附近迅速解決、午間僅短休、晚餐順勢後移。「先吃飽再上工」的模式，於是由工廠內部擴散為城市的日常節律。
 
-![先進工廠](/human/work/先進工廠.png "先進工廠")
+![先進工廠](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/human/work/先進工廠.webp "先進工廠")
 
 ### 德國篇
 
@@ -164,7 +164,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 19 世紀後期起，醫界引入 **[氯醛水合物](https://en.wikipedia.org/wiki/Chloral_hydrate)** 等鎮靜催眠藥；1903 年 **[Veronal](https://en.wikipedia.org/wiki/Barbital)** 問世，開啟 **[巴比妥酸鹽](https://en.wikipedia.org/wiki/Barbiturate)** 時代，提供快速、可量化的「睡眠解決方案」。在推廣上，德國醫師與化工企業形成協作：臨床以處方與病例建構療效話語，產業以純度、劑量與品牌完成商品化，將「可管理的睡眠」納入現代身體治理與工業節奏。
 
-![發明失眠](/human/work/發明失眠.png "發明失眠")
+![發明失眠](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/human/work/發明失眠.webp "發明失眠")
 
 ### 美國篇
 
@@ -184,7 +184,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 勞動來源上，內戰後的農民與退伍軍人之外，還有歐洲移民與在地少數族群被大量動員：修築中段與東段以愛爾蘭等歐洲工人為主，西段 **中央太平洋**則廣招**華工**，高峰期動員逾 **一萬二千人**，成為最關鍵的工程勞動力（見 **[Chinese laborers on the Transcontinental Railroad](https://en.wikipedia.org/wiki/Chinese_railroad_workers_in_North_America)**）。在「地到得、路鋪好、人到位」的三拍對接下，內陸農業、礦業與東岸工業中心被市場化地鎖在一起，形成對城市工廠的持續**移民勞動供給**與對外貿易的**大宗運量**，推動美國在 19 世紀末迅速步入重工業與大城市時代。
 
-![潤到美國](/human/work/潤到美國.png "潤到美國")
+![潤到美國](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/human/work/潤到美國.webp "潤到美國")
 
 #### 泰勒制與工時鬥爭
 
@@ -202,7 +202,7 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 技術與基建重塑了這種節奏：**[打字機](https://en.wikipedia.org/wiki/Typewriter)**、**[電話總機](https://en.wikipedia.org/wiki/Telephone_switchboard_operator)** 與票據結算將紙本與數據處理集中到市中心；**[百貨公司](https://en.wikipedia.org/wiki/Department_store)** 以標準化的展示、定價與售後服務打造消費前台；**[地鐵](https://en.wikipedia.org/wiki/New_York_City_Subway)** 與電車擴大通勤半徑，車站周邊形成商務與零售聚落。結果是，都市的一日被更細緻地切分：清晨通勤、午間短休、傍晚購物與社交，工作與生活在可預期的鐘點中緊密相扣。
 
-![尖峰時刻](/human/work/尖峰時刻.png "尖峰時刻")
+![尖峰時刻](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/human/work/尖峰時刻.webp "尖峰時刻")
 
 ## 總結：當工時變成制度，我們還能調整什麼？
 
