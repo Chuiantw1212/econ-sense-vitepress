@@ -157,10 +157,20 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 ### 美國篇
 
 #### 技術輸入與紡織起飛
-美國早期工業化從英國紡織技術移植起步，水力與工廠村結合形成集約生產，帶動新英格蘭地區的城鎮化與工資勞動。
+
+美國早期工業化的起點在**紡織技術移植**：英籍技師 **[Samuel Slater](https://en.wikipedia.org/wiki/Samuel_Slater)** 於 1789 年跨海來到新英格蘭，依記憶重建水力驅動的紡紗流程，在羅德島波塔基特建立美國首座持續運轉的棉紡廠，帶動沿河的工廠村與分工體系成形。
+
+1814 年，麻州沃爾瑟姆的 **[Boston Manufacturing Company](https://en.wikipedia.org/wiki/Boston_Manufacturing_Company)** 率先把梳棉、紡紗、織造與整理整合在同一屋簷下，形成完整的「從原棉到成布」的流水線。隨後，勞動與住宿、教育與紀律被一體設計為 **[Waltham–Lowell system](https://en.wikipedia.org/wiki/Waltham%E2%80%93Lowell_system)**：以宿舍、規章與薪資配套吸納農村年輕女性進城從事輪班。
+
+這批被稱為 **[Lowell mill girls](https://en.wikipedia.org/wiki/Lowell_mill_girls)** 的工人，使紡織產能在短時間內擴張；水力與後續蒸汽動力的導入，讓「定時、定量、定速」的節拍可以連續外溢到染整理與後勤。結果是，新英格蘭出現以河谷為核心的工廠群落，紡織業成為美國工業化最先取得規模經濟的部門之一。
 
 #### 土地、鐵路與移民勞動
-**[宅地法 1862](https://en.wikipedia.org/wiki/Homestead_Acts)** 釋出公地、吸引歐洲農民與工匠遷徙；**[1869 橫貫鐵路](https://en.wikipedia.org/wiki/First_Transcontinental_Railroad)** 貫通則重塑了物流與勞動市場，形成大規模的產業遷移與都市帶。
+
+內戰前後的制度與基建，為美國工業化鋪出「土地—運輸—勞動」的快速通道。**[南北戰爭](https://en.wikipedia.org/wiki/American_Civil_War)** 期間，林肯政府通過 **[宅地法（1862）](https://en.wikipedia.org/wiki/Homestead_Acts)**：凡年滿 21 歲或為戶主者，只要在公地上定居改良五年，即可獲得 **160 英畝**的所有權。這項政策把土地變成最具吸引力的「入場券」，大量吸引歐洲農民與工匠跨海定居，也為內陸市場創造穩定的糧棉供給與新消費需求。
+
+同時，**[太平洋鐵路法（1862/1864）](https://en.wikipedia.org/wiki/Pacific_Railroad_Acts)** 以巨額土地與債券補助鐵路公司，促成 **[1869 年橫貫鐵路](https://en.wikipedia.org/wiki/First_Transcontinental_Railroad)** 通車，把產地與港口、農莊與工廠連成一體。鐵路沿線的城鎮化與物流網路，迅速降低運輸成本、擴大市場半徑，並以「現金工資＋連續工程」吸走大批勞動者。
+
+勞動來源上，內戰後的農民與退伍軍人之外，還有歐洲移民與在地少數族群被大量動員：修築中段與東段以愛爾蘭等歐洲工人為主，西段 **中央太平洋**則廣招**華工**，高峰期動員逾 **一萬二千人**，成為最關鍵的工程勞動力（見 **[Chinese laborers on the Transcontinental Railroad](https://en.wikipedia.org/wiki/Chinese_railroad_workers_in_North_America)**）。在「地到得、路鋪好、人到位」的三拍對接下，內陸農業、礦業與東岸工業中心被市場化地鎖在一起，形成對城市工廠的持續**移民勞動供給**與對外貿易的**大宗運量**，推動美國在 19 世紀末迅速步入重工業與大城市時代。
 
 #### 泰勒制與工時鬥爭
 1870 年前後，**[泰勒](https://en.wikipedia.org/wiki/Frederick_Winslow_Taylor)** 的 **[科學管理](https://en.wikipedia.org/wiki/Scientific_management)** 將工作動作可測量化，配合獎懲與標準作業擴散至鋼鐵與汽車等產業，工人自主性被壓縮，工時衝突加劇。19–20 世紀的工運把 **八小時工作、八小時休息、八小時自由時間** 推為核心訴求，**[國際勞工組織 1919 年 C1 公約](https://www.ilo.org/dyn/normlex/en/f?p=NORMLEXPUB:12100:0::NO::P12100_ILO_CODE:C001)** 與美國 **[1938 年 FLSA](https://www.dol.gov/agencies/whd/flsa)** 使之法制化，確立了現代工時制度。
