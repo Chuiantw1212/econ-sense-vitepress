@@ -104,11 +104,11 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
 
 #### 羊毛與圈地：從大航海到「羊吃人」
 
-遠洋貿易推高羊毛與毛織品需求後，圈地擠壓了村社的自給空間，許多家戶被迫把**家內時間**轉為現金收入來源：接單紡紗、織布、整呢與簡易整理等，形成以家為單位的**家庭手工業／外包制度** ——由商人配給原料、回收成品、按件計酬（見 **[Domestic system](https://en.wikipedia.org/wiki/Domestic_system)**、**[Putting-out system](https://en.wikipedia.org/wiki/Putting-out_system)**、**[English wool trade](https://en.wikipedia.org/wiki/English_wool_trade)**）。  
+遠洋貿易推高羊毛與毛織品需求後，圈地擠壓了村社的自給空間，許多家戶被迫把**家內時間**轉為現金收入：接單紡紗、織布、整呢與簡易整理等，形成以家為單位的**家庭手工業／外包制度**（商人配原料、回收成品、按件計酬；見 **[putting-out system](https://en.wikipedia.org/wiki/Putting-out_system)**）。
 
-在這種制度下，「工作時間」不再受田務與季節單獨支配，而是被**訂單節奏**與**件數報酬**無限拉長。家中每個能動手的人——婦女、兒童、老年人——都被納入生產鏈，白天做田務、夜裡趕紗線與經緯線成為常態；只要燭火未盡、線軸未滿，工時就**沒有明確邊界**。英格蘭 16–17 世紀常被形容為「**羊吃人**」，其一層含義正是：羊毛的利潤與訂單，把本來屬於**休息與社交**的家內時段，吞成了**連續、不計時的勞動**（可對照 **[Enclosure](https://en.wikipedia.org/wiki/Enclosure)** 與 **[Utopia / Book First](https://en.wikisource.org/wiki/Utopia_(More)/Book_First)** 的同時期批評）。  
+在這種制度下，「工作時間」不再由農務與季節單獨支配，而是被**訂單節奏**與**計件報酬**拉長。白天趕田務、夜裡趕紗線成為常態，家中能動手的成員（婦女、兒童、長者）幾乎全數投入。量化研究顯示，18 世紀末英國家戶型勞動的**年工時**約 **2,800–3,300 小時／年**（每年 280–330 天 × 每日 10–12 小時），可參見 **[年工時研究](https://books.google.com/books?id=XVdA9gW2rPcC)** 與 **[Industrious Revolution](https://books.google.com/books?id=H4bVJ1M9QngC)** 的整理。
 
-與後來的工廠不同，家庭手工業沒有統一鐘聲與機械節拍；但以**計件工資**計算的收益邏輯，讓家戶自發把日常切成更多「可利用的工段」。這種看似在家中完成、實則**超長工時**、**高強度**、**低保障**的生產方式，成為圈地之後大量人口的主要生計框架與時間秩序。
+與後來的工廠不同，家庭手工業沒有統一鐘聲與機械節拍；但**計件工資**的收益邏輯，驅動家戶把日常切成更多「可利用工段」。結果就是：看似在家、實則**超長工時**、**高強度**且**缺乏保障**的工作常態。這也使「羊吃人」不僅是圈地的社會隱喻，更是對**家內時間被吞噬**的辛辣嘲諷（可對照 **[enclosure](https://en.wikipedia.org/wiki/Enclosure)** 與 **[Utopia](https://en.wikisource.org/wiki/Utopia_(More)/Book_First)** 的同時期批判）。
 
 #### 工廠制度與「勤勉革命」
 
