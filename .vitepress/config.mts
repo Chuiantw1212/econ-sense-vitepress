@@ -85,6 +85,7 @@ export default defineConfig({
         items: [
           { text: '人類學性別', link: '/human/gender' },
           { text: '人類學工作', link: '/human/work' },
+          { text: '人類學飲食', link: '/human/diet' },
           // { text: '人生關卡的演化解答', link: '/human/evolution' },
           // { text: '後備預官的民防心得', link: '/human/war' },
           { text: '單身狗地獄求生', link: '/human/single' },

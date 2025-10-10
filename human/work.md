@@ -234,6 +234,10 @@ description: 探索人類學工作的演變：從火與獵人的狩獵採集，�
     <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vS5XD1yRp_y4Ad3DfCnUUaZoG1NL8Y297WJfDEYBE008J8iS7PVPQALUgi-Rh-BHPHLByAZTlskc1fJ/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="420" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </LazySlide>
 
+### 評價
+
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRjcFxfZA3y6r322J0aF_-X7kzqp9o1izxdXJgnTc3TtkQmBMAjYlj6zoqWMtOZFMbLUpiCaYXoMGk0/pubhtml?widget=true&amp;headers=false" width="100%" height="420"></iframe>
+
 ## 延伸閱讀
 
 <Books :modelValue="bookItems"></Books>
