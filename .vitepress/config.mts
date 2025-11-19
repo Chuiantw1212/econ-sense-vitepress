@@ -68,7 +68,6 @@ export default defineConfig({
         link: '/finance',
         collapsed: false,
         items: [
-          { text: '金錢人格DNA', link: '/finance/personality' },
           { text: '理財框架', link: '/finance/framework' },
           { text: '投資進階管道', link: '/finance/investment' },
           { text: '退休規劃(上)', link: '/finance/retirement-1' },
