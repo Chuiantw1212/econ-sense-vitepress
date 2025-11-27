@@ -9,8 +9,8 @@ hero:
   text: 文明飛上太空<br>大腦已知用火
   tagline: 深度讀懂自己，用CP值最高的方式接上世界
   image:
-    src: /logo/banner_320.webp
-    alt: 釣魚老翁
+    src: /logo/black_transparent.webp
+    alt: 已知用火
   actions:
     - theme: brand 
       text: 講座排程

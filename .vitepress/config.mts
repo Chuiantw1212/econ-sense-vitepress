@@ -68,6 +68,7 @@ export default defineConfig({
         link: '/finance',
         collapsed: false,
         items: [
+          { text: '從零到一', link: '/finance/survival' },
           { text: '理財框架', link: '/finance/framework' },
           { text: '投資進階管道', link: '/finance/investment' },
           { text: '退休規劃(上)', link: '/finance/retirement-1' },
@@ -88,7 +89,7 @@ export default defineConfig({
           // { text: '人生關卡的演化解答', link: '/human/evolution' },
           // { text: '後備預官的民防心得', link: '/human/war' },
           { text: '單身狗地獄求生', link: '/human/single' },
-          { text: '說書: 人類大歷史', link: '/human/sapiens' },
+          // { text: '說書: 人類大歷史', link: '/human/sapiens' },
         ]
       },
       {
