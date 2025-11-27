@@ -1,105 +1,21 @@
-:root {
-    --vp-c-brand-1: #317f91;
-    /* 穩重而專業的藍綠色 */
-    --vp-c-brand-2: #276b7c;
-    /* 次亮色，適合用於互動狀態（例如按鈕的 hover） */
-    --vp-c-brand-3: #1f5767;
-    /* 最暗色，用於強調背景或按鈕的實心填充 */
-    --vp-c-brand-soft: rgba(49, 127, 145, 0.12);
-    /* 輕柔的背景色，適合徽章或容器 */
-
-    --vp-c-tip-1: var(--vp-c-brand-1);
-    --vp-c-tip-2: var(--vp-c-brand-2);
-    --vp-c-tip-3: var(--vp-c-brand-3);
-    --vp-c-tip-soft: var(--vp-c-brand-soft);
-
-    --vp-c-note-1: var(--vp-c-brand-1);
-    --vp-c-note-2: var(--vp-c-brand-2);
-    --vp-c-note-3: var(--vp-c-brand-3);
-    --vp-c-note-soft: var(--vp-c-brand-soft);
-
-    // Element UI Color
-    --el-color-primary: #36b7cf;
-    /* 提亮約30% */
-    --el-color-primary-light-3: #6dcfea;
-    /* 提亮約50% */
-    --el-color-primary-light-5: #95dff2;
-    /* 提亮約70% */
-    --el-color-primary-light-7: #b9eef9;
-    /* 提亮約80% */
-    --el-color-primary-light-8: #d1f5fc;
-    /* 提亮約90% */
-    --el-color-primary-light-9: #e8fbfe;
-    /* 加深約20% */
-    --el-color-primary-dark-2: #2a94a7;
-
-    /* 首頁的漸層樣式 */
-    body .is-home {
-        background: linear-gradient(180deg,
-                rgba(150, 200, 210, 0.2),
-                /* 柔和藍灰色 */
-                rgba(240, 240, 240, 1) 60%,
-                /* 灰白過渡區 */
-                #ffffff 100%
-                /* 底部純白色 */
-            );
-    }
-
-    .VPFeature {
-        background-color: unset;
-        border: none;
-    }
-
-    /* 格子內部的樣式 */
-    .box {
-        /* 輕柔漸層背景 */
-        background: linear-gradient(180deg,
-                rgba(240, 240, 240, 0.9),
-                rgba(255, 255, 255, 0.95));
-        /* 圓角 */
-        border-radius: 12px;
-        /* 輕微陰影 */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        // padding: 20px;
-        text-align: center;
-        transition: all 0.3s ease;
-
-        &:hover {
-            /* 上升效果 */
-            transform: translateY(-8px);
-            /* 陰影加強 */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            /* 邊框點綴 */
-            border: 1px solid rgba(49, 127, 145, 0.6);
-        }
-
-        .title {
-            font-size: 18px;
-            font-weight: bold;
-            /* 使用品牌色 */
-            color: #555;
-            margin-bottom: 10px;
-        }
-
-        /* 詳細描述樣式 */
-        .details {
-            font-size: 14px;
-            /* 調整為中灰色 */
-            color: #555;
-            line-height: 1.6;
-        }
-    }
-}
-
+/* --- 深色模式設定 (Dark Mode - 中性深岩灰版) --- */
 .dark {
-    /* 在暗色模式中，保持高亮的清新藍色 */
+    /* 1. 重新定義深色模式基底色：採用中性的「深岩灰」色調，去掉藍色感 */
+    --vp-c-bg: #242529;
+    /* 主背景：中性深灰，不偏藍 */
+    --vp-c-bg-alt: #2a2b2f;
+    /* 次要背景：稍微亮一點的灰 */
+    --vp-c-bg-soft: #323338;
+    /* 柔和背景灰 */
+
+    /* 品牌顏色保持不變 (沿用之前的設定) */
     --vp-c-brand-1: #36b7cf;
     --vp-c-brand-2: #2aa3bc;
     --vp-c-brand-3: #218b9f;
     --vp-c-brand-4: #165e6c;
-
     --vp-c-brand-soft: rgba(78, 208, 225, 0.16);
 
+    /* 重新應用提示框顏色 */
     --vp-c-tip-1: var(--vp-c-brand-1);
     --vp-c-tip-2: var(--vp-c-brand-2);
     --vp-c-tip-3: var(--vp-c-brand-3);
@@ -110,99 +26,65 @@
     --vp-c-note-3: var(--vp-c-brand-3);
     --vp-c-note-soft: var(--vp-c-brand-soft);
 
+    /* 讓 Hero 標題文字使用高亮品牌色 */
     --vp-home-hero-name-color: var(--vp-c-brand-1);
 
-    /* 首頁的漸層樣式 */
+    /* --- 深色模式首頁特定樣式 --- */
     body .is-home {
-        background: linear-gradient(180deg,
-                rgba(78, 208, 225, 0.05),
-                #ffffff);
+        /* 使用新的中性灰做細微漸層 */
+        background: linear-gradient(180deg, var(--vp-c-bg-alt) 0%, var(--vp-c-bg) 100%);
     }
 
-    .VPFeature {
-        background-color: unset;
-        border: none;
-    }
-
-    /* 格子內部的樣式 */
+    /* --- Feature Box 深色樣式 (中性灰半透明面板) --- */
     .box {
-        /* 輕柔漸層背景 */
-        background: linear-gradient(180deg,
-                rgba(240, 240, 240, 0.9),
-                rgba(255, 255, 255, 0.95));
+        /* 背景改為中性灰的半透明色 */
+        background: rgba(42, 43, 47, 0.6);
+        /* 邊框顏色改為純白色半透明，去除藍味 */
+        border: 1px solid rgba(255, 255, 255, 0.12);
         /* 圓角 */
         border-radius: 12px;
-        /* 輕微陰影 */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        // padding: 20px;
-        text-align: center;
-        transition: all 0.3s ease;
+        /* 深色模式的陰影 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+        /* Padding 和 Transition 繼承自預設樣式 */
 
         &:hover {
-            /* 上升效果 */
-            transform: translateY(-8px);
-            /* 陰影加強 */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            /* 邊框點綴 */
-            border: 1px solid rgba(49, 127, 145, 0.6);
+            /* transform 繼承自預設樣式 */
+            border-color: var(--vp-c-brand-1);
+            /* 懸停時背景變為定義好的柔和灰 */
+            background: var(--vp-c-bg-soft);
+            /* 增加帶品牌色光暈的深陰影 */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35), 0 0 12px var(--vp-c-brand-soft);
         }
 
-        .title {
-            font-size: 18px;
-            font-weight: bold;
-            /* 使用品牌色 */
-            color: #555;
-            margin-bottom: 10px;
-        }
-
-        /* 詳細描述樣式 */
-        .details {
-            font-size: 14px;
-            /* 調整為中灰色 */
-            color: #555;
-            line-height: 1.6;
-        }
+        /* .title 和 .details 的顏色會自動使用 Vitepress 深色模式的預設文字色 */
     }
 
-    // 讓首頁跟內文的按鈕顏色不同
+    /* 讓首頁的 Brand 按鈕在深色模式下顏色更深一點，保持文字對比度 */
     .VPButton.brand {
-        /* Darkened version */
         background-color: var(--vp-c-brand-4) !important;
-        /* Keep white text */
-        color: #FFFFFF !important;
+        color: #ffffff !important;
     }
 
-
+    /* 深色模式 Footer 樣式 */
     .VPFooter {
+        /* Footer 背景也改用中性灰漸層 */
         background: linear-gradient(180deg,
-                rgba(0, 0, 0, 0.6),
-                rgba(0, 0, 0, 0.8));
-        color: #ffffff;
+                rgba(42, 43, 47, 0.85),
+                rgba(36, 37, 41, 0.95));
+        color: var(--vp-c-text-2);
         text-align: center;
         font-size: 14px;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-        /* 添加光暈 */
-        box-shadow: 0 -4px 10px rgba(78, 208, 225, 0.2);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        /* 添加細微的頂部光暈 */
+        box-shadow: 0 -4px 10px rgba(54, 183, 207, 0.08);
 
         a {
             text-decoration: none;
             transition: color 0.3s ease;
 
             &:hover {
-                color: #ffffff;
+                color: var(--vp-c-brand-1);
             }
         }
     }
-}
-
-// /* 首頁圖 */
-// .image-bg {
-//     z-index: 1;
-//     border-radius: 50%;
-//     /* 添加陰影 */
-//     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-// }
-
-.image-src {
-    z-index: 2;
 }
