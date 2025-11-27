@@ -2,11 +2,17 @@
    1. 全域變數與基礎設定
 ========================================= */
 :root {
-    /* --- 品牌色定義 (全域基礎色) --- */
-    --vp-c-brand-1: #2c7082;
-    --vp-c-brand-2: #246272;
-    --vp-c-brand-3: #1d5361;
-    --vp-c-brand-soft: rgba(44, 112, 130, 0.12);
+    /* --- 品牌色定義 (修正版：壓深 Hover 與 Active 狀態) --- */
+    --vp-c-brand-1: #36b7cf;
+    /* 主色：明亮青藍 (保持不變) */
+    --vp-c-brand-2: #43c4dd;
+    /* Hover：稍微亮一點點，但不過曝 */
+    --vp-c-brand-3: #1f7a8c;
+    /* Active：顯著加深，提供扎實的點擊感，解決太亮問題 */
+    --vp-c-brand-4: #186473;
+    /* 更深色 (用於深色模式按鈕背景基底) */
+    --vp-c-brand-soft: rgba(54, 183, 207, 0.16);
+    /* 柔和背景 */
 
     /* --- 提示框組件顏色綁定 --- */
     --vp-c-tip-1: var(--vp-c-brand-1);
@@ -40,7 +46,8 @@
 
         &:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 20px -10px rgba(49, 127, 145, 0.3);
+            /* Hover 時的陰影光暈 */
+            box-shadow: 0 12px 20px -10px rgba(54, 183, 207, 0.3);
             border-color: var(--vp-c-brand-1);
         }
 
@@ -63,7 +70,7 @@
 /* --- 淺色模式首頁背景 --- */
 body .is-home {
     background: linear-gradient(180deg,
-            rgba(150, 200, 210, 0.2),
+            rgba(54, 183, 207, 0.1),
             rgba(240, 240, 240, 1) 60%,
             #ffffff 100%);
 }
@@ -77,17 +84,10 @@ body .is-home {
     /* --- 重新定義深色模式基底色 --- */
     --vp-c-bg: #1e1f24;
     --vp-c-bg-alt: #2a2b2f;
+    --vp-c-bg-soft: #323338;
 
-    /* --- 【新增】強制側邊欄為深黑色 --- */
-    /* 使用比主背景更深一點的顏色，創造層次並穩定視覺 */
+    /* --- 強制側邊欄為深黑色 --- */
     --vp-sidebar-bg-color: #161618;
-
-    /* --- 主題色調暗 (深海洋藍綠色) --- */
-    --vp-c-brand-1: #2a8a9e;
-    --vp-c-brand-2: #237688;
-    --vp-c-brand-3: #1c6373;
-    --vp-c-brand-4: #154e5c;
-    --vp-c-brand-soft: rgba(42, 138, 158, 0.16);
 
     /* --- 重新應用提示框顏色 --- */
     --vp-c-tip-1: var(--vp-c-brand-1);
@@ -100,16 +100,16 @@ body .is-home {
     --vp-c-note-3: var(--vp-c-brand-3);
     --vp-c-note-soft: var(--vp-c-brand-soft);
 
-    /* 讓 Hero 標題文字使用新的深主題色 */
+    /* 讓 Hero 標題文字使用新的品牌色 */
     --vp-home-hero-name-color: var(--vp-c-brand-1);
 
     /* --- 深色模式首頁背景：漸層底部更白 --- */
     .VPContent.is-home {
         background: linear-gradient(180deg,
                 #1e1f24 0%,
-                /* 頂部：深岩灰 (與導航欄一致) */
+                /* 頂部：深岩灰 */
                 #d0d3da 100%
-                /* 底部：極淺灰 (接近白) */
+                /* 底部：極淺灰 */
             ) !important;
     }
 
@@ -133,14 +133,26 @@ body .is-home {
         &:hover {
             border-color: var(--vp-c-brand-1);
             background: #ffffff;
+            /* Hover 時的陰影光暈 */
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), 0 0 10px var(--vp-c-brand-soft);
         }
     }
 
-    /* 讓首頁的 Brand 按鈕在深色模式下顏色更深一點 */
+    /* 讓首頁的 Brand 按鈕在深色模式下顏色使用稍深一點的變數 */
     .VPButton.brand {
-        background-color: var(--vp-c-brand-4) !important;
+        /* 預設使用 brand-3 (較深)，避免太刺眼 */
+        background-color: var(--vp-c-brand-3) !important;
         color: #ffffff !important;
+
+        &:hover {
+            /* Hover 時使用主色 brand-1 (變亮) */
+            background-color: var(--vp-c-brand-1) !important;
+        }
+
+        &:active {
+            /* 點擊時使用最深的 brand-4 (變暗) */
+            background-color: var(--vp-c-brand-4) !important;
+        }
     }
 
     /* --- 深色模式 Footer 樣式調整 --- */
