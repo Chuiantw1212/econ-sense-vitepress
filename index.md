@@ -9,7 +9,7 @@ hero:
   text: 文明飛上太空<br>大腦已知用火
   tagline: 深度讀懂自己，用CP值最高的方式接上世界
   image:
-    src: /logo/black_transparent.webp
+    src: /logo/black_transparent_3d.webp
     alt: 已知用火
   actions:
     - theme: brand 
