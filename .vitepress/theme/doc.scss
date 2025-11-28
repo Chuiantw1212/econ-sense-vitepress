@@ -1,0 +1,115 @@
+/* =================================================================
+   Universal Documentation Styles
+   Scope: .vp-doc (Applies to ALL documentation pages)
+   Design Philosophy: "Focus on Reading" - Zero Distraction.
+   [Updated] Removed h2 borders for a cleaner look.
+================================================================= */
+
+.vp-doc {
+
+    /* =========================================
+     1. 排版與垂直律動 (Typography & Rhythm)
+     增加間距，減少擁擠感，讓閱讀更順暢。
+  ========================================= */
+
+    // 基礎段落與列表間距
+    p,
+    ul,
+    ol,
+    dl {
+        margin-bottom: 1.5rem;
+        line-height: 1.8;
+    }
+
+    // 列表項目間距
+    li {
+        margin-bottom: 0.75rem;
+    }
+
+    // 標題層級間距
+    // 【重要修改】移除 H2 的底部邊框與內距
+    h2 {
+        margin-top: 4rem !important;
+        margin-bottom: 1.5rem; // 稍微減少下方間距，因為沒有邊框了
+        padding-bottom: 0 !important; // 移除多餘內距
+        border-bottom: none !important; // 強制移除邊框
+    }
+
+    h3 {
+        margin-top: 3rem !important;
+        margin-bottom: 1.5rem;
+    }
+
+
+    /* =========================================
+     2. 特殊區塊優化 (Structural Elements)
+  ========================================= */
+
+    // 通用前導段落 (Lead Paragraph)
+    h1+p {
+        font-size: 1.15rem;
+        line-height: 1.85;
+        color: var(--vp-c-text-2);
+        border-left: 4px solid var(--vp-c-brand-1);
+        padding-left: 1.5rem;
+        margin-bottom: 4rem;
+        margin-top: 2rem;
+    }
+
+    // 引用區塊 (Blockquote) 優化
+    blockquote {
+        background-color: var(--vp-c-bg-soft);
+        border-left: 4px solid var(--vp-c-divider);
+        padding: 1.25rem 1.5rem;
+        margin: 2.5rem 0;
+        border-radius: 8px;
+        font-style: italic;
+        color: var(--vp-c-text-2);
+
+        &>*:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+
+    /* =========================================
+     3. 嵌入內容容器 (Embedded Content)
+     目標：靜態、乾淨、無干擾的框架。
+  ========================================= */
+
+    // 統一處理所有大型嵌入元素
+    lazyslide,
+    iframe,
+    video {
+        display: block;
+        margin: 3.5rem auto;
+        width: 100%;
+        max-width: 100%;
+
+        // 【零干擾設計】
+        box-shadow: none !important;
+        transform: none !important;
+        border: 1px solid var(--vp-c-divider);
+        border-radius: 8px;
+        transition: none !important;
+
+        // 深色模式下的微調
+        .dark & {
+            border-color: rgba(255, 255, 255, 0.1);
+            background-color: var(--vp-c-bg);
+        }
+
+        // 【絕對禁止】移除任何 hover 互動
+        &:hover {
+            transform: none !important;
+            box-shadow: none !important;
+            border-color: var(--vp-c-divider) !important;
+        }
+    }
+
+    // 針對 lazyslide 內部的 iframe 修正
+    lazyslide iframe {
+        margin: 0;
+        border: none;
+    }
+}

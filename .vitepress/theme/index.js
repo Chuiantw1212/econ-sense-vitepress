@@ -9,6 +9,7 @@ import { install } from 'element-plus'
 import 'element-plus/dist/index.css'
 import './custom.scss'
 import './36b7cf.scss'
+import './doc.scss'
 
 // Scripts
 import firebase from 'firebase/compat/app'
