@@ -1,173 +1,203 @@
-/* =========================================
-   1. 全域變數與基礎設定
-========================================= */
-:root {
-    /* --- 品牌色定義 (修正版：壓深 Hover 與 Active 狀態) --- */
-    --vp-c-brand-1: #36b7cf;
-    /* 主色：明亮青藍 (保持不變) */
-    --vp-c-brand-2: #43c4dd;
-    /* Hover：稍微亮一點點，但不過曝 */
-    --vp-c-brand-3: #1f7a8c;
-    /* Active：顯著加深，提供扎實的點擊感，解決太亮問題 */
-    --vp-c-brand-4: #186473;
-    /* 更深色 (用於深色模式按鈕背景基底) */
-    --vp-c-brand-soft: rgba(54, 183, 207, 0.16);
-    /* 柔和背景 */
+/* =================================================================
+   Vitepress 全域樣式整合 (Global Styles)
+   主題：海德堡隱士居 - 高對比科技風格 (乾淨無疊加、無About客製版)
+   + 首頁以外的導航欄 (高透視清晰版)
+================================================================= */
 
-    /* --- 提示框組件顏色綁定 --- */
+/* -----------------------------------------------------------------
+   1. 全域變數定義 (Root Variables)
+----------------------------------------------------------------- */
+:root {
+    /* --- 品牌色定義 --- */
+    --vp-c-brand-1: #36b7cf;
+    --vp-c-brand-2: #43c4dd;
+    --vp-c-brand-3: #1f7a8c;
+    --vp-c-brand-4: #186473;
+    --vp-c-brand-soft: rgba(54, 183, 207, 0.16);
+
+    /* --- Vitepress 提示框組件顏色綁定 --- */
     --vp-c-tip-1: var(--vp-c-brand-1);
     --vp-c-tip-2: var(--vp-c-brand-2);
     --vp-c-tip-3: var(--vp-c-brand-3);
     --vp-c-tip-soft: var(--vp-c-brand-soft);
-
     --vp-c-note-1: var(--vp-c-brand-1);
     --vp-c-note-2: var(--vp-c-brand-2);
     --vp-c-note-3: var(--vp-c-brand-3);
     --vp-c-note-soft: var(--vp-c-brand-soft);
+}
 
-    /* --- 基礎 Feature 外框重置 --- */
-    .VPFeature {
-        background-color: unset;
-        border: none;
+
+/* -----------------------------------------------------------------
+   2. 全域通用元件與重置
+----------------------------------------------------------------- */
+
+/*
+   徹底重置 Vitepress 預設的 Feature 外框
+   確保它完全透明、無邊框、無陰影，避免與 .box 樣式疊加。
+*/
+.VPFeature {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    /* 移除預設內距，交給 .box 控制 */
+}
+
+.image-src {
+    z-index: 2;
+}
+
+/* --- [核心元件] 通用卡片樣式 (.box) --- */
+/* 所有的卡片視覺外觀都由此處統一管理 */
+.box {
+    background: #ffffff;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 12px;
+    /* 確保無陰影 */
+    box-shadow: none !important;
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    /* 移除 box-shadow 的過渡動畫 */
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+
+    img {
+        margin-bottom: 20px;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 50%;
+        max-width: 120px;
+        border: 2px solid transparent;
+        transition: border-color 0.3s ease;
     }
 
-    /* --- Feature Box 基礎樣式 (適用於淺色模式) --- */
-    .box {
-        background: #ffffff;
-        border: 1px solid var(--vp-c-divider);
-        border-radius: 12px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        padding: 24px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        /* 只針對特定屬性過渡，避免閃爍 */
-        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    .title {
+        font-size: 19px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: var(--vp-c-text-1);
+    }
 
-        &:hover {
-            transform: translateY(-5px);
-            /* Hover 時的陰影光暈 */
-            box-shadow: 0 12px 20px -10px rgba(54, 183, 207, 0.3);
-            border-color: var(--vp-c-brand-1);
-        }
+    .details {
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--vp-c-text-2);
+        flex-grow: 1;
+    }
 
-        .title {
-            font-size: 19px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            /* 使用變數，以便在深色模式局部覆蓋 */
-            color: var(--vp-c-text-1);
-        }
-
-        .details {
-            font-size: 15px;
-            line-height: 1.7;
-            color: var(--vp-c-text-2);
-        }
+    /* Hover 效果 */
+    &:hover {
+        transform: translateY(-5px);
+        /* 確保 Hover 也無陰影 */
+        box-shadow: none !important;
+        border-color: var(--vp-c-brand-1);
     }
 }
 
-/* --- 淺色模式首頁背景 --- */
+
+/* -----------------------------------------------------------------
+   3. 淺色模式特定設定
+----------------------------------------------------------------- */
 body .is-home {
     background: linear-gradient(180deg,
-            rgba(54, 183, 207, 0.1),
+            rgba(54, 183, 207, 0.08),
             rgba(240, 240, 240, 1) 60%,
             #ffffff 100%);
 }
 
 
-/* =========================================
-   2. 深色模式設定 (Dark Mode)
-   風格：深色背景漸層到極淺 + 淺色卡片 (高對比) + 深黑側邊欄
-========================================= */
+/* -----------------------------------------------------------------
+   4. 深色模式設定 (Dark Mode Theme Overrides)
+----------------------------------------------------------------- */
 .dark {
-    /* --- 重新定義深色模式基底色 --- */
-    --vp-c-bg: #1e1f24;
-    --vp-c-bg-alt: #2a2b2f;
-    --vp-c-bg-soft: #323338;
+    /* --- 基底色定義 --- */
+    --vp-c-bg: #0a0a0a;
+    /* 主背景：接近純黑 */
+    --vp-c-bg-alt: #141414;
+    /* 次要背景：極深灰 */
+    --vp-c-bg-soft: #1f1f1f;
+    /* 柔和背景：深灰 */
 
-    /* --- 強制側邊欄為深黑色 --- */
-    --vp-sidebar-bg-color: #161618;
+    /* --- 關鍵設定：強制側邊欄為深黑色 --- */
+    --vp-sidebar-bg-color: var(--vp-c-bg-alt);
 
-    /* --- 重新應用提示框顏色 --- */
-    --vp-c-tip-1: var(--vp-c-brand-1);
-    --vp-c-tip-2: var(--vp-c-brand-2);
-    --vp-c-tip-3: var(--vp-c-brand-3);
-    --vp-c-tip-soft: var(--vp-c-brand-soft);
-
-    --vp-c-note-1: var(--vp-c-brand-1);
-    --vp-c-note-2: var(--vp-c-brand-2);
-    --vp-c-note-3: var(--vp-c-brand-3);
-    --vp-c-note-soft: var(--vp-c-brand-soft);
-
-    /* 讓 Hero 標題文字使用新的品牌色 */
+    /* Hero 區域大標題使用品牌主色 */
     --vp-home-hero-name-color: var(--vp-c-brand-1);
 
-    /* --- 深色模式首頁背景：漸層底部更白 --- */
+    /* --- [頁面背景] 首頁高對比漸層 --- */
     .VPContent.is-home {
         background: linear-gradient(180deg,
-                #1e1f24 0%,
-                /* 頂部：深岩灰 */
+                var(--vp-c-bg) 0%,
+                /* 頂部：極深黑 */
                 #d0d3da 100%
-                /* 底部：極淺灰 */
+                /* 底部：極淺亮灰 */
             ) !important;
     }
 
-    /* --- 提升 Hero Tagline 對比度 --- */
+    /* --- [Hero 區域] 提升副標題可讀性 --- */
     .VPHero .tagline {
-        color: rgba(255, 255, 255, 0.92) !important;
+        color: rgba(255, 255, 255, 0.95) !important;
     }
 
-
-    /* --- Feature Box 深色樣式 (保持淺色背景) --- */
+    /* --- [核心元件] .box 深色模式樣式 (高對比反轉) --- */
     .box {
-        /* 1. 強制背景為淺色 */
         background: rgba(255, 255, 255, 0.95);
+        /* 淺色背景 */
         border: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        /* 確保無陰影 */
+        box-shadow: none !important;
 
-        /* 2. 局部重新定義文字變數為深色 (防止閃爍) */
+        /* 局部將文字變數重新定義為深色 */
         --vp-c-text-1: #213547;
-        --vp-c-text-2: rgba(60, 60, 67, 0.66);
+        --vp-c-text-2: rgba(60, 60, 67, 0.7);
 
+        img {
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        /* Hover 效果 */
         &:hover {
             border-color: var(--vp-c-brand-1);
             background: #ffffff;
-            /* Hover 時的陰影光暈 */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), 0 0 10px var(--vp-c-brand-soft);
+            /* 確保 Hover 無陰影 */
+            box-shadow: none !important;
+
+            img {
+                border-color: var(--vp-c-brand-1);
+            }
         }
     }
 
-    /* 讓首頁的 Brand 按鈕在深色模式下顏色使用稍深一點的變數 */
+    /* --- [按鈕] --- */
     .VPButton.brand {
-        /* 預設使用 brand-3 (較深)，避免太刺眼 */
         background-color: var(--vp-c-brand-3) !important;
         color: #ffffff !important;
 
         &:hover {
-            /* Hover 時使用主色 brand-1 (變亮) */
             background-color: var(--vp-c-brand-1) !important;
         }
 
         &:active {
-            /* 點擊時使用最深的 brand-4 (變暗) */
             background-color: var(--vp-c-brand-4) !important;
         }
     }
 
-    /* --- 深色模式 Footer 樣式調整 --- */
+    /* --- [頁尾] --- */
     .VPFooter {
         background: #d0d3da;
-        /* 銜接新的極淺灰底部 */
         color: #555555;
-        /* 文字改為深灰色 */
         border-top: 1px solid rgba(0, 0, 0, 0.1);
 
         a {
             transition: color 0.3s ease;
             color: #213547;
 
-            /* 連結改為深色 */
             &:hover {
                 color: var(--vp-c-brand-1);
             }
@@ -175,7 +205,49 @@ body .is-home {
     }
 }
 
-/* 通用 */
-.image-src {
-    z-index: 2;
+
+/* =================================================================
+   5. 非首頁特定樣式 (Non-Home Page Specifics)
+   使用 html:not(.home) 確保僅在非首頁應用以下樣式
+================================================================= */
+html:not(.home) {
+
+    /* --- 導航欄高透視效果 (High Transparency Navbar) --- */
+
+    /* 【修改點】大幅降低背景不透明度 (更透) */
+    /* 淺色模式：從 0.6 降至 0.3 */
+    --vp-nav-bg-color: rgba(255, 255, 255, 0.3) !important;
+    /* 手機版選單稍微不透一點，保持可讀性 */
+    --vp-nav-screen-bg-color: rgba(255, 255, 255, 0.7) !important;
+
+    /* 應用濾鏡到導航欄容器 */
+    .VPNavBar {
+        /* 【修改點】大幅降低模糊度，降低飽和度 */
+        /* blur 從 20px 降至 8px，讓文字輪廓清晰 */
+        /* saturate 從 180% 降至 120%，減少色彩暈開 */
+        backdrop-filter: saturate(120%) blur(8px);
+        -webkit-backdrop-filter: saturate(120%) blur(8px);
+
+        /* 移除導航欄下方的邊框線，視覺更乾淨 */
+        border-bottom: none !important;
+        transition: background-color 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+    }
+
+    /* 手機版選單濾鏡 (可以稍微模糊一點) */
+    .VPNavScreen {
+        backdrop-filter: saturate(120%) blur(12px);
+        -webkit-backdrop-filter: saturate(120%) blur(12px);
+    }
+
+    /* --- 深色模式下的導航欄調整 (僅限非首頁) --- */
+    /* 這裡的 &.dark 會編譯成 html:not(.home).dark */
+    &.dark {
+        /* 【修改點】大幅降低背景不透明度 (更透) */
+        /* 深色模式：從 0.6 降至 0.3 */
+        --vp-nav-bg-color: rgba(10, 10, 10, 0.3) !important;
+        --vp-nav-screen-bg-color: rgba(10, 10, 10, 0.7) !important;
+
+        /* 確保分隔線顏色適配 (雖然上面 border-bottom: none 了，但保留著以防萬一) */
+        --vp-c-divider: rgba(255, 255, 255, 0.1) !important;
+    }
 }
