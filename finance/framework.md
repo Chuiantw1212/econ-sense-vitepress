@@ -83,7 +83,7 @@ head:
 
 #### 勞退：穩健收益與節稅雙效合一
 
-首先談到的是勞退（勞工退休金）。勞退除了提供<a target="_blank" href="https://www.pension.org.tw/index.php/2018-10-03-15-11-09/2019-02-13-00-01-00">穩健的年化報酬率（約4.5%）</a>，還能幫助你節省稅金。這是一項非常適合長期穩定成長的投資選擇，同時具備節稅效益，是勞工應該善加利用的福利之一。
+首先談到的是勞退（勞工退休金）。勞退除了提供<a target="_blank" href="https://www.pension.org.tw/index.php/pensinkb/data?id=310">穩健的年化報酬率（約4.5%）</a>，還能幫助你節省稅金。這是一項非常適合長期穩定成長的投資選擇，同時具備節稅效益，是勞工應該善加利用的福利之一。
 
 ![勞退績效](https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/framework/%E5%8B%9E%E9%80%80%E6%AD%B7%E5%B9%B4%E6%94%B6%E7%9B%8A.webp "勞退績效")
 
