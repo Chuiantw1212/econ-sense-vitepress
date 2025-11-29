@@ -1,53 +1,233 @@
 ---
-description: 台灣唯一開源的線上財務規劃表，工程師可學Vue+Node.js+GCP，民眾建立財務觀念，並提供回饋意見。
-outline: deep
-head:
-  - - meta
-    - name: og:image
-      property: og:image
-      content: /finance/plan/calculator.png
+layout: false
+title: 理財規劃書封面
 ---
-<!-- https://vitepress.dev/reference/frontmatter-config#head -->
-
-# 開源財務規劃表：快速建立財務觀念，資料安全又透明
-
-1. 金融惠普：民眾可以快速建立生涯財務觀念。<el-button class="d-none d-md-inline-block" @click="isOpenPreview=true">示意圖</el-button>
-2. 開源驗證：任何人都可以檢視程式碼是否有安全漏洞。 (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-hyper-express" target="_blank">後端開源</a>)。
-3. 資料安全：提供了表單離線匯出功能，不需註冊也可以保留試算結果。
-
-<el-dialog :modelValue="isOpenPreview" title="示意圖" center destroy-on-close lock-scroll
-    @close="isOpenPreview = false">
-    <div class="preview__div">
-      <img class="div__image" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/plan/%E7%A4%BA%E6%84%8F%E5%9C%96.webp" alt="示意圖"></img>
-    </div>
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button @click="isOpenPreview = false">關閉</el-button>
-      </div>
-    </template>
-</el-dialog>
-
-<Calculator></Calculator>
-
-## 專家諮詢
-
-<a href="https://www.azsinopro.com.tw/reservation/" target="_blank">Azimut Sinopro 安睿宏觀</a>是國際高端理財顧問領導品牌，提供個人及家庭全生涯理財規劃，與中高資產家族辦公室服務，團隊擁有如<a href="https://www.fpat.org.tw/Certification/List" target="_blank">CFP®、AFP等國際證照</a>，專注於為客戶達成理想生活品質。以超過27年的顧問經歷，服務超過5,000組台灣家庭，運用專業的理財觀點、客觀的投資建議，提供量身訂製財務解決方案，內容包含投資規劃、稅務規劃、風險管理、信用管理及現金流管理等專業規劃與諮詢服務。
-
-<a href="https://www.azsinopro.com.tw/reservation/" target="_blank">
-  <img src="/finance/plan/Group175.png" alt=banner>
-</a>
 
 <script setup>
 import { ref } from 'vue'
-import Calculator from './components/calculator/index.vue'
-const isOpenPreview = ref(false)
+import { ArrowRight } from '@element-plus/icons-vue'
+
+const reportData = ref({
+  title: '高氏家族 全方位理財規劃書',
+  clientName: '高大志 先生 / 王美美 女士',
+  advisors: ['楊先立', '張沐月'],
+  date: new Date().toLocaleDateString('zh-TW'),
+  disclaimer: '本報告書包含機密財務資訊，僅供客戶本人參考，嚴禁外流。'
+})
+
+const startPlanning = () => {
+  window.location.href = '/docs/table-of-contents' 
+}
 </script>
-<style lang="scss" scoped>
-.preview__div {
-  height: 420px;
-  overflow-y: auto;
-  .div__image {
-    margin: auto;
+
+<div class="financial-cover">
+  <el-container class="financial-cover__container">
+    <el-main class="financial-cover__main">
+      <el-card class="financial-cover__card" shadow="hover">
+        <template #header>
+          <div class="financial-cover__header">
+            <el-tag class="financial-cover__tag" effect="dark" round>2023 年度規劃</el-tag>
+            <h1 class="financial-cover__title">{{ reportData.title }}</h1>
+            <div class="financial-cover__subtitle">KAO FAMILY FINANCIAL PLANNING</div>
+          </div>
+        </template>
+        <div class="financial-cover__info">
+          <el-descriptions :column="1" border class="financial-cover__descriptions">
+            <el-descriptions-item label-class-name="financial-cover__label" label="委託客戶">
+              <span class="financial-cover__highlight">{{ reportData.clientName }}</span>
+            </el-descriptions-item>
+            <el-descriptions-item label-class-name="financial-cover__label" label="規劃顧問">
+              <el-space wrap>
+                <el-tag v-for="advisor in reportData.advisors" :key="advisor" class="financial-cover__advisor-tag" effect="plain">{{ advisor }}</el-tag>
+              </el-space>
+            </el-descriptions-item>
+            <el-descriptions-item label-class-name="financial-cover__label" label="報告日期">{{ reportData.date }}</el-descriptions-item>
+          </el-descriptions>
+        </div>
+        <div class="financial-cover__actions">
+          <button class="financial-cover__btn" @click="startPlanning">進入規劃書<el-icon class="financial-cover__btn-icon"><ArrowRight /></el-icon></button>
+        </div>
+        <el-divider content-position="center" class="financial-cover__divider">聲明</el-divider>
+        <p class="financial-cover__disclaimer">{{ reportData.disclaimer }}</p>
+      </el-card>
+    </el-main>
+    <el-footer class="financial-cover__footer">Powered by VitePress & Element Plus | 線上理財規劃系統</el-footer>
+  </el-container>
+</div>
+
+<style lang="scss">
+.financial-cover {
+  background-color: var(--vp-c-bg);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--vp-font-family-base);
+  background: linear-gradient(180deg, var(--vp-c-brand-soft), var(--vp-c-bg) 60%, var(--vp-c-bg) 100%);
+
+  &__container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
   }
+
+  &__main {
+    padding: 0;
+    overflow: visible;
+  }
+
+  &__card {
+    --el-card-border-radius: 12px;
+    --el-card-bg-color: var(--vp-c-bg-alt); 
+    --el-card-border-color: var(--vp-c-divider);
+    border: 1px solid var(--vp-c-divider);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    
+    .el-card__body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      border-color: var(--vp-c-brand-1);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  &__header {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  &__tag {
+    --el-tag-bg-color: var(--vp-c-brand-1);
+    --el-tag-border-color: var(--vp-c-brand-1);
+    --el-tag-text-color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  &__title {
+    font-size: 2.2rem;
+    color: var(--vp-c-text-1);
+    margin: 20px 0 10px;
+    font-weight: 700;
+    line-height: 1.3;
+
+    @media (max-width: 768px) {
+      font-size: 1.8rem;
+    }
+  }
+
+  &__subtitle {
+    font-size: 0.9rem;
+    color: var(--vp-c-brand-3);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+
+  &__info {
+    width: 100%;
+    margin: 20px 0;
+  }
+
+  &__descriptions {
+    --el-text-color-regular: var(--vp-c-text-2);
+    --el-text-color-primary: var(--vp-c-text-1);
+    --el-border-color-lighter: var(--vp-c-divider);
+    
+    :deep(.el-descriptions__label) {
+      background-color: var(--vp-c-bg-soft) !important;
+      font-weight: 600;
+      color: var(--vp-c-text-2);
+      width: 120px;
+      text-align: center;
+    }
+    
+    :deep(.el-descriptions__content) {
+      background-color: var(--vp-c-bg-alt);
+    }
+  }
+
+  &__highlight {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--vp-c-brand-1);
+  }
+
+  &__advisor-tag {
+    --el-tag-text-color: var(--vp-c-brand-2);
+    --el-tag-border-color: var(--vp-c-brand-soft);
+    --el-tag-bg-color: transparent;
+  }
+
+  &__actions {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 32px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: var(--vp-c-brand-3);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+      background-color: var(--vp-c-brand-1);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      background-color: var(--vp-c-brand-4);
+      transform: scale(0.98);
+    }
+  }
+
+  &__btn-icon {
+    margin-left: 8px;
+  }
+
+  &__divider {
+    --el-border-color: var(--vp-c-divider);
+    
+    :deep(.el-divider__text) {
+      background-color: var(--vp-c-bg-alt);
+      color: var(--vp-c-text-3);
+    }
+  }
+
+  &__disclaimer {
+    font-size: 0.85rem;
+    color: var(--vp-c-text-3);
+    text-align: center;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  &__footer {
+    text-align: center;
+    color: var(--vp-c-text-3);
+    font-size: 0.8rem;
+    padding: 20px;
+    margin-top: 20px;
+    opacity: 0.8;
+  }
+}
+
+.dark .financial-cover {
+  background: linear-gradient(180deg, var(--vp-c-bg), #1f1f1f 100%);
 }
 </style>

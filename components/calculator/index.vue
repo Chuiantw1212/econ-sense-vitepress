@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ClientOnly>
+        <!-- <ClientOnly>
             <el-dialog v-model="loadingDialogVisible" title="等待伺服器開機" width="375">
                 <div>此為免費服務，伺服器開機5秒~12秒準備以下資料。</div>
                 <ul>
@@ -19,7 +19,7 @@
                     </div>
                 </template>
             </el-dialog>
-        </ClientOnly>
+        </ClientOnly> -->
 
         <h2 id="_基本資料" tabindex="-1">
             基本資料
@@ -627,7 +627,8 @@ function copyObjectValue(valueRefObj, keyRefObj) {
 }
 // 沒什麼會去動到的Mounted&Debounce放底下
 onMounted(async () => {
-    await addFirebaseListener()
+    // 計算機初始化
+    // await addFirebaseListener()
 })
 // 用戶與權限
 const user = reactive({

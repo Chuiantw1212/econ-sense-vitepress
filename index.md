@@ -18,6 +18,9 @@ hero:
     - theme: brand 
       text: 心火七職測驗
       link: /core7
+    - theme: brand 
+      text: 理財規劃書
+      link: /plan
     - theme: alt
       text: 關於EN Chu
       link: /about 

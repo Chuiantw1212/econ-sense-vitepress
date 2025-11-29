@@ -23,6 +23,7 @@
     "vitepress": "^1.6.4"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
     "chart.js": "^4.5.0",
     "element-plus": "^2.11.3",
     "firebase": "^11.10.0",
