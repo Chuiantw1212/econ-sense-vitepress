@@ -46,7 +46,7 @@
   ========================================= */
 
     // 通用前導段落 (Lead Paragraph)
-    h1+p {
+    h1+p:not(.affiliation) {
         font-size: 1.15rem;
         line-height: 1.85;
         color: var(--vp-c-text-2);
