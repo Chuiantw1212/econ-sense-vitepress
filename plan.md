@@ -5,51 +5,50 @@ title: 理財規劃書封面
 
 <script setup>
 import { ref, computed } from 'vue'
-import { ArrowRight, DocumentChecked, UserFilled, InfoFilled } from '@element-plus/icons-vue'
+import { ArrowRight, UserFilled, Monitor, InfoFilled } from '@element-plus/icons-vue'
 
 // 定義報告數據
 const reportData = ref({
   clientName: '', 
   advisors: ['EN Chu'],
   date: new Date().toLocaleDateString('zh-TW'),
-  disclaimer: '本報告書包含機密財務資訊，僅供用戶本人參考，嚴禁外流。'
+  disclaimer: '機密財務文件｜僅供本人參考｜嚴禁外流'
 })
 
 // 動態標題邏輯
 const dynamicTitle = computed(() => {
   return reportData.value.clientName 
-    ? `${reportData.value.clientName} 專屬理財規劃書` 
+    ? `${reportData.value.clientName} 的理財規劃書` 
     : '全方位理財規劃書'
 })
 
 // 開始規劃導航
 const startPlanning = () => {
-  // 這裡建議使用 VitePress 的 router 或相對路徑
   window.location.href = './table-of-contents' 
 }
 </script>
 
 <el-container style="min-height: 100vh; background-color: var(--el-bg-color-page);">
-  <el-main style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+  <el-main style="display: flex; justify-content: center; align-items: center;">
     <el-row justify="center" style="width: 100%;">
-      <el-col :xs="22" :sm="20" :md="16" :lg="12" :xl="10">
-        <el-card shadow="hover" style="border-radius: 16px; text-align: center; padding: 20px;">
+      <el-col :xs="22" :sm="18" :md="14" :lg="10" :xl="8">
+        <el-card shadow="hover" style="border-radius: 12px; text-align: center; border-top: 4px solid var(--el-color-primary);">
           <template #header>
-            <el-space direction="vertical" :size="10" style="width: 100%">
-               <el-text type="primary" tag="b" size="large" style="font-size: 2rem;">
+            <el-space direction="vertical" alignment="center" :size="16" style="width: 100%; padding: 20px 0;">
+              <el-icon :size="48" color="var(--el-color-primary)"><Monitor /></el-icon>
+              <el-text type="primary" tag="h1" style="font-size: 1.8rem; margin: 0; line-height: 1.2;">
                 {{ dynamicTitle }}
-              </el-text>
-              <el-text type="info" size="small">
-                Financial Planning Report
+              </el-text> 
+              <el-text type="info" size="small" style="letter-spacing: 2px;">
+                PERSONAL FINANCIAL PLANNING REPORT
               </el-text>
             </el-space>
           </template>
-          <el-form label-position="top" size="large" style="margin-top: 20px;">
+          <el-form size="large" style="margin-top: 10px;">
             <el-form-item>
               <el-input 
                 v-model="reportData.clientName" 
-                placeholder="請輸入客戶姓名以生成封面" 
-                size="large"
+                placeholder="請輸入客戶姓名" 
                 clearable
               >
                 <template #prefix>
@@ -57,48 +56,47 @@ const startPlanning = () => {
                 </template>
               </el-input>
             </el-form-item>
-            <el-descriptions :column="1" border style="margin-bottom: 30px;">
-              <el-descriptions-item label="規劃顧問" label-align="center" align="center">
+            <el-descriptions :column="1" border style="margin-bottom: 24px;">
+              <el-descriptions-item label-align="center" align="center">
+                <template #label>
+                  <el-text type="primary"><el-icon><UserFilled /></el-icon> 規劃顧問</el-text>
+                </template>
                 <el-space>
                   <el-tag 
                     v-for="advisor in reportData.advisors" 
                     :key="advisor" 
-                    type="success" 
-                    effect="dark" 
+                    type="primary" 
+                    effect="plain" 
                     round
                   >
                     {{ advisor }}
                   </el-tag>
                 </el-space>
               </el-descriptions-item>
-              <el-descriptions-item label="報告日期" label-align="center" align="center">
-                <el-text tag="b">{{ reportData.date }}</el-text>
+              <el-descriptions-item label-align="center" align="center">
+                <template #label>
+                  <el-text type="primary"><el-icon><InfoFilled /></el-icon> 報告日期</el-text>
+                </template>
+                <el-text>{{ reportData.date }}</el-text>
               </el-descriptions-item>
             </el-descriptions>
             <el-form-item>
               <el-button 
                 type="primary" 
                 size="large" 
-                round 
-                color="#626aef" 
-                @click="startPlanning" 
-                style="width: 100%; height: 50px; font-size: 1.2rem;"
+                style="width: 100%; font-weight: bold; letter-spacing: 1px;"
+                round
+                @click="startPlanning"
               >
-                開始閱覽規劃 <el-icon class="el-icon--right"><ArrowRight /></el-icon>
+                開始閱覽 <el-icon class="el-icon--right"><ArrowRight /></el-icon>
               </el-button>
             </el-form-item>
           </el-form>
           <template #footer>
-            <el-alert
-              :title="reportData.disclaimer"
-              type="warning"
-              :closable="false"
-              show-icon
-              center
-            />
-            <div style="margin-top: 15px;">
-              <el-text type="info" size="small">
-                Powered by VitePress & Element Plus
+            <div style="text-align: center;">
+              <el-text type="primary" size="small" style="opacity: 0.8;">
+                <el-icon style="vertical-align: middle; margin-right: 4px;"><InfoFilled /></el-icon>
+                {{ reportData.disclaimer }}
               </el-text>
             </div>
           </template>
