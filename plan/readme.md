@@ -18,7 +18,7 @@
 ├── docs/
 │   ├── index.md                  # [已完成] 封面頁 (Cover Page)
 │   └── plan/                     # 核心規劃模組資料夾
-│       ├── index.md              # [已完成] 目錄與儀表板 (Dashboard/TOC)
+│       ├── table-of-contents.md              # [已完成] 目錄與儀表板 (Dashboard/TOC)
 │       ├── disclaimer.md         # [待開發] 01. 責任與義務聲明
 │       ├── family-background.md  # [待開發] 02. 家庭成員與背景
 │       ├── goal-setting.md       # [待開發] 03. 理財目標設定

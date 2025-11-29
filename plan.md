@@ -24,7 +24,7 @@ const dynamicTitle = computed(() => {
 
 // 開始規劃導航
 const startPlanning = () => {
-  window.location.href = './table-of-contents' 
+  window.location.href = './plan/table-of-contents' 
 }
 </script>
 
