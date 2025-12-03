@@ -16,7 +16,7 @@ hero:
       text: 講座排程
       link: /calendar
     - theme: brand 
-      text: 心火七職測驗
+      text: TES熵腦模型
       link: /core7
     - theme: alt
       text: 關於EN Chu
