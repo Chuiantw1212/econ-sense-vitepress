@@ -12,7 +12,7 @@
         <el-row class="keyword-container">
             <el-checkbox-group v-model="selectedKeywords" @change="calculateResults">
                 <el-checkbox v-for="(item, index) in shuffledKeywords" :key="index" :label="item.keyword_zh"
-                    :value="item" border style="margin: 5px;">
+                    :value="item" style="margin: 5px;">
                     {{ item.keyword_zh }}
                 </el-checkbox>
             </el-checkbox-group>
@@ -21,15 +21,6 @@
         <br />
 
         <div v-show="selectedKeywords.length >= 5" class="result-section">
-            <el-divider content-position="center">你的大腦原野分佈</el-divider>
-
-            <div class="result-section" v-show="selectedKeywords.length >= 5">
-                <el-divider content-position="center">你的大腦神經宇宙座標</el-divider>
-
-                <div id="brain3D" style="width: 100%; height: 500px;"></div>
-
-            </div>
-
             <div class="dimension-analysis" v-if="dimensionScores">
                 <el-descriptions title="神經動力分析" direction="vertical" :column="3" border>
                     <el-descriptions-item label="驅動力 (Drive)">
@@ -48,6 +39,13 @@
                         </el-tag>
                     </el-descriptions-item>
                 </el-descriptions>
+            </div>
+
+            <div class="result-section" v-show="selectedKeywords.length >= 5">
+                <el-divider content-position="center">你的大腦神經宇宙座標</el-divider>
+
+                <div id="brain3D" style="width: 100%; height: 500px;"></div>
+
             </div>
 
             <div class="buttonGroup" style="margin-top: 20px; text-align: center;">
@@ -124,14 +122,13 @@ const archetypeStars = [
 // --- 4. 初始化 ---
 onMounted(async () => {
     const rawKeywords = await getKeywordsData()
-    console.log({
-        rawKeywords
-    })
     shuffledKeywords.value = shuffle(rawKeywords);
 });
 
 function calculateResults() {
-    if (selectedKeywords.value.length === 0) return;
+    if (selectedKeywords.value.length <= 5) {
+        return;
+    }
 
     // 1. 計算使用者向量 (平均值 -1 ~ 1)
     let totalVec = { x: 0, y: 0, z: 0 };
@@ -141,7 +138,7 @@ function calculateResults() {
         totalVec.z += kw.vector.z;
     });
     const count = selectedKeywords.value.length;
-    
+
     // 放大倍率 (跟角色座標匹配，設為 10)
     const scale = 10;
     const userX = (totalVec.x / count) * scale;
@@ -193,17 +190,6 @@ function draw3DChart(ux: number, uy: number, uz: number) {
         }
     };
 
-    // 3. 連結線 (畫出使用者到原點的線，增加空間感)
-    const lineTrace = {
-        x: [0, ux],
-        y: [0, uy],
-        z: [0, uz],
-        mode: 'lines',
-        type: 'scatter3d',
-        line: { color: '#FFD700', width: 5 },
-        showlegend: false
-    };
-
     // 4. 佈局設定
     const layout = {
         margin: { l: 0, r: 0, b: 0, t: 0 },
@@ -219,7 +205,7 @@ function draw3DChart(ux: number, uy: number, uz: number) {
         legend: { x: 0, y: 1 }
     };
 
-    Plotly.newPlot('brain3D', [archetypesTrace, userTrace, lineTrace], layout, {responsive: true});
+    Plotly.newPlot('brain3D', [archetypesTrace, userTrace,], layout, { responsive: true });
 }
 
 function resetTest() {
@@ -270,7 +256,12 @@ async function getKeywordsData(): Promise<KeywordItem[]> {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
 .keyword-container {
     justify-content: center;
     margin-bottom: 20px;
