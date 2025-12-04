@@ -44,22 +44,23 @@ export default defineConfig({
         text: '線上/實體講座',
         link: '/calendar',
       },
+      // {
+      //   text: '熵腦人格測驗測驗',
+      //   link: '/entropy',
+      // },
       {
-        text: '心火七職測驗',
-        link: '/core7',
-      },
-      {
-        text: '七職詳細解說',
-        collapsed: true,
+        text: '熵腦人格測驗',
+        collapsed: false,
         items: [
-          { text: '心火七職: 🏹 狩獵者', link: '/core7/hunter' },
-          { text: '心火七職: 🍇 採集者', link: '/core7/gatherer' },
-          { text: '心火七職: 🫂 助人者', link: '/core7/helper' },
-          { text: '心火七職: 🛡 守夜人', link: '/core7/keeper' },
-          { text: '心火七職: 🦋 傳夢人', link: '/core7/dreamer' },
-          { text: '心火七職: 🛠 工匠', link: '/core7/maker' },
-          { text: '心火七職: 🌳 長老', link: '/core7/elder' },
-          { text: '心火七職: 🤝 協商者', link: '/core7/negotiator' },
+          { text: '點此進行測驗', link: '/entropy/index' },
+          { text: '🏹 狩獵者', link: '/entropy/hunter' },
+          { text: '🍇 採集者', link: '/entropy/gatherer' },
+          { text: '🫂 助人者', link: '/entropy/helper' },
+          { text: '🛡 守夜人', link: '/entropy/keeper' },
+          { text: '🦋 傳夢人', link: '/entropy/dreamer' },
+          { text: '🛠 工匠', link: '/entropy/maker' },
+          { text: '🌳 長老', link: '/entropy/elder' },
+          { text: '🤝 協商者', link: '/entropy/negotiator' },
         ]
         // link: 'core7'
       },

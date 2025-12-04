@@ -22,6 +22,7 @@
 
         <div v-show="selectedKeywords.length >= 5" class="result-section">
             <el-divider content-position="center">你的大腦原野分佈</el-divider>
+
             <canvas id="neuroRadar"></canvas>
 
             <div class="dimension-analysis" v-if="dimensionScores">
@@ -37,7 +38,7 @@
                         </el-tag>
                     </el-descriptions-item>
                     <el-descriptions-item label="資訊拓撲 (Topology)">
-                        <el-tag :type="dimensionScores.z > 0 ? 'primary' : 'secondary'">
+                        <el-tag :type="dimensionScores.z > 0 ? 'primary' : 'info'">
                             {{ dimensionScores.z > 0 ? '感知 (外求)' : '預測 (內求)' }}
                         </el-tag>
                     </el-descriptions-item>
@@ -65,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, shallowRef, onMounted } from 'vue'
+import { ref, shallowRef, onMounted, markRaw, nextTick } from 'vue' // 加上 markRaw
 import Chart from 'chart.js/auto';
 import { ElMessage } from 'element-plus'
 
@@ -97,7 +98,8 @@ const shuffledKeywords = ref<KeywordItem[]>([])
 const selectedKeywords = ref<KeywordItem[]>([]) // 注意這裡存的是物件，不是字串
 const fullscreenLoading = ref<boolean>(false)
 const dimensionScores = ref<Vector3 | null>(null)
-let radarInstance = ref<Chart>()
+
+const radarInstance = shallowRef<Chart | null>(null)
 
 // --- 3. 八大角色原型定義 (標準座標) ---
 const archetypes: ArchetypeDef[] = [
@@ -117,7 +119,7 @@ const archetypes: ArchetypeDef[] = [
 onMounted(async () => {
     const rawKeywords = await getKeywordsData()
     console.log({
-rawKeywords
+        rawKeywords
     })
     shuffledKeywords.value = shuffle(rawKeywords);
 });
@@ -167,6 +169,9 @@ function calculateResults() {
         return Math.max(0, Math.round(score)); // 確保不小於 0
     });
 
+    console.log({
+        radarData
+    })
     drawRadar(radarData);
 }
 
@@ -177,7 +182,7 @@ function drawRadar(dataValues: number[]) {
     const data = {
         labels: archetypes.map(a => a.name),
         datasets: [{
-            label: '角色共鳴度 (%)',
+            label: '共鳴度',
             data: dataValues,
             fill: true,
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -189,31 +194,32 @@ function drawRadar(dataValues: number[]) {
         }]
     };
 
+    // 【關鍵修正 4】先銷毀舊實例，防止記憶體洩漏與狀態衝突
     if (radarInstance.value) {
-        radarInstance.value.data = data;
+        radarInstance.value.data = data
         radarInstance.value.update();
-    } else {
-        radarInstance.value = new Chart(ctx, {
-            type: 'radar',
-            data: data,
-            options: {
-                elements: {
-                    line: { borderWidth: 3 }
-                },
-                scales: {
-                    r: {
-                        angleLines: { display: true },
-                        suggestedMin: 0,
-                        suggestedMax: 100,
-                        ticks: { stepSize: 20 }
-                    }
-                },
-                plugins: {
-                    legend: { display: false }
-                }
-            }
-        });
     }
+
+
+    // 【關鍵修正 5】使用 markRaw 包裹，這是阻斷迴圈的最後一道防線
+    radarInstance.value = markRaw(new Chart(ctx, {
+        type: 'radar',
+        data: data,
+        options: {
+            elements: { line: { borderWidth: 3 } },
+            scales: {
+                r: {
+                    angleLines: { display: true },
+                    suggestedMin: 0,
+                    suggestedMax: 100,
+                    ticks: { display: false } // 隱藏刻度數字讓畫面更乾淨
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    }));
 }
 
 function resetTest() {
