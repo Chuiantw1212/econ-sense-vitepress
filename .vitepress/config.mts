@@ -44,23 +44,19 @@ export default defineConfig({
         text: '線上/實體講座',
         link: '/calendar',
       },
-      // {
-      //   text: '熵腦人格測驗測驗',
-      //   link: '/entropy',
-      // },
       {
         text: '熵腦人格測驗',
         collapsed: false,
         items: [
           { text: '點此進行測驗', link: '/entropy/index' },
-          { text: '🏹 狩獵者', link: '/entropy/hunter' },
-          { text: '🍇 採集者', link: '/entropy/gatherer' },
+          { text: '🏹 獵人', link: '/entropy/hunter' },
+          { text: '🧭 尋蹤者', link: '/entropy/scout' },
+          { text: '🦋 薩滿', link: '/entropy/shaman' },
+          { text: '🤝 信使', link: '/entropy/envoy' },
           { text: '🫂 助人者', link: '/entropy/helper' },
-          { text: '🛡 守夜人', link: '/entropy/keeper' },
-          { text: '🦋 傳夢人', link: '/entropy/dreamer' },
-          { text: '🛠 工匠', link: '/entropy/maker' },
           { text: '🌳 長老', link: '/entropy/elder' },
-          { text: '🤝 協商者', link: '/entropy/negotiator' },
+          { text: '🛠 工匠', link: '/entropy/toolmaker' },
+          { text: '🛡️ 哨兵', link: '/entropy/sentry' },
         ]
         // link: 'core7'
       },
@@ -96,7 +92,7 @@ export default defineConfig({
       {
         text: '成長艙室',
         link: '/growth',
-        collapsed: false,
+        collapsed: true,
         items: [
           { text: '軟體專案實務', link: '/growth/project' },
           // { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
@@ -108,7 +104,7 @@ export default defineConfig({
       {
         text: '生活實驗室',
         link: '/life',
-        collapsed: false,
+        collapsed: true,
         items: [
           { text: '我是照顧者', link: '/life/carer' },
           // { text: '愛之語', link: '/life/love-language' },
