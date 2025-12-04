@@ -1,6 +1,4 @@
 <template>
-    <h2 id="熵腦原野八職測驗" tabindex="-1">熵腦原野八職測驗 <a class="header-anchor" href="#熵腦原野八職測驗"
-            aria-label="Permalink to &quot;熵腦原野八職測驗&quot;">&ZeroWidthSpace;</a></h2>
     <el-card v-loading="fullscreenLoading">
         <template #header>
             <div class="card-header">
@@ -20,7 +18,7 @@
 
         <br />
 
-        <div v-show="selectedKeywords.length >= 5" class="result-section">
+        <div v-show="selectedKeywords.length >= 10" class="result-section">
             <div class="dimension-analysis" v-if="dimensionScores">
                 <el-descriptions title="神經動力分析" direction="vertical" :column="3" border>
                     <el-descriptions-item label="驅動力 (Drive)">
@@ -126,7 +124,7 @@ onMounted(async () => {
 });
 
 function calculateResults() {
-    if (selectedKeywords.value.length < 5) {
+    if (selectedKeywords.value.length < 10) {
         return;
     }
 
