@@ -23,7 +23,12 @@
         <div v-show="selectedKeywords.length >= 5" class="result-section">
             <el-divider content-position="center">你的大腦原野分佈</el-divider>
 
-            <canvas id="neuroRadar"></canvas>
+            <div class="result-section" v-show="selectedKeywords.length >= 5">
+                <el-divider content-position="center">你的大腦神經宇宙座標</el-divider>
+
+                <div id="brain3D" style="width: 100%; height: 500px;"></div>
+
+            </div>
 
             <div class="dimension-analysis" v-if="dimensionScores">
                 <el-descriptions title="神經動力分析" direction="vertical" :column="3" border>
@@ -68,6 +73,8 @@
 <script setup lang="ts">
 import { ref, shallowRef, onMounted, markRaw, nextTick } from 'vue' // 加上 markRaw
 import Chart from 'chart.js/auto';
+// 引入 Plotly (建議用 CDN 或動態引入以節省打包體積)
+import Plotly from 'plotly.js-dist-min'
 import { ElMessage } from 'element-plus'
 
 // --- 1. 定義資料介面 ---
@@ -101,19 +108,18 @@ const dimensionScores = ref<Vector3 | null>(null)
 
 const radarInstance = shallowRef<Chart | null>(null)
 
-// --- 3. 八大角色原型定義 (標準座標) ---
-const archetypes: ArchetypeDef[] = [
-    // T 組
-    { key: 'Hunter', name: '獵人 (Hunter)', vector: { x: 1, y: 1, z: 1 }, desc: '瞬間反應的征服者' },
-    { key: 'Pathfinder', name: '尋路人 (Pathfinder)', vector: { x: 1, y: 1, z: -1 }, desc: '願景導航者' },
-    { key: 'Toolmaker', name: '工匠 (Toolmaker)', vector: { x: 1, y: -1, z: 1 }, desc: '精確執行者' },
-    { key: 'Sentry', name: '哨兵 (Sentry)', vector: { x: 1, y: -1, z: -1 }, desc: '秩序防禦者' },
-    // O 組
-    { key: 'Shaman', name: '薩滿 (Shaman)', vector: { x: -1, y: 1, z: 1 }, desc: '靈性共鳴者' },
-    { key: 'Envoy', name: '信使 (Envoy)', vector: { x: -1, y: 1, z: -1 }, desc: '意義傳遞者' },
-    { key: 'Helper', name: '助人者 (Helper)', vector: { x: -1, y: -1, z: 1 }, desc: '溫暖供給者' },
-    { key: 'Elder', name: '長老 (Elder)', vector: { x: -1, y: -1, z: -1 }, desc: '智慧傳承者' },
-]
+// --- 8 大角色座標 (恆星) ---
+// 為了視覺效果，我們把座標放大一點 (例如 +/- 10)
+const archetypeStars = [
+    { name: '獵人', x: 10, y: 10, z: 10, color: '#FF4500', symbol: 'diamond' },     // T-H-BU
+    { name: '尋路人', x: 10, y: 10, z: -10, color: '#FF8C00', symbol: 'diamond' },  // T-H-TD
+    { name: '工匠', x: 10, y: -10, z: 10, color: '#1E90FF', symbol: 'square' },     // T-L-BU
+    { name: '哨兵', x: 10, y: -10, z: -10, color: '#00008B', symbol: 'square' },    // T-L-TD
+    { name: '薩滿', x: -10, y: 10, z: 10, color: '#9370DB', symbol: 'circle' },     // O-H-BU
+    { name: '信使', x: -10, y: 10, z: -10, color: '#FF69B4', symbol: 'circle' },    // O-H-TD
+    { name: '助人者', x: -10, y: -10, z: 10, color: '#32CD32', symbol: 'cross' },   // O-L-BU
+    { name: '長老', x: -10, y: -10, z: -10, color: '#2E8B57', symbol: 'cross' },    // O-L-TD
+];
 
 // --- 4. 初始化 ---
 onMounted(async () => {
@@ -124,104 +130,96 @@ onMounted(async () => {
     shuffledKeywords.value = shuffle(rawKeywords);
 });
 
-// --- 5. 核心計算邏輯 ---
 function calculateResults() {
-    if (selectedKeywords.value.length === 0) {
-        dimensionScores.value = null;
-        if (radarInstance.value) radarInstance.value.destroy();
-        return;
-    }
+    if (selectedKeywords.value.length === 0) return;
 
-    // 1. 計算使用者總向量 (Sum Vector)
-    let totalVec: Vector3 = { x: 0, y: 0, z: 0 };
+    // 1. 計算使用者向量 (平均值 -1 ~ 1)
+    let totalVec = { x: 0, y: 0, z: 0 };
     selectedKeywords.value.forEach(kw => {
         totalVec.x += kw.vector.x;
         totalVec.y += kw.vector.y;
         totalVec.z += kw.vector.z;
     });
-
-    // 2. 歸一化 (變成平均傾向，範圍約 -1 ~ 1)
     const count = selectedKeywords.value.length;
-    const userVec: Vector3 = {
-        x: totalVec.x / count,
-        y: totalVec.y / count,
-        z: totalVec.z / count
-    };
-    dimensionScores.value = userVec;
+    
+    // 放大倍率 (跟角色座標匹配，設為 10)
+    const scale = 10;
+    const userX = (totalVec.x / count) * scale;
+    const userY = (totalVec.y / count) * scale;
+    const userZ = (totalVec.z / count) * scale;
 
-    // 3. 計算與 8 個角色的「相似度」 (使用向量點積 + 歸一化映射到 0-100)
-    // 相似度公式: Cosine Similarity 或是簡單的投影
-    // 這裡使用簡單的投影分數： Score = (User . Archetype)
-    // 因為 Archetype 向量長度固定為 sqrt(3)，我們簡化計算。
+    dimensionScores.value = { x: userX, y: userY, z: userZ };
 
-    const radarData = archetypes.map(arch => {
-        // 計算歐幾里得距離 (距離越小越相似)
-        const dist = Math.sqrt(
-            Math.pow(userVec.x - arch.vector.x, 2) +
-            Math.pow(userVec.y - arch.vector.y, 2) +
-            Math.pow(userVec.z - arch.vector.z, 2)
-        );
-
-        // 將距離轉換為分數 (最大距離約為 3.46 (從 -1,-1,-1 到 1,1,1)，我們反轉它)
-        // 分數 = (1 - (dist / max_dist)) * 100
-        const maxDist = 3.5;
-        let score = (1 - (dist / maxDist)) * 100;
-        return Math.max(0, Math.round(score)); // 確保不小於 0
-    });
-
-    console.log({
-        radarData
-    })
-    drawRadar(radarData);
+    // 繪製 3D 圖
+    draw3DChart(userX, userY, userZ);
 }
 
-function drawRadar(dataValues: number[]) {
-    const ctx = document.querySelector('#neuroRadar') as HTMLCanvasElement;
-    if (!ctx) return;
+function draw3DChart(ux: number, uy: number, uz: number) {
+    const chartDiv = document.getElementById('brain3D');
+    if (!chartDiv) return;
 
-    const data = {
-        labels: archetypes.map(a => a.name),
-        datasets: [{
-            label: '共鳴度',
-            data: dataValues,
-            fill: true,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgb(54, 162, 235)',
-            pointBackgroundColor: 'rgb(54, 162, 235)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgb(54, 162, 235)'
-        }]
+    // 1. 角色數據集 (8個定點)
+    const archetypesTrace = {
+        x: archetypeStars.map(a => a.x),
+        y: archetypeStars.map(a => a.y),
+        z: archetypeStars.map(a => a.z),
+        mode: 'markers+text',
+        type: 'scatter3d',
+        name: '原型角色',
+        text: archetypeStars.map(a => a.name),
+        textposition: 'top center',
+        marker: {
+            size: 8,
+            color: archetypeStars.map(a => a.color),
+            opacity: 0.8
+        }
     };
 
-    // 【邏輯修正】使用 if...else 分流
-    if (radarInstance.value) {
-        // 1. 如果圖表已存在，直接更新數據與畫面 (效能最好)
-        radarInstance.value.data = data;
-        radarInstance.value.update();
-    } else {
-        // 2. 如果圖表不存在，才建立新的實例
-        // 使用 markRaw 阻斷 Vue 的深度監聽
-        radarInstance.value = markRaw(new Chart(ctx, {
-            type: 'radar',
-            data: data,
-            options: {
-                // 拿掉了可能導致震盪的 responsive 設定，保持預設
-                elements: { line: { borderWidth: 3 } },
-                scales: {
-                    r: {
-                        angleLines: { display: true },
-                        suggestedMin: 0,
-                        suggestedMax: 100,
-                        ticks: { display: false }
-                    }
-                },
-                plugins: {
-                    legend: { display: false }
-                }
+    // 2. 使用者數據集 (1個動點)
+    const userTrace = {
+        x: [ux],
+        y: [uy],
+        z: [uz],
+        mode: 'markers+text',
+        type: 'scatter3d',
+        name: '你的位置',
+        text: ['YOU'],
+        textposition: 'bottom center',
+        marker: {
+            size: 15,
+            color: '#FFD700', // 金色
+            symbol: 'circle',
+            line: { color: '#000', width: 2 }
+        }
+    };
+
+    // 3. 連結線 (畫出使用者到原點的線，增加空間感)
+    const lineTrace = {
+        x: [0, ux],
+        y: [0, uy],
+        z: [0, uz],
+        mode: 'lines',
+        type: 'scatter3d',
+        line: { color: '#FFD700', width: 5 },
+        showlegend: false
+    };
+
+    // 4. 佈局設定
+    const layout = {
+        margin: { l: 0, r: 0, b: 0, t: 0 },
+        scene: {
+            xaxis: { title: '驅動力 (競爭 vs 連結)', range: [-12, 12] },
+            yaxis: { title: '熵狀態 (發散 vs 收斂)', range: [-12, 12] },
+            zaxis: { title: '拓撲向 (感知 vs 預測)', range: [-12, 12] },
+            camera: {
+                eye: { x: 1.5, y: 1.5, z: 1.5 } // 視角
             }
-        }));
-    }
+        },
+        showlegend: true,
+        legend: { x: 0, y: 1 }
+    };
+
+    Plotly.newPlot('brain3D', [archetypesTrace, userTrace, lineTrace], layout, {responsive: true});
 }
 
 function resetTest() {
