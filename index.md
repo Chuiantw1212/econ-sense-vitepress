@@ -16,8 +16,8 @@ hero:
       text: 講座排程
       link: /calendar
     - theme: brand 
-      text: 熵腦模型
-      link: /core7
+      text: 熵腦人格測驗
+      link: /entropy
     - theme: alt
       text: 關於EN Chu
       link: /about 
