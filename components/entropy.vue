@@ -194,32 +194,34 @@ function drawRadar(dataValues: number[]) {
         }]
     };
 
-    // 【關鍵修正 4】先銷毀舊實例，防止記憶體洩漏與狀態衝突
+    // 【邏輯修正】使用 if...else 分流
     if (radarInstance.value) {
-        radarInstance.value.data = data
+        // 1. 如果圖表已存在，直接更新數據與畫面 (效能最好)
+        radarInstance.value.data = data;
         radarInstance.value.update();
-    }
-
-
-    // 【關鍵修正 5】使用 markRaw 包裹，這是阻斷迴圈的最後一道防線
-    radarInstance.value = markRaw(new Chart(ctx, {
-        type: 'radar',
-        data: data,
-        options: {
-            elements: { line: { borderWidth: 3 } },
-            scales: {
-                r: {
-                    angleLines: { display: true },
-                    suggestedMin: 0,
-                    suggestedMax: 100,
-                    ticks: { display: false } // 隱藏刻度數字讓畫面更乾淨
+    } else {
+        // 2. 如果圖表不存在，才建立新的實例
+        // 使用 markRaw 阻斷 Vue 的深度監聽
+        radarInstance.value = markRaw(new Chart(ctx, {
+            type: 'radar',
+            data: data,
+            options: {
+                // 拿掉了可能導致震盪的 responsive 設定，保持預設
+                elements: { line: { borderWidth: 3 } },
+                scales: {
+                    r: {
+                        angleLines: { display: true },
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        ticks: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
                 }
-            },
-            plugins: {
-                legend: { display: false }
             }
-        }
-    }));
+        }));
+    }
 }
 
 function resetTest() {
