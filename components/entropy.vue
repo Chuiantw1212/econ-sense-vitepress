@@ -126,7 +126,7 @@ onMounted(async () => {
 });
 
 function calculateResults() {
-    if (selectedKeywords.value.length <= 5) {
+    if (selectedKeywords.value.length < 5) {
         return;
     }
 
