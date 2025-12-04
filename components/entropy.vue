@@ -149,61 +149,133 @@ function calculateResults() {
     draw3DChart(userX, userY, userZ);
 }
 
+// --- 修改後的 3D 繪圖函數 ---
 function draw3DChart(ux: number, uy: number, uz: number) {
     const chartDiv = document.getElementById('brain3D');
     if (!chartDiv) return;
 
-    // 1. 角色數據集 (8個定點)
+    // 1.【恆星】8 大角色原型 (不變)
     const archetypesTrace = {
         x: archetypeStars.map(a => a.x),
         y: archetypeStars.map(a => a.y),
         z: archetypeStars.map(a => a.z),
-        mode: 'markers+text',
+        mode: 'markers+text', // 顯示點與文字
         type: 'scatter3d',
-        name: '原型角色',
+        name: '原型恆星',
         text: archetypeStars.map(a => a.name),
         textposition: 'top center',
+        textfont: { size: 12, color: '#666' },
         marker: {
-            size: 8,
+            size: 6, // 稍微縮小一點，讓畫面不擁擠
             color: archetypeStars.map(a => a.color),
-            opacity: 0.8
-        }
+            opacity: 0.8,
+            symbol: 'circle' // 統一用圓形比較好看
+        },
+        hoverinfo: 'text'
     };
 
-    // 2. 使用者數據集 (1個動點)
-    const userTrace = {
-        x: [ux],
-        y: [uy],
-        z: [uz],
-        mode: 'markers+text',
+    // 2.【新增】使用者選取的關鍵字點 (星塵)
+    // 將選中的關鍵字座標放大到圖表尺度 (x10)
+    const scale = 10;
+    const keywordPoints = selectedKeywords.value.map(kw => ({
+        x: kw.vector.x * scale,
+        y: kw.vector.y * scale,
+        z: kw.vector.z * scale,
+        text: kw.keyword_zh,
+        // 根據所在象限決定顏色，或者統一用一種微光色
+        color: 'rgba(100, 200, 255, 0.6)'
+    }));
+
+    const keywordsTrace = {
+        x: keywordPoints.map(p => p.x),
+        y: keywordPoints.map(p => p.y),
+        z: keywordPoints.map(p => p.z),
+        mode: 'markers+text', // 同時顯示點和文字
         type: 'scatter3d',
-        name: '你的位置',
-        text: ['YOU'],
-        textposition: 'bottom center',
+        name: '你的選擇',
+        text: keywordPoints.map(p => p.text), // 顯示關鍵字名稱
+        textposition: 'middle center',
+        textfont: { size: 10, color: '#333' }, // 字體稍微小一點
         marker: {
-            size: 15,
-            color: '#FFD700', // 金色
-            symbol: 'circle',
-            line: { color: '#000', width: 2 }
-        }
+            size: 4, // 比恆星小
+            color: '#409EFF', // Element Plus Primary Blue
+            opacity: 0.8,
+            line: { color: 'white', width: 0.5 } // 加個白邊增加識別度
+        },
+        hoverinfo: 'text' // 滑鼠移上去只顯示文字
     };
 
-    // 4. 佈局設定
+    // 3.【飛船】使用者重心 (不變，但在視覺上強調)
+    const userTrace = {
+        x: [ux], y: [uy], z: [uz],
+        mode: 'markers',
+        type: 'scatter3d',
+        name: '你的重心',
+        text: ['YOU'],
+        marker: {
+            size: 15, // 最大顆
+            color: '#FFD700', // 金色
+            line: { color: '#FFF', width: 2 },
+            opacity: 1
+        },
+        hoverinfo: 'text'
+    };
+
+    // // 4.【連結線】從原點到重心的線 (增加空間感)
+    // const lineTrace = {
+    //     x: [0, ux], y: [0, uy], z: [0, uz],
+    //     mode: 'lines',
+    //     type: 'scatter3d',
+    //     line: { color: '#FFD700', width: 4 },
+    //     showlegend: false,
+    //     hoverinfo: 'none'
+    // };
+
+    // // 5.【連結線】從重心連向所有關鍵字 (星群連線效果 - 選用)
+    // // 這會讓畫面變成像星座一樣，非常有 fu，但也可能太亂。
+    // // 這裡示範如何製作：
+    // const starLinesX = [];
+    // const starLinesY = [];
+    // const starLinesZ = [];
+    // keywordPoints.forEach(p => {
+    //     starLinesX.push(ux, p.x, null); // null 用來斷開線段
+    //     starLinesY.push(uy, p.y, null);
+    //     starLinesZ.push(uz, p.z, null);
+    // });
+
+    const starConstellationTrace = {
+        // x: starLinesX,
+        // y: starLinesY,
+        // z: starLinesZ,
+        mode: 'lines',
+        type: 'scatter3d',
+        line: { color: 'rgba(64, 158, 255, 0.2)', width: 1 }, // 很淡的連線
+        showlegend: false,
+        hoverinfo: 'none'
+    };
+
+    // 6. 佈局設定
     const layout = {
         margin: { l: 0, r: 0, b: 0, t: 0 },
         scene: {
-            xaxis: { title: '驅動力 (競爭 vs 連結)', range: [-12, 12] },
-            yaxis: { title: '熵狀態 (發散 vs 收斂)', range: [-12, 12] },
-            zaxis: { title: '拓撲向 (感知 vs 預測)', range: [-12, 12] },
-            camera: {
-                eye: { x: 1.5, y: 1.5, z: 1.5 } // 視角
-            }
+            xaxis: { title: '驅動力', range: [-12, 12] },
+            yaxis: { title: '熵狀態', range: [-12, 12] },
+            zaxis: { title: '拓撲向', range: [-12, 12] },
+            camera: { eye: { x: 1.6, y: 1.6, z: 1.6 } }, // 稍微拉遠一點
+            aspectmode: 'cube' // 強制立方體比例
         },
         showlegend: true,
         legend: { x: 0, y: 1 }
     };
 
-    Plotly.newPlot('brain3D', [archetypesTrace, userTrace,], layout, { responsive: true });
+    // 繪製！包含：原型星、關鍵字星塵、星座連線、使用者重心、中心連線
+    Plotly.newPlot('brain3D', [
+        archetypesTrace,
+        keywordsTrace,
+        // starConstellationTrace,
+        userTrace,
+        // lineTrace
+    ], layout, { responsive: true, displayModeBar: false });
 }
 
 function resetTest() {
