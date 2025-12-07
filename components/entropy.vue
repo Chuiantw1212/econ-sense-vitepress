@@ -109,7 +109,7 @@ const radarInstance = shallowRef<Chart | null>(null)
 // 為了視覺效果，我們把座標放大一點 (例如 +/- 10)
 const archetypeStars = [
     { name: '獵人', x: 10, y: 10, z: 10, color: '#FF4500', symbol: 'diamond' },     // T-H-BU
-    { name: '尋路人', x: 10, y: 10, z: -10, color: '#FF8C00', symbol: 'diamond' },  // T-H-TD
+    { name: '先驅', x: 10, y: 10, z: -10, color: '#FF8C00', symbol: 'diamond' },  // T-H-TD
     { name: '工匠', x: 10, y: -10, z: 10, color: '#1E90FF', symbol: 'square' },     // T-L-BU
     { name: '哨兵', x: 10, y: -10, z: -10, color: '#00008B', symbol: 'square' },    // T-L-TD
     { name: '薩滿', x: -10, y: 10, z: 10, color: '#9370DB', symbol: 'circle' },     // O-H-BU

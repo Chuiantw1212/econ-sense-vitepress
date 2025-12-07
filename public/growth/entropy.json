@@ -1,13 +1,22 @@
 {
     "meta": {
-        "model": "Neuro-Entropic Paleolithic Archetypes (Spatial Distributed)",
-        "version": "3.0",
+        "model": "Neuro-Entropic Archetypes (Tri-Axial)",
+        "version": "3.1",
         "total_keywords": 64,
-        "distribution_strategy": "Intra-Cube Layering (Core, Balanced, Biased)",
         "axes": {
-            "x": "Drive (-1:Connection <-> +1:Competition)",
-            "y": "Entropy (-1:Order <-> +1:Chaos)",
-            "z": "Topology (-1:Prediction <-> +1:Sensory)"
+            "x": "Motivation Core (-1:Other/Connection <-> +1:Individual/Competition)",
+            "y": "Control System (-1:Cold/Order <-> +1:Hot/Chaos)",
+            "z": "Cognitive Path (-1:Virtual/Prediction <-> +1:Real/Sensory)"
+        },
+        "archetype_mapping": {
+            "IRH": "Hunter",
+            "IVH": "Pioneer",
+            "ORH": "Gatherer",
+            "OVH": "Shaman",
+            "IRC": "Toolmaker",
+            "IVC": "Sentry",
+            "ORC": "Helper",
+            "OVC": "Elder"
         }
     },
     "keywords": [
@@ -25,7 +34,7 @@
         },
         {
             "id": 2,
-            "keyword_zh": "贏",
+            "keyword_zh": "勝利",
             "keyword_en": "Win",
             "archetype": "Hunter",
             "vector": {
@@ -93,7 +102,7 @@
                 "y": 0.90,
                 "z": 0.90
             },
-            "description": "偏向 H+BU：享受當下的感官衝擊。"
+            "description": "偏向 H+R：享受當下的感官衝擊。"
         },
         {
             "id": 8,
@@ -105,13 +114,13 @@
                 "y": 0.30,
                 "z": 0.90
             },
-            "description": "偏向 T+BU：將想法立即轉化為物理動作。"
+            "description": "偏向 T+R：將想法立即轉化為物理動作。"
         },
         {
             "id": 9,
             "keyword_zh": "變革",
             "keyword_en": "Reform",
-            "archetype": "Pathfinder",
+            "archetype": "Pioneer",
             "vector": {
                 "x": 0.90,
                 "y": 0.90,
@@ -123,7 +132,7 @@
             "id": 10,
             "keyword_zh": "謀略",
             "keyword_en": "Tactics",
-            "archetype": "Pathfinder",
+            "archetype": "Pioneer",
             "vector": {
                 "x": 0.95,
                 "y": 0.50,
@@ -135,7 +144,7 @@
             "id": 11,
             "keyword_zh": "創新",
             "keyword_en": "Innovation",
-            "archetype": "Pathfinder",
+            "archetype": "Pioneer",
             "vector": {
                 "x": 0.50,
                 "y": 0.95,
@@ -147,7 +156,7 @@
             "id": 12,
             "keyword_zh": "預判",
             "keyword_en": "Forecast",
-            "archetype": "Pathfinder",
+            "archetype": "Pioneer",
             "vector": {
                 "x": 0.50,
                 "y": 0.40,
@@ -159,7 +168,7 @@
             "id": 13,
             "keyword_zh": "趨勢",
             "keyword_en": "Trends",
-            "archetype": "Pathfinder",
+            "archetype": "Pioneer",
             "vector": {
                 "x": 0.60,
                 "y": 0.60,
@@ -171,7 +180,7 @@
             "id": 14,
             "keyword_zh": "顛覆",
             "keyword_en": "Disrupt",
-            "archetype": "Pathfinder",
+            "archetype": "Pioneer",
             "vector": {
                 "x": 0.90,
                 "y": 0.90,
@@ -183,25 +192,25 @@
             "id": 15,
             "keyword_zh": "願景",
             "keyword_en": "Vision",
-            "archetype": "Pathfinder",
+            "archetype": "Pioneer",
             "vector": {
                 "x": 0.30,
                 "y": 0.90,
                 "z": -0.90
             },
-            "description": "偏向 H+TD：腦中的宏偉藍圖。"
+            "description": "偏向 H+V：腦中的宏偉藍圖。"
         },
         {
             "id": 16,
             "keyword_zh": "佈局",
             "keyword_en": "Layout",
-            "archetype": "Pathfinder",
+            "archetype": "Pioneer",
             "vector": {
                 "x": 0.90,
                 "y": 0.20,
                 "z": -0.90
             },
-            "description": "偏向 T+TD：系統化的戰略配置。"
+            "description": "偏向 T+V：系統化的戰略配置。"
         },
         {
             "id": 17,
@@ -273,7 +282,7 @@
                 "y": -0.90,
                 "z": 0.20
             },
-            "description": "偏向 T+L：以最小代價換取最大成果。"
+            "description": "偏向 T+C：以最小代價換取最大成果。"
         },
         {
             "id": 23,
@@ -285,7 +294,7 @@
                 "y": -0.90,
                 "z": 0.90
             },
-            "description": "偏向 L+BU：全神貫注於當下目標。"
+            "description": "偏向 C+R：全神貫注於當下目標。"
         },
         {
             "id": 24,
@@ -297,7 +306,7 @@
                 "y": -0.20,
                 "z": 0.90
             },
-            "description": "偏向 T+BU：強大的實作能力。"
+            "description": "偏向 T+R：強大的實作能力。"
         },
         {
             "id": 25,
@@ -369,7 +378,7 @@
                 "y": -0.90,
                 "z": -0.20
             },
-            "description": "偏向 T+L：堅固的組織架構。"
+            "description": "偏向 T+C：堅固的組織架構。"
         },
         {
             "id": 31,
@@ -381,7 +390,7 @@
                 "y": -0.90,
                 "z": -0.90
             },
-            "description": "偏向 L+TD：抵抗外部威脅的侵擾。"
+            "description": "偏向 C+V：抵抗外部威脅的侵擾。"
         },
         {
             "id": 32,
@@ -393,13 +402,13 @@
                 "y": -0.20,
                 "z": -0.90
             },
-            "description": "偏向 T+TD：控制資源與流程。"
+            "description": "偏向 T+V：控制資源與流程。"
         },
         {
             "id": 33,
             "keyword_zh": "靈性",
             "keyword_en": "Spirit",
-            "archetype": "Shaman",
+            "archetype": "Gatherer",
             "vector": {
                 "x": -0.90,
                 "y": 0.90,
@@ -411,7 +420,7 @@
             "id": 34,
             "keyword_zh": "共鳴",
             "keyword_en": "Resonance",
-            "archetype": "Shaman",
+            "archetype": "Gatherer",
             "vector": {
                 "x": -1.00,
                 "y": 0.50,
@@ -423,7 +432,7 @@
             "id": 35,
             "keyword_zh": "自由",
             "keyword_en": "Freedom",
-            "archetype": "Shaman",
+            "archetype": "Gatherer",
             "vector": {
                 "x": -0.50,
                 "y": 1.00,
@@ -435,7 +444,7 @@
             "id": 36,
             "keyword_zh": "覺察",
             "keyword_en": "Awareness",
-            "archetype": "Shaman",
+            "archetype": "Gatherer",
             "vector": {
                 "x": -0.50,
                 "y": 0.50,
@@ -447,7 +456,7 @@
             "id": 37,
             "keyword_zh": "感受",
             "keyword_en": "Feeling",
-            "archetype": "Shaman",
+            "archetype": "Gatherer",
             "vector": {
                 "x": -0.60,
                 "y": 0.60,
@@ -459,7 +468,7 @@
             "id": 38,
             "keyword_zh": "流動",
             "keyword_en": "Flow",
-            "archetype": "Shaman",
+            "archetype": "Gatherer",
             "vector": {
                 "x": -0.90,
                 "y": 0.90,
@@ -471,31 +480,31 @@
             "id": 39,
             "keyword_zh": "氛圍",
             "keyword_en": "Vibe",
-            "archetype": "Shaman",
+            "archetype": "Gatherer",
             "vector": {
                 "x": -0.30,
                 "y": 0.90,
                 "z": 0.90
             },
-            "description": "偏向 H+BU：對場域氣氛的敏感。"
+            "description": "偏向 H+R：對場域氣氛的敏感。"
         },
         {
             "id": 40,
             "keyword_zh": "敞開",
             "keyword_en": "Openness",
-            "archetype": "Shaman",
+            "archetype": "Gatherer",
             "vector": {
                 "x": -0.90,
                 "y": 0.20,
                 "z": 0.90
             },
-            "description": "偏向 O+BU：接納所有的可能性。"
+            "description": "偏向 O+R：接納所有的可能性。"
         },
         {
             "id": 41,
             "keyword_zh": "理想",
             "keyword_en": "Ideal",
-            "archetype": "Envoy",
+            "archetype": "Shaman",
             "vector": {
                 "x": -0.90,
                 "y": 0.90,
@@ -507,7 +516,7 @@
             "id": 42,
             "keyword_zh": "分享",
             "keyword_en": "Sharing",
-            "archetype": "Envoy",
+            "archetype": "Shaman",
             "vector": {
                 "x": -1.00,
                 "y": 0.50,
@@ -519,7 +528,7 @@
             "id": 43,
             "keyword_zh": "夢想",
             "keyword_en": "Dream",
-            "archetype": "Envoy",
+            "archetype": "Shaman",
             "vector": {
                 "x": -0.50,
                 "y": 1.00,
@@ -531,7 +540,7 @@
             "id": 44,
             "keyword_zh": "意義",
             "keyword_en": "Meaning",
-            "archetype": "Envoy",
+            "archetype": "Shaman",
             "vector": {
                 "x": -0.50,
                 "y": 0.50,
@@ -543,7 +552,7 @@
             "id": 45,
             "keyword_zh": "故事",
             "keyword_en": "Story",
-            "archetype": "Envoy",
+            "archetype": "Shaman",
             "vector": {
                 "x": -0.60,
                 "y": 0.60,
@@ -555,7 +564,7 @@
             "id": 46,
             "keyword_zh": "希望",
             "keyword_en": "Hope",
-            "archetype": "Envoy",
+            "archetype": "Shaman",
             "vector": {
                 "x": -0.90,
                 "y": 0.90,
@@ -567,25 +576,25 @@
             "id": 47,
             "keyword_zh": "信念",
             "keyword_en": "Belief",
-            "archetype": "Envoy",
+            "archetype": "Shaman",
             "vector": {
                 "x": -0.30,
                 "y": 0.90,
                 "z": -0.90
             },
-            "description": "偏向 H+TD：堅定的精神支柱。"
+            "description": "偏向 H+V：堅定的精神支柱。"
         },
         {
             "id": 48,
             "keyword_zh": "價值",
             "keyword_en": "Value",
-            "archetype": "Envoy",
+            "archetype": "Shaman",
             "vector": {
                 "x": -0.90,
                 "y": 0.20,
                 "z": -0.90
             },
-            "description": "偏向 O+TD：維護人本的核心價值。"
+            "description": "偏向 O+V：維護人本的核心價值。"
         },
         {
             "id": 49,
@@ -657,7 +666,7 @@
                 "y": -0.90,
                 "z": 0.20
             },
-            "description": "偏向 O+L：創造放鬆的空間。"
+            "description": "偏向 O+C：創造放鬆的空間。"
         },
         {
             "id": 55,
@@ -669,7 +678,7 @@
                 "y": -0.90,
                 "z": 0.90
             },
-            "description": "偏向 L+BU：不放過任何照顧細節。"
+            "description": "偏向 C+R：不放過任何照顧細節。"
         },
         {
             "id": 56,
@@ -681,7 +690,7 @@
                 "y": -0.20,
                 "z": 0.90
             },
-            "description": "偏向 O+BU：真實的在場與支持。"
+            "description": "偏向 O+R：真實的在場與支持。"
         },
         {
             "id": 57,
@@ -753,7 +762,7 @@
                 "y": -0.90,
                 "z": -0.20
             },
-            "description": "偏向 O+L：群體賴以生存的基礎。"
+            "description": "偏向 O+C：群體賴以生存的基礎。"
         },
         {
             "id": 63,
@@ -765,7 +774,7 @@
                 "y": -0.90,
                 "z": -0.90
             },
-            "description": "偏向 L+TD：經得起時間考驗。"
+            "description": "偏向 C+V：經得起時間考驗。"
         },
         {
             "id": 64,
@@ -777,7 +786,7 @@
                 "y": -0.20,
                 "z": -0.90
             },
-            "description": "偏向 O+TD：建立長期的信賴關係。"
+            "description": "偏向 O+V：建立長期的信賴關係。"
         }
     ]
 }
