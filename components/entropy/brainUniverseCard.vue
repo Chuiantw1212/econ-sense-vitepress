@@ -46,7 +46,7 @@ const props = defineProps<{
 // --- 狀態 ---
 const chartContainer = ref<HTMLElement | null>(null);
 const loading = ref(false);
-const showHull = ref(false); // 控制多面體開關
+const showHull = ref(true); // 控制多面體開關
 
 // --- 8 大角色恆星座標 ---
 const archetypeStars = [

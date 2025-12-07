@@ -32,8 +32,11 @@
 
             <KeyDimensionsCard v-if="dimensionScores" :userVector="dimensionScores" />
 
-            <ShadowAnalysisCard v-if="topArchetypes.primary" :primaryRole="topArchetypes.primary"
-                :secondaryRole="topArchetypes.secondary" />
+            <!-- <ShadowAnalysisCard v-if="topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :secondaryRole="topArchetypes.secondary" /> -->
+
+            <FinalIdentityCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :userVector="dimensionScores" />
 
         </div>
 
@@ -54,6 +57,7 @@ import BrainUniverseCard from './brainUniverseCard.vue'
 import HybridSoulCard from './hybridSoulCard.vue'
 import KeyDimensionsCard from './keyDimensionsCard.vue'
 import ShadowAnalysisCard from './shadowAnalysisCard.vue'
+import FinalIdentityCard from './finalIdentityCard.vue'
 
 // --- 介面定義 ---
 interface Vector3 {
