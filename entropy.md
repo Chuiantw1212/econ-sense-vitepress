@@ -16,7 +16,7 @@ outline: [2,3]
 
 <ClientOnly>
   <Antropy></Antropy>
-</ClientOnly
+</ClientOnly>
 
 ### 1\. 獵人 Hunter (IRH)
 
