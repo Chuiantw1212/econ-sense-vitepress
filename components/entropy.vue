@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import { ref, shallowRef, onMounted, } from 'vue' // 加上 markRaw
 import Chart from 'chart.js/auto';
-// import Plotly from 'plotly.js-dist-min'
+import { data } from './keywords.data.js'
 
 // --- 1. 定義資料介面 ---
 interface Vector3 {
@@ -116,9 +116,8 @@ const archetypeStars = [
 ];
 
 // --- 4. 初始化 ---
-onMounted(async () => {
-    const rawKeywords = await getKeywordsData()
-    shuffledKeywords.value = shuffle(rawKeywords);
+onMounted(() => {
+    shuffledKeywords.value = shuffle(data.keywords);
 });
 
 function calculateResults() {
@@ -265,25 +264,6 @@ function shuffle(array: any[]) {
     return array;
 }
 
-// 模擬數據獲取 (將您生成的 JSON 放在這裡)
-async function getKeywordsData(): Promise<KeywordItem[]> {
-    // 這裡填入您剛剛生成的 48 個關鍵字 JSON array
-    const keywordPack = await fetch('./growth/entropy.json')
-    // console.log({
-    //     keywordPack
-    // })
-    const keywordJson = await keywordPack.json()
-    // console.log({
-    //     keywordJson
-    // })
-    return keywordJson.keywords
-    // return [
-    //     { id: 1, keyword_zh: "挑戰", keyword_en: "Challenge", archetype: "Hunter", vector: { x: 0.9, y: 0.7, z: 0.6 }, description: "..." },
-    //     { id: 7, keyword_zh: "趨勢", keyword_en: "Trends", archetype: "Pathfinder", vector: { x: 0.7, y: 0.8, z: -0.6 }, description: "..." },
-    //     // ... (放入全部 48 個)
-    //     { id: 48, keyword_zh: "長久", keyword_en: "Long-term", archetype: "Elder", vector: { x: -0.6, y: -0.8, z: -0.9 }, description: "..." }
-    // ];
-}
 </script>
 
 <style scoped lang="scss">
