@@ -1,4 +1,4 @@
-{
+const keywords = {
     "meta": {
         "model": "Neuro-Entropic Archetypes (Tri-Axial)",
         "version": "3.1",
@@ -789,4 +789,10 @@
             "description": "偏向 O+V：建立長期的信賴關係。"
         }
     ]
+}
+
+export default {
+    load() {
+        return keywords
+    }
 }
