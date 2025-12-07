@@ -14,7 +14,9 @@ outline: [2,3]
 
 ## 【熵腦人格測驗】開始測驗
 
-<Antropy></Antropy>
+<ClientOnly>
+  <Antropy></Antropy>
+</ClientOnly
 
 ### 1\. 獵人 Hunter (IRH)
 

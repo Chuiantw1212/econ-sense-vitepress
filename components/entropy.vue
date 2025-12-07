@@ -69,10 +69,7 @@
 <script setup lang="ts">
 import { ref, shallowRef, onMounted, } from 'vue' // 加上 markRaw
 import Chart from 'chart.js/auto';
-// 引入 Plotly (建議用 CDN 或動態引入以節省打包體積)
 import Plotly from 'plotly.js-dist-min'
-import { ElMessage } from 'element-plus'
-import html2canvas from 'html2canvas';
 
 // --- 1. 定義資料介面 ---
 interface Vector3 {
