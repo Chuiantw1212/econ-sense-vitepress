@@ -5,9 +5,9 @@
                 <div class="header-left">
                     <span class="title">🌌 大腦神經宇宙座標</span>
                     <el-tooltip content="這是一個模擬大腦認知向度的三維空間。金色的鑽石代表你的意識重心，藍色的星塵是你選擇的特質。" placement="top">
-                        <!-- <el-icon class="info-icon">
+                        <el-icon class="info-icon">
                             <Info />
-                        </el-icon> -->
+                        </el-icon>
                     </el-tooltip>
                 </div>
                 <el-tag size="small" effect="dark" type="warning">3D 視覺化</el-tag>
@@ -18,9 +18,9 @@
             <div id="brain3D" ref="chartContainer" class="chart-container"></div>
 
             <div class="mobile-hint">
-                <!-- <el-icon>
+                <el-icon>
                     <Rank />
-                </el-icon> -->
+                </el-icon>
                 <span>可拖曳旋轉 / 滾輪縮放</span>
             </div>
         </div>
@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import { Info, Rank } from '@element-plus/icons-vue';
 import { ref, onMounted, watch, nextTick, onBeforeUnmount } from 'vue';
 // --- Props ---
 const props = defineProps<{
