@@ -4,13 +4,17 @@
             <div class="card-header">
                 <div class="header-left">
                     <span class="title">🌌 大腦神經宇宙座標</span>
-                    <el-tooltip content="這是一個模擬大腦認知向度的三維空間。金色的鑽石代表你的意識重心，藍色的星塵是你選擇的特質。" placement="top">
+                    <el-tooltip content="金色的鑽石是你的重心，藍色星塵是你選擇的特質。開啟「意識場域」可看見你的思維覆蓋範圍。" placement="top">
                         <el-icon class="info-icon">
-                            <Info />
+                            <InfoFilled />
                         </el-icon>
                     </el-tooltip>
                 </div>
-                <el-tag size="small" effect="dark" type="warning">3D 視覺化</el-tag>
+
+                <div class="header-right">
+                    <el-switch v-model="showHull" active-text="意識場域" inline-prompt :active-icon="Connection"
+                        :inactive-icon="Close" style="--el-switch-on-color: #e6a23c" />
+                </div>
             </div>
         </template>
 
@@ -19,7 +23,7 @@
 
             <div class="mobile-hint">
                 <el-icon>
-                    <Rank />
+                    <Pointer />
                 </el-icon>
                 <span>可拖曳旋轉 / 滾輪縮放</span>
             </div>
@@ -28,8 +32,9 @@
 </template>
 
 <script setup lang="ts">
-import { Info, Rank } from '@element-plus/icons-vue';
 import { ref, onMounted, watch, nextTick, onBeforeUnmount } from 'vue';
+import { InfoFilled, Pointer, Connection, Close } from '@element-plus/icons-vue';
+
 // --- Props ---
 const props = defineProps<{
     selectedKeywords: Array<{
@@ -41,6 +46,7 @@ const props = defineProps<{
 // --- 狀態 ---
 const chartContainer = ref<HTMLElement | null>(null);
 const loading = ref(false);
+const showHull = ref(false); // 控制多面體開關
 
 // --- 8 大角色恆星座標 ---
 const archetypeStars = [
@@ -54,68 +60,82 @@ const archetypeStars = [
     { name: '長老', x: -10, y: -10, z: -10, color: '#2E8B57', symbol: 'cross' },
 ];
 
-// --- 核心繪圖邏輯 (改為 async) ---
 async function drawChart() {
     if (!chartContainer.value || props.selectedKeywords.length === 0) return;
 
     loading.value = true;
-
-    // ✅ 【關鍵修改】在這裡動態引入 Plotly
-    // 加上 .default 是為了確保在不同打包工具 (Vite/Webpack) 下都能正確拿到物件
     const Plotly = (await import('plotly.js-dist-min')).default;
 
-    // 1. 計算使用者重心
-    let totalVec = { x: 0, y: 0, z: 0 };
-    props.selectedKeywords.forEach(kw => {
-        totalVec.x += kw.vector.x;
-        totalVec.y += kw.vector.y;
-        totalVec.z += kw.vector.z;
-    });
     const count = props.selectedKeywords.length;
     const scale = 10;
-    const ux = (totalVec.x / count) * scale;
-    const uy = (totalVec.y / count) * scale;
-    const uz = (totalVec.z / count) * scale;
 
-    // 2. 設定 Trace 數據
+    // 1. 準備數據 + 微小厚度處理 (Jitter)
+    // 這裡的 Jitter 極小 (0.01)，肉眼看不出偏移，但足以讓共面的點產生體積
+    const jitter = () => (Math.random() - 0.5) * 0.05;
+
+    const kwX = props.selectedKeywords.map(k => (k.vector.x * scale) + jitter());
+    const kwY = props.selectedKeywords.map(k => (k.vector.y * scale) + jitter());
+    const kwZ = props.selectedKeywords.map(k => (k.vector.z * scale) + jitter());
+    const kwText = props.selectedKeywords.map(k => k.keyword_zh);
+
+    // 重心計算
+    const ux = (kwX.reduce((a, b) => a + b, 0) / count);
+    const uy = (kwY.reduce((a, b) => a + b, 0) / count);
+    const uz = (kwZ.reduce((a, b) => a + b, 0) / count);
+
+    // --- Trace 設定 ---
+
+    // Trace A: 意識場域 (Convex Hull) - 放在最底層
+    let meshTrace = null;
+    if (showHull.value && count >= 4) {
+        meshTrace = {
+            x: kwX,
+            y: kwY,
+            z: kwZ,
+            type: 'mesh3d',
+
+            // 【關鍵修正】
+            // alphahull: 0 -> 計算 Convex Hull (凸包)，即「最小包覆多面體」
+            // 這會忽略內部點，只連接最外圍的點形成一個殼
+            alphahull: 0,
+
+            opacity: 0.3, // 半透明，呈現能量場感
+            color: '#FFD700', // 實心黃色
+            flatshading: true,
+            hoverinfo: 'skip', // 不顯示 hover 資訊
+            name: '意識場域'
+        };
+    }
+
+    // Trace B: 原型恆星
     const archetypesTrace = {
         x: archetypeStars.map(a => a.x),
         y: archetypeStars.map(a => a.y),
         z: archetypeStars.map(a => a.z),
         mode: 'markers+text',
         type: 'scatter3d',
-        name: '原型恆星',
         text: archetypeStars.map(a => a.name),
         textposition: 'top center',
         textfont: { size: 11, color: '#888' },
-        marker: { size: 5, color: archetypeStars.map(a => a.color), opacity: 0.7, symbol: 'circle' },
+        marker: { size: 5, color: archetypeStars.map(a => a.color), opacity: 0.5, symbol: 'circle' },
         hoverinfo: 'text'
     };
 
-    const keywordPoints = props.selectedKeywords.map(kw => ({
-        x: kw.vector.x * scale,
-        y: kw.vector.y * scale,
-        z: kw.vector.z * scale,
-        text: kw.keyword_zh
-    }));
-
+    // Trace C: 關鍵字星塵
     const keywordsTrace = {
-        x: keywordPoints.map(p => p.x),
-        y: keywordPoints.map(p => p.y),
-        z: keywordPoints.map(p => p.z),
+        x: kwX, y: kwY, z: kwZ,
         mode: 'markers',
         type: 'scatter3d',
-        name: '你的選擇',
-        text: keywordPoints.map(p => p.text),
-        marker: { size: 4, color: '#409EFF', opacity: 0.8, line: { color: 'white', width: 0.5 } },
+        text: kwText,
+        marker: { size: 4, color: '#409EFF', opacity: 1, line: { color: 'white', width: 0.8 } },
         hoverinfo: 'text'
     };
 
+    // Trace D: 使用者飛船
     const userTrace = {
         x: [ux], y: [uy], z: [uz],
         mode: 'markers+text',
         type: 'scatter3d',
-        name: '你的重心',
         text: ['YOU'],
         textposition: 'bottom center',
         textfont: { size: 14, color: '#000', family: 'Arial Black' },
@@ -123,7 +143,10 @@ async function drawChart() {
         hoverinfo: 'text'
     };
 
-    // 3. 佈局設定
+    // 組合 Traces (將 mesh 放在第一位，這是 WebGL 渲染透明物體的最佳實踐)
+    const data = [archetypesTrace, keywordsTrace, userTrace];
+    if (meshTrace) data.unshift(meshTrace);
+
     const layout = {
         margin: { l: 0, r: 0, b: 0, t: 0 },
         scene: {
@@ -133,48 +156,32 @@ async function drawChart() {
             camera: { eye: { x: 1.5, y: 1.5, z: 1.5 } },
             aspectmode: 'cube'
         },
-        showlegend: true,
-        legend: { x: 0, y: 1 },
+        showlegend: false,
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)'
     };
 
-    const config = {
-        responsive: true,
-        displayModeBar: false,
-        scrollZoom: true
-    };
+    const config = { responsive: true, displayModeBar: false, scrollZoom: true };
 
-    // 4. 繪製 (因為在 async 函數內，這裡的 Plotly 已經確認載入)
-    Plotly.newPlot(chartContainer.value, [
-        archetypesTrace,
-        keywordsTrace,
-        userTrace
-    ], layout, config).then(() => {
+    Plotly.newPlot(chartContainer.value, data, layout, config).then(() => {
         loading.value = false;
     });
 }
 
-// --- 生命週期 ---
-onMounted(() => {
-    nextTick(() => {
-        drawChart();
-    });
-});
+// --- Watchers ---
+onMounted(() => { nextTick(() => drawChart()); });
 
-watch(() => props.selectedKeywords, () => {
+// 監聽數據變化 OR 開關變化，都觸發重繪
+watch([() => props.selectedKeywords, showHull], () => {
     drawChart();
 }, { deep: true });
 
-// 清理資源 (這裡也需要動態載入 Plotly 才能呼叫 purge，或者直接清空 DOM)
 onBeforeUnmount(async () => {
     if (chartContainer.value) {
         try {
             const Plotly = (await import('plotly.js-dist-min')).default;
             Plotly.purge(chartContainer.value);
-        } catch (e) {
-            // 忽略錯誤，可能 Plotly 還沒載入完組件就被銷毀
-        }
+        } catch (e) { }
     }
 });
 </script>
@@ -233,6 +240,6 @@ onBeforeUnmount(async () => {
     background: rgba(255, 255, 255, 0.8);
     padding: 4px 8px;
     border-radius: 12px;
-    Rank-events: none;
+    pointer-events: none;
 }
 </style>

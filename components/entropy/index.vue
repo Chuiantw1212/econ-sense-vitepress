@@ -1,4 +1,6 @@
 <template>
+    <h2 id="熵腦原野八職測驗" tabindex="-1">熵腦原野八職測驗</h2>
+
     <el-card v-loading="fullscreenLoading" class="quiz-card">
         <template #header>
             <div class="card-header">
@@ -13,7 +15,7 @@
         </template>
 
         <el-row class="keyword-container">
-            <el-checkbox-group v-model="selectedKeywords" @change="calculateDimensionScores">
+            <el-checkbox-group v-model="selectedKeywords" @change="calculateResults">
                 <el-checkbox v-for="item in shuffledKeywords" :key="item.id" :label="item.keyword_zh" :value="item"
                     border style="margin: 5px;">
                     {{ item.keyword_zh }}
@@ -22,15 +24,26 @@
         </el-row>
     </el-card>
 
-    <BrainUniverseCard :selectedKeywords="selectedKeywords" />
+    <div v-show="selectedKeywords.length >= 5" class="result-section">
 
-    <div v-if="selectedKeywords.length >= 10" class="analysis-container">
-        <HybridSoulCard :selectedKeywords="selectedKeywords" />
-        <KeyDimensionsCard v-if="dimensionScores" :userVector="dimensionScores" />
-    </div>
-    <div v-else class="hint-text">
-        <el-alert title="數據量不足" type="info" :description="`請再勾選 ${10 - selectedKeywords.length} 個關鍵字，以解鎖完整人格分析報告。`"
-            show-icon center :closable="false" />
+        <BrainUniverseCard :selectedKeywords="selectedKeywords" />
+
+        <div v-if="selectedKeywords.length >= 10" class="analysis-container">
+
+            <HybridSoulCard :selectedKeywords="selectedKeywords" />
+
+            <KeyDimensionsCard v-if="dimensionScores" :userVector="dimensionScores" />
+
+            <ShadowAnalysisCard v-if="topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :secondaryRole="topArchetypes.secondary" />
+
+        </div>
+
+        <div v-else class="hint-text">
+            <el-alert title="數據量不足" type="info"
+                :description="`請再勾選 ${10 - selectedKeywords.length} 個關鍵字，以解鎖完整人格分析報告（包含潛意識陰影解析）。`" show-icon center
+                :closable="false" />
+        </div>
     </div>
 </template>
 
@@ -38,10 +51,11 @@
 import { ref, onMounted } from 'vue'
 import { data } from './keywords.data.js'
 
-// 引入三個子元件
+// 引入四個子元件
 import BrainUniverseCard from './brainUniverseCard.vue'
 import HybridSoulCard from './hybridSoulCard.vue'
 import KeyDimensionsCard from './keyDimensionsCard.vue'
+import ShadowAnalysisCard from './shadowAnalysisCard.vue'
 
 // --- 介面定義 ---
 interface Vector3 {
@@ -63,40 +77,66 @@ interface KeywordItem {
 const shuffledKeywords = ref<KeywordItem[]>([])
 const selectedKeywords = ref<KeywordItem[]>([])
 const fullscreenLoading = ref<boolean>(false)
-const dimensionScores = ref<Vector3 | null>(null) // 計算出的使用者重心向量
+const dimensionScores = ref<Vector3 | null>(null)
+
+// 新增狀態：儲存前兩名角色
+const topArchetypes = ref<{ primary: string; secondary: string | undefined }>({
+    primary: '',
+    secondary: undefined
+});
 
 // --- 初始化 ---
 onMounted(() => {
     shuffledKeywords.value = shuffle([...data.keywords]);
 });
 
-// --- 核心計算：算出平均向量 (給 KeyDimensionsCard 用) ---
-function calculateDimensionScores() {
+// --- 核心計算邏輯 ---
+function calculateResults() {
     if (selectedKeywords.value.length === 0) {
         dimensionScores.value = null;
+        topArchetypes.value = { primary: '', secondary: undefined };
         return;
     }
 
+    // 1. 計算維度向量平均值 (給 KeyDimensionsCard)
     let totalVec = { x: 0, y: 0, z: 0 };
+    // 2. 計算角色出現次數 (給 ShadowAnalysisCard)
+    const counts: Record<string, number> = {};
+
     selectedKeywords.value.forEach(kw => {
+        // 向量累加
         totalVec.x += kw.vector.x;
         totalVec.y += kw.vector.y;
         totalVec.z += kw.vector.z;
+
+        // 計數累加
+        counts[kw.archetype] = (counts[kw.archetype] || 0) + 1;
     });
 
     const count = selectedKeywords.value.length;
 
-    // 計算平均值 (-1 ~ 1)
+    // 設定維度分數
     dimensionScores.value = {
         x: totalVec.x / count,
         y: totalVec.y / count,
         z: totalVec.z / count
     };
+
+    // 3. 排序找出前兩名 (Sort Logic)
+    // 轉為陣列: [['Hunter', 5], ['Shaman', 3], ...]
+    const sortedRoles = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+
+    const primary = sortedRoles[0] ? sortedRoles[0][0] : '';
+    // 如果有第二名，且票數 > 0，則設為次顯，否則 undefined
+    const secondary = (sortedRoles[1] && sortedRoles[1][1] > 0) ? sortedRoles[1][0] : undefined;
+
+    topArchetypes.value = { primary, secondary };
 }
 
 function resetTest() {
     selectedKeywords.value = [];
     dimensionScores.value = null;
+    topArchetypes.value = { primary: '', secondary: undefined };
     shuffledKeywords.value = shuffle(shuffledKeywords.value);
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -137,28 +177,18 @@ function shuffle(array: any[]) {
     margin-bottom: 10px;
 }
 
+/* 結果區背景，讓卡片浮起來 */
 .result-section {
-    padding: 20px;
-    background: #f8f9fa;
-    /* 淺灰背景區隔結果區 */
+    padding: 20px 0;
+    /* 移除左右 padding，讓手機版卡片滿版 */
     border-radius: 12px;
     animation: fadeIn 0.6s ease;
 }
 
-.section-block {
-    margin-bottom: 40px;
-}
-
-.divider-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #606266;
-    letter-spacing: 1px;
-}
-
+/* 提示文字區 */
 .hint-text {
     margin-top: 30px;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 @keyframes fadeIn {
