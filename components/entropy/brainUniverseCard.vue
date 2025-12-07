@@ -54,8 +54,8 @@ const archetypeStars = [
     { name: '先驅', x: 10, y: 10, z: -10, color: '#FF8C00', symbol: 'diamond' },
     { name: '工匠', x: 10, y: -10, z: 10, color: '#1E90FF', symbol: 'square' },
     { name: '哨兵', x: 10, y: -10, z: -10, color: '#00008B', symbol: 'square' },
-    { name: '薩滿', x: -10, y: 10, z: 10, color: '#9370DB', symbol: 'circle' },
-    { name: '採集者', x: -10, y: 10, z: -10, color: '#FF69B4', symbol: 'circle' },
+    { name: '採集者', x: -10, y: 10, z: 10, color: '#FF69B4', symbol: 'circle' },
+    { name: '薩滿', x: -10, y: 10, z: -10, color: '#9370DB', symbol: 'circle' },
     { name: '助人者', x: -10, y: -10, z: 10, color: '#32CD32', symbol: 'cross' },
     { name: '長老', x: -10, y: -10, z: -10, color: '#2E8B57', symbol: 'cross' },
 ];
