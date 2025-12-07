@@ -182,6 +182,7 @@ const joinCommunity = () => {
     align-items: center;
 
     height: 80px;
+    min-width: 75px;
     /* 給予足夠高度容納兩行文字 */
 
     color: #fff;
