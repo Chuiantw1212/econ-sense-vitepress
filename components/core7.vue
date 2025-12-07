@@ -19,8 +19,6 @@
         <div class="buttonGroup">
             <el-button v-if="isAnalyzed || selectedKeywords.length >= 20" class="form__button" type="primary"
                 :disabled="selectedKeywords.length < 10" @click="shareRadar()">分享雷達圖</el-button>
-            <!-- <el-button v-else class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
-                @click="forwardToTable()">前往職務適性比較</el-button> -->
         </div>
         <template #footer>
             <el-collapse>
@@ -35,111 +33,6 @@
             </el-collapse>
         </template>
     </el-card>
-    <!-- <h2 id="職務適性比較" tabindex="-1">職務適性比較 <a class="header-anchor" href="#職務適性比較"
-            aria-label="Permalink to &quot;職務適性比較&quot;">&ZeroWidthSpace;</a></h2>
-    <el-card>
-        <el-form-item label="何倫碼">
-            <el-checkbox-group v-model="selectedCodes">
-                <el-checkbox v-for="(code, index) in core7Codes" :key="index" :label="`${code.label}(${code.value})`"
-                    :disabled="selectedCodes.length >= 3 && !selectedCodes.includes(code.value)" :value="code.value"
-                    @change="onHollandCodeChanged()" />
-            </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="進階篩選">
-            <el-input v-model="userKeyword" placeholder="請輸入想探索的職務名稱" clearable @input="onKeywordChanged()" />
-        </el-form-item>
-        <table id="occupationTable" class="table">
-            <thead>
-                <tr>
-                    <th>專業頭銜</th>
-                    <th>求職門檻</th>
-                    <th>何倫碼</th>
-                    <th v-if="selectedKeywords.length">潛力指數</th>
-                </tr>
-            </thead>
-            <tbody>
-                <template v-for="(item, index) in pagedOccupations" :key="index">
-                    <tr>
-                        <td>{{ item.label }}</td>
-                        <td>{{ item.jobZone }}</td>
-                        <td>{{ item.IHs?.join('') }}</td>
-                        <td v-if="selectedKeywords.length">{{ item.similarity }}</td>
-                    </tr>
-                </template>
-            </tbody>
-        </table>
-        <div class="example-pagination-block">
-            <el-pagination v-model:current-page="currentPage" layout="prev, pager, next" :page-size="10"
-                :total="pagedTotalOccupations" @change="setPagedOccupations()" />
-        </div>
-        <div class="buttonGroup">
-            <el-button class="form__button" type="primary" :disabled="selectedKeywords.length < 10"
-                @click="shareRadar()">分享雷達圖</el-button>
-            <el-button v-loading.fullscreen.lock="fullscreenLoading" class="form__button" type="primary"
-                :disabled="selectedKeywords.length < 10" @click="shareTable()">分享此頁表格</el-button>
-        </div>
-        <template #footer>
-            <el-collapse v-model="occupationCollapse">
-                <el-collapse-item title="求職門檻分數查表" name="1">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>分數</th>
-                                <th>教育程度參考</th>
-                                <th>工作經驗參考</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>不限</td>
-                                <td>數天或數月的訓練</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>高中職</td>
-                                <td>數月~1年</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>技職教育/在職經驗/二專/五專</td>
-                                <td>1~2年</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>學士學位</td>
-                                <td>多年工作經驗</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>碩士及以上</td>
-                                <td>自證的實績</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </el-collapse-item>
-                <el-collapse-item title="說明">
-                    <ul>
-                        <li>
-                            使用ChatGpt進行機翻。搜索欄除了中文也可以使用英文進行篩選。
-                        </li>
-                        <li>
-                            維基百科的說明：<a target="_blank"
-                                href="https://zh.wikipedia.org/zh-tw/%E9%9C%8D%E7%88%BE%E8%98%AD%E5%85%AD%E9%82%8A%E5%BD%A2#:~:text=%E9%9C%8D%E7%88%BE%E8%98%AD%E5%85%AD%E9%82%8A%E5%BD%A2%EF%BC%88%E8%8B%B1%E8%AA%9E%EF%BC%9AHolland%20Hexagon%2F,%E5%80%8B%E4%BA%BA%E4%BA%BA%E6%A0%BC%E7%89%B9%E8%B3%AA%E7%9A%84%E8%81%B7%E6%A5%AD%E3%80%82">霍爾蘭六邊形</a>
-                        </li>
-                        <li>
-                            潛力指數使用<a target="_blank"
-                                href="https://zh.wikipedia.org/zh-tw/%E6%9B%BC%E5%93%88%E9%A0%93%E8%B7%9D%E9%9B%A2">曼哈頓距離</a>計算
-                        </li>
-                        <li>
-                            資料來源：<a href="https://www.onetcenter.org/dictionary/28.3/excel/interests.html"
-                                target="_blank">O*NET Interests</a>
-                        </li>
-                    </ul>
-                </el-collapse-item>
-            </el-collapse>
-        </template>
-    </el-card> -->
 </template>
 <script setup lang="ts">
 interface hollandItem {
@@ -206,7 +99,6 @@ const pagedOccupations = ref<interestItemDesign[]>([])
 const currentPage = ref<number>(1)
 const userKeyword = ref<string>('')
 const fuseInstance = ref()
-const occupationCollapse = ref<string[]>([])
 const isAnalyzed = ref<boolean>(false)
 const fullscreenLoading = ref<boolean>(false)
 let core7Instance = ref<Chart>()
@@ -214,9 +106,6 @@ let core7Instance = ref<Chart>()
 // hooks
 onMounted(async () => {
     await initializeKeywords()
-    // await initializeInterests()
-    // initizlieFuzzySearch()
-    // drawCharts()
 });
 
 // methods
@@ -258,30 +147,12 @@ async function callNavigatorShare(canvas) {
         url: `${window.location.href}?openExternalBrowser=1` || 'https://en-chu.com?openExternalBrowser=1',
         text: '透過七種人類原型角色，探索你內在的行動偏好與生存天性，產出專屬雷達圖！',
     }
-    // if (selectedCodesOrigin.value.length) {
-    //     const core7CodeString = selectedCodesOrigin.value.join()
-    //     const userLabels = core7Codes.value.filter(item => {
-    //         return selectedCodesOrigin.value.includes(item.value)
-    //     }).map(item => item.label).join('、')
-    //     shareConfig.text = `我的心火七職是${core7CodeString}，這代表我更傾向於${userLabels}職業。快來測試你的職業性格吧！`
-    // }
 
     try {
         navigator.share(shareConfig);
     } catch (error) {
         ElMessage.info(error.message || error)
     }
-}
-function forwardToTable() {
-    isAnalyzed.value = true
-    const cardAdapt = document.querySelector('#職務適性比較')
-    cardAdapt.scrollIntoView({
-        behavior: "smooth",
-    })
-}
-function onKeywordChanged() {
-    currentPage.value = 1
-    setPagedOccupations()
 }
 function setPagedOccupations() {
     const keyword = String(userKeyword.value).trim()
@@ -302,26 +173,6 @@ function setPagedOccupations() {
         pagedTotalOccupations.value = recommendOccupations.value.length
         pagedOccupations.value = result
     }
-}
-function initizlieFuzzySearch() {
-    const options = {
-        location: 4,
-        maxPatternLength: 32,
-        minMatchCharLength: 1,
-        threshold: 0.4,
-        distance: 100,
-        keys: ['label', 'alternateName']
-    }
-    const fuse = new Fuse(recommendOccupations.value, options)
-    fuseInstance.value = fuse
-}
-async function initializeInterests() {
-    const interestResponse = await fetch("core7.json");
-    console.log({
-        interestResponse
-    })
-    // const interestJson = await interestResponse.json();
-    // interestOccupationItems.value = interestJson
 }
 async function onHollandCodeChanged() {
     currentPage.value = 1
