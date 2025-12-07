@@ -46,11 +46,11 @@
 
             </div>
 
-            <div class="buttonGroup" style="margin-top: 20px; text-align: center;">
+            <!-- <div class="buttonGroup" style="margin-top: 20px; text-align: center;">
                 <el-button type="primary" size="large" @click="shareRadar">
                     分享我的原野角色圖
                 </el-button>
-            </div>
+            </div> -->
         </div>
 
         <template #footer>
@@ -67,11 +67,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, shallowRef, onMounted, markRaw, nextTick } from 'vue' // 加上 markRaw
+import { ref, shallowRef, onMounted, } from 'vue' // 加上 markRaw
 import Chart from 'chart.js/auto';
 // 引入 Plotly (建議用 CDN 或動態引入以節省打包體積)
 import Plotly from 'plotly.js-dist-min'
 import { ElMessage } from 'element-plus'
+import html2canvas from 'html2canvas';
 
 // --- 1. 定義資料介面 ---
 interface Vector3 {
@@ -221,39 +222,6 @@ function draw3DChart(ux: number, uy: number, uz: number) {
         hoverinfo: 'text'
     };
 
-    // // 4.【連結線】從原點到重心的線 (增加空間感)
-    // const lineTrace = {
-    //     x: [0, ux], y: [0, uy], z: [0, uz],
-    //     mode: 'lines',
-    //     type: 'scatter3d',
-    //     line: { color: '#FFD700', width: 4 },
-    //     showlegend: false,
-    //     hoverinfo: 'none'
-    // };
-
-    // // 5.【連結線】從重心連向所有關鍵字 (星群連線效果 - 選用)
-    // // 這會讓畫面變成像星座一樣，非常有 fu，但也可能太亂。
-    // // 這裡示範如何製作：
-    // const starLinesX = [];
-    // const starLinesY = [];
-    // const starLinesZ = [];
-    // keywordPoints.forEach(p => {
-    //     starLinesX.push(ux, p.x, null); // null 用來斷開線段
-    //     starLinesY.push(uy, p.y, null);
-    //     starLinesZ.push(uz, p.z, null);
-    // });
-
-    const starConstellationTrace = {
-        // x: starLinesX,
-        // y: starLinesY,
-        // z: starLinesZ,
-        mode: 'lines',
-        type: 'scatter3d',
-        line: { color: 'rgba(64, 158, 255, 0.2)', width: 1 }, // 很淡的連線
-        showlegend: false,
-        hoverinfo: 'none'
-    };
-
     // 6. 佈局設定
     const layout = {
         margin: { l: 0, r: 0, b: 0, t: 0 },
@@ -288,15 +256,6 @@ function resetTest() {
     shuffledKeywords.value = shuffle(shuffledKeywords.value);
 }
 
-async function shareRadar() {
-    if (!navigator.share) {
-        ElMessage.info('您的瀏覽器不支援直接分享，請截圖保存。');
-        return;
-    }
-    // 這裡可以接您原本的 html2canvas 邏輯
-    ElMessage.success('正在準備分享圖片...');
-}
-
 // Fisher-Yates Shuffle
 function shuffle(array: any[]) {
     let currentIndex = array.length, randomIndex;
@@ -312,10 +271,13 @@ function shuffle(array: any[]) {
 async function getKeywordsData(): Promise<KeywordItem[]> {
     // 這裡填入您剛剛生成的 48 個關鍵字 JSON array
     const keywordPack = await fetch('./growth/entropy.json')
+    // console.log({
+    //     keywordPack
+    // })
     const keywordJson = await keywordPack.json()
-    console.log({
-        keywordJson
-    })
+    // console.log({
+    //     keywordJson
+    // })
     return keywordJson.keywords
     // return [
     //     { id: 1, keyword_zh: "挑戰", keyword_en: "Challenge", archetype: "Hunter", vector: { x: 0.9, y: 0.7, z: 0.6 }, description: "..." },
