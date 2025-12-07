@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import { ref, shallowRef, onMounted, } from 'vue' // 加上 markRaw
 import Chart from 'chart.js/auto';
-import Plotly from 'plotly.js-dist-min'
+// import Plotly from 'plotly.js-dist-min'
 
 // --- 1. 定義資料介面 ---
 interface Vector3 {
@@ -148,7 +148,7 @@ function calculateResults() {
 }
 
 // --- 修改後的 3D 繪圖函數 ---
-function draw3DChart(ux: number, uy: number, uz: number) {
+async function draw3DChart(ux: number, uy: number, uz: number) {
     const chartDiv = document.getElementById('brain3D');
     if (!chartDiv) return;
 
@@ -234,6 +234,7 @@ function draw3DChart(ux: number, uy: number, uz: number) {
     };
 
     // 繪製！包含：原型星、關鍵字星塵、星座連線、使用者重心、中心連線
+    const Plotly = await import('plotly.js-dist-min')
     Plotly.newPlot('brain3D', [
         archetypesTrace,
         keywordsTrace,
