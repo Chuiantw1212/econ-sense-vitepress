@@ -1,6 +1,4 @@
 <template>
-    <h2 id="熵腦原野八職測驗" tabindex="-1">熵腦原野八職測驗</h2>
-
     <el-card v-loading="fullscreenLoading" class="quiz-card">
         <template #header>
             <div class="card-header">
