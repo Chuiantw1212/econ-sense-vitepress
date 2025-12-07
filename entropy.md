@@ -117,5 +117,5 @@ outline: [2,3]
 了解你的「代碼」，選擇適合你的戰場，這就是通往財務自由的最短路徑。
 
 <script setup>
-import Antropy from './components/entropy.vue'
+import Antropy from './components/entropy/index.vue'
 </script>
