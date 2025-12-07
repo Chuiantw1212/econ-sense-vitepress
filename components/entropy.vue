@@ -23,17 +23,17 @@
                 <el-descriptions title="神經動力分析" direction="vertical" :column="3" border>
                     <el-descriptions-item label="驅動力 (Drive)">
                         <el-tag :type="dimensionScores.x > 0 ? 'danger' : 'success'">
-                            {{ dimensionScores.x > 0 ? '競爭 (T)' : '連結 (O)' }}
+                            {{ dimensionScores.x > 0 ? '個體' : '群體' }}
                         </el-tag>
                     </el-descriptions-item>
                     <el-descriptions-item label="熵狀態 (Entropy)">
                         <el-tag :type="dimensionScores.y > 0 ? 'warning' : 'info'">
-                            {{ dimensionScores.y > 0 ? '高熵 (發散)' : '低熵 (穩定)' }}
+                            {{ dimensionScores.y > 0 ? '熱系統' : '冷系統' }}
                         </el-tag>
                     </el-descriptions-item>
                     <el-descriptions-item label="資訊拓撲 (Topology)">
                         <el-tag :type="dimensionScores.z > 0 ? 'primary' : 'info'">
-                            {{ dimensionScores.z > 0 ? '感知 (外求)' : '預測 (內求)' }}
+                            {{ dimensionScores.z > 0 ? '實證' : '內觀' }}
                         </el-tag>
                     </el-descriptions-item>
                 </el-descriptions>
@@ -112,7 +112,7 @@ const archetypeStars = [
     { name: '工匠', x: 10, y: -10, z: 10, color: '#1E90FF', symbol: 'square' },     // T-L-BU
     { name: '哨兵', x: 10, y: -10, z: -10, color: '#00008B', symbol: 'square' },    // T-L-TD
     { name: '薩滿', x: -10, y: 10, z: 10, color: '#9370DB', symbol: 'circle' },     // O-H-BU
-    { name: '信使', x: -10, y: 10, z: -10, color: '#FF69B4', symbol: 'circle' },    // O-H-TD
+    { name: '採集者', x: -10, y: 10, z: -10, color: '#FF69B4', symbol: 'circle' },    // O-H-TD
     { name: '助人者', x: -10, y: -10, z: 10, color: '#32CD32', symbol: 'cross' },   // O-L-BU
     { name: '長老', x: -10, y: -10, z: -10, color: '#2E8B57', symbol: 'cross' },    // O-L-TD
 ];
