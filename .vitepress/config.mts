@@ -48,15 +48,15 @@ export default defineConfig({
         text: '熵腦人格測驗',
         collapsed: false,
         items: [
-          { text: '點此進行測驗', link: '/entropy/index' },
+          { text: '👉 點此進行測驗 👈', link: '/entropy/index' },
           { text: '🏹 獵人', link: '/entropy/hunter' },
-          { text: '🧭 尋蹤者', link: '/entropy/scout' },
+          { text: '🧭 先驅', link: '/entropy/pioneer' },
+          { text: '🍇 採集者', link: '/entropy/gatherer' },
           { text: '🦋 薩滿', link: '/entropy/shaman' },
-          { text: '🤝 信使', link: '/entropy/envoy' },
-          { text: '🫂 助人者', link: '/entropy/helper' },
-          { text: '🌳 長老', link: '/entropy/elder' },
           { text: '🛠 工匠', link: '/entropy/toolmaker' },
           { text: '🛡️ 哨兵', link: '/entropy/sentry' },
+          { text: '🫂 助人者', link: '/entropy/helper' },
+          { text: '🌳 長老', link: '/entropy/elder' },
         ]
         // link: 'core7'
       },
