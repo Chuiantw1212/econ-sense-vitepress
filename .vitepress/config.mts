@@ -201,8 +201,13 @@ export default defineConfig({
         tokenize: "full",
         buttonLabel: "搜尋",
         placeholder: "搜尋關鍵字"
-      }) as any
-    ]
+      }) as any,
+    ],
+    ssr: {
+      noExternal: ['plotly.js-dist-min']
+      // 或者嘗試加入 external: ['plotly.js-dist-min'] 視情況而定，
+      // 但解決 'self is not defined' 最根本的方法是不要讓 Node.js 執行到 import plotly 的那一行。
+    }
   },
   /** Experimental */
   sitemap: {
