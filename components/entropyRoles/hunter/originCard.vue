@@ -59,7 +59,6 @@ import { Suitcase, Medal, TrendCharts, ChatLineSquare } from '@element-plus/icon
 
 <style lang="scss" scoped>
 .hunter-origin-card {
-    max-width: 600px;
     border: 1px solid #fab6b6;
     border-left: 6px solid #F56C6C;
     background: linear-gradient(180deg, #ffffff 0%, #fffbfc 100%);
