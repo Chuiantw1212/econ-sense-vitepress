@@ -31,6 +31,8 @@ outline: [2,4]
 | **🫂 助人者**   | ORC             | **他人 - 現證 - 冷控**     | [查看進階策略](./entropy/helper.md)    |
 | **🌳 長老**     | OVC             | **他人 - 內觀 - 冷控**     | [查看進階策略](./entropy/elder.md)     |
 
+<div style="page-break-after: always;"></div>
+
 ## 熵腦模型的學術基礎
 
 ### I/O 維度的學術基礎
