@@ -25,7 +25,7 @@ outline: [2,4]
 | **🏹 獵人**     | IRH             | **個體 - 現證 - 熱動**     | [查看進階策略](./entropy/hunter.md)    |
 | **🧭 先驅**     | IVH             | **個體 - 內觀 - 熱動**     | [查看進階策略](./entropy/pioneer.md)   |
 | **🍇 採集者**   | ORH             | **他人 - 現證 - 熱動**     | [查看進階策略](./entropy/gatherer.md)  |
-| **🦋 薩滿**     | OVH             | **他人 - 內觀 - 熱動**     | [查看進階策略](./entropy/shamon.md)    |
+| **🦋 薩滿**     | OVH             | **他人 - 內觀 - 熱動**     | [查看進階策略](./entropy/shaman.md)    |
 | **🛠 工匠**     | IRC             | **個體 - 現證 - 冷控**     | [查看進階策略](./entropy/toolmaker.md) |
 | **🛡️ 哨兵**     | IVC             | **個體 - 內觀 - 冷控**     | [查看進階策略](./entropy/sentry.md)    |
 | **🫂 助人者**   | ORC             | **他人 - 現證 - 冷控**     | [查看進階策略](./entropy/helper.md)    |
