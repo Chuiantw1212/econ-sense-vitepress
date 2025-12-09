@@ -96,10 +96,10 @@ const finalCode = computed(() => {
 
     // C1: Drive (X) -> I/O
     const C1 = mapCode(v.x, 'I', 'O');
-    // C2: Topology (Z) -> R/V
-    const C2 = mapCode(v.z, 'R', 'V');
-    // C3: Entropy (Y) -> H/C
-    const C3 = mapCode(v.y, 'H', 'C');
+    // C2: Entropy (Y) -> R/V
+    const C2 = mapCode(v.y, 'R', 'V');
+    // C3: Topology (Z) -> H/C
+    const C3 = mapCode(v.z, 'H', 'C');
 
     return `${C1}${C2}${C3}`;
 });
