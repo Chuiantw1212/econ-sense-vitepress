@@ -238,7 +238,7 @@ function getInsightText(pKey: string, sKey: string) {
     font-size: 0.9rem;
     color: #606266;
     line-height: 1.5;
-    text-align: center;
+    text-align: left;
 }
 
 .divider-spacing {
