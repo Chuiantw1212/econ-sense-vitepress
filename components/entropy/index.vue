@@ -210,7 +210,6 @@ function resetTest() {
     topArchetypes.value = { primary: '', secondary: undefined };
     isExpanded.value = false;
     initKeywords();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // 通用洗牌函式 (保持純粹的隨機功能)
