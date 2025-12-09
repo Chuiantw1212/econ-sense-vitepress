@@ -121,10 +121,10 @@ const activeTab = ref('');
 const archetypesList = [
     { key: 'Hunter', name: '獵人', color: '#FF4500' },
     { key: 'Pioneer', name: '先驅', color: '#FF8C00' },
-    { key: 'Toolmaker', name: '工匠', color: '#1E90FF' },
-    { key: 'Sentry', name: '哨兵', color: '#00008B' },
     { key: 'Gatherer', name: '採集者', color: '#32CD32' },
     { key: 'Shaman', name: '薩滿', color: '#9370DB' },
+    { key: 'Toolmaker', name: '工匠', color: '#1E90FF' },
+    { key: 'Sentry', name: '哨兵', color: '#00008B' },
     { key: 'Helper', name: '助人者', color: '#20B2AA' },
     { key: 'Elder', name: '長老', color: '#2E8B57' },
 ];

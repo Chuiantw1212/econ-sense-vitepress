@@ -20,8 +20,8 @@ const MANUAL_DB = {
         }
     },
 
-    // Y 軸：熵狀態 (NE/Amygdala vs GABA/PFC)
-    y: {
+    // Z 軸：熵狀態 (NE/Amygdala vs GABA/PFC)
+    z: {
         pos: { // H: Hot (High Entropy)
             chemical: "去甲腎上腺素 / 熵腦假說",
             mechanism: `
@@ -46,8 +46,8 @@ const MANUAL_DB = {
         }
     },
 
-    // Z 軸：拓撲向 (ACh/CEN vs DMN/Hypofrontality)
-    z: {
+    // Y 軸：拓撲向 (ACh/CEN vs DMN/Hypofrontality)
+    y: {
         pos: { // R: Real (CEN)
             chemical: "乙醯膽鹼 (ACh) / 執行網絡",
             mechanism: `
@@ -79,15 +79,15 @@ const AXIS_CONFIG = {
         neg: { label: '群體連結 (O)', color: '#67C23A', icon: '🤝', manual: MANUAL_DB.x.neg }
     },
     y: {
+        name: '拓撲向',
+        pos: { label: '實感執行 (R)', color: '#909399', icon: '👁️', manual: MANUAL_DB.z.pos },
+        neg: { label: '預判模擬 (V)', color: '#9370DB', icon: '🧠', manual: MANUAL_DB.z.neg }
+    },
+    z: {
         name: '熵狀態',
         pos: { label: '熱系統 (H)', color: '#E6A23C', icon: '🔥', manual: MANUAL_DB.y.pos },
         neg: { label: '冷系統 (C)', color: '#409EFF', icon: '❄️', manual: MANUAL_DB.y.neg }
     },
-    z: {
-        name: '拓撲向',
-        pos: { label: '實感執行 (R)', color: '#909399', icon: '👁️', manual: MANUAL_DB.z.pos },
-        neg: { label: '預判模擬 (V)', color: '#9370DB', icon: '🧠', manual: MANUAL_DB.z.neg }
-    }
 };
 
 export default {
