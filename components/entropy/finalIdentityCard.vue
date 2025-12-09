@@ -46,14 +46,14 @@ import { Share, ChatLineRound } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 
 // --- Props ---
-// 不再需要 userVector，只需要 primaryRole
+// 只接收主角色，確保與其他卡片一致
 const props = defineProps<{
     primaryRole: string // 例如 'Hunter'
 }>();
 
 // --- 靜態資料定義 ---
 
-// 1. 角色 -> 標準代碼映射表 (Standard Archetype Codes)
+// 1. 角色 -> 標準代碼映射表
 const ARCHETYPE_CODES: Record<string, string> = {
     'Hunter': 'IRH', 'Pioneer': 'IVH', 'Toolmaker': 'IRC', 'Sentry': 'IVC',
     'Gatherer': 'ORH', 'Shaman': 'OVH', 'Helper': 'ORC', 'Elder': 'OVC',
@@ -65,14 +65,21 @@ const ROLE_NAME_ZH: Record<string, string> = {
     'Gatherer': '採集者', 'Shaman': '薩滿', 'Helper': '助人者', 'Elder': '長老',
 };
 
-// 3. 代碼字母 -> 中文標籤映射
+// 3. 代碼字母 -> 中文標籤 (顯示在方塊下)
 const AXIS_LABEL_MAP: Record<string, string> = {
     'I': '個體', 'O': '群體',
     'R': '實證', 'V': '內觀',
-    'H': '熱動', 'C': '冷控'
+    'H': '熱系統', 'C': '冷系統'
 };
 
-// 4. 角色顏色
+// 4. 代碼字母 -> 文案描述 (用於分享文字)
+const DESC_MAP: Record<string, string> = {
+    'I': '競爭導向', 'O': '連結導向',
+    'R': '實感執行', 'V': '內在預判',
+    'H': '高變革性', 'C': '高穩定性'
+};
+
+// 5. 角色顏色
 const ARCHETYPE_COLORS: Record<string, string> = {
     'Hunter': '#FF4500', 'Pioneer': '#FF8C00', 'Toolmaker': '#1E90FF', 'Sentry': '#00008B',
     'Gatherer': '#32CD32', 'Shaman': '#9370DB', 'Helper': '#20B2AA', 'Elder': '#2E8B57',
@@ -90,7 +97,7 @@ const codeParts = computed(() => {
     return finalCode.value.split('');
 });
 
-// 取得對應的中文標籤 ['個體', '實證', '熱動']
+// 取得對應的中文標籤 ['個體', '實證', '熱系統']
 const axisLabels = computed(() => {
     return codeParts.value.map(char => AXIS_LABEL_MAP[char] || '');
 });
@@ -103,26 +110,20 @@ const primaryColor = computed(() => {
     return ARCHETYPE_COLORS[props.primaryRole] || '#36b7cf';
 });
 
-// --- 社交文案生成 ---
+// --- 社交文案生成 (您要求的格式) ---
 const socialText = computed(() => {
-    const role = translatedArchetypeName.value;
-    const code = finalCode.value;
+    if (!finalCode.value) return "請先完成關鍵字勾選以生成報告。";
 
-    // 生成更有趣的文案
-    const slogans: Record<string, string> = {
-        'Hunter': '我在混亂中看見機會，我是天生的狩獵者。',
-        'Pioneer': '我不追隨趨勢，我創造趨勢。我是未來的先驅。',
-        'Toolmaker': '魔鬼藏在細節裡，而我掌管細節。我是極致的工匠。',
-        'Sentry': '在崩塌的世界中，我是最後一道防線。我是哨兵。',
-        'Gatherer': '連結人與人之間的孤島，我是資源的採集者。',
-        'Shaman': '看見數據背後的靈魂，我是意義的編織者薩滿。',
-        'Helper': '成為強者背後的溫暖力量，我是最可靠的助人者。',
-        'Elder': '洞察時間長河的智慧，我是穿越週期的長老。'
-    };
+    const [c1, c2, c3] = codeParts.value;
+    const roleName = translatedArchetypeName.value;
 
-    const slogan = slogans[props.primaryRole] || `我是獨一無二的 ${role}。`;
+    // 第一段：代碼解析 (IRH - 個體 實證 熱系統)
+    const intro = `我的神經原型代碼是 ${finalCode.value} (${AXIS_LABEL_MAP[c1]} ${AXIS_LABEL_MAP[c2]} ${AXIS_LABEL_MAP[c3]})，`;
 
-    return `我的神經原型代碼是 ${code} (${role})。${slogan}`;
+    // 第二段：詳細描述
+    const summary = `我是一個以 ${DESC_MAP[c1]} 為驅力，擅長 ${DESC_MAP[c2]}，並處於 ${DESC_MAP[c3]} 狀態的 ${roleName} 型人格！`;
+
+    return intro + summary;
 });
 
 // --- 行動函數 ---

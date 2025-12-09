@@ -4,8 +4,10 @@
         <template #header>
             <div class="card-header">
                 <div class="header-left">
-                    <span class="title">🔄 雙核心內部摩擦分析</span>
-                    <el-tooltip content="分析你的主顯與次顯人格在神經維度上的差異。差異越大，代表兩種模式切換時的認知耗損(Cognitive Load)越高。" placement="top">
+                    <span class="title">
+                        {{ frictionResult.differenceCount === 1 ? '⚠️ 外部盲區與磨合' : '🔄 雙核心內部摩擦' }}
+                    </span>
+                    <el-tooltip content="分析主顯與次顯人格的維度差異。差異 1 為良性但有盲區；差異 2 為顯著內耗；差異 3 為極度對立。" placement="top">
                         <el-icon class="info-icon">
                             <InfoFilled />
                         </el-icon>
@@ -24,40 +26,51 @@
                     <div class="score-num" :style="{ color: frictionColor }">{{ frictionResult.differenceCount }}</div>
                     <div class="score-label">維度衝突</div>
                 </div>
+
                 <div class="summary-text">
-                    你的 <strong>{{ primaryRoleZh }}</strong> 與 <strong>{{ secondaryRoleZh }}</strong> 在核心運作上
 
-                    <span v-if="frictionResult.differenceCount === 1">
-                        僅存在單一維度的分歧。這屬於<strong>良性磨合</strong>，你通常能順暢切換視角，僅在特定情境下會感到些微的猶豫，認知負擔較低。
-                    </span>
+                    <div v-if="frictionResult.differenceCount === 1">
+                        你的 <strong>{{ primaryRoleZh }}</strong> 與 <strong>{{ secondaryRoleZh }}</strong> 高度相似，僅有一個維度不同。
+                        這屬於<strong>「良性磨合」</strong>，你切換狀態非常滑順，執行力極強。
+                        <br /><br />
+                        <span class="blind-spot-warning">
+                            <strong>🛑 但代價是「外部盲區」：</strong><br />
+                            因為雷達重疊率太高，你們同時忽視了
+                            <span class="missing-traits">{{ frictionResult.missingTraits }}</span>
+                            的訊號。建議尋找互補隊友來幫你看路。
+                        </span>
+                    </div>
 
-                    <span v-else-if="frictionResult.differenceCount === 2">
-                        存在<strong>顯著的內在張力</strong>。你需要消耗可觀的認知能量來進行「換檔」，常感到自我矛盾（例如想衝刺又想安全，想獨處又怕孤單）。需建立明確的「模式切換儀式」。
-                    </span>
+                    <div v-else-if="frictionResult.differenceCount === 2">
+                        你的 <strong>{{ primaryRoleZh }}</strong> 與 <strong>{{ secondaryRoleZh }}</strong> 在核心運作上存在
+                        <strong>「顯著的內在張力」</strong>。
+                        <br /><br />
+                        這意味著你的大腦經常需要<strong>「手動換檔」</strong>。例如：你想衝刺（熱系統）但同時又極度缺乏安全感（冷系統）；或是你想顧全大局（群體）卻又受不了被拘束（個體）。這種矛盾會消耗你的認知能量，容易感到心累。
+                    </div>
 
-                    <span v-else>
-                        處於<strong>重災區等級的對立狀態</strong>。你的大腦像是在同時踩油門與煞車，雖然這讓你具備極致的全面性，但<strong>內耗極大</strong>。若無明確的場景切割，容易陷入決策癱瘓或長期疲勞。
-                    </span>
+                    <div v-else>
+                        警告：這屬於<strong>「極限拉扯的重災區」</strong>。
+                        你的 <strong>{{ primaryRoleZh }}</strong> 與 <strong>{{ secondaryRoleZh }}</strong> 在所有維度上都完全相反。
+                        <br /><br />
+                        你的大腦像是在<strong>「同時踩油門與煞車」</strong>。雖然這讓你擁有上帝般的全面視角（什麼人都懂），但內耗極大。若沒有明確切割「工作模式」與「生活模式」，你很容易陷入決策癱瘓或長期焦慮。
+                    </div>
+
                 </div>
             </div>
 
             <el-divider border-style="dashed" />
 
-            <div class="conflict-list">
+            <div class="detail-list">
                 <div v-for="(conflict, index) in frictionResult.conflicts" :key="index" class="conflict-item">
                     <div class="conflict-header">
                         <span class="axis-badge">{{ conflict.axisName }}</span>
                         <span class="conflict-vs">
-                            {{ conflict.primaryPole }}
-                            <el-icon class="vs-icon">
+                            {{ conflict.primaryPole }} <el-icon class="vs-icon">
                                 <Switch />
-                            </el-icon>
-                            {{ conflict.secondaryPole }}
+                            </el-icon> {{ conflict.secondaryPole }}
                         </span>
                     </div>
-                    <div class="conflict-desc">
-                        {{ getConflictDescription(conflict.axisName) }}
-                    </div>
+                    <div class="conflict-desc">{{ getConflictDescription(conflict.axisName) }}</div>
                 </div>
             </div>
 
@@ -69,7 +82,6 @@
 import { computed } from 'vue';
 import { InfoFilled, Switch } from '@element-plus/icons-vue';
 
-// --- Props ---
 const props = defineProps<{
     primaryRole: string,
     secondaryRole: string | undefined,
@@ -87,9 +99,9 @@ const ROLE_NAME_MAP: Record<string, string> = {
 };
 
 const AXIS_INFO = [
-    { name: '驅動力', codes: ['I', 'O'], labels: { I: '個體競爭', O: '群體連結' } },
-    { name: '拓撲向', codes: ['R', 'V'], labels: { R: '實證執行', V: '內觀預判' } },
-    { name: '熵狀態', codes: ['H', 'C'], labels: { H: '熱系統(變革)', C: '冷系統(秩序)' } }
+    { name: '驅動力', codes: ['I', 'O'], labels: { I: '個體競爭', O: '群體連結' }, missing: { I: '群體共融', O: '獨立自我' } },
+    { name: '拓撲向', codes: ['R', 'V'], labels: { R: '實證執行', V: '內觀預判' }, missing: { R: '宏觀願景', V: '落地細節' } },
+    { name: '熵狀態', codes: ['H', 'C'], labels: { H: '熱系統(變革)', C: '冷系統(秩序)' }, missing: { H: '穩定秩序', C: '破局勇氣' } }
 ];
 
 // --- Computed ---
@@ -98,9 +110,9 @@ const primaryRoleZh = computed(() => ROLE_NAME_MAP[props.primaryRole] || props.p
 const secondaryRoleZh = computed(() => props.secondaryRole ? (ROLE_NAME_MAP[props.secondaryRole] || props.secondaryRole) : '');
 
 const frictionResult = computed(() => {
-    // 0 差異或無次要角色 -> 不顯示
+    // 1. 無次要角色或角色相同 -> 視為無摩擦，不顯示
     if (!props.secondaryRole || props.primaryRole === props.secondaryRole) {
-        return { hasData: false, differenceCount: 0, levelZh: '', conflicts: [] };
+        return { hasData: false, differenceCount: 0, levelZh: '', conflicts: [], missingTraits: '' };
     }
 
     const code1 = ARCHETYPE_CODES[props.primaryRole];
@@ -110,10 +122,12 @@ const frictionResult = computed(() => {
 
     let diffCount = 0;
     const conflicts = [];
+    const missingTraitsArr = [];
 
+    // 2. 逐一比對
     for (let i = 0; i < 3; i++) {
         if (code1[i] !== code2[i]) {
-            diffCount++;
+            diffCount++; // 有衝突
             const axis = AXIS_INFO[i];
             // @ts-ignore
             conflicts.push({
@@ -123,36 +137,42 @@ const frictionResult = computed(() => {
                 // @ts-ignore
                 secondaryPole: axis.labels[code2[i]]
             });
+        } else {
+            // 無衝突 -> 記錄盲區 (兩個角色都缺少的那一面)
+            const axis = AXIS_INFO[i];
+            // @ts-ignore
+            missingTraitsArr.push(axis.missing[code1[i]]);
         }
     }
 
-    // 定義三個等級
+    // 3. 定義中文等級
     let levelZh = '';
-    if (diffCount === 1) levelZh = '輕度磨合';
-    else if (diffCount === 2) levelZh = '中度內耗';
+    if (diffCount === 1) levelZh = '良性磨合';
+    else if (diffCount === 2) levelZh = '顯著內耗';
     else if (diffCount === 3) levelZh = '重度拉扯';
 
     return {
         hasData: true,
         differenceCount: diffCount,
         levelZh,
-        conflicts
+        conflicts,
+        missingTraits: missingTraitsArr.join('、') // e.g. "群體共融、破局勇氣"
     };
 });
 
-// 視覺樣式 (顏色定義)
+// 顏色定義：根據程度變色
 const frictionColor = computed(() => {
     const c = frictionResult.value.differenceCount;
-    if (c >= 3) return '#F56C6C'; // 紅色 (重災區)
-    if (c === 2) return '#E6A23C'; // 橘色 (明顯)
-    return '#67C23A';             // 綠色 (輕度)
+    if (c === 3) return '#F56C6C'; // 紅色 (重災區)
+    if (c === 2) return '#E6A23C'; // 橘色 (顯著)
+    return '#67C23A';             // 綠色 (良性)
 });
 
-// 衝突描述文案 (保持不變)
+// 衝突描述文案
 function getConflictDescription(axisName: string) {
-    if (axisName === '驅動力') return "你的動機在「為自己贏」與「為大家贏」之間擺盪。需釐清當下任務的受益對象，避免在競爭時心軟，或在合作時過於自我。";
-    if (axisName === '拓撲向') return "你的認知模式在「看見細節」與「看見願景」之間拉扯。容易發生規劃了宏大藍圖（V）卻在執行細節（R）時感到挫折，或反之。";
-    if (axisName === '熵狀態') return "這是最消耗能量的衝突。一部分的你渴望刺激與改變（H），另一部分的你卻極度需要安全感與秩序（C）。容易在衝動過後陷入焦慮。";
+    if (axisName === '驅動力') return "你的動機在「為自己贏」與「為大家贏」之間擺盪。需釐清當下任務的受益對象。";
+    if (axisName === '拓撲向') return "你的認知模式在「看見細節」與「看見願景」之間拉扯。容易發生規劃了藍圖卻在執行時感到挫折。";
+    if (axisName === '熵狀態') return "渴望刺激（H）與需要安全感（C）並存，這是一腳油門一腳煞車，最消耗能量的衝突。";
     return "";
 }
 </script>
@@ -189,13 +209,11 @@ function getConflictDescription(axisName: string) {
     cursor: help;
 }
 
-/* 調整 Tag 樣式以適應自訂顏色 */
 .level-tag {
     color: #fff;
     border: none;
 }
 
-/* 總結區 */
 .summary-section {
     display: flex;
     gap: 20px;
@@ -229,8 +247,25 @@ function getConflictDescription(axisName: string) {
     flex-grow: 1;
 }
 
-/* 衝突列表 */
-.conflict-list {
+/* 1階專用的盲區警示框 */
+.blind-spot-warning {
+    display: block;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f0f9eb;
+    /* 淡綠色背景 */
+    border-radius: 6px;
+    color: #67C23A;
+    font-size: 0.9rem;
+    border: 1px solid #e1f3d8;
+}
+
+.missing-traits {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.detail-list {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -247,7 +282,6 @@ function getConflictDescription(axisName: string) {
     align-items: center;
     gap: 10px;
     margin-bottom: 8px;
-    flex-wrap: wrap;
 }
 
 .axis-badge {
@@ -276,7 +310,6 @@ function getConflictDescription(axisName: string) {
 .conflict-desc {
     font-size: 0.9rem;
     color: #555;
-    line-height: 1.5;
     padding-left: 4px;
     border-left: 2px solid #dcdfe6;
 }
