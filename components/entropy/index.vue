@@ -48,12 +48,14 @@
 
             <KeyDimensionsCard v-if="dimensionScores" :userVector="dimensionScores" />
 
-            <FinalIdentityCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
-                :userVector="dimensionScores" />
-
             <InternalFrictionCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
                 :secondary-role="topArchetypes.secondary">
             </InternalFrictionCard>
+
+            <!-- <SocialCompatibilityCard :primaryRole="topArchetypes.primary"></SocialCompatibilityCard> -->
+
+            <FinalIdentityCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :userVector="dimensionScores" />
 
         </div>
 
@@ -74,9 +76,10 @@ import { data } from './keywords.data.js'
 import BrainUniverseCard from './brainUniverseCard.vue'
 import HybridSoulCard from './hybridSoulCard.vue'
 import KeyDimensionsCard from './keyDimensionsCard.vue'
+import SocialCompatibilityCard from './socialCompatibilityCard.vue'
 // import ShadowAnalysisCard from './shadowAnalysisCard.vue'
-import FinalIdentityCard from './finalIdentityCard.vue'
 import InternalFrictionCard from './internalFrictionCard.vue'
+import FinalIdentityCard from './finalIdentityCard.vue'
 
 // --- 介面定義 ---
 interface Vector3 {
