@@ -54,8 +54,7 @@
 
             <!-- <SocialCompatibilityCard :primaryRole="topArchetypes.primary"></SocialCompatibilityCard> -->
 
-            <FinalIdentityCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
-                :userVector="dimensionScores" />
+            <FinalIdentityCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary" />
 
         </div>
 
