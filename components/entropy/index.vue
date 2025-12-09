@@ -48,6 +48,8 @@
 
             <KeyDimensionsCard v-if="dimensionScores" :userVector="dimensionScores" />
 
+            <CareerStrategyCard :primaryRole="topArchetypes.primary"></CareerStrategyCard>
+
             <InternalFrictionCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
                 :secondary-role="topArchetypes.secondary">
             </InternalFrictionCard>
@@ -82,6 +84,7 @@ import KeyDimensionsCard from './keyDimensionsCard.vue'
 import SocialCompatibilityCard from './socialCompatibilityCard.vue'
 import ShadowAnalysisCard from './shadowAnalysisCard.vue'
 import InternalFrictionCard from './internalFrictionCard.vue'
+import CareerStrategyCard from './careerStrategyCard.vue'
 import FinalIdentityCard from './finalIdentityCard.vue'
 
 // --- 介面定義 ---

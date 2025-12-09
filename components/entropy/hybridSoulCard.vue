@@ -92,7 +92,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { InfoFilled } from '@element-plus/icons-vue';
-import { data } from './hybridSoulCard.data.js';
+import { data } from './archetypes.data.js';
 
 const props = defineProps<{
     selectedKeywords: Array<{ archetype: string }>
