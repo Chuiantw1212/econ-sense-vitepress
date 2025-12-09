@@ -52,7 +52,7 @@ const showHull = ref(true); // 控制多面體開關
 const archetypeStars = [
     { name: '獵人', x: 10, y: 10, z: 10, color: '#FF4500', symbol: 'diamond' },
     { name: '先驅', x: 10, y: 10, z: -10, color: '#FF8C00', symbol: 'diamond' },
-    { name: '工匠', x: 10, y: -10, z: 10, color: '#1E90FF', symbol: 'square' },
+    { name: '工匠', x: 10, y: 10, z: 10, color: '#1E90FF', symbol: 'square' },
     { name: '哨兵', x: 10, y: -10, z: -10, color: '#00008B', symbol: 'square' },
     { name: '採集者', x: -10, y: 10, z: 10, color: '#FF69B4', symbol: 'circle' },
     { name: '薩滿', x: -10, y: 10, z: -10, color: '#9370DB', symbol: 'circle' },
