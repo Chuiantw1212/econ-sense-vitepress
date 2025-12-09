@@ -51,6 +51,10 @@
             <FinalIdentityCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
                 :userVector="dimensionScores" />
 
+            <InternalFrictionCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :secondary-role="topArchetypes.secondary">
+            </InternalFrictionCard>
+
         </div>
 
         <div v-else class="hint-text">
@@ -72,6 +76,7 @@ import HybridSoulCard from './hybridSoulCard.vue'
 import KeyDimensionsCard from './keyDimensionsCard.vue'
 // import ShadowAnalysisCard from './shadowAnalysisCard.vue'
 import FinalIdentityCard from './finalIdentityCard.vue'
+import InternalFrictionCard from './internalFrictionCard.vue'
 
 // --- 介面定義 ---
 interface Vector3 {
