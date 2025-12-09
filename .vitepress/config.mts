@@ -57,7 +57,7 @@ export default defineConfig({
           { text: '🛡️ 哨兵', link: '/entropy/sentry' },
           { text: '🫂 助人者', link: '/entropy/helper' },
           { text: '🌳 長老', link: '/entropy/elder' },
-          { text: '理論基礎', link: '/entropy/foundation' },
+          { text: '研究與基礎', link: '/entropy/foundation' },
         ]
         // link: 'core7'
       },
