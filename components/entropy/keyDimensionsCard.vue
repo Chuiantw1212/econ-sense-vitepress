@@ -99,17 +99,23 @@ const result = computed(() => {
     const rawDims = [
         { axis: 'x', value: x, abs: Math.abs(x) },
         { axis: 'y', value: y, abs: Math.abs(y) },
-        { axis: 'z', value: z, abs: Math.abs(z) }
+        { axis: 'z', value: z, abs: Math.abs(z) },
     ];
 
     // 排序取出前兩名
     rawDims.sort((a, b) => b.abs - a.abs);
     const top2 = rawDims.slice(0, 2);
+    console.log({
+        top2
+    })
 
     const formattedDims = top2.map(d => {
         // @ts-ignore
         const config = data[d.axis];
         const side = d.value >= 0 ? config.pos : config.neg;
+        console.log({
+            side
+        })
 
         return {
             axisName: config.name,

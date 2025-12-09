@@ -98,11 +98,12 @@ const dimensionScores = ref<Vector3 | null>(null)
 // 狀態控制
 const isExpanded = ref<boolean>(false)
 
-// 計算屬性
+// 計算屬性：控制顯示數量
 const visibleKeywords = computed(() => {
     if (isExpanded.value) {
         return shuffledKeywords.value;
     }
+    // 這裡的切分點會剛好切在我們精心安排的「前半段」與「後半段」之間
     const limit = Math.ceil(shuffledKeywords.value.length / 2);
     return shuffledKeywords.value.slice(0, limit);
 })
@@ -117,39 +118,60 @@ onMounted(() => {
     initKeywords();
 });
 
-// [核心修正] 初始化函式
+// [核心修正] 初始化函式：實作分層抽樣
 function initKeywords() {
-    // 1. 取得原始資料
     const rawData = data.keywords || [];
 
-    // 2. 嚴格去重 (Trim + Map)
-    // 使用 Map 確保每個中文關鍵字只出現一次，並去除前後空白
+    // 1. 嚴格去重 (與之前相同)
     const uniqueMap = new Map<string, KeywordItem>();
-
     rawData.forEach((item: any) => {
         if (item && item.keyword_zh) {
-            const cleanKey = item.keyword_zh.trim(); // [關鍵] 去除空白
+            const cleanKey = item.keyword_zh.trim();
             if (!uniqueMap.has(cleanKey)) {
-                uniqueMap.set(cleanKey, { ...item, keyword_zh: cleanKey }); // 建立新物件斷開參照
+                uniqueMap.set(cleanKey, { ...item, keyword_zh: cleanKey });
             }
         }
     });
-
     const uniqueData = Array.from(uniqueMap.values());
 
-    // 3. 洗牌
-    const shuffled = shuffle(uniqueData);
+    // 2. [新增] 依角色分組 (Stratification)
+    const groups: Record<string, KeywordItem[]> = {};
+    uniqueData.forEach(item => {
+        if (!groups[item.archetype]) {
+            groups[item.archetype] = [];
+        }
+        groups[item.archetype].push(item);
+    });
 
-    // 4. [關鍵修正] 重新分配 ID
-    // 這是解決 Vue 顯示重複最重要的一步。
-    // 原始檔案可能有重複 ID，這裡強制重寫為 0, 1, 2... 確保 v-for :key 絕對唯一
-    shuffledKeywords.value = shuffled.map((item, index) => ({
+    // 3. [新增] 建構平衡的兩個池子
+    let visiblePool: KeywordItem[] = [];
+    let hiddenPool: KeywordItem[] = [];
+
+    // 遍歷每個角色組 (例如：Hunter, Shaman...)
+    Object.keys(groups).forEach(key => {
+        // 先將該角色的關鍵字內部洗牌，避免每次都是固定的詞排前面
+        const groupItems = shuffle(groups[key]);
+
+        // 計算切分點 (無條件進位，確保顯示區至少有一半)
+        const mid = Math.ceil(groupItems.length / 2);
+
+        // 前半段丟入顯示池，後半段丟入隱藏池
+        visiblePool = visiblePool.concat(groupItems.slice(0, mid));
+        hiddenPool = hiddenPool.concat(groupItems.slice(mid));
+    });
+
+    // 4. [新增] 分別對兩個池子進行最終洗牌，並合併
+    // 這樣確保用戶在前 64 個選項中，看到的是隨機排序但角色數量平衡的結果
+    const finalSequence = [...shuffle(visiblePool), ...shuffle(hiddenPool)];
+
+    // 5. 重新分配 ID (與之前相同)
+    shuffledKeywords.value = finalSequence.map((item, index) => ({
         ...item,
         id: index
     }));
 }
 
-// --- 核心計算邏輯 ---
+// --- 核心計算邏輯 (保持不變) ---
 function calculateResults() {
     if (selectedKeywords.value.length === 0) {
         dimensionScores.value = null;
@@ -191,21 +213,13 @@ function resetTest() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// [修正] 標準 Fisher-Yates 洗牌演算法
-// 使用泛型 <T> 並確保型別安全
+// 通用洗牌函式 (保持純粹的隨機功能)
 function shuffle<T>(sourceArray: T[]): T[] {
-    // 建立淺拷貝，避免修改原始陣列
     const array = Array.from(sourceArray);
-
-    // 從最後一個元素開始往前掃描
     for (let i = array.length - 1; i > 0; i--) {
-        // 產生 0 到 i 之間的隨機整數
         const j = Math.floor(Math.random() * (i + 1));
-
-        // 交換元素
         [array[i], array[j]] = [array[j], array[i]];
     }
-
     return array;
 }
 </script>
