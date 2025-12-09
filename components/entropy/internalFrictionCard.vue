@@ -35,7 +35,7 @@
                         <br /><br />
                         <span class="blind-spot-warning">
                             <strong>🛑 但代價是「外部盲區」：</strong><br />
-                            因為雷達重疊率太高，你們同時忽視了
+                            因為雷達重疊率太高，你同時忽視了
                             <span class="missing-traits">{{ frictionResult.missingTraits }}</span>
                             的訊號。建議尋找互補隊友來幫你看路。
                         </span>

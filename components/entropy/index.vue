@@ -48,7 +48,8 @@
 
             <KeyDimensionsCard v-if="dimensionScores" :userVector="dimensionScores" />
 
-            <CareerStrategyCard :primaryRole="topArchetypes.primary"></CareerStrategyCard>
+            <CareerStrategyCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :secondary-role="topArchetypes.secondary"></CareerStrategyCard>
 
             <InternalFrictionCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
                 :secondary-role="topArchetypes.secondary">
