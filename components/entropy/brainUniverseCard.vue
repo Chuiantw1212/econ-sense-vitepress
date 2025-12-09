@@ -66,76 +66,92 @@ async function drawChart() {
     loading.value = true;
     const Plotly = (await import('plotly.js-dist-min')).default;
 
+    // 1. 數據計算與擾動處理
     const count = props.selectedKeywords.length;
     const scale = 10;
+    const jitter = () => (Math.random() - 0.5) * 0.05; // 微小擾動，確保 Mesh 渲染成功
 
-    // 1. 準備數據 + 微小厚度處理 (Jitter)
-    // 這裡的 Jitter 極小 (0.01)，肉眼看不出偏移，但足以讓共面的點產生體積
-    const jitter = () => (Math.random() - 0.5) * 0.05;
-
+    // 原始座標 (給星星和點使用)
     const kwX = props.selectedKeywords.map(k => (k.vector.x * scale) + jitter());
     const kwY = props.selectedKeywords.map(k => (k.vector.y * scale) + jitter());
     const kwZ = props.selectedKeywords.map(k => (k.vector.z * scale) + jitter());
     const kwText = props.selectedKeywords.map(k => k.keyword_zh);
 
-    // 重心計算
+    // 計算重心
     const ux = (kwX.reduce((a, b) => a + b, 0) / count);
     const uy = (kwY.reduce((a, b) => a + b, 0) / count);
     const uz = (kwZ.reduce((a, b) => a + b, 0) / count);
 
-    // --- Trace 設定 ---
+    // --- Trace A: 軸線向量 (Fix: 強化軸線方向感) ---
+    let lineX: (number | null)[] = [];
+    let lineY: (number | null)[] = [];
+    let lineZ: (number | null)[] = [];
 
-    // Trace A: 意識場域 (Convex Hull) - 放在最底層
+    // archetypeStars 應在元件頂部定義
+    // 這裡假設 archetypeStars 陣列是可用的
+    archetypeStars.forEach(a => {
+        lineX.push(0, a.x, null);
+        lineY.push(0, a.y, null);
+        lineZ.push(0, a.z, null);
+    });
+
+    const axisLinesTrace = {
+        x: lineX, y: lineY, z: lineZ,
+        mode: 'lines',
+        type: 'scatter3d',
+        line: { color: '#ccc', width: 1.5, dash: 'dot' },
+        opacity: 0.6,
+        hoverinfo: 'none',
+        name: '維度方向'
+    };
+
+    // --- Trace B: 意識場域 (Mesh) ---
     let meshTrace = null;
     if (showHull.value && count >= 4) {
         meshTrace = {
-            x: kwX,
-            y: kwY,
-            z: kwZ,
+            x: kwX, y: kwY, z: kwZ,
             type: 'mesh3d',
-
-            // 【關鍵修正】
-            // alphahull: 0 -> 計算 Convex Hull (凸包)，即「最小包覆多面體」
-            // 這會忽略內部點，只連接最外圍的點形成一個殼
-            alphahull: 0,
-
-            opacity: 0.3, // 半透明，呈現能量場感
-            color: '#FFD700', // 實心黃色
+            alphahull: 0, // Convex Hull
+            opacity: 0.3,
+            color: '#FFD700',
             flatshading: true,
-            hoverinfo: 'skip', // 不顯示 hover 資訊
+            hoverinfo: 'skip',
             name: '意識場域'
         };
     }
 
-    // Trace B: 原型恆星
+    // --- Trace C: 原型恆星 ---
     const archetypesTrace = {
         x: archetypeStars.map(a => a.x),
         y: archetypeStars.map(a => a.y),
         z: archetypeStars.map(a => a.z),
         mode: 'markers+text',
         type: 'scatter3d',
+        name: '原型恆星',
         text: archetypeStars.map(a => a.name),
         textposition: 'top center',
-        textfont: { size: 11, color: '#888' },
-        marker: { size: 5, color: archetypeStars.map(a => a.color), opacity: 0.5, symbol: 'circle' },
+        textfont: { size: 11, color: '#444' },
+        marker: { size: 6, color: archetypeStars.map(a => a.color), opacity: 0.9, symbol: 'circle' },
         hoverinfo: 'text'
     };
 
-    // Trace C: 關鍵字星塵
+    // --- Trace D: 關鍵字星塵 ---
     const keywordsTrace = {
         x: kwX, y: kwY, z: kwZ,
         mode: 'markers',
         type: 'scatter3d',
+        name: '你的選擇',
         text: kwText,
-        marker: { size: 4, color: '#409EFF', opacity: 1, line: { color: 'white', width: 0.8 } },
+        marker: { size: 4, color: '#409EFF', opacity: 1.0, line: { color: 'white', width: 0.5 } },
         hoverinfo: 'text'
     };
 
-    // Trace D: 使用者飛船
+    // Trace E: 使用者飛船 (重心)
     const userTrace = {
         x: [ux], y: [uy], z: [uz],
         mode: 'markers+text',
         type: 'scatter3d',
+        name: '你的重心',
         text: ['YOU'],
         textposition: 'bottom center',
         textfont: { size: 14, color: '#000', family: 'Arial Black' },
@@ -143,25 +159,47 @@ async function drawChart() {
         hoverinfo: 'text'
     };
 
-    // 組合 Traces (將 mesh 放在第一位，這是 WebGL 渲染透明物體的最佳實踐)
-    const data = [archetypesTrace, keywordsTrace, userTrace];
+    // 組合 Traces
+    const data = [axisLinesTrace, archetypesTrace, keywordsTrace, userTrace];
     if (meshTrace) data.unshift(meshTrace);
 
+
+    // 2. 佈局設定 (Fix: 強化網格、背景與 Z=0 地平線)
     const layout = {
         margin: { l: 0, r: 0, b: 0, t: 0 },
         scene: {
-            xaxis: { title: '驅動力', range: [-12, 12] },
-            yaxis: { title: '熵狀態', range: [-12, 12] },
-            zaxis: { title: '拓撲向', range: [-12, 12] },
-            camera: { eye: { x: 1.5, y: 1.5, z: 1.5 } },
-            aspectmode: 'cube'
+            // X/Y Axis: 強化網格與背景，修正深度感知
+            xaxis: { title: '驅動力 (Drive)', showgrid: true, zeroline: true, showbackground: true, backgroundcolor: '#f7f7f7', gridcolor: '#e0e0e0', range: [-12, 12] },
+            yaxis: { title: '熵狀態 (Entropy)', showgrid: true, zeroline: true, showbackground: true, backgroundcolor: '#f7f7f7', gridcolor: '#e0e0e0', range: [-12, 12] },
+
+            // Z Axis: 強化 Z=0 地平線
+            zaxis: {
+                title: '拓撲向 (Topology)',
+                showgrid: true,
+                zeroline: true,
+                showbackground: true,
+                backgroundcolor: '#f7f7f7',
+                gridcolor: '#e0e0e0',
+                range: [-12, 12],
+                // FIX 3: 將 Z=0 線設為粗黑線，作為明確的地平線參考
+                zerolinecolor: '#000000',
+                zerolinewidth: 3,
+            },
+
+            aspectmode: 'cube',
+            bgcolor: '#ffffff', // 確保整個背景為白色
         },
-        showlegend: false,
+        showlegend: true,
+        legend: { x: 0, y: 1 },
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)'
     };
 
-    const config = { responsive: true, displayModeBar: false, scrollZoom: true };
+    const config = {
+        responsive: true,
+        displayModeBar: false,
+        scrollZoom: true
+    };
 
     Plotly.newPlot(chartContainer.value, data, layout, config).then(() => {
         loading.value = false;
