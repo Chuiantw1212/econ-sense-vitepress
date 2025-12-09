@@ -14,12 +14,28 @@
 
         <el-row class="keyword-container">
             <el-checkbox-group v-model="selectedKeywords" @change="calculateResults">
-                <el-checkbox v-for="item in shuffledKeywords" :key="item.id" :label="item.keyword_zh" :value="item"
-                    border style="margin: 5px;">
+                <el-checkbox v-for="item in visibleKeywords" :key="item.keyword_zh" :label="item.keyword_zh"
+                    :value="item" border style="margin: 5px;">
                     {{ item.keyword_zh }}
                 </el-checkbox>
             </el-checkbox-group>
         </el-row>
+
+        <div v-if="!isExpanded" class="expand-section">
+            <el-divider content-position="center">
+                <el-button text bg type="primary" @click="isExpanded = true">
+                    覺得不夠？顯示更多關鍵字
+                    <el-icon class="el-icon--right">
+                        <ArrowDown />
+                    </el-icon>
+                </el-button>
+            </el-divider>
+        </div>
+
+        <div v-else class="expanded-hint">
+            <el-text type="info" size="small">已顯示所有 128 個關鍵字</el-text>
+        </div>
+
     </el-card>
 
     <div v-show="selectedKeywords.length >= 5" class="result-section">
@@ -32,11 +48,24 @@
 
             <KeyDimensionsCard v-if="dimensionScores" :userVector="dimensionScores" />
 
-            <!-- <ShadowAnalysisCard v-if="topArchetypes.primary" :primaryRole="topArchetypes.primary"
-                :secondaryRole="topArchetypes.secondary" /> -->
+            <CareerStrategyCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :secondary-role="topArchetypes.secondary"></CareerStrategyCard>
 
-            <FinalIdentityCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
-                :userVector="dimensionScores" />
+            <WealthStrategyCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :secondary-role="topArchetypes.secondary">
+            </WealthStrategyCard>
+
+            <InternalFrictionCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :secondary-role="topArchetypes.secondary">
+            </InternalFrictionCard>
+
+            <SocialCompatibilityCard :primaryRole="topArchetypes.primary" :secondary-role="topArchetypes.secondary">
+            </SocialCompatibilityCard>
+
+            <!-- <ShadowAnalysisCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :secondary-role="topArchetypes.secondary"></ShadowAnalysisCard> -->
+
+            <FinalIdentityCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary" />
 
         </div>
 
@@ -49,15 +78,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { ArrowDown } from '@element-plus/icons-vue'
 import { data } from './keywords.data.js'
 
 // 引入四個子元件
 import BrainUniverseCard from './brainUniverseCard.vue'
 import HybridSoulCard from './hybridSoulCard.vue'
 import KeyDimensionsCard from './keyDimensionsCard.vue'
+import SocialCompatibilityCard from './socialCompatibilityCard.vue'
 import ShadowAnalysisCard from './shadowAnalysisCard.vue'
+import InternalFrictionCard from './internalFrictionCard.vue'
+import CareerStrategyCard from './careerStrategyCard.vue'
 import FinalIdentityCard from './finalIdentityCard.vue'
+import WealthStrategyCard from './wealthStrategyCard.vue'
 
 // --- 介面定義 ---
 interface Vector3 {
@@ -72,7 +106,7 @@ interface KeywordItem {
     keyword_en: string;
     archetype: string;
     vector: Vector3;
-    description: string;
+    description?: string;
 }
 
 // --- 狀態變數 ---
@@ -81,7 +115,19 @@ const selectedKeywords = ref<KeywordItem[]>([])
 const fullscreenLoading = ref<boolean>(false)
 const dimensionScores = ref<Vector3 | null>(null)
 
-// 新增狀態：儲存前兩名角色
+// 狀態控制
+const isExpanded = ref<boolean>(false)
+
+// 計算屬性：控制顯示數量
+const visibleKeywords = computed(() => {
+    if (isExpanded.value) {
+        return shuffledKeywords.value;
+    }
+    // 這裡的切分點會剛好切在我們精心安排的「前半段」與「後半段」之間
+    const limit = Math.ceil(shuffledKeywords.value.length / 2);
+    return shuffledKeywords.value.slice(0, limit);
+})
+
 const topArchetypes = ref<{ primary: string; secondary: string | undefined }>({
     primary: '',
     secondary: undefined
@@ -89,10 +135,63 @@ const topArchetypes = ref<{ primary: string; secondary: string | undefined }>({
 
 // --- 初始化 ---
 onMounted(() => {
-    shuffledKeywords.value = shuffle([...data.keywords]);
+    initKeywords();
 });
 
-// --- 核心計算邏輯 ---
+// [核心修正] 初始化函式：實作分層抽樣
+function initKeywords() {
+    const rawData = data.keywords || [];
+
+    // 1. 嚴格去重 (與之前相同)
+    const uniqueMap = new Map<string, KeywordItem>();
+    rawData.forEach((item: any) => {
+        if (item && item.keyword_zh) {
+            const cleanKey = item.keyword_zh.trim();
+            if (!uniqueMap.has(cleanKey)) {
+                uniqueMap.set(cleanKey, { ...item, keyword_zh: cleanKey });
+            }
+        }
+    });
+    const uniqueData = Array.from(uniqueMap.values());
+
+    // 2. [新增] 依角色分組 (Stratification)
+    const groups: Record<string, KeywordItem[]> = {};
+    uniqueData.forEach(item => {
+        if (!groups[item.archetype]) {
+            groups[item.archetype] = [];
+        }
+        groups[item.archetype].push(item);
+    });
+
+    // 3. [新增] 建構平衡的兩個池子
+    let visiblePool: KeywordItem[] = [];
+    let hiddenPool: KeywordItem[] = [];
+
+    // 遍歷每個角色組 (例如：Hunter, Shaman...)
+    Object.keys(groups).forEach(key => {
+        // 先將該角色的關鍵字內部洗牌，避免每次都是固定的詞排前面
+        const groupItems = shuffle(groups[key]);
+
+        // 計算切分點 (無條件進位，確保顯示區至少有一半)
+        const mid = Math.ceil(groupItems.length / 2);
+
+        // 前半段丟入顯示池，後半段丟入隱藏池
+        visiblePool = visiblePool.concat(groupItems.slice(0, mid));
+        hiddenPool = hiddenPool.concat(groupItems.slice(mid));
+    });
+
+    // 4. [新增] 分別對兩個池子進行最終洗牌，並合併
+    // 這樣確保用戶在前 64 個選項中，看到的是隨機排序但角色數量平衡的結果
+    const finalSequence = [...shuffle(visiblePool), ...shuffle(hiddenPool)];
+
+    // 5. 重新分配 ID (與之前相同)
+    shuffledKeywords.value = finalSequence.map((item, index) => ({
+        ...item,
+        id: index
+    }));
+}
+
+// --- 核心計算邏輯 (保持不變) ---
 function calculateResults() {
     if (selectedKeywords.value.length === 0) {
         dimensionScores.value = null;
@@ -100,36 +199,26 @@ function calculateResults() {
         return;
     }
 
-    // 1. 計算維度向量平均值 (給 KeyDimensionsCard)
     let totalVec = { x: 0, y: 0, z: 0 };
-    // 2. 計算角色出現次數 (給 ShadowAnalysisCard)
     const counts: Record<string, number> = {};
 
     selectedKeywords.value.forEach(kw => {
-        // 向量累加
         totalVec.x += kw.vector.x;
         totalVec.y += kw.vector.y;
         totalVec.z += kw.vector.z;
-
-        // 計數累加
         counts[kw.archetype] = (counts[kw.archetype] || 0) + 1;
     });
 
     const count = selectedKeywords.value.length;
 
-    // 設定維度分數
     dimensionScores.value = {
         x: totalVec.x / count,
         y: totalVec.y / count,
         z: totalVec.z / count
     };
 
-    // 3. 排序找出前兩名 (Sort Logic)
-    // 轉為陣列: [['Hunter', 5], ['Shaman', 3], ...]
     const sortedRoles = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-
     const primary = sortedRoles[0] ? sortedRoles[0][0] : '';
-    // 如果有第二名，且票數 > 0，則設為次顯，否則 undefined
     const secondary = (sortedRoles[1] && sortedRoles[1][1] > 0) ? sortedRoles[1][0] : undefined;
 
     topArchetypes.value = { primary, secondary };
@@ -139,17 +228,16 @@ function resetTest() {
     selectedKeywords.value = [];
     dimensionScores.value = null;
     topArchetypes.value = { primary: '', secondary: undefined };
-    shuffledKeywords.value = shuffle(shuffledKeywords.value);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    isExpanded.value = false;
+    initKeywords();
 }
 
-// Fisher-Yates Shuffle
-function shuffle(array: any[]) {
-    let currentIndex = array.length, randomIndex;
-    while (currentIndex != 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+// 通用洗牌函式 (保持純粹的隨機功能)
+function shuffle<T>(sourceArray: T[]): T[] {
+    const array = Array.from(sourceArray);
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
 }
@@ -158,6 +246,8 @@ function shuffle(array: any[]) {
 <style scoped lang="scss">
 .quiz-card {
     margin-bottom: 20px;
+    transition: all 0.3s ease;
+    /* 讓高度變化平滑一點 */
 }
 
 .card-header {
@@ -177,6 +267,19 @@ function shuffle(array: any[]) {
 .keyword-container {
     justify-content: center;
     margin-bottom: 10px;
+}
+
+/* [新增] 展開區塊樣式：增加一點間距 */
+.expand-section {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+/* [新增] 已展開後的底部微調 */
+.expanded-hint {
+    text-align: center;
+    margin-top: 10px;
+    opacity: 0.6;
 }
 
 /* 結果區背景，讓卡片浮起來 */

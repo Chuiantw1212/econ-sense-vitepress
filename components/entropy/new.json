@@ -1,0 +1,898 @@
+[
+    {
+        "Element ID": "EBM.I.01",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "競爭",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.02",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "掌控",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.03",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "鎖定",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.I.04",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "突破",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.I.05",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "獨立",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.I.06",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "指揮",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.07",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "獲勝",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.08",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "辯論",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.I.09",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "決策",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.10",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "談判",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.11",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "成就",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.12",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "權力",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.13",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "名聲",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.14",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "冠軍",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.I.15",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "裝備",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.I.16",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "績效",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.I.17",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "地位",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.18",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "獵物",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.19",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "權威",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.I.20",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "擴張",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.21",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "領袖",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.I.22",
+        "Element Name": "I (Individual) 獵人",
+        "Keyword": "單打",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.O.01",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "傾聽",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.02",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "協作",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.03",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "照顧",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.04",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "察覺",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.05",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "分享",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.06",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "教學",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.07",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "調解",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.08",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "支持",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.09",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "連結",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.O.10",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "同理",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.11",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "社群",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.12",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "團隊",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.13",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "和諧",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.14",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "家庭",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.15",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "信任",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.16",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "服務",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.17",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "人脈",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.O.18",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "文化",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.O.19",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "歸屬",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.20",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "顧客",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.O.21",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "互助",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.O.22",
+        "Element Name": "O (Other) 採集者",
+        "Keyword": "溝通",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.R.01",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "操作",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.R.02",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "維修",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.R.03",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "測量",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.R.04",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "計算",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.R.05",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "考察",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.R.06",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "記錄",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.R.07",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "分類",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.R.08",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "組裝",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.R.09",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "執行",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.R.10",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "駕駛",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.R.11",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "數據",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.R.12",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "工具",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.R.13",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "身體",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.R.14",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "現金",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.R.15",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "材料",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.R.16",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "文件",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.R.17",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "證據",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.R.18",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "產品",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.R.19",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "生物",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.R.20",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "硬體",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.R.21",
+        "Element Name": "R (Real) 現證",
+        "Keyword": "實務",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.V.01",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "想像",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.V.02",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "構思",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.V.03",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "預測",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.V.04",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "分析",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.V.05",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "規劃",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.V.06",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "寫作",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.V.07",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "研發",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.V.08",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "冥想",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.V.09",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "設計",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.V.10",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "推理",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.V.11",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "願景",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.V.12",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "模型",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.V.13",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "故事",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.V.14",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "哲學",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.V.15",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "未來",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.V.16",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "抽象",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.V.17",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "代碼",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.V.18",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "靈感",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.V.19",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "信仰",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Social"
+    },
+    {
+        "Element ID": "EBM.V.20",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "藍圖",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.V.21",
+        "Element Name": "V (Virtual) 內觀",
+        "Keyword": "模擬",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.H.01",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "冒險",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.H.02",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "創新",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.03",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "創業",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.H.04",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "變革",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.H.05",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "探索",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.H.06",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "衝動",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.07",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "狂熱",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.08",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "靈活",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.09",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "隨機",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.10",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "混亂",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.11",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "激情",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.12",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "挑戰",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.H.13",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "嘗試",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.H.14",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "演藝",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.15",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "表演",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.16",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "自由",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.17",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "顛覆",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.H.18",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "意外",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.19",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "刺激",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.H.20",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "開放",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Artistic"
+    },
+    {
+        "Element ID": "EBM.H.21",
+        "Element Name": "H (Hot) 熱動",
+        "Keyword": "發明",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.C.01",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "穩定",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.02",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "秩序",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.03",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "規範",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.04",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "檢查",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.05",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "歸檔",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.06",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "守恆",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.07",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "謹慎",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.08",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "安全",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.C.09",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "結構",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.C.10",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "慣例",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.11",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "精確",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.12",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "驗證",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Investigative"
+    },
+    {
+        "Element ID": "EBM.C.13",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "控制",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Enterprising"
+    },
+    {
+        "Element ID": "EBM.C.14",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "防禦",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Realistic"
+    },
+    {
+        "Element ID": "EBM.C.15",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "細節",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.16",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "程序",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.17",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "標準",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.18",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "傳統",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.19",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "紀律",
+        "Keyword Type": "Object",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.20",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "收斂",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Conventional"
+    },
+    {
+        "Element ID": "EBM.C.21",
+        "Element Name": "C (Cold) 冷控",
+        "Keyword": "組織",
+        "Keyword Type": "Action",
+        "RIASEC Mapping": "Conventional"
+    }
+]

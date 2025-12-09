@@ -51,12 +51,12 @@ const showHull = ref(true); // 控制多面體開關
 // --- 8 大角色恆星座標 ---
 const archetypeStars = [
     { name: '獵人', x: 10, y: 10, z: 10, color: '#FF4500', symbol: 'diamond' },
-    { name: '先驅', x: 10, y: 10, z: -10, color: '#FF8C00', symbol: 'diamond' },
-    { name: '工匠', x: 10, y: -10, z: 10, color: '#1E90FF', symbol: 'square' },
-    { name: '哨兵', x: 10, y: -10, z: -10, color: '#00008B', symbol: 'square' },
+    { name: '先驅', x: 10, y: -10, z: 10, color: '#FF8C00', symbol: 'diamond' },
     { name: '採集者', x: -10, y: 10, z: 10, color: '#FF69B4', symbol: 'circle' },
-    { name: '薩滿', x: -10, y: 10, z: -10, color: '#9370DB', symbol: 'circle' },
-    { name: '助人者', x: -10, y: -10, z: 10, color: '#32CD32', symbol: 'cross' },
+    { name: '薩滿', x: -10, y: -10, z: 10, color: '#9370DB', symbol: 'circle' },
+    { name: '工匠', x: 10, y: 10, z: -10, color: '#1E90FF', symbol: 'square' },
+    { name: '哨兵', x: 10, y: -10, z: -10, color: '#00008B', symbol: 'square' },
+    { name: '助人者', x: -10, y: 10, z: -10, color: '#32CD32', symbol: 'cross' },
     { name: '長老', x: -10, y: -10, z: -10, color: '#2E8B57', symbol: 'cross' },
 ];
 
@@ -66,12 +66,12 @@ async function drawChart() {
     loading.value = true;
     const Plotly = (await import('plotly.js-dist-min')).default;
 
-    // 1. 數據計算與擾動處理
+    // 1. 數據計算與座標準備
     const count = props.selectedKeywords.length;
     const scale = 10;
-    const jitter = () => (Math.random() - 0.5) * 0.05; // 微小擾動，確保 Mesh 渲染成功
+    const jitter = () => (Math.random() - 0.5) * 0.05;
 
-    // 原始座標 (給星星和點使用)
+    // 原始座標 (已加入微小擾動)
     const kwX = props.selectedKeywords.map(k => (k.vector.x * scale) + jitter());
     const kwY = props.selectedKeywords.map(k => (k.vector.y * scale) + jitter());
     const kwZ = props.selectedKeywords.map(k => (k.vector.z * scale) + jitter());
@@ -82,13 +82,12 @@ async function drawChart() {
     const uy = (kwY.reduce((a, b) => a + b, 0) / count);
     const uz = (kwZ.reduce((a, b) => a + b, 0) / count);
 
-    // --- Trace A: 軸線向量 (Fix: 強化軸線方向感) ---
+    // --- Trace A: 軸線向量 (從原點連向恆星) ---
     let lineX: (number | null)[] = [];
     let lineY: (number | null)[] = [];
     let lineZ: (number | null)[] = [];
 
     // archetypeStars 應在元件頂部定義
-    // 這裡假設 archetypeStars 陣列是可用的
     archetypeStars.forEach(a => {
         lineX.push(0, a.x, null);
         lineY.push(0, a.y, null);
@@ -111,14 +110,16 @@ async function drawChart() {
         meshTrace = {
             x: kwX, y: kwY, z: kwZ,
             type: 'mesh3d',
-            alphahull: 0, // Convex Hull
-            opacity: 0.3,
+            alphahull: 0,
+            opacity: 0.5, // 保持半透明，增加實心感
             color: '#FFD700',
             flatshading: true,
             hoverinfo: 'skip',
             name: '意識場域'
         };
     }
+
+    // *** 這裡移除了 keywordDropsTrace 和 centroidDropTrace 的生成邏輯 ***
 
     // --- Trace C: 原型恆星 ---
     const archetypesTrace = {
@@ -135,7 +136,7 @@ async function drawChart() {
         hoverinfo: 'text'
     };
 
-    // --- Trace D: 關鍵字星塵 ---
+    // --- Trace D: 關鍵字星塵 (點) ---
     const keywordsTrace = {
         x: kwX, y: kwY, z: kwZ,
         mode: 'markers',
@@ -146,7 +147,7 @@ async function drawChart() {
         hoverinfo: 'text'
     };
 
-    // Trace E: 使用者飛船 (重心)
+    // Trace E: 使用者飛船 (重心點)
     const userTrace = {
         x: [ux], y: [uy], z: [uz],
         mode: 'markers+text',
@@ -159,20 +160,22 @@ async function drawChart() {
         hoverinfo: 'text'
     };
 
-    // 組合 Traces
-    const data = [axisLinesTrace, archetypesTrace, keywordsTrace, userTrace];
+    // 組合 Traces (只保留軸線、恆星、星塵、飛船)
+    const data = [
+        axisLinesTrace,
+        archetypesTrace,
+        keywordsTrace,
+        userTrace
+    ];
     if (meshTrace) data.unshift(meshTrace);
 
 
-    // 2. 佈局設定 (Fix: 強化網格、背景與 Z=0 地平線)
+    // 2. 佈局設定 (維持 Z=0 地平線強化)
     const layout = {
         margin: { l: 0, r: 0, b: 0, t: 0 },
         scene: {
-            // X/Y Axis: 強化網格與背景，修正深度感知
             xaxis: { title: '驅動力 (Drive)', showgrid: true, zeroline: true, showbackground: true, backgroundcolor: '#f7f7f7', gridcolor: '#e0e0e0', range: [-12, 12] },
             yaxis: { title: '熵狀態 (Entropy)', showgrid: true, zeroline: true, showbackground: true, backgroundcolor: '#f7f7f7', gridcolor: '#e0e0e0', range: [-12, 12] },
-
-            // Z Axis: 強化 Z=0 地平線
             zaxis: {
                 title: '拓撲向 (Topology)',
                 showgrid: true,
@@ -181,13 +184,12 @@ async function drawChart() {
                 backgroundcolor: '#f7f7f7',
                 gridcolor: '#e0e0e0',
                 range: [-12, 12],
-                // FIX 3: 將 Z=0 線設為粗黑線，作為明確的地平線參考
                 zerolinecolor: '#000000',
                 zerolinewidth: 3,
             },
 
             aspectmode: 'cube',
-            bgcolor: '#ffffff', // 確保整個背景為白色
+            bgcolor: '#ffffff',
         },
         showlegend: true,
         legend: { x: 0, y: 1 },
