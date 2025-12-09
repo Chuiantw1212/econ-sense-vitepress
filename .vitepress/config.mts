@@ -58,6 +58,7 @@ export default defineConfig({
           { text: '🫂 助人者', link: '/entropy/helper' },
           { text: '🌳 長老', link: '/entropy/elder' },
           { text: '研究與基礎', link: '/entropy/foundation' },
+          { text: '病理與治療', link: '/entropy/illness' },
         ]
         // link: 'core7'
       },
