@@ -67,7 +67,7 @@
 
                                         <span class="salary-label max-label"
                                             :style="{ left: (calculateLeft(track.min) + calculateWidth(track.min, track.max)) + '%' }">
-                                            {{ track.max > MAX_SALARY_SCALE ? '200k+' : '$' + track.max + 'k' }}
+                                            {{ track.max > MAX_SALARY_SCALE ? '∞' : '$' + track.max + 'k' }}
                                         </span>
                                     </div>
 
@@ -105,8 +105,7 @@ const props = defineProps<{
 
 const activeTab = ref('');
 
-// 【關鍵設定】視覺化最大值：200k
-// 任何超過 200 的數值都會被視為 100% 滿格
+// 視覺化最大值：200k
 const MAX_SALARY_SCALE = 200;
 
 const ROLE_NAME_MAP: Record<string, string> = {
@@ -149,18 +148,13 @@ watch(displayRoles, (newVal) => {
 // --- 輔助函數 ---
 
 function calculateLeft(min: number) {
-    // 限制最大只能到 100%
     return Math.min((min / MAX_SALARY_SCALE) * 100, 100);
 }
 
 function calculateWidth(min: number, max: number) {
     // 若 max 超過 200，則視為 200 (滿格)
     const safeMax = Math.min(max, MAX_SALARY_SCALE);
-
-    // 計算寬度佔比
     const width = ((safeMax - min) / MAX_SALARY_SCALE) * 100;
-
-    // 至少給 5% 寬度以免太細看不到，且不可超過剩餘空間
     return Math.max(width, 5);
 }
 
@@ -287,6 +281,7 @@ function getTypeTag(type: string) {
     font-weight: 500;
 }
 
+/* 薪資視覺化 */
 .salary-visual {
     margin-top: 20px;
     padding: 0 5px;
@@ -311,21 +306,24 @@ function getTypeTag(type: string) {
 .salary-label {
     position: absolute;
     top: -18px;
-    /* 改到上方避免遮擋 */
     font-size: 0.75rem;
     color: #606266;
     font-weight: bold;
     transform: translateX(-50%);
     white-space: nowrap;
-    /* 防止文字換行 */
 }
 
 .min-label {
     color: #909399;
 }
 
+/* 無限符號特殊樣式 */
 .max-label {
     color: #303133;
+    font-size: 1rem;
+    /* 無限符號大一點比較好看 */
+    top: -22px;
+    /* 稍微往上提 */
 }
 
 /* 底部刻度標示 */
