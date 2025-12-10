@@ -67,14 +67,8 @@
 
                                         <span class="salary-label max-label"
                                             :style="{ left: (calculateLeft(track.min) + calculateWidth(track.min, track.max)) + '%' }">
-                                            {{ track.max > MAX_SALARY_SCALE ? '∞' : '$' + track.max + 'k' }}
+                                            {{ track.max >= MAX_SALARY_SCALE ? '∞' : '$' + track.max + 'k' }}
                                         </span>
-                                    </div>
-
-                                    <div class="salary-axis">
-                                        <span>$40k</span>
-                                        <span>$120k</span>
-                                        <span>$200k+</span>
                                     </div>
                                 </div>
 
@@ -95,7 +89,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { InfoFilled, Aim } from '@element-plus/icons-vue';
-// 引入資料檔
+// 引入資料檔 (無需變更)
 import { data } from './career_visual.data.js';
 
 const props = defineProps<{
@@ -107,6 +101,8 @@ const activeTab = ref('');
 
 // 視覺化最大值：200k
 const MAX_SALARY_SCALE = 200;
+// 視覺化最小值 (偏移量)：30k
+const MIN_SALARY_SCALE = 30;
 
 const ROLE_NAME_MAP: Record<string, string> = {
     'Hunter': '獵人', 'Pioneer': '先驅', 'Toolmaker': '工匠', 'Sentry': '哨兵',
@@ -148,13 +144,16 @@ watch(displayRoles, (newVal) => {
 // --- 輔助函數 ---
 
 function calculateLeft(min: number) {
-    return Math.min((min / MAX_SALARY_SCALE) * 100, 100);
+    const adjustedMin = Math.max(min - MIN_SALARY_SCALE, 0);
+    const range = MAX_SALARY_SCALE - MIN_SALARY_SCALE;
+    return Math.min((adjustedMin / range) * 100, 100);
 }
 
 function calculateWidth(min: number, max: number) {
-    // 若 max 超過 200，則視為 200 (滿格)
     const safeMax = Math.min(max, MAX_SALARY_SCALE);
-    const width = ((safeMax - min) / MAX_SALARY_SCALE) * 100;
+    const range = MAX_SALARY_SCALE - MIN_SALARY_SCALE;
+    const adjustedMin = Math.max(min, MIN_SALARY_SCALE);
+    const width = ((safeMax - adjustedMin) / range) * 100;
     return Math.max(width, 5);
 }
 
@@ -281,9 +280,9 @@ function getTypeTag(type: string) {
     font-weight: 500;
 }
 
-/* 薪資視覺化 */
+/* 薪資視覺化 (極簡版) */
 .salary-visual {
-    margin-top: 20px;
+    margin-top: 25px;
     padding: 0 5px;
 }
 
@@ -292,21 +291,22 @@ function getTypeTag(type: string) {
     height: 8px;
     background-color: #f2f3f5;
     border-radius: 4px;
-    margin-bottom: 10px;
+    /* 移除 margin-bottom，因為不需要給下方刻度留空間了 */
 }
 
 .salary-bar {
     position: absolute;
     height: 100%;
     border-radius: 4px;
-    opacity: 0.8;
+    opacity: 0.85;
     top: 0;
 }
 
 .salary-label {
     position: absolute;
-    top: -18px;
-    font-size: 0.75rem;
+    top: -22px;
+    /* 標籤位置 */
+    font-size: 0.8rem;
     color: #606266;
     font-weight: bold;
     transform: translateX(-50%);
@@ -317,25 +317,9 @@ function getTypeTag(type: string) {
     color: #909399;
 }
 
-/* 無限符號特殊樣式 */
 .max-label {
     color: #303133;
-    font-size: 1rem;
-    /* 無限符號大一點比較好看 */
-    top: -22px;
-    /* 稍微往上提 */
-}
-
-/* 底部刻度標示 */
-.salary-axis {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.7rem;
-    color: #C0C4CC;
-    padding: 0 2px;
-    border-top: 1px solid #f0f0f0;
-    margin-top: 5px;
-    padding-top: 2px;
+    font-size: 0.9rem;
 }
 
 .disclaimer {
