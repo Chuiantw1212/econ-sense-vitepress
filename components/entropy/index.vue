@@ -52,9 +52,12 @@
             <CareerStrategyCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
                 :secondary-role="topArchetypes.secondary"></CareerStrategyCard>
 
-            <WealthStrategyCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+            <!-- <WealthStrategyCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
                 :secondary-role="topArchetypes.secondary">
-            </WealthStrategyCard>
+            </WealthStrategyCard> -->
+
+            <WealthManagementCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :secondary-role="topArchetypes.secondary"></WealthManagementCard>
 
             <InternalFrictionCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
                 :secondary-role="topArchetypes.secondary">
@@ -91,8 +94,9 @@ import SocialCompatibilityCard from './socialCompatibilityCard.vue'
 import ShadowAnalysisCard from './shadowAnalysisCard.vue'
 import InternalFrictionCard from './internalFrictionCard.vue'
 import CareerStrategyCard from './careerStrategyCard.vue'
+import WealthManagementCard from './wealthManagementCard.vue'
+// import WealthStrategyCard from './wealthStrategyCard.vue'
 import FinalIdentityCard from './finalIdentityCard.vue'
-import WealthStrategyCard from './wealthStrategyCard.vue'
 
 // --- 介面定義 ---
 interface Vector3 {

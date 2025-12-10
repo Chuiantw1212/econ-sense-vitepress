@@ -1,16 +1,16 @@
 <template>
-    <el-card class="wealth-card" shadow="hover" v-if="primaryRole">
+    <el-card class="management-card" shadow="hover" v-if="primaryRole">
         <template #header>
             <div class="card-header">
                 <div class="header-left">
-                    <span class="title">💰 財富戰略 (Wealth Strategy)</span>
-                    <el-tooltip content="分析你的雙核心金錢觀（Money Totem）與最適合你的理財護城河。" placement="top">
+                    <span class="title">🛡️ 財富守成 (Wealth Defense)</span>
+                    <el-tooltip content="分析你的金錢圖騰（潛意識金錢觀）與收支管理盲點。" placement="top">
                         <el-icon class="info-icon">
                             <InfoFilled />
                         </el-icon>
                     </el-tooltip>
                 </div>
-                <el-tag color="#B88230" effect="dark" round style="border:none;">雙核心觀點</el-tag>
+                <el-tag color="#13ce66" effect="dark" round style="border:none;">行為矯正</el-tag>
             </div>
         </template>
 
@@ -27,55 +27,47 @@
 
                     <div class="tab-inner">
 
-                        <div class="intro-text">
-                            當 <strong>{{ role.nameZh }}</strong> 掌管你的錢包時，你的財務性格如下：
-                        </div>
-
-                        <div class="totem-section">
-                            <div class="totem-icon">
-                                <el-icon>
-                                    <Wallet />
+                        <div class="totem-box">
+                            <div class="totem-icon-area">
+                                <el-icon class="totem-icon">
+                                    <WalletFilled />
                                 </el-icon>
                             </div>
-                            <div class="totem-text">
+                            <div class="totem-content">
                                 <div class="totem-label">MONEY TOTEM</div>
-                                <div class="totem-title">{{ role.info.totem }}</div>
-                                <div class="totem-desc">{{ role.info.totemDesc }}</div>
+                                <div class="totem-head">{{ role.info.totem }}</div>
+                                <div class="totem-text">{{ role.info.totemDesc }}</div>
                             </div>
                         </div>
 
-                        <div class="style-box">
-                            <div class="style-label">投資屬性：</div>
-                            <div class="style-tags">
-                                {{ role.info.style }}
-                                <!-- <el-tag v-for="(tag, idx) in role.info.style.split(' / ')" :key="idx" type="warning"
-                                    effect="plain" class="style-tag">
-                                    {{ tag }}
-                                </el-tag> -->
-                            </div>
-                        </div>
+                        <el-divider border-style="dashed">
+                            <span class="divider-text">收支行為診斷</span>
+                        </el-divider>
 
-                        <el-divider border-style="dashed" />
-
-                        <div class="advice-box">
+                        <div class="info-box warning-box">
                             <div class="box-title">
                                 <el-icon>
-                                    <Key />
-                                </el-icon> 核心策略：{{ role.info.advice.title }}
+                                    <View />
+                                </el-icon> 行為盲點
                             </div>
-                            <div class="box-content">
-                                {{ role.info.advice.content }}
+                            <div class="box-content">{{ role.info.management.desc }}</div>
+                        </div>
+
+                        <div class="info-box success-box">
+                            <div class="box-title">
+                                <el-icon>
+                                    <Tools />
+                                </el-icon> 矯正策略：{{ role.info.management.title }}
+                            </div>
+                            <div class="box-content highlight-text">
+                                {{ role.info.management.action }}
                             </div>
                         </div>
 
-                        <div class="risk-box">
-                            <div class="risk-title">
-                                <el-icon>
-                                    <Warning />
-                                </el-icon> 財務陰影
-                            </div>
-                            <div class="risk-content">
-                                {{ role.info.risk }}
+                        <div class="blind-spot">
+                            <div class="blind-icon">🛑</div>
+                            <div class="blind-text">
+                                <strong>致命傷：</strong>{{ role.info.management.blindSpot }}
                             </div>
                         </div>
 
@@ -89,29 +81,22 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { InfoFilled, Wallet, Key, Warning } from '@element-plus/icons-vue';
-// 引入 wealth.data.js (無需變更)
+import { InfoFilled, WalletFilled, View, Tools } from '@element-plus/icons-vue';
+// 引入 wealth.data.js
 import { data } from './wealth_management.data.js';
 
-const props = defineProps<{
-    primaryRole: string,
-    secondaryRole?: string
-}>();
-
+const props = defineProps<{ primaryRole: string, secondaryRole?: string }>();
 const activeTab = ref('');
 
-// --- 資料映射 ---
 const ROLE_NAME_MAP: Record<string, string> = {
     'Hunter': '獵人', 'Pioneer': '先驅', 'Toolmaker': '工匠', 'Sentry': '哨兵',
     'Gatherer': '採集者', 'Shaman': '薩滿', 'Helper': '助人者', 'Elder': '長老',
 };
-
 const ARCHETYPE_COLORS: Record<string, string> = {
     'Hunter': '#FF4500', 'Pioneer': '#FF8C00', 'Toolmaker': '#1E90FF', 'Sentry': '#00008B',
     'Gatherer': '#32CD32', 'Shaman': '#9370DB', 'Helper': '#20B2AA', 'Elder': '#2E8B57',
 };
 
-// --- Computed ---
 const displayRoles = computed(() => {
     const list = [];
     if (props.primaryRole) {
@@ -138,16 +123,15 @@ const displayRoles = computed(() => {
 watch(displayRoles, (newVal) => {
     if (newVal.length > 0 && !activeTab.value) activeTab.value = newVal[0].key;
 }, { immediate: true });
-
 </script>
 
 <style scoped>
-.wealth-card {
+.management-card {
     margin-top: 20px;
     border-radius: 12px;
     background: #fff;
-    /* 金色側邊條，象徵財富 */
-    border-left: 5px solid #B88230;
+    border-left: 5px solid #13ce66;
+    /* 綠色象徵守成 */
     overflow: hidden;
 }
 
@@ -175,7 +159,7 @@ watch(displayRoles, (newVal) => {
     cursor: help;
 }
 
-/* Tabs 樣式 */
+/* Tabs */
 .wealth-tabs {
     border: none;
     box-shadow: none;
@@ -199,148 +183,131 @@ watch(displayRoles, (newVal) => {
 
 .tab-inner {
     animation: fadeIn 0.3s ease-in-out;
-}
-
-.intro-text {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #606266;
-    margin-bottom: 15px;
-}
-
-/* 1. 圖騰區 (黑底金字) */
-.totem-section {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 15px;
-    background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
-    color: #e5c07b;
-    /* 淡金色 */
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border: 1px solid #444;
 }
 
-.totem-icon {
-    font-size: 2.8rem;
+/* 1. Totem (黑金) */
+.totem-box {
+    display: flex;
+    background: linear-gradient(135deg, #2c3e50, #000);
+    color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.totem-icon-area {
+    width: 60px;
     display: flex;
     align-items: center;
-    color: #B88230;
-    /* 深金色 */
-    padding-right: 15px;
-    border-right: 1px solid #444;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 2rem;
+    color: #13ce66;
+    /* 這裡用綠色呼應守成主題 */
 }
 
-.totem-text {
+.totem-content {
+    padding: 15px;
     flex-grow: 1;
 }
 
 .totem-label {
-    font-size: 0.65rem;
-    color: #888;
-    letter-spacing: 1px;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    opacity: 0.7;
     margin-bottom: 2px;
+    color: #E5C07B;
 }
 
-.totem-title {
+.totem-head {
     font-size: 1.2rem;
     font-weight: 800;
     margin-bottom: 4px;
-    letter-spacing: 0.5px;
     color: #fff;
 }
 
-.totem-desc {
+.totem-text {
     font-size: 0.9rem;
-    color: #ccc;
     line-height: 1.4;
+    color: #ccc;
     font-style: italic;
 }
 
-/* 2. 風格標籤 */
-.style-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
+.divider-text {
+    font-size: 0.85rem;
+    color: #909399;
 }
 
-.style-label {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #606266;
-}
-
-.style-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.style-tag {
-    border-color: #e6a23c;
-    color: #b88230;
-    font-weight: bold;
-    background-color: #fffbf0;
-}
-
-/* 3. 建議與風險區塊共用 */
-.advice-box,
-.risk-box {
-    padding: 15px;
+/* 2. Info Boxes (通用) */
+.info-box {
+    padding: 12px 15px;
     border-radius: 8px;
-    margin-bottom: 15px;
     border: 1px solid transparent;
-}
-
-/* 建議區 (淡黃色) */
-.advice-box {
-    background-color: #fdf6ec;
-    border-color: #faecd8;
 }
 
 .box-title {
     font-weight: bold;
-    color: #b88230;
-    margin-bottom: 8px;
+    font-size: 1rem;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 1rem;
 }
 
 .box-content {
     font-size: 0.95rem;
-    color: #606266;
     line-height: 1.6;
     text-align: justify;
 }
 
-/* 風險區 (淡紅色) */
-.risk-box {
-    background-color: #fef0f0;
-    border-color: #fde2e2;
-    margin-bottom: 0;
+/* Warning Box (橘色) */
+.warning-box {
+    background-color: #fdf6ec;
+    border-color: #faecd8;
+    color: #e6a23c;
 }
 
-.risk-title {
-    font-weight: bold;
-    color: #f56c6c;
-    margin-bottom: 8px;
+.warning-box .box-content {
+    color: #8c5f00;
+}
+
+/* Success Box (綠色 - 重點區) */
+.success-box {
+    background-color: #f0f9eb;
+    border-color: #e1f3d8;
+    color: #67c23a;
+}
+
+.success-box .box-content {
+    color: #405936;
+}
+
+.highlight-text {
+    font-weight: 500;
+}
+
+/* 3. Blind Spot (灰色底) */
+.blind-spot {
     display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 1rem;
+    gap: 10px;
+    background: #f4f4f5;
+    padding: 10px 15px;
+    border-radius: 6px;
+    align-items: flex-start;
 }
 
-.risk-content {
-    font-size: 0.95rem;
+.blind-icon {
+    font-size: 1.2rem;
+    margin-top: -2px;
+}
+
+.blind-text {
+    font-size: 0.9rem;
     color: #606266;
-    line-height: 1.6;
-    text-align: justify;
+    line-height: 1.5;
 }
 
 @keyframes fadeIn {
