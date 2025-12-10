@@ -59,6 +59,9 @@
             <WealthManagementCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
                 :secondary-role="topArchetypes.secondary"></WealthManagementCard>
 
+            <WealthLeverageCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :secondary-role="topArchetypes.secondary"></WealthLeverageCard>
+
             <InternalFrictionCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
                 :secondary-role="topArchetypes.secondary">
             </InternalFrictionCard>
@@ -95,6 +98,7 @@ import ShadowAnalysisCard from './shadowAnalysisCard.vue'
 import InternalFrictionCard from './internalFrictionCard.vue'
 import CareerStrategyCard from './careerStrategyCard.vue'
 import WealthManagementCard from './wealthManagementCard.vue'
+import WealthLeverageCard from './wealthLeverageCard.vue'
 // import WealthStrategyCard from './wealthStrategyCard.vue'
 import FinalIdentityCard from './finalIdentityCard.vue'
 
