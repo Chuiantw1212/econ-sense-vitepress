@@ -4,7 +4,7 @@
             <div class="card-header">
                 <div class="header-left">
                     <span class="title">✨ 靈魂雙核心 (Identity)</span>
-                    <el-tooltip content="根據你勾選的關鍵字數量，分析你的兩大主導人格及其混合比例。" placement="top">
+                    <el-tooltip content="分析你的兩大主導人格及其混合狀態。" placement="top">
                         <el-icon class="info-icon">
                             <InfoFilled />
                         </el-icon>
@@ -92,12 +92,18 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { InfoFilled } from '@element-plus/icons-vue';
+// 引入資料檔 (維持您原本的變數名或 import)
 import { data } from './archetypes.data.js';
 
+// --- 修改 Props 定義 ---
 const props = defineProps<{
-    selectedKeywords: Array<{ archetype: string }>
+    primaryRole: string;       // 必填，例如 'Hunter'
+    secondaryRole?: string;    // 選填
+    primaryCount?: number;     // 選填，若父層有算票數可傳入，用於顯示比例
+    secondaryCount?: number;   // 選填
 }>();
 
+// 角色定義表
 const archetypesList = [
     { key: 'Hunter', name: '獵人', color: '#FF4500' },
     { key: 'Pioneer', name: '先驅', color: '#FF8C00' },
@@ -110,44 +116,50 @@ const archetypesList = [
 ];
 
 const result = computed(() => {
-    if (!props.selectedKeywords || props.selectedKeywords.length === 0) return null;
+    if (!props.primaryRole) return null;
 
-    const counts: Record<string, number> = {};
-    props.selectedKeywords.forEach(kw => {
-        counts[kw.archetype] = (counts[kw.archetype] || 0) + 1;
-    });
+    // 1. 獲取主顯與次顯的 Meta 資料 (顏色、中文名)
+    const primaryMeta = archetypesList.find(a => a.key === props.primaryRole);
+    const secondaryMeta = props.secondaryRole
+        ? archetypesList.find(a => a.key === props.secondaryRole)
+        : null;
 
-    const ranked = archetypesList.map(arch => ({
-        ...arch,
-        count: counts[arch.key] || 0,
-        details: data[arch.key]
-    })).sort((a, b) => b.count - a.count);
+    if (!primaryMeta) return null;
 
-    const primary = ranked[0];
-    const secondary = ranked[1];
+    // 2. 準備詳細描述資料 (從 data.js 撈取)
+    const primaryDetails = data[props.primaryRole];
+    // 若無次要角色，暫時用主角色填補避免報錯 (UI會隱藏)
+    const secondaryDetails = props.secondaryRole ? data[props.secondaryRole] : data[props.primaryRole];
 
-    // 計算總數與百分比
-    const total = primary.count + secondary.count || 1;
-    const p1Percent = Math.round((primary.count / total) * 100);
+    // 3. 判斷是否有有效的次要角色
+    // (有傳入 secondaryRole 且 與主角色不同)
+    const hasSec = !!(props.secondaryRole && props.secondaryRole !== props.primaryRole);
 
-    // 判斷次要角色是否存在 (票數需 > 0 且 與主角色不同)
-    const validSecondary = secondary.count > 0 && secondary.key !== primary.key;
+    // 4. 計算百分比 (如果父層沒傳 Count，預設給一個漂亮的比例)
+    let pPercent = 100;
+    if (hasSec) {
+        const pCount = props.primaryCount !== undefined ? props.primaryCount : 6; // 預設 6:4
+        const sCount = props.secondaryCount !== undefined ? props.secondaryCount : 4;
+        const total = pCount + sCount;
+        pPercent = total > 0 ? Math.round((pCount / total) * 100) : 60;
+    }
 
+    // 組合最終物件
     return {
-        primary,
-        secondary: validSecondary ? secondary : primary,
-        primaryPercent: p1Percent,
-        hasSecondary: validSecondary
+        primary: { ...primaryMeta, details: primaryDetails },
+        secondary: hasSec && secondaryMeta
+            ? { ...secondaryMeta, details: secondaryDetails }
+            : { ...primaryMeta, details: primaryDetails }, // Fallback
+        primaryPercent: pPercent,
+        hasSecondary: hasSec
     };
 });
 
 const hasSecondary = computed(() => result.value?.hasSecondary ?? false);
 
-// --- 文案邏輯修正 ---
+// --- 文案邏輯 ---
 function getInsightText(pKey: string, sKey: string) {
     if (pKey === sKey) return "你的能量非常集中，是該領域的純粹專家。";
-
-    // 修正後的文案，強調「切換」與「內耗」，而非單純的手段/動機
     return "這意味著你的行為模式並非單一固定，而是在這兩種人格之間動態擺盪。這可能是特定情境下的「無意識切換」，也可能是決策時「內在摩擦」的來源。";
 }
 </script>
@@ -337,15 +349,5 @@ function getInsightText(pKey: string, sKey: string) {
     text-align: justify;
     background: #fdfdfd;
     height: 100%;
-}
-
-.quote {
-    position: absolute;
-    top: 5px;
-    left: 10px;
-    font-size: 2.5rem;
-    color: #f0f2f5;
-    font-family: serif;
-    z-index: 0;
 }
 </style>

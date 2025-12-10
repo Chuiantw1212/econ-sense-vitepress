@@ -44,7 +44,8 @@
 
         <div v-if="selectedKeywords.length >= 10" class="analysis-container">
 
-            <HybridSoulCard :selectedKeywords="selectedKeywords" />
+            <HybridSoulCard v-if="dimensionScores && topArchetypes.primary" :primaryRole="topArchetypes.primary"
+                :secondary-role="topArchetypes.secondary" />
 
             <KeyDimensionsCard v-if="dimensionScores" :userVector="dimensionScores" />
 
