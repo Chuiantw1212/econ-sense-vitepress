@@ -3,7 +3,7 @@
         <template #header>
             <div class="card-header">
                 <div class="header-left">
-                    <span class="title">💼 職業賽道 (Strategic Tracks)</span>
+                    <span class="title">💼 核心心智與賽道 (Strategic Tracks)</span>
                     <el-tooltip content="分析你的大腦天生適合玩哪種「商業遊戲」與「能量賽局」。" placement="top">
                         <el-icon class="info-icon">
                             <InfoFilled />
@@ -59,14 +59,22 @@
                                             width: calculateWidth(track.min, track.max) + '%',
                                             background: role.color
                                         }"></div>
+
                                         <span class="salary-label min-label"
                                             :style="{ left: calculateLeft(track.min) + '%' }">
                                             ${{ track.min }}k
                                         </span>
+
                                         <span class="salary-label max-label"
                                             :style="{ left: (calculateLeft(track.min) + calculateWidth(track.min, track.max)) + '%' }">
-                                            {{ track.max >= 500 ? '∞' : '$' + track.max + 'k' }}
+                                            {{ track.max > MAX_SALARY_SCALE ? '200k+' : '$' + track.max + 'k' }}
                                         </span>
+                                    </div>
+
+                                    <div class="salary-axis">
+                                        <span>$40k</span>
+                                        <span>$120k</span>
+                                        <span>$200k+</span>
                                     </div>
                                 </div>
 
@@ -88,7 +96,7 @@
 import { computed, ref, watch } from 'vue';
 import { InfoFilled, Aim } from '@element-plus/icons-vue';
 // 引入資料檔
-import { data } from './career.data.js';
+import { data } from './career_visual.data.js';
 
 const props = defineProps<{
     primaryRole: string,
@@ -96,7 +104,10 @@ const props = defineProps<{
 }>();
 
 const activeTab = ref('');
-const MAX_SALARY_SCALE = 500; // 視覺最大值
+
+// 【關鍵設定】視覺化最大值：200k
+// 任何超過 200 的數值都會被視為 100% 滿格
+const MAX_SALARY_SCALE = 200;
 
 const ROLE_NAME_MAP: Record<string, string> = {
     'Hunter': '獵人', 'Pioneer': '先驅', 'Toolmaker': '工匠', 'Sentry': '哨兵',
@@ -135,13 +146,21 @@ watch(displayRoles, (newVal) => {
     if (newVal.length > 0 && !activeTab.value) activeTab.value = newVal[0].key;
 }, { immediate: true });
 
+// --- 輔助函數 ---
+
 function calculateLeft(min: number) {
+    // 限制最大只能到 100%
     return Math.min((min / MAX_SALARY_SCALE) * 100, 100);
 }
 
 function calculateWidth(min: number, max: number) {
+    // 若 max 超過 200，則視為 200 (滿格)
     const safeMax = Math.min(max, MAX_SALARY_SCALE);
+
+    // 計算寬度佔比
     const width = ((safeMax - min) / MAX_SALARY_SCALE) * 100;
+
+    // 至少給 5% 寬度以免太細看不到，且不可超過剩餘空間
     return Math.max(width, 5);
 }
 
@@ -206,7 +225,6 @@ function getTypeTag(type: string) {
     line-height: 1;
 }
 
-/* Intro Box 簡化 */
 .intro-box {
     margin-bottom: 20px;
     text-align: center;
@@ -270,33 +288,36 @@ function getTypeTag(type: string) {
 }
 
 .salary-visual {
-    margin-top: 15px;
+    margin-top: 20px;
     padding: 0 5px;
 }
 
 .salary-track {
     position: relative;
-    height: 6px;
+    height: 8px;
     background-color: #f2f3f5;
-    border-radius: 3px;
-    margin-bottom: 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 .salary-bar {
     position: absolute;
     height: 100%;
-    border-radius: 3px;
+    border-radius: 4px;
     opacity: 0.8;
     top: 0;
 }
 
 .salary-label {
     position: absolute;
-    top: 10px;
+    top: -18px;
+    /* 改到上方避免遮擋 */
     font-size: 0.75rem;
     color: #606266;
     font-weight: bold;
     transform: translateX(-50%);
+    white-space: nowrap;
+    /* 防止文字換行 */
 }
 
 .min-label {
@@ -305,6 +326,18 @@ function getTypeTag(type: string) {
 
 .max-label {
     color: #303133;
+}
+
+/* 底部刻度標示 */
+.salary-axis {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: #C0C4CC;
+    padding: 0 2px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 5px;
+    padding-top: 2px;
 }
 
 .disclaimer {
