@@ -69,10 +69,10 @@ outline: [2,3]
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
       />
-      <WealthInvestmentCard 
+      <!-- <WealthInvestmentCard 
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
-      />
+      /> -->
       <FinalIdentityCard :primaryRole="topArchetypes.primary" />
   </div>
   <div v-else class="placeholder-box">

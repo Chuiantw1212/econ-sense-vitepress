@@ -15,7 +15,6 @@
         </template>
 
         <div class="card-content">
-
             <el-tabs v-model="activeTab" type="border-card" class="wealth-tabs">
                 <el-tab-pane v-for="(role, index) in displayRoles" :key="role.key" :name="role.key">
                     <template #label>
@@ -27,51 +26,53 @@
 
                     <div class="tab-inner">
 
-                        <div class="style-section">
-                            <div class="section-label">投資風格</div>
-                            <div class="tag-group">
-                                <el-tag v-for="(tag, idx) in getStyleTags(role.info.style)" :key="idx" effect="plain"
-                                    type="danger" class="style-tag">
-                                    {{ tag }}
-                                </el-tag>
+                        <div class="top-section">
+                            <div class="info-block style-block">
+                                <div class="section-label">投資風格 (Style)</div>
+                                <div class="style-content">
+                                    <div class="main-style">{{ role.info.style }}</div>
+                                    <div class="edge-text">{{ role.info.edge }}</div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="target-section">
-                            <div class="section-label">核心標的</div>
-                            <div class="target-grid">
-                                <div v-for="(t, i) in role.info.targets" :key="i" class="target-item">
-                                    <el-icon class="target-icon">
-                                        <Aim />
-                                    </el-icon> {{ t }}
+                            <div class="info-block target-block">
+                                <div class="section-label">核心標的 (Targets)</div>
+                                <div class="target-grid">
+                                    <el-tag v-for="(t, i) in role.info.targets" :key="i" class="target-tag"
+                                        effect="light" type="danger">
+                                        <el-icon class="target-icon">
+                                            <Aim />
+                                        </el-icon> {{ t }}
+                                    </el-tag>
                                 </div>
                             </div>
                         </div>
 
                         <el-divider border-style="dashed" />
 
-                        <div class="strategy-box">
-                            <div class="st-title">
-                                <el-icon>
-                                    <TrendCharts />
-                                </el-icon> 獲利方程式
+                        <div class="bottom-section">
+                            <div class="strategy-box">
+                                <div class="box-header gold-text">
+                                    <el-icon>
+                                        <TrendCharts />
+                                    </el-icon> 獲利方程式 (Winning Strategy)
+                                </div>
+                                <div class="box-content">{{ role.info.strategy }}</div>
                             </div>
-                            <div class="st-content">{{ role.info.strategy }}</div>
-                        </div>
 
-                        <div class="risk-box">
-                            <div class="risk-title">
-                                <el-icon>
-                                    <WarningFilled />
-                                </el-icon> 死亡螺旋 (Fatal Risk)
+                            <div class="risk-box">
+                                <div class="box-header red-text">
+                                    <el-icon>
+                                        <WarningFilled />
+                                    </el-icon> 死亡螺旋 (Fatal Risk)
+                                </div>
+                                <div class="box-content">{{ role.info.fatalRisk }}</div>
                             </div>
-                            <div class="risk-content">{{ role.info.fatalRisk }}</div>
                         </div>
 
                     </div>
                 </el-tab-pane>
             </el-tabs>
-
         </div>
     </el-card>
 </template>
@@ -79,7 +80,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { InfoFilled, Aim, TrendCharts, WarningFilled } from '@element-plus/icons-vue';
-// 引入專屬資料檔
+// 引入你的資料檔路徑，請確認路徑正確
 import { data } from './wealth_investment.data.js';
 
 const props = defineProps<{
@@ -101,13 +102,7 @@ const ARCHETYPE_COLORS: Record<string, string> = {
     'Gatherer': '#32CD32', 'Shaman': '#9370DB', 'Helper': '#20B2AA', 'Elder': '#2E8B57',
 };
 
-// 安全處理 split
-function getStyleTags(styleStr: string) {
-    if (!styleStr) return [];
-    return styleStr.split(' / ');
-}
-
-// 整合資料
+// 整合資料邏輯
 const displayRoles = computed(() => {
     const list = [];
 
@@ -137,7 +132,7 @@ const displayRoles = computed(() => {
     return list;
 });
 
-// 自動切換 Tab
+// 自動切換到第一個 Tab
 watch(displayRoles, (newVal) => {
     if (newVal.length > 0 && !activeTab.value) {
         activeTab.value = newVal[0].key;
@@ -151,7 +146,7 @@ watch(displayRoles, (newVal) => {
     margin-top: 20px;
     border-radius: 12px;
     background: #fff;
-    /* 紅色側邊條，象徵進攻與獲利 */
+    /* 左側紅色邊條 */
     border-left: 5px solid #f56c6c;
     overflow: hidden;
 }
@@ -187,14 +182,15 @@ watch(displayRoles, (newVal) => {
 }
 
 .wealth-tabs :deep(.el-tabs__content) {
-    padding: 20px 10px;
+    padding: 20px;
 }
 
 .tab-label {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     font-weight: bold;
+    color: #606266;
 }
 
 .role-dot {
@@ -203,105 +199,143 @@ watch(displayRoles, (newVal) => {
 }
 
 .tab-inner {
-    animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.4s ease-in-out;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
-/* Labels */
+/* 上半部：風格與標的 */
+.top-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .top-section {
+        grid-template-columns: 1fr;
+    }
+}
+
 .section-label {
     font-size: 0.85rem;
     color: #909399;
     font-weight: bold;
     margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* 1. 風格標籤 */
-.tag-group {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
+.style-content {
+    background: #f9f9f9;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #eee;
 }
 
-.style-tag {
-    border-radius: 4px;
+.main-style {
+    font-size: 1.1rem;
     font-weight: bold;
+    color: #303133;
+    margin-bottom: 4px;
 }
 
-/* 2. 標的列表 */
+.edge-text {
+    font-size: 0.9rem;
+    color: #606266;
+}
+
 .target-grid {
     display: flex;
-    gap: 10px;
     flex-wrap: wrap;
+    gap: 8px;
 }
 
-.target-item {
-    background: #fdfcfc;
-    border: 1px solid #eee;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    color: #303133;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+.target-tag {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+    height: auto;
 }
 
 .target-icon {
-    color: #f56c6c;
+    margin-right: 4px;
 }
 
-/* 3. 策略區塊 (金色) */
-.strategy-box {
-    background: #fff8e6;
-    border: 1px solid #faecd8;
-    padding: 15px;
-    border-radius: 8px;
-}
-
-.st-title {
-    color: #d48806;
-    font-weight: bold;
-    margin-bottom: 6px;
+/* 下半部：策略與風險 */
+.bottom-section {
     display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 1rem;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.st-content {
-    font-size: 0.95rem;
-    color: #5e4d4d;
-    line-height: 1.6;
-    font-weight: 500;
-    text-align: justify;
+/* 策略區塊 (金色系) */
+.strategy-box {
+    background: #fffbf0;
+    border: 1px solid #faecd8;
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
 }
 
-/* 4. 風險區塊 (淡紅) */
+.strategy-box::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #e6a23c;
+    /* Warning color */
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.gold-text {
+    color: #d48806;
+}
+
+/* 風險區塊 (紅色系) */
 .risk-box {
     background: #fef0f0;
     border: 1px solid #fde2e2;
-    padding: 12px;
     border-radius: 8px;
+    padding: 16px;
+    position: relative;
 }
 
-.risk-title {
+.risk-box::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #f56c6c;
+    /* Danger color */
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.red-text {
     color: #f56c6c;
+}
+
+.box-header {
     font-weight: bold;
-    margin-bottom: 4px;
+    font-size: 1rem;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.95rem;
 }
 
-.risk-content {
-    font-size: 0.9rem;
-    color: #606266;
-    line-height: 1.5;
+.box-content {
+    font-size: 0.95rem;
+    color: #5e4d4d;
+    /* 深褐色文字，閱讀舒適 */
+    line-height: 1.6;
+    text-align: justify;
 }
 
 @keyframes fadeIn {
