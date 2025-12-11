@@ -87,9 +87,7 @@ outline: [2,3]
           :secondary-role="topArchetypes.secondary"
       />
       <FinalIdentityCard :primaryRole="topArchetypes.primary" />
-
   </div>
-  
   <div v-else class="placeholder-box">
       <el-empty description="數據量不足，無法生成報告">
           <template #extra>

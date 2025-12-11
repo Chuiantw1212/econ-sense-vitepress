@@ -78,7 +78,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { InfoFilled, Trophy, Warning } from '@element-plus/icons-vue';
-import { founderDualData } from './founder_dual.data.js';
+import { data } from './founder_dual.data.js';
 
 const props = defineProps<{
     primaryRole: string,
@@ -102,7 +102,7 @@ const dualInfo = computed(() => {
     const key = [p, s].sort().join('_');
 
     // @ts-ignore
-    return founderDualData[key] || {
+    return data[key] || {
         title: "未知組合",
         thermoType: "Unknown (N/A)",
         chemistry: "N/A",
