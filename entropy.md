@@ -41,13 +41,15 @@ outline: [2,3]
       />
   </div>
   <div v-else class="placeholder-box">
-      <el-empty description="數據量不足，無法生成報告">
+      <el-skeleton :rows="3" animated />
+      <div class="skeleton-text">請回到上方勾選至少 10 個關鍵字...</div>
+      <!-- <el-empty description="數據量不足，無法生成報告">
           <template #extra>
               <el-button type="primary" @click="scrollToTop">
                   請回到上方勾選至少 10 個關鍵字
               </el-button>
           </template>
-      </el-empty>
+      </el-empty> -->
   </div>
 </ClientOnly>
 
@@ -65,10 +67,10 @@ outline: [2,3]
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
       />
-      <WealthLeverageCard 
+      <!-- <WealthLeverageCard 
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
-      />
+      /> -->
       <!-- <WealthInvestmentCard 
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
@@ -77,13 +79,13 @@ outline: [2,3]
   </div>
   <div v-else class="placeholder-box">
       <el-skeleton :rows="3" animated />
-      <div class="skeleton-text">請先完成測驗以解鎖財富戰略...</div>
+      <div class="skeleton-text">請回到上方勾選至少 10 個關鍵字...</div>
   </div>
 </ClientOnly>
 
-## 🏢 創業與組織架構 (To Business)
+<!-- ## 🏢 創業與組織架構 (To Business) -->
 
-如果你是創業者或團隊領導者，這部分揭示你在組織中的「物理屬性」與「化學反應」。
+<!-- 如果你是創業者或團隊領導者，這部分揭示你在組織中的「物理屬性」與「化學反應」。
 
 <ClientOnly>
   <div v-if="visualData.length >= 10" class="analysis-container">
@@ -96,7 +98,7 @@ outline: [2,3]
       <el-skeleton :rows="3" animated />
       <div class="skeleton-text">請先完成測驗以解鎖創業架構分析...</div>
   </div>
-</ClientOnly>
+</ClientOnly> -->
 
 ---
 
