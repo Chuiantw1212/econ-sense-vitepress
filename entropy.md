@@ -13,59 +13,50 @@ outline: [2,3]
 ## 🧠 熵腦人格測驗 (The Entropy Brain Test)
 
 <ClientOnly>
-  <el-card v-loading="fullscreenLoading" class="quiz-card">
-    <template #header>
-        <div class="card-header">
-            <div class="header-content">
-                <span>請憑直覺勾選 10~20 個關鍵字</span>
-                <el-tag effect="dark" round :type="selectedKeywords.length >= 10 ? 'success' : 'info'">
-                    {{ selectedKeywords.length }} / 20
-                </el-tag>
-            </div>
-            <el-button @click="resetTest" size="small">重置</el-button>
-        </div>
-    </template>
-    <el-row class="keyword-container">
-        <el-checkbox-group v-model="selectedKeywords" @change="calculateResults">
-            <el-checkbox v-for="item in visibleKeywords" :key="item.keyword_zh" :label="item.keyword_zh"
-                :value="item" border style="margin: 5px;">
-                {{ item.keyword_zh }}
-            </el-checkbox>
-        </el-checkbox-group>
-    </el-row>
-    <div v-if="!isExpanded" class="expand-section">
-        <el-divider content-position="center">
-            <el-button text bg type="primary" @click="isExpanded = true">
-                覺得不夠？顯示更多關鍵字
-                <el-icon class="el-icon--right"><ArrowDown /></el-icon>
-            </el-button>
-        </el-divider>
-    </div>
-    <div v-else class="expanded-hint">
-        <el-text type="info" size="small">已顯示所有 128 個關鍵字</el-text>
-    </div>
-  </el-card>
+  <KeywordQuizCard @update="handleAnalysisUpdate" />
 
-  <div v-show="selectedKeywords.length >= 5" class="result-section">
-      <BrainUniverseCard :selectedKeywords="selectedKeywords" />
+  <div v-show="visualData.length >= 5" class="result-section">
+      <BrainUniverseCard :selectedKeywords="visualData" />
   </div>
 </ClientOnly>
 
-## 👤 個人修煉報告 (To Consumer)
+## 🧬 核心本質與生存 (To Consumer)
 
-這份報告專注於你的「個體優化」。無論你是上班族、自由工作者或投資人，這裡提供最適合你大腦的生存與致富策略。
+這部分解析你的靈魂原廠設定，以及你在社會部落中的最佳戰鬥位置（職涯）。
 
 <ClientOnly>
-  <div v-if="selectedKeywords.length >= 10" class="analysis-container">
+  <div v-if="visualData.length >= 10" class="analysis-container">
       <HybridSoulCard 
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary" 
       />
-      <KeyDimensionsCard :userVector="dimensionScores" />
+      <KeyDimensionsCard :userVector="dimensionScores" />   
       <InternalFrictionCard 
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
       />
+      <SocialCompatibilityCard 
+          :primaryRole="topArchetypes.primary" 
+          :secondary-role="topArchetypes.secondary"
+      />
+  </div>
+  <div v-else class="placeholder-box">
+      <el-empty description="數據量不足，無法生成報告">
+          <template #extra>
+              <el-button type="primary" @click="scrollToTop">
+                  請回到上方勾選至少 10 個關鍵字
+              </el-button>
+          </template>
+      </el-empty>
+  </div>
+</ClientOnly>
+
+## 💰 財富戰略矩陣 (To Consumer)
+
+從行為金融學角度，為你量身打造的「賺、留、滾」三部曲，並確立你的最終身分。
+
+<ClientOnly>
+  <div v-if="visualData.length >= 10" class="analysis-container">
       <CareerStrategyCard 
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
@@ -82,37 +73,27 @@ outline: [2,3]
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
       />
-      <SocialCompatibilityCard 
-          :primaryRole="topArchetypes.primary" 
-          :secondary-role="topArchetypes.secondary"
-      />
       <FinalIdentityCard :primaryRole="topArchetypes.primary" />
   </div>
   <div v-else class="placeholder-box">
-      <el-empty description="數據量不足，無法生成報告">
-          <template #extra>
-              <el-button type="primary" @click="scrollToTop">
-                  請回到上方勾選至少 10 個關鍵字
-              </el-button>
-          </template>
-      </el-empty>
+      <el-skeleton :rows="3" animated />
+      <div class="skeleton-text">請先完成測驗以解鎖財富戰略...</div>
   </div>
 </ClientOnly>
 
 ## 🏢 創業與組織架構 (To Business)
 
-如果你是創業者、合夥人或團隊領導者，這部分將揭示你在組織中的「物理屬性」。
-一個健康的團隊需要 **熱動 (H)** 來點火，也需要 **冷控 (C)** 來降溫。這裡將分析你的領導風格與最適合你的互補夥伴。
+如果你是創業者或團隊領導者，這部分揭示你在組織中的「物理屬性」與「化學反應」。
 
 <ClientOnly>
-  <div v-if="selectedKeywords.length >= 10" class="analysis-container">
+  <div v-if="visualData.length >= 10" class="analysis-container">
       <FounderDualCard 
           :primaryRole="topArchetypes.primary" 
           :secondaryRole="topArchetypes.secondary" 
       />
-      </div>
+  </div>
   <div v-else class="placeholder-box">
-      <el-skeleton :rows="5" animated />
+      <el-skeleton :rows="3" animated />
       <div class="skeleton-text">請先完成測驗以解鎖創業架構分析...</div>
   </div>
 </ClientOnly>
@@ -120,6 +101,9 @@ outline: [2,3]
 ---
 
 ## 📚 熵腦模型的進階策略
+
+作者留：還在做，未來會每個頁面都為每個類型量身打造互動體驗。
+會有典範、人類學故事、從0到超越的學習步驟(純理論)、推薦的學習資源。
 
 | 角色符號與名稱 | 核心代碼 (Code) | 內在驅動力             | 完整策略連結                           |
 | :------------- | :-------------- | :--------------------- | :------------------------------------- |
@@ -134,12 +118,12 @@ outline: [2,3]
 
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import { ArrowDown } from '@element-plus/icons-vue'
-import { data } from './components/entropy/keywords.data.js'
+import { ref } from 'vue'
 
-// --- Component Imports ---
-// ToC Components
+// 1. 引入新封裝的測驗卡片
+import KeywordQuizCard from './components/entropy/keywordQuizCard/keywordQuizCard.vue'
+
+// 2. 引入其他展示卡片
 import BrainUniverseCard from './components/entropy/brainUniverseCard.vue'
 import HybridSoulCard from './components/entropy/hybridSoulCard/hybridSoulCard.vue'
 import KeyDimensionsCard from './components/entropy/keyDimensionsCard/keyDimensionsCard.vue'
@@ -150,102 +134,21 @@ import WealthManagementCard from './components/entropy/wealthManagement/wealthMa
 import WealthLeverageCard from './components/entropy/wealthLeverage/wealthLeverageCard.vue'
 import WealthInvestmentCard from './components/entropy/wealthInvestment/wealthInvestmentCard.vue'
 import FinalIdentityCard from './components/entropy/finalIdentityCard.vue'
-
-// ToB Components
-// import FounderAdvantageCard from './components/entropy/founderAdvantage/FounderAdvantageCard.vue'
 import FounderDualCard from './components/entropy/founderDual/founderDualCard.vue'
 
-// --- 狀態與邏輯 ---
-// (這部分邏輯與您原本的完全相同，只需保留即可)
-// 為了版面簡潔，我這裡省略了中間重複的 initKeywords / calculateResults 等函數
-// 請直接沿用您原本寫好的 script setup 內容
-
-interface Vector3 { x: number; y: number; z: number; }
-interface KeywordItem { id: number; keyword_zh: string; keyword_en: string; archetype: string; vector: Vector3; description?: string; }
-
-const shuffledKeywords = ref<KeywordItem[]>([])
-const selectedKeywords = ref<KeywordItem[]>([])
-const fullscreenLoading = ref<boolean>(false)
-const dimensionScores = ref<Vector3 | null>(null)
-const isExpanded = ref<boolean>(false)
-
-const visibleKeywords = computed(() => {
-    if (isExpanded.value) return shuffledKeywords.value;
-    const limit = Math.ceil(shuffledKeywords.value.length / 2);
-    return shuffledKeywords.value.slice(0, limit);
-})
-
+// --- 資料狀態管理 ---
+const visualData = ref<any[]>([]) 
+const dimensionScores = ref<any>(null)
 const topArchetypes = ref<{ primary: string; secondary: string | undefined }>({
     primary: '',
     secondary: undefined
 });
 
-onMounted(() => { initKeywords(); });
-
-function initKeywords() {
-    const rawData = data.keywords || [];
-    const uniqueMap = new Map<string, KeywordItem>();
-    rawData.forEach((item: any) => {
-        if (item && item.keyword_zh) {
-            const cleanKey = item.keyword_zh.trim();
-            if (!uniqueMap.has(cleanKey)) uniqueMap.set(cleanKey, { ...item, keyword_zh: cleanKey });
-        }
-    });
-    const uniqueData = Array.from(uniqueMap.values());
-    const groups: Record<string, KeywordItem[]> = {};
-    uniqueData.forEach(item => {
-        if (!groups[item.archetype]) groups[item.archetype] = [];
-        groups[item.archetype].push(item);
-    });
-    let visiblePool: KeywordItem[] = [];
-    let hiddenPool: KeywordItem[] = [];
-    Object.keys(groups).forEach(key => {
-        const groupItems = shuffle(groups[key]);
-        const mid = Math.ceil(groupItems.length / 2);
-        visiblePool = visiblePool.concat(groupItems.slice(0, mid));
-        hiddenPool = hiddenPool.concat(groupItems.slice(mid));
-    });
-    const finalSequence = [...shuffle(visiblePool), ...shuffle(hiddenPool)];
-    shuffledKeywords.value = finalSequence.map((item, index) => ({ ...item, id: index }));
-}
-
-function calculateResults() {
-    if (selectedKeywords.value.length === 0) {
-        dimensionScores.value = null;
-        topArchetypes.value = { primary: '', secondary: undefined };
-        return;
-    }
-    let totalVec = { x: 0, y: 0, z: 0 };
-    const counts: Record<string, number> = {};
-    selectedKeywords.value.forEach(kw => {
-        totalVec.x += kw.vector.x;
-        totalVec.y += kw.vector.y;
-        totalVec.z += kw.vector.z;
-        counts[kw.archetype] = (counts[kw.archetype] || 0) + 1;
-    });
-    const count = selectedKeywords.value.length;
-    dimensionScores.value = { x: totalVec.x / count, y: totalVec.y / count, z: totalVec.z / count };
-    const sortedRoles = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-    const primary = sortedRoles[0] ? sortedRoles[0][0] : '';
-    const secondary = (sortedRoles[1] && sortedRoles[1][1] > 0) ? sortedRoles[1][0] : undefined;
-    topArchetypes.value = { primary, secondary };
-}
-
-function resetTest() {
-    selectedKeywords.value = [];
-    dimensionScores.value = null;
-    topArchetypes.value = { primary: '', secondary: undefined };
-    isExpanded.value = false;
-    initKeywords();
-}
-
-function shuffle<T>(sourceArray: T[]): T[] {
-    const array = Array.from(sourceArray);
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
+// --- 處理來自 KeywordQuizCard 的更新 ---
+function handleAnalysisUpdate(result: any) {
+    visualData.value = result.keywords;
+    dimensionScores.value = result.dimension;
+    topArchetypes.value = result.archetypes;
 }
 
 function scrollToTop() {
@@ -253,39 +156,11 @@ function scrollToTop() {
 }
 </script>
 
-<style scoped lang="scss">
-.quiz-card { margin-bottom: 20px; transition: all 0.3s ease; }
-.card-header { display: flex; justify-content: space-between; align-items: center; }
-.header-content { display: flex; align-items: center; gap: 10px; font-weight: bold; color: #303133; }
-.keyword-container { justify-content: center; margin-bottom: 10px; }
-.expand-section { margin-top: 15px; margin-bottom: 5px; }
-.expanded-hint { text-align: center; margin-top: 10px; opacity: 0.6; }
+<style scoped>
 .result-section { padding: 20px 0; border-radius: 12px; animation: fadeIn 0.6s ease; }
+.analysis-container { display: flex; flex-direction: column; gap: 30px; }
+.placeholder-box { margin-top: 20px; padding: 40px; background: #f9f9f9; border-radius: 12px; border: 2px dashed #e0e0e0; text-align: center; }
+.skeleton-text { margin-top: 15px; color: #909399; font-size: 0.9rem; }
 
-/* Analysis Container: 卡片間距 */
-.analysis-container {
-    display: flex;
-    flex-direction: column;
-    gap: 30px; /* 卡片之間的垂直距離 */
-}
-
-/* Placeholder Box */
-.placeholder-box {
-    margin-top: 20px;
-    padding: 40px;
-    background: #f9f9f9;
-    border-radius: 12px;
-    border: 2px dashed #e0e0e0;
-    text-align: center;
-}
-.skeleton-text {
-    margin-top: 15px;
-    color: #909399;
-    font-size: 0.9rem;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 </style>
