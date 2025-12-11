@@ -15,6 +15,7 @@
         </template>
 
         <div class="card-content">
+
             <el-tabs v-model="activeTab" type="border-card" class="wealth-tabs">
                 <el-tab-pane v-for="(role, index) in displayRoles" :key="role.key" :name="role.key">
                     <template #label>
@@ -26,61 +27,91 @@
 
                     <div class="tab-inner">
 
-                        <div class="top-section">
-                            <div class="info-block style-block">
-                                <div class="section-label">投資風格 (Style)</div>
-                                <div class="style-content">
-                                    <div class="main-style">{{ role.info.style }}</div>
-                                    <div class="edge-text">{{ role.info.edge }}</div>
+                        <div class="edge-banner">
+                            <div class="edge-icon-area">
+                                <el-icon>
+                                    <Trophy />
+                                </el-icon>
+                            </div>
+                            <div class="edge-content">
+                                <div class="edge-label">MARKET EDGE (市場優勢)</div>
+                                <div class="edge-text">{{ role.info.edge }}</div>
+                            </div>
+                        </div>
+
+                        <div class="grid-section">
+
+                            <div class="grid-item">
+                                <div class="item-header">
+                                    <el-icon>
+                                        <Operation />
+                                    </el-icon> 投資風格
+                                </div>
+                                <div class="tag-group">
+                                    <el-tag v-for="(tag, idx) in role.info.style" :key="idx" effect="plain"
+                                        type="danger" class="style-tag">
+                                        {{ tag }}
+                                    </el-tag>
                                 </div>
                             </div>
 
-                            <div class="info-block target-block">
-                                <div class="section-label">核心標的 (Targets)</div>
-                                <div class="target-grid">
-                                    <el-tag v-for="(t, i) in role.info.targets" :key="i" class="target-tag"
-                                        effect="light" type="danger">
-                                        <el-icon class="target-icon">
-                                            <Aim />
-                                        </el-icon> {{ t }}
-                                    </el-tag>
+                            <div class="grid-item">
+                                <div class="item-header">
+                                    <el-icon>
+                                        <Aim />
+                                    </el-icon> 核心標的
+                                </div>
+                                <div class="target-list">
+                                    <span v-for="(t, i) in role.info.targets" :key="i" class="target-badge">
+                                        {{ t }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
-                        <el-divider border-style="dashed" />
+                        <el-divider border-style="dashed" class="divider-spacing" />
 
-                        <div class="bottom-section">
-                            <div class="strategy-box">
-                                <div class="box-header gold-text">
-                                    <el-icon>
-                                        <TrendCharts />
-                                    </el-icon> 獲利方程式 (Winning Strategy)
-                                </div>
-                                <div class="box-content">{{ role.info.strategy }}</div>
+                        <div class="strategy-box">
+                            <div class="st-header">
+                                <el-icon>
+                                    <TrendCharts />
+                                </el-icon> 獲利方程式
                             </div>
+                            <div class="st-content">{{ role.info.strategy }}</div>
+                        </div>
 
-                            <div class="risk-box">
-                                <div class="box-header red-text">
-                                    <el-icon>
-                                        <WarningFilled />
-                                    </el-icon> 死亡螺旋 (Fatal Risk)
-                                </div>
-                                <div class="box-content">{{ role.info.fatalRisk }}</div>
+                        <div class="risk-box">
+                            <div class="risk-header">
+                                <el-icon>
+                                    <CircleCloseFilled />
+                                </el-icon> 死亡螺旋 (Fatal Risk)
                             </div>
+                            <div class="risk-content">{{ role.info.fatalRisk }}</div>
                         </div>
 
                     </div>
                 </el-tab-pane>
             </el-tabs>
+
+            <div class="disclaimer-box">
+                <div class="disclaimer-header">
+                    <el-icon>
+                        <Warning />
+                    </el-icon> 免責聲明 (Disclaimer)
+                </div>
+                <div class="disclaimer-content">
+                    本報告僅為行為金融學之性格分析，<strong>不構成任何投資建議</strong>。金融市場存在高度風險，過去績效不代表未來表現。請務必獨立思考，並<strong>自行承擔所有盈虧責任</strong>。
+                </div>
+            </div>
+
         </div>
     </el-card>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { InfoFilled, Aim, TrendCharts, WarningFilled } from '@element-plus/icons-vue';
-// 引入你的資料檔路徑，請確認路徑正確
+import { InfoFilled, Aim, TrendCharts, Warning, CircleCloseFilled, Trophy, Operation } from '@element-plus/icons-vue';
+// 引入專屬資料檔
 import { data } from './wealth_investment.data.js';
 
 const props = defineProps<{
@@ -102,7 +133,15 @@ const ARCHETYPE_COLORS: Record<string, string> = {
     'Gatherer': '#32CD32', 'Shaman': '#9370DB', 'Helper': '#20B2AA', 'Elder': '#2E8B57',
 };
 
-// 整合資料邏輯
+// 處理字串分割 (以防 style 不是陣列)
+function getStyleTags(styleStr: string) {
+    if (!styleStr) return [];
+    if (styleStr.includes('/')) return styleStr.split('/').map(s => s.trim());
+    if (styleStr.includes(' ')) return styleStr.split(' ').map(s => s.trim());
+    return [styleStr];
+}
+
+// 整合資料
 const displayRoles = computed(() => {
     const list = [];
 
@@ -132,7 +171,7 @@ const displayRoles = computed(() => {
     return list;
 });
 
-// 自動切換到第一個 Tab
+// 自動切換 Tab
 watch(displayRoles, (newVal) => {
     if (newVal.length > 0 && !activeTab.value) {
         activeTab.value = newVal[0].key;
@@ -146,8 +185,8 @@ watch(displayRoles, (newVal) => {
     margin-top: 20px;
     border-radius: 12px;
     background: #fff;
-    /* 左側紅色邊條 */
     border-left: 5px solid #f56c6c;
+    /* 紅色進攻 */
     overflow: hidden;
 }
 
@@ -175,22 +214,20 @@ watch(displayRoles, (newVal) => {
     cursor: help;
 }
 
-/* Tabs 優化 */
 .wealth-tabs {
     border: none;
     box-shadow: none;
 }
 
 .wealth-tabs :deep(.el-tabs__content) {
-    padding: 20px;
+    padding: 20px 10px;
 }
 
 .tab-label {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     font-weight: bold;
-    color: #606266;
 }
 
 .role-dot {
@@ -199,143 +236,215 @@ watch(displayRoles, (newVal) => {
 }
 
 .tab-inner {
-    animation: fadeIn 0.4s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* 上半部：風格與標的 */
-.top-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-@media (max-width: 768px) {
-    .top-section {
-        grid-template-columns: 1fr;
-    }
-}
-
-.section-label {
-    font-size: 0.85rem;
-    color: #909399;
-    font-weight: bold;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.style-content {
-    background: #f9f9f9;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #eee;
-}
-
-.main-style {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #303133;
-    margin-bottom: 4px;
-}
-
-.edge-text {
-    font-size: 0.9rem;
-    color: #606266;
-}
-
-.target-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.target-tag {
-    font-size: 0.9rem;
-    padding: 6px 10px;
-    height: auto;
-}
-
-.target-icon {
-    margin-right: 4px;
-}
-
-/* 下半部：策略與風險 */
-.bottom-section {
+    animation: fadeIn 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* 策略區塊 (金色系) */
-.strategy-box {
-    background: #fffbf0;
-    border: 1px solid #faecd8;
+/* 1. 市場優勢 (Edge Banner) - 漸層強調 */
+.edge-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(90deg, #fff5f5, #ffffff);
+    border: 1px solid #ffece8;
+    padding: 15px;
     border-radius: 8px;
-    padding: 16px;
-    position: relative;
+    box-shadow: 0 2px 8px rgba(245, 108, 108, 0.05);
 }
 
-.strategy-box::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: #e6a23c;
-    /* Warning color */
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-
-.gold-text {
-    color: #d48806;
-}
-
-/* 風險區塊 (紅色系) */
-.risk-box {
-    background: #fef0f0;
-    border: 1px solid #fde2e2;
-    border-radius: 8px;
-    padding: 16px;
-    position: relative;
-}
-
-.risk-box::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
+.edge-icon-area {
     background: #f56c6c;
-    /* Danger color */
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
 }
 
-.red-text {
+.edge-content {
+    flex-grow: 1;
+}
+
+.edge-label {
+    font-size: 0.7rem;
     color: #f56c6c;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
 }
 
-.box-header {
+.edge-text {
+    font-size: 1.05rem;
     font-weight: bold;
-    font-size: 1rem;
+    color: #2c3e50;
+    line-height: 1.4;
+}
+
+/* 2. Grid Section */
+.grid-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+@media (max-width: 600px) {
+    .grid-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+.grid-item {
+    background: #fcfcfc;
+    border: 1px solid #ebeef5;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.item-header {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #606266;
     margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 6px;
+    border-bottom: 1px dashed #e0e0e0;
+    padding-bottom: 6px;
 }
 
-.box-content {
+.tag-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.style-tag {
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.target-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.target-badge {
+    background: #ffffff;
+    color: #e6a23c;
+    /* 金色文字 */
+    border: 1px solid #fceccb;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.divider-spacing {
+    margin: 10px 0;
+}
+
+/* 3. 獲利方程式 (Strategy Box) - 金色主題 */
+.strategy-box {
+    background: #fffbf0;
+    /* 淺金背景 */
+    border: 1px solid #faecd8;
+    border-left: 4px solid #e6a23c;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.st-header {
+    color: #b88230;
+    font-weight: 800;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1rem;
+}
+
+.st-content {
     font-size: 0.95rem;
     color: #5e4d4d;
-    /* 深褐色文字，閱讀舒適 */
     line-height: 1.6;
     text-align: justify;
+}
+
+/* 4. 死亡螺旋 (Risk Box) - 深色主題 */
+.risk-box {
+    background: #2c3e50;
+    color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.risk-box::after {
+    content: "!";
+    position: absolute;
+    right: -10px;
+    bottom: -20px;
+    font-size: 5rem;
+    color: rgba(255, 255, 255, 0.05);
+    font-weight: 900;
+}
+
+.risk-header {
+    color: #f56c6c;
+    font-weight: 800;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.95rem;
+}
+
+.risk-content {
+    font-size: 0.9rem;
+    color: #ecf0f1;
+    line-height: 1.5;
+    z-index: 1;
+    position: relative;
+}
+
+/* 免責聲明 */
+.disclaimer-box {
+    margin-top: 10px;
+    padding: 12px 15px;
+    background-color: #f4f4f5;
+    border-top: 1px solid #e4e7ed;
+    color: #909399;
+}
+
+.disclaimer-header {
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 4px;
+    color: #606266;
+}
+
+.disclaimer-content {
+    font-size: 0.7rem;
+    line-height: 1.4;
+    text-align: justify;
+}
+
+.disclaimer-content strong {
+    color: #303133;
+    font-weight: 600;
 }
 
 @keyframes fadeIn {
