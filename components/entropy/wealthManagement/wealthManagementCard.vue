@@ -47,8 +47,11 @@
                         </div>
 
                         <div class="saboteur-box">
-                            <span class="sab-label">👿 內在破壞者：</span>
-                            <span class="sab-text">{{ role.info.saboteur }}</span>
+                            <div class="sab-header">
+                                <span class="sab-icon">👿</span>
+                                <span class="sab-label">內在破壞者</span>
+                            </div>
+                            <div class="sab-text">{{ role.info.saboteur }}</div>
                         </div>
 
                         <div class="info-box success-box">
@@ -73,7 +76,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { InfoFilled, WarningFilled, Checked } from '@element-plus/icons-vue';
-// 請確認此路徑與您的檔案結構一致
+// 請確認路徑
 import { data } from './wealth_management.data.js';
 
 const props = defineProps<{
@@ -83,23 +86,18 @@ const props = defineProps<{
 
 const activeTab = ref('');
 
-// 角色中文對照
 const ROLE_NAME_MAP: Record<string, string> = {
     'Hunter': '獵人', 'Pioneer': '先驅', 'Toolmaker': '工匠', 'Sentry': '哨兵',
     'Gatherer': '採集者', 'Shaman': '薩滿', 'Helper': '助人者', 'Elder': '長老',
 };
 
-// 角色代表色
 const ARCHETYPE_COLORS: Record<string, string> = {
     'Hunter': '#FF4500', 'Pioneer': '#FF8C00', 'Toolmaker': '#1E90FF', 'Sentry': '#00008B',
     'Gatherer': '#32CD32', 'Shaman': '#9370DB', 'Helper': '#20B2AA', 'Elder': '#2E8B57',
 };
 
-// 整合資料
 const displayRoles = computed(() => {
     const list = [];
-
-    // 主顯角色
     if (props.primaryRole && data[props.primaryRole]) {
         list.push({
             key: props.primaryRole,
@@ -109,11 +107,7 @@ const displayRoles = computed(() => {
             info: data[props.primaryRole]
         });
     }
-
-    // 次顯角色 (需存在且與主顯不同)
-    if (props.secondaryRole &&
-        props.secondaryRole !== props.primaryRole &&
-        data[props.secondaryRole]) {
+    if (props.secondaryRole && props.secondaryRole !== props.primaryRole && data[props.secondaryRole]) {
         list.push({
             key: props.secondaryRole,
             nameZh: ROLE_NAME_MAP[props.secondaryRole],
@@ -125,7 +119,6 @@ const displayRoles = computed(() => {
     return list;
 });
 
-// 自動切換 Tab
 watch(displayRoles, (newVal) => {
     if (newVal.length > 0 && !activeTab.value) {
         activeTab.value = newVal[0].key;
@@ -139,7 +132,6 @@ watch(displayRoles, (newVal) => {
     margin-top: 20px;
     border-radius: 12px;
     background: #fff;
-    /* 左側綠條，象徵守成與安全 */
     border-left: 5px solid #13ce66;
     overflow: hidden;
 }
@@ -168,7 +160,6 @@ watch(displayRoles, (newVal) => {
     cursor: help;
 }
 
-/* Tabs 樣式優化 */
 .wealth-tabs {
     border: none;
     box-shadow: none;
@@ -197,7 +188,7 @@ watch(displayRoles, (newVal) => {
     gap: 15px;
 }
 
-/* 1. 心理原型 (Archetype Box) */
+/* 1. Archetype Box */
 .archetype-box {
     text-align: center;
     background: #f8f9fa;
@@ -237,7 +228,7 @@ watch(displayRoles, (newVal) => {
     color: #C0C4CC;
 }
 
-/* 2. 通用訊息框 (Info Box) */
+/* 2. Info Box (Generic) */
 .info-box {
     padding: 12px 15px;
     border-radius: 8px;
@@ -259,7 +250,7 @@ watch(displayRoles, (newVal) => {
     text-align: justify;
 }
 
-/* 警示框 (橘色) */
+/* Warning Box */
 .warning-box {
     background-color: #fdf6ec;
     border-color: #faecd8;
@@ -270,7 +261,7 @@ watch(displayRoles, (newVal) => {
     color: #8c5f00;
 }
 
-/* 成功框 (綠色) */
+/* Success Box */
 .success-box {
     background-color: #f0f9eb;
     border-color: #e1f3d8;
@@ -285,27 +276,40 @@ watch(displayRoles, (newVal) => {
     font-weight: 500;
 }
 
-/* 3. 破壞者框 (Saboteur Box) */
+/* 3. Saboteur Box (修正樣式) */
 .saboteur-box {
     background: #fff0f0;
-    padding: 12px;
-    border-radius: 6px;
-    font-size: 0.9rem;
+    padding: 12px 15px;
+    /* 增加 padding */
+    border-radius: 8px;
     border-left: 4px solid #F56C6C;
+    /* 移除 display: flex，改回預設 block，讓內文自動換行 */
+}
+
+.sab-header {
     display: flex;
-    gap: 5px;
-    align-items: flex-start;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+    /* 標題與內文的間距 */
+}
+
+.sab-icon {
+    font-size: 1.1rem;
 }
 
 .sab-label {
     font-weight: bold;
     color: #F56C6C;
-    white-space: nowrap;
+    font-size: 1rem;
 }
 
 .sab-text {
     color: #5e4d4d;
-    line-height: 1.5;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    padding-left: 2px;
+    /* 微調對齊 */
 }
 
 @keyframes fadeIn {
