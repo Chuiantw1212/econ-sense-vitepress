@@ -169,7 +169,6 @@ function getTypeTag(type: string) {
     margin-top: 20px;
     border-radius: 12px;
     background: #fff;
-    border-left: 5px solid #67C23A;
     overflow: hidden;
 }
 

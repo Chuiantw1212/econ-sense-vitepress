@@ -185,8 +185,6 @@ watch(displayRoles, (newVal) => {
     margin-top: 20px;
     border-radius: 12px;
     background: #fff;
-    border-left: 5px solid #f56c6c;
-    /* 紅色進攻 */
     overflow: hidden;
 }
 

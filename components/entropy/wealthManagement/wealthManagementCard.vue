@@ -132,7 +132,6 @@ watch(displayRoles, (newVal) => {
     margin-top: 20px;
     border-radius: 12px;
     background: #fff;
-    border-left: 5px solid #13ce66;
     overflow: hidden;
 }
 

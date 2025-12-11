@@ -131,8 +131,6 @@ watch(displayRoles, (newVal) => {
     margin-top: 20px;
     border-radius: 12px;
     background: #fff;
-    /* 紫色側邊條，象徵倍增 */
-    border-left: 5px solid #8e44ad;
     overflow: hidden;
 }
 
