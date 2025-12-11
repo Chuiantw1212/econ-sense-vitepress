@@ -16,6 +16,8 @@ outline: [2,4]
   <Antropy></Antropy>
 </ClientOnly>
 
+
+
 ## 熵腦模型的進階策略
 
 作者留：還在做，未來會每個頁面都為每個類型量身打造互動體驗。
