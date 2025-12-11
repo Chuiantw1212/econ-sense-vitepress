@@ -75,6 +75,8 @@ outline: [2,3]
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
       />
+      <AntiScamCard :primaryRole="topArchetypes.primary"
+          :secondary-role="topArchetypes.secondary"/>
       <FinalIdentityCard :primaryRole="topArchetypes.primary" />
   </div>
   <div v-else class="placeholder-box">
@@ -135,6 +137,7 @@ import CareerStrategyCard from './components/entropy/careerStrategyCard/careerSt
 import WealthManagementCard from './components/entropy/wealthManagement/wealthManagementCard.vue'
 import WealthLeverageCard from './components/entropy/wealthLeverage/wealthLeverageCard.vue'
 import WealthInvestmentCard from './components/entropy/wealthInvestment/wealthInvestmentCard.vue'
+import AntiScamCard from './components/entropy/antiScamCard/antiScamCard.vue'
 import FinalIdentityCard from './components/entropy/finalIdentityCard.vue'
 import FounderDualCard from './components/entropy/founderDual/founderDualCard.vue'
 
