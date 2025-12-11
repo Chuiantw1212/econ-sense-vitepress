@@ -35,7 +35,7 @@ outline: [2,3]
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
       />
-      <SocialCompatibilityCard 
+      <IntimacyCard 
           :primaryRole="topArchetypes.primary" 
           :secondary-role="topArchetypes.secondary"
       />
@@ -131,7 +131,7 @@ import KeywordQuizCard from './components/entropy/keywordQuizCard/keywordQuizCar
 import BrainUniverseCard from './components/entropy/brainUniverseCard.vue'
 import HybridSoulCard from './components/entropy/hybridSoulCard/hybridSoulCard.vue'
 import KeyDimensionsCard from './components/entropy/keyDimensionsCard/keyDimensionsCard.vue'
-import SocialCompatibilityCard from './components/entropy/socialCompatibilityCard/socialCompatibilityCard.vue'
+import IntimacyCard from './components/entropy/intimacyRationCard/intimacyRationCard.vue'
 import InternalFrictionCard from './components/entropy/internalFrictionCard.vue'
 import CareerStrategyCard from './components/entropy/careerStrategyCard/careerStrategyCard.vue'
 import WealthManagementCard from './components/entropy/wealthManagement/wealthManagementCard.vue'
