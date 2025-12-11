@@ -296,7 +296,7 @@ const roleData = computed(() => {
 /* Identity - 關鍵修改：預設 Flex，手機版強制換行 */
 .pc-identity {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 10px;
     margin-bottom: 15px;
 }
