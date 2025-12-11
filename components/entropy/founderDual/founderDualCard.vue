@@ -219,7 +219,8 @@ function getPartnerSuggestion(chemistry: string) {
 .hero-title {
     font-size: 1.6rem;
     font-weight: 800;
-    margin: 0;
+    margin: 0 !important;
+    padding: 0 !important;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     line-height: 1.2;
 }
