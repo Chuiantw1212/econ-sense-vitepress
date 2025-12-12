@@ -22,34 +22,36 @@ outline: [2,3]
 
 ## 🧬 核心本質與生存 (To Consumer)
 
-這部分解析你的靈魂原廠設定，以及你在社會部落中的最佳戰鬥位置（職涯）。
+這部分解析你的靈魂原廠設定，以及你在社會部落中的最佳位置。
 
 <ClientOnly>
   <div v-if="visualData.length >= 10" class="analysis-container">
-      <HybridSoulCard 
-          :primaryRole="topArchetypes.primary"
-          :secondary-role="topArchetypes.secondary" 
-      />
-      <KeyDimensionsCard :userVector="dimensionScores" />   
-      <InternalFrictionCard 
-          :primaryRole="topArchetypes.primary"
-          :secondary-role="topArchetypes.secondary"
-      />
-      <IntimacyCard 
-          :primaryRole="topArchetypes.primary" 
-          :secondary-role="topArchetypes.secondary"
-      />
-  </div>
+    <HybridSoulCard 
+        :primaryRole="topArchetypes.primary"
+        :secondary-role="topArchetypes.secondary" 
+    />
+    <ArchetypeCompositionCard 
+        :selectedKeywords="visualData" 
+    />
+    <KeyDimensionsCard 
+        :userVector="dimensionScores" 
+    />   
+    <InternalFrictionCard 
+        :primaryRole="topArchetypes.primary"
+        :secondary-role="topArchetypes.secondary"
+    />
+    <SelfCareCard 
+        :primaryRole="topArchetypes.primary"
+        :secondary-role="topArchetypes.secondary"
+    />
+    <IntimacyCard 
+        :primaryRole="topArchetypes.primary" 
+        :secondary-role="topArchetypes.secondary"
+    />
+</div>
   <div v-else class="placeholder-box">
       <el-skeleton :rows="3" animated />
       <div class="skeleton-text">請回到上方勾選至少 10 個關鍵字...</div>
-      <!-- <el-empty description="數據量不足，無法生成報告">
-          <template #extra>
-              <el-button type="primary" @click="scrollToTop">
-                  請回到上方勾選至少 10 個關鍵字
-              </el-button>
-          </template>
-      </el-empty> -->
   </div>
 </ClientOnly>
 
@@ -67,10 +69,6 @@ outline: [2,3]
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
       />
-      <!-- <WealthLeverageCard 
-          :primaryRole="topArchetypes.primary"
-          :secondary-role="topArchetypes.secondary"
-      /> -->
       <WealthInvestmentCard 
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
@@ -85,9 +83,9 @@ outline: [2,3]
   </div>
 </ClientOnly>
 
-<!-- ## 🏢 創業與組織架構 (To Business) -->
+## 🏢 創業與組織架構 (To Business)
 
-<!-- 如果你是創業者或團隊領導者，這部分揭示你在組織中的「物理屬性」與「化學反應」。
+如果你是創業者或團隊領導者，這部分揭示你在組織中的「物理屬性」與「化學反應」。
 
 <ClientOnly>
   <div v-if="visualData.length >= 10" class="analysis-container">
@@ -100,15 +98,15 @@ outline: [2,3]
       <el-skeleton :rows="3" animated />
       <div class="skeleton-text">請先完成測驗以解鎖創業架構分析...</div>
   </div>
-</ClientOnly> -->
+</ClientOnly>
 
 ## 📚 熵腦模型的進階策略
 
 作者留：還在做，未來會每個頁面都為每個類型量身打造互動體驗。
 會有典範、人類學故事、從0到超越的學習步驟(純理論)、推薦的學習資源。
 
-| 角色符號與名稱 | 核心代碼 (Code) | 內在驅動力             | 完整策略連結                                                      |
-| :------------- | :-------------- | :--------------------- | :---------------------------------------------------------------- |
+| 角色符號與名稱 | 核心代碼 (Code) | 內在驅動力             | 完整策略連結                                                   |
+| :------------- | :-------------- | :--------------------- | :------------------------------------------------------------- |
 | **🏹 獵人**     | IRH             | **個體 - 現證 - 熱動** | <a href="./entropy/hunter" target="_blank">查看進階策略</a>    |
 | **🧭 先驅**     | IVH             | **個體 - 內觀 - 熱動** | <a href="./entropy/pioneer" target="_blank">查看進階策略</a>   |
 | **🍇 採集者**   | ORH             | **他人 - 現證 - 熱動** | <a href="./entropy/gatherer" target="_blank">查看進階策略</a>  |
@@ -123,14 +121,17 @@ outline: [2,3]
 import { ref } from 'vue'
 
 // 1. 引入新封裝的測驗卡片
-import KeywordQuizCard from './components/entropy/keywordQuizCard/keywordQuizCard.vue'
+import KeywordQuizCard from './components/entropy/keywordQuizCard.vue'
 
 // 2. 引入其他展示卡片
-import BrainUniverseCard from './components/entropy/brainUniverseCard.vue'
 import HybridSoulCard from './components/entropy/hybridSoulCard/hybridSoulCard.vue'
+import ArchetypeCompositionCard from './components/entropy/archetypeCompositionCard.vue'
 import KeyDimensionsCard from './components/entropy/keyDimensionsCard/keyDimensionsCard.vue'
-import IntimacyCard from './components/entropy/intimacyRationCard/intimacyRationCard.vue'
+import BrainUniverseCard from './components/entropy/brainUniverseCard.vue'
 import InternalFrictionCard from './components/entropy/internalFrictionCard.vue'
+import IntimacyCard from './components/entropy/intimacyRationCard/intimacyRationCard.vue'
+import SelfCareCard from './components/entropy/selfCareCard/selfCareCard.vue'
+
 import CareerStrategyCard from './components/entropy/careerStrategyCard/careerStrategyCard.vue'
 import WealthManagementCard from './components/entropy/wealthManagement/wealthManagementCard.vue'
 import WealthLeverageCard from './components/entropy/wealthLeverage/wealthLeverageCard.vue'
@@ -140,7 +141,20 @@ import FinalIdentityCard from './components/entropy/finalIdentityCard.vue'
 import FounderDualCard from './components/entropy/founderDual/founderDualCard.vue'
 
 // --- 資料狀態管理 ---
-const visualData = ref<any[]>([]) 
+
+interface IKeyword {
+    "id": number,  
+    "keyword_zh": string, 
+    "keyword_en": string, 
+    "archetype": string, 
+    "vector": { 
+        "x": number, 
+        "y": number, 
+        "z": number, 
+    }
+}
+
+const visualData = ref<IKeyword[]>([]) 
 const dimensionScores = ref<any>(null)
 const topArchetypes = ref<{ primary: string; secondary: string | undefined }>({
     primary: '',
