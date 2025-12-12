@@ -64,3 +64,7 @@ C 型人的大腦像一座防禦森嚴的堡壘，問題不在於不專注，而
 * 如果你是 **C 型（高度冷控）**：請務必追求**心流**。你需要高溫與衝擊，讓你能在秩序中找到流動，將僵局昇華為創造的藝術。
 
 這才是符合大腦生物本能的最高策略。
+
+## 資料來源
+
+<iframe src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/entropy/%E5%BF%83%E6%B5%81%E8%88%87%E5%86%A5%E6%83%B3%E8%85%A6%E7%A7%91%E5%AD%B8%E8%A7%A3%E6%9E%90.pdf" width="100%" height="600px" style="border: none;"></iframe>
