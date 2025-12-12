@@ -40,6 +40,10 @@ outline: [2,3]
         :primaryRole="topArchetypes.primary"
         :secondary-role="topArchetypes.secondary"
     />
+    <SelfCareCard 
+        :primaryRole="topArchetypes.primary"
+        :secondary-role="topArchetypes.secondary"
+    />
     <IntimacyCard 
         :primaryRole="topArchetypes.primary" 
         :secondary-role="topArchetypes.secondary"
@@ -120,12 +124,14 @@ import { ref } from 'vue'
 import KeywordQuizCard from './components/entropy/keywordQuizCard.vue'
 
 // 2. 引入其他展示卡片
-import BrainUniverseCard from './components/entropy/brainUniverseCard.vue'
 import HybridSoulCard from './components/entropy/hybridSoulCard/hybridSoulCard.vue'
-import KeyDimensionsCard from './components/entropy/keyDimensionsCard/keyDimensionsCard.vue'
-import IntimacyCard from './components/entropy/intimacyRationCard/intimacyRationCard.vue'
-import InternalFrictionCard from './components/entropy/internalFrictionCard.vue'
 import ArchetypeCompositionCard from './components/entropy/archetypeCompositionCard.vue'
+import KeyDimensionsCard from './components/entropy/keyDimensionsCard/keyDimensionsCard.vue'
+import BrainUniverseCard from './components/entropy/brainUniverseCard.vue'
+import InternalFrictionCard from './components/entropy/internalFrictionCard.vue'
+import IntimacyCard from './components/entropy/intimacyRationCard/intimacyRationCard.vue'
+import SelfCareCard from './components/entropy/selfCareCard/selfCareCard.vue'
+
 import CareerStrategyCard from './components/entropy/careerStrategyCard/careerStrategyCard.vue'
 import WealthManagementCard from './components/entropy/wealthManagement/wealthManagementCard.vue'
 import WealthLeverageCard from './components/entropy/wealthLeverage/wealthLeverageCard.vue'
