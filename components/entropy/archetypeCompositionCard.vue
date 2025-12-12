@@ -122,7 +122,6 @@ const composition = computed(() => {
             percentage: Math.round((count / total) * 100),
             count
         }))
-        .filter(item => item.percentage > 0)
         .sort((a, b) => b.percentage - a.percentage); // 降序
 });
 

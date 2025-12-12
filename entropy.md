@@ -107,14 +107,14 @@ outline: [2,3]
 
 | 角色符號與名稱 | 核心代碼 (Code) | 內在驅動力             | 完整策略連結                                                   |
 | :------------- | :-------------- | :--------------------- | :------------------------------------------------------------- |
-| **🏹 獵人**     | IRH             | **個體 - 現證 - 熱動** | <a href="./entropy/hunter" target="_blank">查看進階策略</a>    |
-| **🧭 先驅**     | IVH             | **個體 - 內觀 - 熱動** | <a href="./entropy/pioneer" target="_blank">查看進階策略</a>   |
-| **🍇 採集者**   | ORH             | **他人 - 現證 - 熱動** | <a href="./entropy/gatherer" target="_blank">查看進階策略</a>  |
-| **🦋 薩滿**     | OVH             | **他人 - 內觀 - 熱動** | <a href="./entropy/shaman" target="_blank">查看進階策略</a>    |
-| **🛠 工匠**     | IRC             | **個體 - 現證 - 冷控** | <a href="./entropy/toolmaker" target="_blank">查看進階策略</a> |
-| **🛡️ 哨兵**     | IVC             | **個體 - 內觀 - 冷控** | <a href="./entropy/sentry" target="_blank">查看進階策略</a>    |
-| **🫂 助人者**   | ORC             | **他人 - 現證 - 冷控** | <a href="./entropy/helper" target="_blank">查看進階策略</a>    |
-| **🌳 長老**     | OVC             | **他人 - 內觀 - 冷控** | <a href="./entropy/elder" target="_blank">查看進階策略</a>     |
+| **🏹 獵人**     | IRH             | **個體 - 現證 - 熱動** | <a href="./entropy/hunter.html" target="_blank">查看進階策略</a>    |
+| **🧭 先驅**     | IVH             | **個體 - 內觀 - 熱動** | <a href="./entropy/pioneer.html" target="_blank">查看進階策略</a>   |
+| **🍇 採集者**   | ORH             | **他人 - 現證 - 熱動** | <a href="./entropy/gatherer.html" target="_blank">查看進階策略</a>  |
+| **🦋 薩滿**     | OVH             | **他人 - 內觀 - 熱動** | <a href="./entropy/shaman.html" target="_blank">查看進階策略</a>    |
+| **🛠 工匠**     | IRC             | **個體 - 現證 - 冷控** | <a href="./entropy/toolmaker.html" target="_blank">查看進階策略</a> |
+| **🛡️ 哨兵**     | IVC             | **個體 - 內觀 - 冷控** | <a href="./entropy/sentry.html" target="_blank">查看進階策略</a>    |
+| **🫂 助人者**   | ORC             | **他人 - 現證 - 冷控** | <a href="./entropy/helper.html" target="_blank">查看進階策略</a>    |
+| **🌳 長老**     | OVC             | **他人 - 內觀 - 冷控** | <a href="./entropy/elder.html" target="_blank">查看進階策略</a>     |
 
 
 <script setup lang="ts">
