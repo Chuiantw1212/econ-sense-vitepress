@@ -167,8 +167,6 @@ watch(displayRoles, (newVal) => {
     border-radius: 12px;
     /* 統一圓角 */
     background: #fff;
-    /* 綠色側邊條，象徵守成 */
-    border-left: 5px solid #13ce66;
     overflow: hidden;
 }
 
