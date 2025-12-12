@@ -3,14 +3,16 @@
         <template #header>
             <div class="card-header">
                 <div class="header-left">
-                    <span class="title">🛡️ 財富守成 (Wealth Defense)</span>
+                    <span class="title">🛡️ 財富守成</span>
                     <el-tooltip content="診斷你的消費心理漏洞，並建立強制儲蓄的防禦機制。" placement="top">
                         <el-icon class="info-icon">
                             <InfoFilled />
                         </el-icon>
                     </el-tooltip>
                 </div>
-                <el-tag color="#13ce66" effect="dark" round style="border:none;">行為矯正</el-tag>
+                <div class="header-right">
+                    <span class="type-badge">行為矯正</span>
+                </div>
             </div>
         </template>
 
@@ -27,41 +29,65 @@
 
                     <div class="tab-inner">
 
-                        <div class="archetype-box">
-                            <div class="arch-label">消費心理原型</div>
-                            <div class="arch-title">{{ role.info.archetype }}</div>
-                            <div class="arch-quote">"{{ role.info.moneyView }}"</div>
+                        <div class="profile-section">
+                            <div class="profile-main">
+                                <div class="profile-label">消費心理原型</div>
+
+                                <h1 class="title-zh" :style="{ color: role.color }">
+                                    {{ role.info?.archetype_zh }}
+                                </h1>
+
+                                <div class="title-en-badge">
+                                    {{ role.info?.archetype_en }}
+                                </div>
+                            </div>
+
+                            <div class="quote-container">
+                                <div class="quote-icon-wrapper">
+                                    <el-icon>
+                                        <ChatLineSquare />
+                                    </el-icon>
+                                </div>
+                                <div class="quote-content">
+                                    {{ role.info?.moneyView }}
+                                </div>
+                            </div>
                         </div>
 
-                        <el-divider border-style="dashed" class="divider-spacing">
-                            <span class="divider-text">財務行為診斷</span>
-                        </el-divider>
+                        <div class="diagnosis-grid">
 
-                        <div class="info-box warning-box">
-                            <div class="box-title">
+                            <div class="diag-box leak-style">
+                                <div class="diag-header">
+                                    <el-icon>
+                                        <WarningFilled />
+                                    </el-icon> 致命漏洞
+                                </div>
+                                <div class="diag-content">
+                                    {{ role.info?.leak }}
+                                </div>
+                            </div>
+
+                            <div class="diag-box saboteur-style">
+                                <div class="diag-header">
+                                    <el-icon>
+                                        <Warning />
+                                    </el-icon> 潛意識破壞者
+                                </div>
+                                <div class="diag-content">
+                                    {{ role.info?.saboteur }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="prescription-box">
+                            <div class="pres-header">
                                 <el-icon>
-                                    <WarningFilled />
-                                </el-icon> 財務漏洞 (The Leak)
+                                    <FirstAidKit />
+                                </el-icon> 矯正處方 (Protocol)
                             </div>
-                            <div class="box-content">{{ role.info.leak }}</div>
-                        </div>
-
-                        <div class="saboteur-box">
-                            <div class="sab-header">
-                                <span class="sab-icon">👿</span>
-                                <span class="sab-label">內在破壞者</span>
-                            </div>
-                            <div class="sab-text">{{ role.info.saboteur }}</div>
-                        </div>
-
-                        <div class="info-box success-box">
-                            <div class="box-title">
-                                <el-icon>
-                                    <Checked />
-                                </el-icon> 防禦協議 (The Protocol)
-                            </div>
-                            <div class="box-content highlight-text">
-                                {{ role.info.protocol }}
+                            <div class="pres-content">
+                                {{ role.info?.protocol }}
                             </div>
                         </div>
 
@@ -75,7 +101,14 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { InfoFilled, WarningFilled, Checked } from '@element-plus/icons-vue';
+import {
+    InfoFilled,
+    WarningFilled,
+    Warning,
+    FirstAidKit,
+    ChatLineSquare
+} from '@element-plus/icons-vue';
+
 // 請確認路徑
 import { data } from './wealth_management.data.js';
 
@@ -98,7 +131,7 @@ const ARCHETYPE_COLORS: Record<string, string> = {
 
 const displayRoles = computed(() => {
     const list = [];
-    if (props.primaryRole && data[props.primaryRole]) {
+    if (props.primaryRole && data && data[props.primaryRole]) {
         list.push({
             key: props.primaryRole,
             nameZh: ROLE_NAME_MAP[props.primaryRole],
@@ -107,7 +140,7 @@ const displayRoles = computed(() => {
             info: data[props.primaryRole]
         });
     }
-    if (props.secondaryRole && props.secondaryRole !== props.primaryRole && data[props.secondaryRole]) {
+    if (props.secondaryRole && props.secondaryRole !== props.primaryRole && data && data[props.secondaryRole]) {
         list.push({
             key: props.secondaryRole,
             nameZh: ROLE_NAME_MAP[props.secondaryRole],
@@ -128,10 +161,13 @@ watch(displayRoles, (newVal) => {
 </script>
 
 <style scoped>
+/* 基礎容器 */
 .management-card {
     margin-top: 20px;
     border-radius: 12px;
+    /* 統一圓角 */
     background: #fff;
+    /* 綠色側邊條，象徵守成 */
     border-left: 5px solid #13ce66;
     overflow: hidden;
 }
@@ -140,26 +176,38 @@ watch(displayRoles, (newVal) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 0;
 }
 
 .header-left {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .title {
-    font-weight: bold;
-    font-size: 16px;
+    font-weight: 800;
+    font-size: 1.1rem;
     color: #303133;
 }
 
 .info-icon {
     font-size: 14px;
-    color: #909399;
+    color: #bdbdbd;
     cursor: help;
 }
 
+.type-badge {
+    background: #f0f9eb;
+    color: #529b2e;
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid #e1f3d8;
+}
+
+/* Tabs 樣式統一化 (與其他卡片一致) */
 .wealth-tabs {
     border: none;
     box-shadow: none;
@@ -188,128 +236,193 @@ watch(displayRoles, (newVal) => {
     gap: 15px;
 }
 
-/* 1. Archetype Box */
-.archetype-box {
+/* 1. Profile Section */
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #ebeef5;
+    margin-bottom: 20px;
 }
 
-.arch-label {
+.profile-label {
     font-size: 0.75rem;
     color: #909399;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+/* 中文標題 */
+.title-zh {
+    font-size: 2.4rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 0 0 10px 0;
+    letter-spacing: 2px;
+}
+
+/* 英文標題 (標籤化) */
+.title-en-badge {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    background-color: #303133;
+    padding: 4px 12px;
+    border-radius: 20px;
     letter-spacing: 1px;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    display: inline-block;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.arch-title {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: #303133;
-    margin: 5px 0;
-}
-
-.arch-quote {
-    font-style: italic;
-    color: #606266;
-    font-size: 0.95rem;
-    margin-top: 5px;
-}
-
-.divider-spacing {
-    margin: 20px 0;
-}
-
-.divider-text {
-    font-size: 0.85rem;
-    color: #C0C4CC;
-}
-
-/* 2. Info Box (Generic) */
-.info-box {
-    padding: 12px 15px;
-    border-radius: 8px;
-    border: 1px solid transparent;
-}
-
-.box-title {
-    font-weight: bold;
-    font-size: 1rem;
-    margin-bottom: 8px;
+/* 語錄區塊 (Flex) */
+.quote-container {
     display: flex;
-    align-items: center;
-    gap: 6px;
+    align-items: flex-start;
+    gap: 12px;
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    max-width: 80%;
+    margin: 0 auto;
+    text-align: left;
 }
 
-.box-content {
-    font-size: 0.95rem;
+.quote-icon-wrapper {
+    font-size: 1.6rem;
+    color: #dcdfe6;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.quote-content {
+    font-size: 1rem;
+    color: #555;
+    font-style: italic;
     line-height: 1.6;
-    text-align: justify;
-}
-
-/* Warning Box */
-.warning-box {
-    background-color: #fdf6ec;
-    border-color: #faecd8;
-    color: #e6a23c;
-}
-
-.warning-box .box-content {
-    color: #8c5f00;
-}
-
-/* Success Box */
-.success-box {
-    background-color: #f0f9eb;
-    border-color: #e1f3d8;
-    color: #67c23a;
-}
-
-.success-box .box-content {
-    color: #405936;
-}
-
-.highlight-text {
     font-weight: 500;
 }
 
-/* 3. Saboteur Box (修正樣式) */
-.saboteur-box {
-    background: #fff0f0;
-    padding: 12px 15px;
-    /* 增加 padding */
-    border-radius: 8px;
-    border-left: 4px solid #F56C6C;
-    /* 移除 display: flex，改回預設 block，讓內文自動換行 */
+.spacer {
+    height: 20px;
 }
 
-.sab-header {
+/* 2. Diagnosis Grid */
+.diagnosis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.diag-box {
+    padding: 18px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid #ebeef5;
+    border-top: 4px solid transparent;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.diag-header {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-bottom: 6px;
-    /* 標題與內文的間距 */
 }
 
-.sab-icon {
-    font-size: 1.1rem;
-}
-
-.sab-label {
-    font-weight: bold;
-    color: #F56C6C;
-    font-size: 1rem;
-}
-
-.sab-text {
-    color: #5e4d4d;
-    line-height: 1.6;
+.diag-content {
     font-size: 0.95rem;
-    padding-left: 2px;
-    /* 微調對齊 */
+    line-height: 1.6;
+    color: #555;
+    text-align: justify;
+}
+
+/* Colors */
+.leak-style {
+    border-top-color: #f56c6c;
+}
+
+.leak-style .diag-header {
+    color: #c0392b;
+}
+
+.saboteur-style {
+    border-top-color: #e6a23c;
+}
+
+.saboteur-style .diag-header {
+    color: #d35400;
+}
+
+/* 3. Prescription Box */
+.prescription-box {
+    background: #f0f9eb;
+    border: 1px solid #e1f3d8;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.prescription-box::after {
+    content: "+";
+    position: absolute;
+    right: -10px;
+    bottom: -20px;
+    font-size: 6rem;
+    color: rgba(103, 194, 58, 0.1);
+    font-weight: 900;
+    pointer-events: none;
+}
+
+.pres-header {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #2e7d32;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pres-content {
+    font-size: 1rem;
+    color: #1b5e20;
+    line-height: 1.6;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+}
+
+/* RWD */
+@media (max-width: 600px) {
+    .profile-section {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .title-zh {
+        font-size: 2rem;
+    }
+
+    .quote-container {
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .diagnosis-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
 }
 
 @keyframes fadeIn {

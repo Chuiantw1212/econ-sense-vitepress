@@ -182,7 +182,6 @@ function getConflictDescription(axisName: string) {
     margin-top: 20px;
     border-radius: 12px;
     border: 1px solid #e4e7ed;
-    border-left: 5px solid var(--friction-color);
 }
 
 .card-header {

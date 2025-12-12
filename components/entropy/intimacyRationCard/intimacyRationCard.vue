@@ -4,11 +4,6 @@
             <div class="card-header">
                 <div class="header-left">
                     <span class="title">💞 親密關係架構</span>
-                    <el-tooltip content="熵腦熱力學：關係是兩個系統的能量交換。" placement="top">
-                        <el-icon class="info-icon">
-                            <InfoFilled />
-                        </el-icon>
-                    </el-tooltip>
                 </div>
                 <div class="header-right">
                     <span class="protocol-badge">{{ roleData.protocol }}</span>
@@ -27,48 +22,38 @@
                     <el-icon>
                         <Key />
                     </el-icon>
-                    <span>鐵律：請尋找同樣是 <strong>{{ roleData.protocol.split(' ')[0] }} 型</strong> 的人，否則無法通訊。</span>
+                    <span>鐵律：找同樣是 <strong>{{ roleData.protocol.split(' ')[0] }} 型</strong> 的人。</span>
                 </div>
             </div>
 
-            <div class="guide-container">
-                <div class="guide-box guide-calm">
-                    <div class="guide-icon"><el-icon>
-                            <Ship />
-                        </el-icon></div>
-                    <div class="guide-content">
-                        <div class="guide-title">動盪期首選</div>
-                        <div class="guide-desc">若你需要修復與安穩<br />選擇 <strong>同頻共振</strong></div>
-                    </div>
+            <div class="guide-strip">
+                <div class="guide-item calm">
+                    <el-icon>
+                        <Ship />
+                    </el-icon> 動盪期選 <strong>同頻</strong>
                 </div>
-                <div class="guide-vs">VS</div>
-                <div class="guide-box guide-active">
-                    <div class="guide-icon"><el-icon>
-                            <Compass />
-                        </el-icon></div>
-                    <div class="guide-content">
-                        <div class="guide-title">探索期首選</div>
-                        <div class="guide-desc">若你渴望突破與完整<br />選擇 <strong>黃金互補</strong></div>
-                    </div>
+                <div class="guide-divider"></div>
+                <div class="guide-item active">
+                    <el-icon>
+                        <Compass />
+                    </el-icon> 探索期選 <strong>互補</strong>
                 </div>
             </div>
 
             <div class="paths-container">
                 <el-tabs class="clean-tabs" stretch>
 
-                    <el-tab-pane label="路徑 A：同頻共振 (舒適)">
+                    <el-tab-pane label="同頻共振">
                         <div class="tab-inner">
                             <div class="partner-card theme-resonance">
 
                                 <div class="pc-header">
-                                    <el-icon>
-                                        <CopyDocument />
-                                    </el-icon> 鏡像伴侶 (The Mirror)
+                                    <span class="pc-subtitle">鏡像伴侶 (The Mirror)</span>
                                 </div>
 
                                 <div class="pc-identity">
                                     <div class="pc-name">{{ roleData.pathA.target }}</div>
-                                    <div class="pc-code">{{ roleData.code }} (同款)</div>
+                                    <div class="pc-code">{{ roleData.code }}</div>
                                 </div>
 
                                 <div class="pc-dynamics">
@@ -77,24 +62,16 @@
                                 </div>
 
                                 <div class="pc-tags">
-                                    <div class="tag-item tag-pro">
-                                        <el-icon>
-                                            <CircleCheckFilled />
-                                        </el-icon> {{ roleData.pathA.pros }}
-                                    </div>
-                                    <div class="tag-item tag-con">
-                                        <el-icon>
-                                            <WarningFilled />
-                                        </el-icon> {{ roleData.pathA.cons }}
-                                    </div>
+                                    <span class="tag-item pro">👍 {{ roleData.pathA.pros }}</span>
+                                    <span class="tag-item con">⚠️ {{ roleData.pathA.cons }}</span>
                                 </div>
 
                                 <div class="pc-manual" v-if="roleData.pathA.manual">
                                     <div class="man-title"><el-icon>
                                             <Tools />
-                                        </el-icon> 同頻維護手冊</div>
+                                        </el-icon> 維護手冊</div>
                                     <div v-for="(item, idx) in roleData.pathA.manual" :key="idx" class="man-item">
-                                        <span class="man-dot">•</span> {{ item }}
+                                        • {{ item }}
                                     </div>
                                 </div>
 
@@ -102,14 +79,12 @@
                         </div>
                     </el-tab-pane>
 
-                    <el-tab-pane label="路徑 B：黃金互補 (成長)">
+                    <el-tab-pane label="黃金互補">
                         <div class="tab-inner">
                             <div class="partner-card theme-complementary">
 
                                 <div class="pc-header">
-                                    <el-icon>
-                                        <Connection />
-                                    </el-icon> 互補伴侶 (The Partner)
+                                    <span class="pc-subtitle">互補伴侶 (The Partner)</span>
                                 </div>
 
                                 <div class="pc-identity">
@@ -123,24 +98,16 @@
                                 </div>
 
                                 <div class="pc-tags">
-                                    <div class="tag-item tag-pro">
-                                        <el-icon>
-                                            <CircleCheckFilled />
-                                        </el-icon> {{ roleData.pathB.pros }}
-                                    </div>
-                                    <div class="tag-item tag-con">
-                                        <el-icon>
-                                            <WarningFilled />
-                                        </el-icon> {{ roleData.pathB.cons }}
-                                    </div>
+                                    <span class="tag-item pro">👍 {{ roleData.pathB.pros }}</span>
+                                    <span class="tag-item con">⚠️ {{ roleData.pathB.cons }}</span>
                                 </div>
 
                                 <div class="pc-manual" v-if="roleData.pathB.manual">
                                     <div class="man-title"><el-icon>
                                             <Tools />
-                                        </el-icon> 互補操作手冊</div>
+                                        </el-icon> 操作手冊</div>
                                     <div v-for="(item, idx) in roleData.pathB.manual" :key="idx" class="man-item">
-                                        <span class="man-dot">•</span> {{ item }}
+                                        • {{ item }}
                                     </div>
                                 </div>
 
@@ -157,8 +124,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { InfoFilled, Key, Ship, Compass, CopyDocument, Connection, Tools, CircleCheckFilled, WarningFilled } from '@element-plus/icons-vue';
-// 引入資料檔
+import { InfoFilled, Key, Ship, Compass, Tools } from '@element-plus/icons-vue';
 import { data } from './intimacy.data.js';
 
 const props = defineProps<{
@@ -173,12 +139,12 @@ const roleData = computed(() => {
 </script>
 
 <style scoped>
-/* 卡片容器：去框線，強調柔和感 */
+/* 容器優化 */
 .intimacy-card {
     margin-top: 20px;
-    border-radius: 16px;
+    border-radius: 12px;
     border: none;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     overflow: hidden;
 }
 
@@ -201,42 +167,36 @@ const roleData = computed(() => {
     color: #303133;
 }
 
-.info-icon {
-    font-size: 14px;
-    color: #bdbdbd;
-    cursor: help;
-}
-
 .protocol-badge {
     background: #f4f4f5;
     color: #606266;
     font-size: 0.8rem;
     font-weight: 800;
-    padding: 4px 10px;
-    border-radius: 20px;
-    border: 1px solid #dcdfe6;
+    padding: 2px 8px;
+    border-radius: 6px;
 }
 
 /* 1. Hero Section */
 .hero-section {
     text-align: center;
-    padding: 25px 0 15px;
+    padding: 20px 0 10px;
 }
 
 .hero-code {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 900;
     color: #303133;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    letter-spacing: 2px;
-    line-height: 1.2;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    line-height: 1.1;
 }
 
 .hero-desc {
-    font-size: 1rem;
-    color: #555;
+    font-size: 0.95rem;
+    color: #606266;
     margin-top: 8px;
-    line-height: 1.6;
+    line-height: 1.5;
+    padding: 0 10px;
 }
 
 .hero-rule {
@@ -246,238 +206,192 @@ const roleData = computed(() => {
     gap: 6px;
     background: #fff0f6;
     color: #c2185b;
-    padding: 6px 16px;
-    border-radius: 30px;
-    font-size: 0.9rem;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
     font-weight: 600;
 }
 
-/* 2. Guide Container (平衡設計) */
-.guide-container {
+/* 2. Guide Strip (簡化版) */
+.guide-strip {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #f8f9fa;
-    border-radius: 12px;
-    padding: 15px;
-    margin: 20px 0;
-    gap: 10px;
-}
-
-.guide-box {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.guide-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    color: #fff;
-    flex-shrink: 0;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 0 20px;
+    padding: 10px;
+    background: #f9fafc;
+    border-radius: 8px;
 }
 
-.guide-content {
-    display: flex;
-    flex-direction: column;
-}
-
-.guide-title {
-    font-size: 0.8rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 3px;
-}
-
-.guide-desc {
+.guide-item {
     font-size: 0.85rem;
-    line-height: 1.3;
     color: #606266;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.guide-desc strong {
-    color: #303133;
+.guide-item strong {
+    margin-left: 2px;
 }
 
-/* Theme Styles for Guide */
-.guide-calm .guide-icon {
-    background: linear-gradient(135deg, #4db6ac, #009688);
+.guide-divider {
+    width: 1px;
+    height: 12px;
+    background: #dcdfe6;
 }
 
-.guide-calm .guide-title {
-    color: #00796b;
+.calm {
+    color: #00897b;
 }
 
-.guide-active .guide-icon {
-    background: linear-gradient(135deg, #ffb74d, #f57c00);
+.active {
+    color: #e65100;
 }
 
-.guide-active .guide-title {
-    color: #ef6c00;
-}
-
-.guide-vs {
-    font-size: 0.8rem;
-    font-weight: 900;
-    color: #e0e0e0;
-    font-style: italic;
-}
-
-/* 3. Partner Card (核心組件) */
+/* 3. Partner Card */
 .clean-tabs :deep(.el-tabs__header) {
-    background: transparent;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+}
+
+.clean-tabs :deep(.el-tabs__item) {
+    font-size: 0.95rem;
+    color: #909399;
 }
 
 .clean-tabs :deep(.el-tabs__item.is-active) {
     color: #303133;
-    font-weight: 900;
+    font-weight: 800;
+}
+
+.clean-tabs :deep(.el-tabs__nav-wrap::after) {
+    height: 1px;
+    background-color: #f0f0f0;
 }
 
 .tab-inner {
-    padding: 0 5px;
-    animation: fadeIn 0.5s ease;
+    animation: fadeIn 0.4s ease;
 }
 
 .partner-card {
     border-radius: 12px;
-    padding: 25px;
-    margin-bottom: 10px;
-    position: relative;
-    overflow: hidden;
+    padding: 20px;
     border: 1px solid transparent;
 }
 
 /* Header */
 .pc-header {
-    font-size: 0.85rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 15px;
-    opacity: 0.9;
+    margin-bottom: 10px;
 }
 
-/* Identity */
+.pc-subtitle {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+/* Identity - 關鍵修改：預設 Flex，手機版強制換行 */
 .pc-identity {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .pc-name {
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 800;
     color: #303133;
-    line-height: 1;
+    line-height: 1.2;
 }
 
 .pc-code {
     font-family: monospace;
-    font-size: 1rem;
-    padding: 4px 10px;
-    border-radius: 6px;
+    font-size: 0.9rem;
+    padding: 2px 6px;
+    border-radius: 4px;
     background: rgba(255, 255, 255, 0.8);
     font-weight: bold;
+    white-space: nowrap;
 }
 
 /* Dynamics */
 .pc-dynamics {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .dyn-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 800;
     margin-bottom: 6px;
 }
 
 .dyn-text {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1.6;
     color: #555;
+    text-align: justify;
 }
 
-/* Tags (Pros/Cons) */
+/* Tags */
 .pc-tags {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 25px;
-    background: rgba(255, 255, 255, 0.6);
-    padding: 15px;
-    border-radius: 8px;
+    gap: 8px;
+    margin-bottom: 20px;
 }
 
 .tag-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
     line-height: 1.4;
+    display: flex;
+    gap: 6px;
 }
 
-.tag-pro {
+.tag-item.pro {
     color: #2e7d32;
 }
 
-.tag-con {
+.tag-item.con {
     color: #e65100;
 }
 
-/* Manual List */
+/* Manual */
 .pc-manual {
-    padding: 15px;
+    padding: 12px;
     border-radius: 8px;
     margin-top: 10px;
 }
 
 .man-title {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 800;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
 }
 
 .man-item {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 6px;
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 4px;
+    padding-left: 4px;
 }
 
-.man-dot {
-    font-weight: bold;
-    font-size: 1.2rem;
-    line-height: 1rem;
-}
-
-/* === Theme Styles (Unified Logic) === */
-
-/* Resonance (Blue/Teal) */
+/* Themes */
 .theme-resonance {
-    background: linear-gradient(135deg, #e0f2f1 0%, #e8eaf6 100%);
+    background: linear-gradient(180deg, #e0f2f1 0%, #ffffff 100%);
+    /* 頂部到底部漸層，更乾淨 */
     border-color: #b2dfdb;
 }
 
-.theme-resonance .pc-header {
-    color: #00796b;
+.theme-resonance .pc-subtitle {
+    color: #00695c;
 }
 
 .theme-resonance .pc-code {
@@ -486,33 +400,28 @@ const roleData = computed(() => {
 }
 
 .theme-resonance .dyn-title {
-    color: #00695c;
+    color: #004d40;
 }
 
 .theme-resonance .pc-manual {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(224, 242, 241, 0.5);
     border: 1px dashed #80cbc4;
 }
 
 .theme-resonance .man-title {
-    color: #00897b;
+    color: #00695c;
 }
 
 .theme-resonance .man-item {
     color: #004d40;
 }
 
-.theme-resonance .man-dot {
-    color: #00897b;
-}
-
-/* Complementary (Orange/Pink) */
 .theme-complementary {
-    background: linear-gradient(135deg, #fff3e0 0%, #fce4ec 100%);
+    background: linear-gradient(180deg, #fff3e0 0%, #ffffff 100%);
     border-color: #ffcc80;
 }
 
-.theme-complementary .pc-header {
+.theme-complementary .pc-subtitle {
     color: #e65100;
 }
 
@@ -526,41 +435,68 @@ const roleData = computed(() => {
 }
 
 .theme-complementary .pc-manual {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 243, 224, 0.5);
     border: 1px dashed #ffab91;
 }
 
 .theme-complementary .man-title {
-    color: #d84315;
+    color: #bf360c;
 }
 
 .theme-complementary .man-item {
     color: #3e2723;
 }
 
-.theme-complementary .man-dot {
-    color: #e65100;
-}
-
+/* Mobile Optimization Media Query */
 @media (max-width: 600px) {
-    .guide-container {
-        flex-direction: column;
-        align-items: stretch;
+
+    /* 強制 Hero 區塊靠左對齊，解決「換行又置中」的視覺混亂 */
+    .hero-section {
         text-align: left;
+        padding: 15px 5px;
     }
 
-    .guide-vs {
-        display: none;
+    .hero-code {
+        font-size: 1.8rem;
     }
 
-    .pc-body {
+    .hero-desc {
+        padding: 0;
+        margin-top: 5px;
+    }
+
+    .hero-rule {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* 角色與代碼垂直堆疊，解決「擠在一起」的髒亂 */
+    .pc-identity {
         flex-direction: column;
-        gap: 5px;
+        gap: 4px;
+        align-items: flex-start;
     }
 
     .pc-name {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
+
+    .pc-code {
+        font-size: 0.85rem;
+    }
+
+    /* 導航列更緊湊 */
+    .guide-strip {
+        gap: 10px;
+        font-size: 0.8rem;
+    }
+
+    .guide-item strong {
+        display: block;
+        font-size: 0.85rem;
+    }
+
+    /* 強調文字換行 */
 }
 
 @keyframes fadeIn {
