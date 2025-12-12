@@ -3,17 +3,14 @@
         <template #header>
             <div class="card-header">
                 <div class="header-left">
-                    <span class="title">🛡️ 防詐護盾 (Anti-Scam)</span>
-                    <el-tooltip content="分析你的認知偏差與大腦神經機制，揭露你最容易中招的詐騙劇本。" placement="top">
+                    <span class="title">🛡️ 防詐護盾</span>
+                    <el-tooltip content="分析你的認知偏差，揭露你最容易中招的詐騙劇本。" placement="top">
                         <el-icon class="info-icon">
                             <InfoFilled />
                         </el-icon>
                     </el-tooltip>
                 </div>
-                <el-tag color="#000" effect="dark" round style="border:none; color: #ffeb3b;">
-                    <el-icon style="vertical-align: middle; margin-right: 4px;">
-                        <WarnTriangleFilled />
-                    </el-icon>
+                <el-tag type="danger" effect="plain" round size="small">
                     高風險預警
                 </el-tag>
             </div>
@@ -21,66 +18,73 @@
 
         <div class="card-content">
 
-            <el-tabs v-model="activeTab" type="border-card" class="scam-tabs">
+            <el-tabs type="border-card" v-model="activeTab">
                 <el-tab-pane v-for="(role, index) in displayRoles" :key="role.key" :name="role.key">
                     <template #label>
-                        <span class="tab-label">
-                            <span class="role-dot" :style="{ color: role.color }">●</span>
-                            {{ index === 0 ? '主顯' : '次顯' }}：{{ role.nameZh }}
-                        </span>
+                        <span class="role-dot" :style="{ color: role.color }">●</span>
+                        <span>{{ index === 0 ? '主顯' : '次顯' }}：{{ role.nameZh }}</span>
                     </template>
 
                     <div class="tab-inner">
 
-                        <div class="weakness-box">
-                            <div class="weakness-label">YOUR COGNITIVE BACKDOOR</div>
-                            <div class="weakness-title">{{ role.info.weakness }}</div>
-
-                            <div class="neuro-mechanism">
-                                <span class="neuro-icon">🧠</span>
-                                {{ role.info.neuroMechanism }}
+                        <div class="section-group">
+                            <div class="section-label">認知後門 (Weakness)</div>
+                            <div class="weakness-content">
+                                <h2 class="weakness-title">{{ role.info.weakness }}</h2>
+                                <div class="neuro-text">
+                                    {{ role.info.neuroMechanism }}
+                                </div>
                             </div>
                         </div>
 
-                        <div class="hook-box">
-                            <div class="hook-icon">🎣</div>
-                            <div class="hook-text">
-                                <span class="hook-label">詐騙話術：</span>
-                                {{ role.info.hook }}
+                        <div class="spacer"></div>
+
+                        <div class="section-group">
+                            <div class="section-label">致命話術 (The Hook)</div>
+                            <div class="hook-block">
+                                <el-icon class="quote-icon">
+                                    <ChatLineSquare />
+                                </el-icon>
+                                <div class="hook-text">
+                                    {{ role.info.hook }}
+                                </div>
                             </div>
                         </div>
 
-                        <el-divider border-style="dashed" class="divider-spacing" />
+                        <div class="spacer"></div>
 
-                        <div class="scenario-section">
-                            <div class="section-title">
-                                <el-icon>
-                                    <VideoPlay />
-                                </el-icon> 針對你的詐騙劇本
+                        <div class="section-group">
+                            <div class="section-label">常見劇本 (Scenarios)</div>
+                            <div class="scenario-list">
+                                <div v-for="(item, idx) in role.info.scenarios" :key="idx" class="scenario-item">
+                                    <el-icon class="item-icon">
+                                        <VideoPlay />
+                                    </el-icon>
+                                    <span class="item-text">{{ item }}</span>
+                                </div>
                             </div>
-                            <ul class="scenario-list">
-                                <li v-for="(item, idx) in role.info.scenarios" :key="idx">
-                                    {{ item }}
-                                </li>
-                            </ul>
                         </div>
 
-                        <div class="defense-box">
-                            <div class="defense-header">
+                        <div class="spacer-lg"></div>
+
+                        <div class="defense-block">
+                            <div class="def-header">
                                 <el-icon>
                                     <Lock />
-                                </el-icon> 防禦補丁 (Security Patch)
+                                </el-icon> 防禦補丁 (Defense)
                             </div>
-                            <div class="defense-content">{{ role.info.defense }}</div>
+                            <div class="def-text">
+                                {{ role.info.defense }}
+                            </div>
                         </div>
 
                     </div>
                 </el-tab-pane>
             </el-tabs>
 
-            <div class="footer-warning">
+            <div class="footer-note">
                 <el-icon>
-                    <Hide />
+                    <Warning />
                 </el-icon> 記住：貪婪與恐懼是駭客的鑰匙，冷靜是唯一的防火牆。
             </div>
 
@@ -90,8 +94,15 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { InfoFilled, WarnTriangleFilled, VideoPlay, Lock, Hide } from '@element-plus/icons-vue';
-// 引入更新後的資料檔
+import {
+    InfoFilled,
+    VideoPlay,
+    Lock,
+    Warning,
+    Cpu,
+    ChatLineSquare
+} from '@element-plus/icons-vue';
+// 引入資料檔
 import { data } from './anti_scam.data.js';
 
 const props = defineProps<{
@@ -140,9 +151,11 @@ watch(displayRoles, (newVal) => {
 </script>
 
 <style scoped>
+/* 容器 */
 .scam-card {
     margin-top: 20px;
-    border-radius: 12px;
+    border-radius: 8px;
+    border: 1px solid #ebeef5;
     background: #fff;
     overflow: hidden;
 }
@@ -151,40 +164,160 @@ watch(displayRoles, (newVal) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 0;
 }
 
 .header-left {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .title {
-    font-weight: bold;
-    font-size: 16px;
+    font-weight: 800;
+    font-size: 1.1rem;
     color: #303133;
 }
 
 .info-icon {
     font-size: 14px;
-    color: #909399;
+    color: #bdbdbd;
     cursor: help;
 }
 
-.scam-tabs {
-    border: none;
-    box-shadow: none;
+/* 內部排版：留白是關鍵 */
+.tab-inner {
+    padding: 15px 5px 5px;
+    animation: fadeIn 0.5s ease;
 }
 
-.scam-tabs :deep(.el-tabs__content) {
-    padding: 20px 10px;
+.section-group {
+    margin-bottom: 5px;
 }
 
-.tab-label {
+.section-label {
+    font-size: 0.75rem;
+    color: #909399;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.spacer {
+    height: 20px;
+}
+
+.spacer-lg {
+    height: 30px;
+}
+
+/* 1. Weakness */
+.weakness-title {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #303133;
+    margin: 0 0 8px 0 !important;
+    line-height: 1.2;
+    padding: 0 !important;
+}
+
+.neuro-text {
+    font-size: 0.9rem;
+    color: #606266;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.5;
+}
+
+.neuro-icon {
+    margin-top: 2px;
+}
+
+/* 2. Hook Block (左側線條引用) */
+.hook-block {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border-left: 4px solid #e6a23c;
+    /* 唯一的警示色 */
+    padding-left: 15px;
+}
+
+.quote-icon {
+    font-size: 1.4rem;
+    color: #e6a23c;
+    margin-top: 2px;
+}
+
+.hook-text {
+    font-size: 1rem;
+    color: #303133;
+    font-style: italic;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+/* 3. Scenario List */
+.scenario-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.scenario-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.item-icon {
+    color: #f56c6c;
+    margin-top: 3px;
+}
+
+/* 4. Defense Block (輕量背景) */
+.defense-block {
+    background: #f0f9eb;
+    /* 極淡綠 */
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid #e1f3d8;
+}
+
+.def-header {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #2e7d32;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
-    gap: 5px;
-    font-weight: bold;
+    gap: 6px;
+}
+
+.def-text {
+    font-size: 0.95rem;
+    color: #1b5e20;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+/* Footer */
+.footer-note {
+    margin-top: 0;
+    padding: 12px 20px;
+    background: #fafafa;
+    border-top: 1px solid #ebeef5;
+    color: #909399;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 
 .role-dot {
@@ -192,151 +325,15 @@ watch(displayRoles, (newVal) => {
     line-height: 1;
 }
 
-.tab-inner {
-    animation: fadeIn 0.3s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+@media (max-width: 600px) {
+    .weakness-title {
+        font-size: 1.4rem;
+    }
 
-/* 1. Weakness Box */
-.weakness-box {
-    background: #2c3e50;
-    color: #ffeb3b;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.weakness-label {
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    opacity: 0.8;
-    margin-bottom: 4px;
-}
-
-.weakness-title {
-    font-size: 1.2rem;
-    font-weight: 800;
-    margin-bottom: 10px;
-}
-
-/* 神經機制區塊 */
-.neuro-mechanism {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    color: #fff;
-    text-align: left;
-    line-height: 1.5;
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-}
-
-.neuro-icon {
-    font-size: 1rem;
-}
-
-/* 2. Hook Box */
-.hook-box {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    background: #fff8e1;
-    border: 1px dashed #ffc107;
-    padding: 12px;
-    border-radius: 8px;
-}
-
-.hook-icon {
-    font-size: 1.5rem;
-    margin-top: -2px;
-}
-
-.hook-text {
-    font-size: 0.95rem;
-    color: #5d4037;
-    font-style: italic;
-    line-height: 1.5;
-}
-
-.hook-label {
-    font-weight: bold;
-    font-style: normal;
-    color: #ff8f00;
-}
-
-.divider-spacing {
-    margin: 10px 0;
-}
-
-/* 3. Scenario List */
-.scenario-section {
-    padding: 0 5px;
-}
-
-.section-title {
-    font-weight: bold;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: #303133;
-}
-
-.scenario-list {
-    margin: 0;
-    padding-left: 20px;
-    color: #606266;
-    font-size: 0.9rem;
-    line-height: 1.6;
-}
-
-.scenario-list li {
-    margin-bottom: 6px;
-}
-
-/* 4. Defense Box */
-.defense-box {
-    background: #f0f9eb;
-    border-left: 4px solid #67c23a;
-    padding: 15px;
-    border-radius: 4px;
-    margin-top: 5px;
-}
-
-.defense-header {
-    color: #67c23a;
-    font-weight: 800;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.defense-content {
-    font-size: 0.95rem;
-    color: #303133;
-    font-weight: 500;
-    line-height: 1.5;
-    text-align: justify;
-}
-
-/* Footer */
-.footer-warning {
-    margin-top: 10px;
-    padding: 10px;
-    background: #000;
-    color: #fff;
-    font-size: 0.75rem;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
+    .footer-note {
+        flex-direction: column;
+        text-align: center;
+    }
 }
 
 @keyframes fadeIn {
