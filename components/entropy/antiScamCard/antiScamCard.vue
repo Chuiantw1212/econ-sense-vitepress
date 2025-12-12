@@ -17,16 +17,16 @@
         </template>
 
         <div class="card-content">
-
             <el-tabs type="border-card" v-model="activeTab">
                 <el-tab-pane v-for="(role, index) in displayRoles" :key="role.key" :name="role.key">
                     <template #label>
-                        <span class="role-dot" :style="{ color: role.color }">●</span>
-                        <span>{{ index === 0 ? '主顯' : '次顯' }}：{{ role.nameZh }}</span>
+                        <div class="tab-label-container">
+                            <span class="role-dot" :style="{ color: role.color }">●</span>
+                            <span>{{ index === 0 ? '主顯' : '次顯' }}：{{ role.nameZh }}</span>
+                        </div>
                     </template>
 
                     <div class="tab-inner">
-
                         <div class="section-group">
                             <div class="section-label">認知後門 (Weakness)</div>
                             <div class="weakness-content">
@@ -77,7 +77,6 @@
                                 {{ role.info.defense }}
                             </div>
                         </div>
-
                     </div>
                 </el-tab-pane>
             </el-tabs>
@@ -87,7 +86,6 @@
                     <Warning />
                 </el-icon> 記住：貪婪與恐懼是駭客的鑰匙，冷靜是唯一的防火牆。
             </div>
-
         </div>
     </el-card>
 </template>
@@ -99,7 +97,6 @@ import {
     VideoPlay,
     Lock,
     Warning,
-    Cpu,
     ChatLineSquare
 } from '@element-plus/icons-vue';
 // 引入資料檔
@@ -185,6 +182,24 @@ watch(displayRoles, (newVal) => {
     cursor: help;
 }
 
+/* 修正 Tab Label 垂直置中 */
+.tab-label-container {
+    display: flex;
+    align-items: center;
+    /* 關鍵：垂直置中 */
+    gap: 6px;
+    line-height: 1;
+    /* 避免行高造成位移 */
+}
+
+.role-dot {
+    font-size: 1.2rem;
+    line-height: 1;
+    /* 確保圓點不撐開高度 */
+    margin-top: -2px;
+    /* 微調圓點位置，使其視覺上更居中 */
+}
+
 /* 內部排版：留白是關鍵 */
 .tab-inner {
     padding: 15px 5px 5px;
@@ -229,10 +244,6 @@ watch(displayRoles, (newVal) => {
     align-items: flex-start;
     gap: 6px;
     line-height: 1.5;
-}
-
-.neuro-icon {
-    margin-top: 2px;
 }
 
 /* 2. Hook Block (左側線條引用) */
@@ -318,11 +329,6 @@ watch(displayRoles, (newVal) => {
     align-items: center;
     justify-content: center;
     gap: 6px;
-}
-
-.role-dot {
-    font-size: 1.2rem;
-    line-height: 1;
 }
 
 @media (max-width: 600px) {
