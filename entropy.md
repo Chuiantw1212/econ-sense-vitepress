@@ -26,31 +26,28 @@ outline: [2,3]
 
 <ClientOnly>
   <div v-if="visualData.length >= 10" class="analysis-container">
-      <HybridSoulCard 
-          :primaryRole="topArchetypes.primary"
-          :secondary-role="topArchetypes.secondary" 
-      />
-      <KeyDimensionsCard :userVector="dimensionScores" />   
-      <InternalFrictionCard 
-          :primaryRole="topArchetypes.primary"
-          :secondary-role="topArchetypes.secondary"
-      />
-      <IntimacyCard 
-          :primaryRole="topArchetypes.primary" 
-          :secondary-role="topArchetypes.secondary"
-      />
-      <ArchetypeCompositionCard :selectedKeywords="visualData" />
-  </div>
+    <HybridSoulCard 
+        :primaryRole="topArchetypes.primary"
+        :secondary-role="topArchetypes.secondary" 
+    />
+    <ArchetypeCompositionCard 
+        :selectedKeywords="visualData" 
+    />
+    <KeyDimensionsCard 
+        :userVector="dimensionScores" 
+    />   
+    <InternalFrictionCard 
+        :primaryRole="topArchetypes.primary"
+        :secondary-role="topArchetypes.secondary"
+    />
+    <IntimacyCard 
+        :primaryRole="topArchetypes.primary" 
+        :secondary-role="topArchetypes.secondary"
+    />
+</div>
   <div v-else class="placeholder-box">
       <el-skeleton :rows="3" animated />
       <div class="skeleton-text">請回到上方勾選至少 10 個關鍵字...</div>
-      <!-- <el-empty description="數據量不足，無法生成報告">
-          <template #extra>
-              <el-button type="primary" @click="scrollToTop">
-                  請回到上方勾選至少 10 個關鍵字
-              </el-button>
-          </template>
-      </el-empty> -->
   </div>
 </ClientOnly>
 
@@ -68,10 +65,6 @@ outline: [2,3]
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
       />
-      <!-- <WealthLeverageCard 
-          :primaryRole="topArchetypes.primary"
-          :secondary-role="topArchetypes.secondary"
-      /> -->
       <WealthInvestmentCard 
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"

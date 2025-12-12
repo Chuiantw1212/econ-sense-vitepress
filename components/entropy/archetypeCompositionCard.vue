@@ -4,7 +4,7 @@
             <div class="card-header">
                 <div class="header-left">
                     <span class="title">🧬 靈魂光譜分析</span>
-                    <el-tooltip content="解構你的人格化學成分。沒有人是單一顏色的，你是複雜的混合體。" placement="top">
+                    <el-tooltip content="解構你的人格化學成分。第一條代表你的核心驅動力，其他則是你的輔助特質。" placement="top">
                         <el-icon class="info-icon">
                             <InfoFilled />
                         </el-icon>
@@ -38,9 +38,12 @@
                         </span>
                         <span class="comp-value">{{ item.percentage }}%</span>
                     </div>
+
                     <div class="comp-bar-bg">
-                        <div class="comp-bar-fill" :style="{ width: item.percentage + '%', background: item.color }">
-                        </div>
+                        <div class="comp-bar-fill" :style="{
+                            width: getRelativeWidth(item.count) + '%',
+                            background: item.color
+                        }"></div>
                     </div>
                 </div>
             </div>
@@ -60,7 +63,7 @@
 import { computed } from 'vue';
 import { InfoFilled, MagicStick } from '@element-plus/icons-vue';
 
-// --- 1. 定義介面與 Props ---
+// --- 1. 定義介面與 Props (配合您的資料結構) ---
 interface IVector {
     x: number;
     y: number;
@@ -71,7 +74,7 @@ interface IKeyword {
     id: number;
     keyword_zh: string;
     keyword_en: string;
-    archetype: string; // 我們主要用這個欄位來統計
+    archetype: string;
     vector: IVector;
 }
 
@@ -79,8 +82,7 @@ const props = defineProps<{
     selectedKeywords: IKeyword[]
 }>();
 
-// --- 2. 配置設定 (中文名與顏色) ---
-// 這裡定義每個 Archetype 對應的顯示名稱與顏色
+// --- 2. 配置設定 ---
 const ARCHETYPE_CONFIG: Record<string, { name: string, color: string }> = {
     'Hunter': { name: '獵人', color: '#FF4500' },
     'Pioneer': { name: '先驅', color: '#FF8C00' },
@@ -97,15 +99,12 @@ const composition = computed(() => {
     const counts: Record<string, number> = {};
     let total = 0;
 
-    // A. 初始化計數器
+    // 初始化
     Object.keys(ARCHETYPE_CONFIG).forEach(key => counts[key] = 0);
 
-    // B. 直接遍歷物件陣列統計 (不再需要 Mapping 表)
+    // 統計
     props.selectedKeywords.forEach(k => {
-        // k.archetype 直接就是 "Hunter", "Pioneer" 等字串
         const roleKey = k.archetype;
-
-        // 確保該角色存在於我們的設定檔中才統計
         if (ARCHETYPE_CONFIG[roleKey]) {
             counts[roleKey]++;
             total++;
@@ -114,7 +113,7 @@ const composition = computed(() => {
 
     if (total === 0) return [];
 
-    // C. 轉換為百分比並排序
+    // 轉換並排序
     return Object.entries(counts)
         .map(([key, count]) => ({
             key,
@@ -123,19 +122,27 @@ const composition = computed(() => {
             percentage: Math.round((count / total) * 100),
             count
         }))
-        .filter(item => item.percentage > 0) // 只顯示有選到的
-        .sort((a, b) => b.percentage - a.percentage); // 降序排列
+        .filter(item => item.percentage > 0)
+        .sort((a, b) => b.percentage - a.percentage); // 降序
 });
 
 const sortedComposition = computed(() => composition.value);
 const hasData = computed(() => sortedComposition.value.length > 0);
 
-// 取出第一名 (主導人格)
+// 取出第一名數據
 const dominantRole = computed(() => sortedComposition.value[0]);
 const dominantRoleName = computed(() => dominantRole.value?.name || '未知');
 const dominantColor = computed(() => dominantRole.value?.color || '#333');
+const maxCount = computed(() => dominantRole.value?.count || 1); // 第一名的票數
 
-// --- 4. 巴納姆效應文本生成 ---
+// [新增] 計算相對寬度的 Helper
+// 第一名永遠是 100%，其他則是 count / maxCount
+const getRelativeWidth = (count: number) => {
+    if (maxCount.value === 0) return 0;
+    return (count / maxCount.value) * 100;
+};
+
+// --- 4. 巴納姆文案 ---
 const mixType = computed(() => {
     const top1 = sortedComposition.value[0]?.percentage || 0;
     const count = sortedComposition.value.length;
@@ -152,29 +159,24 @@ const barnumText = computed(() => {
     const top1 = list[0];
     const top2 = list[1];
 
-    // 情境 A: 專一度極高 (>50%)
     if (top1.percentage >= 50) {
         return `你的靈魂中流淌著純粹的${top1.name}血液。這種極致的專注力是你的天賦，但也可能讓你對其他觀點產生盲點。你不是不能理解別人，而是你選擇了極致的道路。`;
     }
 
-    // 情境 B: 高度衝突/雙核 (例如 top1 和 top2 差不多)
     if (top2 && (top1.percentage - top2.percentage < 15)) {
         return `你的內在住著兩個截然不同的靈魂：${top1.name}的渴望與${top2.name}的特質在你體內持續對話。這種內在張力讓你時常感到矛盾，但這正是你創造力的來源——你能在不同觀點間自由切換。`;
     }
 
-    // 情境 C: 平均分佈 (多樣性)
     if (list.length >= 5) {
         return `你是一個極其複雜的多面體。你拒絕被單一標籤定義，在不同場合下，你會靈活調用${top1.name}、${top2?.name}甚至更多面向來適應環境。你的適應力極強，但也容易感到迷失。`;
     }
 
-    // Default
     return `以${top1.name}為核心，輔以${top2?.name}的特質。你大體上清楚自己的方向，但偶爾會被次要人格的衝動所影響。這種微小的雜訊，反而讓你看起來更具人性魅力。`;
 });
 
 </script>
 
 <style scoped>
-/* 容器：保持乾淨，只留必要的陰影 */
 .composition-card {
     margin-top: 20px;
     border-radius: 12px;
@@ -279,8 +281,8 @@ const barnumText = computed(() => {
 .comp-bar-fill {
     height: 100%;
     border-radius: 6px;
-    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-    /* 平滑動畫 */
+    /* 增加 transition 讓長條圖變化更滑順 */
+    transition: width 1s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* Footer */
