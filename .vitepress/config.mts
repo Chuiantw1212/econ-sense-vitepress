@@ -58,6 +58,7 @@ export default defineConfig({
           { text: '🫂 助人者 Helper ORC', link: '/entropy/helper' },
           { text: '🌳 長老 Elder OVC', link: '/entropy/elder' },
           { text: '冰與火的腦內煉金術', link: '/entropy/hot-cold-brain-protocol' },
+          { text: '微型創業選人', link: '/entropy/one-to-five' },
           { text: '研究與基礎', link: '/entropy/foundation' },
           { text: '性格與病理', link: '/entropy/illness' },
         ]
