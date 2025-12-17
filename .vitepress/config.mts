@@ -41,14 +41,15 @@ export default defineConfig({
     ],
     sidebar: [
       {
-        text: '線上/實體講座',
+        text: '📅 線上/實體講座',
         link: '/calendar',
       },
+      { text: '🧠 熵腦人格測驗', link: '/entropy' },
+      { text: '📈 開源理財規劃書', link: '/plan' },
       {
         text: '熵腦人格測驗',
         collapsed: false,
         items: [
-          { text: '👉 點此進行測驗 👈', link: '/entropy/index' },
           { text: '🏹 獵人Hunter IRH', link: '/entropy/hunter' },
           { text: '🧭 先驅 Pioneer IVH', link: '/entropy/pioneer' },
           { text: '🍇 採集者 Gatherer ORH', link: '/entropy/gatherer' },
@@ -62,7 +63,6 @@ export default defineConfig({
           { text: '研究與基礎', link: '/entropy/foundation' },
           { text: '性格與病理', link: '/entropy/illness' },
         ]
-        // link: 'core7'
       },
       {
         text: '理財機房',
