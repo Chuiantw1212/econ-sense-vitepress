@@ -99,8 +99,9 @@ export default defineConfig({
         collapsed: true,
         items: [
           { text: '軟體專案實務', link: '/growth/project' },
-          // { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
+          { text: '軟體職涯入門', link: '/growth/beginner' },
           { text: '何倫碼測驗&NLP職涯', link: '/growth/riasec' },
+          // { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
           // { text: '我是學渣，也是黑馬', link: '/growth/education' },
           // { text: '打造知識飛輪', link: '/growth/flywheel' },
         ]
