@@ -20,6 +20,9 @@ importers:
       firebase:
         specifier: ^11.10.0
         version: 11.10.0
+      firebaseui:
+        specifier: ^6.1.0
+        version: 6.1.0(firebase@11.10.0)
       fuse.js:
         specifier: ^7.1.0
         version: 7.1.0
@@ -1032,6 +1035,9 @@ packages:
   devlop@1.1.0:
     resolution: {integrity: sha512-RWmIqhcFf1lRYBvNmr7qTNuyCt/7/ns2jbpp1+PalgE/rDQcBT0fioSMUpJ93irlUhC5hrg4cYqe6U+0ImW0rA==}
 
+  dialog-polyfill@0.4.10:
+    resolution: {integrity: sha512-j5yGMkP8T00UFgyO+78OxiN5vC5dzRQF3BEio+LhNvDbyfxWBsi3sfPArDm54VloaJwy2hm3erEiDWqHRC8rzw==}
+
   element-plus@2.11.3:
     resolution: {integrity: sha512-769xsjLR4B9Vf9cl5PDXnwTEdmFJvMgAkYtthdJKPhjVjU3hdAwTJ+gXKiO+PUyo2KWFwOYKZd4Ywh6PHfkbJg==}
     peerDependencies:
@@ -1076,6 +1082,11 @@ packages:
 
   firebase@11.10.0:
     resolution: {integrity: sha512-nKBXoDzF0DrXTBQJlZa+sbC5By99ysYU1D6PkMRYknm0nCW7rJly47q492Ht7Ndz5MeYSBuboKuhS1e6mFC03w==}
+
+  firebaseui@6.1.0:
+    resolution: {integrity: sha512-5WiVYVxPGMANuZKxg6KLyU1tyqIsbqf/59Zm4HrdFYwPtM5lxxB0THvgaIk4ix+hCgF0qmY89sKiktcifKzGIA==}
+    peerDependencies:
+      firebase: ^9.1.3 || ^10.0.0
 
   flexsearch@0.8.212:
     resolution: {integrity: sha512-wSyJr1GUWoOOIISRu+X2IXiOcVfg9qqBRyCPRUdLMIGJqPzMo+jMRlvE83t14v1j0dRMEaBbER/adQjp6Du2pw==}
@@ -1175,6 +1186,10 @@ packages:
   markdown-it@13.0.2:
     resolution: {integrity: sha512-FtwnEuuK+2yVU7goGn/MJ0WBZMM9ZPgU9spqlFs7/A/pDIUNSOQZhUgOqYCficIuR2QaFnrt8LHqBWsbTAoI5w==}
     hasBin: true
+
+  material-design-lite@1.3.0:
+    resolution: {integrity: sha512-ao76b0bqSTKcEMt7Pui+J/S3eVF0b3GWfuKUwfe2lP5DKlLZOwBq37e0/bXEzxrw7/SuHAuYAdoCwY6mAYhrsg==}
+    engines: {node: '>=0.12.0'}
 
   mdast-util-to-hast@13.2.0:
     resolution: {integrity: sha512-QGYKEuUsYT9ykKBCMOEDLsU5JRObWQusAolFMeko/tYPufNkRffBAQjIE+99jbA87xv6FgmjLtwjh9wBWajwAA==}
@@ -2487,6 +2502,8 @@ snapshots:
     dependencies:
       dequal: 2.0.3
 
+  dialog-polyfill@0.4.10: {}
+
   element-plus@2.11.3(vue@3.5.21):
     dependencies:
       '@ctrl/tinycolor': 3.6.1
@@ -2590,6 +2607,12 @@ snapshots:
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
 
+  firebaseui@6.1.0(firebase@11.10.0):
+    dependencies:
+      dialog-polyfill: 0.4.10
+      firebase: 11.10.0
+      material-design-lite: 1.3.0
+
   flexsearch@0.8.212: {}
 
   focus-trap@7.6.5:
@@ -2684,6 +2707,8 @@ snapshots:
       linkify-it: 4.0.1
       mdurl: 1.0.1
       uc.micro: 1.0.6
+
+  material-design-lite@1.3.0: {}
 
   mdast-util-to-hast@13.2.0:
     dependencies:

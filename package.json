@@ -27,6 +27,7 @@
     "chart.js": "^4.5.0",
     "element-plus": "^2.11.3",
     "firebase": "^11.10.0",
+    "firebaseui": "^6.1.0",
     "fuse.js": "^7.1.0",
     "html2canvas": "^1.4.1",
     "plotly.js-dist-min": "^3.3.0",

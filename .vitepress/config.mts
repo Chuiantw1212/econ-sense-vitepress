@@ -41,7 +41,7 @@ export default defineConfig({
     ],
     sidebar: [
       {
-        text: '📅 線上/實體講座',
+        text: '📅 講座月曆',
         link: '/calendar',
       },
       { text: '🧠 熵腦人格測驗', link: '/entropy' },
