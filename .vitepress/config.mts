@@ -45,21 +45,22 @@ export default defineConfig({
         link: '/calendar',
       },
       {
-        text: '心火七職測驗',
-        link: '/core7',
-      },
-      {
-        text: '七職詳細解說',
-        collapsed: true,
+        text: '熵腦人格測驗',
+        collapsed: false,
         items: [
-          { text: '心火七職: 🏹 狩獵者', link: '/core7/hunter' },
-          { text: '心火七職: 🍇 採集者', link: '/core7/gatherer' },
-          { text: '心火七職: 🫂 助人者', link: '/core7/helper' },
-          { text: '心火七職: 🛡 守夜人', link: '/core7/keeper' },
-          { text: '心火七職: 🦋 傳夢人', link: '/core7/dreamer' },
-          { text: '心火七職: 🛠 工匠', link: '/core7/maker' },
-          { text: '心火七職: 🌳 長老', link: '/core7/elder' },
-          { text: '心火七職: 🤝 協商者', link: '/core7/negotiator' },
+          { text: '👉 點此進行測驗 👈', link: '/entropy/index' },
+          { text: '🏹 獵人Hunter IRH', link: '/entropy/hunter' },
+          { text: '🧭 先驅 Pioneer IVH', link: '/entropy/pioneer' },
+          { text: '🍇 採集者 Gatherer ORH', link: '/entropy/gatherer' },
+          { text: '🦋 薩滿 Shaman OVH', link: '/entropy/shaman' },
+          { text: '🛠 工匠 Toolmaker IRC', link: '/entropy/toolmaker' },
+          { text: '🛡️ 哨兵 Sentry IVC', link: '/entropy/sentry' },
+          { text: '🫂 助人者 Helper ORC', link: '/entropy/helper' },
+          { text: '🌳 長老 Elder OVC', link: '/entropy/elder' },
+          { text: '冰與火的腦內煉金術', link: '/entropy/hot-cold-brain-protocol' },
+          { text: '微型創業選人', link: '/entropy/one-to-five' },
+          { text: '研究與基礎', link: '/entropy/foundation' },
+          { text: '性格與病理', link: '/entropy/illness' },
         ]
         // link: 'core7'
       },
@@ -95,11 +96,12 @@ export default defineConfig({
       {
         text: '成長艙室',
         link: '/growth',
-        collapsed: false,
+        collapsed: true,
         items: [
           { text: '軟體專案實務', link: '/growth/project' },
-          // { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
+          { text: '軟體職涯入門', link: '/growth/beginner' },
           { text: '何倫碼測驗&NLP職涯', link: '/growth/riasec' },
+          // { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
           // { text: '我是學渣，也是黑馬', link: '/growth/education' },
           // { text: '打造知識飛輪', link: '/growth/flywheel' },
         ]
@@ -107,7 +109,7 @@ export default defineConfig({
       {
         text: '生活實驗室',
         link: '/life',
-        collapsed: false,
+        collapsed: true,
         items: [
           { text: '我是照顧者', link: '/life/carer' },
           // { text: '愛之語', link: '/life/love-language' },
@@ -204,8 +206,13 @@ export default defineConfig({
         tokenize: "full",
         buttonLabel: "搜尋",
         placeholder: "搜尋關鍵字"
-      }) as any
-    ]
+      }) as any,
+    ],
+    ssr: {
+      noExternal: ['plotly.js-dist-min']
+      // 或者嘗試加入 external: ['plotly.js-dist-min'] 視情況而定，
+      // 但解決 'self is not defined' 最根本的方法是不要讓 Node.js 執行到 import plotly 的那一行。
+    }
   },
   /** Experimental */
   sitemap: {

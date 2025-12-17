@@ -1,0 +1,87 @@
+const wealthManagementData = {
+    // Hunter
+    Hunter: {
+        archetype_zh: "多巴胺成癮者",
+        archetype_en: "Dopamine Junkie",
+        moneyView: "金錢是積分與籌碼，不是拿來存的。",
+        leak: "【情緒性開銷】賺大錢時會「報復性消費」來慶祝；賠錢時會「補償性消費」來撫慰。你的錢包是情緒的雲霄飛車。",
+        protocol: "【物理隔離法】你的意志力不可信。請開設一個「沒有提款卡、沒有網銀」的冷帳戶。收入入帳當天，由系統自動轉帳 50% 進去。看不到，就花不到。",
+        saboteur: "賭徒謬誤：總覺得下一把能賺回來，所以現在花掉沒關係。"
+    },
+
+    // Pioneer
+    Pioneer: {
+        archetype_zh: "夢想買單者",
+        archetype_en: "Visionary Spender",
+        moneyView: "金錢是實現願景的燃料，存錢是沒效率的行為。",
+        leak: "【裝備競賽】你會為了「尚未發生的事業」預先購買昂貴的設備、課程或工具。你常分不清「投資」與「消費」的界線。",
+        protocol: "【現金流警報】你的大腦活在未來，容易忽視當下的現金流斷裂。請設定「生存底線」，當戶頭低於 3 個月生活費時，凍結所有非生存支出。",
+        saboteur: "樂觀偏差：過度高估未來的收入，導致現在過度擴張。"
+    },
+
+    // Gatherer
+    Gatherer: {
+        archetype_zh: "社交流動者",
+        archetype_en: "Social Spender",
+        moneyView: "金錢是流動的能量，花出去才能帶回人脈。",
+        leak: "【展示性消費】搶著買單、購買名牌、參加高價聚會。你的錢變成了你的「人設」與「面子」。",
+        protocol: "【專款專用】設立一個「社交預算帳戶」。每個月固定金額，花完就「閉關」。不要讓社交支出侵蝕到你的房租與伙食費。",
+        saboteur: "錯失恐懼 (FOMO)：害怕如果不參與這次聚會/團購，就會被群體遺忘。"
+    },
+
+    // Shaman
+    Shaman: {
+        archetype_zh: "金錢迴避者",
+        archetype_en: "Money Avoider",
+        moneyView: "談錢是俗氣的，能量與愛才是重點。",
+        leak: "【無意識流失】因為討厭看帳單、討厭算帳，導致訂閱制忘記取消、被扣滯納金、不知道錢花去哪了。",
+        protocol: "【自動化託管】既然討厭管錢，就外包。設定全自動轉帳扣款（水電、儲蓄、投資）。讓系統當你的管家，你只需要負責活在當下。",
+        saboteur: "神聖匱乏：潛意識認為「貧窮才清高」，無意識地把錢推開。"
+    },
+
+    // Toolmaker
+    Toolmaker: {
+        archetype_zh: "極致優化者",
+        archetype_en: "Optimizer",
+        moneyView: "每一分錢都要花在 CP 值最高的地方。",
+        leak: "【隱性時間成本】為了省 100 元，花了 3 小時比價。你守住了小錢，卻浪費了能創造大錢的時間。",
+        protocol: "【時薪門檻】計算你的時薪。如果「比價省下的錢 < 你的時薪 × 花費時間」，請直接購買。你的時間比優惠券值錢。",
+        saboteur: "分析癱瘓：為了尋找完美選項，導致決策延遲，錯過最佳時機。"
+    },
+
+    // Sentry
+    Sentry: {
+        archetype_zh: "守財奴",
+        archetype_en: "The Hoarder",
+        moneyView: "金錢是安全感的唯一來源，越多越好。",
+        leak: "【通膨吞噬】你看似沒有漏洞，但「過度儲蓄現金」本身就是最大的漏洞。你的購買力正在被通膨默默吃掉。",
+        protocol: "【強制享樂】你需要的不是省錢建議，是花錢建議。每月設定 5% 的「無罪惡感消費基金」，強迫自己花掉，維持心理彈性。",
+        saboteur: "災難化思考：總覺得明天會世界末日，所以今天不敢喝一杯咖啡。"
+    },
+
+    // Helper
+    Helper: {
+        archetype_zh: "財務殉道者",
+        archetype_en: "Financial Martyr",
+        moneyView: "金錢是用來照顧別人的工具。",
+        leak: "【界線模糊】借錢給親友、幫家人還債、承擔不屬於自己的開銷。你的錢包是破的，因為你無法拒絕別人的請求。",
+        protocol: "【防火牆帳戶】將你的養老金鎖進「無法提領」的信託或年金險。當親友借錢時，你可以誠實地說：「錢被鎖住了，我拿不出來。」",
+        saboteur: "拯救者情結：試圖用金錢解決別人的生命課題，結果拖垮自己。"
+    },
+
+    // Elder
+    Elder: {
+        archetype_zh: "傳統守護者",
+        archetype_en: "Traditionalist",
+        moneyView: "金錢是傳承，要用在長遠有價值的事物上。",
+        leak: "【資產殭屍化】持有大量不再增值的舊資產（如老舊設備、過氣股票），捨不得斷捨離，導致資產運用效率低落。",
+        protocol: "【定期盤點】每年進行一次資產大掃除。問自己：「如果我現在有現金，我還會買這個資產嗎？」如果不會，就賣掉。",
+        saboteur: "沈沒成本謬誤：因為持有了很久，所以覺得它有價值。"
+    }
+};
+
+export default {
+    load() {
+        return wealthManagementData
+    }
+}

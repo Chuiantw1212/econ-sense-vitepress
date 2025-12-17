@@ -26,6 +26,9 @@ importers:
       html2canvas:
         specifier: ^1.4.1
         version: 1.4.1
+      plotly.js-dist-min:
+        specifier: ^3.3.0
+        version: 3.3.0
       vitepress-plugin-search:
         specifier: 1.0.4-alpha.22
         version: 1.0.4-alpha.22(flexsearch@0.8.212)(vitepress@1.6.4(@algolia/client-search@5.37.0)(@types/node@24.5.2)(async-validator@4.2.5)(fuse.js@7.1.0)(postcss@8.5.6)(sass@1.93.2)(search-insights@2.17.3))(vue@3.5.21)
@@ -1230,6 +1233,9 @@ packages:
   picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+
+  plotly.js-dist-min@3.3.0:
+    resolution: {integrity: sha512-XENvNJRiMmoMsktlO2DA635vmLU8Be0eIy2Y58is9qudNQqpvGBu4y50cBj7rl1hS3htP+1XnCUrFmyvwbtP0w==}
 
   postcss@8.5.6:
     resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
@@ -2741,6 +2747,8 @@ snapshots:
 
   picomatch@2.3.1:
     optional: true
+
+  plotly.js-dist-min@3.3.0: {}
 
   postcss@8.5.6:
     dependencies:
