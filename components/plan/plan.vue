@@ -21,7 +21,7 @@ async function setSelecOptionSync() {
     }
     try {
         const bankConfigPromises = [
-            fetch(`http://localhost:8888/api/v1/metadata`)
+            fetch(`${VITE_BASE_URL}/api/v1/metadata`)
         ]
         const bankConfigRes = await Promise.all(bankConfigPromises)
         isSelectReady.value = true
