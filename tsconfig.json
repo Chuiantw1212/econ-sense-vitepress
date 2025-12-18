@@ -1,18 +1,45 @@
 {
     "compilerOptions": {
-        "module": "NodeNext",
-        "moduleResolution": "nodenext",
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "jsx": "preserve",
         "resolveJsonModule": true,
+        "isolatedModules": true,
         "esModuleInterop": true,
         "lib": [
             "DOM",
             "ESNext"
+        ],
+        "skipLibCheck": true,
+        "noEmit": true,
+        // [關鍵設定 1] 設定路徑別名
+        // 讓 TS 知道 @ 代表專案根目錄 (或 src，視您習慣而定)
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "./*",
+                "src/*"
+            ]
+        },
+        "types": [
+            "vite/client",
+            "element-plus/global"
         ]
     },
+    // [關鍵設定 2] 告訴 TS 也要檢查 components 資料夾
     "include": [
-        "**/*.vue"
+        "src/**/*.ts",
+        "src/**/*.d.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        // 加入這一行，TS 就會去讀取您的 MetadataDTO.ts 了
+        "components/**/*.ts",
+        "components/**/*.vue"
     ],
     "exclude": [
-        "node_modules/"
-    ],
+        "node_modules"
+    ]
 }
