@@ -1,5 +1,6 @@
-import { SearchPlugin } from "vitepress-plugin-search";
 import { defineConfig } from 'vitepress'
+import path from 'path'
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   /** 
@@ -181,6 +182,39 @@ export default defineConfig({
       height: '24px',
     },
     externalLinkIcon: true,
+    search: {
+      provider: 'local',
+      options: {
+        translations: {
+          /* --- 1. 搜尋按鈕翻譯 (ButtonTranslations) --- */
+          button: {
+            buttonText: '搜尋',
+            buttonAriaLabel: '搜尋文件'
+          },
+
+          /* --- 2. 搜尋視窗翻譯 (ModalTranslations) --- */
+          modal: {
+            displayDetails: '顯示詳細列表',
+            resetButtonTitle: '清除查詢條件',
+            backButtonTitle: '返回',
+            noResultsText: '無法找到相關結果：',
+
+            /* --- 3. 搜尋視窗頁尾導航翻譯 (FooterTranslations) --- */
+            footer: {
+              selectText: '選擇',
+              selectKeyAriaLabel: '按 Enter 鍵選擇',
+
+              navigateText: '切換',
+              navigateUpKeyAriaLabel: '按 向上箭頭 鍵往上',
+              navigateDownKeyAriaLabel: '按 向下箭頭 鍵往下',
+
+              closeText: '關閉',
+              closeKeyAriaLabel: '按 Esc 鍵關閉'
+            }
+          }
+        }
+      }
+    }
   },
   /**
    * Build
@@ -200,19 +234,14 @@ export default defineConfig({
     }
   },
   vite: {
-    plugins: [
-      SearchPlugin({
-        encode: false,
-        tokenize: "full",
-        buttonLabel: "搜尋",
-        placeholder: "搜尋關鍵字"
-      }) as any,
-    ],
     ssr: {
       noExternal: ['plotly.js-dist-min']
-      // 或者嘗試加入 external: ['plotly.js-dist-min'] 視情況而定，
-      // 但解決 'self is not defined' 最根本的方法是不要讓 Node.js 執行到 import plotly 的那一行。
-    }
+    },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, '../'),
+      }
+    },
   },
   /** Experimental */
   sitemap: {
