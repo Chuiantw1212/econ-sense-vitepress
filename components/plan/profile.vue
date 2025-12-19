@@ -25,27 +25,23 @@
         <el-row :gutter="40" align="top">
 
             <el-col :sm="8" :xs="24" style="text-align: center; margin-bottom: 20px;">
-                <div style="padding: 20px 0; background-color: var(--el-fill-color-lighter); border-radius: 8px;">
-                    <el-avatar :size="100" :src="user.photoURL"
-                        style="border: 4px solid white; box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);">
+                <div style="padding-top: 10px;">
+                    <el-avatar :size="90" :src="user.photoURL"
+                        style="border: 3px solid var(--el-border-color-lighter); box-shadow: var(--el-box-shadow-light);">
                         <span style="font-size: 32px; font-weight: bold;">{{ avatarText }}</span>
                     </el-avatar>
 
                     <div style="margin-top: 15px;">
-                        <el-text size="large" tag="b" style="display: block;">{{ user.displayName || '訪客' }}</el-text>
-                        <el-tag v-if="user.email" type="info" effect="plain" round size="small"
-                            style="margin-top: 5px;">
+                        <el-text size="large" tag="b" style="display: block; margin-bottom: 4px;">
+                            {{ user.displayName || '訪客' }}
+                        </el-text>
+
+                        <el-tag v-if="user.email" type="info" effect="light" round size="default">
                             {{ user.email }}
                         </el-tag>
-                        <el-text v-else type="info" size="small" style="display: block; margin-top: 5px;">
-                            尚未登入，資料僅存於本地
+                        <el-text v-else type="info" size="small">
+                            本地模式
                         </el-text>
-                    </div>
-
-                    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
-                        <el-statistic :value="modelValue.currentAge || 0" title="歲" value-style="font-size: 16px" />
-                        <el-divider direction="vertical" style="height: 30px;" />
-                        <el-statistic :value="modelValue.birthYear || '-'" title="年次" value-style="font-size: 16px" />
                     </div>
                 </div>
             </el-col>
@@ -53,13 +49,27 @@
             <el-col :sm="16" :xs="24">
                 <el-form ref="ruleFormRef" label-position="top" :model="modelValue" size="large">
                     <el-row :gutter="20">
+
                         <el-col :span="12" :xs="24">
                             <el-form-item label="出生年份 (Birth Year)" required>
                                 <el-select v-model="modelValue.birthYear" placeholder="請選擇" style="width: 100%"
-                                    @change="calculateAge" filterable>
+                                    @change="handleBirthYearChange" filterable>
                                     <el-option v-for="item in birthYearOptions" :key="item.value" :label="item.label"
                                         :value="item.value" />
                                 </el-select>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :span="12" :xs="24">
+                            <el-form-item label="試算年齡 (Age)">
+                                <el-input :disabled="true"
+                                    :value="modelValue.currentAge ? modelValue.currentAge + ' 歲' : '-'">
+                                    <template #prefix>
+                                        <el-icon>
+                                            <User />
+                                        </el-icon>
+                                    </template>
+                                </el-input>
                             </el-form-item>
                         </el-col>
 
@@ -85,7 +95,7 @@
 
                         <el-col :span="12" :xs="24">
                             <el-form-item label="預估通膨 (Inflation)">
-                                <el-input readonly :value="'3%'">
+                                <el-input readonly :value="'3%'" :disabled="true">
                                     <template #prefix>
                                         <el-icon>
                                             <TrendCharts />
@@ -94,6 +104,7 @@
                                 </el-input>
                             </el-form-item>
                         </el-col>
+
                     </el-row>
                 </el-form>
             </el-col>
@@ -108,21 +119,14 @@
                         </el-icon> 試算參數與資料來源說明
                     </template>
                     <ul style="padding-left: 20px; line-height: 1.8; color: var(--el-text-color-regular);">
-                        <li>
-                            所有功能不須登入也可以用，登入註冊只是比較方便而已。
-                        </li>
-                        <li>
-                            預期餘命：<el-link type="primary" href="https://data.gov.tw/dataset/39493"
+                        <li>所有功能不須登入也可以用，登入註冊只是比較方便而已。</li>
+                        <li>預期餘命：<el-link type="primary" href="https://data.gov.tw/dataset/39493"
                                 target="_blank">國家發展委員會 - 預期壽命推估</el-link>
                         </li>
-                        <li>
-                            通貨膨脹(消費者物價指數年增率)：<el-link type="primary"
+                        <li>通貨膨脹(消費者物價指數年增率)：<el-link type="primary"
                                 href="https://www.stat.gov.tw/Point.aspx?sid=t.2&n=3581&sms=11480"
-                                target="_blank">中華民國統計資訊網</el-link>
-                        </li>
-                        <li>
-                            公教人員年金改革到一半，目前沒人知道公保會怎麼調整。
-                        </li>
+                                target="_blank">中華民國統計資訊網</el-link></li>
+                        <li>公教人員年金改革到一半，目前沒人知道公保會怎麼調整。</li>
                     </ul>
                 </el-collapse-item>
             </el-collapse>
@@ -137,7 +141,7 @@
 
 <script setup lang="ts">
 import { ref, nextTick, computed, onMounted, onBeforeUnmount, watch } from 'vue'
-import { InfoFilled, TrendCharts } from '@element-plus/icons-vue' // 記得引入 Icon
+import { InfoFilled, TrendCharts, User } from '@element-plus/icons-vue' // 記得引入 Icon
 import type { UploadFile } from 'element-plus'
 
 // Firebase Import (Compat Mode)
@@ -217,6 +221,22 @@ function initOptions() {
         options.push({ label: y, value: y })
     }
     birthYearOptions.value = options
+}
+
+// 專門處理出生年份改變的函數
+function handleBirthYearChange(val: number) {
+    const currentYear = new Date().getFullYear()
+    const newAge = currentYear - val
+
+    // 關鍵：我們手動構建一個完整的物件回傳
+    // 這樣可以確保 birthYear 是最新的 'val' (例如 1990)，而不是舊的 props 值
+    const updatedProfile = {
+        ...props.modelValue,
+        birthYear: val,   // <--- 明確指定年份
+        currentAge: newAge // <--- 明確指定年齡
+    }
+
+    emits('update:modelValue', updatedProfile)
 }
 
 function calculateAge() {
