@@ -28,9 +28,11 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="出生年" required>
-                        <econSelect v-model="profile.yearOfBirth" @change="calculateProfile()" style="width: 130px"
-                            :options="birthYearOptions">
-                        </econSelect>
+                        <el-select v-model="profile.yearOfBirth" @change="calculateProfile()" placeholder="請選擇"
+                            style="width: 130px">
+                            <el-option v-for="item in birthYearOptions" :key="item.value" :label="item.label"
+                                :value="item.value" />
+                        </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -43,7 +45,7 @@
                 <el-col :span="12">
                     <el-form-item label="性別" required>
                         <el-radio-group v-model="profile.gender" @change="calculateProfile()">
-                            <el-radio v-for="(item, key) in config.genders" :value="item.value">
+                            <el-radio v-for="(item, key) in metadata.opt_gender.list" :value="item.value">
                                 {{ item.label }}
                             </el-radio>
                         </el-radio-group>
@@ -53,14 +55,16 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="職業保險別" required>
-                        <econSelect v-model="profile.careerInsuranceType" @change="calculateProfile()"
-                            style="width: 130px" :options="config.insuranceTypes">
-                        </econSelect>
+                        <el-select v-model="profile.careerInsuranceType" @change="calculateProfile()" placeholder="請選擇"
+                            style="width: 130px">
+                            <el-option v-for="item in metadata.insuranceTypes" :key="item.value" :label="item.label"
+                                :value="item.value" />
+                        </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="通貨膨脹">
-                        <el-text>{{ config.inflationRate }}%</el-text>
+                        <el-text>{{ metadata.inflationRate }}%</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -105,39 +109,35 @@
  * FirebaseUI for Web — Auth
  * https://firebaseopensource.com/projects/firebase/firebaseui-web/
  */
-import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, nextTick, computed, onMounted, onBeforeUnmount, } from 'vue'
 import firebase from 'firebase/compat/app'
 import "firebase/compat/auth";
 import econSelect from '../econSelect.vue'
+import type { UserProfile, FirebaseUser } from './types/user';
+import type { MetadataMap } from './types/metadata';
 const emits = defineEmits(['update:modelValue', 'signOut', 'upload'])
 const loginDialogVisible = ref(false)
-const props = defineProps({
-    modelValue: {
-        type: Object,
-        default: () => {
-            return {
-                id: '', // 避免登入判斷錯誤
-                yearOfBirth: '',
-                dateOfBirth: '',
-                gender: '',
-                age: 0,
-                lifeExpectancy: 0,
-            }
-        }
-    },
-    user: {
-        type: Object,
-        default: () => {
-            return {}
-        }
-    },
-    config: {
-        type: Object,
-        default: () => {
-            return {}
-        }
-    }
+
+// 使用 Type-only 語法定義 Props，並使用 withDefaults 設定預設值
+const props = withDefaults(defineProps<{
+    modelValue: UserProfile;
+    // 修正點：明確加上 | null
+    user: FirebaseUser;
+    metadata?: MetadataMap;
+}>(), {
+    modelValue: () => ({
+        id: '',
+        yearOfBirth: '',
+        dateOfBirth: '',
+        gender: '',
+        age: 0,
+        lifeExpectancy: 85,
+    }),
+    // 因為上面加了 | null，這裡回傳 null 就不會報錯了
+    user: {},
+    metadata: () => ({})
 })
+
 const birthYearOptions = ref<any[]>([])
 const marriageYearOptions = ref<any[]>([])
 const isFullScreen = ref(false)

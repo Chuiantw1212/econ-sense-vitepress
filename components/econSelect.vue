@@ -37,7 +37,7 @@ const selectValue = computed({
     get() {
         return props.modelValue
     },
-    set(value) {
+    set(value: any) {
         emits('update:modelValue', value)
     }
 })

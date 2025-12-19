@@ -9,7 +9,7 @@ import { onMounted, ref } from 'vue'
 import Profile from './profile.vue'
 import { ElMessageBox } from 'element-plus'
 // 引入我們上一段定義好的型別
-import type { MetadataMap } from './types/MetadataDTO'
+import type { MetadataMap } from './types/metadata'
 
 const { VITE_BASE_URL } = import.meta.env
 
