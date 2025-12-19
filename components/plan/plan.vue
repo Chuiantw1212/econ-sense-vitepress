@@ -1,6 +1,6 @@
 <template>
     <div v-loading="!isSelectReady" element-loading-text="載入設定檔中...">
-        <Profile v-model="userForm.profile" v-if="isSelectReady" :metadata="metadata" />
+        <Profile v-model="userForm.profile" :user="firebaseUser" v-if="isSelectReady" :metadata="metadata" />
     </div>
 </template>
 
@@ -10,7 +10,8 @@ import Profile from './profile.vue'
 import { ElMessageBox } from 'element-plus'
 // 引入我們上一段定義好的型別
 import type { MetadataMap } from './types/metadata'
-
+import type { FirebaseUser, UserFormState } from './types/user'
+import { getInitialUserForm } from './constants/initialState'
 const { VITE_BASE_URL } = import.meta.env
 
 // 狀態控制
@@ -18,7 +19,17 @@ const isSelectReady = ref<boolean>(false)
 
 // 定義 metadata 容器，使用 MetadataMap 型別 (Record<string, MetadataDTO>)
 const metadata = ref<MetadataMap>({})
-    
+
+const firebaseUser = ref<FirebaseUser>({
+    uid: "",
+    displayName: "",
+    email: "",
+    photoURL: "",
+    isAnonymous: true,
+})
+
+// 一行解決初始化
+const userForm = ref<UserFormState>(getInitialUserForm())
 
 onMounted(() => {
     setSelecOptionSync()

@@ -19,7 +19,7 @@ export interface PersonalProfile {
     id: string;
     birthYear: string | number; // 出生年份 (原 yearOfBirth)
     birthDate: string;          // 出生日期 (原 dateOfBirth)
-    gender: 'M' | 'F'; // 性別
+    gender: 'MALE' | 'FEMALE'; // 性別
     currentAge: number;         // 當前年齡 (原 age)
     lifeExpectancy: number;     // 預期壽命
     marriageYear: string;       // 結婚年份 (原 yearOfMarriage)
