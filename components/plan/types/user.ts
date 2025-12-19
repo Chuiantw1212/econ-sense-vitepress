@@ -78,12 +78,36 @@ export interface RetirementData {
     }
 }
 
-export interface SecurityData {
-    allocationETF: string
-    stockPercentage: number
-    irr: number
-    presentAsset: number
-    averaging: number
+export interface PortfolioPosition {
+    /**
+     * 標的代碼 (Target Symbol)
+     * 例如: 'AOA', 'AOK', 'VT'
+     * 原名: allocationETF
+     */
+    targetSymbol: string;
+
+    /**
+     * 股票權重/股債比 (Equity Ratio / Equity Weight)
+     * 說明: 股票在投資組合中的比例 (0~1 或 0~100)。
+     * 用途: 用於風險評估或推算預期報酬的係數。
+     * 原名: stockPercentage
+     */
+    equityWeight: number;
+
+    /**
+     * 預期年化報酬率 (Expected Annualized Return / CAGR)
+     * 說明: 來自爬蟲抓取的長期歷史年化報酬率。
+     * 備註: 除非是計算現金流折現，否則單一標的通常用 "Return" 而非 "IRR"。
+     * 原名: irr
+     */
+    annualizedReturn: number;
+
+    /**
+     * 市場現值 (Market Value / Present Value)
+     * 說明: 該部位目前的總資產價值。
+     * 原名: presentAsset
+     */
+    marketValue: number;
 }
 
 export interface SpouseData {
@@ -178,7 +202,7 @@ export interface UserFormState {
     profile: ProfileData
     career: CareerData
     retirement: RetirementData
-    security: SecurityData
+    portfolio: PortfolioPosition
     spouse: SpouseData
     parenting: ParentingData
     mortgage: MortgageData
