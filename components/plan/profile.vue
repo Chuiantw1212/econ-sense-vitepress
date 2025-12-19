@@ -2,92 +2,102 @@
     <el-card shadow="never">
         <template #header>
             <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: bold; font-size: 16px;">基本資料與參數 (Profile & Parameters)</span>
+                <span style="font-weight: bold; font-size: 16px;">基本資料與參數 (Profile)</span>
 
                 <el-space>
                     <el-upload v-model:file-list="fileList" :limit="1" :show-file-list="false" accept=".json"
                         :auto-upload="false" @change="handleFileChange">
-                        <el-button type="info" plain size="small">匯入設定</el-button>
+                        <el-button type="info" plain link size="small">匯入設定</el-button>
                     </el-upload>
 
-                    <el-button v-if="!user.uid" type="primary" size="small" @click="openSignInDialog">
+                    <el-divider direction="vertical" />
+
+                    <el-button v-if="!user.uid" type="primary" size="small" round @click="openSignInDialog">
                         會員登入
                     </el-button>
-
-                    <el-button v-else type="danger" plain size="small" @click="emits('signOut')">
+                    <el-button v-else type="danger" size="small" plain round @click="emits('signOut')">
                         登出
                     </el-button>
                 </el-space>
             </div>
         </template>
 
-        <el-row :gutter="20" align="middle" style="margin-bottom: 20px;">
-            <el-col :span="24" style="display: flex; align-items: center; gap: 15px;">
-                <el-avatar :size="60" :src="user.photoURL" shape="circle">
-                    <span style="font-size: 20px; font-weight: bold;">{{ avatarText }}</span>
-                </el-avatar>
+        <el-row :gutter="40" align="top">
 
-                <div style="display: flex; flex-direction: column;">
-                    <el-text size="large" tag="b">{{ user.displayName || '訪客' }}</el-text>
-                    <el-text type="info" size="small">{{ user.email || '尚未登入' }}</el-text>
+            <el-col :sm="8" :xs="24" style="text-align: center; margin-bottom: 20px;">
+                <div style="padding: 20px 0; background-color: var(--el-fill-color-lighter); border-radius: 8px;">
+                    <el-avatar :size="100" :src="user.photoURL"
+                        style="border: 4px solid white; box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);">
+                        <span style="font-size: 32px; font-weight: bold;">{{ avatarText }}</span>
+                    </el-avatar>
+
+                    <div style="margin-top: 15px;">
+                        <el-text size="large" tag="b" style="display: block;">{{ user.displayName || '訪客' }}</el-text>
+                        <el-tag v-if="user.email" type="info" effect="plain" round size="small"
+                            style="margin-top: 5px;">
+                            {{ user.email }}
+                        </el-tag>
+                        <el-text v-else type="info" size="small" style="display: block; margin-top: 5px;">
+                            尚未登入，資料僅存於本地
+                        </el-text>
+                    </div>
+
+                    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+                        <el-statistic :value="modelValue.currentAge || 0" title="歲" value-style="font-size: 16px" />
+                        <el-divider direction="vertical" style="height: 30px;" />
+                        <el-statistic :value="modelValue.birthYear || '-'" title="年次" value-style="font-size: 16px" />
+                    </div>
                 </div>
             </el-col>
+
+            <el-col :sm="16" :xs="24">
+                <el-form ref="ruleFormRef" label-position="top" :model="modelValue" size="large">
+                    <el-row :gutter="20">
+                        <el-col :span="12" :xs="24">
+                            <el-form-item label="出生年份 (Birth Year)" required>
+                                <el-select v-model="modelValue.birthYear" placeholder="請選擇" style="width: 100%"
+                                    @change="calculateAge" filterable>
+                                    <el-option v-for="item in birthYearOptions" :key="item.value" :label="item.label"
+                                        :value="item.value" />
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :span="12" :xs="24">
+                            <el-form-item label="生理性別 (Gender)" required>
+                                <el-select v-model="modelValue.gender" placeholder="請選擇" style="width: 100%"
+                                    @change="calculateAge">
+                                    <el-option v-for="item in metadata?.opt_gender?.list" :key="item.code"
+                                        :label="item.label" :value="item.code" />
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :span="12" :xs="24">
+                            <el-form-item label="職業保險 (Insurance)" required>
+                                <el-select v-model="modelValue.careerInsuranceType" placeholder="投保類型"
+                                    style="width: 100%">
+                                    <el-option v-for="item in metadata?.opt_social_security?.list" :key="item.code"
+                                        :label="item.label" :value="item.code" :disabled="item.disabled" />
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :span="12" :xs="24">
+                            <el-form-item label="預估通膨 (Inflation)">
+                                <el-input readonly :value="'3%'">
+                                    <template #prefix>
+                                        <el-icon>
+                                            <TrendCharts />
+                                        </el-icon>
+                                    </template>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-form>
+            </el-col>
         </el-row>
-
-        <el-divider />
-
-        <el-form ref="ruleFormRef" label-position="top" :model="modelValue">
-            <el-row :gutter="24">
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="出生年份 (Birth Year)" required>
-                        <el-select v-model="modelValue.birthYear" placeholder="請選擇" style="width: 100%"
-                            @change="calculateAge" filterable>
-                            <el-option v-for="item in birthYearOptions" :key="item.value" :label="item.label"
-                                :value="item.value" />
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="當前年齡 (Current Age)">
-                        <el-input-number v-model="modelValue.currentAge" disabled style="width: 100%"
-                            :controls="false" />
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="24">
-                    <el-form-item label="生理性別 (Gender)" required>
-                        <el-radio-group v-model="modelValue.gender" @change="calculateAge">
-                            <el-radio v-for="item in metadata?.opt_gender?.list" :key="item.code" :value="item.code"
-                                border>
-                                {{ item.label }}
-                            </el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="職業保險類別 (Insurance Type)" required>
-                        <el-select v-model="modelValue.careerInsuranceType" placeholder="請選擇投保類型" style="width: 100%">
-                            <el-option v-for="item in metadata?.opt_social_security?.list" :key="item.code"
-                                :label="item.label" :value="item.code" :disabled="item.disabled" />
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="預估通貨膨脹率 (Inflation Rate)">
-                        <el-input readonly :value="'3%'">
-                            <template #prefix>
-                                <el-icon>
-                                    <TrendCharts />
-                                </el-icon>
-                            </template>
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-        </el-form>
 
         <template #footer>
             <el-collapse accordion>
@@ -97,15 +107,23 @@
                             <InfoFilled />
                         </el-icon> 試算參數與資料來源說明
                     </template>
-                    <div class="info-content">
-                        <p>1. 所有功能不須登入也可以使用，登入後可雲端儲存進度。</p>
-                        <p>2. 預期餘命參考：<el-link type="primary" href="https://data.gov.tw/dataset/39493"
-                                target="_blank">國家發展委員會 -
-                                預期壽命推估</el-link></p>
-                        <p>3. 通貨膨脹率參數：<el-link type="primary"
+                    <ul style="padding-left: 20px; line-height: 1.8; color: var(--el-text-color-regular);">
+                        <li>
+                            所有功能不須登入也可以用，登入註冊只是比較方便而已。
+                        </li>
+                        <li>
+                            預期餘命：<el-link type="primary" href="https://data.gov.tw/dataset/39493"
+                                target="_blank">國家發展委員會 - 預期壽命推估</el-link>
+                        </li>
+                        <li>
+                            通貨膨脹(消費者物價指數年增率)：<el-link type="primary"
                                 href="https://www.stat.gov.tw/Point.aspx?sid=t.2&n=3581&sms=11480"
-                                target="_blank">中華民國統計資訊網 (CPI)</el-link></p>
-                    </div>
+                                target="_blank">中華民國統計資訊網</el-link>
+                        </li>
+                        <li>
+                            公教人員年金改革到一半，目前沒人知道公保會怎麼調整。
+                        </li>
+                    </ul>
                 </el-collapse-item>
             </el-collapse>
         </template>
