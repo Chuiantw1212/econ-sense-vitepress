@@ -1,6 +1,6 @@
 <template>
     <div v-loading="!isSelectReady" element-loading-text="載入設定檔中...">
-        <Profile v-if="isSelectReady" :metadata="metadata" />
+        <Profile v-model="userForm.profile" v-if="isSelectReady" :metadata="metadata" />
     </div>
 </template>
 
@@ -18,6 +18,7 @@ const isSelectReady = ref<boolean>(false)
 
 // 定義 metadata 容器，使用 MetadataMap 型別 (Record<string, MetadataDTO>)
 const metadata = ref<MetadataMap>({})
+    
 
 onMounted(() => {
     setSelecOptionSync()

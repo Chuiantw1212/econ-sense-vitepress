@@ -256,10 +256,6 @@ function openSignInDialog() {
 
 async function calculateProfile(options: any = { propagate: true }) {
     const { propagate = true } = options
-    drawProfileChart(propagate)
-}
-
-async function drawProfileChart(propagate = false) {
     const { yearOfBirth, gender } = profile.value
     if (yearOfBirth && gender) {
         const ceYear = new Date().getFullYear()
