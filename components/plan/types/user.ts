@@ -108,17 +108,27 @@ export interface ParentingData {
 }
 
 export interface MortgageData {
-    downpayPercent: number
-    loanTerm: number
-    totalPriceEstimated: number
-    interestRate: number
-    loanAmount: number
-    totalPrice: number
-    downpay: number
-    downpayGoal: number
-    monthlyRepay: number
-    downpayYear: number
-    downpayTotalPrice: number
+    // --- A. 貸款參數 (基本設定) ---
+    downpayPercent: number      // 頭期款比例 (例如 20)
+    interestRate: number        // 房貸利率 (例如 2.15)
+    loanTerm: number            // 貸款年限 (例如 30)
+
+    // --- B. 價格定錨 (雙向比較) ---
+    estimatedPrice: number      // [優化命名] 系統根據需求(RealEstateData)回推的市場行情
+    targetPrice: number         // [優化命名] 使用者實際鎖定的目標總價 (原 totalPrice)
+
+    // --- C. 時間價值 (未來規劃) ---
+    purchaseYear: number        // [優化命名] 預計購屋年度 (原 downpayYear，例如 5 年後)
+    futurePrice: number         // [優化命名] 考慮通膨後的未來房價 (原 downpayTotalPrice?)
+    // *解析: 如果是5年後買，現在2000萬的房子可能會變成 2200萬
+
+    // --- D. 資金試算 (缺口分析) ---
+    requiredDownPayment: number // [優化命名] 應備頭期款目標 (TargetPrice * Percent)
+    availableDownPayment: number// [優化命名] 現有/實際頭期款 (原 downpay)
+
+    // --- E. 還款壓力 ---
+    loanAmount: number          // 貸款金額 (TargetPrice - AvailableDownPayment)
+    monthlyPayment: number      // [優化命名] 月付金 (原 monthlyRepay，Payment 是金融標準用語)
 }
 
 export interface RealEstateData {
