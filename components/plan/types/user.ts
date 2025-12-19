@@ -1,5 +1,6 @@
 // 模擬 Firebase User 的核心欄位
 export interface FirebaseUser {
+    id: string,
     uid: string;
     displayName: string;
     email: string;

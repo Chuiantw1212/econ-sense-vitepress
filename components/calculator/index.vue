@@ -570,7 +570,7 @@ async function changeAllCards(from) {
             propagate,
         })
     }
-    let estateRes = {
+    let estateRes = { 
         estateDebtData: []
     }
     estateRes = await MortgageRef.value.calculateMortgage({

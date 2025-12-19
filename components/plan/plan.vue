@@ -1,84 +1,48 @@
 <template>
-    <div v-loading="!isSelectReady" element-loading-text="載入設定檔中...">
-        <Profile v-model="userForm.profile" :user="firebaseUser" v-if="isSelectReady" :metadata="metadata" />
+    <div v-loading="isLoading" element-loading-text="同步雲端資料與設定中...">
+
+        <Profile v-if="isReady" ref="ProfileRef" v-model="userForm.profile" :user="loggedInUser" :metadata="metadata" />
+
+        <div v-else-if="error" class="error-state">
+            {{ error }}
+            <el-button @click="initData">重試</el-button>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, computed } from 'vue'
 import Profile from './profile.vue'
-import { ElMessageBox } from 'element-plus'
-// 引入我們上一段定義好的型別
-import type { MetadataMap } from './types/metadata'
-import type { FirebaseUser, UserFormState } from './types/user'
-import { getInitialUserForm } from './constants/initialState'
-const { VITE_BASE_URL } = import.meta.env
+import { useUserPlan } from './composables/useUserPlan'
+import { useMetadata } from './composables/useMetadata' // 假設您也把 metadata 抽離了
 
-// 狀態控制
-const isSelectReady = ref<boolean>(false)
+// 引入 Composables
+const { userForm, loggedInUser, isDataReady, initAuthListener } = useUserPlan()
+const { metadata, isMetadataReady, fetchMetadata, error } = useMetadata()
 
-// 定義 metadata 容器，使用 MetadataMap 型別 (Record<string, MetadataDTO>)
-const metadata = ref<MetadataMap>({})
+const ProfileRef = ref()
+let authUnsubscribe: (() => void) | null = null
 
-const firebaseUser = ref<FirebaseUser>({
-    uid: "",
-    displayName: "",
-    email: "",
-    photoURL: "",
-    isAnonymous: true,
-})
+// 計算屬性：是否所有資料都準備好了
+const isReady = computed(() => isDataReady.value && isMetadataReady.value)
+const isLoading = computed(() => !isReady.value)
 
-// 一行解決初始化
-const userForm = ref<UserFormState>(getInitialUserForm())
+// 初始化邏輯
+const initData = async () => {
+    // 1. 平行執行：啟動 Auth 監聽 與 抓取 Metadata
+    // Promise.all 並不完全適用這裡，因為 Auth 是 Event Driven，但 Metadata 是 Promise
+    fetchMetadata()
+
+    // 2. 啟動 Firebase 監聽
+    authUnsubscribe = initAuthListener()
+}
 
 onMounted(() => {
-    setSelecOptionSync()
+    initData()
 })
 
-async function setSelecOptionSync() {
-    // 避免重複呼叫
-    if (isSelectReady.value) {
-        return
-    }
-
-    try {
-        // 1. 發起請求
-        const bankConfigPromises = [
-            fetch(`${VITE_BASE_URL}/api/v1/metadata`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        ]
-
-        // 2. 等待回應
-        const [metadataRes] = await Promise.all(bankConfigPromises)
-
-        // 3. 檢查 HTTP 狀態
-        if (!metadataRes.ok) {
-            throw new Error(`API Error: ${metadataRes.status} ${metadataRes.statusText}`)
-        }
-
-        // 4. 解析 JSON 並賦值
-        // 假設後端回傳結構是 Map/Object: { "cfg_financial": {...}, "opt_gender": {...} }
-        const data = await metadataRes.json()
-        metadata.value = data as MetadataMap
-
-        // 5. 標記完成
-        isSelectReady.value = true
-
-    } catch (error: any) {
-        console.error('Metadata fetch failed:', error)
-
-        // 修正了原本的 typo: error.msssage -> error.message
-        ElMessageBox.alert(error.message || 'Google Cloud App Engine 無回應', '系統錯誤', {
-            confirmButtonText: '回講座排程',
-            type: 'error',
-            callback: () => {
-                // backToCalendar() // 視您的需求取消註解
-            },
-        })
-    }
-}
+onUnmounted(() => {
+    // 記得清理監聽器，避免 Memory Leak
+    if (authUnsubscribe) authUnsubscribe()
+})
 </script>
