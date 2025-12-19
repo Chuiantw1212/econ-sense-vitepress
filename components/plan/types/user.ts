@@ -122,32 +122,44 @@ export interface MortgageData {
 }
 
 export interface RealEstateData {
-    // 為了區分價格與坪數，這裡稍微重新命名 Interface
+    // 價格與市場行情資訊
     price: {
-        county: string
-        town: string
-        buildingType: string
-        buildingAge: string
-        hasParking: string
-        count: number
-        pr25: number
-        pr75: number
-        average: number
-        unitPrice: number
+        county: string          // 縣市
+        town: string            // 鄉鎮市區
+        buildingType: string    // 物件型態 (電梯大樓/公寓/透天)
+        buildingAge: string     // 屋齡
+        hasParking: string      // 是否含車位
+
+        // 市場行情數據
+        count: number           // 樣本數
+        pr25: number            // 低標價
+        pr75: number            // 高標價
+        average: number         // 平均總價
+        unitPrice: number       // 單價 (萬/坪)
     }
+
+    // 物件規格 (權狀面積結構) - 改名為 spec 或 propertySpec 較貼切，原名 size 亦可
     size: {
-        publicRatio: number
-        bathroom: number
-        livingRoom: number
-        balcony: number // 已修正拼字 balcany -> balcony
-        parkingSpace: number
-        doubleBedRoom: number
-        singleBedRoom: number
-        mainBuilding: number
-        outBuilding: number
-        floorSize: number
-        parkingSize: number
-        headCount: number
+        // --- 1. 權狀核心面積 (坪數) ---
+        grossArea: number       // 總坪數 (權狀面積) -> 原 floorSize
+        mainArea: number        // 主建物面積 (室內) -> 原 mainBuilding
+        ancillaryArea: number   // 附屬建物面積 (陽台/雨遮) -> 原 outBuilding
+        commonArea: number      // 公設面積 -> 原 publicRatio (若是存面積用這個)
+        parkingArea: number     // 車位面積 -> 原 parkingSize
+
+        // --- 2. 格局配置 (數量) ---
+        headCount: number       // 居住人數
+        bathroom: number        // 衛
+        livingRoom: number      // 廳
+        balconyCount: number    // 陽台數量 -> 原 balcany (拼字修正 + 加上 Count 區分面積)
+
+        // 房間配置
+        doubleBedRoom: number   // 雙人房數
+        singleBedRoom: number   // 單人房數
+
+        // --- 3. 其他參數 ---
+        publicRatio: number     // 公設比 (%) -> 建議新增此欄位單獨存百分比
+        parkingSpaceCount: number // 車位數量 -> 原 parkingSpace
     }
 }
 
