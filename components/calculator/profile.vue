@@ -80,7 +80,7 @@
                                 target="_blank">中華民國統計資訊網</a>
                         </li>
                         <li>
-                            公教人員年金改革到一半，目前沒人知道公保會怎麼調整。
+                            目前只開放勞工身分使用。
                         </li>
                     </ul>
                 </el-collapse-item>
@@ -88,10 +88,6 @@
         </template>
     </el-card>
     <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
-        <p>
-            請不要註冊，目前Server有BUG，只有已經有註冊成功的人可以用，但是只有作者本人在系統中所以自己爽就好不用刻意修。
-        </p>
-        <p>請不要註冊增加作者負擔，謝謝。</p>
         <div id="firebaseui-auth-container"></div>
     </el-dialog>
 </template>

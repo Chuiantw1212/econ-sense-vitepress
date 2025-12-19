@@ -92,10 +92,6 @@
         </template>
     </el-card>
     <el-dialog v-model="loginDialogVisible" title="登入" :fullscreen="isFullScreen">
-        <p>
-            請不要註冊，目前Server有BUG，只有已經有註冊成功的人可以用，但是只有作者本人在系統中所以自己爽就好不用刻意修。
-        </p>
-        <p>請不要註冊增加作者負擔，謝謝。</p>
         <div id="firebaseui-auth-container"></div>
     </el-dialog>
 </template>
@@ -150,8 +146,8 @@ const isFullScreen = ref(false)
 // hooks
 onMounted(async () => {
     // Firebase https://github.com/firebase/firebaseui-web?tab=readme-ov-file#localized-widget
-    await import(`./firebase-ui-auth__zh_tw.js`)
-    await import(`./firebase-ui-auth.css`)
+    await import(`./firebase-ui/firebase-ui-auth__zh_tw.js`)
+    await import(`./firebase-ui/firebase-ui-auth.css`)
     setBirthYearOptions()
     setMarriageYears()
     window?.addEventListener('resize', onResize)

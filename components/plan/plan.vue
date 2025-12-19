@@ -55,8 +55,6 @@ async function setSelecOptionSync() {
         // 2. 等待回應
         const [metadataRes] = await Promise.all(bankConfigPromises)
 
-        console.log(metadataRes)
-
         // 3. 檢查 HTTP 狀態
         if (!metadataRes.ok) {
             throw new Error(`API Error: ${metadataRes.status} ${metadataRes.statusText}`)

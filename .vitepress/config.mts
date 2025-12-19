@@ -242,6 +242,17 @@ export default defineConfig({
         '@': path.resolve(__dirname, '../'),
       }
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // 1. 指定使用現代編譯器 API (需要 sass 1.79+ 與 vite 5.4+)
+          api: 'modern-compiler',
+
+          // 2. 如果您的依賴項中仍有舊語法，可以暫時屏蔽特定警告
+          silenceDeprecations: ['legacy-js-api'],
+        }
+      }
+    }
   },
   /** Experimental */
   sitemap: {
