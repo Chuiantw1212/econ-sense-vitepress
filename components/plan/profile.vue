@@ -45,7 +45,7 @@
                 <el-col :span="12">
                     <el-form-item label="性別" required>
                         <el-radio-group v-model="profile.gender" @change="calculateProfile()">
-                            <el-radio v-for="(item, key) in metadata.opt_gender.list" :value="item.value">
+                            <el-radio v-for="(item, key) in metadata.opt_gender.list" :value="item.code">
                                 {{ item.label }}
                             </el-radio>
                         </el-radio-group>
@@ -57,8 +57,8 @@
                     <el-form-item label="職業保險別" required>
                         <el-select v-model="profile.careerInsuranceType" @change="calculateProfile()" placeholder="請選擇"
                             style="width: 130px">
-                            <el-option v-for="item in metadata.insuranceTypes" :key="item.value" :label="item.label"
-                                :value="item.value" />
+                            <el-option v-for="item in metadata.opt_social_security.list" :key="item.code"
+                                :label="item.label" :value="item.code" :disabled="item.disabled" />
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -132,9 +132,15 @@ const props = withDefaults(defineProps<{
         gender: '',
         age: 0,
         lifeExpectancy: 85,
+        careerInsuranceType: 'LABOR'
     }),
     // 因為上面加了 | null，這裡回傳 null 就不會報錯了
-    user: {},
+    user: () => ({
+        uid: '',
+        displayName: '',
+        email: '',
+        photoURL: ''
+    }),
     metadata: () => ({})
 })
 

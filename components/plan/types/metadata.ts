@@ -15,6 +15,7 @@ export interface OptionItem {
     label?: string;
     /** 選項值 (對應 el-option 的 value) */
     value?: string | number | boolean;
+    disabled?: boolean;
     /** 允許其他額外欄位 (例如: description, order 等) */
     [key: string]: any;
 }

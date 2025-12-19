@@ -13,7 +13,7 @@ export interface FirebaseUser {
 export interface UserProfile {
     id: string;
     yearOfBirth: any; // 兼容輸入框可能回傳字串
-    dateOfBirth: number;
+    dateOfBirth: any;
     gender: string;
     age: number;
     lifeExpectancy: number;
