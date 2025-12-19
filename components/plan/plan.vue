@@ -41,7 +41,7 @@ const initData = async () => {
 async function onProfileChanged() {
     authFetch(`/plan/profile`, {
         method: 'put',
-        body: userForm.profile,
+        body: userForm.value.profile,
     })
     // changeAllCards({
     //     profile: true

@@ -5,6 +5,10 @@ import { ElMessage } from 'element-plus'
 
 const { VITE_BASE_URL } = import.meta.env
 
+interface AuthFetchOptions extends Omit<RequestInit, 'body'> {
+    body?: any;
+}
+
 export function useApi() {
 
     // 取得當前 Token (包含強制刷新邏輯)
@@ -16,7 +20,7 @@ export function useApi() {
     }
 
     // 封裝後的 Fetch
-    const authFetch = async (endpoint: string, options: RequestInit = {}) => {
+    const authFetch = async (endpoint: string, options: AuthFetchOptions = {}) => {
         const auth = getAuth()
         if (!auth.currentUser) return null // 未登入
 
@@ -28,6 +32,19 @@ export function useApi() {
             headers.set('Content-Type', 'application/json')
         }
 
+        // --- 核心優化開始 ---
+        let body = options.body
+
+        // 如果 body 是物件，且不是 FormData，也不是 Blob，就自動轉 JSON 字串
+        if (body && typeof body === 'object' && !(body instanceof FormData) && !(body instanceof Blob)) {
+            body = JSON.stringify(body)
+            // 自動補上 Content-Type
+            if (!headers.has('Content-Type')) {
+                headers.set('Content-Type', 'application/json')
+            }
+        }
+        // --- 核心優化結束 ---
+
         const serviceUrl = `${VITE_BASE_URL}${endpoint}`
 
         // 效能監控 (可選)
@@ -35,7 +52,11 @@ export function useApi() {
         const trace = perf.trace(endpoint)
         trace.start()
 
-        let res = await fetch(serviceUrl, { ...options, headers })
+        let res = await fetch(serviceUrl, {
+            ...options,
+            headers,
+            body: body as BodyInit // 強制轉型給 fetch 看
+        })
 
         trace.stop()
 
