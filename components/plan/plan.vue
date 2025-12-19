@@ -1,7 +1,8 @@
 <template>
     <div v-loading="isLoading" element-loading-text="同步雲端資料與設定中...">
 
-        <Profile v-if="isReady" ref="ProfileRef" v-model="userForm.profile" :user="loggedInUser" :metadata="metadata" />
+        <Profile v-if="isReady" ref="ProfileRef" v-model="userForm.profile" :user="loggedInUser" :metadata="metadata"
+            @update:modelValue="onProfileChanged()" />
 
         <div v-else-if="error" class="error-state">
             {{ error }}
@@ -15,11 +16,11 @@ import { onMounted, onUnmounted, ref, computed } from 'vue'
 import Profile from './profile.vue'
 import { useUserPlan } from './composables/useUserPlan'
 import { useMetadata } from './composables/useMetadata' // 假設您也把 metadata 抽離了
-
+import { useApi } from './composables/useApi'
 // 引入 Composables
 const { userForm, loggedInUser, isDataReady, initAuthListener } = useUserPlan()
 const { metadata, isMetadataReady, fetchMetadata, error } = useMetadata()
-
+const { authFetch } = useApi()
 const ProfileRef = ref()
 let authUnsubscribe: (() => void) | null = null
 
@@ -35,6 +36,16 @@ const initData = async () => {
 
     // 2. 啟動 Firebase 監聽
     authUnsubscribe = initAuthListener()
+}
+
+async function onProfileChanged() {
+    authFetch(`/plan/profile`, {
+        method: 'put',
+        body: userForm.profile,
+    })
+    // changeAllCards({
+    //     profile: true
+    // })
 }
 
 onMounted(() => {
