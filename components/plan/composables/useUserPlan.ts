@@ -17,7 +17,7 @@ export function useUserPlan() {
     const { authFetch } = useApi()
 
     // 初始化監聽器 (建議在 App.vue 或 Layout 層級呼叫一次即可)
-    const initAuthListener = () => {
+    function initAuthListener() {
         const auth = getAuth()
         // onAuthStateChanged 會回傳 unsubscribe 函數
         return onAuthStateChanged(auth, async (firebaseUser) => {
@@ -31,7 +31,7 @@ export function useUserPlan() {
                     isAnonymous: firebaseUser.isAnonymous,
                     id: '' // 待後端回傳
                 }
-                console.log(loggedInUser.value)
+                // console.log(loggedInUser.value)
                 // 2. 抓取雲端資料
                 await fetchPlanData()
             } else {
@@ -42,16 +42,16 @@ export function useUserPlan() {
         })
     }
 
-    const fetchPlanData = async () => {
+    async function fetchPlanData() {
         try {
             isDataReady.value = false
-            // // 先嘗試讀取
-            // let res = await authFetch('/plan')
+            // 先嘗試讀取
+            let res = await authFetch('/plan')
 
-            // // 如果 404 或是新建用戶，則建立新資料
-            // if (!res) {
-            //     res = await authFetch('/plan/new', { method: 'POST' })
-            // }
+            // 如果 404 或是新建用戶，則建立新資料
+            if (!res) {
+                res = await authFetch('/plan/new', { method: 'POST' })
+            }
 
             // if (res) {
             //     const remoteData = await res.json()
