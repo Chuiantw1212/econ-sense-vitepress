@@ -61,7 +61,8 @@ const archetypeStars = [
 ];
 
 async function drawChart() {
-    if (!chartContainer.value || props.selectedKeywords.length === 0) return;
+    // 增加一個簡單的判斷：如果容器不可見（例如被 display: none），就不執行繪圖，節省手機效能
+    if (!chartContainer.value || chartContainer.value.offsetParent === null || props.selectedKeywords.length === 0) return;
 
     loading.value = true;
     const Plotly = (await import('plotly.js-dist-min')).default;
@@ -119,8 +120,6 @@ async function drawChart() {
         };
     }
 
-    // *** 這裡移除了 keywordDropsTrace 和 centroidDropTrace 的生成邏輯 ***
-
     // --- Trace C: 原型恆星 ---
     const archetypesTrace = {
         x: archetypeStars.map(a => a.x),
@@ -161,7 +160,7 @@ async function drawChart() {
     };
 
     // 組合 Traces (只保留軸線、恆星、星塵、飛船)
-    const data = [
+    const data: any[] = [
         axisLinesTrace,
         archetypesTrace,
         keywordsTrace,
@@ -281,5 +280,16 @@ onBeforeUnmount(async () => {
     padding: 4px 8px;
     border-radius: 12px;
     pointer-events: none;
+}
+
+/* --- 新增：RWD 響應式設定 --- */
+/* 當螢幕寬度小於 768px (一般手機/直立平板) 時，
+   將整個卡片隱藏 (display: none)。
+   這樣不僅看不見，也不會佔用版面空間。
+*/
+@media (max-width: 768px) {
+    .universe-card {
+        display: none !important;
+    }
 }
 </style>
