@@ -89,6 +89,9 @@ export default defineConfig({
           { text: '人類學飲食', link: '/human/diet' },
           // { text: '人生關卡的演化解答', link: '/human/evolution' },
           // { text: '後備預官的民防心得', link: '/human/war' },
+          { text: '人類烏托邦(上)', link: '/human/utopia-1' },
+          { text: '人類烏托邦(中)', link: '/human/utopia-2' },
+          { text: '人類烏托邦(下)', link: '/human/utopia-3' },
           { text: '單身狗地獄求生', link: '/human/single' },
           // { text: '說書: 人類大歷史', link: '/human/sapiens' },
         ]
