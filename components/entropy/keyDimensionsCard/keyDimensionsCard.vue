@@ -18,7 +18,7 @@
             <div class="formula-container">
                 <div class="formula-row">
                     <template v-for="(dim, index) in result.dims" :key="dim.axis">
-                        <span class="formula-code">
+                        <span class="formula-code" :style="{ color: dim.color }">
                             {{ dim.shortLabel }}
                         </span>
                         <span v-if="index < result.dims.length - 1" class="formula-divider">
@@ -38,7 +38,7 @@
                         <div class="left-col">
                             <span class="dim-icon">{{ dim.icon }}</span>
                             <div class="dim-info">
-                                <span class="dim-name">{{ dim.label }}</span>
+                                <span class="dim-name" :style="{ color: dim.color }">{{ dim.label }}</span>
                                 <span class="dim-metaphor">{{ dim.metaphor }}</span>
                             </div>
                         </div>
@@ -133,41 +133,53 @@ const result = computed(() => {
 
     // 計算總能量 (分母)
     const totalScore = Math.abs(x) + Math.abs(y) + Math.abs(z);
-    const denominator = totalScore === 0 ? 1 : totalScore;
+    
+    // 如果總分為 0 (極端情況)，直接回傳 null 不顯示卡片
+    if (totalScore === 0) return null;
+
+    const denominator = totalScore;
 
     // 強制固定順序：X(I/O) -> Y(R/V) -> Z(H/C)
     const fixedOrderKeys = ['x', 'y', 'z'] as const;
 
-    // 格式化輸出資料
-    const formattedDims = fixedOrderKeys.map(axis => {
-        // 取得對應數值
+    // 用於收集過濾後的維度
+    const dims: any[] = [];
+
+    fixedOrderKeys.forEach(axis => {
         const value = props.userVector![axis];
+        
+        // --- 關鍵修正：如果偏向是 0，直接跳過，不加入顯示列表 ---
+        if (value === 0) return;
+
         const abs = Math.abs(value);
 
         // @ts-ignore: 確保 data 結構包含 x, y, z keys
         const config = data[axis] as DimensionConfig;
 
-        // 判斷正負向 (大於等於0為正向，小於0為負向)
-        const side = value >= 0 ? config.pos : config.neg;
+        // 判斷正負向 (因為已經過濾掉 0，這裡大於 0 就是正向，小於 0 就是負向)
+        const side = value > 0 ? config.pos : config.neg;
 
         // 計算佔比
         const percent = Math.round((abs / denominator) * 100);
 
-        return {
+        dims.push({
             axis: axis,
             metaphor: config.metaphor,
             value: value,
             percentage: percent,
             label: side.label,
-            // 僅取第一個字母或單詞 (例如 "I (Individual)" -> "I")
+            // 僅取第一個字母或單詞
             shortLabel: side.label.split(' ')[0],
             color: side.color,
             icon: side.icon,
             manual: side.manual
-        };
+        });
     });
 
-    return { dims: formattedDims };
+    // 如果所有軸都是 0 (雖已被 totalScore 擋掉，但做個保險)，回傳 null
+    if (dims.length === 0) return null;
+
+    return { dims };
 });
 </script>
 
@@ -215,21 +227,17 @@ const result = computed(() => {
 
 .formula-code {
     font-family: 'Inter', system-ui, sans-serif;
-    /* 使用無襯線字體更現代 */
     font-weight: 900;
     font-size: 2rem;
-    /* 放大字體 */
     line-height: 1;
     letter-spacing: -1px;
 }
 
 .formula-divider {
     color: #e5e7eb;
-    /* 淺灰色 */
     font-size: 1.5rem;
     font-weight: 300;
     transform: translateY(2px);
-    /* 視覺微調居中 */
 }
 
 .formula-caption {
@@ -250,7 +258,6 @@ const result = computed(() => {
     display: flex;
     flex-direction: column;
     gap: 48px;
-    /* 增加間距，區塊感更強 */
 }
 
 .item-header {
@@ -299,7 +306,6 @@ const result = computed(() => {
     font-size: 1.5rem;
     line-height: 1;
     font-feature-settings: "tnum";
-    /* 等寬數字 */
 }
 
 .percentage-box .unit {
@@ -358,7 +364,7 @@ const result = computed(() => {
     height: 100%;
 }
 
-/* 綠色系 (充能) - 顏色更現代柔和 */
+/* 綠色系 (充能) */
 .do-card {
     background-color: #f0fdf4;
     border-color: #bbf7d0;
@@ -391,7 +397,6 @@ const result = computed(() => {
     margin: 0;
     padding-left: 0;
     list-style: none;
-    /* 移除預設圓點，改用自定義 */
     color: #4b5563;
     line-height: 1.6;
 }
