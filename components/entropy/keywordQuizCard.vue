@@ -5,8 +5,8 @@
             <div class="card-header">
                 <div class="header-left">
                     <span class="title-text">直覺勾選</span>
-                    <div class="counter-pill" :class="{ 'is-active': selectedCount >= 10 }">
-                        {{ selectedCount }} / 20
+                    <div class="counter-pill" :class="counterClass">
+                        {{ selectedCount }} / 30
                     </div>
                 </div>
                 <el-button class="reset-btn" size="small" @click="resetTest" round>
@@ -15,8 +15,15 @@
             </div>
         </template>
 
+        <transition name="toast-slide">
+            <div v-if="showHint" class="fixed-status-toast" :class="hintStatus.class">
+                <span class="status-icon">{{ hintStatus.icon }}</span>
+                <span class="status-text">{{ hintStatus.text }}</span>
+            </div>
+        </transition>
+
         <div class="grid-container">
-            <el-checkbox-group v-model="internalSelected" @change="debouncedUpdate" class="neo-grid">
+            <el-checkbox-group v-model="internalSelected" @change="debouncedUpdate" class="neo-grid" :max="30">
                 <el-checkbox v-for="item in visibleKeywords" :key="item.keyword_zh" :label="item.keyword_zh"
                     :value="item" class="neo-tile">
                     <span class="tile-text">{{ item.keyword_zh }}</span>
@@ -35,8 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, shallowRef, computed, onMounted } from 'vue';
-// 請確認資料路徑
+import { ref, shallowRef, computed, onMounted, watch } from 'vue';
 import { data } from './keywords.data.js';
 
 // --- Emit ---
@@ -58,11 +64,57 @@ const shuffledKeywords = shallowRef<KeywordItem[]>([]);
 const internalSelected = ref<KeywordItem[]>([]);
 const isExpanded = ref(false);
 
+const showHint = ref(false);
+let hintTimer: any = null;
+
 const selectedCount = computed(() => internalSelected.value.length);
+
+// 計數器樣式
+const counterClass = computed(() => {
+    if (selectedCount.value === 30) return 'is-max';
+    if (selectedCount.value >= 20) return 'is-optimal';
+    if (selectedCount.value >= 10) return 'is-active';
+    return '';
+});
+
+// 🔥 三階段提示邏輯
+const hintStatus = computed(() => {
+    const count = selectedCount.value;
+
+    // 0. 未開始
+    if (count === 0) return { text: '請憑直覺勾選...', class: 'is-neutral', icon: '👆' };
+
+    // 1. 未達標 (<10)
+    if (count < 10) return {
+        text: `還差 ${10 - count} 個解鎖基礎分析...`,
+        class: 'is-warning',
+        icon: '🔒'
+    };
+
+    // 2. 第一階段：10~19 (基礎達標 - 滿足急性子)
+    if (count < 20) return {
+        text: `已解鎖！可往下滑，或選更多個提升精度...`,
+        class: 'is-success',
+        icon: '✅'
+    };
+
+    // 3. 第二階段：20~29 (高解析度 - 滿足求好心切)
+    if (count < 30) return {
+        text: `模型解析度提升中！再 ${30 - count} 個達極限...`,
+        class: 'is-optimal',
+        icon: '🚀'
+    };
+
+    // 4. 第三階段：30 (完美上限 - 滿足完美主義)
+    return {
+        text: '完美！已達上限，獲取最高解析度報告',
+        class: 'is-max',
+        icon: '🏆'
+    };
+});
 
 const visibleKeywords = computed(() => {
     if (isExpanded.value) return shuffledKeywords.value;
-    // 保持 4 的倍數
     const limit = Math.ceil(shuffledKeywords.value.length / 2);
     return shuffledKeywords.value.slice(0, Math.ceil(limit / 4) * 4);
 });
@@ -71,6 +123,22 @@ const visibleKeywords = computed(() => {
 onMounted(() => {
     initKeywords();
 });
+
+// --- Watcher ---
+watch(selectedCount, (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+        triggerHint();
+    }
+});
+
+function triggerHint() {
+    showHint.value = true;
+    if (hintTimer) clearTimeout(hintTimer);
+    // 顯示 1.5 秒後消失
+    hintTimer = setTimeout(() => {
+        showHint.value = false;
+    }, 1500);
+}
 
 function initKeywords() {
     const rawData = data.keywords || [];
@@ -114,7 +182,9 @@ function shuffle<T>(arr: T[]): T[] {
 // --- Calculation ---
 function performCalculation() {
     const selected = internalSelected.value;
-    if (selected.length === 0) {
+
+    // 不足 10 個時傳空值
+    if (selected.length < 10) {
         emit('update', { keywords: [], dimension: null, archetypes: { primary: '', secondary: undefined } });
         return;
     }
@@ -155,13 +225,14 @@ const debouncedUpdate = debounce(performCalculation, 500);
 function resetTest() {
     internalSelected.value = [];
     isExpanded.value = false;
+    showHint.value = false;
     initKeywords();
     performCalculation();
 }
 </script>
 
 <style scoped lang="scss">
-/* --- 1. Neo-Brutalist Card --- */
+/* --- Neo-Brutalist Card --- */
 .neo-brutalist-card {
     border-radius: 16px !important;
     border: 2px solid #303133 !important;
@@ -181,7 +252,77 @@ function resetTest() {
     }
 }
 
-/* --- 2. Header --- */
+/* --- Fixed Status Toast --- */
+.fixed-status-toast {
+    position: fixed;
+    top: 80px;
+    /* 視您的 Navbar 高度調整 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 2px solid #000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    font-weight: 800;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    pointer-events: none;
+
+    /* 狀態顏色 */
+    &.is-neutral {
+        background: #fff;
+        color: #333;
+        border-color: #e4e7ed;
+    }
+
+    /* 警告/未達標 */
+    &.is-warning {
+        background: #fef08a;
+        color: #854d0e;
+        border-color: #fde047;
+    }
+
+    /* 階段一 (10-19) */
+    &.is-success {
+        background: #4ade80;
+        color: #064e3b;
+        border-color: #22c55e;
+    }
+
+    /* 階段二 (20-29) */
+    &.is-optimal {
+        background: #8b5cf6;
+        color: #fff;
+        border-color: #7c3aed;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    }
+
+    /* 階段三 (30) */
+    &.is-max {
+        background: #000;
+        color: #FFD700;
+        border-color: #FFD700;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.toast-slide-enter-active,
+.toast-slide-leave-active {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toast-slide-enter-from,
+.toast-slide-leave-to {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+}
+
+/* --- Header --- */
 .card-header {
     display: flex;
     justify-content: space-between;
@@ -211,9 +352,23 @@ function resetTest() {
     transition: all 0.3s;
 
     &.is-active {
-        background: #303133;
+        background: #4ade80;
+        /* Green */
+        color: #064e3b;
+        border-color: #22c55e;
+    }
+
+    &.is-optimal {
+        background: #8b5cf6;
+        /* Violet */
         color: #fff;
-        border-color: #303133;
+        border-color: #7c3aed;
+    }
+
+    &.is-max {
+        background: #000;
+        color: #FFD700;
+        border-color: #FFD700;
     }
 }
 
@@ -228,7 +383,7 @@ function resetTest() {
     }
 }
 
-/* --- 3. Grid Layout (4 Columns) --- */
+/* --- Grid & Tile --- */
 .grid-container {
     width: 100%;
 }
@@ -240,16 +395,12 @@ function resetTest() {
     width: 100%;
 }
 
-/* --- 4. Tile (扁平化設計) --- */
 .neo-tile {
     width: 100%;
     margin: 0 !important;
     border-radius: 0 !important;
     padding: 0 !important;
-
-    /* 關鍵修改：固定高度，不再使用 aspect-ratio */
     height: 52px !important;
-
     border-right: 1px solid #e5e7eb;
     border-bottom: 1px solid #e5e7eb;
     background: #fff;
@@ -259,25 +410,18 @@ function resetTest() {
         display: none !important;
     }
 
-    /* Label 文字區域 */
     :deep(.el-checkbox__label) {
         width: 100%;
         height: 100%;
         padding: 0 4px !important;
-        /* 左右稍微留白 */
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
-
-        /* 字體與行高優化 */
         font-size: 14px !important;
-        /* 手機上夠大且清楚 */
         line-height: 1.1;
-        /* 緊湊行高，萬一有兩行字也不會爆 */
         font-weight: 700 !important;
         color: #606266;
-
         white-space: pre-wrap;
         word-break: break-all;
     }
@@ -285,9 +429,17 @@ function resetTest() {
     &:active {
         background: #f9fafb;
     }
+
+    /* 滿 30 個後，未選項目變灰 */
+    &.is-disabled {
+        background: #f5f7fa;
+
+        :deep(.el-checkbox__label) {
+            color: #c0c4cc;
+        }
+    }
 }
 
-/* 選中狀態 */
 .neo-tile.is-checked {
     background: #303133 !important;
     border-color: #303133 !important;
@@ -299,17 +451,15 @@ function resetTest() {
     }
 }
 
-/* 邊框清理 */
 .neo-grid .neo-tile:nth-child(4n) {
     border-right: none;
 }
 
-/* --- 5. Footer --- */
+/* --- Footer --- */
 .expand-bar {
     background: #fff;
     text-align: center;
     padding: 10px;
-    /* 高度稍微調小 */
     cursor: pointer;
     border-top: 2px solid #303133;
     transition: background 0.2s;
@@ -348,7 +498,6 @@ function resetTest() {
         border-right: none;
     }
 
-    /* 平板電腦以上，高度可以稍微寬裕一點點，或者保持一致 */
     .neo-tile {
         height: 60px !important;
     }
