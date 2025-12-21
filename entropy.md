@@ -25,7 +25,7 @@ outline: [2,3]
 這部分解析你的靈魂原廠設定，以及你在社會部落中的最佳位置。
 
 <ClientOnly>
-  <div v-if="visualData.length >= 10" class="analysis-container">
+  <div v-if="visualData.length >= 10" :key="topArchetypes.primary" class="analysis-container">
     <HybridSoulCard 
         :primaryRole="topArchetypes.primary"
         :secondary-role="topArchetypes.secondary" 
@@ -60,7 +60,7 @@ outline: [2,3]
 從行為金融學角度，為你量身打造的「賺、留、滾」三部曲，並確立你的最終身分。
 
 <ClientOnly>
-  <div v-if="visualData.length >= 10" class="analysis-container">
+  <div v-if="visualData.length >= 10" :key="topArchetypes.primary + '-wealth'" class="analysis-container">
       <CareerStrategyCard 
           :primaryRole="topArchetypes.primary"
           :secondary-role="topArchetypes.secondary"
@@ -88,23 +88,6 @@ outline: [2,3]
 性格標籤能解釋你的行為動機，但無法保證團隊的存活率。在真實的創業戰場上，你需要一套超越性格的 「物理法則」。我們提出的 《熵腦動力學》 將微型團隊（1-5人）視為一座正在演化的 「熱力學反應爐」：你需要在初期（1-3人）尋找 高動能 (High H) 的夥伴來對抗市場摩擦，並在擴張期（4-5人）引入 冷卻機制 (Heat Sink) 以防止系統過熱崩潰。無論你是獵人還是工匠，請停止單憑「感覺」找人，改以 能量、資訊與邊界 作為組隊標準。
 
 <a href="./entropy/one-to-five.html" target="_blank">點擊閱讀完整報告。</a>  
-
-<!-- ## 🏢 創業與組織架構 (To Business)
-
-如果你是創業者或團隊領導者，這部分揭示你在組織中的「物理屬性」與「化學反應」。
-
-<ClientOnly>
-  <div v-if="visualData.length >= 10" class="analysis-container">
-      <FounderDualCard 
-          :primaryRole="topArchetypes.primary" 
-          :secondaryRole="topArchetypes.secondary" 
-      />
-  </div>
-  <div v-else class="placeholder-box">
-      <el-skeleton :rows="3" animated />
-      <div class="skeleton-text">請先完成測驗以解鎖創業架構分析...</div>
-  </div>
-</ClientOnly> -->
 
 ## 📚 熵腦模型的進階策略
 
