@@ -1,18 +1,44 @@
 {
     "compilerOptions": {
-        "module": "NodeNext",
-        "moduleResolution": "nodenext",
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        // 🔥 重點 1: Vite 專案建議用 'bundler'，這能解決很多套件引入問題
+        "moduleResolution": "bundler",
+        "strict": true,
+        "jsx": "preserve",
         "resolveJsonModule": true,
+        "isolatedModules": true,
         "esModuleInterop": true,
         "lib": [
-            "DOM",
-            "ESNext"
+            "ESNext",
+            "DOM"
+        ],
+        "skipLibCheck": true,
+        "noEmit": true,
+        // 🔥 重點 2: 設定路徑別名 (讓你能用 @/ components/...)
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        },
+        // 🔥 重點 3: 讓 TS 看懂 Element Plus 的全域組件 (如果有用 Auto Import)
+        "types": [
+            "element-plus/global"
         ]
     },
+    // 🔥 重點 4: 這是你原本缺少的！必須包含 .ts, .d.ts 和 .tsx
     "include": [
-        "**/*.vue"
+        "src/**/*.ts",
+        "src/**/*.d.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        "*.d.ts", // 包含根目錄的定義檔 (如 auto-imports.d.ts)
+        "vite.config.ts" // 讓 vite 設定檔也有型別檢查
     ],
     "exclude": [
-        "node_modules/"
-    ],
+        "node_modules",
+        "dist"
+    ]
 }
