@@ -51,12 +51,10 @@
                     <el-row :gutter="20">
 
                         <el-col :span="12" :xs="24">
-                            <el-form-item label="出生年份 (Birth Year)" required>
-                                <el-select v-model="modelValue.birthYear" placeholder="請選擇" style="width: 100%"
-                                    @change="handleBirthYearChange" filterable>
-                                    <el-option v-for="item in birthYearOptions" :key="item.value" :label="item.label"
-                                        :value="item.value" />
-                                </el-select>
+                            <el-form-item label="出生日期 (Birthday)" required>
+                                <el-date-picker v-model="modelValue.birthDate" type="date" placeholder="請選擇生日"
+                                    format="YYYY/MM/DD" value-format="YYYY-MM-DD" :disabled-date="disableFutureDates"
+                                    @change="handleBirthdayChange" style="width: 100%" />
                             </el-form-item>
                         </el-col>
 
@@ -207,6 +205,43 @@ onBeforeUnmount(() => {
 })
 
 // --- Methods ---
+// 1. [新增] 禁止選擇未來日期
+const disableFutureDates = (time: Date) => {
+    return time.getTime() > Date.now()
+}
+
+// 2. [修改] 處理生日變更邏輯
+function handleBirthdayChange(val: string | null) {
+    // 若使用者清除日期
+    if (!val) {
+        const resetProfile = {
+            ...props.modelValue,
+            birthDate: '',
+            birthYear: '',
+            currentAge: 0
+        }
+        emits('update:modelValue', resetProfile)
+        return
+    }
+
+    // 解析日期並計算
+    const birthDateObj = new Date(val)
+    const birthYear = birthDateObj.getFullYear()
+    const currentYear = new Date().getFullYear()
+
+    // 計算年齡 (這裡維持金融常用的 "年度差" 算法，若需足歲可再調整)
+    const newAge = currentYear - birthYear
+
+    // 更新資料：同時寫入 birthDate (YYYY-MM-DD) 與 birthYear (YYYY)
+    const updatedProfile = {
+        ...props.modelValue,
+        birthDate: val,
+        birthYear: birthYear,
+        currentAge: newAge
+    }
+
+    emits('update:modelValue', updatedProfile)
+}
 
 function checkIsMobile() {
     isMobile.value = window.innerWidth < 768
