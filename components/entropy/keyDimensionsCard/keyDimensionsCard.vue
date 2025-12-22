@@ -1,77 +1,91 @@
 <template>
     <el-card class="manual-card" shadow="hover" v-if="result">
+
         <template #header>
             <div class="card-header">
-                <div class="header-left">
-                    <span class="title">🧠 大腦使用說明書</span>
-                    <el-tooltip content="基於神經遞質(Neurotransmitters)、腦網路(Brain Networks)與熵腦理論的科學分析。" placement="top">
-                        <el-icon class="info-icon">
-                            <InfoFilled />
-                        </el-icon>
-                    </el-tooltip>
-                </div>
-                <el-tag size="small" effect="dark" type="warning">
-                    核心驅動
-                </el-tag>
+                <span class="header-title">
+                    <el-icon class="title-icon">
+                        <Reading />
+                    </el-icon>
+                    核心驅動說明書
+                </span>
+                <el-tag type="info" size="small" effect="plain" round class="tracking-wide">BETA</el-tag>
             </div>
         </template>
 
         <div class="card-content">
 
-            <div class="summary-box">
-                <div class="summary-text">
-                    生物掃描顯示，你的神經系統預設為
+            <div class="formula-container">
+                <div class="formula-row">
+                    <template v-for="(dim, index) in result.dims" :key="dim.axis">
+                        <span class="formula-code" :style="{ color: dim.color }">
+                            {{ dim.shortLabel }}
+                        </span>
+                        <span v-if="index < result.dims.length - 1" class="formula-divider">
+                            /
+                        </span>
+                    </template>
                 </div>
-                <div class="summary-main">
-                    <span class="highlight" :style="{ color: result.dims[0].color }">
-                        {{ result.dims[0].label }}
-                    </span>
-                    <span class="connector">+</span>
-                    <span class="highlight" :style="{ color: result.dims[1].color }">
-                        {{ result.dims[1].label }}
-                    </span>
-                </div>
+                <div class="formula-caption">您的認知原廠設定</div>
             </div>
 
-            <el-divider border-style="dashed" />
+            <el-divider border-style="dashed" class="compact-divider" />
 
             <div class="manual-list">
-                <div v-for="(dim, index) in result.dims" :key="index" class="manual-item">
+                <div v-for="dim in result.dims" :key="dim.axis" class="manual-item">
 
-                    <div class="manual-header">
-                        <div class="dim-icon-wrapper" :style="{ background: dim.bg }">
+                    <div class="item-header">
+                        <div class="left-col">
                             <span class="dim-icon">{{ dim.icon }}</span>
+                            <div class="dim-info">
+                                <span class="dim-name" :style="{ color: dim.color }">{{ dim.label }}</span>
+                                <span class="dim-metaphor">{{ dim.metaphor }}</span>
+                            </div>
                         </div>
-                        <div class="dim-info">
-                            <div class="dim-title" :style="{ color: dim.color }">{{ dim.label }} 模式</div>
-                            <div class="dim-subtitle">由 {{ dim.manual.chemical }} 主導</div>
+                        <div class="right-col">
+                            <div class="percentage-box">
+                                <span class="val">{{ dim.percentage }}</span>
+                                <span class="unit">%</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="science-box">
-                        <div class="science-label"><el-icon>
-                                <Cpu />
-                            </el-icon> 神經生物機制</div>
-                        <div class="science-content" v-html="dim.manual.mechanism"></div>
+                    <el-progress :percentage="dim.percentage" :color="dim.color" :stroke-width="6" :show-text="false"
+                        class="compact-progress" />
+
+                    <div class="concept-section">
+                        <p class="summary-text">{{ dim.manual.summary }}</p>
+                        <div class="tags-wrapper">
+                            <span v-for="tag in dim.manual.tags" :key="tag" class="micro-tag">
+                                #{{ tag }}
+                            </span>
+                        </div>
                     </div>
 
-                    <div class="instruction-grid">
-                        <div class="instruction-col do">
-                            <div class="col-header"><el-icon>
+                    <div class="action-grid">
+
+                        <div class="action-card do-card">
+                            <div class="action-header text-success">
+                                <el-icon>
                                     <Check />
-                                </el-icon> 充能模式 (Do)</div>
-                            <ul class="col-list">
+                                </el-icon> 充能 (Do)
+                            </div>
+                            <ul class="action-list">
                                 <li v-for="item in dim.manual.dos" :key="item">{{ item }}</li>
                             </ul>
                         </div>
-                        <div class="instruction-col dont">
-                            <div class="col-header"><el-icon>
+
+                        <div class="action-card dont-card">
+                            <div class="action-header text-danger">
+                                <el-icon>
                                     <Close />
-                                </el-icon> 耗損模式 (Don't)</div>
-                            <ul class="col-list">
+                                </el-icon> 耗損 (Don't)
+                            </div>
+                            <ul class="action-list">
                                 <li v-for="item in dim.manual.donts" :key="item">{{ item }}</li>
                             </ul>
                         </div>
+
                     </div>
 
                 </div>
@@ -82,62 +96,100 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { data } from './keyDimensionCard.data.js'
-import { InfoFilled, Cpu, Check, Close } from '@element-plus/icons-vue';
+import { computed } from 'vue';
+import { Check, Close, Reading } from '@element-plus/icons-vue';
+import { data } from './keyDimensionCard.data.js';
 
-// --- Props ---
+// 定義 Props
 const props = defineProps<{
     userVector: { x: number; y: number; z: number } | null
 }>();
 
-// --- 計算邏輯 ---
+// 資料型別定義
+interface DimensionManual {
+    summary: string;
+    tags: string[];
+    dos: string[];
+    donts: string[];
+}
+
+interface DimensionSide {
+    label: string;
+    color: string;
+    icon: string;
+    manual: DimensionManual;
+}
+
+interface DimensionConfig {
+    metaphor: string;
+    pos: DimensionSide;
+    neg: DimensionSide;
+}
+
+// 核心運算邏輯
 const result = computed(() => {
     if (!props.userVector) return null;
     const { x, y, z } = props.userVector;
 
-    const rawDims = [
-        { axis: 'x', value: x, abs: Math.abs(x) },
-        { axis: 'y', value: y, abs: Math.abs(y) },
-        { axis: 'z', value: z, abs: Math.abs(z) },
-    ];
+    // 計算總能量 (分母)
+    const totalScore = Math.abs(x) + Math.abs(y) + Math.abs(z);
+    
+    // 如果總分為 0 (極端情況)，直接回傳 null 不顯示卡片
+    if (totalScore === 0) return null;
 
-    // 排序取出前兩名
-    rawDims.sort((a, b) => b.abs - a.abs);
-    const top2 = rawDims.slice(0, 2);
-    console.log({
-        top2
-    })
+    const denominator = totalScore;
 
-    const formattedDims = top2.map(d => {
-        // @ts-ignore
-        const config = data[d.axis];
-        const side = d.value >= 0 ? config.pos : config.neg;
-        console.log({
-            side
-        })
+    // 強制固定順序：X(I/O) -> Y(R/V) -> Z(H/C)
+    const fixedOrderKeys = ['x', 'y', 'z'] as const;
 
-        return {
-            axisName: config.name,
-            value: d.value,
+    // 用於收集過濾後的維度
+    const dims: any[] = [];
+
+    fixedOrderKeys.forEach(axis => {
+        const value = props.userVector![axis];
+        
+        // --- 關鍵修正：如果偏向是 0，直接跳過，不加入顯示列表 ---
+        if (value === 0) return;
+
+        const abs = Math.abs(value);
+
+        // @ts-ignore: 確保 data 結構包含 x, y, z keys
+        const config = data[axis] as DimensionConfig;
+
+        // 判斷正負向 (因為已經過濾掉 0，這裡大於 0 就是正向，小於 0 就是負向)
+        const side = value > 0 ? config.pos : config.neg;
+
+        // 計算佔比
+        const percent = Math.round((abs / denominator) * 100);
+
+        dims.push({
+            axis: axis,
+            metaphor: config.metaphor,
+            value: value,
+            percentage: percent,
             label: side.label,
+            // 僅取第一個字母或單詞
+            shortLabel: side.label.split(' ')[0],
             color: side.color,
-            bg: side.color + '15', // very light bg
             icon: side.icon,
             manual: side.manual
-        };
+        });
     });
 
-    return { dims: formattedDims };
+    // 如果所有軸都是 0 (雖已被 totalScore 擋掉，但做個保險)，回傳 null
+    if (dims.length === 0) return null;
+
+    return { dims };
 });
 </script>
 
 <style scoped>
+/* 卡片容器 */
 .manual-card {
+    border-radius: 16px;
+    border: 1px solid var(--el-border-color-lighter);
     margin-top: 20px;
-    border-radius: 12px;
-    border: 1px solid #e4e7ed;
-    background-color: #fff;
+    background: #ffffff;
 }
 
 .card-header {
@@ -146,162 +198,228 @@ const result = computed(() => {
     align-items: center;
 }
 
-.header-left {
+.header-title {
     display: flex;
     align-items: center;
-    gap: 6px;
-}
-
-.title {
-    font-weight: bold;
-    font-size: 16px;
-    color: #303133;
-}
-
-.info-icon {
-    font-size: 14px;
-    color: #909399;
-    cursor: help;
-}
-
-/* 總結區 */
-.summary-box {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.summary-text {
-    font-size: 0.9rem;
-    color: #909399;
-    margin-bottom: 5px;
-}
-
-.summary-main {
-    font-size: 1.3rem;
     font-weight: 800;
+    font-size: 16px;
+    color: #1f2937;
+    letter-spacing: 0.5px;
 }
 
-.connector {
-    color: #dcdfe6;
-    margin: 0 8px;
-    font-weight: normal;
+.title-icon {
+    margin-right: 8px;
 }
 
-/* 說明書列表 */
+/* 2. 極簡化配方樣式 (Simplified Formula) */
+.formula-container {
+    text-align: center;
+    padding: 12px 0 4px 0;
+}
+
+.formula-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.formula-code {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 900;
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.formula-divider {
+    color: #e5e7eb;
+    font-size: 1.5rem;
+    font-weight: 300;
+    transform: translateY(2px);
+}
+
+.formula-caption {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.compact-divider {
+    margin: 24px 0;
+    border-color: #f3f4f6;
+}
+
+/* 3. 列表項目佈局 */
 .manual-list {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 48px;
 }
 
-.manual-item {
-    padding: 20px;
-    background: #fdfdfd;
-    border: 1px solid #f0f2f5;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 10px;
 }
 
-/* 標頭 */
-.manual-header {
+.left-col {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 15px;
 }
 
-.dim-icon-wrapper {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+.dim-icon {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.dim-info {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+}
+
+.dim-name {
+    font-weight: 800;
+    font-size: 1.15rem;
+    line-height: 1.2;
+}
+
+.dim-metaphor {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.percentage-box {
+    display: flex;
+    align-items: baseline;
+    color: #374151;
+}
+
+.percentage-box .val {
+    font-weight: 900;
     font-size: 1.5rem;
+    line-height: 1;
+    font-feature-settings: "tnum";
 }
 
-.dim-title {
-    font-size: 1.1rem;
-    font-weight: bold;
-}
-
-.dim-subtitle {
+.percentage-box .unit {
     font-size: 0.85rem;
-    color: #909399;
+    font-weight: 600;
+    color: #9ca3af;
+    margin-left: 3px;
 }
 
-/* 科學機制 */
-.science-box {
-    background: #f4f4f5;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: #555;
-    border-left: 4px solid #909399;
+.compact-progress {
+    margin-bottom: 16px;
 }
 
-.science-label {
-    font-weight: bold;
-    color: #303133;
-    margin-bottom: 4px;
+/* 概念與標籤 */
+.concept-section {
+    margin-bottom: 20px;
+}
+
+.summary-text {
+    font-size: 0.95rem;
+    color: #4b5563;
+    line-height: 1.7;
+    font-weight: 400;
+    margin-bottom: 12px;
+    text-align: justify;
+}
+
+.tags-wrapper {
     display: flex;
-    align-items: center;
-    gap: 6px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-/* Do & Don't Grid */
-.instruction-grid {
+.micro-tag {
+    font-size: 0.75rem;
+    color: #6b7280;
+    background: #f3f4f6;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* 4. 行動網格 (Do / Don't) */
+.action-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 16px;
 }
 
-@media (max-width: 600px) {
-    .instruction-grid {
-        grid-template-columns: 1fr;
-    }
+.action-card {
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+    height: 100%;
 }
 
-.instruction-col {
-    padding: 12px;
-    border-radius: 8px;
+/* 綠色系 (充能) */
+.do-card {
+    background-color: #f0fdf4;
+    border-color: #bbf7d0;
 }
 
-.instruction-col.do {
-    background: rgba(103, 194, 58, 0.08);
+/* 紅色系 (耗損) */
+.dont-card {
+    background-color: #fef2f2;
+    border-color: #fecaca;
 }
 
-.instruction-col.dont {
-    background: rgba(245, 108, 108, 0.08);
-}
-
-.col-header {
-    font-weight: bold;
-    margin-bottom: 8px;
+.action-header {
+    font-weight: 800;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     gap: 6px;
+    font-size: 0.95rem;
 }
 
-.do .col-header {
-    color: #67C23A;
+.text-success {
+    color: #15803d;
 }
 
-.dont .col-header {
-    color: #F56C6C;
+.text-danger {
+    color: #b91c1c;
 }
 
-.col-list {
+.action-list {
     margin: 0;
-    padding-left: 20px;
-    font-size: 0.9rem;
-    color: #606266;
-    line-height: 1.5;
+    padding-left: 0;
+    list-style: none;
+    color: #4b5563;
+    line-height: 1.6;
 }
 
-.col-list li {
-    margin-bottom: 4px;
+.action-list li {
+    margin-bottom: 6px;
+    padding-left: 14px;
+    position: relative;
+}
+
+/* 自定義列表項目符號 */
+.action-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: currentColor;
+    font-weight: bold;
+    opacity: 0.6;
+}
+
+@media (max-width: 640px) {
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
