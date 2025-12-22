@@ -4,7 +4,7 @@ export interface FirebaseUser {
     uid: string;
     displayName: string;
     email: string;
-    photoURL: string;
+    photoUrl: string;
     isAnonymous?: boolean;
 }
 

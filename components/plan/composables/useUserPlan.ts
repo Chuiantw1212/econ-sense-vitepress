@@ -8,7 +8,7 @@ import type { UserFormState, FirebaseUser } from '../types/user'
 // 建立全域狀態 (Singleton)，這樣切換頁面資料還在
 const userForm = ref<UserFormState>(getInitialUserForm())
 const loggedInUser = ref<FirebaseUser>({
-    id: "", uid: "", displayName: "訪客", email: "", photoURL: "", isAnonymous: true
+    id: "", uid: "", displayName: "訪客", email: "", photoUrl: "", isAnonymous: true
 })
 const isDataReady = ref(false)
 
@@ -26,7 +26,7 @@ export function useUserPlan() {
                     uid: firebaseUser.uid,
                     displayName: firebaseUser.displayName || '會員',
                     email: firebaseUser.email || '',
-                    photoURL: firebaseUser.photoURL || '',
+                    photoUrl: firebaseUser.photoURL || '',
                     isAnonymous: firebaseUser.isAnonymous,
                     id: '' // 待後端回傳
                 }

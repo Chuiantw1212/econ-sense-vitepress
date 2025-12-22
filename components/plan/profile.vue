@@ -26,7 +26,8 @@
 
             <el-col :sm="8" :xs="24" style="text-align: center; margin-bottom: 20px;">
                 <div style="padding-top: 10px;">
-                    <el-avatar :size="90" :src="user.photoURL"
+
+                    <el-avatar :size="90" :src="user.photoUrl"
                         style="border: 3px solid var(--el-border-color-lighter); box-shadow: var(--el-box-shadow-light);">
                         <span style="font-size: 32px; font-weight: bold;">{{ avatarText }}</span>
                     </el-avatar>
@@ -161,7 +162,7 @@ const props = withDefaults(defineProps<{
 }>(), {
     // 這裡的預設值僅作為 Fallback，主要依賴父層傳入
     user: () => ({
-        id: '', uid: '', displayName: '', email: '', photoURL: '', isAnonymous: true
+        id: '', uid: '', displayName: '', email: '', photoUrl: '', isAnonymous: true
     }),
     metadata: () => ({})
 })
