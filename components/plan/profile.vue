@@ -259,22 +259,6 @@ function initOptions() {
     birthYearOptions.value = options
 }
 
-// 專門處理出生年份改變的函數
-function handleBirthYearChange(val: number) {
-    const currentYear = new Date().getFullYear()
-    const newAge = currentYear - val
-
-    // 關鍵：我們手動構建一個完整的物件回傳
-    // 這樣可以確保 birthYear 是最新的 'val' (例如 1990)，而不是舊的 props 值
-    const updatedProfile = {
-        ...props.modelValue,
-        birthYear: val,   // <--- 明確指定年份
-        currentAge: newAge // <--- 明確指定年齡
-    }
-
-    emits('update:modelValue', updatedProfile)
-}
-
 function calculateAge() {
     const { birthYear } = props.modelValue
     if (birthYear) {

@@ -8,12 +8,22 @@
             {{ error }}
             <el-button @click="initData">重試</el-button>
         </div>
+
+        <Career v-model="userForm.career"></Career>
+
+        <h2>損益表</h2>
+
+        <h2>資產負債表</h2>
+
+        <h2>現金流量表</h2>
+
     </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 import Profile from './profile.vue'
+import Career from './career.vue'
 import { useUserPlan } from './composables/useUserPlan'
 import { useMetadata } from './composables/useMetadata' // 假設您也把 metadata 抽離了
 import { useApi } from './composables/useApi'
