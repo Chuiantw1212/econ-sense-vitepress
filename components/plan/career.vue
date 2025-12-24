@@ -130,23 +130,8 @@
     </el-card>
 </template>
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
-// import type { CareerProfile } from './types/user';
-interface CareerProfile {
-    monthlyBaseSalary: number;
-    otherAllowance: number;
-    laborInsurance: number;
-    healthInsurance: number;
-    otherDeduction: number;
-
-    // 更新：Rate 和 Amount 都存入資料庫
-    pensionRate: number;
-    pensionAmount: number;
-
-    // 員工認股 (保留前一版功能)
-    stockDeduction: number;
-    stockCompanyMatch: number;
-}
+import { computed, watch } from 'vue'
+import type { CareerProfile } from './types/user';
 // --- Props 與 Emits 定義 ---
 const props = defineProps<{
     modelValue: CareerProfile // 接收父層資料

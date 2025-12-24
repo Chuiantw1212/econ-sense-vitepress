@@ -93,6 +93,7 @@ export default defineConfig({
           { text: '人類烏托邦(上)', link: '/human/utopia-1' },
           { text: '人類烏托邦(中)', link: '/human/utopia-2' },
           { text: '人類烏托邦(下)', link: '/human/utopia-3' },
+          { text: '高知識寄生蟲', link: '/human/parasite' },
           { text: '單身狗地獄求生', link: '/human/single' },
           // { text: '說書: 人類大歷史', link: '/human/sapiens' },
         ]
@@ -185,34 +186,34 @@ export default defineConfig({
       height: '24px',
     },
     externalLinkIcon: true,
-    // search: {
-    //   provider: 'local',
-    //   options: {
-    //     translations: {
-    //       button: {
-    //         buttonText: '搜尋',
-    //         buttonAriaLabel: '搜尋文件'
-    //       },
-    //       modal: {
-    //         displayDetails: '顯示詳細列表',
-    //         resetButtonTitle: '清除查詢條件',
-    //         backButtonTitle: '返回',
-    //         noResultsText: '無法找到相關結果：',
-    //         footer: {
-    //           selectText: '選擇',
-    //           selectKeyAriaLabel: '按 Enter 鍵選擇',
+    search: {
+      provider: 'local',
+      options: {
+        translations: {
+          button: {
+            buttonText: '搜尋',
+            buttonAriaLabel: '搜尋文件'
+          },
+          modal: {
+            displayDetails: '顯示詳細列表',
+            resetButtonTitle: '清除查詢條件',
+            backButtonTitle: '返回',
+            noResultsText: '無法找到相關結果：',
+            footer: {
+              selectText: '選擇',
+              selectKeyAriaLabel: '按 Enter 鍵選擇',
 
-    //           navigateText: '切換',
-    //           navigateUpKeyAriaLabel: '按 向上箭頭 鍵往上',
-    //           navigateDownKeyAriaLabel: '按 向下箭頭 鍵往下',
+              navigateText: '切換',
+              navigateUpKeyAriaLabel: '按 向上箭頭 鍵往上',
+              navigateDownKeyAriaLabel: '按 向下箭頭 鍵往下',
 
-    //           closeText: '關閉',
-    //           closeKeyAriaLabel: '按 Esc 鍵關閉'
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+              closeText: '關閉',
+              closeKeyAriaLabel: '按 Esc 鍵關閉'
+            }
+          }
+        }
+      }
+    }
   },
   /**
    * Build
