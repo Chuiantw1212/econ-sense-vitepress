@@ -30,27 +30,43 @@ head:
     </div>
   </template>
 </el-dialog>
-  <div v-loading="isLoading" element-loading-text="同步雲端資料與設定中...">
-    <div v-if="error" class="error-state">
-        <el-alert :title="error" type="error" show-icon :closable="false">
-            <el-button size="small" @click="initData" style="margin-top: 10px;">重試</el-button>
-        </el-alert>
-    </div>
-    <template v-if="isReady">
-        <Profile 
-            ref="ProfileRef" 
-            v-model="userForm.profile" 
-            :user="loggedInUser" 
-            :metadata="metadata" 
-        />
-        <h2>損益表</h2>
-        <Career 
-            v-model="userForm.career" 
-        />
-        <h2>資產負債表</h2>
-        <h2>現金流量表</h2>
-    </template>
-  </div>
+
+<div v-if="error" class="error-state">
+    <el-alert :title="error" type="error" show-icon :closable="false">
+        <el-button size="small" @click="initData" style="margin-top: 10px;">重試</el-button>
+    </el-alert>
+</div>
+
+<div v-loading="isLoading" element-loading-text="同步雲端資料與設定中..." style="min-height: 200px;">
+    <Profile 
+        v-if="isReady"
+        ref="ProfileRef" 
+        v-model="userForm.profile" 
+        :user="loggedInUser" 
+        :metadata="metadata" 
+    />
+</div>
+
+## 損益表
+
+<div v-if="isReady">
+    <Career 
+        v-model="userForm.career" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+## 資產負債表
+
+<div v-if="isReady">
+    <p>資產負債表內容...</p>
+</div>
+
+## 現金流量表
+
+<div v-if="isReady">
+    <p>現金流量表內容...</p>
+</div>
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, computed, watch } from 'vue'
