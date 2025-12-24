@@ -17,35 +17,19 @@ export const getInitialUserForm = (): UserFormState => ({
 
     // 2. 職業與收入資料 (Career & Income)
     career: {
-        householdSize: 1,
         baseSalary: 0,
         otherAllowance: 0,
-
-        // 您的特殊需求：金額欄位
+        laborInsurance: 0,
+        healthInsurance: 0,
         otherDeduction: 0,
-        employeeWelfareFundRate: 0,
 
-        insuredUnit: 'company', // 預設公司投保
+        // 更新：Rate 和 Amount 都存入資料庫
+        pensionRate: 0,
+        pensionAmount: 0,
 
-        socialInsurance: {
-            insuredSalary: 0,
-            currentSeniority: 0,
-            projectedSeniority: 0,
-            personalPremium: 0
-        },
-
-        pension: {
-            insuredSalary: 0,
-            contributionRate: 6, // 法定雇主提撥率 6%
-            employerMonthlyContribution: 0,
-            employeeMonthlyContribution: 0
-        },
-
-        healthInsurancePremium: 0,
-        estimatedMonthlyNetIncome: 0,
-        actualMonthlyNetIncome: 0,
-        monthlyLivingExpenses: 0,
-        monthlySavingsAmount: 0
+        // 員工認股 (保留前一版功能)
+        stockDeduction: 0,
+        stockCompanyMatch: 0,
     },
 
     // 3. 退休規劃 (Retirement Planning)
