@@ -23,7 +23,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="+ 伙食津貼">
-                        <el-text>{{ formatNumber(localModel.mealAllowance) }} (免稅)</el-text>
+                        <el-text>3,000 (免稅)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -60,7 +60,7 @@
                 <el-col :span="12">
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="- 勞保自付額">
+                    <el-form-item label="- 勞保自付">
                         <el-text>{{ formatNumber(localModel.socialInsurance?.personalPremium) }}</el-text>
                     </el-form-item>
                 </el-col>
@@ -70,7 +70,7 @@
                 <el-col :span="12">
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="- 健保自付額">
+                    <el-form-item label="- 健保自付">
                         <el-text>{{ formatNumber(localModel.healthInsurancePremium) }}</el-text>
                     </el-form-item>
                 </el-col>
@@ -95,7 +95,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="= 每月實領">
-                        <el-text type="success" style="font-weight: bold;">
+                        <el-text>
                             {{ formatNumber(netIncome) }}
                         </el-text>
                     </el-form-item>

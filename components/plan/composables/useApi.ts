@@ -66,10 +66,13 @@ export function useApi() {
             token = await getIdToken(true) // 強制刷新
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`)
-                res = await fetch(serviceUrl, { ...options, headers })
+                res = await fetch(serviceUrl, {
+                    ...options,
+                    headers,
+                    body: body as BodyInit // 強制轉型給 fetch 看
+                })
             }
         }
-
         if (!res.ok) {
             // 統一錯誤處理
             const errorText = await res.text()
@@ -79,6 +82,5 @@ export function useApi() {
 
         return res
     }
-
     return { authFetch }
 }
