@@ -19,10 +19,10 @@ export const getInitialUserForm = (): UserFormState => ({
     career: {
         householdSize: 1,
         monthlyBaseSalary: 0,
-        regionalAllowance: 0,
+        otherAllowance: 0,
 
         // 您的特殊需求：金額欄位
-        employeeWelfareFundAmount: 0,
+        otherDeduction: 0,
         employeeWelfareFundRate: 0,
 
         insuredUnit: 'company', // 預設公司投保

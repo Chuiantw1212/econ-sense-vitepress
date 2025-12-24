@@ -32,35 +32,19 @@ export interface PersonalProfile {
  * 職業與收入資料 (Career & Income)
  */
 export interface CareerProfile {
-    householdSize: number;           // 家庭人數 (原 headCount)
-    monthlyBaseSalary: number;       // 月本薪 (Gross Salary)
-    employeeWelfareFundRate: number; // 職工福利金費率
-    employeeWelfareFundAmount: number; // 職工福利金金額
-    // 若是金額建議用 employeeWelfareFundAmount
-    insuredUnit: 'company' | 'union' | string; // 投保單位
-    regionalAllowance: number;       // 地域加給
+    monthlyBaseSalary: number;
+    otherAllowance: number;
+    laborInsurance: number;
+    healthInsurance: number;
+    otherDeduction: number;
 
-    // 社會保險 (Social Insurance - e.g., Labor Insurance)
-    socialInsurance: {
-        personalPremium: number;       // 勞保個人負擔 (Labor Insurance Premium)
-        insuredSalary: number;         // 投保薪資 (原 salary)
-        currentSeniority: number;      // 目前年資 (原 presentSeniority)
-        projectedSeniority: number;    // 預估未來年資 (原 futureSeniority)
-    };
+    // 更新：Rate 和 Amount 都存入資料庫
+    pensionRate: number;
+    pensionAmount: number;
 
-    // 退休金提撥 (Pension Contribution - e.g., Labor Pension)
-    pension: {
-        insuredSalary: number;         // 提撥薪資基級 (原 salary)
-        contributionRate: number;      // 提撥率 (原 rate)
-        employerMonthlyContribution: number; // 雇主月提撥額 (原 monthlyContribution)
-        employeeMonthlyContribution: number; // 勞工自願月提撥額 (原 monthlyContributionEmployee)
-    };
-
-    healthInsurancePremium: number;  // 健保費
-    estimatedMonthlyNetIncome: number; // 預估月稅後淨利 (原 monthlyNetPayEstimated)
-    actualMonthlyNetIncome: number;    // 實領薪資 (Net Pay)
-    monthlyLivingExpenses: number;     // 月生活支出 (原 monthlyExpense)
-    monthlySavingsAmount: number;      // 月儲蓄金額 (原 monthlySaving)
+    // 員工認股 (保留前一版功能)
+    stockDeduction: number;
+    stockCompanyMatch: number;
 }
 
 /**

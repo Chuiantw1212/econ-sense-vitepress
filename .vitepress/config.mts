@@ -185,39 +185,34 @@ export default defineConfig({
       height: '24px',
     },
     externalLinkIcon: true,
-    search: {
-      provider: 'local',
-      options: {
-        translations: {
-          /* --- 1. 搜尋按鈕翻譯 (ButtonTranslations) --- */
-          button: {
-            buttonText: '搜尋',
-            buttonAriaLabel: '搜尋文件'
-          },
+    // search: {
+    //   provider: 'local',
+    //   options: {
+    //     translations: {
+    //       button: {
+    //         buttonText: '搜尋',
+    //         buttonAriaLabel: '搜尋文件'
+    //       },
+    //       modal: {
+    //         displayDetails: '顯示詳細列表',
+    //         resetButtonTitle: '清除查詢條件',
+    //         backButtonTitle: '返回',
+    //         noResultsText: '無法找到相關結果：',
+    //         footer: {
+    //           selectText: '選擇',
+    //           selectKeyAriaLabel: '按 Enter 鍵選擇',
 
-          /* --- 2. 搜尋視窗翻譯 (ModalTranslations) --- */
-          modal: {
-            displayDetails: '顯示詳細列表',
-            resetButtonTitle: '清除查詢條件',
-            backButtonTitle: '返回',
-            noResultsText: '無法找到相關結果：',
+    //           navigateText: '切換',
+    //           navigateUpKeyAriaLabel: '按 向上箭頭 鍵往上',
+    //           navigateDownKeyAriaLabel: '按 向下箭頭 鍵往下',
 
-            /* --- 3. 搜尋視窗頁尾導航翻譯 (FooterTranslations) --- */
-            footer: {
-              selectText: '選擇',
-              selectKeyAriaLabel: '按 Enter 鍵選擇',
-
-              navigateText: '切換',
-              navigateUpKeyAriaLabel: '按 向上箭頭 鍵往上',
-              navigateDownKeyAriaLabel: '按 向下箭頭 鍵往下',
-
-              closeText: '關閉',
-              closeKeyAriaLabel: '按 Esc 鍵關閉'
-            }
-          }
-        }
-      }
-    }
+    //           closeText: '關閉',
+    //           closeKeyAriaLabel: '按 Esc 鍵關閉'
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   },
   /**
    * Build
@@ -238,7 +233,7 @@ export default defineConfig({
   },
   vite: {
     ssr: {
-      noExternal: ['plotly.js-dist-min']
+      noExternal: ['plotly.js-dist-min', 'element-plus']
     },
     resolve: {
       alias: {

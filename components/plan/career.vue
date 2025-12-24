@@ -8,7 +8,7 @@
                 <el-col :span="12" :xs="24">
                     <el-form-item label="本薪" required>
                         <el-input-number v-model="localModel.monthlyBaseSalary" :min="0" :step="1000"
-                            style="width: 100%" @change="handleChange" />
+                            style="width: 100%" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -19,8 +19,7 @@
             </el-row>
 
             <el-row>
-                <el-col :span="12">
-                </el-col>
+                <el-col :span="12"></el-col>
                 <el-col :span="12">
                     <el-form-item label="+ 伙食津貼">
                         <el-text>3,000 (免稅)</el-text>
@@ -31,13 +30,13 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="其他津貼">
-                        <el-input-number v-model="localModel.regionalAllowance" :min="0" :step="1000"
-                            style="width: 100%" @change="handleChange" />
+                        <el-input-number v-model="localModel.otherAllowance" :min="0" :step="1000"
+                            style="width: 100%" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="+ 其他津貼">
-                        <el-text>{{ formatNumber(localModel.regionalAllowance) }}</el-text>
+                        <el-text>{{ formatNumber(localModel.otherAllowance) }}</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -45,33 +44,60 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="勞退自提率(%)">
-                        <el-input-number v-model="pensionSelfRate" :min="0" :max="6" style="width: 100%"
-                            @change="handleChange" />
+                        <el-input-number v-model="localModel.pensionRate" :min="0" :max="6" style="width: 100%" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="- 勞退自提">
-                        <el-text>{{ formatNumber(pensionAmount) }}</el-text>
+                        <el-text>{{ formatNumber(localModel.pensionAmount) }}</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
 
             <el-row>
                 <el-col :span="12">
+                    <el-form-item label="員工認股(自提)">
+                        <el-input-number v-model="localModel.stockDeduction" :min="0" :step="1000" style="width: 100%"
+                            placeholder="每月扣款金額" />
+                    </el-form-item>
                 </el-col>
+                <el-col :span="12">
+                    <el-form-item label="- 認股扣款">
+                        <el-text>{{ formatNumber(localModel.stockDeduction) }}</el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="公司加碼(公提)">
+                        <el-input-number v-model="localModel.stockCompanyMatch" :min="0" :step="1000"
+                            style="width: 100%" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="資產累積">
+                        <el-text type="info">
+                            + {{ formatNumber(localModel.stockCompanyMatch) }} (不影響實領)
+                        </el-text>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-row>
+                <el-col :span="12"></el-col>
                 <el-col :span="12">
                     <el-form-item label="- 勞保自付">
-                        <el-text>{{ formatNumber(localModel.socialInsurance?.personalPremium) }}</el-text>
+                        <el-text>{{ formatNumber(localModel.laborInsurance) }}</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
 
             <el-row>
-                <el-col :span="12">
-                </el-col>
+                <el-col :span="12"></el-col>
                 <el-col :span="12">
                     <el-form-item label="- 健保自付">
-                        <el-text>{{ formatNumber(localModel.healthInsurancePremium) }}</el-text>
+                        <el-text>{{ formatNumber(localModel.healthInsurance) }}</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -79,54 +105,48 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="其他扣款">
-                        <el-input-number v-model="localModel.employeeWelfareFundAmount" :min="0" :step="100"
-                            style="width: 100%" @change="handleChange" />
+                        <el-input-number v-model="localModel.otherDeduction" :min="0" :step="100" style="width: 100%" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="- 其他扣款">
-                        <el-text>{{ formatNumber(localModel.employeeWelfareFundAmount) }}</el-text>
+                        <el-text>{{ formatNumber(localModel.otherDeduction) }}</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
 
             <el-row>
-                <el-col :span="12">
-                </el-col>
+                <el-col :span="12"></el-col>
                 <el-col :span="12">
                     <el-form-item label="= 每月實領">
                         <el-text>
-                            {{ formatNumber(netIncome) }}
+                            {{ formatNumber(monthlyNetIncome) }}
                         </el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
+
         </el-form>
     </el-card>
 </template>
-
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
+// import type { CareerProfile } from './types/user';
+interface CareerProfile {
+    monthlyBaseSalary: number;
+    otherAllowance: number;
+    laborInsurance: number;
+    healthInsurance: number;
+    otherDeduction: number;
 
-// --- 資料介面定義 (需與父層一致) ---
-export interface CareerProfile {
-    monthlyBaseSalary: number;      // 本薪
-    regionalAllowance: number;      // 其他津貼
-    mealAllowance: number;          // 伙食津貼 (固定 3000)
-    employeeWelfareFundAmount: number; // 其他扣款 (福利金等)
+    // 更新：Rate 和 Amount 都存入資料庫
+    pensionRate: number;
+    pensionAmount: number;
 
-    socialInsurance: {
-        personalPremium: number;      // 勞保自付
-        insuredSalary: number;        // 投保薪資
-    };
-
-    pension: {
-        employeeMonthlyContribution: number; // 勞退自提金額
-    };
-
-    healthInsurancePremium: number; // 健保自付
+    // 員工認股 (保留前一版功能)
+    stockDeduction: number;
+    stockCompanyMatch: number;
 }
-
 // --- Props 與 Emits 定義 ---
 const props = defineProps<{
     modelValue: CareerProfile // 接收父層資料
@@ -147,57 +167,44 @@ const localModel = computed({
     }
 })
 
-// --- 內部狀態 (UI Helper) ---
-const pensionSelfRate = ref(0) // 勞退自提率 (0% - 6%)
+// 移除原本的 const pensionRate = ref(0)
+// 改用 Watch 監聽：當「本薪」或「提撥率」變動時，自動計算「提撥金額」並寫入 model
+watch(
+    [() => localModel.value.monthlyBaseSalary, () => localModel.value.pensionRate],
+    ([newSalary, newRate]) => {
+        const base = newSalary || 0
+        const rate = newRate || 0
+        const calculatedAmount = Math.round(base * (rate / 100))
 
-// 監聽自提率變動，計算金額並寫回資料
-watch(pensionSelfRate, (newRate) => {
-    const base = localModel.value.socialInsurance.insuredSalary || localModel.value.monthlyBaseSalary
-    const amount = Math.round(base * (newRate / 100))
-
-    // 更新特定欄位 (建立新物件以觸發 Reactivity)
-    const updatedData = {
-        ...localModel.value,
-        pension: {
-            ...localModel.value.pension,
-            employeeMonthlyContribution: amount
+        // 只有當計算結果與當前儲存值不同時才更新，避免非必要的寫入
+        if (localModel.value.pensionAmount !== calculatedAmount) {
+            localModel.value = {
+                ...localModel.value,
+                pensionAmount: calculatedAmount
+            }
         }
-    }
-    localModel.value = updatedData
-})
-
-// --- 計算邏輯 (基於 Props) ---
-
-// 1. 勞退自提金額 (直接讀取資料)
-const pensionAmount = computed(() => localModel.value.pension?.employeeMonthlyContribution || 0)
+    },
+    { immediate: true } // 初始化時立即執行一次，確保金額正確
+)
 
 // 2. 實領薪資計算
-const netIncome = computed(() => {
-    const data = localModel.value
-    const income = (data.monthlyBaseSalary || 0) +
-        (data.mealAllowance || 0) +
-        (data.regionalAllowance || 0)
+const monthlyNetIncome = computed(() => {
+    const income = (localModel.value.monthlyBaseSalary || 0) +
+        (localModel.value.otherAllowance || 0) +
+        3000
 
-    const deduction = (data.pension?.employeeMonthlyContribution || 0) +
-        (data.socialInsurance?.personalPremium || 0) +
-        (data.healthInsurancePremium || 0) +
-        (data.employeeWelfareFundAmount || 0)
+    const deductions = (localModel.value.pensionAmount || 0) +
+        (localModel.value.stockDeduction || 0) +
+        (localModel.value.laborInsurance || 0) +
+        (localModel.value.healthInsurance || 0) +
+        (localModel.value.otherDeduction || 0)
 
-    return income - deduction
+    return income - deductions
 })
 
 // --- 工具函式 ---
 const formatNumber = (num: number) => {
     if (isNaN(num)) return '0'
     return new Intl.NumberFormat('zh-TW').format(num)
-}
-
-// 處理數值變更的通用函式 (用於 input-number @change)
-// 這能確保每次微調數字都觸發父層更新
-const handleChange = () => {
-    // 由於 localModel 是 computed，直接 v-model 綁定深層屬性 (如 localModel.monthlyBaseSalary) 
-    // 在 Vue 3 有時會直接修改到物件參照。
-    // 為了確保 trigger-save 被觸發，我們可以在 @change 呼叫此函式
-    emit('trigger-save')
 }
 </script>
