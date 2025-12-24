@@ -7,8 +7,7 @@
             <el-row>
                 <el-col :span="12" :xs="24">
                     <el-form-item label="本薪" required>
-                        <el-input-number v-model="localModel.baseSalary" :min="0" :step="1000"
-                            style="width: 100%" />
+                        <el-input-number v-model="localModel.baseSalary" :min="0" :step="1000" style="width: 100%" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -22,7 +21,7 @@
                 <el-col :span="12"></el-col>
                 <el-col :span="12">
                     <el-form-item label="+ 伙食津貼">
-                        <el-text>3,000 (免稅)</el-text>
+                        <el-text>{{ formatNumber(MEAL_ALLOWANCE) }} (免稅)</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -132,7 +131,10 @@
 <script lang="ts" setup>
 import { computed, watch } from 'vue'
 import type { CareerProfile } from './types/user';
+import { useLaborPension } from './composables/useLaborPension';
+
 // --- Props 與 Emits 定義 ---
+const MEAL_ALLOWANCE = 3000;
 const props = defineProps<{
     modelValue: CareerProfile // 接收父層資料
 }>()
@@ -159,13 +161,15 @@ watch(
     ([newSalary, newRate]) => {
         const base = newSalary || 0
         const rate = newRate || 0
-        const calculatedAmount = Math.round(base * (rate / 100))
-
+        const initialWage = base + MEAL_ALLOWANCE
+        const {
+            totalAmount
+        } = useLaborPension(initialWage, rate);
         // 只有當計算結果與當前儲存值不同時才更新，避免非必要的寫入
-        if (localModel.value.pensionAmount !== calculatedAmount) {
+        if (localModel.value.pensionAmount !== totalAmount.value) {
             localModel.value = {
                 ...localModel.value,
-                pensionAmount: calculatedAmount
+                pensionAmount: totalAmount.value
             }
         }
     },
@@ -176,7 +180,7 @@ watch(
 const monthlyNetIncome = computed(() => {
     const income = (localModel.value.baseSalary || 0) +
         (localModel.value.otherAllowance || 0) +
-        3000
+        MEAL_ALLOWANCE
 
     const deductions = (localModel.value.pensionAmount || 0) +
         (localModel.value.stockDeduction || 0) +
