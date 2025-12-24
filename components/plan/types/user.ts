@@ -32,7 +32,7 @@ export interface PersonalProfile {
  * 職業與收入資料 (Career & Income)
  */
 export interface CareerProfile {
-    monthlyBaseSalary: number;
+    baseSalary: number;
     otherAllowance: number;
     laborInsurance: number;
     healthInsurance: number;

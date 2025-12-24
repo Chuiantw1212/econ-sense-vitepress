@@ -45,18 +45,18 @@ export function useUserPlan() {
         try {
             isDataReady.value = false
             // 先嘗試讀取
-            let res = await authFetch('/api/v1/user/profile')
+            let res = await authFetch('/api/v1/user/me')
 
             // 如果 404 或是新建用戶，則建立新資料
             if (!res) {
-                res = await authFetch('/api/v1/user/profile', { method: 'POST' })
+                res = await authFetch('/api/v1/user/me', { method: 'POST' })
             }
 
             if (res) {
                 const remoteData = await res.json()
                 if (remoteData.id) {
-                    // loggedInUser.value.id = remoteData.id
-                    Object.assign(userForm.value.profile, remoteData)
+                    Object.assign(userForm.value.profile, remoteData.profile)
+                    Object.assign(userForm.value.career, remoteData.career)
                 }
             }
         } catch (e) {

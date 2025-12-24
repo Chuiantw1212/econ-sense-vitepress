@@ -18,7 +18,7 @@ export const getInitialUserForm = (): UserFormState => ({
     // 2. 職業與收入資料 (Career & Income)
     career: {
         householdSize: 1,
-        monthlyBaseSalary: 0,
+        baseSalary: 0,
         otherAllowance: 0,
 
         // 您的特殊需求：金額欄位

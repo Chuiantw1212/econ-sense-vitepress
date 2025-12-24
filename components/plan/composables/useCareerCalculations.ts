@@ -18,9 +18,9 @@ export function useCareerCalculations() {
     }
 
     // 2. 計算職工福利金 (0.5%)
-    const calcWelfareFund = (monthlyBaseSalary: number, isCompany: boolean) => {
-        if (!isCompany || !monthlyBaseSalary) return 0
-        return Math.floor((monthlyBaseSalary + FOOD_EXPENSE) * 0.005)
+    const calcWelfareFund = (baseSalary: number, isCompany: boolean) => {
+        if (!isCompany || !baseSalary) return 0
+        return Math.floor((baseSalary + FOOD_EXPENSE) * 0.005)
     }
 
     // 3. 計算勞保自付額 (保留您的原始邏輯)

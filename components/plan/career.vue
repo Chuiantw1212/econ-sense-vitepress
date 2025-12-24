@@ -7,13 +7,13 @@
             <el-row>
                 <el-col :span="12" :xs="24">
                     <el-form-item label="本薪" required>
-                        <el-input-number v-model="localModel.monthlyBaseSalary" :min="0" :step="1000"
+                        <el-input-number v-model="localModel.baseSalary" :min="0" :step="1000"
                             style="width: 100%" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="本薪">
-                        <el-text>{{ formatNumber(localModel.monthlyBaseSalary) }}</el-text>
+                        <el-text>{{ formatNumber(localModel.baseSalary) }}</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -155,7 +155,7 @@ const localModel = computed({
 // 移除原本的 const pensionRate = ref(0)
 // 改用 Watch 監聽：當「本薪」或「提撥率」變動時，自動計算「提撥金額」並寫入 model
 watch(
-    [() => localModel.value.monthlyBaseSalary, () => localModel.value.pensionRate],
+    [() => localModel.value.baseSalary, () => localModel.value.pensionRate],
     ([newSalary, newRate]) => {
         const base = newSalary || 0
         const rate = newRate || 0
@@ -174,7 +174,7 @@ watch(
 
 // 2. 實領薪資計算
 const monthlyNetIncome = computed(() => {
-    const income = (localModel.value.monthlyBaseSalary || 0) +
+    const income = (localModel.value.baseSalary || 0) +
         (localModel.value.otherAllowance || 0) +
         3000
 
