@@ -1,5 +1,6 @@
 <template>
     <el-space direction="vertical" fill size="large" style="width: 100%">
+
         <el-empty v-if="markets.length === 0" description="尚未配置任何市場">
             <el-button type="primary" :icon="Plus" @click="addMarket">新增市場資產</el-button>
         </el-empty>
@@ -12,7 +13,7 @@
                         <el-icon>
                             <TrendCharts />
                         </el-icon>
-                        {{ marketDefinitions[item.countryCode]?.label.split(' ')[0] }}
+                        資產配置 {{ index + 1 }}
                     </span>
                     <el-button type="danger" link :icon="Delete" @click="removeMarket(index)">移除</el-button>
                 </div>
@@ -21,24 +22,26 @@
 
                 <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="投資市場 (國家)">
+                        <el-form-item label="投資市場">
                             <el-select v-model="item.countryCode" placeholder="請選擇投資市場" style="width: 100%" filterable
                                 @change="() => handleMarketChange(item)">
-                                <el-option v-for="(def, code) in marketDefinitions" :key="code"
-                                    :label="def.flag + ' ' + def.label" :value="code" />
+                                <el-option v-for="opt in marketOptions" :key="opt.code" :label="opt.label"
+                                    :value="opt.code" />
                             </el-select>
                         </el-form-item>
                     </el-col>
 
                     <el-col :span="12" :xs="24">
                         <el-form-item label="幣別 / 匯率">
-                            <div style="display: flex; gap: 8px; width: 100%;">
-                                <el-tag type="info" size="default" effect="plain" style="flex-shrink: 0;">
-                                    {{ item.currency }}
+                            <div style="display: flex; gap: 8px; width: 100%; align-items: center;">
+                                <el-tag type="info" size="default" effect="plain"
+                                    style="flex-shrink: 0; min-width: 60px; text-align: center;" :disabled="true">
+                                    {{ item.currency || '-' }}
                                 </el-tag>
 
                                 <el-input-number v-model="item.exchangeRate" :precision="4" :step="0.1"
-                                    controls-position="right" style="flex-grow: 1;" placeholder="匯率" />
+                                    controls-position="right" style="flex-grow: 1;" placeholder="匯率"
+                                    :disabled="!item.currency" />
                             </div>
                         </el-form-item>
                     </el-col>
@@ -48,12 +51,13 @@
                     <el-col :span="12" :xs="24">
                         <el-form-item label="市值 (原幣)">
                             <el-input-number v-model="item.marketValue" :min="0" :step="1000" style="width: 100%"
-                                controls-position="right" />
+                                controls-position="right" :disabled="!item.currency" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
                         <el-form-item label="折合台幣">
-                            <el-tag type="info" disable-transitions style="width: 100%; justify-content: start;">
+                            <el-tag type="info" disable-transitions style="width: 100%; justify-content: start;"
+                                :disabled="true">
                                 ≈ {{ Math.round(item.marketValue * item.exchangeRate).toLocaleString() }}
                             </el-tag>
                         </el-form-item>
@@ -64,13 +68,12 @@
                     <el-col :span="12" :xs="24">
                         <el-form-item label="年已實現損益">
                             <el-input-number v-model="item.realizedPnl" :step="1000" style="width: 100%"
-                                controls-position="right" placeholder="原幣金額" />
+                                controls-position="right" placeholder="原幣金額" :disabled="!item.currency" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
                         <el-form-item label="折合台幣損益">
-                            <el-text tag="b" :type="item.realizedPnl >= 0 ? 'danger' : 'success'"
-                                style="font-size: 15px;">
+                            <el-text tag="b" :type="item.realizedPnl >= 0 ? 'danger' : 'success'">
                                 {{ item.realizedPnl >= 0 ? '+' : '' }}
                                 {{ Math.round(item.realizedPnl * item.exchangeRate).toLocaleString() }}
                             </el-text>
@@ -86,54 +89,89 @@
             新增市場資產
         </el-button>
 
+        <el-alert v-if="markets.length > 0" type="info" :closable="false" show-icon>
+            <template #title>
+                <div style="display: flex; gap: 20px;">
+                    <span>總庫存: NT$ {{ Math.round(summary.totalValue).toLocaleString() }}</span>
+                    <span>
+                        總損益:
+                        <span
+                            :style="{ color: summary.totalPnl >= 0 ? 'var(--el-color-danger)' : 'var(--el-color-success)' }">
+                            {{ summary.totalPnl > 0 ? '+' : '' }}{{ Math.round(summary.totalPnl).toLocaleString() }}
+                        </span>
+                    </span>
+                </div>
+            </template>
+        </el-alert>
+
     </el-space>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { Plus, Delete, TrendCharts, Money } from '@element-plus/icons-vue'
+import { Plus, Delete, TrendCharts } from '@element-plus/icons-vue'
 
-// --- 1. 定義市場資料庫 (Master Data) ---
-// 這裡定義了國家與幣別/匯率的對應關係
-const marketDefinitions: Record<string, { label: string, currency: string, defaultRate: number, flag: string }> = {
-    'TW': { label: '台灣 (Taiwan)', currency: 'TWD', defaultRate: 1.0, flag: '🇹🇼' },
-    'US': { label: '美國 (USA)', currency: 'USD', defaultRate: 32.5, flag: '🇺🇸' },
-    'JP': { label: '日本 (Japan)', currency: 'JPY', defaultRate: 0.21, flag: '🇯🇵' },
-    'UK': { label: '英國 (UK)', currency: 'GBP', defaultRate: 41.2, flag: '🇬🇧' },
-    'CN': { label: '中國 (China)', currency: 'CNY', defaultRate: 4.5, flag: '🇨🇳' },
-    'VN': { label: '越南 (Vietnam)', currency: 'VND', defaultRate: 0.0013, flag: '🇻🇳' },
-    'EU': { label: '歐洲 (Euro Zone)', currency: 'EUR', defaultRate: 35.1, flag: '🇪🇺' },
-    'HK': { label: '香港 (Hong Kong)', currency: 'HKD', defaultRate: 4.1, flag: '🇭🇰' }
+// --- 1. Props 定義 (接軌外部資料) ---
+interface MarketOption {
+    code: string        // e.g., "US"
+    label: string       // e.g., "美國"
+    currency: string    // e.g., "USD"
+    defaultRate: number // e.g., 32.5
 }
 
-// --- 2. 資料結構 ---
+interface Metadata {
+    opt_market: {
+        name: string
+        id: string
+        list: MarketOption[]
+    }
+}
+
+const props = defineProps<{
+    metadata: Metadata
+}>()
+
+// --- 2. 工具函數：自動產生國旗 (無需 CSS/圖片) ---
+const getFlagEmoji = (countryCode: string) => {
+    if (!countryCode) return '🌐'
+    const codePoints = countryCode
+        .toUpperCase()
+        .split('')
+        .map(char => 127397 + char.charCodeAt(0))
+    return String.fromCodePoint(...codePoints)
+}
+
+// --- 3. 資料結構 ---
 interface MarketItem {
     id: number
-    countryCode: string // 新增：儲存國家代碼 (key)
-    currency: string    // 自動連動
-    exchangeRate: number // 自動帶入但可修
+    countryCode: string  // 對應 metadata 中的 code
+    currency: string     // 連動
+    exchangeRate: number // 連動但可修
     marketValue: number
     realizedPnl: number
 }
 
-// --- 3. 響應式狀態 ---
+// --- 4. 響應式狀態 ---
+// 預設先給一筆資料，若 metadata 尚未載入，則 countryCode 暫留空
 const markets = ref<MarketItem[]>([
-    // 預設一筆資料範例
-    { id: 1, countryCode: 'US', currency: 'USD', exchangeRate: 32.5, marketValue: 15000, realizedPnl: 500 }
+    { id: 1, countryCode: '', currency: '', exchangeRate: 0, marketValue: 0, realizedPnl: 0 }
 ])
 
 let nextId = 2
 
-// --- 4. 業務邏輯 ---
+// 取得市場選單列表 (防呆：若父層還沒傳入 metadata 則回傳空陣列)
+const marketOptions = computed(() => {
+    return props.metadata?.opt_market?.list || []
+})
 
-// 新增市場 (預設帶入台灣)
+// --- 5. 業務邏輯 ---
+
 const addMarket = () => {
-    const defaultMarket = 'TW'
     markets.value.push({
         id: nextId++,
-        countryCode: defaultMarket,
-        currency: marketDefinitions[defaultMarket].currency,
-        exchangeRate: marketDefinitions[defaultMarket].defaultRate,
+        countryCode: '',
+        currency: '',
+        exchangeRate: 0,
         marketValue: 0,
         realizedPnl: 0
     })
@@ -143,12 +181,14 @@ const removeMarket = (index: number) => {
     markets.value.splice(index, 1)
 }
 
-// 關鍵邏輯：當「市場」改變時，連動更新「幣別」與「匯率」
+// 關鍵邏輯：當「市場」改變時，從 props 查找對應資料並填入
 const handleMarketChange = (item: MarketItem) => {
-    const def = marketDefinitions[item.countryCode]
-    if (def) {
-        item.currency = def.currency
-        item.exchangeRate = def.defaultRate
+    // 從 props.metadata.opt_market.list 中尋找
+    const selectedOption = marketOptions.value.find(opt => opt.code === item.countryCode)
+
+    if (selectedOption) {
+        item.currency = selectedOption.currency
+        item.exchangeRate = selectedOption.defaultRate
     }
 }
 

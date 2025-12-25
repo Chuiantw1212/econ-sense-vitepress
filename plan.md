@@ -67,7 +67,7 @@ head:
 ### 金融
 
 <div v-if="true||isReady">
-    <Finance />
+    <Finance :metadata="metadata" />
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
