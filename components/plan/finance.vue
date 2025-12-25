@@ -35,13 +35,12 @@
                         <el-form-item label="幣別 / 匯率">
                             <div style="display: flex; gap: 8px; width: 100%; align-items: center;">
                                 <el-tag type="info" size="default" effect="plain"
-                                    style="flex-shrink: 0; min-width: 60px; text-align: center;" :disabled="true">
+                                    style="flex-shrink: 0; min-width: 60px; text-align: center;">
                                     {{ item.currency || '-' }}
                                 </el-tag>
 
-                                <el-input-number v-model="item.exchangeRate" :precision="4" :step="0.1"
-                                    controls-position="right" style="flex-grow: 1;" placeholder="匯率"
-                                    :disabled="!item.currency" />
+                                <el-input-number v-model="item.exchangeRate" :precision="4" style="flex-grow: 1;"
+                                    placeholder="自動匯率" disabled :controls="false" />
                             </div>
                         </el-form-item>
                     </el-col>

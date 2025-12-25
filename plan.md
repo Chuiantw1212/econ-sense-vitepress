@@ -40,7 +40,6 @@ head:
 <div v-loading="isLoading" element-loading-text="同步雲端資料與設定中..." style="min-height: 200px;">
     <Profile 
         v-if="isReady"
-        ref="ProfileRef" 
         v-model="userForm.profile" 
         :user="loggedInUser" 
         :metadata="metadata" 
@@ -52,7 +51,7 @@ head:
 ### 金融
 
 <div v-if="true||isReady">
-    <Finance :metadata="metadata" />
+    <Finance v-model="userForm.finance"  :metadata="metadata" />
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
@@ -95,7 +94,6 @@ import { useApi } from '@/components/plan/composables/useApi'
 
 // --- State & Refs ---
 const isOpenPreview = ref(false)
-const ProfileRef = ref()
 let authUnsubscribe: (() => void) | null = null
 
 const { userForm, loggedInUser, isDataReady, initAuthListener } = useUserPlan()
@@ -136,6 +134,7 @@ const createAutoSaver = (endpoint: string, label: string, delay = 1000) => {
 // 實例化儲存器
 const saveProfile = createAutoSaver('/api/v1/user/profile', '個人檔案', 800)
 const saveCareer = createAutoSaver('/api/v1/user/career', '職業收入', 1000)
+const saveFinance = createAutoSaver('/api/v1/user/finance', '金融資產', 1000)
 
 
 // --- 監聽器 (Watchers) ---
@@ -150,6 +149,13 @@ watch(
 // 2. 監聽 Career 變動
 watch(
     () => userForm.value.career,
+    (newVal) => { if (isReady.value) saveCareer(newVal) },
+    { deep: true }
+)
+
+// 2. 監聽 Career 變動
+watch(
+    () => userForm.value.finance,
     (newVal) => { if (isReady.value) saveCareer(newVal) },
     { deep: true }
 )
