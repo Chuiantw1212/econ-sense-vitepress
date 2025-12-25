@@ -66,6 +66,11 @@ head:
 
 ### 金融
 
+<div v-if="true||isReady">
+    <Finance />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
 ### 房產
 
 ## 現金流量表
@@ -80,6 +85,7 @@ import { debounce } from 'lodash-es'
 import { ElMessage } from 'element-plus'
 
 // --- Components ---
+import Finance from '@/components/plan/finance.vue'
 import Profile from '@/components/plan/profile.vue'
 import Career from '@/components/plan/career.vue'
 // import Plan from '@/components/plan/plan.vue' // 若沒用到可移除
