@@ -49,9 +49,16 @@ head:
 
 ## 資產負債表
 
-<div v-if="isReady">
-    <p>資產負債表內容...</p>
+### 金融
+
+<div v-if="true||isReady">
+    <Finance :metadata="metadata" />
 </div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+### 房產
+
+### 企業
 
 ## 損益表
 
@@ -63,15 +70,6 @@ head:
     />
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
-
-### 金融
-
-<div v-if="true||isReady">
-    <Finance :metadata="metadata" />
-</div>
-<div v-else style="height: 100px;" v-loading="true"></div>
-
-### 房產
 
 ## 現金流量表
 
