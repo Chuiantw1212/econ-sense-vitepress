@@ -1,8 +1,5 @@
 <template>
     <el-card shadow="never">
-        <template #header>
-            職業收入
-        </template>
         <el-form label-width="auto" :model="modelValue">
             <el-row>
                 <el-col :span="12" :xs="24">

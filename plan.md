@@ -47,7 +47,15 @@ head:
     />
 </div>
 
+## 資產負債表
+
+<div v-if="isReady">
+    <p>資產負債表內容...</p>
+</div>
+
 ## 損益表
+
+### 職業收入
 
 <div v-if="isReady">
     <Career 
@@ -55,12 +63,6 @@ head:
     />
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
-
-## 資產負債表
-
-<div v-if="isReady">
-    <p>資產負債表內容...</p>
-</div>
 
 ## 現金流量表
 
