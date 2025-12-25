@@ -87,33 +87,43 @@ const PENSION_BRACKETS: PensionBracket[] = [
 ];
 
 /**
- * 勞退計算 Composable (純計算)
- * @param initialWage 初始工資 (預設 0)
- * @param initialRate 初始提繳率 (預設 6，單位：百分比)
+ * 勞退計算 Composable
+ * @param initialWage 初始工資
+ * @param initialSelfRate 初始自提率 (0~6)
  */
-export function useLaborPension(initialWage: number = 0, initialRate: number = 6) {
+export function useLaborPension(initialWage: number = 0, initialSelfRate: number = 0) {
     // 響應式輸入
     const actualWage = ref(initialWage);
-    const contributionRate = ref(initialRate); // 通用的提繳率 (不論是雇主或勞工)
+    const selfRate = ref(initialSelfRate); // 個人自提率 (0-6%)
 
-    // 計算邏輯
-    const totalAmount = computed(() => {
+    // 內部計算：取得月提繳工資 (Insured Wage)
+    const insuredWage = computed(() => {
         const wage = Number(actualWage.value);
-        const rate = Number(contributionRate.value);
-
         if (wage <= 0) return 0;
 
-        // 1. 取得月提繳工資級距 (若超過最後一級 limit，則取最後一級 value)
+        // 查找級距：薪資 <= 上限 的第一個級距
+        // 若薪資超過表定最高級距 (例如 > 150,000)，則取最高級距 150,000
         const bracket = PENSION_BRACKETS.find(b => wage <= b.limit);
-        const monthlyWage = bracket ? bracket.value : 150000;
+        return bracket ? bracket.value : 150000;
+    });
 
-        // 2. 計算提繳金額：級距 * (費率 / 100)
-        return Math.round(monthlyWage * (rate / 100));
+    // 1. 計算自提金額 (Self Contribution) -> 這是減項
+    const selfAmount = computed(() => {
+        const rate = Number(selfRate.value);
+        return Math.round(insuredWage.value * (rate / 100));
+    });
+
+    // 2. 計算公提金額 (Employer Contribution) -> 這是資產累積，強制 6%
+    const employerAmount = computed(() => {
+        // 雇主強制提撥 6%
+        return Math.round(insuredWage.value * 0.06);
     });
 
     return {
-        actualWage,       // 工資 (綁定用)
-        contributionRate, // 提繳率 (綁定用)
-        totalAmount       // 計算結果 (純數字)
+        actualWage,      // 輸入：實際工資
+        selfRate,        // 輸入：自提率 (v-model 綁定這裡)
+        insuredWage,     // 輸出：提繳工資級距 (可顯示給使用者看)
+        selfAmount,      // 輸出：自提金額 (從薪水扣)
+        employerAmount   // 輸出：公提金額 (公司出)
     };
 }

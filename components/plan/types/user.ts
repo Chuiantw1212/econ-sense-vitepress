@@ -31,7 +31,7 @@ export interface PersonalProfile {
 /**
  * 職業與收入資料 (Career & Income)
  */
-export interface CareerProfile {
+export interface UserCareer {
     baseSalary: number;
     otherAllowance: number;
     laborInsurance: number;
@@ -45,6 +45,9 @@ export interface CareerProfile {
     // 員工認股 (保留前一版功能)
     stockDeduction: number;
     stockCompanyMatch: number;
+
+    // 新增：眷屬人數
+    dependents: number;
 }
 
 /**
@@ -219,7 +222,7 @@ export interface RealEstateProperty {
 // 總表單狀態介面 (Global Form State)
 export interface UserFormState {
     profile: PersonalProfile;
-    career: CareerProfile;
+    career: UserCareer;
     retirement: RetirementPlan;
     portfolio: PortfolioPosition; // 若是多筆投資，建議改為 PortfolioPosition[]
     spouse: SpouseProfile;
