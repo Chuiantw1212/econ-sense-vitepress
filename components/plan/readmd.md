@@ -1,130 +1,147 @@
-# 線上理財規劃書系統架構 (Management Reporting Edition)
+# 線上理財規劃書 - 功能導航架構 (Wealth OS: Functional Dashboard)
 
-## 1. 專案概述 (Overview)
+## 1. 架構理念 (Core Philosophy)
 
-本專案旨在構建一個互動式的「線上理財規劃書」。不同於傳統記帳，本系統採用**管理報表 (Management Reporting)** 邏輯，將資產依據「流動性」與「決策性質」進行分類，並透過自動化分析 CSV 交易數據，提供精準的年度報酬率與財務自由度試算。
+本系統捨棄傳統會計「三表分離」的設計，改採**「模組化儀表板 (Modular Dashboard)」**架構。
+核心邏輯為：**「資產驅動收入 (Asset Engine) → 收入覆蓋支出 (Operations) → 剩餘轉向未來 (Navigator)。」**
 
-* **技術棧：** VitePress (SSG) + Vue 3 + Element Plus。
-* **核心理念：** 管理引導決策。區分「金融」、「房地產」、「企業」三大核心資產。
-* **樣式原則：** **Zero Custom CSS**。嚴格限定使用 Element Plus 內建 Props 與 Utility Classes。
+* **技術棧：** VitePress (SSG) + Vue 3 + Pinia (State)
+* **UI 框架：** Element Plus (嚴格執行 **Zero Custom CSS** 原則)
+* **管理視角：** 以「決策」為核心，而非「記帳」。
 
 ---
 
-## 2. 核心資料流向 (Data Architecture)
-
-系統採用單向資料流，由「資產存量」衍生「理財流量」，最終驗證「未來目標」。
+## 2. 核心資料流向 (Data Flow)
 
 ```mermaid
 graph TD
-    subgraph BalanceSheet [資產負債表 - 存量管理]
-        A1[金融資產卡片]
-        A2[房地產投資卡片]
-        A3[企業股權卡片]
-        B[退休權益卡 - 勞保/勞退]
-        C[負債管理卡]
+    subgraph AssetEngine [I. 資產引擎 (產出金流)]
+        A1[金融資產 - CSV自動化]
+        A2[房地產 - 租金管理]
+        A3[企業股權 - 分紅估值]
+        calc_IRR[實測年化報酬率 IRR]
+        calc_Passive[被動收入總額]
     end
 
-    subgraph Analytics [自動化分析層 - Logic]
-        CSV[CSV 匯入組件] -->|解析| IRR[年化報酬率 XIRR]
-        CSV -->|解析| Cost[本金水位線追蹤]
+    subgraph LifeOps [II. 生活營運 (消耗金流)]
+        B1[職業收入 - 主動]
+        B2[生活支出 - 信用卡透視]
+        calc_Burn[月均支出 Burn Rate]
     end
 
-    subgraph IncomeStatement [收支表 - 流量監控]
-        D[職業收入卡]
-        E[理財收入 - 股息/租金/分紅]
-        F[生活支出 - 5月均值/信用卡透視]
-        G[年度結餘 & 財富自由度]
+    subgraph Navigator [III. 目標導航 (預測未來)]
+        C1[財富自由度 (Passive / Burn)]
+        C2[退休權益庫 (勞保/勞退)]
+        C3[生涯模擬 (基於 IRR)]
     end
 
-    subgraph CashFlow [現金流量表 - 未來試算]
-        H[資產成長模擬 - 基於實測 IRR]
-        I[重大目標 - 購屋/退休/專案]
-    end
-
-    A1 & A2 & A3 -->|提供市值與報酬| IRR
-    IRR -->|自動填入預期| H
-    A1 & A2 & A3 -->|衍生現金流| E
-    B -->|預估年金| I
+    A1 & A2 & A3 --> calc_IRR
+    A1 & A2 & A3 --> calc_Passive
+    B2 --> calc_Burn
+    
+    calc_Passive --> C1
+    calc_Burn --> C1
+    calc_IRR --> C3
+    calc_Passive & B1 & calc_Burn -->|年度結餘| C3
 
 ```
 
 ---
 
-## 3. 模組架構詳解 (Module Architecture)
+## 3. 三大核心功能模組 (The Three Pillars)
 
-### 3.1. 收支管理 (Income & Expense)
+### I. 資產引擎模組 (Asset Engine)
 
-**定位：** 精準捕捉消費行為，並區分主/被動收入。
+> **定位：** 您的「印鈔機」。將資產存量與其產生的被動收益（股息、租金）整合在同一管理單元，避免重複輸入。
 
-* **職業收入卡片：** 紀錄主動收入水位。
-* **信用卡支出透視 (Credit Card Insight)：**
-* **UI：** `el-tabs` 切換三張管理卡。
-* **功能：** 計算過去 5 個月「平均開支」、「訂閱開支」、「專案開支」。
-
-
-* **理財收入卡：** 分類顯示金融配息、房地產租金、企業分紅。
-
-### 3.2. 資產負債表 (Management Reporting Cards)
-
-**定位：** 核心管理區塊，採用三張獨立卡片區分不同決策性質。
-
-#### **A. 金融投資資產卡 (Financial Assets)**
-
-* **資料來源：** 支援 `庫存.CSV` 匯入。
-* **核心指標：** 持有成本 (Principal)、目前市值、未實現盈虧。
-* **自動化邏輯：** 排除 CSV 小計列，自動彙整 JPY/USD 多幣別。
-
-#### **B. 房地產投資卡 (Real Estate)**
-
-* **功能：** 管理非自住的投資物件。
-* **關鍵欄位：** 銀行估值、租金投報率 (Yield)、房價預期增值率。
-* **關聯性：** 與負債卡中的房貸連動。
-
-#### **C. 企業/股權投資卡 (Business)**
-
-* **功能：** 管理私人公司股權、合夥投資。
-* **關鍵欄位：** 原始出資額、預計股利分紅、企業經營估值。
-
-#### **D. 退休權益整合卡 (Retirement)**
-
-* **UI：** 三層式設計。
-* **層 1：** 退休後月領總額大字報。
-* **層 2：** 勞保與勞退分欄對比。
-* **層 3：** 距離目標退休金的缺口進度條 (`el-progress`)。
+1. **金融資產中心 (Financial Hub)**
+* **數據來源：** 自動解析 `庫存.CSV` (現值) 與 `交易.CSV` (流向)。
+* **核心指標：**
+* **本金水位線：** 透過交易紀錄反推真實投入成本。
+* **實測 IRR：** 計算過去一年的真實資金效率 (如美金 17.5%)。
+* **預估股息：** 根據庫存自動推算年度理財收入。
 
 
 
-### 3.3. 現金流量表 (Financial Projections)
 
-**定位：** 使用實測數據模擬生涯財富。
+2. **房地產管理 (Real Estate)**
+* **功能：** 管理非自住投資物件。
+* **指標：** 銀行估值、租金投報率 (Yield)、槓桿倍數。
 
-* **IRR 實測驅動：** 提供「實測年化 (如 17.5%)」與「保守市場平均」兩種模式切換。
-* **重大目標事件：** 使用 `el-timeline` 標註未來大額專案支出。
-* **黑字倒閉預警：** 若未來年度現金餘額低於緊急預備金，顯示 `el-tag` 警告。
+
+3. **企業股權 (Business)**
+* **功能：** 私人股權與公司經營。
+* **指標：** 企業估值、年度分紅回報。
+
+
 
 ---
 
-## 4. 資料解析與分析邏輯 (Analytical Logic)
+### II. 生活營運模組 (Life Operations)
 
-為了實現「一眼看懂賺多少」，系統需包含以下運算邏輯：
+> **定位：** 您的「日常營運成本」。專注於現金流動性管理。
 
-* **本金水位線追蹤：** 從 `交易.CSV` 提取買入總額，對比 `庫存.CSV` 的持有成本，確保本金計算不因交易損益而混淆。
-* **XIRR 年化報酬率：** 結合資金進出日期與期末市值，算出過去一年的真實投資效率。
-* **多幣別加權平均：** 自動處理 JPY/USD 匯率，提供單一基準幣別 (如 TWD) 的管理視角。
+1. **職業收入分析：**
+* 管理薪資單與非經常性獎金 (Bonus)。
+
+
+2. **信用卡穿透分析 (Credit Card Insight)：**
+* **架構：** `el-tabs` 切換不同支付工具。
+* **邏輯：** 輸入過去 5 個月帳單，自動計算「月均支出」。
+* **分類：**
+* 🟢 **一般開支** (浮動生活費)
+* 🔵 **訂閱開支** (固定週期性)
+* 🟠 **專案開支** (一次性大額，不計入常態月均，但計入年度預算)
+
+
+
+
 
 ---
 
-## 5. 全域組件與規範 (Global Standards)
+### III. 目標導航模組 (Strategic Navigator)
 
-* **`useFinancialFormatter`**: 處理貨幣符號、千分位及正負值顏色控制 (Green for profit, Red for loss)。
-* **`ManagementCard`**: 統一封裝 `el-card`，要求具備 `header-slot` 用於放置幣別切換按鈕。
-* **樣式禁令：** 禁止使用任何 `style="..."` 標籤或自定義 CSS，所有佈局透過 `el-row`, `el-col`, `el-space` 及內建 `margin/padding` utility classes 達成。
+> **定位：** 您的「戰情室」。回答「還要多久退休」與「風險係數」。
+
+1. **財富自由度 (Financial Freedom Dashboard)：**
+* **公式：** `[資產引擎] 被動收入總額 / [生活營運] 常態月均支出`。
+* **呈現：** 使用 `el-progress` 視覺化進度。
+
+
+2. **退休金庫 (Pension Vault)：**
+* 整合勞保 (年金) 與勞退 (專戶) 的未來給付預估。
+
+
+3. **生涯模擬沙盒 (Life Sim Sandbox)：**
+* **參數開關：** 切換 `[個人實測 IRR]` vs `[市場平均 7%]`。
+* **趨勢圖：** 預測未來 10-30 年的資產累積曲線。
+
+
 
 ---
 
-## 6. 開發優先級 (Roadmap)
+## 4. UI/UX 實作規範 (Implementation Standards)
 
-1. **Phase 1 - 基礎解析：** 實作 CSV 匯入邏輯與「金融投資卡」的本金/盈虧展示。
-2. **Phase 2 - 三卡鼎立：** 建立「房地產」與「企業投資」管理卡片，完善資產負債表。
-3. **Phase 3 - 流量連動：** 根據資產卡的數據，自動生成收支表中的理財收入與財富自由度。
-4. **Phase 4 - 生涯模擬：** 根據實測年化報酬率，跑出未來 30 年的現金流量趨勢圖。
+* **Zero Custom CSS：** 嚴格禁止 `<style>` 區塊。所有排版使用 Element Plus 的 `el-row`, `el-col`, `el-space`, `el-card` 及內建 Utility Classes。
+* **狀態管理 (Pinia)：** 建立 `useAssetStore` 與 `useExpenseStore`，確保「資產引擎」的數據變動能即時反映在「財富自由度」上。
+* **響應式設計：** 優先考慮 `xs` (手機) 與 `md` (桌面) 的 `el-col` 斷點配置。
+
+---
+
+## 5. 開發優先級 (Roadmap)
+
+1. **Phase 1: 建立資產引擎心臟 (Asset Core)**
+* 建置 `useAssetStore`。
+* 開發 `AssetFinancial.vue`：實作 CSV 匯入、小計排除邏輯、本金/市值/IRR 計算。
+
+
+2. **Phase 2: 完善生活營運 (Operations)**
+* 開發 `ExpenseCreditCard.vue`：實作 5 個月均值算法。
+
+
+3. **Phase 3: 連結目標導航 (Navigation)**
+* 開發 `DashboardFreedom.vue`：串接前兩者的數據，顯示自由度。
+
+
+4. **Phase 4: 擴充資產類別 (Expansion)**
+* 加入房地產與企業模組。
