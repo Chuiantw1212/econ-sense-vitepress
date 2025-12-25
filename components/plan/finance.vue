@@ -1,21 +1,5 @@
 <template>
     <el-space direction="vertical" fill size="large" style="width: 100%">
-
-        <el-alert v-if="markets.length > 0" type="info" :closable="false" show-icon>
-            <template #title>
-                <div style="display: flex; gap: 20px;">
-                    <span>總庫存: NT$ {{ Math.round(summary.totalValue).toLocaleString() }}</span>
-                    <span>
-                        總損益:
-                        <span
-                            :style="{ color: summary.totalPnl >= 0 ? 'var(--el-color-danger)' : 'var(--el-color-success)' }">
-                            {{ summary.totalPnl > 0 ? '+' : '' }}{{ Math.round(summary.totalPnl).toLocaleString() }}
-                        </span>
-                    </span>
-                </div>
-            </template>
-        </el-alert>
-
         <el-empty v-if="markets.length === 0" description="尚未配置任何市場">
             <el-button type="primary" :icon="Plus" @click="addMarket">新增市場資產</el-button>
         </el-empty>
@@ -28,7 +12,7 @@
                         <el-icon>
                             <TrendCharts />
                         </el-icon>
-                        資產配置 {{ index + 1 }} - {{ marketDefinitions[item.countryCode]?.label.split(' ')[0] }}
+                        {{ marketDefinitions[item.countryCode]?.label.split(' ')[0] }}
                     </span>
                     <el-button type="danger" link :icon="Delete" @click="removeMarket(index)">移除</el-button>
                 </div>
