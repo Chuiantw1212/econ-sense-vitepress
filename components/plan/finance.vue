@@ -15,7 +15,7 @@
                         </el-icon>
                         資產配置 {{ index + 1 }}
                     </span>
-                    <el-button type="danger" link :icon="Delete" @click="removeMarket(index)">移除</el-button>
+                    <el-button type="danger" circle :icon="Delete" @click="removeMarket(index)"></el-button>
                 </div>
 
                 <el-divider style="margin: 12px 0;" />
@@ -109,50 +109,16 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Plus, Delete, TrendCharts } from '@element-plus/icons-vue'
-
-// --- 1. Props 定義 (接軌外部資料) ---
-interface MarketOption {
-    code: string        // e.g., "US"
-    label: string       // e.g., "美國"
-    currency: string    // e.g., "USD"
-    defaultRate: number // e.g., 32.5
-}
-
-interface Metadata {
-    opt_market: {
-        name: string
-        id: string
-        list: MarketOption[]
-    }
-}
+import { UserSecuritiy } from './types/user'
+import { MetadataMap, OptionItem } from './types/metadata'
 
 const props = defineProps<{
-    metadata: Metadata
+    metadata: MetadataMap
 }>()
-
-// --- 2. 工具函數：自動產生國旗 (無需 CSS/圖片) ---
-const getFlagEmoji = (countryCode: string) => {
-    if (!countryCode) return '🌐'
-    const codePoints = countryCode
-        .toUpperCase()
-        .split('')
-        .map(char => 127397 + char.charCodeAt(0))
-    return String.fromCodePoint(...codePoints)
-}
-
-// --- 3. 資料結構 ---
-interface MarketItem {
-    id: number
-    countryCode: string  // 對應 metadata 中的 code
-    currency: string     // 連動
-    exchangeRate: number // 連動但可修
-    marketValue: number
-    realizedPnl: number
-}
 
 // --- 4. 響應式狀態 ---
 // 預設先給一筆資料，若 metadata 尚未載入，則 countryCode 暫留空
-const markets = ref<MarketItem[]>([
+const markets = ref<UserSecuritiy[]>([
     { id: 1, countryCode: '', currency: '', exchangeRate: 0, marketValue: 0, realizedPnl: 0 }
 ])
 
@@ -181,7 +147,7 @@ const removeMarket = (index: number) => {
 }
 
 // 關鍵邏輯：當「市場」改變時，從 props 查找對應資料並填入
-const handleMarketChange = (item: MarketItem) => {
+const handleMarketChange = (item: UserSecuritiy) => {
     // 從 props.metadata.opt_market.list 中尋找
     const selectedOption = marketOptions.value.find(opt => opt.code === item.countryCode)
 
