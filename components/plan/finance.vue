@@ -1,5 +1,5 @@
 <template>
-    <el-space direction="vertical" fill size="large" style="width: 100%">
+    <el-space direction="vertical" fill size="large" style="width: 100%" v-loading="isSubmitting">
 
         <el-empty v-if="markets.length === 0" description="尚未配置任何市場">
             <el-button type="primary" :icon="Plus" @click="addMarket">新增市場資產</el-button>
@@ -15,7 +15,8 @@
                         </el-icon>
                         資產配置 {{ index + 1 }}
                     </span>
-                    <el-button type="danger" circle :icon="Delete" @click="removeMarket(index)"></el-button>
+
+                    <el-button type="danger" circle :icon="Delete" @click="removeMarket(index, item)"></el-button>
                 </div>
 
                 <el-divider style="margin: 12px 0;" />
@@ -105,59 +106,114 @@
 
     </el-space>
 </template>
-
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Plus, Delete, TrendCharts } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 import { UserSecuritiy } from './types/user'
-import { MetadataMap, OptionItem } from './types/metadata'
+import { MetadataMap } from './types/metadata'
+import { useApi } from '@/components/plan/composables/useApi'
+
+const { authFetch } = useApi()
 
 const props = defineProps<{
     metadata: MetadataMap
 }>()
 
-// --- 4. 響應式狀態 ---
-// 預設先給一筆資料，若 metadata 尚未載入，則 countryCode 暫留空
-const markets = ref<UserSecuritiy[]>([
-    { id: 1, countryCode: '', currency: '', exchangeRate: 0, marketValue: 0, realizedPnl: 0 }
-])
+// --- 狀態管理 ---
+const markets = ref<UserSecuritiy[]>([])
+const isSubmitting = ref(false)
 
-let nextId = 2
-
-// 取得市場選單列表 (防呆：若父層還沒傳入 metadata 則回傳空陣列)
 const marketOptions = computed(() => {
     return props.metadata?.opt_market?.list || []
 })
 
-// --- 5. 業務邏輯 ---
+// --- 業務邏輯 (Function Declaration Style) ---
 
-const addMarket = () => {
-    markets.value.push({
-        id: nextId++,
-        countryCode: '',
-        currency: '',
-        exchangeRate: 0,
-        marketValue: 0,
-        realizedPnl: 0
-    })
-}
+/**
+ * 新增市場 (POST)
+ */
+async function addMarket() {
+    isSubmitting.value = true
+    try {
+        const response = await authFetch('/api/v1/user/securities', {
+            method: 'POST',
+        })
 
-const removeMarket = (index: number) => {
-    markets.value.splice(index, 1)
-}
-
-// 關鍵邏輯：當「市場」改變時，從 props 查找對應資料並填入
-const handleMarketChange = (item: UserSecuritiy) => {
-    // 從 props.metadata.opt_market.list 中尋找
-    const selectedOption = marketOptions.value.find(opt => opt.code === item.countryCode)
-
-    if (selectedOption) {
-        item.currency = selectedOption.currency
-        item.exchangeRate = selectedOption.defaultRate
+        if (response && response.ok) {
+            const data = await response.json()
+            markets.value.push(data as UserSecuritiy)
+            ElMessage.success('新增成功')
+        }
+    } catch (error) {
+        console.error('API Error:', error)
+        ElMessage.error('新增失敗')
+    } finally {
+        isSubmitting.value = false
     }
 }
 
-// 總計摘要
+/**
+ * 移除市場 (DELETE)
+ */
+async function removeMarket(index: number, item: UserSecuritiy) {
+    if (!item.id) {
+        markets.value.splice(index, 1)
+        return
+    }
+
+    isSubmitting.value = true
+    try {
+        const response = await authFetch(`/api/v1/user/securities/${item.id}`, {
+            method: 'DELETE'
+        })
+
+        if (response && response.ok) {
+            markets.value.splice(index, 1)
+            ElMessage.success('已移除資產')
+        }
+    } catch (error) {
+        console.error('API Error:', error)
+        ElMessage.error('刪除失敗')
+    } finally {
+        isSubmitting.value = false
+    }
+}
+
+/**
+ * 切換市場並更新 (PUT)
+ * 當下拉選單改變時，更新前端狀態並同步回傳 Server
+ */
+async function handleMarketChange(item: UserSecuritiy) {
+    const selectedOption = marketOptions.value.find(opt => opt.code === item.countryCode)
+
+    if (selectedOption) {
+        // 1. 前端先更新，讓 UI 即時反應
+        item.currency = selectedOption.currency
+        item.exchangeRate = selectedOption.defaultRate
+
+        // 2. 如果這是一筆已存在的資料 (有 ID)，則發送 PUT 請求同步後端
+        if (item.id) {
+            try {
+                // 注意：PUT 通常需要 body 告訴後端更新後的內容
+                await authFetch(`/api/v1/user/securities/${item.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(item)
+                })
+
+                // 這裡通常不需要 ElMessage.success，以免使用者覺得一直跳通知很煩
+            } catch (error) {
+                console.error('Update failed:', error)
+                ElMessage.error('更新市場資訊失敗')
+            }
+        }
+    }
+}
+
+// 總計摘要 (Computed 依舊保持箭頭函式即可，這是 Vue 的慣例)
 const summary = computed(() => {
     const totalValue = markets.value.reduce((sum, item) => sum + (item.marketValue * item.exchangeRate), 0)
     const totalPnl = markets.value.reduce((sum, item) => sum + (item.realizedPnl * item.exchangeRate), 0)
