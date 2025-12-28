@@ -45,6 +45,17 @@
      2. 特殊區塊優化 (Structural Elements)
   ========================================= */
 
+    // 通用前導段落 (Lead Paragraph)
+    h1+p:not(.affiliation) {
+        font-size: 1.15rem;
+        line-height: 1.85;
+        color: var(--vp-c-text-2);
+        border-left: 4px solid var(--vp-c-brand-1);
+        padding-left: 1.5rem;
+        margin-bottom: 4rem;
+        margin-top: 2rem;
+    }
+
     // 引用區塊 (Blockquote) 優化
     blockquote {
         background-color: var(--vp-c-bg-soft);
