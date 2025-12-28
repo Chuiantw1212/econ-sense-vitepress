@@ -76,7 +76,7 @@ export default defineConfig({
           { text: '不買保險的保險觀', link: '/finance/insurance' },
           { text: '財商桌遊: 小富翁大贏家', link: '/finance/financemj' },
           { text: '投資時鐘', link: '/finance/investment-clock' },
-          { text: 'GARP選股策略', link: '/finance/garp' },
+          { text: 'GARP投資策略', link: '/finance/garp' },
           // { text: '說書: 金錢整理術', link: '/finance/management' },
         ]
       },
