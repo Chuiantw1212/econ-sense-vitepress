@@ -55,7 +55,12 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
-### 房產
+### 不動產
+
+<div v-if="isReady">
+    <RealEstate :metadata="metadata" />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
 
 ### 企業
 
@@ -82,10 +87,10 @@ import { debounce } from 'lodash-es'
 import { ElMessage } from 'element-plus'
 
 // --- Components ---
-import Portfolio from '@/components/plan/portfolio.vue'
 import Profile from '@/components/plan/profile.vue'
 import Career from '@/components/plan/career.vue'
-// import Plan from '@/components/plan/plan.vue' // 若沒用到可移除
+import Portfolio from '@/components/plan/portfolio.vue'
+import RealEstate from '@/components/plan/realEstate.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'

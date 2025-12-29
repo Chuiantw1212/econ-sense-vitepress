@@ -1,6 +1,8 @@
 <template>
     <el-space direction="vertical" fill size="large" style="width: 100%" v-loading="isSubmitting">
 
+        <RoiRadarChart v-if="markets.length !== 0" :portfolios="markets" />
+
         <el-empty v-if="markets.length === 0" description="尚未配置任何市場">
             <el-button type="primary" :icon="Plus" @click="addMarket">新增市場資產</el-button>
         </el-empty>
@@ -16,7 +18,7 @@
                         資產配置 {{ index + 1 }}
                     </span>
 
-                    <el-button type="danger" circle :icon="Delete" @click="removeMarket(index, item)"></el-button>
+                    <el-button type="danger" plain circle :icon="Delete" @click="removeMarket(index, item)"></el-button>
                 </div>
 
                 <el-divider style="margin: 12px 0;" />
@@ -84,8 +86,6 @@
             style="width: 100%; margin-top: 8px; border-style: dashed;" @click="addMarket">
             新增市場資產
         </el-button>
-
-        <RoiRadarChart :portfolios="markets" />
 
     </el-space>
 </template>
