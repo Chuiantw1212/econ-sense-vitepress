@@ -25,7 +25,7 @@
                     <el-col :span="12" :xs="24">
                         <el-form-item label="投資市場">
                             <el-select v-model="item.countryCode" placeholder="請選擇投資市場" style="width: 100%" filterable
-                                @change="() => handleMarketChange(item)">
+                                @change="handleMarketChange(item)">
                                 <el-option v-for="opt in marketOptions" :key="opt.code" :label="opt.label"
                                     :value="opt.code" />
                             </el-select>
@@ -51,11 +51,12 @@
                     <el-col :span="12" :xs="24">
                         <el-form-item label="市值 (原幣)">
                             <el-input-number v-model="item.marketValue" :min="0" :step="1000" style="width: 100%"
-                                controls-position="right" :disabled="!item.currency" />
+                                controls-position="right" :disabled="!item.currency"
+                                @change="handleMarketChange(item)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="折合台幣">
+                        <el-form-item label="市值折合台幣">
                             <el-tag type="info" disable-transitions style="width: 100%; justify-content: start;"
                                 :disabled="true">
                                 ≈ {{ Math.round(item.marketValue * item.exchangeRate).toLocaleString() }}
@@ -66,18 +67,19 @@
 
                 <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="年已實現損益">
+                        <el-form-item label="年已實現損益(台幣)">
                             <el-input-number v-model="item.realizedPnl" :step="1000" style="width: 100%"
-                                controls-position="right" placeholder="原幣金額" :disabled="!item.currency" />
+                                controls-position="right" placeholder="原幣金額" :disabled="!item.currency"
+                                @change="handleMarketChange(item)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="折合台幣損益">
+                        <!-- <el-form-item label="折合台幣損益">
                             <el-text tag="b" :type="item.realizedPnl >= 0 ? 'danger' : 'success'">
                                 {{ item.realizedPnl >= 0 ? '+' : '' }}
-                                {{ Math.round(item.realizedPnl * item.exchangeRate).toLocaleString() }}
+                                {{ Math.round(item.realizedPnl).toLocaleString() }}
                             </el-text>
-                        </el-form-item>
+                        </el-form-item> -->
                     </el-col>
                 </el-row>
 
@@ -91,13 +93,22 @@
 
         <el-alert v-if="markets.length > 0" type="info" :closable="false" show-icon>
             <template #title>
-                <div style="display: flex; gap: 20px;">
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                     <span>總庫存: NT$ {{ Math.round(summary.totalValue).toLocaleString() }}</span>
+
                     <span>
-                        總損益:
+                        年實現損益:
                         <span
                             :style="{ color: summary.totalPnl >= 0 ? 'var(--el-color-danger)' : 'var(--el-color-success)' }">
                             {{ summary.totalPnl > 0 ? '+' : '' }}{{ Math.round(summary.totalPnl).toLocaleString() }}
+                        </span>
+                    </span>
+
+                    <span>
+                        年報酬率:
+                        <span
+                            :style="{ color: summary.totalRoi >= 0 ? 'var(--el-color-danger)' : 'var(--el-color-success)' }">
+                            {{ summary.totalRoi > 0 ? '+' : '' }}{{ (summary.totalRoi * 100).toFixed(2) }}%
                         </span>
                     </span>
                 </div>
@@ -234,8 +245,27 @@ async function handleMarketChange(item: UserPortfolio) {
 
 // 總計摘要
 const summary = computed(() => {
-    const totalValue = markets.value.reduce((sum, item) => sum + (item.marketValue * item.exchangeRate), 0)
-    const totalPnl = markets.value.reduce((sum, item) => sum + (item.realizedPnl * item.exchangeRate), 0)
-    return { totalValue, totalPnl }
+    // 1. 總庫存市值 (TWD) = 原幣市值 * 匯率
+    const totalValue = markets.value.reduce((sum, item) => {
+        const val = item.marketValue || 0
+        const rate = item.exchangeRate || 1 // 防呆
+        return sum + (val * rate)
+    }, 0)
+
+    // 2. 總損益 (TWD) = 直接加總 (因為用戶輸入的就是台幣)
+    const totalPnl = markets.value.reduce((sum, item) => {
+        const pnl = item.realizedPnl || 0
+        return sum + pnl
+    }, 0)
+
+    // 3. 計算本金 = 總市值 - 總損益 (依照您定義的公式)
+    // 邏輯：市值 110萬 (含獲利), 獲利 10萬 => 本金 = 100萬
+    const principal = totalValue - totalPnl
+
+    // 4. 年報酬率 = 損益 / 本金
+    // 防呆：如果本金為 0 (例如剛新增還沒填市值)，報酬率設為 0
+    const totalRoi = principal !== 0 ? totalPnl / principal : 0
+
+    return { totalValue, totalPnl, totalRoi }
 })
 </script>
