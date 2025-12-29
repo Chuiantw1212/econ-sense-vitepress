@@ -55,8 +55,7 @@ export function useUserPlan() {
             if (res) {
                 const remoteData = await res.json()
                 if (remoteData.id) {
-                    Object.assign(userForm.value.profile, remoteData.profile)
-                    Object.assign(userForm.value.career, remoteData.career)
+                    userForm.value = remoteData
                 }
             }
         } catch (e) {

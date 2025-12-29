@@ -53,7 +53,7 @@ export interface UserCareer {
 /**
  * 
  */
-export interface UserSecuritiy {
+export interface UserPortfolio {
     /** 唯一識別碼 */
     id: string | number;
 
@@ -87,5 +87,5 @@ export interface UserSecuritiy {
 export interface UserFormState {
     profile: PersonalProfile;
     career: UserCareer;
-    securities: UserSecuritiy[]
+    portfolios: UserPortfolio[]
 }

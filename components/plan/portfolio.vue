@@ -106,22 +106,39 @@
 
     </el-space>
 </template>
+
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { Plus, Delete, TrendCharts } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { UserSecuritiy } from './types/user'
+// 引用更新後的 Type
+import { UserPortfolio } from './types/user'
 import { MetadataMap } from './types/metadata'
 import { useApi } from '@/components/plan/composables/useApi'
 
 const { authFetch } = useApi()
 
-const props = defineProps<{
-    metadata: MetadataMap
-}>()
-
+// 1. Props 定義更新：加入 portfolios
+// 修改 defineProps 部分
+const props = withDefaults(defineProps<{
+    metadata: MetadataMap,
+    modelValue?: UserPortfolio[] // 加個 ? 變成可選，雖然有了預設值其實沒差，但語意較佳
+}>(), {
+    // 設定預設值為空陣列
+    modelValue: () => []
+})
 // --- 狀態管理 ---
-const markets = ref<UserSecuritiy[]>([])
+
+// 2. 初始化 markets
+// 使用 props.modelValue 初始化，並建立一個本地副本以免直接修改 props
+const markets = ref<UserPortfolio[]>([...(props.modelValue || [])])
+
+// [重要] 監聽 props 變更
+// 若父層資料是 API 非同步取得，這個 watch 確保資料載入後 markets 會同步更新
+watch(() => props.modelValue, (newVal) => {
+    markets.value = [...(newVal || [])]
+}, { deep: true })
+
 const isSubmitting = ref(false)
 
 const marketOptions = computed(() => {
@@ -136,13 +153,14 @@ const marketOptions = computed(() => {
 async function addMarket() {
     isSubmitting.value = true
     try {
-        const response = await authFetch('/api/v1/user/securities', {
+        const response = await authFetch('/api/v1/user/portfolios', {
             method: 'POST',
         })
 
         if (response && response.ok) {
             const data = await response.json()
-            markets.value.push(data as UserSecuritiy)
+            // 3. 型別斷言更新為 UserPortfolio
+            markets.value.push(data as UserPortfolio)
             ElMessage.success('新增成功')
         }
     } catch (error) {
@@ -156,7 +174,8 @@ async function addMarket() {
 /**
  * 移除市場 (DELETE)
  */
-async function removeMarket(index: number, item: UserSecuritiy) {
+async function removeMarket(index: number, item: UserPortfolio) {
+    // 若沒有 ID (極少見，除非是純前端暫存)，直接移除
     if (!item.id) {
         markets.value.splice(index, 1)
         return
@@ -164,7 +183,7 @@ async function removeMarket(index: number, item: UserSecuritiy) {
 
     isSubmitting.value = true
     try {
-        const response = await authFetch(`/api/v1/user/securities/${item.id}`, {
+        const response = await authFetch(`/api/v1/user/portfolios/${item.id}`, {
             method: 'DELETE'
         })
 
@@ -184,7 +203,7 @@ async function removeMarket(index: number, item: UserSecuritiy) {
  * 切換市場並更新 (PUT)
  * 當下拉選單改變時，更新前端狀態並同步回傳 Server
  */
-async function handleMarketChange(item: UserSecuritiy) {
+async function handleMarketChange(item: UserPortfolio) {
     const selectedOption = marketOptions.value.find(opt => opt.code === item.countryCode)
 
     if (selectedOption) {
@@ -196,7 +215,7 @@ async function handleMarketChange(item: UserSecuritiy) {
         if (item.id) {
             try {
                 // 注意：PUT 通常需要 body 告訴後端更新後的內容
-                await authFetch(`/api/v1/user/securities/${item.id}`, {
+                await authFetch(`/api/v1/user/portfolios/${item.id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -204,7 +223,7 @@ async function handleMarketChange(item: UserSecuritiy) {
                     body: JSON.stringify(item)
                 })
 
-                // 這裡通常不需要 ElMessage.success，以免使用者覺得一直跳通知很煩
+                // 靜默更新成功，不跳提示干擾體驗
             } catch (error) {
                 console.error('Update failed:', error)
                 ElMessage.error('更新市場資訊失敗')
@@ -213,7 +232,7 @@ async function handleMarketChange(item: UserSecuritiy) {
     }
 }
 
-// 總計摘要 (Computed 依舊保持箭頭函式即可，這是 Vue 的慣例)
+// 總計摘要
 const summary = computed(() => {
     const totalValue = markets.value.reduce((sum, item) => sum + (item.marketValue * item.exchangeRate), 0)
     const totalPnl = markets.value.reduce((sum, item) => sum + (item.realizedPnl * item.exchangeRate), 0)

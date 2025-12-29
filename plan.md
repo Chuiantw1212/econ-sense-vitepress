@@ -50,8 +50,8 @@ head:
 
 ### 金融
 
-<div v-if="true||isReady">
-    <Finance v-model="userForm.finance"  :metadata="metadata" />
+<div v-if="isReady">
+    <Portfolio  v-model="userForm.portfolios"  :metadata="metadata" />
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
@@ -82,7 +82,7 @@ import { debounce } from 'lodash-es'
 import { ElMessage } from 'element-plus'
 
 // --- Components ---
-import Finance from '@/components/plan/finance.vue'
+import Portfolio from '@/components/plan/portfolio.vue'
 import Profile from '@/components/plan/profile.vue'
 import Career from '@/components/plan/career.vue'
 // import Plan from '@/components/plan/plan.vue' // 若沒用到可移除
@@ -134,7 +134,7 @@ const createAutoSaver = (endpoint: string, label: string, delay = 1000) => {
 // 實例化儲存器
 const saveProfile = createAutoSaver('/api/v1/user/profile', '個人檔案', 800)
 const saveCareer = createAutoSaver('/api/v1/user/career', '職業收入', 1000)
-const saveFinance = createAutoSaver('/api/v1/user/finance', '金融資產', 1000)
+// const savePortfolio = createAutoSaver('/api/v1/user/portfolios', '金融資產', 1000)
 
 
 // --- 監聽器 (Watchers) ---
@@ -154,11 +154,11 @@ watch(
 )
 
 // 2. 監聽 Career 變動
-watch(
-    () => userForm.value.finance,
-    (newVal) => { if (isReady.value) saveCareer(newVal) },
-    { deep: true }
-)
+// watch(
+//     () => userForm.value.portfolios,
+//     (newVal) => { if (isReady.value) saveCareer(newVal) },
+//     { deep: true }
+// )
 
 
 // --- 初始化與生命週期 ---
