@@ -77,6 +77,8 @@ export default defineConfig({
           { text: '退休規劃(下)', link: '/finance/retirement-2' },
           { text: '不買保險的保險觀', link: '/finance/insurance' },
           { text: '財商桌遊: 小富翁大贏家', link: '/finance/financemj' },
+          { text: '投資時鐘', link: '/finance/investment-clock' },
+          { text: 'GARP投資策略', link: '/finance/garp' },
           // { text: '說書: 金錢整理術', link: '/finance/management' },
         ]
       },
@@ -94,7 +96,8 @@ export default defineConfig({
           { text: '人類烏托邦(中)', link: '/human/utopia-2' },
           { text: '人類烏托邦(下)', link: '/human/utopia-3' },
           { text: '單身狗地獄求生', link: '/human/single' },
-          { text: '高知識寄生蟲', link: '/human/parasite' },
+          // { text: '高知識寄生蟲', link: '/human/parasite' },
+          // { text: '液化關係', link: '/human/liquefaction' },
           // { text: '說書: 人類大歷史', link: '/human/sapiens' },
         ]
       },
@@ -103,9 +106,10 @@ export default defineConfig({
         link: '/growth',
         collapsed: true,
         items: [
-          { text: '軟體專案實務', link: '/growth/project' },
-          { text: '軟體職涯入門', link: '/growth/beginner' },
           { text: '何倫碼測驗&NLP職涯', link: '/growth/riasec' },
+          { text: '軟體職涯入門', link: '/growth/beginner' },
+          { text: '軟體專案實務', link: '/growth/project' },
+          { text: '工程師的五個等級', link: '/growth/engineer-levels' },
           // { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
           // { text: '我是學渣，也是黑馬', link: '/growth/education' },
           // { text: '打造知識飛輪', link: '/growth/flywheel' },
