@@ -74,12 +74,6 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
-                        <!-- <el-form-item label="折合台幣損益">
-                            <el-text tag="b" :type="item.realizedPnl >= 0 ? 'danger' : 'success'">
-                                {{ item.realizedPnl >= 0 ? '+' : '' }}
-                                {{ Math.round(item.realizedPnl).toLocaleString() }}
-                            </el-text>
-                        </el-form-item> -->
                     </el-col>
                 </el-row>
 
@@ -91,34 +85,13 @@
             新增市場資產
         </el-button>
 
-        <el-alert v-if="markets.length > 0" type="info" :closable="false" show-icon>
-            <template #title>
-                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                    <span>總庫存: NT$ {{ Math.round(summary.totalValue).toLocaleString() }}</span>
-
-                    <span>
-                        年實現損益:
-                        <span
-                            :style="{ color: summary.totalPnl >= 0 ? 'var(--el-color-danger)' : 'var(--el-color-success)' }">
-                            {{ summary.totalPnl > 0 ? '+' : '' }}{{ Math.round(summary.totalPnl).toLocaleString() }}
-                        </span>
-                    </span>
-
-                    <span>
-                        年報酬率:
-                        <span
-                            :style="{ color: summary.totalRoi >= 0 ? 'var(--el-color-danger)' : 'var(--el-color-success)' }">
-                            {{ summary.totalRoi > 0 ? '+' : '' }}{{ (summary.totalRoi * 100).toFixed(2) }}%
-                        </span>
-                    </span>
-                </div>
-            </template>
-        </el-alert>
+        <RoiRadarChart :portfolios="markets" />
 
     </el-space>
 </template>
 
 <script setup lang="ts">
+import RoiRadarChart from './charts/RoiRadarChart.vue' // 假設路徑
 import { ref, computed, watch } from 'vue'
 import { Plus, Delete, TrendCharts } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
