@@ -134,6 +134,11 @@ export interface UserRealEstate {
      * 包含房屋稅與地價稅之預估合計費率
      */
     holdingTaxRate: number;
+    
+    /**
+     * [新增] 實際支付房屋稅 (年) - 用於核對與精準計算
+     */
+    actualHoldingCost: number; 
 
     /**
      * 銀行貸款餘額

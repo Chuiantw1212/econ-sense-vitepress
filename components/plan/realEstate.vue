@@ -9,14 +9,15 @@
 
         <el-card v-for="(item, index) in realEstates" :key="item.id" shadow="never">
             <el-form label-width="auto">
-
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <span style="font-weight: bold; font-size: 16px; display: flex; align-items: center; gap: 8px;">
                         <el-icon>
                             <House />
                         </el-icon>
                         不動產 {{ index + 1 }}
-                        <el-tag size="small" type="info" effect="plain">
+                        <el-tag size="small"
+                            :type="item.usageType === 'rent' ? 'warning' : (item.usageType === 'self' ? 'primary' : 'info')"
+                            effect="plain">
                             {{ item.usageType === 'rent' ? '收租中' : (item.usageType === 'self' ? '自用' : '閒置') }}
                         </el-tag>
                     </span>
@@ -28,13 +29,13 @@
                 <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
                         <el-form-item label="物件名稱">
-                            <el-input v-model="item.name" placeholder="例：板橋自用宅" />
+                            <el-input v-model="item.name" placeholder="例：板橋自用宅" @change="handleUpdate(item)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
                         <el-form-item label="屋齡 (年)">
-                            <el-input-number v-model="item.age" :min="0" style="width: 100%"
-                                controls-position="right" />
+                            <el-input-number v-model="item.age" :min="0" style="width: 100%" controls-position="right"
+                                @change="handleUpdate(item)" />
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -62,7 +63,7 @@
                     </el-col>
                     <el-col :span="12" :xs="24">
                         <el-form-item label="用途狀態">
-                            <el-select v-model="item.usageType" style="width: 100%">
+                            <el-select v-model="item.usageType" style="width: 100%" @change="handleUpdate(item)">
                                 <el-option label="自用住宅" value="self" />
                                 <el-option label="出租投資" value="rent" />
                                 <el-option label="閒置資產" value="vacant" />
@@ -71,13 +72,13 @@
                     </el-col>
                 </el-row>
 
-                <el-divider content-position="left">成本與財務 (Costs)</el-divider>
+                <el-divider content-position="left">房屋稅</el-divider>
 
                 <el-row :gutter="20">
                     <el-col :span="24">
                         <el-form-item label="公告/評定現值">
                             <el-input-number v-model="item.assessedValue" :step="10000" style="width: 100%"
-                                controls-position="right" />
+                                controls-position="right" placeholder="稅務計算基礎" @change="handleUpdate(item)" />
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -85,64 +86,101 @@
                 <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
                         <el-form-item label="預估持有稅率">
-                            <el-input v-model.number="item.holdingTaxRate" type="number" placeholder="0.0">
+                            <el-input v-model.number="item.holdingTaxRate" type="number" placeholder="1.2"
+                                @change="handleUpdate(item)">
                                 <template #suffix>%</template>
                             </el-input>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="12" :xs="24">
+                        <el-form-item label="試算年持有成本">
+                            <el-input :model-value="formatCurrency(getEstimatedAnnualTax(item))" disabled
+                                placeholder="自動試算" />
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+                <el-row :gutter="20">
+                    <el-col :span="12" :xs="24">
+                        <el-form-item label="實際支付房屋稅 (年)">
+                            <el-input-number v-model="item.actualHoldingCost" :step="1000" style="width: 100%"
+                                controls-position="right" placeholder="請填寫實際稅單金額以核對" @change="handleUpdate(item)" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12" :xs="24">
+                        <el-form-item label="差異檢核 (試算-實際)">
+                            <el-tag v-if="item.actualHoldingCost > 0"
+                                :type="getEstimatedAnnualTax(item) - item.actualHoldingCost >= 0 ? 'success' : 'warning'"
+                                effect="plain" style="width: 100%; justify-content: start;">
+                                {{ (getEstimatedAnnualTax(item) - item.actualHoldingCost) >= 0 ? '安全' : '預估偏低' }}
+                                (差額: ${{ Math.abs(getEstimatedAnnualTax(item) - item.actualHoldingCost).toLocaleString()
+                                }})
+                            </el-tag>
+                            <el-tag v-else type="info" effect="plain" style="width: 100%; justify-content: start;">
+                                尚未輸入實際稅額
+                            </el-tag>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+                <el-divider content-position="left">房貸</el-divider>
+
+                <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
                         <el-form-item label="銀行貸款餘額">
                             <el-input-number v-model="item.loanAmount" :step="100000" style="width: 100%"
-                                controls-position="right" />
+                                controls-position="right" @change="handleUpdate(item)" />
                         </el-form-item>
                     </el-col>
-                </el-row>
-
-                <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
                         <el-form-item label="年利率">
-                            <el-input v-model.number="item.interestRate" type="number" placeholder="0.0">
+                            <el-input v-model.number="item.interestRate" type="number" placeholder="2.06"
+                                @change="handleUpdate(item)">
                                 <template #suffix>%</template>
                             </el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12" :xs="24">
-                        <el-form-item label="每月持有成本">
-                            <el-input :model-value="formatCurrency(getMonthlyCost(item))" disabled />
-                        </el-form-item>
-                    </el-col>
                 </el-row>
-
-                <el-divider content-position="left">投資效益分析 (ROI)</el-divider>
 
                 <el-row :gutter="20">
-                    <el-col :span="12" :xs="24">
-                        <el-form-item label="月租金收入">
-                            <el-input-number v-model="item.monthlyRent" :step="1000" style="width: 100%"
-                                controls-position="right" :disabled="item.usageType !== 'rent'" />
-                        </el-form-item>
-                    </el-col>
-
-                    <el-col :span="12" :xs="24">
-                        <el-form-item label="頭期款 (投入本金)">
-                            <el-input :model-value="formatCurrency(getDownPayment(item))" disabled />
-                        </el-form-item>
-                    </el-col>
-
-                    <el-col :span="12" :xs="24">
-                        <el-form-item label="每月淨現金流">
-                            <el-input :model-value="formatCurrency(getNetCashFlow(item))" disabled />
-                        </el-form-item>
-                    </el-col>
-
-                    <el-col :span="12" :xs="24">
-                        <el-form-item label="現金回報率 (ROI)">
-                            <el-input
-                                :model-value="item.usageType === 'rent' ? formatPercentage(getCashOnCashReturn(item)) : '-'"
-                                disabled />
+                    <el-col :span="24">
+                        <el-form-item label="每月總持有成本 (試算)">
+                            <el-input :model-value="formatCurrency(getMonthlyCost(item))" disabled>
+                                <template #prefix>月均攤提：</template>
+                            </el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
+
+                <template v-if="item.usageType !== 'self'">
+                    <el-divider content-position="left">投資效益分析 (ROI)</el-divider>
+                    <el-row :gutter="20">
+                        <el-col :span="12" :xs="24">
+                            <el-form-item label="月租金收入">
+                                <el-input-number v-model="item.monthlyRent" :step="1000" style="width: 100%"
+                                    controls-position="right" :disabled="item.usageType !== 'rent'"
+                                    @change="handleUpdate(item)" />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12" :xs="24">
+                            <el-form-item label="頭期款 (投入本金)">
+                                <el-input :model-value="formatCurrency(getDownPayment(item))" disabled />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12" :xs="24">
+                            <el-form-item label="每月淨現金流">
+                                <el-input :model-value="formatCurrency(getNetCashFlow(item))" disabled />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12" :xs="24">
+                            <el-form-item label="現金回報率 (ROI)">
+                                <el-input
+                                    :model-value="item.usageType === 'rent' ? formatPercentage(getCashOnCashReturn(item)) : '-'"
+                                    disabled />
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </template>
 
             </el-form>
         </el-card>
@@ -156,111 +194,100 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Delete, Plus, House } from '@element-plus/icons-vue'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import type { UserRealEstate } from './types/user'
-// 引入 API 模組
 import { useApi } from '@/components/plan/composables/useApi'
 
-// --- 1. 定義 Props 與 Emits ---
-const props = defineProps<{
-    modelValue: UserRealEstate[]
-}>()
+// --- 核心改變：使用 defineModel ---
+// 1. 不需要 defineProps / defineEmits
+// 2. realEstates 直接就是響應式的，修改它會自動同步父層
+// 3. 解決了 watch 的 infinite loop 問題
+const realEstates = defineModel<UserRealEstate[]>({
+    required: true,
+    default: []
+})
 
-const emit = defineEmits<{
-    (e: 'update:modelValue', value: UserRealEstate[]): void
-}>()
-
-// --- 2. 初始化 API 與狀態 ---
+// --- API & State ---
 const { authFetch } = useApi()
-const realEstates = ref<UserRealEstate[]>([])
-const isAdding = ref(false) // Loading 狀態
+const isAdding = ref(false)
 
-// --- 3. 雙向綁定同步機制 ---
-watch(() => props.modelValue, function (newVal) {
-    if (newVal) {
-        realEstates.value = newVal
+// --- Actions ---
+
+// 初始化資料補全 (Optional)
+// 如果擔心後端回傳的資料缺少 actualHoldingCost，可以在 onMounted 做一次檢查
+onMounted(() => {
+    if (realEstates.value) {
+        realEstates.value.forEach(item => {
+            if (item.actualHoldingCost === undefined) {
+                item.actualHoldingCost = 0
+            }
+        })
     }
-}, { immediate: true })
+})
 
-watch(realEstates, function (newVal) {
-    emit('update:modelValue', newVal)
-}, { deep: true })
+// 單項更新：綁定 @change
+async function handleUpdate(item: UserRealEstate) {
+    if (!item.id) return
+    try {
+        const res = await authFetch(`/api/v1/user/real-estates/${item.id}`, {
+            method: 'PUT',
+            body: item
+        })
+        if (!res || !res.ok) console.error(`Update failed: ${res?.status}`)
+    } catch (e) {
+        console.error('Update error:', e)
+    }
+}
 
-
-// --- 核心邏輯 Function ---
-
-/**
- * 非同步新增：呼叫 API 建立不動產
- * POST /api/v1/user/real-estates (不帶 Body)
- * 由後端產生預設資料並回傳完整物件
- */
 async function addProperty() {
     if (isAdding.value) return
     isAdding.value = true
-
     try {
-        const res = await authFetch('/api/v1/user/real-estates', {
-            method: 'POST'
-        })
+        const res = await authFetch('/api/v1/user/real-estates', { method: 'POST' })
+        if (!res || !res.ok) throw new Error('Create failed')
 
-        // ★★★ 修正點：加入 Null Check 與 狀態碼檢查 ★★★
-        if (!res) {
-            throw new Error('無法取得回應 (Response is null)')
+        const rawData = await res.json()
+
+        // 補全可能缺失的欄位
+        const newProperty: UserRealEstate = {
+            ...rawData,
+            actualHoldingCost: rawData.actualHoldingCost ?? 0
         }
-
-        if (!res.ok) {
-            throw new Error(`新增失敗，伺服器回應代碼: ${res.status}`)
-        }
-
-        // 確定 res 存在且 ok 後，再解析 JSON
-        const newProperty: UserRealEstate = await res.json()
 
         realEstates.value.push(newProperty)
         ElMessage.success('已新增不動產項目')
-
     } catch (e) {
-        console.error('Add property failed:', e)
-        ElMessage.error('新增失敗，請檢查網路連線')
+        console.error(e)
+        ElMessage.error('新增失敗')
     } finally {
         isAdding.value = false
     }
 }
 
-/**
- * 移除指定的不動產配置
- */
 async function removeProperty(index: number, item: UserRealEstate) {
     try {
-        // 1. 呼叫後端 API 進行刪除
-        await authFetch(`/api/v1/user/real-estates/${item.id}`, {
-            method: 'DELETE'
-        })
-
-        // 2. API 成功後，才移除本地資料
+        await authFetch(`/api/v1/user/real-estates/${item.id}`, { method: 'DELETE' })
         realEstates.value.splice(index, 1)
         ElMessage.success('已移除項目')
-
     } catch (e) {
-        console.error('Delete property failed:', e)
-        ElMessage.error('刪除失敗，請稍後再試')
+        console.error(e)
+        ElMessage.error('刪除失敗')
     }
 }
 
-/**
- * 連動計算：坪數 x 單價 = 總價
- */
+// 連動計算並存檔
 function calcTotalPrice(item: UserRealEstate) {
     if (item.pricePerPing && item.size) {
         item.totalPrice = Math.round(item.pricePerPing * item.size * 10000)
     } else {
         item.totalPrice = 0
     }
+    handleUpdate(item)
 }
 
-// --- 格式化工具 Helpers ---
-
+// --- Helpers & Computations (保持不變) ---
 function formatCurrency(val: number | undefined): string {
     if (val === undefined || isNaN(val)) return '-'
     return `$ ${Math.round(val).toLocaleString()}`
@@ -271,18 +298,22 @@ function formatPercentage(val: number | undefined): string {
     return `${Number(val).toFixed(2)} %`
 }
 
-// --- 數值計算 Computations ---
-
-function getDownPayment(item: UserRealEstate): number {
-    return Math.max(0, item.totalPrice - item.loanAmount)
+function getEstimatedAnnualTax(item: UserRealEstate): number {
+    const taxRate = Number(item.holdingTaxRate) || 0
+    return Math.round(item.assessedValue * (taxRate / 100))
 }
 
 function getMonthlyCost(item: UserRealEstate): number {
     const rate = Number(item.interestRate) || 0
-    const taxRate = Number(item.holdingTaxRate) || 0
     const interest = (item.loanAmount * (rate / 100)) / 12
-    const tax = (item.assessedValue * (taxRate / 100)) / 12
-    return Math.round(interest + tax)
+    const annualTax = (item.actualHoldingCost && item.actualHoldingCost > 0)
+        ? item.actualHoldingCost
+        : getEstimatedAnnualTax(item)
+    return Math.round(interest + (annualTax / 12))
+}
+
+function getDownPayment(item: UserRealEstate): number {
+    return Math.max(0, item.totalPrice - item.loanAmount)
 }
 
 function getNetCashFlow(item: UserRealEstate): number {
