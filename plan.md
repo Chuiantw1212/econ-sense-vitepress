@@ -58,7 +58,10 @@ head:
 ### 不動產
 
 <div v-if="isReady">
-    <RealEstate :metadata="metadata" />
+    <RealEstate 
+        v-model="userForm.realEstate" 
+        :metadata="metadata" 
+    />
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
@@ -82,82 +85,30 @@ head:
 </div>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, computed, watch } from 'vue'
-import { debounce } from 'lodash-es'
-import { ElMessage } from 'element-plus'
+import { onMounted, onUnmounted, ref, computed } from 'vue'
 
 // --- Components ---
 import Profile from '@/components/plan/profile.vue'
 import Career from '@/components/plan/career.vue'
 import Portfolio from '@/components/plan/portfolio.vue'
+// 引用我們剛剛建立的 UserRealEstate 組件
 import RealEstate from '@/components/plan/realEstate.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
 import { useMetadata } from '@/components/plan/composables/useMetadata'
-import { useApi } from '@/components/plan/composables/useApi'
 
 // --- State & Refs ---
 const isOpenPreview = ref(false)
 let authUnsubscribe: (() => void) | null = null
 
+// useUserPlan 負責取得初始資料 (fetch GET) 並放入 userForm
 const { userForm, loggedInUser, isDataReady, initAuthListener } = useUserPlan()
 const { metadata, isMetadataReady, fetchMetadata, error } = useMetadata()
-const { authFetch } = useApi()
 
 // --- Computed ---
 const isReady = computed(() => isDataReady.value && isMetadataReady.value)
 const isLoading = computed(() => !isReady.value)
-
-
-// --- 核心：優雅的自動儲存工廠 (Auto-Save Factory) ---
-
-/**
- * 建立自動儲存函式
- * @param endpoint API 路徑
- * @param label 錯誤提示用的名稱
- * @param delay 防抖時間 (ms)
- */
-const createAutoSaver = (endpoint: string, label: string, delay = 1000) => {
-    return debounce(async (data: any) => {
-        // 雙重防護：如果資料還沒準備好，絕對不存檔 (避免覆蓋雲端資料)
-        if (!isReady.value) return
-
-        try {
-            await authFetch(endpoint, {
-                method: 'PUT',
-                body: data,
-            })
-            // console.log(`[AutoSave] ${label} saved.`) 
-        } catch (e) {
-            console.error(`${label} save failed`, e)
-            ElMessage.error(`${label} 儲存失敗，請檢查網路連線`)
-        }
-    }, delay)
-}
-
-// 實例化儲存器
-const saveProfile = createAutoSaver('/api/v1/user/profile', '個人檔案', 800)
-const saveCareer = createAutoSaver('/api/v1/user/career', '職業收入', 1000)
-// const savePortfolio = createAutoSaver('/api/v1/user/portfolios', '金融資產', 1000)
-
-
-// --- 監聽器 (Watchers) ---
-
-// 1. 監聽 Profile 變動
-watch(
-    () => userForm.value.profile,
-    (newVal) => { if (isReady.value) saveProfile(newVal) },
-    { deep: true }
-)
-
-// 2. 監聽 Career 變動
-watch(
-    () => userForm.value.career,
-    (newVal) => { if (isReady.value) saveCareer(newVal) },
-    { deep: true }
-)
-
 
 // --- 初始化與生命週期 ---
 const initData = async () => {
@@ -172,9 +123,6 @@ onMounted(() => {
 onUnmounted(() => {
     // 清理監聽器
     if (authUnsubscribe) authUnsubscribe()
-    // 取消尚未執行的 Debounce 請求，避免組件卸載後報錯
-    saveProfile.cancel()
-    saveCareer.cancel()
 })
 </script>
 
@@ -184,8 +132,8 @@ onUnmounted(() => {
   overflow-y: auto;
   .div__image {
     margin: auto;
-    display: block; // 建議加上 block 避免 inline 產生的多餘間隙
-    max-width: 100%; // 避免圖片爆版
+    display: block; 
+    max-width: 100%; 
   }
 }
 
