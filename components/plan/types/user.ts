@@ -83,6 +83,85 @@ export interface UserPortfolio {
     realizedPnl: number;
 }
 
+/**
+ * 使用者不動產資產配置模型
+ * 對應資料庫欄位: real_estate_assets_data (JSONB)
+ */
+export interface UserRealEstate {
+    /**
+     * 唯一識別碼
+     * 前端暫用 Date.now() 生成，後端建議改用 UUID
+     */
+    id: number;
+
+    /**
+     * 物件名稱
+     * 例：板橋自用宅、信義區投資套房
+     */
+    name: string;
+
+    /**
+     * 屋齡 (年)
+     */
+    age: number;
+
+    /**
+     * 權狀坪數
+     * 用於計算總價 (size * pricePerPing)
+     */
+    size: number;
+
+    /**
+     * 單價 (萬/坪)
+     */
+    pricePerPing: number;
+
+    /**
+     * 總價 (市價) - 自動計算
+     * 公式：Math.round(pricePerPing * size * 10000)
+     * 用於計算資產負債表之總資產
+     */
+    totalPrice: number;
+
+    /**
+     * 公告/評定現值 (稅基)
+     * 用於計算持有稅、預估遺產稅與贈與稅
+     */
+    assessedValue: number;
+
+    /**
+     * 預估持有稅率 (%)
+     * 包含房屋稅與地價稅之預估合計費率
+     */
+    holdingTaxRate: number;
+
+    /**
+     * 銀行貸款餘額
+     * 用於計算淨值與每月利息支出
+     */
+    loanAmount: number;
+
+    /**
+     * 年利率 (%)
+     * 用於計算每月利息成本
+     */
+    interestRate: number;
+
+    /**
+     * 用途狀態
+     * self: 自用住宅
+     * rent: 出租投資 (開啟租金輸入與 ROI 計算)
+     * vacant: 閒置資產
+     */
+    usageType: 'self' | 'rent' | 'vacant';
+
+    /**
+     * 月租金收入
+     * 僅當 usageType === 'rent' 時列入現金流計算
+     */
+    monthlyRent: number;
+}
+
 // 總表單狀態介面 (Global Form State)
 export interface UserFormState {
     profile: PersonalProfile;

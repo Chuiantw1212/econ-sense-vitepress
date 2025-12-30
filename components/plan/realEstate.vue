@@ -1,93 +1,3 @@
-<script setup>
-import { ref } from 'vue'
-import { Delete, Plus, House } from '@element-plus/icons-vue'
-import { ElMessageBox } from 'element-plus'
-
-// --- 資料邏輯 ---
-const properties = ref([
-    {
-        id: 1,
-        name: '板橋新板特區',
-        age: 10,
-        size: 45.5,
-        pricePerPing: 88,
-        totalPrice: 40040000,
-        assessedValue: 12000000,
-        holdingTaxRate: 1.2,
-        loanAmount: 32000000,
-        interestRate: 2.1,
-        usageType: 'rent',
-        monthlyRent: 85000
-    }
-])
-
-const addProperty = () => {
-    properties.value.push({
-        id: Date.now(),
-        name: '',
-        age: 0,
-        size: 0,
-        pricePerPing: 0,
-        totalPrice: 0,
-        assessedValue: 0,
-        holdingTaxRate: 1.2,
-        loanAmount: 0,
-        interestRate: 2.06,
-        usageType: 'self',
-        monthlyRent: 0
-    })
-}
-
-const removeProperty = (index, item) => {
-    ElMessageBox.confirm('確定移除此筆不動產配置嗎？', '警告', { type: 'warning' })
-        .then(() => properties.value.splice(index, 1))
-        .catch(() => { })
-}
-
-// 邏輯：坪數 x 單價 = 總價 (總價欄位 disabled，不反向計算)
-const calcTotalPrice = (item) => {
-    if (item.pricePerPing && item.size) {
-        item.totalPrice = Math.round(item.pricePerPing * item.size * 10000)
-    } else {
-        item.totalPrice = 0
-    }
-}
-
-// Helpers (Formatters)
-const formatCurrency = (val) => {
-    if (!val && val !== 0) return '-'
-    return `$ ${Math.round(val).toLocaleString()}`
-}
-
-const formatPercentage = (val) => {
-    if (!val && val !== 0) return '-'
-    return `${Number(val).toFixed(2)} %`
-}
-
-// Computations
-const getDownPayment = (item) => Math.max(0, item.totalPrice - item.loanAmount)
-
-const getMonthlyCost = (item) => {
-    const rate = Number(item.interestRate) || 0
-    const taxRate = Number(item.holdingTaxRate) || 0
-    const interest = (item.loanAmount * (rate / 100)) / 12
-    const tax = (item.assessedValue * (taxRate / 100)) / 12
-    return Math.round(interest + tax)
-}
-
-const getNetCashFlow = (item) => {
-    if (item.usageType !== 'rent') return -getMonthlyCost(item)
-    return item.monthlyRent - getMonthlyCost(item)
-}
-
-const getCashOnCashReturn = (item) => {
-    const downPayment = getDownPayment(item)
-    if (downPayment <= 0) return 0
-    const annualNetIncome = getNetCashFlow(item) * 12
-    return (annualNetIncome / downPayment) * 100
-}
-</script>
-
 <template>
     <el-space direction="vertical" fill size="large" style="width: 100%">
 
@@ -248,3 +158,122 @@ const getCashOnCashReturn = (item) => {
 
     </el-space>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Delete, Plus, House } from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus'
+import type { UserRealEstate } from './types/user' // 請依實際路徑調整
+
+// --- 資料狀態 ---
+const properties = ref<UserRealEstate[]>([
+    {
+        id: 1,
+        name: '板橋新板特區',
+        age: 10,
+        size: 45.5,
+        pricePerPing: 88,
+        totalPrice: 40040000,
+        assessedValue: 12000000,
+        holdingTaxRate: 1.2,
+        loanAmount: 32000000,
+        interestRate: 2.1,
+        usageType: 'rent',
+        monthlyRent: 85000
+    }
+])
+
+// --- 核心邏輯 Function ---
+
+/**
+ * 新增一筆不動產配置
+ */
+function addProperty() {
+    properties.value.push({
+        id: Date.now(),
+        name: '',
+        age: 0,
+        size: 0,
+        pricePerPing: 0,
+        totalPrice: 0,
+        assessedValue: 0,
+        holdingTaxRate: 1.2,
+        loanAmount: 0,
+        interestRate: 2.06,
+        usageType: 'self',
+        monthlyRent: 0
+    })
+}
+
+/**
+ * 移除指定的不動產配置
+ */
+function removeProperty(index: number, item: UserRealEstate) {
+    ElMessageBox.confirm(`確定移除「${item.name || '此物件'}」嗎？`, '警告', { type: 'warning' })
+        .then(function () { // 這裡也盡量避免隨意的 arrow function，雖然後調用常保持箭頭，但此處配合您的風格
+            properties.value.splice(index, 1)
+        })
+        .catch(function () { })
+}
+
+/**
+ * 連動計算：坪數 x 單價 = 總價
+ */
+function calcTotalPrice(item: UserRealEstate) {
+    if (item.pricePerPing && item.size) {
+        item.totalPrice = Math.round(item.pricePerPing * item.size * 10000)
+    } else {
+        item.totalPrice = 0
+    }
+}
+
+// --- 格式化工具 Helpers ---
+
+function formatCurrency(val: number | undefined): string {
+    if (val === undefined || isNaN(val)) return '-'
+    return `$ ${Math.round(val).toLocaleString()}`
+}
+
+function formatPercentage(val: number | undefined): string {
+    if (val === undefined || isNaN(val)) return '-'
+    return `${Number(val).toFixed(2)} %`
+}
+
+// --- 數值計算 Computations ---
+
+/**
+ * 計算頭期款 (總價 - 貸款)
+ */
+function getDownPayment(item: UserRealEstate): number {
+    return Math.max(0, item.totalPrice - item.loanAmount)
+}
+
+/**
+ * 計算每月持有成本 (利息 + 稅金)
+ */
+function getMonthlyCost(item: UserRealEstate): number {
+    const rate = Number(item.interestRate) || 0
+    const taxRate = Number(item.holdingTaxRate) || 0
+    const interest = (item.loanAmount * (rate / 100)) / 12
+    const tax = (item.assessedValue * (taxRate / 100)) / 12
+    return Math.round(interest + tax)
+}
+
+/**
+ * 計算每月淨現金流 (租金 - 成本)
+ */
+function getNetCashFlow(item: UserRealEstate): number {
+    if (item.usageType !== 'rent') return -getMonthlyCost(item)
+    return item.monthlyRent - getMonthlyCost(item)
+}
+
+/**
+ * 計算現金回報率 ROI (年淨利 / 頭期款)
+ */
+function getCashOnCashReturn(item: UserRealEstate): number {
+    const downPayment = getDownPayment(item)
+    if (downPayment <= 0) return 0
+    const annualNetIncome = getNetCashFlow(item) * 12
+    return (annualNetIncome / downPayment) * 100
+}
+</script>
