@@ -65,8 +65,6 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
-### 企業
-
 ## 損益表
 
 ### 職業收入
