@@ -48,12 +48,12 @@
             </el-col>
 
             <el-col :sm="16" :xs="24">
-                <el-form ref="ruleFormRef" label-position="top" :model="modelValue" size="large">
+                <el-form ref="ruleFormRef" label-position="top" :model="profile" size="large">
                     <el-row :gutter="20">
 
                         <el-col :span="12" :xs="24">
                             <el-form-item label="出生日期 (Birthday)" required>
-                                <el-date-picker v-model="modelValue.birthDate" type="date" placeholder="請選擇生日"
+                                <el-date-picker v-model="profile.birthDate" type="date" placeholder="請選擇生日"
                                     format="YYYY/MM/DD" value-format="YYYY-MM-DD" :disabled-date="disableFutureDates"
                                     @change="handleBirthdayChange" style="width: 100%" />
                             </el-form-item>
@@ -62,7 +62,7 @@
                         <el-col :span="12" :xs="24">
                             <el-form-item label="試算年齡 (Age)">
                                 <el-input :disabled="true"
-                                    :value="modelValue.currentAge ? modelValue.currentAge + ' 歲' : '-'">
+                                    :value="profile.currentAge ? profile.currentAge + ' 歲' : '-'">
                                     <template #prefix>
                                         <el-icon>
                                             <User />
@@ -74,8 +74,8 @@
 
                         <el-col :span="12" :xs="24">
                             <el-form-item label="生理性別 (Gender)" required>
-                                <el-select v-model="modelValue.gender" placeholder="請選擇" style="width: 100%"
-                                    @change="calculateAge">
+                                <el-select v-model="profile.gender" placeholder="請選擇" style="width: 100%"
+                                    @change="handleUpdate">
                                     <el-option v-for="item in metadata?.opt_gender?.list" :key="item.code"
                                         :label="item.label" :value="item.code" />
                                 </el-select>
@@ -84,8 +84,8 @@
 
                         <el-col :span="12" :xs="24">
                             <el-form-item label="職業保險 (Insurance)" required>
-                                <el-select v-model="modelValue.careerInsuranceType" placeholder="投保類型"
-                                    style="width: 100%">
+                                <el-select v-model="profile.careerInsuranceType" placeholder="投保類型" style="width: 100%"
+                                    @change="handleUpdate">
                                     <el-option v-for="item in metadata?.opt_social_security?.list" :key="item.code"
                                         :label="item.label" :value="item.code" :disabled="item.disabled" />
                                 </el-select>
@@ -120,7 +120,8 @@
                     <ul style="padding-left: 20px; line-height: 1.8; color: var(--el-text-color-regular);">
                         <li>所有功能不須登入也可以用，登入註冊只是比較方便而已。</li>
                         <li>預期餘命：<el-link type="primary" href="https://data.gov.tw/dataset/39493"
-                                target="_blank">國家發展委員會 - 預期壽命推估</el-link>
+                                target="_blank">國家發展委員會
+                                - 預期壽命推估</el-link>
                         </li>
                         <li>通貨膨脹(消費者物價指數年增率)：<el-link type="primary"
                                 href="https://www.stat.gov.tw/Point.aspx?sid=t.2&n=3581&sms=11480"
@@ -139,10 +140,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, computed, onMounted, onBeforeUnmount, watch } from 'vue'
-import { InfoFilled, TrendCharts, User } from '@element-plus/icons-vue' // 記得引入 Icon
+import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
+import { InfoFilled, TrendCharts, User } from '@element-plus/icons-vue'
 import type { UploadFile } from 'element-plus'
-
+import { useApi } from '@/components/plan/composables/useApi'
 // Firebase Import (Compat Mode)
 import firebase from 'firebase/compat/app'
 import "firebase/compat/auth"
@@ -152,15 +153,17 @@ import type { PersonalProfile, FirebaseUser } from './types/user'
 import type { MetadataMap } from './types/metadata'
 
 // Emits
-const emits = defineEmits(['update:modelValue', 'signOut', 'upload'])
+const emits = defineEmits(['signOut', 'upload'])
+const { authFetch } = useApi()
 
-// Props Definition
+// --- 核心改變：使用 defineModel 取代 Props & Emit ---
+const profile = defineModel<PersonalProfile>({ required: true })
+
+// Props Definition (User & Metadata)
 const props = withDefaults(defineProps<{
-    modelValue: PersonalProfile
     user: FirebaseUser
     metadata?: MetadataMap
 }>(), {
-    // 這裡的預設值僅作為 Fallback，主要依賴父層傳入
     user: () => ({
         id: '', uid: '', displayName: '', email: '', photoUrl: '', isAnonymous: true
     }),
@@ -170,21 +173,16 @@ const props = withDefaults(defineProps<{
 // State
 const loginDialogVisible = ref(false)
 const isMobile = ref(false)
-const birthYearOptions = ref<{ label: number, value: number }[]>([])
 const fileList = ref([])
 
 // --- Computed Logic ---
-
-// Avatar Fallback Text (e.g., "王")
 const avatarText = computed(() => {
     const name = props.user.displayName
     return name ? name.charAt(0).toUpperCase() : 'U'
 })
 
 // --- Hooks ---
-
 onMounted(async () => {
-    // 初始化 Firebase UI 資源
     try {
         // @ts-ignore
         if (typeof window !== 'undefined' && window.firebase) {
@@ -196,7 +194,6 @@ onMounted(async () => {
         console.warn('Firebase UI resources load failed', e)
     }
 
-    initOptions()
     checkIsMobile()
     window.addEventListener('resize', checkIsMobile)
 })
@@ -206,73 +203,54 @@ onBeforeUnmount(() => {
 })
 
 // --- Methods ---
-// 1. [新增] 禁止選擇未來日期
+
+/**
+ * 處理資料更新：發送 PUT 請求
+ * 綁定在 @change 事件上
+ */
+async function handleUpdate() {
+    try {
+        const res = await authFetch(`/api/v1/user/profile`, {
+            method: 'PUT',
+            body: profile.value,
+        })
+        if (!res || !res.ok) console.error(`Profile update failed: ${res?.status}`)
+    } catch (e) {
+        console.error('Profile update error:', e)
+    }
+}
+
+// 1. 禁止選擇未來日期
 const disableFutureDates = (time: Date) => {
     return time.getTime() > Date.now()
 }
 
-// 2. [修改] 處理生日變更邏輯
+// 2. 處理生日變更邏輯 (計算年齡並觸發存檔)
 function handleBirthdayChange(val: string | null) {
-    // 若使用者清除日期
     if (!val) {
-        const resetProfile = {
-            ...props.modelValue,
-            birthDate: '',
-            birthYear: '',
-            currentAge: 0
-        }
-        emits('update:modelValue', resetProfile)
-        return
+        // 清除資料
+        profile.value.birthDate = ''
+        profile.value.birthYear = ''
+        profile.value.currentAge = 0
+    } else {
+        // 解析並計算
+        const birthDateObj = new Date(val)
+        const birthYear = birthDateObj.getFullYear()
+        const currentYear = new Date().getFullYear()
+        const newAge = currentYear - birthYear
+
+        // 更新 Model
+        profile.value.birthDate = val
+        profile.value.birthYear = birthYear
+        profile.value.currentAge = newAge
     }
 
-    // 解析日期並計算
-    const birthDateObj = new Date(val)
-    const birthYear = birthDateObj.getFullYear()
-    const currentYear = new Date().getFullYear()
-
-    // 計算年齡 (這裡維持金融常用的 "年度差" 算法，若需足歲可再調整)
-    const newAge = currentYear - birthYear
-
-    // 更新資料：同時寫入 birthDate (YYYY-MM-DD) 與 birthYear (YYYY)
-    const updatedProfile = {
-        ...props.modelValue,
-        birthDate: val,
-        birthYear: birthYear,
-        currentAge: newAge
-    }
-
-    emits('update:modelValue', updatedProfile)
+    // 計算完畢後，觸發存檔
+    handleUpdate()
 }
 
 function checkIsMobile() {
     isMobile.value = window.innerWidth < 768
-}
-
-function initOptions() {
-    const currentYear = new Date().getFullYear()
-    // 產生過去 80 年的選項
-    const options = []
-    for (let i = 0; i < 80; i++) {
-        const y = currentYear - i - 18 // 從 18 歲開始算
-        options.push({ label: y, value: y })
-    }
-    birthYearOptions.value = options
-}
-
-function calculateAge() {
-    const { birthYear } = props.modelValue
-    if (birthYear) {
-        const currentYear = new Date().getFullYear()
-        // 更新 modelValue (因為是物件參考，直接修改屬性會觸發父層響應，但發出 emit 較為正規)
-        const newAge = currentYear - Number(birthYear)
-
-        // 觸發更新
-        const updatedProfile = {
-            ...props.modelValue,
-            currentAge: newAge
-        }
-        emits('update:modelValue', updatedProfile)
-    }
 }
 
 // 檔案上傳處理
@@ -285,7 +263,6 @@ function handleFileChange(uploadFile: UploadFile) {
             const result = e.target?.result as string
             const parsedData = JSON.parse(result)
             emits('upload', parsedData)
-            // 清空列表以便下次上傳
             fileList.value = []
         } catch (err) {
             console.error('JSON Parse Error', err)
@@ -302,15 +279,14 @@ function openSignInDialog() {
 }
 
 function initFirebaseUI() {
-    // 確保 window.firebase 存在 (由 theme/index.js 初始化)
     // @ts-ignore
     if (!window.firebase) return
 
     const uiConfig = {
         callbacks: {
             signInSuccessWithAuthResult: () => {
-                loginDialogVisible.value = false // 登入成功關閉視窗
-                return false // 阻止自動轉址
+                loginDialogVisible.value = false
+                return false
             }
         },
         signInOptions: [
@@ -318,7 +294,7 @@ function initFirebaseUI() {
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
         ],
         signInFlow: 'popup',
-        tosUrl: '#', // 建議換成您的實際連結
+        tosUrl: '#',
         privacyPolicyUrl: '#'
     }
 
@@ -334,7 +310,6 @@ function initFirebaseUI() {
     }
 }
 
-// 公開方法給父層呼叫
 defineExpose({
     openSignInDialog,
     toggleSignInDialog: (v: boolean) => loginDialogVisible.value = v
@@ -342,15 +317,10 @@ defineExpose({
 </script>
 
 <style scoped>
-/* 僅保留必要的 Firebase UI 容器樣式微調 
-   其他排版全部交給 Element Plus 
-*/
 :deep(.firebaseui-container) {
     max-width: 100%;
-    /* 讓它在 Dialog 內自適應 */
 }
 
-/* 讓說明文字有點間距 */
 .info-content p {
     margin: 8px 0;
     line-height: 1.5;

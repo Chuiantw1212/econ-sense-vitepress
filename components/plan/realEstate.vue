@@ -196,7 +196,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { Delete, Plus, House } from '@element-plus/icons-vue'
-import { ElMessageBox, ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import type { UserRealEstate } from './types/user'
 import { useApi } from '@/components/plan/composables/useApi'
 
