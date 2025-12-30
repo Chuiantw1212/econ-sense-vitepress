@@ -11,7 +11,7 @@ import {
     ChartData,
     ChartConfiguration
 } from 'chart.js'
-import { UserPortfolio } from '@/types/user'
+import { UserPortfolio } from '../types/user'
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend)
 
@@ -126,7 +126,6 @@ const chartOptions: ChartConfiguration<'bar'>['options'] = {
         x: {
             grid: {
                 color: 'rgba(255, 255, 255, 0.05)',
-                drawBorder: false
             },
             ticks: {
                 color: '#909399',
