@@ -166,5 +166,6 @@ export interface UserRealEstate {
 export interface UserFormState {
     profile: PersonalProfile;
     career: UserCareer;
-    portfolios: UserPortfolio[]
+    portfolios: UserPortfolio[],
+    realEstates: UserRealEstate[]
 }

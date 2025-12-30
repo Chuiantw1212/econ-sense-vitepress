@@ -158,13 +158,6 @@ watch(
     { deep: true }
 )
 
-// 2. 監聽 Career 變動
-// watch(
-//     () => userForm.value.portfolios,
-//     (newVal) => { if (isReady.value) saveCareer(newVal) },
-//     { deep: true }
-// )
-
 
 // --- 初始化與生命週期 ---
 const initData = async () => {
