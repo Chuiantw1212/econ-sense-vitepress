@@ -134,11 +134,11 @@ export interface UserRealEstate {
      * 包含房屋稅與地價稅之預估合計費率
      */
     holdingTaxRate: number;
-    
+
     /**
      * [新增] 實際支付房屋稅 (年) - 用於核對與精準計算
      */
-    actualHoldingCost: number; 
+    actualHoldingCost: number;
 
     /**
      * 銀行貸款餘額
@@ -167,10 +167,37 @@ export interface UserRealEstate {
     monthlyRent: number;
 }
 
+export interface UserBusiness {
+    id?: number; // 新增時可能暫無 ID
+    name: string;
+
+    /** 稅務類別 */
+    taxCategory: 'verified' | 'deemed_6' | 'exempt';
+
+    /** 初始取得成本 */
+    acquisitionCost: number;
+
+    /** 開始營運年月 (YYYY-MM) */
+    startDate: string;
+
+    /** 月平均收入 */
+    monthlyIncome: number;
+
+    /** 月平均維運成本 */
+    monthlyCost: number;
+
+    /** 貸款餘額 */
+    loanAmount: number;
+
+    /** 貸款年利率 */
+    loanInterestRate: number;
+}
+
 // 總表單狀態介面 (Global Form State)
 export interface UserFormState {
     profile: PersonalProfile;
     career: UserCareer;
     portfolios: UserPortfolio[],
-    realEstates: UserRealEstate[]
+    realEstates: UserRealEstate[],
+    businesses: UserBusiness[],
 }

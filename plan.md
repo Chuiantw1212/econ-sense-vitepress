@@ -65,6 +65,16 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
+### 商業或副業
+
+<div v-if="isReady">
+    <Business 
+        v-model="userForm.business" 
+        :metadata="metadata" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
 ## 損益表
 
 ### 職業收入
@@ -89,8 +99,8 @@ import { onMounted, onUnmounted, ref, computed } from 'vue'
 import Profile from '@/components/plan/profile.vue'
 import Career from '@/components/plan/career.vue'
 import Portfolio from '@/components/plan/portfolio.vue'
-// 引用我們剛剛建立的 UserRealEstate 組件
 import RealEstate from '@/components/plan/realEstate.vue'
+import Business from '@/components/plan/business.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
