@@ -47,7 +47,7 @@ export function useUserPlan() {
     async function fetchPlanData() {
         try {
             isDataReady.value = false
-            
+
             // --- Step 1: 獲取或建立使用者基礎資料 ---
             let userRes = await authFetch('/api/v1/user/me')
 
@@ -59,26 +59,27 @@ export function useUserPlan() {
             // 如果使用者存在，才繼續抓取關聯資產
             if (userRes) {
                 const baseUserData = await userRes.json()
-                
+
                 // 1. 更新 userForm 的基礎欄位 (保留本地初始值，覆蓋後端回傳值)
                 if (baseUserData.id) {
-                    userForm.value = { 
-                        ...userForm.value, 
+                    userForm.value = {
+                        ...userForm.value,
                         ...baseUserData,
                         // 預防後端回傳的 portfolios/realEstates 是舊結構或 null，先暫時用本地狀態或空陣列
-                        portfolios: userForm.value.portfolios, 
-                        realEstates: userForm.value.realEstates 
+                        portfolios: userForm.value.portfolios,
+                        realEstates: userForm.value.realEstates
                     }
-                    
+
                     // 同步更新 loggedInUser 的 DB ID
                     loggedInUser.value.id = baseUserData.id
                 }
 
                 // --- Step 2: 並行獲取資產列表 (Parallel Fetching) ---
                 // 假設您的 API 路徑有包含 /api/v1 前綴
-                const [portfolioRes, realEstateRes] = await Promise.all([
+                const [portfolioRes, realEstateRes, businessesRes] = await Promise.all([
                     authFetch('/api/v1/user/portfolios'),
-                    authFetch('/api/v1/user/real-estates')
+                    authFetch('/api/v1/user/real-estates'),
+                    authFetch('/api/v1/user/businesses')
                 ])
 
                 // --- Step 3: 更新金融資產 (Portfolios) ---
@@ -96,6 +97,15 @@ export function useUserPlan() {
                     // 確保回傳的是陣列
                     if (Array.isArray(realEstatesData)) {
                         userForm.value.realEstates = realEstatesData
+                    }
+                }
+
+                // --- Step 5: 更新商業資產 ---
+                if (businessesRes) {
+                    const businessesData = await businessesRes.json()
+                    // 確保回傳的是陣列
+                    if (Array.isArray(businessesData)) {
+                        userForm.value.businesses = businessesData
                     }
                 }
             }

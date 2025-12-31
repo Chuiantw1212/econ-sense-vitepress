@@ -321,8 +321,8 @@ async function handleSave() {
     try {
         const method = isEditMode.value ? 'PUT' : 'POST'
         const url = isEditMode.value
-            ? `/api/v1/user/business/${formState.value.id}`
-            : `/api/v1/user/business`
+            ? `/api/v1/user/businesses/${formState.value.id}`
+            : `/api/v1/user/businesses`
 
         const res = await authFetch(url, {
             method: method,

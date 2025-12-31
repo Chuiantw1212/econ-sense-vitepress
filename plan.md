@@ -69,7 +69,7 @@ head:
 
 <div v-if="isReady">
     <Business 
-        v-model="userForm.business" 
+        v-model="userForm.businesses" 
         :metadata="metadata" 
     />
 </div>
