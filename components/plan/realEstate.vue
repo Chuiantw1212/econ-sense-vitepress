@@ -108,7 +108,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="差異檢核 (試算-實際)">
+                        <el-form-item label="差異檢核 (地價稅)">
                             <el-tag v-if="item.actualHoldingCost > 0"
                                 :type="getEstimatedAnnualTax(item) - item.actualHoldingCost >= 0 ? 'success' : 'warning'"
                                 effect="plain" style="width: 100%; justify-content: start;">

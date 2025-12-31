@@ -263,7 +263,7 @@ onUnmounted(() => {
     display: block;
 }
 
-/* 數據摘要區塊 */
+/* 數據摘要區塊：預設桌面版 (Flex) */
 .summary-metrics {
     display: flex;
     align-items: center;
@@ -271,7 +271,6 @@ onUnmounted(() => {
     gap: 12px;
     padding: 12px 16px;
     background-color: var(--el-fill-color-light);
-    /* 微深的背景區分數據區 */
     border-radius: 6px;
 }
 
@@ -291,7 +290,6 @@ onUnmounted(() => {
     font-weight: 600;
     color: var(--el-text-color-regular);
     font-family: 'Roboto Mono', monospace;
-    /* 讓數字等寬對齊更好看 */
 }
 
 .canvas-wrapper {
@@ -313,16 +311,40 @@ onUnmounted(() => {
     z-index: 10;
 }
 
-/* RWD: 手機版讓數據垂直排列 */
-@media (max-width: 600px) {
-    .summary-metrics {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
+/* --- RWD 手機版優化 --- */
+@media (max-width: 768px) {
+    .chart-container {
+        padding: 12px; /* 縮小邊距，把空間留給圖表 */
     }
 
+    /* 改用 Grid 佈局，讓資訊更有層次 */
+    .summary-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 分兩欄 */
+        gap: 12px;
+        padding: 12px;
+    }
+
+    /* 第一個項目 (總庫存) 跨滿兩欄，並放大顯示 */
+    .metric-item:first-child {
+        grid-column: 1 / -1;
+        border-bottom: 1px dashed var(--el-border-color-lighter);
+        padding-bottom: 8px;
+        margin-bottom: 4px;
+    }
+
+    .metric-item:first-child .value {
+        font-size: 20px; /* 總金額放大 */
+    }
+
+    /* 手機版隱藏原本的垂直分隔線 */
     .el-divider--vertical {
         display: none;
+    }
+    
+    /* 調整圖表高度，避免手機橫屏時太高 */
+    .canvas-wrapper {
+        height: 250px; 
     }
 }
 </style>
