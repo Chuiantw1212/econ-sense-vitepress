@@ -100,7 +100,7 @@ import Profile from '@/components/plan/profile.vue'
 import Career from '@/components/plan/career.vue'
 import Portfolio from '@/components/plan/portfolio.vue'
 import RealEstate from '@/components/plan/realEstate.vue'
-import Business from '@/components/plan/business.vue'
+import Business from '@/components/plan/businessTable.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
