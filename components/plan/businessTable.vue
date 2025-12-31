@@ -18,33 +18,31 @@
             </el-col>
             <el-col :span="8" :xs="12">
                 <el-card shadow="never" class="stat-card">
-                    <div class="stat-label">加權 ROI (年)</div>
+                    <div class="stat-label">組合年化 ROI</div>
                     <div class="stat-value">{{ summary.avgRoi }}%</div>
                 </el-card>
             </el-col>
         </el-row>
 
-        <div class="mb-2">
-            <h3 class="text-lg font-bold text-gray-700 m-0">商業與副業資產 ({{ tableData.length }})</h3>
-        </div>
+        <br />
 
         <template v-if="tableData.length > 0">
             <el-table :data="tableData" style="width: 100%" stripe
                 :header-cell-style="{ background: '#f5f7fa', color: '#606266' }">
-                <el-table-column label="名稱" min-width="140">
+
+                <el-table-column label="名稱">
                     <template #default="{ row }">
                         <div class="font-medium text-gray-800">{{ row.name }}</div>
-                        <div class="text-xs text-gray-400">{{ row.startDate }} 啟用</div>
                     </template>
                 </el-table-column>
 
-                <el-table-column label="投入成本" width="120" align="right" class-name="hidden-xs-only">
+                <el-table-column label="投入成本" align="right" class-name="hidden-xs-only">
                     <template #default="{ row }">
                         {{ formatNumber(row.acquisitionCost) }}
                     </template>
                 </el-table-column>
 
-                <el-table-column label="月淨現金流" width="120" align="right">
+                <el-table-column label="月淨現金流" align="right">
                     <template #default="{ row }">
                         <span :class="getNetCashFlow(row) >= 0 ? 'text-success' : 'text-danger'"
                             class="font-mono font-bold">
@@ -53,10 +51,10 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="年化投報" width="120" align="right">
+                <el-table-column label="IRR" align="right">
                     <template #default="{ row }">
-                        <span :class="getRoiColor(row)" class="font-mono font-bold">
-                            {{ getAnnualROI(row) }}
+                        <span :class="getRateColor(row.irr)" class="font-mono font-bold">
+                            {{ row.irr || '-' }}
                         </span>
                     </template>
                 </el-table-column>
@@ -144,7 +142,7 @@ const createDefaultBusiness = (): UserBusiness => ({
 const currentBusiness = reactive<UserBusiness>(createDefaultBusiness())
 
 // ==========================================
-// 3. 計算邏輯
+// 3. 計算邏輯 (僅用於上方摘要卡片)
 // ==========================================
 const getNetCashFlow = (item: UserBusiness) => {
     const income = item.monthlyIncome || 0
@@ -164,6 +162,7 @@ const summary = computed(() => {
         totalEquity += Math.max(0, (item.acquisitionCost || 0) - (item.loanAmount || 0))
     })
 
+    // 這裡計算的是「整體投資組合」的加權現金回報率 (Cash-on-Cash)
     const annualProfit = totalNetFlow * 12
     const avgRoi = totalEquity > 0 ? (annualProfit / totalEquity * 100).toFixed(2) : '0.00'
 
@@ -255,31 +254,19 @@ const handleSubmit = async () => {
 const formatCurrency = (val: number) => `$${val.toLocaleString()}`
 const formatNumber = (val: number) => val?.toLocaleString() || '0'
 
-// 計算年化投報 (Cash-on-Cash Return)
-const getAnnualROI = (row: UserBusiness) => {
-    const acquisition = row.acquisitionCost || 0
-    const loan = row.loanAmount || 0
-    const equity = acquisition - loan // 自有資金
+// 根據後端回傳字串判斷顏色
+const getRateColor = (val?: string) => {
+    if (!val || val === '-') return ''
+    if (val.includes('虧損') || val.includes('-')) {
+        // 排除掉負號在括號內的情況（如果有），不過通常負數會有 '-'
+        // 簡單判斷：若 parse float 小於 0 或是文字包含虧損
+        if (val.includes('虧損')) return 'text-danger'
 
-    const monthlyNet = getNetCashFlow(row)
-
-    // 特殊情況處理：全額貸或超額貸 (無本生意)
-    if (equity <= 0) {
-        if (monthlyNet > 0) return '∞'   // 無本獲利
-        if (monthlyNet < 0) return '虧損' // 無本虧損
-        return '0.0%'
+        // 嘗試解析數值 (去除 % 等符號)
+        const num = parseFloat(val.replace(/[^\d.-]/g, ''))
+        if (!isNaN(num) && num < 0) return 'text-danger'
     }
-
-    const annualNet = monthlyNet * 12
-    const roi = (annualNet / equity) * 100
-
-    return roi.toFixed(1) + '%'
-}
-
-// 判斷投報率顏色
-const getRoiColor = (row: UserBusiness) => {
-    // 簡單邏輯：只要淨利是正的，投報率顯示綠色，否則紅色
-    return getNetCashFlow(row) >= 0 ? 'text-success' : 'text-danger'
+    return 'text-success'
 }
 </script>
 
