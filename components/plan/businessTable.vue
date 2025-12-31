@@ -128,6 +128,7 @@ const formComponentRef = ref<InstanceType<typeof BusinessDialogForm>>()
 const createDefaultBusiness = (): UserBusiness => ({
     name: '',
     startDate: new Date().toISOString().split('T')[0],
+    projectYears: 5,
     taxCategory: 'exempt',
     acquisitionCost: 0,
     incomeMode: 'monthly',
@@ -135,7 +136,9 @@ const createDefaultBusiness = (): UserBusiness => ({
     monthlyIncome: 0,
     monthlyCost: 0,
     loanAmount: 0,
-    loanInterestRate: 0
+    loanInterestRate: 0,
+    roi: '-',
+    irr: '-'
 })
 
 const currentBusiness = reactive<UserBusiness>(createDefaultBusiness())

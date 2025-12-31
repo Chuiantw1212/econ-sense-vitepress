@@ -1,6 +1,5 @@
 <template>
     <el-form ref="formRef" :model="formData" :rules="rules" label-width="90px">
-
         <el-divider content-position="left">基本資料</el-divider>
 
         <el-row :gutter="24">
@@ -23,14 +22,14 @@
             <el-col :span="12" :xs="24">
                 <el-form-item label="啟用日" prop="startDate">
                     <el-date-picker v-model="formData.startDate" type="date" placeholder="選擇日期" format="YYYY/MM/DD"
-                        value-format="YYYY-MM-DD" style="width: 100%" @change="updateForm" />
+                        value-format="YYYY-MM-DD" style="width: 100%" />
                 </el-form-item>
             </el-col>
 
             <el-col :span="12" :xs="24">
                 <el-form-item label="預估年限" prop="projectYears">
                     <el-input-number v-model="formData.projectYears" :min="1" :max="50" style="width: 100%"
-                        controls-position="right" @input="updateForm">
+                        controls-position="right">
                         <template #suffix>年</template>
                     </el-input-number>
                 </el-form-item>
@@ -39,7 +38,7 @@
             <el-col :span="12" :xs="24">
                 <el-form-item label="初始成本" prop="acquisitionCost">
                     <el-input-number v-model="formData.acquisitionCost" :min="0" :step="10000" style="width: 100%"
-                        controls-position="right" @input="updateForm" />
+                        controls-position="right" />
                 </el-form-item>
             </el-col>
         </el-row>
@@ -49,7 +48,7 @@
         <el-row>
             <el-col :span="24">
                 <el-form-item label="收入模式" prop="incomeMode">
-                    <el-radio-group v-model="formData.incomeMode" size="small" @change="updateForm">
+                    <el-radio-group v-model="formData.incomeMode" size="small">
                         <el-radio-button label="monthly">輸入月均</el-radio-button>
                         <el-radio-button label="total">累計回推</el-radio-button>
                     </el-radio-group>
@@ -62,7 +61,7 @@
                 <template v-if="formData.incomeMode === 'monthly'">
                     <el-form-item label="月收入" prop="monthlyIncome">
                         <el-input-number v-model="formData.monthlyIncome" :min="0" :step="1000" style="width: 100%"
-                            controls-position="right" @input="updateForm" />
+                            controls-position="right" />
                     </el-form-item>
                 </template>
 
@@ -70,7 +69,7 @@
                     <el-form-item label="累計營收" prop="totalAccumulatedIncome"
                         :rules="[{ required: true, message: '必填', trigger: 'blur' }]">
                         <el-input-number v-model="formData.totalAccumulatedIncome" :min="0" :step="10000"
-                            style="width: 100%" placeholder="至今總額" controls-position="right" @input="updateForm" />
+                            style="width: 100%" placeholder="至今總額" controls-position="right" />
                     </el-form-item>
 
                     <el-form-item label="推算月均">
@@ -86,7 +85,7 @@
             <el-col :span="12" :xs="24">
                 <el-form-item label="月成本" prop="monthlyCost">
                     <el-input-number v-model="formData.monthlyCost" :min="0" :step="500" style="width: 100%"
-                        controls-position="right" @input="updateForm" />
+                        controls-position="right" />
                 </el-form-item>
             </el-col>
         </el-row>
@@ -97,13 +96,13 @@
             <el-col :span="12" :xs="24">
                 <el-form-item label="貸款額" prop="loanAmount">
                     <el-input-number v-model="formData.loanAmount" :min="0" :step="50000" style="width: 100%"
-                        controls-position="right" @input="updateForm" />
+                        controls-position="right" />
                 </el-form-item>
             </el-col>
             <el-col :span="12" :xs="24">
                 <el-form-item label="年利率 %" prop="loanInterestRate">
                     <el-input-number v-model="formData.loanInterestRate" :min="0" :max="20" :precision="2" :step="0.1"
-                        style="width: 100%" controls-position="right" @input="updateForm" />
+                        style="width: 100%" controls-position="right" />
                 </el-form-item>
             </el-col>
         </el-row>
@@ -121,6 +120,7 @@
                 <el-form-item label="年化 ROI">
                     <el-input v-model="displayROI" disabled style="width: 100%" input-style="text-align: right;"
                         :class="isPositiveROI ? 'input-success' : 'input-danger'" />
+                    <div class="calc-info">年淨利 / 自有本金</div>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -130,12 +130,14 @@
                 <el-form-item label="回本時間">
                     <el-input v-model="displayPaybackPeriod" disabled style="width: 100%"
                         input-style="text-align: right;" />
+                    <div class="calc-info">自有資金回收期</div>
                 </el-form-item>
             </el-col>
             <el-col :span="12" :xs="24">
                 <el-form-item label="IRR">
                     <el-input v-model="displayIRR" disabled style="width: 100%" input-style="text-align: right;"
                         :class="isPositiveROI ? 'input-success' : 'input-danger'" />
+                    <div class="calc-info">{{ formData.projectYears || 5 }}年期/期末無殘值</div>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -144,7 +146,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { UserBusiness } from './types/user'
 
@@ -154,7 +156,7 @@ const formRef = ref<FormInstance>()
 // 顯示變數
 const displayNetProfit = ref(0)
 const displayPaybackPeriod = ref('-')
-const displayROI = ref('0.0%') // 新增 ROI
+const displayROI = ref('0.0%')
 const displayIRR = ref('0.0%')
 const isPositiveROI = ref(true)
 const displayMonths = ref(0)
@@ -169,12 +171,29 @@ const rules: FormRules = {
     monthlyCost: [{ required: true, message: '必填', trigger: 'blur' }]
 }
 
-const updateForm = () => {
+watch(
+    () => [
+        formData.value.incomeMode,
+        formData.value.totalAccumulatedIncome,
+        formData.value.monthlyIncome,
+        formData.value.monthlyCost,
+        formData.value.startDate,
+        formData.value.projectYears,
+        formData.value.acquisitionCost,
+        formData.value.loanAmount,
+        formData.value.loanInterestRate
+    ],
+    () => {
+        calculateAll()
+    },
+    { deep: true }
+)
+
+const calculateAll = () => {
     calculateIncome()
     calculateResult()
 }
 
-// 邏輯 A: 營收計算
 const calculateIncome = () => {
     if (!formData.value.startDate) {
         displayMonths.value = 0
@@ -187,107 +206,110 @@ const calculateIncome = () => {
     const startMonth = parseInt(parts[1])
     const now = new Date()
     const months = (now.getFullYear() - startYear) * 12 + ((now.getMonth() + 1) - startMonth)
+
     displayMonths.value = months <= 0 ? 1 : months
 
     if (formData.value.incomeMode === 'total') {
         const total = formData.value.totalAccumulatedIncome || 0
-        formData.value.monthlyIncome = Math.round(total / displayMonths.value)
+        const avgIncome = Math.round(total / displayMonths.value)
+        if (formData.value.monthlyIncome !== avgIncome) {
+            formData.value.monthlyIncome = avgIncome
+        }
     }
 }
 
-// 邏輯 B: 核心試算
 const calculateResult = () => {
-    const income = formData.value.monthlyIncome || 0
-    const cost = formData.value.monthlyCost || 0
-    const loan = formData.value.loanAmount || 0
-    const rate = formData.value.loanInterestRate || 0
-    const acquisition = formData.value.acquisitionCost || 0
-
-    // 確保有年限，預設 5 年 (解決 IRR 沒出現的問題)
+    const income = Number(formData.value.monthlyIncome) || 0
+    const cost = Number(formData.value.monthlyCost) || 0
+    const loan = Number(formData.value.loanAmount) || 0
+    const rate = Number(formData.value.loanInterestRate) || 0
+    const acquisition = Number(formData.value.acquisitionCost) || 0
     const yearsProjection = Number(formData.value.projectYears) || 5
 
-    // 1. 月淨利
     const monthlyInterest = Math.round(loan * (rate / 100) / 12)
     const netProfit = income - cost - monthlyInterest
     displayNetProfit.value = netProfit
 
-    // 2. 自有本金 (Equity)
     const equity = acquisition - loan
 
     // 狀態判斷變數
     let isProfitable = netProfit > 0
     let isNoEquity = equity <= 0
 
-    // --- 計算 ROI (年化投報率) ---
-    // 公式：(月淨利 * 12) / 自有本金
-    if (isNoEquity) {
-        displayROI.value = isProfitable ? '∞ (無本)' : '虧損'
+    // ==========================================
+    // 修正：移除 return，改用 if-else 確保流程往下走
+    // ==========================================
+    if (!isFinite(netProfit) || !isFinite(equity)) {
+        // 異常情況 (如無限大)
+        displayIRR.value = '-'
+        displayROI.value = '-'
+        displayPaybackPeriod.value = '-'
     } else {
-        const annualProfit = netProfit * 12
-        const roi = (annualProfit / equity) * 100
-        displayROI.value = roi.toFixed(1) + '%'
-    }
-
-    // --- 計算回本時間 (Payback Period) ---
-    if (isNoEquity) {
-        displayPaybackPeriod.value = '即時回本'
-    } else if (!isProfitable) {
-        displayPaybackPeriod.value = '無法回本'
-    } else {
-        const monthsToBreakEven = equity / netProfit
-        const years = Math.floor(monthsToBreakEven / 12)
-        const months = Math.ceil(monthsToBreakEven % 12)
-        if (years > 0) {
-            displayPaybackPeriod.value = `${years}年${months}個月`
+        // --- 正常情況：ROI 計算 ---
+        if (isNoEquity) {
+            displayROI.value = isProfitable ? '∞ (無本)' : '虧損'
         } else {
-            displayPaybackPeriod.value = `${months}個月`
+            const annualProfit = netProfit * 12
+            const roi = (annualProfit / equity) * 100
+            displayROI.value = roi.toFixed(1) + '%'
+        }
+
+        // --- 正常情況：回本時間 ---
+        if (isNoEquity) {
+            displayPaybackPeriod.value = '即時回本'
+        } else if (!isProfitable) {
+            displayPaybackPeriod.value = '無法回本'
+        } else {
+            const monthsToBreakEven = equity / netProfit
+            const years = Math.floor(monthsToBreakEven / 12)
+            const months = Math.ceil(monthsToBreakEven % 12)
+            displayPaybackPeriod.value = years > 0 ? `${years}年${months}個月` : `${months}個月`
+        }
+
+        // --- 正常情況：IRR 計算 ---
+        if (isNoEquity) {
+            displayIRR.value = isProfitable ? '∞' : '虧損'
+            isPositiveROI.value = isProfitable
+        } else if (!isProfitable) {
+            displayIRR.value = '虧損'
+            isPositiveROI.value = false
+        } else {
+            const annualProfit = netProfit * 12
+            let min = -0.99
+            let max = 100
+            let guess = 0
+
+            for (let i = 0; i < 100; i++) {
+                guess = (min + max) / 2
+                let npv = -equity
+                for (let t = 1; t <= yearsProjection; t++) {
+                    npv += annualProfit / Math.pow(1 + guess, t)
+                }
+
+                if (Math.abs(npv) < 1 || Math.abs(max - min) < 0.00001) break
+
+                if (npv > 0) min = guess
+                else max = guess
+            }
+
+            const irrPercentage = guess * 100
+            displayIRR.value = irrPercentage.toFixed(2) + '%'
+            isPositiveROI.value = guess >= 0
         }
     }
 
-    // --- 計算 IRR ---
-    if (isNoEquity) {
-        displayIRR.value = isProfitable ? '∞' : '虧損'
-        isPositiveROI.value = isProfitable
-    } else if (!isProfitable) {
-        displayIRR.value = '虧損'
-        isPositiveROI.value = false
-    } else {
-        const annualProfit = netProfit * 12
-
-        let min = 0
-        let max = 100 // 100 = 10000%
-        let guess = 0
-
-        // 增加迭代次數確保收斂
-        for (let i = 0; i < 100; i++) {
-            guess = (min + max) / 2
-            let npv = -equity
-
-            // 現金流折現：年金法
-            for (let t = 1; t <= yearsProjection; t++) {
-                npv += annualProfit / Math.pow(1 + guess, t)
-            }
-
-            if (Math.abs(npv) < 1) break // 誤差在 1 元內停止
-
-            if (npv > 0) {
-                min = guess // 利率太低
-            } else {
-                max = guess // 利率太高
-            }
-        }
-
-        const irrPercentage = guess * 100
-        displayIRR.value = irrPercentage.toFixed(1) + '%'
-        isPositiveROI.value = true
-    }
+    // ============================================
+    // 關鍵修正：確保這一行無論如何都會被執行到
+    // ============================================
+    formData.value.roi = displayROI.value
+    formData.value.irr = displayIRR.value
 }
 
 onMounted(() => {
     if (!formData.value.projectYears) {
-        formData.value.projectYears = 5
+        formData.value.projectYears = 20
     }
-    updateForm()
+    calculateAll()
 })
 
 const validate = async () => {

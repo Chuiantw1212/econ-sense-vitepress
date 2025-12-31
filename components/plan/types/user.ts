@@ -195,6 +195,10 @@ export interface UserBusiness {
     monthlyCost: number;
     loanAmount: number;
     loanInterestRate: number;
+
+    // 新增這兩個欄位 (建議存字串以包含特殊狀態)
+    roi?: string;
+    irr?: string;
 }
 
 // 總表單狀態介面 (Global Form State)
