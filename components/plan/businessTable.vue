@@ -38,14 +38,6 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="稅務類別" width="120" align="center">
-                    <template #default="{ row }">
-                        <el-tag :type="getTaxTag(row.taxCategory)" size="small" effect="plain">
-                            {{ getTaxLabel(row.taxCategory) }}
-                        </el-tag>
-                    </template>
-                </el-table-column>
-
                 <el-table-column label="投入成本" width="120" align="right" class-name="hidden-xs-only">
                     <template #default="{ row }">
                         {{ formatNumber(row.acquisitionCost) }}
@@ -57,6 +49,14 @@
                         <span :class="getNetCashFlow(row) >= 0 ? 'text-success' : 'text-danger'"
                             class="font-mono font-bold">
                             {{ formatNumber(getNetCashFlow(row)) }}
+                        </span>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="年化投報" width="120" align="right">
+                    <template #default="{ row }">
+                        <span :class="getRoiColor(row)" class="font-mono font-bold">
+                            {{ getAnnualROI(row) }}
                         </span>
                     </template>
                 </el-table-column>
@@ -107,7 +107,8 @@ import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { useApi } from '@/components/plan/composables/useApi'
-import BusinessDialogForm, { type UserBusiness } from './businessDialogForm.vue'
+import type { UserBusiness } from './types/user'
+import BusinessDialogForm from './businessDialogForm.vue'
 
 const { authFetch } = useApi()
 
@@ -251,14 +252,31 @@ const handleSubmit = async () => {
 const formatCurrency = (val: number) => `$${val.toLocaleString()}`
 const formatNumber = (val: number) => val?.toLocaleString() || '0'
 
-const getTaxTag = (cat: string) => {
-    const map: Record<string, string> = { deemed_6: 'warning', verified: 'primary', exempt: 'info' }
-    return map[cat] || 'info'
+// 計算年化投報 (Cash-on-Cash Return)
+const getAnnualROI = (row: UserBusiness) => {
+    const acquisition = row.acquisitionCost || 0
+    const loan = row.loanAmount || 0
+    const equity = acquisition - loan // 自有資金
+
+    const monthlyNet = getNetCashFlow(row)
+
+    // 特殊情況處理：全額貸或超額貸 (無本生意)
+    if (equity <= 0) {
+        if (monthlyNet > 0) return '∞'   // 無本獲利
+        if (monthlyNet < 0) return '虧損' // 無本虧損
+        return '0.0%'
+    }
+
+    const annualNet = monthlyNet * 12
+    const roi = (annualNet / equity) * 100
+
+    return roi.toFixed(1) + '%'
 }
 
-const getTaxLabel = (cat: string) => {
-    const map: Record<string, string> = { deemed_6: '推計 6%', verified: '核實申報', exempt: '免稅' }
-    return map[cat] || '-'
+// 判斷投報率顏色
+const getRoiColor = (row: UserBusiness) => {
+    // 簡單邏輯：只要淨利是正的，投報率顯示綠色，否則紅色
+    return getNetCashFlow(row) >= 0 ? 'text-success' : 'text-danger'
 }
 </script>
 
