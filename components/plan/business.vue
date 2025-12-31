@@ -38,7 +38,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="稅務類別" width="110" align="center">
+            <el-table-column label="稅務類別" width="120" align="center">
                 <template #default="{ row }">
                     <el-tag :type="getTaxTag(row.taxCategory)" size="small" effect="plain">
                         {{ getTaxLabel(row.taxCategory) }}
@@ -79,15 +79,15 @@
                 <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
                         <el-form-item label="資產名稱">
-                            <el-input v-model="formState.name" placeholder="例：屏東太陽能 A區" />
+                            <el-input v-model="formState.name" placeholder="例：設備租賃、加盟店" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="稅務類別">
+                        <el-form-item label="稅務申報類別">
                             <el-select v-model="formState.taxCategory" style="width: 100%">
-                                <el-option label="推計所得 6%" value="deemed_6" />
-                                <el-option label="核實申報" value="verified" />
-                                <el-option label="免稅" value="exempt" />
+                                <el-option label="推計所得 (6%)" value="deemed_6" />
+                                <el-option label="核實申報 (收支互抵)" value="verified" />
+                                <el-option label="免稅/不計入" value="exempt" />
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -104,19 +104,48 @@
                     </el-col>
                 </el-row>
 
-                <el-divider content-position="left">營收與成本</el-divider>
+                <el-divider content-position="left">營收與支出</el-divider>
+
+                <el-row style="margin-bottom: 8px;">
+                    <el-col :span="24">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 14px; color: var(--el-text-color-regular);">月收入設定</span>
+                            <el-radio-group v-model="formState.incomeMode" size="small">
+                                <el-radio-button label="monthly">輸入月均</el-radio-button>
+                                <el-radio-button label="total">累計回推</el-radio-button>
+                            </el-radio-group>
+                        </div>
+                    </el-col>
+                </el-row>
+
                 <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="月平均收入">
-                            <el-input-number v-model="formState.monthlyIncome" :step="1000" style="width: 100%" />
-                        </el-form-item>
+                        <template v-if="formState.incomeMode === 'monthly'">
+                            <el-form-item label="預估月平均收入">
+                                <el-input-number v-model="formState.monthlyIncome" :step="1000" style="width: 100%" />
+                            </el-form-item>
+                        </template>
+
+                        <template v-else>
+                            <el-form-item label="歷史累計總營收">
+                                <el-input-number v-model="formState.totalAccumulatedIncome" :step="10000"
+                                    style="width: 100%" placeholder="真實累計數據" />
+                            </el-form-item>
+
+                            <el-form-item label="自動回推之月均">
+                                <el-input-number :model-value="formState.monthlyIncome" style="width: 100%" disabled
+                                    :controls="false" placeholder="系統自動計算" />
+                            </el-form-item>
+                        </template>
                     </el-col>
+
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="月維運成本">
+                        <el-form-item label="月平均維運支出">
                             <el-input-number v-model="formState.monthlyCost" :step="500" style="width: 100%" />
                         </el-form-item>
                     </el-col>
                 </el-row>
+
 
                 <el-divider content-position="left">融資貸款</el-divider>
                 <el-row :gutter="20">
@@ -133,34 +162,31 @@
                     </el-col>
                 </el-row>
 
-                <div
-                    style="margin-top: 24px; padding: 20px 16px; background-color: var(--el-fill-color-light); border-radius: 8px;">
-                    <el-row :gutter="20">
-                        <el-col :span="12" :xs="12">
-                            <el-statistic title="預估月淨利">
-                                <template #formatter>
-                                    <span :style="{
-                                        color: tempNetFlow >= 0 ? 'var(--el-color-success)' : 'var(--el-color-danger)',
-                                        fontWeight: 'bold',
-                                        fontSize: '18px'
-                                    }">
-                                        {{ formatCurrency(tempNetFlow) }}
-                                    </span>
-                                </template>
-                            </el-statistic>
-                        </el-col>
+                <el-form-item>
+                    <el-card shadow="never" style="width: 100%;">
+                        <el-row :gutter="20">
+                            <el-col :span="12" :xs="12">
+                                <el-statistic title="預估月淨利">
+                                    <template #formatter>
+                                        <span :class="tempNetFlow >= 0 ? 'el-text--success' : 'el-text--danger'">
+                                            {{ formatCurrency(tempNetFlow) }}
+                                        </span>
+                                    </template>
+                                </el-statistic>
+                            </el-col>
 
-                        <el-col :span="12" :xs="12">
-                            <el-statistic title="應稅所得 (年)">
-                                <template #formatter>
-                                    <span style="font-size: 18px; font-weight: 500;">
-                                        {{ formatCurrency(tempTaxableIncome) }}
-                                    </span>
-                                </template>
-                            </el-statistic>
-                        </el-col>
-                    </el-row>
-                </div>
+                            <el-col :span="12" :xs="12">
+                                <el-statistic title="預估回本期">
+                                    <template #formatter>
+                                        <span class="el-text--primary">
+                                            {{ paybackYears }} 年
+                                        </span>
+                                    </template>
+                                </el-statistic>
+                            </el-col>
+                        </el-row>
+                    </el-card>
+                </el-form-item>
 
             </el-form>
 
@@ -184,7 +210,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { Plus, EditPen } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { UserBusiness } from './types/user'
@@ -197,7 +223,7 @@ const { authFetch } = useApi()
 const isDialogVisible = ref(false)
 const isSaving = ref(false)
 const isEditMode = ref(false)
-const dialogWidth = ref('600px') // 預設寬度
+const dialogWidth = ref('600px')
 
 // 編輯中的暫存物件
 const formState = ref<UserBusiness>(createEmptyBusiness())
@@ -220,12 +246,69 @@ const summary = computed(() => {
     return { totalCost, totalNetFlow, avgRoi }
 })
 
-// --- 3. Actions ---
+// --- 3. Calculation Logic ---
+
+// 計算營運月數 (Start Date -> Now)
+const operatingMonths = computed(() => {
+    if (!formState.value.startDate) return 1
+    const start = new Date(formState.value.startDate)
+    const now = new Date()
+    const months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth())
+    // 至少為 1，避免除以 0
+    return months <= 0 ? 1 : months
+})
+
+// 監聽：當處於 'total' 模式時，若真實累計數據變更，自動計算月均
+watch(
+    [
+        () => formState.value.incomeMode,
+        () => formState.value.totalAccumulatedIncome,
+        operatingMonths
+    ],
+    ([mode, total, months]) => {
+        if (mode === 'total') {
+            const safeTotal = total || 0
+            // 自動更新 Monthly Income (這是用來顯示和計算 ROI 的欄位)
+            formState.value.monthlyIncome = Math.round(safeTotal / months)
+        }
+    }
+)
+
+// 回本期 (含 3% 通膨隱含邏輯)
+const paybackYears = computed(() => {
+    const netMonthly = tempNetFlow.value
+    const initialInvestment = (formState.value.acquisitionCost || 0) - (formState.value.loanAmount || 0)
+
+    if (initialInvestment <= 0) return '0.0'
+    if (netMonthly <= 0) return '∞'
+
+    let recovered = 0
+    let year = 0
+    const inflationRate = 0.03
+    const annualNominalIncome = netMonthly * 12
+
+    while (recovered < initialInvestment && year < 100) {
+        year++
+        const realIncome = annualNominalIncome / Math.pow(1 + inflationRate, year)
+        recovered += realIncome
+    }
+
+    if (year >= 100) return '> 100'
+    return year.toFixed(1)
+})
+
+// --- 4. Actions ---
 
 function openEditor(row: UserBusiness | null) {
     if (row) {
         isEditMode.value = true
+        // 複製一份，包含 incomeMode 和 totalAccumulatedIncome
         formState.value = JSON.parse(JSON.stringify(row))
+
+        // 防呆：如果是舊資料沒有 mode，預設給 total
+        if (!formState.value.incomeMode) {
+            formState.value.incomeMode = 'total'
+        }
     } else {
         isEditMode.value = false
         formState.value = createEmptyBusiness()
@@ -273,10 +356,8 @@ function handleDelete() {
             if (!formState.value.id) return
             try {
                 await authFetch(`/api/v1/user/business/${formState.value.id}`, { method: 'DELETE' })
-
                 const idx = businessList.value.findIndex(item => item.id === formState.value.id)
                 if (idx !== -1) businessList.value.splice(idx, 1)
-
                 ElMessage.success('已刪除')
                 isDialogVisible.value = false
             } catch (e) {
@@ -286,7 +367,7 @@ function handleDelete() {
         .catch(() => { })
 }
 
-// --- 4. Helpers & Calcs ---
+// --- 5. Helpers ---
 
 function createEmptyBusiness(): UserBusiness {
     return {
@@ -294,7 +375,11 @@ function createEmptyBusiness(): UserBusiness {
         taxCategory: 'deemed_6',
         acquisitionCost: 0,
         startDate: new Date().toISOString().slice(0, 7),
+
+        incomeMode: 'total', // 預設使用累計模式，符合資產管理習慣
+        totalAccumulatedIncome: 0,
         monthlyIncome: 0,
+
         monthlyCost: 0,
         loanAmount: 0,
         loanInterestRate: 0
@@ -309,13 +394,6 @@ function getNetCashFlow(item: UserBusiness): number {
 }
 
 const tempNetFlow = computed(() => getNetCashFlow(formState.value))
-const tempTaxableIncome = computed(() => {
-    const revenue = (formState.value.monthlyIncome || 0) * 12
-    if (formState.value.taxCategory === 'deemed_6') {
-        return Math.round(revenue * 0.06)
-    }
-    return 0
-})
 
 function formatCurrency(val: number): string {
     return `$ ${Math.round(val).toLocaleString()}`
@@ -326,18 +404,17 @@ function formatNumber(val: number | undefined): string {
 }
 
 function getTaxTag(cat: string) {
-    const map: Record<string, string> = { deemed_6: 'warning', verified: 'primary', exempt: 'success' }
+    const map: Record<string, string> = { deemed_6: 'warning', verified: 'primary', exempt: 'info' }
     return map[cat] || 'info'
 }
 
 function getTaxLabel(cat: string) {
-    const map: Record<string, string> = { deemed_6: '推計6%', verified: '核實', exempt: '免稅' }
+    const map: Record<string, string> = { deemed_6: '推計 6%', verified: '核實申報', exempt: '免稅' }
     return map[cat] || '-'
 }
 
-// --- RWD Dialog Width ---
+// --- RWD ---
 const checkWidth = () => {
-    // 手機版給 90% 或 95%，電腦版給固定 600px 即可
     dialogWidth.value = window.innerWidth < 768 ? '95%' : '600px'
 }
 onMounted(() => {
@@ -395,7 +472,7 @@ onUnmounted(() => window.removeEventListener('resize', checkWidth))
     font-size: 16px;
 }
 
-/* Table Styles */
+/* Table */
 .clickable-table {
     cursor: pointer;
 }
@@ -405,39 +482,7 @@ onUnmounted(() => window.removeEventListener('resize', checkWidth))
     color: var(--el-text-color-secondary);
 }
 
-.text-success {
-    color: var(--el-color-success);
-}
-
-.text-danger {
-    color: var(--el-color-danger);
-}
-
-/* Dialog Calc Box */
-.calc-box {
-    margin-top: 10px;
-    padding: 12px;
-    background-color: var(--el-fill-color-light);
-    border-radius: 6px;
-    border: 1px dashed var(--el-border-color);
-}
-
-.calc-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 6px;
-    font-size: 14px;
-}
-
-.calc-row .highlight {
-    font-weight: bold;
-}
-
-.note {
-    color: var(--el-text-color-secondary);
-}
-
-/* RWD */
+/* RWD Utilities */
 @media (max-width: 768px) {
     .hidden-xs-only {
         display: none;

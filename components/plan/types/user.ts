@@ -168,28 +168,31 @@ export interface UserRealEstate {
 }
 
 export interface UserBusiness {
-    id?: number; // 新增時可能暫無 ID
+    id?: number;
     name: string;
-
-    /** 稅務類別 */
-    taxCategory: 'verified' | 'deemed_6' | 'exempt';
-
-    /** 初始取得成本 */
+    taxCategory: 'deemed_6' | 'verified' | 'exempt';
     acquisitionCost: number;
-
-    /** 開始營運年月 (YYYY-MM) */
     startDate: string;
 
-    /** 月平均收入 */
+    /** * 收入輸入模式 
+     * - 'monthly': 直接輸入月均
+     * - 'total': 輸入累計總額 (由系統自動回推月均)
+     */
+    incomeMode: 'monthly' | 'total';
+
+    /** * 歷史累計總營收 (真實資料)
+     * 當 mode 為 'total' 時，此欄位必填
+     */
+    totalAccumulatedIncome?: number;
+
+    /** * 預估月平均收入 (計算結果)
+     * 系統依然需要這個欄位來計算 ROI 和現金流，
+     * 但當 mode='total' 時，這會變成由前端自動計算的唯讀欄位。
+     */
     monthlyIncome: number;
 
-    /** 月平均維運成本 */
     monthlyCost: number;
-
-    /** 貸款餘額 */
     loanAmount: number;
-
-    /** 貸款年利率 */
     loanInterestRate: number;
 }
 
