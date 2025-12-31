@@ -107,7 +107,7 @@ import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { useApi } from '@/components/plan/composables/useApi'
-import BusinessDialogForm, { type UserBusiness } from './BusinessDialogForm.vue'
+import BusinessDialogForm, { type UserBusiness } from './businessDialogForm.vue'
 
 const { authFetch } = useApi()
 
