@@ -173,6 +173,7 @@ export interface UserBusiness {
     taxCategory: 'deemed_6' | 'verified' | 'exempt';
     acquisitionCost: number;
     startDate: string;
+    projectYears: number;
 
     /** * 收入輸入模式 
      * - 'monthly': 直接輸入月均
