@@ -30,6 +30,8 @@
             <el-table :data="tableData" style="width: 100%" stripe
                 :header-cell-style="{ background: '#f5f7fa', color: '#606266' }">
 
+                <el-table-column type="index" label="#" width="60" align="center" />
+
                 <el-table-column label="名稱">
                     <template #default="{ row }">
                         <div class="font-medium text-gray-800">{{ row.name }}</div>
