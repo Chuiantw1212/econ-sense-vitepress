@@ -1,6 +1,10 @@
 <template>
     <div class="business-table-container">
 
+        <CostEfficiencyMatrix></CostEfficiencyMatrix>
+
+        <div style="height: 24px;"></div>
+
         <el-card v-loading="loading">
             <template v-if="pageData.list && pageData.list.length > 0">
 
@@ -96,6 +100,7 @@ import { useApi } from '@/components/plan/composables/useApi'
 import type { UserBusiness } from './types/user'
 import type { PaginatedResponse } from './types/util'
 import BusinessDialogForm from './businessDialogForm.vue'
+import CostEfficiencyMatrix from './charts/CostEfficiencyMatrix.vue'
 
 const { authFetch } = useApi()
 
