@@ -1,50 +1,29 @@
 <template>
     <div class="business-table-container">
 
-        <el-row :gutter="12" class="mb-4">
-            <el-col :span="8" :xs="24">
-                <el-card shadow="never" class="stat-card">
-                    <div class="stat-label">資產總規模</div>
-                    <div class="stat-value">{{ formatCurrency(summary.totalCost) }}</div>
-                </el-card>
-            </el-col>
-            <el-col :span="8" :xs="12">
-                <el-card shadow="never" class="stat-card">
-                    <div class="stat-label">預估月淨利</div>
-                    <div class="stat-value" :class="summary.totalNetFlow >= 0 ? 'text-success' : 'text-danger'">
-                        {{ summary.totalNetFlow > 0 ? '+' : '' }}{{ formatCurrency(summary.totalNetFlow) }}
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="8" :xs="12">
-                <el-card shadow="never" class="stat-card">
-                    <div class="stat-label">組合年化 ROI</div>
-                    <div class="stat-value">{{ summary.avgRoi }}%</div>
-                </el-card>
-            </el-col>
-        </el-row>
+        <el-button type="primary" plain :icon="Plus" style="width: 100%; border-style: dashed;" @click="handleCreate">
+            新增資產項目
+        </el-button>
 
-        <br />
-
-        <template v-if="tableData.length > 0">
-            <el-table :data="tableData" style="width: 100%" stripe
+        <el-card v-if="tableData.length > 0" style="margin-top:16px">
+            <el-table :data="paginatedData" style="width: 100%; margin-top:16px" stripe show-overflow-tooltip
                 :header-cell-style="{ background: '#f5f7fa', color: '#606266' }">
 
-                <el-table-column type="index" label="#" width="60" align="center" />
+                <el-table-column type="index" :index="indexMethod" label="#" width="60" align="center" />
 
-                <el-table-column label="名稱">
+                <el-table-column label="名稱" prop="name" width="120" show-overflow-tooltip>
                     <template #default="{ row }">
-                        <div class="font-medium text-gray-800">{{ row.name }}</div>
+                        <div class="font-medium text-gray-800 truncate-text">{{ row.name }}</div>
                     </template>
                 </el-table-column>
 
-                <el-table-column label="投入成本" align="right" class-name="hidden-xs-only">
+                <el-table-column label="投入成本" align="right" min-width="110" class-name="hidden-xs-only">
                     <template #default="{ row }">
                         {{ formatNumber(row.acquisitionCost) }}
                     </template>
                 </el-table-column>
 
-                <el-table-column label="月淨現金流" align="right">
+                <el-table-column label="月淨現金流" align="right" min-width="110">
                     <template #default="{ row }">
                         <span :class="getNetCashFlow(row) >= 0 ? 'text-success' : 'text-danger'"
                             class="font-mono font-bold">
@@ -53,7 +32,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="IRR" align="right">
+                <el-table-column label="IRR" align="right" min-width="90">
                     <template #default="{ row }">
                         <span :class="getRateColor(row.irr)" class="font-mono font-bold">
                             {{ row.irr || '-' }}
@@ -73,17 +52,21 @@
                 </el-table-column>
             </el-table>
 
-            <el-button type="primary" plain :icon="Plus" style="width: 100%; margin-top: 8px; border-style: dashed;"
-                @click="handleCreate">
-                新增資產項目
-            </el-button>
-        </template>
+            <template #footer>
+                <div class="pagination-container">
+                    <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize"
+                        :page-sizes="[5, 10, 20, 50]" :background="true" layout="total, sizes, prev, pager, next"
+                        :total="tableData.length" @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange" />
+                </div>
+            </template>
+        </el-card>
 
-        <template v-else>
+        <el-card v-else>
             <el-empty description="暫無商業或副業資產">
                 <el-button type="primary" :icon="Plus" @click="handleCreate">立即新增</el-button>
             </el-empty>
-        </template>
+        </el-card>
 
         <el-dialog v-model="dialogVisible" :title="isEdit ? '編輯資產項目' : '新增資產項目'" width="600px" destroy-on-close
             align-center append-to-body :close-on-click-modal="false">
@@ -125,6 +108,10 @@ const isEdit = ref(false)
 const submitting = ref(false)
 const formComponentRef = ref<InstanceType<typeof BusinessDialogForm>>()
 
+// 分頁狀態
+const currentPage = ref(1)
+const pageSize = ref(10)
+
 const createDefaultBusiness = (): UserBusiness => ({
     name: '',
     startDate: new Date().toISOString().split('T')[0],
@@ -144,8 +131,19 @@ const createDefaultBusiness = (): UserBusiness => ({
 const currentBusiness = reactive<UserBusiness>(createDefaultBusiness())
 
 // ==========================================
-// 3. 計算邏輯 (僅用於上方摘要卡片)
+// 3. 計算邏輯
 // ==========================================
+
+const paginatedData = computed(() => {
+    const start = (currentPage.value - 1) * pageSize.value
+    const end = start + pageSize.value
+    return tableData.value.slice(start, end)
+})
+
+const indexMethod = (index: number) => {
+    return (currentPage.value - 1) * pageSize.value + index + 1
+}
+
 const getNetCashFlow = (item: UserBusiness) => {
     const income = item.monthlyIncome || 0
     const cost = item.monthlyCost || 0
@@ -153,27 +151,19 @@ const getNetCashFlow = (item: UserBusiness) => {
     return income - cost - interest
 }
 
-const summary = computed(() => {
-    let totalCost = 0
-    let totalNetFlow = 0
-    let totalEquity = 0
-
-    tableData.value.forEach(item => {
-        totalCost += (item.acquisitionCost || 0)
-        totalNetFlow += getNetCashFlow(item)
-        totalEquity += Math.max(0, (item.acquisitionCost || 0) - (item.loanAmount || 0))
-    })
-
-    // 這裡計算的是「整體投資組合」的加權現金回報率 (Cash-on-Cash)
-    const annualProfit = totalNetFlow * 12
-    const avgRoi = totalEquity > 0 ? (annualProfit / totalEquity * 100).toFixed(2) : '0.00'
-
-    return { totalCost, totalNetFlow, avgRoi }
-})
-
 // ==========================================
 // 4. 操作邏輯
 // ==========================================
+
+const handleSizeChange = (val: number) => {
+    pageSize.value = val
+    currentPage.value = 1
+}
+
+const handleCurrentChange = (val: number) => {
+    currentPage.value = val
+}
+
 const handleCreate = () => {
     isEdit.value = false
     Object.assign(currentBusiness, createDefaultBusiness())
@@ -201,6 +191,9 @@ const handleDelete = (row: UserBusiness) => {
             const index = tableData.value.findIndex(item => item.id === row.id)
             if (index !== -1) {
                 tableData.value.splice(index, 1)
+                if (paginatedData.value.length === 0 && currentPage.value > 1) {
+                    currentPage.value--
+                }
             }
             ElMessage.success('已刪除')
         } catch (e) {
@@ -235,6 +228,10 @@ const handleSubmit = async () => {
                 }
             } else {
                 tableData.value.push(savedItem)
+                const lastPage = Math.ceil(tableData.value.length / pageSize.value)
+                if (lastPage > currentPage.value) {
+                    currentPage.value = lastPage
+                }
             }
 
             ElMessage.success(isEdit.value ? '更新成功' : '新增成功')
@@ -253,18 +250,12 @@ const handleSubmit = async () => {
 // ==========================================
 // 5. Helpers
 // ==========================================
-const formatCurrency = (val: number) => `$${val.toLocaleString()}`
 const formatNumber = (val: number) => val?.toLocaleString() || '0'
 
-// 根據後端回傳字串判斷顏色
 const getRateColor = (val?: string) => {
     if (!val || val === '-') return ''
     if (val.includes('虧損') || val.includes('-')) {
-        // 排除掉負號在括號內的情況（如果有），不過通常負數會有 '-'
-        // 簡單判斷：若 parse float 小於 0 或是文字包含虧損
         if (val.includes('虧損')) return 'text-danger'
-
-        // 嘗試解析數值 (去除 % 等符號)
         const num = parseFloat(val.replace(/[^\d.-]/g, ''))
         if (!isNaN(num) && num < 0) return 'text-danger'
     }
@@ -277,24 +268,6 @@ const getRateColor = (val?: string) => {
     padding: 0;
 }
 
-.stat-card {
-    text-align: center;
-    border-radius: 8px;
-    background-color: #fff;
-}
-
-.stat-label {
-    font-size: 12px;
-    color: #909399;
-    margin-bottom: 4px;
-}
-
-.stat-value {
-    font-size: 20px;
-    font-weight: bold;
-    color: #303133;
-}
-
 .text-success {
     color: var(--el-color-success);
 }
@@ -303,9 +276,25 @@ const getRateColor = (val?: string) => {
     color: var(--el-color-danger);
 }
 
+.truncate-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 分頁容器樣式：靠右對齊 */
+.pagination-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
 @media (max-width: 768px) {
     .hidden-xs-only {
         display: none;
+    }
+
+    .pagination-container {
+        justify-content: center;
     }
 }
 </style>
