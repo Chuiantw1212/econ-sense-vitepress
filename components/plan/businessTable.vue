@@ -1,29 +1,26 @@
 <template>
     <div class="business-table-container">
 
-        <el-button type="primary" plain :icon="Plus" style="width: 100%; border-style: dashed;" @click="handleCreate">
-            新增資產項目
-        </el-button>
 
-        <el-card v-if="tableData.length > 0" style="margin-top:16px">
-            <el-table :data="paginatedData" style="width: 100%; margin-top:16px" stripe show-overflow-tooltip
+        <el-card v-if="pageData.list && pageData.list.length > 0">
+            <el-table :data="pageData.list" style="width: 100%" stripe show-overflow-tooltip
                 :header-cell-style="{ background: '#f5f7fa', color: '#606266' }">
 
-                <el-table-column type="index" :index="indexMethod" label="#" width="60" align="center" />
+                <el-table-column type="index" :index="indexMethod" label="#" align="center" />
 
-                <el-table-column label="名稱" prop="name" width="120" show-overflow-tooltip>
+                <el-table-column label="名稱" prop="name" min-width="130" show-overflow-tooltip>
                     <template #default="{ row }">
                         <div class="font-medium text-gray-800 truncate-text">{{ row.name }}</div>
                     </template>
                 </el-table-column>
 
-                <el-table-column label="投入成本" align="right" min-width="110" class-name="hidden-xs-only">
+                <el-table-column label="投入成本" align="right" class-name="hidden-xs-only">
                     <template #default="{ row }">
                         {{ formatNumber(row.acquisitionCost) }}
                     </template>
                 </el-table-column>
 
-                <el-table-column label="月淨現金流" align="right" min-width="110">
+                <el-table-column label="月現金流" align="right">
                     <template #default="{ row }">
                         <span :class="getNetCashFlow(row) >= 0 ? 'text-success' : 'text-danger'"
                             class="font-mono font-bold">
@@ -32,7 +29,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="IRR" align="right" min-width="90">
+                <el-table-column label="IRR" align="right">
                     <template #default="{ row }">
                         <span :class="getRateColor(row.irr)" class="font-mono font-bold">
                             {{ row.irr || '-' }}
@@ -54,9 +51,9 @@
 
             <template #footer>
                 <div class="pagination-container">
-                    <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize"
-                        :page-sizes="[5, 10, 20, 50]" :background="true" layout="total, sizes, prev, pager, next"
-                        :total="tableData.length" @size-change="handleSizeChange"
+                    <el-pagination :current-page="pageData.currentPage" :page-size="pageData.pageSize"
+                        :total="pageData.total" :page-sizes="[5, 10, 20, 50]" :background="true"
+                        layout="total, sizes, prev, pager, next" @size-change="handleSizeChange"
                         @current-change="handleCurrentChange" />
                 </div>
             </template>
@@ -67,6 +64,12 @@
                 <el-button type="primary" :icon="Plus" @click="handleCreate">立即新增</el-button>
             </el-empty>
         </el-card>
+
+        <div style="height: 24px;"></div>
+
+        <el-button type="primary" plain :icon="Plus" style="width: 100%; border-style: dashed;" @click="handleCreate">
+            新增資產項目
+        </el-button>
 
         <el-dialog v-model="dialogVisible" :title="isEdit ? '編輯資產項目' : '新增資產項目'" width="600px" destroy-on-close
             align-center append-to-body :close-on-click-modal="false">
@@ -85,20 +88,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, nextTick } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { useApi } from '@/components/plan/composables/useApi'
 import type { UserBusiness } from './types/user'
+import type { PaginatedResponse } from './types/util'
 import BusinessDialogForm from './businessDialogForm.vue'
 
 const { authFetch } = useApi()
 
 // ==========================================
-// 1. 資料模型
+// 1. 資料模型 (Props & Emits)
 // ==========================================
-const tableData = defineModel<UserBusiness[]>({ required: true, default: [] })
+// 修改：接收完整的後端分頁物件
+const pageData = defineModel<PaginatedResponse<UserBusiness>>({
+    required: true,
+    default: () => ({ list: [], total: 0, currentPage: 1, pageSize: 10, totalPages: 0 })
+})
+
+// 新增：定義事件，讓父層知道何時該重新打 API
+const emit = defineEmits<{
+    (e: 'change-page', page: number, pageSize: number): void
+    (e: 'refresh'): void
+}>()
 
 // ==========================================
 // 2. 狀態管理
@@ -107,10 +121,6 @@ const dialogVisible = ref(false)
 const isEdit = ref(false)
 const submitting = ref(false)
 const formComponentRef = ref<InstanceType<typeof BusinessDialogForm>>()
-
-// 分頁狀態
-const currentPage = ref(1)
-const pageSize = ref(10)
 
 const createDefaultBusiness = (): UserBusiness => ({
     name: '',
@@ -134,14 +144,10 @@ const currentBusiness = reactive<UserBusiness>(createDefaultBusiness())
 // 3. 計算邏輯
 // ==========================================
 
-const paginatedData = computed(() => {
-    const start = (currentPage.value - 1) * pageSize.value
-    const end = start + pageSize.value
-    return tableData.value.slice(start, end)
-})
-
+// 序號計算：依賴後端回傳的 currentPage 與 pageSize
 const indexMethod = (index: number) => {
-    return (currentPage.value - 1) * pageSize.value + index + 1
+    const { currentPage, pageSize } = pageData.value
+    return (currentPage - 1) * pageSize + index + 1
 }
 
 const getNetCashFlow = (item: UserBusiness) => {
@@ -152,17 +158,22 @@ const getNetCashFlow = (item: UserBusiness) => {
 }
 
 // ==========================================
-// 4. 操作邏輯
+// 4. 操作邏輯 (分頁)
 // ==========================================
 
 const handleSizeChange = (val: number) => {
-    pageSize.value = val
-    currentPage.value = 1
+    // 當每頁筆數改變，通常回到第一頁，並通知父層
+    emit('change-page', 1, val)
 }
 
 const handleCurrentChange = (val: number) => {
-    currentPage.value = val
+    // 當頁碼改變，通知父層抓取該頁資料
+    emit('change-page', val, pageData.value.pageSize)
 }
+
+// ==========================================
+// 5. 操作邏輯 (CRUD)
+// ==========================================
 
 const handleCreate = () => {
     isEdit.value = false
@@ -188,14 +199,11 @@ const handleDelete = (row: UserBusiness) => {
         try {
             await authFetch(`/api/v1/user/businesses/${row.id}`, { method: 'DELETE' })
 
-            const index = tableData.value.findIndex(item => item.id === row.id)
-            if (index !== -1) {
-                tableData.value.splice(index, 1)
-                if (paginatedData.value.length === 0 && currentPage.value > 1) {
-                    currentPage.value--
-                }
-            }
+            // 修改：刪除成功後，不再自己 splice array，而是通知父層 refresh
+            // 因為刪除一筆資料會影響總頁數和總筆數，後端重算最準
             ElMessage.success('已刪除')
+            emit('refresh')
+
         } catch (e) {
             ElMessage.error('刪除失敗')
         }
@@ -219,23 +227,11 @@ const handleSubmit = async () => {
         })
 
         if (res && res.ok) {
-            const savedItem: UserBusiness = await res.json()
-
-            if (isEdit.value) {
-                const index = tableData.value.findIndex(item => item.id === savedItem.id)
-                if (index !== -1) {
-                    tableData.value[index] = savedItem
-                }
-            } else {
-                tableData.value.push(savedItem)
-                const lastPage = Math.ceil(tableData.value.length / pageSize.value)
-                if (lastPage > currentPage.value) {
-                    currentPage.value = lastPage
-                }
-            }
-
+            // 修改：儲存成功後，直接通知父層 refresh 重抓資料
+            // 這樣可以確保排序正確，並且如果新增後導致換頁，也能由父層邏輯處理
             ElMessage.success(isEdit.value ? '更新成功' : '新增成功')
             dialogVisible.value = false
+            emit('refresh')
         } else {
             throw new Error('API Error')
         }
@@ -248,7 +244,7 @@ const handleSubmit = async () => {
 }
 
 // ==========================================
-// 5. Helpers
+// 6. Helpers
 // ==========================================
 const formatNumber = (val: number) => val?.toLocaleString() || '0'
 
@@ -264,6 +260,7 @@ const getRateColor = (val?: string) => {
 </script>
 
 <style scoped>
+/* 維持原樣式 */
 .business-table-container {
     padding: 0;
 }
@@ -282,8 +279,8 @@ const getRateColor = (val?: string) => {
     white-space: nowrap;
 }
 
-/* 分頁容器樣式：靠右對齊 */
 .pagination-container {
+    margin-top: 16px;
     display: flex;
     justify-content: flex-end;
 }

@@ -104,7 +104,7 @@ export function useUserPlan() {
                 if (businessesRes) {
                     const businessesData = await businessesRes.json()
                     // 確保回傳的是陣列
-                    if (Array.isArray(businessesData)) {
+                    if (Array.isArray(businessesData.list)) {
                         userForm.value.businesses = businessesData
                     }
                 }
