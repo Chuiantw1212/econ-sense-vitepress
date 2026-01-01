@@ -1,3 +1,4 @@
+import { PaginatedResponse } from "./util";
 // 模擬 Firebase User 的核心欄位
 export interface FirebaseUser {
     id: string,
@@ -200,7 +201,7 @@ export interface UserBusiness {
     roi?: string;
     irr?: string;
 
-    groupId?: string;
+    groupId?: number;
 }
 
 // 總表單狀態介面 (Global Form State)
@@ -209,5 +210,5 @@ export interface UserFormState {
     career: UserCareer;
     portfolios: UserPortfolio[],
     realEstates: UserRealEstate[],
-    businesses: UserBusiness[],
+    businesses: PaginatedResponse<UserBusiness[]>,
 }

@@ -77,6 +77,15 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
+### 資產總覽
+
+<div v-if="isReady">
+    <AssetOverViewCard 
+        v-model="userForm" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
 ## 損益表
 
 ### 職業收入
@@ -104,6 +113,7 @@ import Portfolio from '@/components/plan/portfolio.vue'
 import RealEstate from '@/components/plan/realEstate.vue'
 import CostEfficiencyMatrix from '@/components/plan/charts/CostEfficiencyMatrix.vue'
 import Business from '@/components/plan/businessTable.vue'
+import AssetOverViewCard from  '@/components/plan/AssetOverViewCard.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
