@@ -1,5 +1,5 @@
 <template>
-    <el-card shadow="never" v-loading="loading">
+    <el-card shadow="never">
         <template #header>
             資產效能矩陣
         </template>
@@ -16,7 +16,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, nextTick, watch } from 'vue'
-import { ElMessage } from 'element-plus'
 import {
     Chart,
     ScatterController,
@@ -28,21 +27,17 @@ import {
     type ChartConfiguration
 } from 'chart.js'
 import type { MetadataMap } from '../types/metadata'
-import { useApi } from '@/components/plan/composables/useApi'
 import type { UserBusiness } from '../types/user'
 
 Chart.register(ScatterController, LinearScale, PointElement, Tooltip, Legend, Title)
 
 // ==========================================
-// 1. 狀態與資料
+// 1. Props & Model
 // ==========================================
-const { authFetch } = useApi()
-const loading = ref(false)
-const canvasRef = ref<HTMLCanvasElement | null>(null)
-let chartInstance: Chart | null = null
 
-const rawList = ref<UserBusiness[]>([])
-const hasData = computed(() => rawList.value.length > 0)
+// [修改] 使用 defineModel 接收資料
+// 預設為空陣列，避免未傳入時報錯
+const list = defineModel<UserBusiness[]>({ default: [] })
 
 const props = withDefaults(defineProps<{
     metadata: MetadataMap,
@@ -50,13 +45,47 @@ const props = withDefaults(defineProps<{
     metadata: () => ({})
 })
 
-// [監聽] 若 Metadata 異步載入較慢，載入後需重繪圖表以更新顏色
+const canvasRef = ref<HTMLCanvasElement | null>(null)
+let chartInstance: Chart | null = null
+
+// [修改] 計算屬性：過濾掉 monthlyIncome <= 0 的資料 (保留原有的過濾邏輯)
+const validList = computed(() => {
+    return list.value.filter(item => Number(item.monthlyIncome) > 0)
+})
+
+const hasData = computed(() => validList.value.length > 0)
+
+// ==========================================
+// 2. 監聽與生命週期
+// ==========================================
+
+// [修改] 監聽 Model 資料變化，自動重繪
+watch(() => list.value, async () => {
+    await nextTick()
+    if (hasData.value) {
+        renderChart()
+    } else if (chartInstance) {
+        chartInstance.destroy()
+    }
+}, { deep: true })
+
+// 監聽 Metadata 變化 (顏色設定改變時重繪)
 watch(() => props.metadata.opt_group_id, () => {
     if (hasData.value) renderChart()
 }, { deep: true })
 
+onMounted(() => {
+    if (hasData.value) {
+        renderChart()
+    }
+})
+
+onUnmounted(() => {
+    if (chartInstance) chartInstance.destroy()
+})
+
 // ==========================================
-// 2. 輔助函式
+// 3. 輔助函式 (保持不變)
 // ==========================================
 
 const parsePercent = (val?: string | number): number => {
@@ -86,51 +115,20 @@ const getSmartRange = (values: number[], paddingPercent = 0.1) => {
     return { min: min - padding, max: max + padding }
 }
 
-// [新增] 顏色查找 Helper
+// 顏色查找 Helper
 const getGroupColor = (groupId?: number | string) => {
-    if (!groupId || !props.metadata.opt_group_id?.list) return 'rgba(59, 130, 246, 0.6)' // 預設藍
-
-    // 從 metadata list 中尋找對應的選項
-    const option = props.metadata.opt_group_id.list.find((opt: any) => opt.code == groupId)
+    if (!groupId || !props.metadata.opt_group_id?.list) return 'rgba(59, 130, 246, 0.6)'
+    // 注意：這裡假設 metadata key 為 'value' 或 'code'，請依您的 metadata 結構調整
+    // 前一版是用 value，若您確定改為 code 則用 code，此處使用寬鬆比對
+    const option = props.metadata.opt_group_id.list.find((opt: any) => (opt.code == groupId || opt.value == groupId))
     return (option as any)?.color || 'rgba(59, 130, 246, 0.6)'
 }
 
-// [新增] 標籤查找 Helper
+// 標籤查找 Helper
 const getGroupLabel = (groupId?: number | string) => {
     if (!groupId || !props.metadata.opt_group_id?.list) return '未分類'
-    const option = props.metadata.opt_group_id.list.find((opt: any) => opt.code == groupId)
+    const option = props.metadata.opt_group_id.list.find((opt: any) => (opt.code == groupId || opt.value == groupId))
     return option?.label || '未分類'
-}
-
-// ==========================================
-// 3. API 獲取
-// ==========================================
-const fetchData = async () => {
-    loading.value = true
-    try {
-        const res = await authFetch('/api/v1/user/businesses', {
-            method: 'GET',
-            params: { currentPage: 1, pageSize: 1000 }
-        })
-
-        if (res && res.ok) {
-            const json = await res.json()
-            const allItems: UserBusiness[] = json.list || []
-            rawList.value = allItems.filter(item => Number(item.monthlyIncome) > 0)
-
-            if (rawList.value.length > 0) {
-                await nextTick()
-                renderChart()
-            } else {
-                if (chartInstance) chartInstance.destroy()
-            }
-        }
-    } catch (e) {
-        console.error(e)
-        ElMessage.error('無法載入數據')
-    } finally {
-        loading.value = false
-    }
 }
 
 // ==========================================
@@ -145,7 +143,6 @@ const gradientBgPlugin = {
         const { left, top, width, height, bottom } = chartArea
 
         ctx.save()
-        // 垂直漸層：上綠下紅
         const gradient = ctx.createLinearGradient(0, top, 0, bottom)
         gradient.addColorStop(0, 'rgba(220, 252, 231, 0.7)')
         gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.5)')
@@ -196,7 +193,8 @@ const renderChart = () => {
     if (!canvasRef.value) return
     if (chartInstance) chartInstance.destroy()
 
-    const dataPoints = rawList.value.map(item => ({
+    // [修改] 使用 validList (已過濾的資料) 進行繪圖
+    const dataPoints = validList.value.map(item => ({
         x: Number(item.acquisitionCost) || 0,
         y: parsePercent(item.irr),
         r: calculateRadius(item),
@@ -215,21 +213,15 @@ const renderChart = () => {
             datasets: [{
                 label: '資產項目',
                 data: dataPoints,
-
-                // [關鍵修改] 背景色：動態查找 Metadata
                 backgroundColor: (ctx) => {
                     const raw = (ctx.raw as any)?.raw as UserBusiness
                     return getGroupColor(raw?.groupId)
                 },
-
-                // 邊框色：使用白色描邊，讓點在漸層背景上更清楚
                 borderColor: '#FFFFFF',
                 borderWidth: 2,
-
-                // Hover 狀態：顏色加深或保持原色
                 hoverBackgroundColor: (ctx) => {
                     const raw = (ctx.raw as any)?.raw as UserBusiness
-                    return getGroupColor(raw?.groupId) // 這裡也可以做一點 darken 處理
+                    return getGroupColor(raw?.groupId)
                 },
                 hoverBorderColor: '#374151',
                 hoverBorderWidth: 2
@@ -261,7 +253,7 @@ const renderChart = () => {
                 }
             },
             plugins: {
-                legend: { display: false }, // 使用下方自定義 HTML 圖例
+                legend: { display: false },
                 tooltip: {
                     backgroundColor: 'rgba(255, 255, 255, 0.95)',
                     titleColor: '#111827',
@@ -271,7 +263,6 @@ const renderChart = () => {
                     padding: 10,
                     intersect: false,
                     callbacks: {
-                        // Tooltip 標題前的小色塊顏色
                         labelColor: (ctx) => {
                             const raw = (ctx.raw as any).raw as UserBusiness
                             return {
@@ -283,9 +274,9 @@ const renderChart = () => {
                         },
                         label: (ctx) => {
                             const raw = (ctx.raw as any).raw as UserBusiness
-                            const groupLabel = getGroupLabel(raw.groupId) // 取得分類名稱
+                            const groupLabel = getGroupLabel(raw.groupId)
                             return [
-                                `[${groupLabel}] ${raw.name}`, // 顯示 [分類] 名稱
+                                `[${groupLabel}] ${raw.name}`,
                                 `IRR : ${raw.irr || '-'}`,
                                 `成本: $${Number(raw.acquisitionCost).toLocaleString()}`,
                                 `月收: $${Number(raw.monthlyIncome).toLocaleString()}`,
@@ -301,14 +292,6 @@ const renderChart = () => {
 
     chartInstance = new Chart(canvasRef.value, config)
 }
-
-onMounted(() => {
-    fetchData()
-})
-
-onUnmounted(() => {
-    if (chartInstance) chartInstance.destroy()
-})
 </script>
 
 <style scoped>

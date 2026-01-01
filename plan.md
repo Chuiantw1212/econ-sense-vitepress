@@ -68,6 +68,8 @@ head:
 ### 商業或副業
 
 <div v-if="isReady">
+    <CostEfficiencyMatrix v-model="userForm.businesses.list" :metadata="metadata"></CostEfficiencyMatrix>
+    <br/>
     <Business 
         v-model="userForm.businesses" 
         :metadata="metadata" 
@@ -100,6 +102,7 @@ import Profile from '@/components/plan/profile.vue'
 import Career from '@/components/plan/career.vue'
 import Portfolio from '@/components/plan/portfolio.vue'
 import RealEstate from '@/components/plan/realEstate.vue'
+import CostEfficiencyMatrix from '@/components/plan/charts/CostEfficiencyMatrix.vue'
 import Business from '@/components/plan/businessTable.vue'
 
 // --- Composables ---

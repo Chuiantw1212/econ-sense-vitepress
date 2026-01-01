@@ -1,21 +1,18 @@
 <template>
     <div class="business-table-container">
-
-        <CostEfficiencyMatrix :metadata="metadata"></CostEfficiencyMatrix>
-
-        <div style="height: 24px;"></div>
-
-        <el-card v-loading="loading">
+        <el-card shadow="never" v-loading="loading">
             <template v-if="pageData.list && pageData.list.length > 0">
-
                 <el-table :data="pageData.list" style="width: 100%" stripe show-overflow-tooltip
                     :header-cell-style="{ background: '#f5f7fa', color: '#606266' }">
 
                     <el-table-column type="index" :index="indexMethod" label="#" width="60" align="center" />
 
-                    <el-table-column label="名稱" prop="name" width="120" show-overflow-tooltip>
+                    <el-table-column label="名稱" prop="name" min-width="120" show-overflow-tooltip>
                         <template #default="{ row }">
                             <div class="font-medium text-gray-800 truncate-text">{{ row.name }}</div>
+                            <div class="xs-show text-xs text-gray-400 mt-1">
+                                成本: {{ formatNumber(row.acquisitionCost) }}
+                            </div>
                         </template>
                     </el-table-column>
 
@@ -42,13 +39,11 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column label="操作" width="150" align="center">
+                    <el-table-column label="操作" width="140" align="center" fixed="right">
                         <template #default="{ row }">
                             <el-button link type="primary" :icon="Edit" @click="handleEdit(row)">
-                                編輯
                             </el-button>
                             <el-button link type="danger" :icon="Delete" @click="handleDelete(row)">
-                                刪除
                             </el-button>
                         </template>
                     </el-table-column>
@@ -92,35 +87,40 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, nextTick } from 'vue'
+import { ref, reactive, nextTick, onMounted } from 'vue'
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { MetadataMap } from './types/metadata'
+import type { MetadataMap } from './types/metadata'
 import { useApi } from '@/components/plan/composables/useApi'
 import type { UserBusiness } from './types/user'
 import type { PaginatedResponse } from './types/util'
 import BusinessDialogForm from './businessDialogForm.vue'
-import CostEfficiencyMatrix from './charts/CostEfficiencyMatrix.vue'
-
-const { authFetch } = useApi()
 
 // ==========================================
-// 1. 資料模型 (v-model)
+// 1. 定義 Emits 與 Props
 // ==========================================
-// 定義 model，這代表 pageData 是雙向綁定的
-// 父層傳進來初始值，子層可以直接修改 pageData.value，父層會同步收到更新
-const pageData = defineModel<PaginatedResponse<UserBusiness>>({
-    required: true,
-    default: () => ({ list: [], total: 0, currentPage: 1, pageSize: 10, totalPages: 0 })
-})
+// [修改] 定義 emit 事件，當資料有變動(CUD)時通知父層
+const emit = defineEmits<{
+    (e: 'update'): void
+}>()
+
 const props = withDefaults(defineProps<{
     metadata: MetadataMap,
 }>(), {
     metadata: () => ({})
 })
 
-// Loading 狀態 (子層自己控制讀取動畫)
+const { authFetch } = useApi()
 const loading = ref(false)
+
+// [修改] pageData 轉為內部狀態，不再依賴父層傳入
+const pageData = ref<PaginatedResponse<UserBusiness>>({
+    list: [],
+    total: 0,
+    currentPage: 1,
+    pageSize: 10,
+    totalPages: 0
+})
 
 // ==========================================
 // 2. 狀態管理
@@ -143,48 +143,47 @@ const createDefaultBusiness = (): UserBusiness => ({
     loanAmount: 0,
     loanInterestRate: 0,
     roi: '-',
-    irr: '-'
+    irr: '-',
+    groupId: 1
 })
 
 const currentBusiness = reactive<UserBusiness>(createDefaultBusiness())
 
 // ==========================================
-// 3. 核心功能：子層主動更新資料
+// 3. 核心功能：API 獲取與更新
 // ==========================================
 
-// 這個 function 用來去後端抓最新的資料，並更新給父層
 const refreshData = async (targetPage?: number, targetSize?: number) => {
     loading.value = true
     try {
-        // 使用傳入的參數，或當前的 pageData 參數
         const currentPage = targetPage || pageData.value.currentPage
         const pageSize = targetSize || pageData.value.pageSize
 
         const res = await authFetch('/api/v1/user/businesses', {
             method: 'GET',
-            params: {
-                currentPage,
-                pageSize,
-                keyword: '設備', // 若有搜尋關鍵字，也能輕鬆加入，不用擔心 & 符號
-                isActive: true   // boolean 也會自動轉字串
-            }
+            params: { currentPage, pageSize }
         })
 
         if (res && res.ok) {
             const newData = await res.json()
-            // 【關鍵】直接更新 model，父層資料會同步變更
+            // 更新本地狀態
             pageData.value = newData
         }
     } catch (e) {
         console.error(e)
-        ElMessage.error('資料更新失敗')
+        ElMessage.error('無法載入列表數據')
     } finally {
         loading.value = false
     }
 }
 
+// 初始化時自動抓資料
+onMounted(() => {
+    refreshData(1)
+})
+
 // ==========================================
-// 4. 計算邏輯
+// 4. 計算邏輯 & Formatters
 // ==========================================
 const indexMethod = (index: number) => {
     const { currentPage, pageSize } = pageData.value
@@ -198,16 +197,24 @@ const getNetCashFlow = (item: UserBusiness) => {
     return income - cost - interest
 }
 
+const formatNumber = (val: number) => val?.toLocaleString() || '0'
+
+const getRateColor = (val?: string) => {
+    if (!val || val === '-') return ''
+    if (val.includes('虧損')) return 'text-danger'
+    const num = parseFloat(val.replace(/[^\d.-]/g, ''))
+    if (!isNaN(num) && num < 0) return 'text-danger'
+    return 'text-success'
+}
+
 // ==========================================
 // 5. 分頁操作
 // ==========================================
 const handleSizeChange = (val: number) => {
-    // 切換筆數，回到第一頁，並更新資料
     refreshData(1, val)
 }
 
 const handleCurrentChange = (val: number) => {
-    // 切換頁碼，更新資料
     refreshData(val, pageData.value.pageSize)
 }
 
@@ -239,13 +246,15 @@ const handleDelete = (row: UserBusiness) => {
             await authFetch(`/api/v1/user/businesses/${row.id}`, { method: 'DELETE' })
             ElMessage.success('已刪除')
 
-            // 刪除成功後，子層自己去抓新的資料並 update 給父層
-            // 優化：若該頁剩一筆被刪掉且非第一頁，往前跳一頁
+            // 智能跳頁
             let targetPage = pageData.value.currentPage
             if (pageData.value.list.length === 1 && targetPage > 1) {
                 targetPage--
             }
-            refreshData(targetPage)
+            await refreshData(targetPage)
+
+            // [關鍵] 通知父層：資料已變動，請更新圖表
+            emit('update')
         } catch (e) {
             ElMessage.error('刪除失敗')
         }
@@ -271,8 +280,12 @@ const handleSubmit = async () => {
         if (res && res.ok) {
             ElMessage.success(isEdit.value ? '更新成功' : '新增成功')
             dialogVisible.value = false
-            // 儲存成功，更新資料
-            refreshData()
+
+            // 重新抓取列表
+            await refreshData()
+
+            // [關鍵] 通知父層：資料已變動，請更新圖表
+            emit('update')
         } else {
             throw new Error('API Error')
         }
@@ -282,21 +295,6 @@ const handleSubmit = async () => {
     } finally {
         submitting.value = false
     }
-}
-
-// ==========================================
-// 7. Helpers
-// ==========================================
-const formatNumber = (val: number) => val?.toLocaleString() || '0'
-
-const getRateColor = (val?: string) => {
-    if (!val || val === '-') return ''
-    if (val.includes('虧損') || val.includes('-')) {
-        if (val.includes('虧損')) return 'text-danger'
-        const num = parseFloat(val.replace(/[^\d.-]/g, ''))
-        if (!isNaN(num) && num < 0) return 'text-danger'
-    }
-    return 'text-success'
 }
 </script>
 
@@ -325,9 +323,17 @@ const getRateColor = (val?: string) => {
     justify-content: flex-end;
 }
 
+.xs-show {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .hidden-xs-only {
         display: none;
+    }
+
+    .xs-show {
+        display: block;
     }
 
     .pagination-container {

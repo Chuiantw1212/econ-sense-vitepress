@@ -79,7 +79,12 @@ export function useUserPlan() {
                 const [portfolioRes, realEstateRes, businessesRes] = await Promise.all([
                     authFetch('/api/v1/user/portfolios'),
                     authFetch('/api/v1/user/real-estates'),
-                    authFetch('/api/v1/user/businesses')
+                    authFetch('/api/v1/user/businesses', {
+                        params: {
+                            currentPage: 1,
+                            pageSize: 100,
+                        }
+                    })
                 ])
 
                 // --- Step 3: 更新金融資產 (Portfolios) ---
