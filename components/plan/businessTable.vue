@@ -93,7 +93,8 @@ import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { useApi } from '@/components/plan/composables/useApi'
-import type { UserBusiness, PaginatedResponse } from './types/user'
+import type { UserBusiness } from './types/user'
+import type { PaginatedResponse } from './types/util'
 import BusinessDialogForm from './businessDialogForm.vue'
 
 const { authFetch } = useApi()
@@ -146,10 +147,18 @@ const refreshData = async (targetPage?: number, targetSize?: number) => {
     loading.value = true
     try {
         // 使用傳入的參數，或當前的 pageData 參數
-        const page = targetPage || pageData.value.currentPage
-        const size = targetSize || pageData.value.pageSize
+        const currentPage = targetPage || pageData.value.currentPage
+        const pageSize = targetSize || pageData.value.pageSize
 
-        const res = await authFetch(`/api/v1/user/businesses?page=${page}&size=${size}`)
+        const res = await authFetch('/api/v1/user/businesses', {
+            method: 'GET',
+            params: {
+                page: currentPage,
+                size: pageSize,
+                keyword: '設備', // 若有搜尋關鍵字，也能輕鬆加入，不用擔心 & 符號
+                isActive: true   // boolean 也會自動轉字串
+            }
+        })
 
         if (res && res.ok) {
             const newData = await res.json()

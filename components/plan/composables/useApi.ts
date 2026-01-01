@@ -3,10 +3,11 @@ import { getAuth } from "firebase/auth"
 import firebase from 'firebase/compat/app'
 import { ElMessage } from 'element-plus'
 
-const { VITE_BASE_URL } = import.meta.env
-
-interface AuthFetchOptions extends Omit<RequestInit, 'body'> {
-    body?: any;
+// 定義擴充的 Options 介面
+interface AuthFetchOptions extends RequestInit {
+    headers?: HeadersInit
+    // ✨ 新增：支援 params 參數物件
+    params?: Record<string, string | number | boolean | undefined | null>
 }
 
 export function useApi() {
@@ -22,9 +23,12 @@ export function useApi() {
     // 封裝後的 Fetch
     const authFetch = async (endpoint: string, options: AuthFetchOptions = {}) => {
         const auth = getAuth()
-        if (!auth.currentUser) return null // 未登入
+        if (!auth.currentUser) return null
 
         let token = await getIdToken()
+
+        // 1. 先將 params 從 options 分離出來，避免傳給原生 fetch 導致錯誤
+        const { params, ...fetchOptions } = options
 
         const headers = new Headers(options.headers || {})
         headers.set('Authorization', `Bearer ${token}`)
@@ -32,10 +36,7 @@ export function useApi() {
             headers.set('Content-Type', 'application/json')
         }
 
-        // --- 核心優化開始 ---
         let body = options.body
-
-        // 如果 body 是物件，且不是 FormData，也不是 Blob，就自動轉 JSON 字串
         if (body && typeof body === 'object' && !(body instanceof FormData) && !(body instanceof Blob)) {
             body = JSON.stringify(body)
             // 自動補上 Content-Type
@@ -43,21 +44,35 @@ export function useApi() {
                 headers.set('Content-Type', 'application/json')
             }
         }
-        // --- 核心優化結束 ---
 
-        const serviceUrl = `${VITE_BASE_URL}${endpoint}`
+        // ✨ 核心優化：處理 Query String ✨
+        // 這裡會自動處理 ? 和 &，也會自動 encode 特殊字元
+        let queryString = ''
+        if (params) {
+            const searchParams = new URLSearchParams()
+            Object.entries(params).forEach(([key, value]) => {
+                if (value !== undefined && value !== null) {
+                    searchParams.append(key, String(value))
+                }
+            })
+            queryString = searchParams.toString()
+        }
+
+        // 判斷原本 endpoint 是否已有 ?，決定是用 ? 還是 & 連接
+        const separator = endpoint.includes('?') ? '&' : '?'
+        const finalEndpoint = queryString ? `${endpoint}${separator}${queryString}` : endpoint
+
+        const serviceUrl = `${import.meta.env.VITE_BASE_URL}${finalEndpoint}`
 
         // 效能監控 (可選)
         const perf = firebase.performance()
         const trace = perf.trace(endpoint)
         trace.start()
-
         let res = await fetch(serviceUrl, {
-            ...options,
+            ...fetchOptions, // 這裡傳入的是已經扣除 params 的 options
             headers,
-            body: body as BodyInit // 強制轉型給 fetch 看
+            body: body as BodyInit
         })
-
         trace.stop()
 
         // 處理 Token 過期 (401)
