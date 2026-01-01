@@ -1,17 +1,5 @@
 <template>
     <el-card shadow="never">
-        <template #header>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span>資產總覽 (Net Worth)</span>
-                <el-button link @click="togglePrivacy">
-                    <el-icon :size="16">
-                        <Hide v-if="hideAmount" />
-                        <View v-else />
-                    </el-icon>
-                </el-button>
-            </div>
-        </template>
-
         <el-form label-position="top">
 
             <el-row :gutter="24">
