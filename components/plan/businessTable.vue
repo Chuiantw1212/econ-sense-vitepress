@@ -1,55 +1,61 @@
 <template>
     <div class="business-table-container">
 
+        <el-button type="primary" plain :icon="Plus" style="width: 100%; border-style: dashed;" @click="handleCreate">
+            新增資產項目
+        </el-button>
 
-        <el-card v-if="pageData.list && pageData.list.length > 0">
-            <el-table :data="pageData.list" style="width: 100%" stripe show-overflow-tooltip
-                :header-cell-style="{ background: '#f5f7fa', color: '#606266' }">
+        <div style="height: 24px;"></div>
 
-                <el-table-column type="index" :index="indexMethod" label="#" align="center" />
+        <el-card v-loading="loading">
+            <template v-if="pageData.list && pageData.list.length > 0">
 
-                <el-table-column label="名稱" prop="name" min-width="130" show-overflow-tooltip>
-                    <template #default="{ row }">
-                        <div class="font-medium text-gray-800 truncate-text">{{ row.name }}</div>
-                    </template>
-                </el-table-column>
+                <el-table :data="pageData.list" style="width: 100%" stripe show-overflow-tooltip
+                    :header-cell-style="{ background: '#f5f7fa', color: '#606266' }">
 
-                <el-table-column label="投入成本" align="right" class-name="hidden-xs-only">
-                    <template #default="{ row }">
-                        {{ formatNumber(row.acquisitionCost) }}
-                    </template>
-                </el-table-column>
+                    <el-table-column type="index" :index="indexMethod" label="#" width="60" align="center" />
 
-                <el-table-column label="月現金流" align="right">
-                    <template #default="{ row }">
-                        <span :class="getNetCashFlow(row) >= 0 ? 'text-success' : 'text-danger'"
-                            class="font-mono font-bold">
-                            {{ formatNumber(getNetCashFlow(row)) }}
-                        </span>
-                    </template>
-                </el-table-column>
+                    <el-table-column label="名稱" prop="name" width="120" show-overflow-tooltip>
+                        <template #default="{ row }">
+                            <div class="font-medium text-gray-800 truncate-text">{{ row.name }}</div>
+                        </template>
+                    </el-table-column>
 
-                <el-table-column label="IRR" align="right">
-                    <template #default="{ row }">
-                        <span :class="getRateColor(row.irr)" class="font-mono font-bold">
-                            {{ row.irr || '-' }}
-                        </span>
-                    </template>
-                </el-table-column>
+                    <el-table-column label="投入成本" align="right" min-width="110" class-name="hidden-xs-only">
+                        <template #default="{ row }">
+                            {{ formatNumber(row.acquisitionCost) }}
+                        </template>
+                    </el-table-column>
 
-                <el-table-column label="操作" width="150" align="center">
-                    <template #default="{ row }">
-                        <el-button link type="primary" :icon="Edit" @click="handleEdit(row)">
-                            編輯
-                        </el-button>
-                        <el-button link type="danger" :icon="Delete" @click="handleDelete(row)">
-                            刪除
-                        </el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
+                    <el-table-column label="月淨現金流" align="right" min-width="110">
+                        <template #default="{ row }">
+                            <span :class="getNetCashFlow(row) >= 0 ? 'text-success' : 'text-danger'"
+                                class="font-mono font-bold">
+                                {{ formatNumber(getNetCashFlow(row)) }}
+                            </span>
+                        </template>
+                    </el-table-column>
 
-            <template #footer>
+                    <el-table-column label="IRR" align="right" min-width="90">
+                        <template #default="{ row }">
+                            <span :class="getRateColor(row.irr)" class="font-mono font-bold">
+                                {{ row.irr || '-' }}
+                            </span>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column label="操作" width="150" align="center">
+                        <template #default="{ row }">
+                            <el-button link type="primary" :icon="Edit" @click="handleEdit(row)">
+                                編輯
+                            </el-button>
+                            <el-button link type="danger" :icon="Delete" @click="handleDelete(row)">
+                                刪除
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
                 <div class="pagination-container">
                     <el-pagination :current-page="pageData.currentPage" :page-size="pageData.pageSize"
                         :total="pageData.total" :page-sizes="[5, 10, 20, 50]" :background="true"
@@ -57,19 +63,13 @@
                         @current-change="handleCurrentChange" />
                 </div>
             </template>
+
+            <template v-else>
+                <el-empty description="暫無商業或副業資產">
+                    <el-button type="primary" :icon="Plus" @click="handleCreate">立即新增</el-button>
+                </el-empty>
+            </template>
         </el-card>
-
-        <el-card v-else>
-            <el-empty description="暫無商業或副業資產">
-                <el-button type="primary" :icon="Plus" @click="handleCreate">立即新增</el-button>
-            </el-empty>
-        </el-card>
-
-        <div style="height: 24px;"></div>
-
-        <el-button type="primary" plain :icon="Plus" style="width: 100%; border-style: dashed;" @click="handleCreate">
-            新增資產項目
-        </el-button>
 
         <el-dialog v-model="dialogVisible" :title="isEdit ? '編輯資產項目' : '新增資產項目'" width="600px" destroy-on-close
             align-center append-to-body :close-on-click-modal="false">
@@ -93,26 +93,23 @@ import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { useApi } from '@/components/plan/composables/useApi'
-import type { UserBusiness } from './types/user'
-import type { PaginatedResponse } from './types/util'
+import type { UserBusiness, PaginatedResponse } from './types/user'
 import BusinessDialogForm from './businessDialogForm.vue'
 
 const { authFetch } = useApi()
 
 // ==========================================
-// 1. 資料模型 (Props & Emits)
+// 1. 資料模型 (v-model)
 // ==========================================
-// 修改：接收完整的後端分頁物件
+// 定義 model，這代表 pageData 是雙向綁定的
+// 父層傳進來初始值，子層可以直接修改 pageData.value，父層會同步收到更新
 const pageData = defineModel<PaginatedResponse<UserBusiness>>({
     required: true,
     default: () => ({ list: [], total: 0, currentPage: 1, pageSize: 10, totalPages: 0 })
 })
 
-// 新增：定義事件，讓父層知道何時該重新打 API
-const emit = defineEmits<{
-    (e: 'change-page', page: number, pageSize: number): void
-    (e: 'refresh'): void
-}>()
+// Loading 狀態 (子層自己控制讀取動畫)
+const loading = ref(false)
 
 // ==========================================
 // 2. 狀態管理
@@ -141,10 +138,35 @@ const createDefaultBusiness = (): UserBusiness => ({
 const currentBusiness = reactive<UserBusiness>(createDefaultBusiness())
 
 // ==========================================
-// 3. 計算邏輯
+// 3. 核心功能：子層主動更新資料
 // ==========================================
 
-// 序號計算：依賴後端回傳的 currentPage 與 pageSize
+// 這個 function 用來去後端抓最新的資料，並更新給父層
+const refreshData = async (targetPage?: number, targetSize?: number) => {
+    loading.value = true
+    try {
+        // 使用傳入的參數，或當前的 pageData 參數
+        const page = targetPage || pageData.value.currentPage
+        const size = targetSize || pageData.value.pageSize
+
+        const res = await authFetch(`/api/v1/user/businesses?page=${page}&size=${size}`)
+
+        if (res && res.ok) {
+            const newData = await res.json()
+            // 【關鍵】直接更新 model，父層資料會同步變更
+            pageData.value = newData
+        }
+    } catch (e) {
+        console.error(e)
+        ElMessage.error('資料更新失敗')
+    } finally {
+        loading.value = false
+    }
+}
+
+// ==========================================
+// 4. 計算邏輯
+// ==========================================
 const indexMethod = (index: number) => {
     const { currentPage, pageSize } = pageData.value
     return (currentPage - 1) * pageSize + index + 1
@@ -158,23 +180,21 @@ const getNetCashFlow = (item: UserBusiness) => {
 }
 
 // ==========================================
-// 4. 操作邏輯 (分頁)
+// 5. 分頁操作
 // ==========================================
-
 const handleSizeChange = (val: number) => {
-    // 當每頁筆數改變，通常回到第一頁，並通知父層
-    emit('change-page', 1, val)
+    // 切換筆數，回到第一頁，並更新資料
+    refreshData(1, val)
 }
 
 const handleCurrentChange = (val: number) => {
-    // 當頁碼改變，通知父層抓取該頁資料
-    emit('change-page', val, pageData.value.pageSize)
+    // 切換頁碼，更新資料
+    refreshData(val, pageData.value.pageSize)
 }
 
 // ==========================================
-// 5. 操作邏輯 (CRUD)
+// 6. CRUD 操作
 // ==========================================
-
 const handleCreate = () => {
     isEdit.value = false
     Object.assign(currentBusiness, createDefaultBusiness())
@@ -198,12 +218,15 @@ const handleDelete = (row: UserBusiness) => {
         if (!row.id) return
         try {
             await authFetch(`/api/v1/user/businesses/${row.id}`, { method: 'DELETE' })
-
-            // 修改：刪除成功後，不再自己 splice array，而是通知父層 refresh
-            // 因為刪除一筆資料會影響總頁數和總筆數，後端重算最準
             ElMessage.success('已刪除')
-            emit('refresh')
 
+            // 刪除成功後，子層自己去抓新的資料並 update 給父層
+            // 優化：若該頁剩一筆被刪掉且非第一頁，往前跳一頁
+            let targetPage = pageData.value.currentPage
+            if (pageData.value.list.length === 1 && targetPage > 1) {
+                targetPage--
+            }
+            refreshData(targetPage)
         } catch (e) {
             ElMessage.error('刪除失敗')
         }
@@ -227,11 +250,10 @@ const handleSubmit = async () => {
         })
 
         if (res && res.ok) {
-            // 修改：儲存成功後，直接通知父層 refresh 重抓資料
-            // 這樣可以確保排序正確，並且如果新增後導致換頁，也能由父層邏輯處理
             ElMessage.success(isEdit.value ? '更新成功' : '新增成功')
             dialogVisible.value = false
-            emit('refresh')
+            // 儲存成功，更新資料
+            refreshData()
         } else {
             throw new Error('API Error')
         }
@@ -244,7 +266,7 @@ const handleSubmit = async () => {
 }
 
 // ==========================================
-// 6. Helpers
+// 7. Helpers
 // ==========================================
 const formatNumber = (val: number) => val?.toLocaleString() || '0'
 
@@ -260,7 +282,6 @@ const getRateColor = (val?: string) => {
 </script>
 
 <style scoped>
-/* 維持原樣式 */
 .business-table-container {
     padding: 0;
 }
