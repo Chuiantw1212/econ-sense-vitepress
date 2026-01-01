@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, computed, nextTick, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import {
     Chart,
@@ -27,7 +27,7 @@ import {
     Title,
     type ChartConfiguration
 } from 'chart.js'
-
+import type { MetadataMap } from '../types/metadata'
 import { useApi } from '@/components/plan/composables/useApi'
 import type { UserBusiness } from '../types/user'
 
@@ -43,6 +43,17 @@ let chartInstance: Chart | null = null
 
 const rawList = ref<UserBusiness[]>([])
 const hasData = computed(() => rawList.value.length > 0)
+
+const props = withDefaults(defineProps<{
+    metadata: MetadataMap,
+}>(), {
+    metadata: () => ({})
+})
+
+// [監聽] 若 Metadata 異步載入較慢，載入後需重繪圖表以更新顏色
+watch(() => props.metadata.opt_group_id, () => {
+    if (hasData.value) renderChart()
+}, { deep: true })
 
 // ==========================================
 // 2. 輔助函式
@@ -60,7 +71,6 @@ const calculateRadius = (item: UserBusiness) => {
     return Math.max(5, Math.min(30, Math.log(income) * 3.5))
 }
 
-// 智慧軸距計算 (保持不變)
 const getSmartRange = (values: number[], paddingPercent = 0.1) => {
     if (values.length === 0) return { min: 0, max: 10 }
     let min = Math.min(...values)
@@ -74,6 +84,22 @@ const getSmartRange = (values: number[], paddingPercent = 0.1) => {
     const range = max - min
     const padding = range * paddingPercent
     return { min: min - padding, max: max + padding }
+}
+
+// [新增] 顏色查找 Helper
+const getGroupColor = (groupId?: number | string) => {
+    if (!groupId || !props.metadata.opt_group_id?.list) return 'rgba(59, 130, 246, 0.6)' // 預設藍
+
+    // 從 metadata list 中尋找對應的選項
+    const option = props.metadata.opt_group_id.list.find((opt: any) => opt.code == groupId)
+    return (option as any)?.color || 'rgba(59, 130, 246, 0.6)'
+}
+
+// [新增] 標籤查找 Helper
+const getGroupLabel = (groupId?: number | string) => {
+    if (!groupId || !props.metadata.opt_group_id?.list) return '未分類'
+    const option = props.metadata.opt_group_id.list.find((opt: any) => opt.code == groupId)
+    return option?.label || '未分類'
 }
 
 // ==========================================
@@ -142,8 +168,6 @@ const thresholdLinePlugin = {
         const targetValue = 3
         const yPixel = y.getPixelForValue(targetValue)
 
-        // [關鍵修正]：如果 3% 的位置在繪圖區之外，直接 return 不繪製
-        // 這樣就不會發生線畫在圖表外面的情況
         if (yPixel < chartArea.top || yPixel > chartArea.bottom) return
 
         ctx.save()
@@ -185,19 +209,29 @@ const renderChart = () => {
     const xRange = getSmartRange(xValues, 0.05)
     const yRange = getSmartRange(yValues, 0.1)
 
-    // [已刪除] 這裡移除了強制 yRange 包含 3 的邏輯
-    // 現在 Y 軸會完全依照資料的最大最小值來呈現，最大化空間利用率
-
     const config: ChartConfiguration = {
         type: 'scatter',
         data: {
             datasets: [{
                 label: '資產項目',
                 data: dataPoints,
-                backgroundColor: 'rgba(59, 130, 246, 0.6)',
-                borderColor: 'rgba(59, 130, 246, 0.8)',
-                borderWidth: 1,
-                hoverBackgroundColor: 'rgba(37, 99, 235, 1)',
+
+                // [關鍵修改] 背景色：動態查找 Metadata
+                backgroundColor: (ctx) => {
+                    const raw = (ctx.raw as any)?.raw as UserBusiness
+                    return getGroupColor(raw?.groupId)
+                },
+
+                // 邊框色：使用白色描邊，讓點在漸層背景上更清楚
+                borderColor: '#FFFFFF',
+                borderWidth: 2,
+
+                // Hover 狀態：顏色加深或保持原色
+                hoverBackgroundColor: (ctx) => {
+                    const raw = (ctx.raw as any)?.raw as UserBusiness
+                    return getGroupColor(raw?.groupId) // 這裡也可以做一點 darken 處理
+                },
+                hoverBorderColor: '#374151',
                 hoverBorderWidth: 2
             }]
         },
@@ -227,7 +261,7 @@ const renderChart = () => {
                 }
             },
             plugins: {
-                legend: { display: false },
+                legend: { display: false }, // 使用下方自定義 HTML 圖例
                 tooltip: {
                     backgroundColor: 'rgba(255, 255, 255, 0.95)',
                     titleColor: '#111827',
@@ -237,10 +271,21 @@ const renderChart = () => {
                     padding: 10,
                     intersect: false,
                     callbacks: {
+                        // Tooltip 標題前的小色塊顏色
+                        labelColor: (ctx) => {
+                            const raw = (ctx.raw as any).raw as UserBusiness
+                            return {
+                                borderColor: '#fff',
+                                backgroundColor: getGroupColor(raw.groupId),
+                                borderWidth: 2,
+                                borderRadius: 2,
+                            }
+                        },
                         label: (ctx) => {
                             const raw = (ctx.raw as any).raw as UserBusiness
+                            const groupLabel = getGroupLabel(raw.groupId) // 取得分類名稱
                             return [
-                                `項目: ${raw.name}`,
+                                `[${groupLabel}] ${raw.name}`, // 顯示 [分類] 名稱
                                 `IRR : ${raw.irr || '-'}`,
                                 `成本: $${Number(raw.acquisitionCost).toLocaleString()}`,
                                 `月收: $${Number(raw.monthlyIncome).toLocaleString()}`,

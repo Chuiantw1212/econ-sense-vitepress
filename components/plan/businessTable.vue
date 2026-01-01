@@ -1,7 +1,7 @@
 <template>
     <div class="business-table-container">
 
-        <CostEfficiencyMatrix></CostEfficiencyMatrix>
+        <CostEfficiencyMatrix :metadata="metadata"></CostEfficiencyMatrix>
 
         <div style="height: 24px;"></div>
 
@@ -77,7 +77,7 @@
 
         <el-dialog v-model="dialogVisible" :title="isEdit ? '編輯資產項目' : '新增資產項目'" width="600px" destroy-on-close
             align-center append-to-body :close-on-click-modal="false">
-            <BusinessDialogForm ref="formComponentRef" v-model="currentBusiness" />
+            <BusinessDialogForm ref="formComponentRef" v-model="currentBusiness" :metadata="metadata" />
 
             <template #footer>
                 <div class="flex justify-end gap-2">
@@ -95,7 +95,7 @@
 import { ref, reactive, nextTick } from 'vue'
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-
+import { MetadataMap } from './types/metadata'
 import { useApi } from '@/components/plan/composables/useApi'
 import type { UserBusiness } from './types/user'
 import type { PaginatedResponse } from './types/util'
@@ -112,6 +112,11 @@ const { authFetch } = useApi()
 const pageData = defineModel<PaginatedResponse<UserBusiness>>({
     required: true,
     default: () => ({ list: [], total: 0, currentPage: 1, pageSize: 10, totalPages: 0 })
+})
+const props = withDefaults(defineProps<{
+    metadata: MetadataMap,
+}>(), {
+    metadata: () => ({})
 })
 
 // Loading 狀態 (子層自己控制讀取動畫)

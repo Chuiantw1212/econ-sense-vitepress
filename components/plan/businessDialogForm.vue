@@ -41,6 +41,15 @@
                         controls-position="right" />
                 </el-form-item>
             </el-col>
+
+            <el-col :span="12" :xs="24">
+                <el-form-item label="資產分組" prop="groupId">
+                    <el-select v-model="formData.groupId" placeholder="選擇顏色標籤" style="width: 100%">
+                        <el-option v-for="item in metadata.opt_group_id.list" :key="item.code" :label="item.label"
+                            :value="item.code"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-col>
         </el-row>
 
         <el-divider content-position="left">營收與成本</el-divider>
@@ -149,9 +158,15 @@
 import { ref, onMounted, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { UserBusiness } from './types/user'
+import { MetadataMap } from './types/metadata'
 
 const formData = defineModel<UserBusiness>({ required: true })
 const formRef = ref<FormInstance>()
+const props = withDefaults(defineProps<{
+    metadata: MetadataMap,
+}>(), {
+    metadata: () => ({})
+})
 
 // 顯示變數
 const displayNetProfit = ref(0)

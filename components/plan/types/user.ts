@@ -199,6 +199,8 @@ export interface UserBusiness {
     // 新增這兩個欄位 (建議存字串以包含特殊狀態)
     roi?: string;
     irr?: string;
+
+    groupId?: string;
 }
 
 // 總表單狀態介面 (Global Form State)
