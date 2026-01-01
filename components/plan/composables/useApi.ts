@@ -4,12 +4,12 @@ import firebase from 'firebase/compat/app'
 import { ElMessage } from 'element-plus'
 
 // 定義擴充的 Options 介面
-interface AuthFetchOptions extends RequestInit {
+interface AuthFetchOptions extends Omit<RequestInit, 'body'> {
     headers?: HeadersInit
-    // ✨ 新增：支援 params 參數物件
     params?: Record<string, string | number | boolean | undefined | null>
+    // ✨ 關鍵修改：允許 BodyInit (原生) 或 一般物件 (我們封裝的功能)
+    body?: BodyInit | Record<string, any> | null
 }
-
 export function useApi() {
 
     // 取得當前 Token (包含強制刷新邏輯)

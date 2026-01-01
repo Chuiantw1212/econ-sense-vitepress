@@ -1,12 +1,6 @@
 <template>
     <div class="business-table-container">
 
-        <el-button type="primary" plain :icon="Plus" style="width: 100%; border-style: dashed;" @click="handleCreate">
-            新增資產項目
-        </el-button>
-
-        <div style="height: 24px;"></div>
-
         <el-card v-loading="loading">
             <template v-if="pageData.list && pageData.list.length > 0">
 
@@ -70,6 +64,12 @@
                 </el-empty>
             </template>
         </el-card>
+
+        <div style="height: 24px;"></div>
+
+        <el-button type="primary" plain :icon="Plus" style="width: 100%; border-style: dashed;" @click="handleCreate">
+            新增資產項目
+        </el-button>
 
         <el-dialog v-model="dialogVisible" :title="isEdit ? '編輯資產項目' : '新增資產項目'" width="600px" destroy-on-close
             align-center append-to-body :close-on-click-modal="false">
@@ -153,8 +153,8 @@ const refreshData = async (targetPage?: number, targetSize?: number) => {
         const res = await authFetch('/api/v1/user/businesses', {
             method: 'GET',
             params: {
-                page: currentPage,
-                size: pageSize,
+                currentPage,
+                pageSize,
                 keyword: '設備', // 若有搜尋關鍵字，也能輕鬆加入，不用擔心 & 符號
                 isActive: true   // boolean 也會自動轉字串
             }
