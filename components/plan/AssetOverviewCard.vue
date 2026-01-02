@@ -23,10 +23,12 @@
                 <el-col :span="12" :xs="24">
                     <el-form-item label="資產活化率 (ROA)">
                         <div style="display: flex; align-items: baseline; gap: 8px;">
-                            <el-text :type="roaStatus.color" tag="b" style="font-size: 24px;">{{ roa.toFixed(2) }}
-                                %</el-text>
+                            <el-text :type="roaStatus.color" tag="b" style="font-size: 24px;">
+                                {{ roa.toFixed(2) }} %
+                            </el-text>
 
-                            <el-tooltip content="計算包含所有自用與閒置房產。若數值過低，代表您有大量資產處於「睡眠狀態」，建議考慮出租以提升效益。" placement="top">
+                            <el-tooltip content="ROA 分子已納入「出租淨現金流」與「自用設算租金淨益」。若數值仍低，代表持有成本(利息/稅)過高或資產閒置。"
+                                placement="top">
                                 <el-icon>
                                     <InfoFilled />
                                 </el-icon>
@@ -45,12 +47,12 @@
                 <el-col :span="12" :xs="24">
                     <el-form-item label="資產總額 (含自用)">
                         <el-text tag="b">{{ formatCurrency(totalAssets) }}</el-text>
-                        <div v-if="nonRentedRealEstateValue > 0"
+                        <div v-if="vacantRealEstateValue > 0"
                             style="font-size: 12px; color: #E6A23C; margin-top: 4px; display: flex; align-items: center; gap: 4px;">
                             <el-icon>
                                 <Warning />
                             </el-icon>
-                            <span>其中 {{ formatCurrency(nonRentedRealEstateValue) }} 未產生現金流</span>
+                            <span>其中 {{ formatCurrency(vacantRealEstateValue) }} 為完全閒置資產</span>
                         </div>
                     </el-form-item>
                 </el-col>
@@ -66,8 +68,11 @@
 
             <el-row :gutter="24">
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="月被動現金流">
+                    <el-form-item label="月被動淨效益 (含設算)">
                         <el-text type="success" tag="b">{{ formatCurrency(monthlyPassiveIncome) }}</el-text>
+                        <div style="font-size: 12px; color: #909399; margin-top: 4px;">
+                            含投資現金流 + 自用設算淨益
+                        </div>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs="24">
@@ -143,8 +148,6 @@ const subtotals = computed(() => {
     const portfolio = getList(data.portfolios).reduce((sum: number, item: any) =>
         sum + ((Number(item.marketValue) || 0) * (Number(item.exchangeRate) || 1)), 0)
 
-    // [關鍵] 包含所有不動產 (自用+投資)
-    // 這是為了拉大分母，凸顯閒置成本
     const realEstate = getList(data.realEstates).reduce((sum: number, item: any) =>
         sum + (Number(item.totalPrice) || 0), 0)
 
@@ -158,22 +161,22 @@ const subtotals = computed(() => {
     }
 })
 
-// 2. 總資產 (ROA 分母)
+// 2. 總資產
 const totalAssets = computed(() =>
     subtotals.value.portfolio + subtotals.value.realEstate + subtotals.value.business
 )
 
-// [新增] 未產生租金的房產價值 (自用+閒置)
-const nonRentedRealEstateValue = computed(() => {
+// [閒置資產計算] 僅計算 usageType 為 vacant (閒置) 的部分
+// 註：自用 (self) 現在被視為有產出效益(設算租金)，所以不算在閒置警告中
+const vacantRealEstateValue = computed(() => {
     const data = formState.value
     if (!data) return 0
-    // 計算 usageType 不是 'rent' 的所有房產總值
     return getList(data.realEstates)
-        .filter((item: any) => item.usageType !== 'rent')
+        .filter((item: any) => item.usageType === 'vacant')
         .reduce((sum: number, item: any) => sum + (Number(item.totalPrice) || 0), 0)
 })
 
-// 3. 總負債 (同步包含所有房貸，因為分母已包含所有房產)
+// 3. 總負債
 const totalLiabilities = computed(() => {
     const data = formState.value
     if (!data) return 0
@@ -185,20 +188,47 @@ const totalLiabilities = computed(() => {
 // 4. 淨資產
 const netWorth = computed(() => totalAssets.value - totalLiabilities.value)
 
-// 5. 月被動現金流 (分子：嚴格只算實際進帳)
+// 5. 月被動淨效益 (Monthly Passive Net Benefit)
+// 包含：投資現金流 + 自用設算淨益
 const monthlyPassiveIncome = computed(() => {
     const data = formState.value
     if (!data) return 0
 
+    // (A) 金融資產: 已實現損益 / 12
     const pFlow = getList(data.portfolios).reduce((sum: number, item: any) =>
         sum + ((Number(item.realizedPnl) || 0) / 12), 0)
 
-    // [關鍵] 房產只算有出租的
+    // (B) 不動產: 根據用途計算淨效益
     const rFlow = getList(data.realEstates).reduce((sum: number, item: any) => {
-        if (item.usageType !== 'rent') return sum
-        return sum + (Number(item.monthlyRent) || 0)
+        // 1. 計算月持有成本 (利息 + 稅)
+        const loan = Number(item.loanAmount) || 0
+        const rate = Number(item.interestRate) || 0
+        const interest = (loan * (rate / 100)) / 12
+
+        // 稅金：優先使用實際稅額，否則使用預估
+        const assessed = Number(item.assessedValue) || 0
+        const taxRate = Number(item.holdingTaxRate) || 0
+        const estimatedTax = assessed * (taxRate / 100)
+        const actualTax = Number(item.actualHoldingCost) || 0
+        const finalAnnualTax = actualTax > 0 ? actualTax : estimatedTax
+        const monthlyTax = finalAnnualTax / 12
+
+        const monthlyCost = interest + monthlyTax
+        const revenue = Number(item.monthlyRent) || 0 // 租金或設算租金
+
+        if (item.usageType === 'rent') {
+            // 出租：淨現金流 = 租金 - 成本
+            return sum + (revenue - monthlyCost)
+        } else if (item.usageType === 'self') {
+            // 自用：設算淨益 = 設算租金 - 成本 (代表自用省下的錢扣除持有成本後的效益)
+            return sum + (revenue - monthlyCost)
+        } else {
+            // 閒置：淨流出 = 0 - 成本
+            return sum - monthlyCost
+        }
     }, 0)
 
+    // (C) 商業: 淨利
     const bFlow = getList(data.businesses).reduce((sum: number, item: any) => {
         const income = Number(item.monthlyIncome) || 0
         const cost = Number(item.monthlyCost) || 0
@@ -210,24 +240,22 @@ const monthlyPassiveIncome = computed(() => {
 })
 
 // ==========================================
-// Ratios (行為激勵設計)
+// Ratios
 // ==========================================
 
-// ROA: (年現金流 / 總資產)
-// 由於分母包含自用宅，若不活化資產，此數值會很低
 const roa = computed(() => {
     if (totalAssets.value <= 0) return 0
+    // 分子現在包含了設算租金的淨額，分母包含所有資產
     return ((monthlyPassiveIncome.value * 12) / totalAssets.value) * 100
 })
 
-// ROA 狀態判斷 (激勵用語)
 const roaStatus = computed(() => {
     const val = roa.value
-    // 基準參考：若包含自用宅，通常 2% 以上就算及格
-    if (val < 1.0) return { color: 'danger', label: '沉睡中 (極低)' }
-    if (val < 2.5) return { color: 'warning', label: '待活化 (偏低)' }
-    if (val < 5.0) return { color: 'primary', label: '運作良好' }
-    return { color: 'success', label: '資產高效' }
+    // 因為計入了自用設算，標準稍微提高
+    if (val < 1.0) return { color: 'danger', label: '低效 / 閒置' }
+    if (val < 2.5) return { color: 'warning', label: '普通' }
+    if (val < 5.0) return { color: 'primary', label: '良好' }
+    return { color: 'success', label: '優秀' }
 })
 
 const roe = computed(() => {
@@ -236,7 +264,6 @@ const roe = computed(() => {
 })
 
 const roeColor = computed(() => {
-    // 這裡的標準比較高，因為我們期待槓桿能放大收益
     if (roe.value < 0) return 'danger'
     if (roe.value < 5) return 'info'
     if (roe.value < 10) return 'primary'
