@@ -82,6 +82,7 @@ head:
 <div v-if="isReady">
     <AssetOverViewCard 
         v-model="userForm" 
+        :metadata="metadata"
     />
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
