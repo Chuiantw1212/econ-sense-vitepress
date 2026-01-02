@@ -1,6 +1,6 @@
 <template>
     <el-card shadow="never">
-        <el-form label-position="top">
+        <el-form label-width="auto">
 
             <el-row :gutter="24">
                 <el-col :span="12" :xs="24">
