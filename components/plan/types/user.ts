@@ -204,6 +204,18 @@ export interface UserBusiness {
     groupId?: number;
 }
 
+export interface UserCreditCard {
+    id?: string;
+    name: string;
+    bankName: string;
+    usageType: string; // e.g. 'daily', 'subscription'
+    creditLimit: number;
+    statementDay: number; // 結帳日
+    paymentDay: number;   // 繳款日
+    rewardRate: number;
+}
+
+
 // 總表單狀態介面 (Global Form State)
 export interface UserFormState {
     profile: PersonalProfile;
@@ -211,4 +223,5 @@ export interface UserFormState {
     portfolios: UserPortfolio[],
     realEstates: UserRealEstate[],
     businesses: PaginatedResponse<UserBusiness[]>,
+    creditCards: UserCreditCard[],
 }

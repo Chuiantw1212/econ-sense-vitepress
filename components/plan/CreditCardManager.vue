@@ -104,7 +104,7 @@ import { ref, computed } from 'vue'
 import { Plus, Delete, CreditCard } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useApi } from '@/components/plan/composables/useApi'
-
+import type { UserCreditCard } from './types/user'
 // --- Interfaces ---
 // 根據您的後端 Metadata 結構定義
 interface UsageOption {
@@ -112,17 +112,6 @@ interface UsageOption {
     label: string;
     color?: string; // e.g. 'success', 'warning'
     desc?: string;
-}
-
-interface UserCreditCard {
-    id?: string;
-    name: string;
-    bankName: string;
-    usageType: string; // e.g. 'daily', 'subscription'
-    creditLimit: number;
-    statementDay: number; // 結帳日
-    paymentDay: number;   // 繳款日
-    rewardRate: number;
 }
 
 interface Metadata {

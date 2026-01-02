@@ -98,6 +98,15 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
+### 信用卡管理
+
+<div v-if="isReady">
+    <CreditCardManager 
+        v-model="userForm.creditCards" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
 ## 現金流量表
 
 <div v-if="isReady">
@@ -114,8 +123,8 @@ import Portfolio from '@/components/plan/portfolio.vue'
 import RealEstate from '@/components/plan/realEstate.vue'
 import CostEfficiencyMatrix from '@/components/plan/charts/CostEfficiencyMatrix.vue'
 import Business from '@/components/plan/businessTable.vue'
-import AssetOverViewCard from  '@/components/plan/AssetOverViewCard.vue'
-
+import AssetOverViewCard from '@/components/plan/AssetOverViewCard.vue'
+import CreditCardManager from '@/components/plan/CreditCardManager.vue'
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
 import { useMetadata } from '@/components/plan/composables/useMetadata'
