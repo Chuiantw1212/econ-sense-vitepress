@@ -152,35 +152,45 @@
                     </el-col>
                 </el-row>
 
-                <template v-if="item.usageType !== 'self'">
-                    <el-divider content-position="left">投資效益分析 (ROI)</el-divider>
-                    <el-row :gutter="20">
-                        <el-col :span="12" :xs="24">
-                            <el-form-item label="月租金收入">
-                                <el-input-number v-model="item.monthlyRent" :step="1000" style="width: 100%"
-                                    controls-position="right" :disabled="item.usageType !== 'rent'"
-                                    @change="handleUpdate(item)" />
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12" :xs="24">
-                            <el-form-item label="頭期款 (投入本金)">
-                                <el-input :model-value="formatCurrency(getDownPayment(item))" disabled />
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12" :xs="24">
-                            <el-form-item label="每月淨現金流">
-                                <el-input :model-value="formatCurrency(getNetCashFlow(item))" disabled />
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12" :xs="24">
-                            <el-form-item label="現金回報率 (ROI)">
-                                <el-input
-                                    :model-value="item.usageType === 'rent' ? formatPercentage(getCashOnCashReturn(item)) : '-'"
-                                    disabled />
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                </template>
+                <el-divider content-position="left">效益分析 (ROI)</el-divider>
+                <el-row :gutter="20">
+                    <el-col :span="12" :xs="24">
+                        <el-form-item>
+                            <template #label>
+                                <div style="display: flex; align-items: center; gap: 4px;">
+                                    <span>{{ item.usageType === 'self' ? '設算租金' : '月租金收入' }}</span>
+                                    <el-tooltip v-if="item.usageType === 'self'"
+                                        content="請填入若此房出租可獲得的市場租金，用於計算真實資產效益 (ROA)。" placement="top">
+                                        <el-icon>
+                                            <InfoFilled />
+                                        </el-icon>
+                                    </el-tooltip>
+                                </div>
+                            </template>
+                            <el-input-number v-model="item.monthlyRent" :step="1000" style="width: 100%"
+                                controls-position="right" :disabled="item.usageType === 'vacant'"
+                                :placeholder="item.usageType === 'self' ? '請填寫同地段租金' : '實際租金'"
+                                @change="handleUpdate(item)" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12" :xs="24">
+                        <el-form-item label="頭期款 (投入本金)">
+                            <el-input :model-value="formatCurrency(getDownPayment(item))" disabled />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12" :xs="24">
+                        <el-form-item label="每月淨現金流">
+                            <el-input :model-value="formatCurrency(getNetCashFlow(item))" disabled />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12" :xs="24">
+                        <el-form-item label="現金回報率 (ROI)">
+                            <el-input
+                                :model-value="item.usageType === 'rent' ? formatPercentage(getCashOnCashReturn(item)) : '-'"
+                                disabled />
+                        </el-form-item>
+                    </el-col>
+                </el-row>
 
             </el-form>
         </el-card>
@@ -195,15 +205,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { Delete, Plus, House } from '@element-plus/icons-vue'
+import { Delete, Plus, House, InfoFilled } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import type { UserRealEstate } from './types/user'
 import { useApi } from '@/components/plan/composables/useApi'
 
 // --- 核心改變：使用 defineModel ---
-// 1. 不需要 defineProps / defineEmits
-// 2. realEstates 直接就是響應式的，修改它會自動同步父層
-// 3. 解決了 watch 的 infinite loop 問題
 const realEstates = defineModel<UserRealEstate[]>({
     required: true,
     default: []
@@ -215,8 +222,6 @@ const isAdding = ref(false)
 
 // --- Actions ---
 
-// 初始化資料補全 (Optional)
-// 如果擔心後端回傳的資料缺少 actualHoldingCost，可以在 onMounted 做一次檢查
 onMounted(() => {
     if (realEstates.value) {
         realEstates.value.forEach(item => {
@@ -227,7 +232,6 @@ onMounted(() => {
     }
 })
 
-// 單項更新：綁定 @change
 async function handleUpdate(item: UserRealEstate) {
     if (!item.id) return
     try {
@@ -250,7 +254,6 @@ async function addProperty() {
 
         const rawData = await res.json()
 
-        // 補全可能缺失的欄位
         const newProperty: UserRealEstate = {
             ...rawData,
             actualHoldingCost: rawData.actualHoldingCost ?? 0
@@ -277,7 +280,6 @@ async function removeProperty(index: number, item: UserRealEstate) {
     }
 }
 
-// 連動計算並存檔
 function calcTotalPrice(item: UserRealEstate) {
     if (item.pricePerPing && item.size) {
         item.totalPrice = Math.round(item.pricePerPing * item.size * 10000)
@@ -287,7 +289,7 @@ function calcTotalPrice(item: UserRealEstate) {
     handleUpdate(item)
 }
 
-// --- Helpers & Computations (保持不變) ---
+// --- Helpers & Computations ---
 function formatCurrency(val: number | undefined): string {
     if (val === undefined || isNaN(val)) return '-'
     return `$ ${Math.round(val).toLocaleString()}`
@@ -316,7 +318,9 @@ function getDownPayment(item: UserRealEstate): number {
     return Math.max(0, item.totalPrice - item.loanAmount)
 }
 
+// 淨現金流計算：僅收租狀態才計算租金收入
 function getNetCashFlow(item: UserRealEstate): number {
+    // 若為自用 (self)，雖有填寫設算租金，但不計入實際現金流
     if (item.usageType !== 'rent') return -getMonthlyCost(item)
     return item.monthlyRent - getMonthlyCost(item)
 }
