@@ -108,6 +108,7 @@ export default defineConfig({
           { text: '軟體職涯入門', link: '/growth/beginner' },
           { text: '軟體專案實務', link: '/growth/project' },
           { text: '工程師的五個等級', link: '/growth/engineer-levels' },
+          { text: '受害者心態', link: '/growth/victim' },
           // { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
           // { text: '我是學渣，也是黑馬', link: '/growth/education' },
           // { text: '打造知識飛輪', link: '/growth/flywheel' },
