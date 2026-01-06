@@ -2,12 +2,12 @@
 
 ## 1. 架構理念 (Core Philosophy)
 
-本系統捨棄傳統會計「三表分離」的設計，改採**「模組化儀表板 (Modular Dashboard)」**架構。
-核心邏輯為：**「資產驅動收入 (Asset Engine) → 收入覆蓋支出 (Operations) → 剩餘轉向未來 (Navigator)。」**
+本系統採 **「動態階級演化 (Class Evolution)」** 模型，捨棄靜態的會計報表。
+核心邏輯為：**「抗熵防禦 (Shield) → 儲蓄候選 (Candidate) → 資產經營 (Engine) → 階級紮根 (Rooting)。」**
 
-* **技術棧：** VitePress (SSG) + Vue 3 + Pinia (State) + Neon Serverless Postgres
-* **UI 框架：** Element Plus (嚴格執行 **Zero Custom CSS** 原則)
-* **管理視角：** 以「決策」為核心，專注於資產效率 (IRR/ROI) 與現金流監控。
+* **核心價值：** 退休不是一個數字，而是「被動引擎替代率」達到 100% 的狀態。
+* **技術棧：** VitePress + Vue 3 (Composition API) + Pinia + Neon Postgres
+* **UI 規範：** Element Plus (嚴格執行 **Zero Custom CSS** 與 **對稱平衡排版** 原則)。
 
 ---
 
@@ -15,37 +15,43 @@
 
 ```mermaid
 graph TD
-    subgraph AssetEngine [I. 資產引擎 (產出金流)]
-        A1[金融資產 - CSV自動化]
-        A2[房地產 - 租金管理]
+    subgraph AssetEngine [I. 資產引擎 (產出/存量)]
+        A1[金融資產 - 流動性核心]
+        A2[房地產 - 階級錨點]
         A3[商業副業 - 效能矩陣]
         
-        calc_IRR[實測年化報酬率 IRR]
+        calc_IRR[實測年化 IRR]
         calc_Passive[被動收入總額]
-        calc_NetWorth[淨資產總額]
+        calc_Liquid[流動資產水位]
     end
 
-    subgraph LifeOps [II. 生活營運 (消耗金流)]
-        B1[職業收入 - 主動]
-        B2[生活支出 - 信用卡透視]
-        calc_Burn[月均支出 Burn Rate]
+    subgraph LifeOps [II. 生活營運 (消耗/候選)]
+        B1[職業收入 - 每月實領]
+        B2[信用卡透視 - 月均支出]
+        calc_Burn[月均消耗 Burn Rate]
+        calc_Saving[儲蓄率門檻 L1-L5]
     end
 
-    subgraph Navigator [III. 目標導航 (預測未來)]
-        C1[財富自由度 (Passive / Burn)]
-        C2[退休權益庫 (勞保/勞退)]
-        C3[生涯模擬 (基於 IRR)]
+    subgraph Navigator [III. 目標導航 (階級演化路徑)]
+        direction TB
+        N1[優先級 1: 熵增緩衝 - 生存防禦]
+        N2[優先級 2: 被動引擎 - 勞力替代]
+        N3[優先級 3: 資產紮根 - 物理固化]
+        N4[優先級 4: 時間主權 - 終極進化]
+        
+        Retirement((終極目標: 退休狀態))
     end
 
-    A1 & A2 & A3 --> calc_IRR
     A1 & A2 & A3 --> calc_Passive
-    A1 & A2 & A3 --> calc_NetWorth
+    A1 --> calc_Liquid
+    B1 & B2 --> calc_Saving
     B2 --> calc_Burn
     
-    calc_Passive --> C1
-    calc_Burn --> C1
-    calc_IRR --> C3
-    calc_Passive & B1 & calc_Burn -->|年度結餘| C3
+    calc_Liquid & calc_Burn --> N1
+    calc_Passive & calc_Burn --> N2
+    A2 & calc_Burn --> N3
+    N2 -->|替代率 100%| Retirement
+    N4 -->|絕對選擇權| Retirement
 
 ```
 
@@ -55,110 +61,91 @@ graph TD
 
 ### I. 資產引擎模組 (Asset Engine)
 
-> **定位：** 您的「印鈔機」。將資產存量與其產生的被動收益（股息、租金、分潤）整合管理。
+> **定位：** 系統的「能量來源」。
 
 1. **金融資產中心 (Financial Hub)**
-* **數據來源：** 自動解析券商 `庫存.CSV` (現值) 與 `交易.CSV` (流向)。
-* **核心指標：**
-* **本金水位線：** 透過交易紀錄反推真實投入成本 (Principal)。
-* **實測 IRR：** 計算過去一年的真實資金效率 (如：美股帳戶 17.5%)。
-* **預估股息：** 根據庫存自動推算年度理財收入。
+* **流動性定義：** 僅計入 `Portfolios` 內之市值，作為「熵增緩衝」的計算基準。
 
 
+2. **商業與副業矩陣 (Business Matrix)**
+* **效能矩陣：** 以 IRR 與投入成本為座標，區分「高產出資產」與「熵增不良資產」。
 
 
-2. **房地產管理 (Real Estate)**
-* **功能：** 管理非自住投資物件（收租房、商辦）。
-* **指標：** 銀行估值、租金投報率 (Gross Yield)、貸款槓桿倍數。
-
-
-3. **商業與副業矩陣 (Business & Side Hustle Matrix)** [NEW]
-* **功能：** 針對本業、副業、股權投資、太陽能案場等進行多元管理。
-* **視覺化核心：** **資產效能矩陣 (Asset Efficiency Matrix)**。
-* **X軸：** 投入成本 / **Y軸：** IRR (內部報酬率)。
-* **背景視覺：** 垂直漸層 (上綠下紅)，直觀顯示資產優劣位置。
-* **分組管理：** 提供 5 種色系標籤 (藍/橘/紫/青/粉)，由用戶自定義群組意義 (如：藍色=本業、紫色=高風險)，降低系統複雜度。
-* **警示機制：** 自動繪製 **IRR 3% 警戒線**，標示不良資產分界。
-
-
-* **指標：** 預估年限、稅務類別 (免稅/6%/核實)、月淨現金流。
-
-
-
----
 
 ### II. 生活營運模組 (Life Operations)
 
-> **定位：** 您的「日常營運成本」。專注於現金流動性管理。
+> **定位：** 階級躍遷的「候選資格」審查。
 
-1. **職業收入分析：**
-* 管理薪資單 (Payroll) 與非經常性獎金 (Bonus)。
-
-
-2. **信用卡穿透分析 (Credit Card Insight)：**
-* **架構：** `el-tabs` 切換不同支付工具。
-* **邏輯：** 輸入過去 5 個月帳單，自動計算「月均支出」。
-* **分類：**
-* 🟢 **一般開支** (浮動生活費)
-* 🔵 **訂閱開支** (固定週期性)
-* 🟠 **專案開支** (一次性大額，不計入常態月均，但計入年度預算)
+1. **主動收入儲蓄分析 (Saving Capacity Card)：**
+* **候選人邏輯：** 儲蓄率決定你的階級候選資格 (L1 財務熵增 ~ L5 極限抗熵)。
+* **核心算式：** `薪資實拿 - 月均支出 = 月結餘`。
+* **紮根診斷：** 強調儲蓄只是「門檻」，必須配合「資產經營」才能真正紮根。
 
 
 
+### III. 目標導航模組 (Strategic Navigator) [NEW]
 
+> **定位：** 系統的「引導大腦」。將退休目標拆解為四個可驗證的階段。
 
----
+#### **階段 1：熵增緩衝 (Entropy Shield)**
 
-### III. 目標導航模組 (Strategic Navigator)
+* **導航目標：** 建立 12 個月的「現金水位」。
+* **核心指標：** `流動性資產 / 月均總消耗`。
+* **階級意義：** 止血與防禦，確保系統不會因意外墜落回 L1。
 
-> **定位：** 您的「戰情室」。回答「還要多久退休」與「風險係數」。
+#### **階段 2：被動引擎 (Passive Engine)**
 
-1. **財富自由度 (Financial Freedom Dashboard)：**
-* **公式：** `[資產引擎] 被動收入總額 / [生活營運] 常態月均支出`。
-* **呈現：** 使用 `el-progress` 視覺化進度，目標為 100% (Fire)。
+* **導航目標：** 被動收入替代率。
+* **核心指標：** `被動收益 / 月均總消耗`。
+* **階級意義：** 效率與替代。替代率達 100% 即解鎖「退休」資格。
 
+#### **階段 3：資產紮根 (Asset Anchoring)**
 
-2. **退休金庫 (Pension Vault)：**
-* 整合勞保 (年金) 與勞退 (專戶) 的未來給付預估。
+* **導航目標：** 物理性階級固化（如：自住房產）。
+* **核心指標：** 房貸壓力測試、資產淨值比。
+* **階級意義：** 防禦通膨收割，將身分標註在物理土地上。
 
+#### **階段 4：時間主權 (Time Sovereignty)**
 
-3. **生涯模擬沙盒 (Life Sim Sandbox)：**
-* **參數開關：** 切換 `[個人實測 IRR]` vs `[市場平均 7%]`。
-* **趨勢圖：** 預測未來 10-30 年的資產累積曲線，驗證資產配置的長期效益。
-
-
+* **導航目標：** 2 年期「脫產轉型基金」。
+* **階級意義：** 演化與飛躍。獲得「不為錢工作」的絕對選擇權。
 
 ---
 
-## 4. UI/UX 實作規範 (Implementation Standards)
+## 4. 退休整合邏輯 (Retirement Integration)
 
-* **Zero Custom CSS：** 嚴格禁止 `<style>` 區塊。所有排版使用 Element Plus 的 `el-row`, `el-col`, `el-space`, `el-card` 及 Tailwind CSS Utility Classes。
-* **狀態管理 (Pinia)：** 建立 `useAssetStore` (整合金融/房產/商業) 與 `useExpenseStore`，確保單一數據源 (Single Source of Truth)。
-* **響應式設計：** 優先考慮 `xs` (手機) 與 `md` (桌面) 的 `el-col` 斷點配置。
-* **圖表整合：** 使用 Chart.js 配合自定義 Plugin (如背景漸層、警戒線) 強化數據解讀力。
+本系統不將退休視為單一存款數字，而是將其整合進 **「被動引擎」** 導航中：
+
+* **退休門檻：** 當「被動引擎替代率」達 100% 時，系統標註為 **[退休資格達成]**。
+* **退休穩定性：** 需同時滿足「熵增緩衝 > 12個月」與「資產紮根完成」，方可定義為 **[結構性退休]**（不會因市場震盪而被迫回歸勞動市場）。
 
 ---
 
-## 5. 開發優先級 (Roadmap)
+## 5. UI/UX 與技術規範 (Standards)
 
-1. **Phase 1: 建立資產引擎心臟 (Asset Core)**
-* ✅ 建置 `useAssetStore`。
-* ✅ 開發 `AssetFinancial.vue`：實作 CSV 匯入、小計排除邏輯。
+* **五段式階級刻度 (Segmented Progress)：** 所有導航指標捨棄連續性進度條，改用「五段方塊」，體現階級門檻的「跳躍性」與「資格感」。
+* **對稱平衡排版：** 診斷卡片下半部嚴格執行「左右對稱」，左側為「長期定位」，右側為「紮根關鍵」。
+* **數據雙向同步 (defineModel)：** 診斷卡片直接綁定全域 `UserFormState`，實現「修改即診斷」的即時反饋。
+* **Zero Custom CSS：** 僅使用 Element Plus Grid、Tailwind 及原生的對稱 CSS Flexbox。
 
+---
 
-2. **Phase 2: 商業與副業模組 (Business Matrix)**
-* ✅ 開發 `AssetBusiness.vue`。
-* ✅ 實作「資產效能矩陣」圖表 (IRR/Cost Scatter Plot)。
-* ✅ 實作 5 色分組與後端 Metadata 對接。
+## 6. 開發優先級 (Roadmap)
 
-
-3. **Phase 3: 完善生活營運 (Operations)**
-* 開發 `ExpenseCreditCard.vue`：實作 5 個月均值算法。
-
-
-4. **Phase 4: 連結目標導航 (Navigation)**
-* 開發 `DashboardFreedom.vue`：串接前三者的數據，顯示自由度。
+1. **Phase 1: 基礎抗熵層 [DONE]**
+* `SavingCapacityCard` (儲蓄候選診斷)
+* `EntropyShieldCard` (水位防禦導航)
 
 
-5. **Phase 5: 擴充資產類別 (Expansion)**
-* 加入房地產模組 (Real Estate) 與貸款試算。
+2. **Phase 2: 資產經營層 [IN PROGRESS]**
+* `PassiveEngineCard` (被動收入替代率)
+* `AssetEfficiencyMatrix` (IRR 矩陣圖表)
+
+
+3. **Phase 3: 固化與演化層**
+* `AssetAnchoringCard` (不動產壓力測試)
+* `TimeSovereigntyCard` (轉型基金試算)
+
+
+4. **Phase 4: 終極整合**
+* `WealthOS_RetirementSummary` (結構性退休路徑預測)
