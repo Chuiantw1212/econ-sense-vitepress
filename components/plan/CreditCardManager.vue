@@ -1,6 +1,5 @@
 <template>
     <el-space direction="vertical" fill size="large" style="width: 100%">
-
         <el-empty v-if="creditCards.length === 0" description="尚未配置信用卡金流">
             <el-button type="primary" :icon="Plus" :loading="isAdding" @click="addCard">
                 新增金流配置
@@ -32,12 +31,12 @@
 
                 <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="卡片名稱 (別名)">
+                        <el-form-item label="卡片名稱">
                             <el-input v-model="item.name" placeholder="例：富邦 J 卡" @change="handleUpdate(item)" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="連結扣款帳戶 (自動扣繳)">
+                        <el-form-item label="連結扣款帳戶">
                             <el-input v-model="item.deductionAccount" placeholder="例：台新 Richart (薪轉)"
                                 @change="handleUpdate(item)" />
                         </el-form-item>
@@ -46,7 +45,7 @@
 
                 <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="主要資金用途 (心理帳戶)">
+                        <el-form-item label="主要資金用途">
                             <el-select v-model="item.usageType" placeholder="請選擇" style="width: 100%"
                                 @change="handleUpdate(item)">
                                 <el-option v-for="opt in usageOptions" :key="opt.code" :label="opt.label"
@@ -85,7 +84,7 @@
 
                 <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="平均月消費 (預估流出)">
+                        <el-form-item label="平均月消費">
                             <el-input-number v-model="item.averageMonthlyExpense" :step="1000" style="width: 100%"
                                 controls-position="right" placeholder="輸入金額" @change="handleUpdate(item)" />
                         </el-form-item>
@@ -111,7 +110,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, } from 'vue'
 import { Plus, Delete, CreditCard } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useApi } from '@/components/plan/composables/useApi'
@@ -163,34 +162,6 @@ const creditCards = defineModel<UserCreditCard[]>({
 const { authFetch } = useApi()
 const isAdding = ref(false)
 
-// --- Mock Data (僅初次加載預覽用) ---
-const MOCK_CARDS: UserCreditCard[] = [
-    {
-        id: 'mock-1',
-        name: '富邦 J 卡',
-        deductionAccount: '富邦數位帳戶',
-        usageType: 'travel',
-        storageLocation: 'drawer',
-        averageMonthlyExpense: 0
-    },
-    {
-        id: 'mock-2',
-        name: '玉山 U Bear',
-        deductionAccount: '台新 Richart',
-        usageType: 'online',
-        storageLocation: 'digital',
-        averageMonthlyExpense: 3500
-    },
-    {
-        id: 'mock-3',
-        name: '國泰 Cube',
-        deductionAccount: '國泰薪轉戶',
-        usageType: 'daily',
-        storageLocation: 'wallet',
-        averageMonthlyExpense: 12000
-    }
-]
-
 // --- Computed ---
 const usageOptions = computed(() => {
     return props.metadata.opt_credit_card_usage_type?.list || [];
@@ -204,13 +175,6 @@ const formatCurrency = (val: number) => {
     return val.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 })
 }
 
-// --- Lifecycle ---
-onMounted(() => {
-    if (creditCards.value.length === 0) {
-        creditCards.value = JSON.parse(JSON.stringify(MOCK_CARDS));
-    }
-})
-
 // --- Actions ---
 
 /**
@@ -220,7 +184,7 @@ onMounted(() => {
 async function handleUpdate(item: UserCreditCard) {
     if (!item.id) return
     try {
-        const res = await authFetch(`/api/v1/credit-cards/${item.id}`, {
+        const res = await authFetch(`/api/v1/user/credit-cards/${item.id}`, {
             method: 'PUT',
             body: item
         })
@@ -234,7 +198,7 @@ async function addCard() {
     if (isAdding.value) return
     isAdding.value = true
     try {
-        const res = await authFetch('/api/v1/credit-cards', { method: 'POST' })
+        const res = await authFetch('/api/v1/user/credit-cards', { method: 'POST' })
         if (!res || !res.ok) throw new Error('Create failed')
 
         const newCard = await res.json()
@@ -253,7 +217,7 @@ async function removeCard(index: number, item: UserCreditCard) {
     if (!confirm) return
 
     try {
-        const res = await authFetch(`/api/v1/credit-cards/${item.id}`, { method: 'DELETE' })
+        const res = await authFetch(`/api/v1/user/credit-cards/${item.id}`, { method: 'DELETE' })
         if (res && res.ok) {
             creditCards.value.splice(index, 1)
             ElMessage.success('已移除')

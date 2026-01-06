@@ -76,7 +76,7 @@ export function useUserPlan() {
 
                 // --- Step 2: 並行獲取資產列表 (Parallel Fetching) ---
                 // 假設您的 API 路徑有包含 /api/v1 前綴
-                const [portfolioRes, realEstateRes, businessesRes] = await Promise.all([
+                const [portfolioRes, realEstateRes, businessesRes, creditCardsRes] = await Promise.all([
                     authFetch('/api/v1/user/portfolios'),
                     authFetch('/api/v1/user/real-estates'),
                     authFetch('/api/v1/user/businesses', {
@@ -84,7 +84,8 @@ export function useUserPlan() {
                             currentPage: 1,
                             pageSize: 100,
                         }
-                    })
+                    }),
+                    authFetch('/api/v1/user/credit-cards'),
                 ])
 
                 // --- Step 3: 更新金融資產 (Portfolios) ---
@@ -111,6 +112,15 @@ export function useUserPlan() {
                     // 確保回傳的是陣列
                     if (Array.isArray(businessesData.list)) {
                         userForm.value.businesses = businessesData
+                    }
+                }
+
+                // --- Step 6: 更新信用卡 ---
+                if (creditCardsRes) {
+                    const creditCardsData = await creditCardsRes.json()
+                    // 確保回傳的是陣列
+                    if (Array.isArray(creditCardsData)) {
+                        userForm.value.creditCards = creditCardsData
                     }
                 }
             }

@@ -49,6 +49,9 @@ export interface UserCareer {
 
     // 新增：眷屬人數
     dependents: number;
+
+    // 每月實領
+    monthlyNetIncome:number;
 }
 
 /**
@@ -205,14 +208,48 @@ export interface UserBusiness {
 }
 
 export interface UserCreditCard {
+    /** * 唯一識別碼 (來自 UserBaseEntity) 
+   */
     id?: string;
+
+    /** * Firebase 用戶唯一識別碼 
+     */
+    firebaseUid?: string;
+
+    /**
+     * 卡片名稱 (e.g. 玉山 U Bear)
+     */
     name: string;
-    bankName: string;
-    usageType: string; // e.g. 'daily', 'subscription'
-    creditLimit: number;
-    statementDay: number; // 結帳日
-    paymentDay: number;   // 繳款日
-    rewardRate: number;
+
+    /**
+     * 扣款帳戶 (e.g. 台新 Richart)
+     * 用於追蹤現金流出處
+     */
+    deductionAccount: string;
+
+    /**
+     * 用途分類代碼 (e.g. online, daily, travel)
+     * 建議值參考 metadata 中的 opt_credit_card_usage_type
+     */
+    usageType: string;
+
+    /**
+     * 卡片存放位置 (e.g. wallet, digital, drawer)
+     * wallet: 錢包(實體), digital: 數位(僅綁定), drawer: 抽屜(少用)
+     */
+    storageLocation: 'wallet' | 'digital' | 'drawer' | string;
+
+    /**
+     * 平均月開支 (預估每月刷卡金額)
+     * 在 TypeScript 中對應 BigDecimal 為 number
+     */
+    averageMonthlyExpense: number;
+
+    /** 建立時間 (ISO String) */
+    createdAt?: string | Date;
+
+    /** 更新時間 (ISO String) */
+    updatedAt?: string | Date;
 }
 
 

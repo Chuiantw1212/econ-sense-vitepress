@@ -87,7 +87,7 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
-## 損益表
+## 生活營運
 
 ### 職業收入
 
@@ -108,7 +108,18 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
-## 現金流量表
+### 儲蓄率
+
+<div v-if="isReady">
+    <SavingCapacityCard 
+        :career="userForm.career" 
+        :creditCards="userForm.creditCards" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+## 目標導航
 
 <div v-if="isReady">
     <p>現金流量表內容...</p>
@@ -126,6 +137,7 @@ import CostEfficiencyMatrix from '@/components/plan/charts/CostEfficiencyMatrix.
 import Business from '@/components/plan/businessTable.vue'
 import AssetOverViewCard from '@/components/plan/AssetOverViewCard.vue'
 import CreditCardManager from '@/components/plan/CreditCardManager.vue'
+import SavingCapacityCard from '@/components/plan/SavingCapacityCard.vue'
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
 import { useMetadata } from '@/components/plan/composables/useMetadata'

@@ -123,8 +123,8 @@
                 <el-col :span="12"></el-col>
                 <el-col :span="12">
                     <el-form-item label="= 每月實領">
-                        <el-text size="large" tag="b">
-                            {{ formatNumber(monthlyNetIncome) }}
+                        <el-text size="large" tag="b" color="primary">
+                            {{ formatNumber(career.monthlyNetIncome) }}
                         </el-text>
                     </el-form-item>
                 </el-col>
@@ -139,7 +139,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { debounce } from 'lodash-es'
 import type { UserCareer } from './types/user'
 import { useApi } from '@/components/plan/composables/useApi'
@@ -150,7 +149,7 @@ import { useLaborPension } from '@/components/plan/composables/useLaborPension'
 import { useLaborInsurance } from '@/components/plan/composables/useLaborInsurance'
 import { useHealthInsurance } from '@/components/plan/composables/useHealthInsurance'
 
-// --- 1. Define Model ---
+// --- 1. Define Model (包含 monthlyNetIncome) ---
 const career = defineModel<UserCareer>({
     required: true,
     default: () => ({
@@ -164,21 +163,40 @@ const career = defineModel<UserCareer>({
         stockDeduction: 0,
         stockCompanyMatch: 0,
         dependents: 0,
+        monthlyNetIncome: 0,
     })
 })
 
-// --- 2. API & Initialization ---
 const { authFetch } = useApi()
 
-// 初始化 Composables (用於計算邏輯)
+// 初始化 Composables (用於勞健保計算邏輯)
 const pension = useLaborPension(0, 0)
 const labor = useLaborInsurance(0)
 const health = useHealthInsurance(0, 0)
 
-// --- 3. 核心邏輯：Explicit Event Handling (取代 Watch) ---
+// --- 2. 核心計算邏輯：實領金額 (每月淨收入) ---
 
 /**
- * 執行存檔 (使用 debounce 防止連點)
+ * 計算並將結果寫入 career.monthlyNetIncome
+ * 公式：(本薪 + 其他津貼 + 伙食) - (勞退自提 + 認股 + 勞保 + 健保 + 其他扣款)
+ */
+function updateMonthlyNetIncome() {
+    const m = career.value
+    const income = (m.baseSalary || 0) + (m.otherAllowance || 0) + 3000
+    const deductions =
+        (m.pensionAmount || 0) +
+        (m.stockDeduction || 0) +
+        (m.laborInsurance || 0) +
+        (m.healthInsurance || 0) +
+        (m.otherDeduction || 0)
+
+    career.value.monthlyNetIncome = income - deductions
+}
+
+// --- 3. 存檔與事件處理 ---
+
+/**
+ * 執行存檔
  */
 const performSave = debounce(async () => {
     try {
@@ -195,54 +213,38 @@ const performSave = debounce(async () => {
 }, 500)
 
 /**
- * 情境 A: 純存檔 (用於不影響勞健保的欄位)
- * 綁定：其他扣款、員工認股、公司加碼
+ * 情境 A: 欄位變動僅影響淨利 (不涉及勞健保級距)
  */
 function handleSaveOnly() {
+    updateMonthlyNetIncome()
     performSave()
 }
 
 /**
- * 情境 B: 計算後存檔 (用於薪資、眷屬、費率變動)
- * 綁定：本薪、津貼、眷屬人數、勞退率
+ * 情境 B: 變動涉及勞健保計算級距與最終淨利
  */
 function handleCalcAndSave() {
-    // 1. 準備計算參數
+    // 1. 計算勞健保基礎
     const basis = (career.value.baseSalary || 0) + (career.value.otherAllowance || 0) + 3000
 
-    // 2. 更新 Composable 的輸入值 (觸發其內部計算)
+    // 2. 更新 Composable 輸入值
     pension.actualWage.value = basis
     pension.selfRate.value = career.value.pensionRate || 0
-
     labor.actualWage.value = basis
-
     health.actualWage.value = basis
     health.dependents.value = career.value.dependents || 0
 
-    // 3. 將計算結果寫回 career model
-    // 注意：composable 通常是 reactive 的，取值時要拿 .value
+    // 3. 回寫計算結果到 Model
     career.value.pensionAmount = pension.selfAmount.value
     career.value.laborInsurance = labor.personalPremium.value
     career.value.healthInsurance = health.personalPremium.value
 
-    // 4. 執行存檔
+    // 4. 更新最終實領金額並存檔
+    updateMonthlyNetIncome()
     performSave()
 }
 
 // --- Helpers ---
-
-// 顯示用的計算屬性 (Read-only)
-const monthlyNetIncome = computed(() => {
-    const m = career.value
-    const income = (m.baseSalary || 0) + (m.otherAllowance || 0) + 3000
-    const deductions = (m.pensionAmount || 0) +
-        (m.stockDeduction || 0) +
-        (m.laborInsurance || 0) +
-        (m.healthInsurance || 0) +
-        (m.otherDeduction || 0)
-    return income - deductions
-})
-
 const formatNumber = (num: number | undefined) => {
     if (num === undefined || isNaN(num)) return '0'
     return new Intl.NumberFormat('zh-TW').format(num)
