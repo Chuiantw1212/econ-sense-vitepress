@@ -121,9 +121,14 @@ head:
 
 ## 目標導航
 
+### 緊急預備金
+
 <div v-if="isReady">
-    <p>現金流量表內容...</p>
+    <EntropyShieldCard 
+        v-model="userForm" 
+    />
 </div>
+<div v-else style="height: 100px;" v-loading="true"></div>
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, computed } from 'vue'
@@ -138,6 +143,7 @@ import Business from '@/components/plan/businessTable.vue'
 import AssetOverViewCard from '@/components/plan/AssetOverViewCard.vue'
 import CreditCardManager from '@/components/plan/CreditCardManager.vue'
 import SavingCapacityCard from '@/components/plan/SavingCapacityCard.vue'
+import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
 import { useMetadata } from '@/components/plan/composables/useMetadata'
