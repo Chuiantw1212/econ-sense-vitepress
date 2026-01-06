@@ -1,9 +1,9 @@
 <template>
     <el-space direction="vertical" fill size="large" style="width: 100%">
 
-        <el-empty v-if="creditCards.length === 0" description="尚未新增信用卡">
+        <el-empty v-if="creditCards.length === 0" description="尚未配置信用卡金流">
             <el-button type="primary" :icon="Plus" :loading="isAdding" @click="addCard">
-                新增信用卡
+                新增金流配置
             </el-button>
         </el-empty>
 
@@ -18,6 +18,7 @@
                         <span style="font-weight: bold; font-size: 16px;">
                             {{ item.name || `信用卡 ${index + 1}` }}
                         </span>
+
                         <el-tag v-if="item.usageType" :type="getUsageMeta(item.usageType)?.color || 'info'"
                             effect="light" round size="small">
                             {{ getUsageMeta(item.usageType)?.label || item.usageType }}
@@ -36,16 +37,17 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="發卡銀行">
-                            <el-input v-model="item.bankName" placeholder="例：台北富邦" @change="handleUpdate(item)" />
+                        <el-form-item label="連結扣款帳戶 (自動扣繳)">
+                            <el-input v-model="item.deductionAccount" placeholder="例：台新 Richart (薪轉)"
+                                @change="handleUpdate(item)" />
                         </el-form-item>
                     </el-col>
                 </el-row>
 
                 <el-row :gutter="20">
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="主要資金用途 (Primary Function)">
-                            <el-select v-model="item.usageType" placeholder="請選擇金流屬性" style="width: 100%"
+                        <el-form-item label="主要資金用途 (心理帳戶)">
+                            <el-select v-model="item.usageType" placeholder="請選擇" style="width: 100%"
                                 @change="handleUpdate(item)">
                                 <el-option v-for="opt in usageOptions" :key="opt.code" :label="opt.label"
                                     :value="opt.code">
@@ -58,32 +60,41 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="24">
-                        <el-form-item label="信用額度 (Credit Limit)">
-                            <el-input-number v-model="item.creditLimit" :step="10000" style="width: 100%"
-                                controls-position="right" @change="handleUpdate(item)" />
+                        <el-form-item label="實體/數位狀態">
+                            <el-radio-group v-model="item.storageLocation" style="width: 100%; display: flex;"
+                                @change="handleUpdate(item)">
+                                <el-radio-button label="wallet" style="flex: 1; text-align: center;">
+                                    <el-tooltip content="隨身攜帶 (低摩擦)" placement="top">
+                                        <span>{{ STORAGE_ICONS.wallet }} 錢包</span>
+                                    </el-tooltip>
+                                </el-radio-button>
+                                <el-radio-button label="digital" style="flex: 1; text-align: center;">
+                                    <el-tooltip content="僅數位綁定 (中摩擦)" placement="top">
+                                        <span>{{ STORAGE_ICONS.digital }} 數位</span>
+                                    </el-tooltip>
+                                </el-radio-button>
+                                <el-radio-button label="drawer" style="flex: 1; text-align: center;">
+                                    <el-tooltip content="抽屜/保險箱 (高摩擦)" placement="top">
+                                        <span>{{ STORAGE_ICONS.drawer }} 抽屜</span>
+                                    </el-tooltip>
+                                </el-radio-button>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
                 </el-row>
 
                 <el-row :gutter="20">
-                    <el-col :span="8" :xs="12">
-                        <el-form-item label="結帳日 (每幾號)">
-                            <el-input-number v-model="item.statementDay" :min="1" :max="31" controls-position="right"
-                                style="width: 100%" placeholder="日" @change="handleUpdate(item)" />
+                    <el-col :span="12" :xs="24">
+                        <el-form-item label="平均月消費 (預估流出)">
+                            <el-input-number v-model="item.averageMonthlyExpense" :step="1000" style="width: 100%"
+                                controls-position="right" placeholder="輸入金額" @change="handleUpdate(item)" />
                         </el-form-item>
                     </el-col>
-                    <el-col :span="8" :xs="12">
-                        <el-form-item label="扣款日 (每幾號)">
-                            <el-input-number v-model="item.paymentDay" :min="1" :max="31" controls-position="right"
-                                style="width: 100%" placeholder="日" @change="handleUpdate(item)" />
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8" :xs="24">
-                        <el-form-item label="一般回饋率 (%)">
-                            <el-input v-model.number="item.rewardRate" type="number" placeholder="2.0"
-                                @change="handleUpdate(item)">
-                                <template #suffix>%</template>
-                            </el-input>
+                    <el-col :span="12" :xs="24">
+                        <el-form-item label="- 年化預估支出">
+                            <el-text tag="b" type="info" size="large">
+                                {{ formatCurrency((item.averageMonthlyExpense || 0) * 12) }}
+                            </el-text>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -93,25 +104,35 @@
 
         <el-button v-if="creditCards.length > 0" type="primary" plain :icon="Plus" :loading="isAdding"
             style="width: 100%; margin-top: 8px; border-style: dashed;" @click="addCard">
-            新增信用卡管理
+            新增金流配置
         </el-button>
 
     </el-space>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { Plus, Delete, CreditCard } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useApi } from '@/components/plan/composables/useApi'
-import type { UserCreditCard } from './types/user'
+
 // --- Interfaces ---
-// 根據您的後端 Metadata 結構定義
+type EpTagType = 'primary' | 'success' | 'warning' | 'info' | 'danger'
+
 interface UsageOption {
     code: string;
     label: string;
-    color?: string; // e.g. 'success', 'warning'
+    color?: EpTagType;
     desc?: string;
+}
+
+export interface UserCreditCard {
+    id?: string;
+    name: string;
+    deductionAccount?: string;
+    usageType: string;
+    averageMonthlyExpense: number;
+    storageLocation?: 'wallet' | 'digital' | 'drawer';
 }
 
 interface Metadata {
@@ -119,6 +140,13 @@ interface Metadata {
         list: UsageOption[];
     };
     [key: string]: any;
+}
+
+// --- Constants ---
+const STORAGE_ICONS: Record<string, string> = {
+    wallet: '💳',
+    digital: '📲',
+    drawer: '🔒'
 }
 
 // --- Props & Model ---
@@ -135,38 +163,83 @@ const creditCards = defineModel<UserCreditCard[]>({
 const { authFetch } = useApi()
 const isAdding = ref(false)
 
-// --- Computed ---
+// --- Mock Data (僅初次加載預覽用) ---
+const MOCK_CARDS: UserCreditCard[] = [
+    {
+        id: 'mock-1',
+        name: '富邦 J 卡',
+        deductionAccount: '富邦數位帳戶',
+        usageType: 'travel',
+        storageLocation: 'drawer',
+        averageMonthlyExpense: 0
+    },
+    {
+        id: 'mock-2',
+        name: '玉山 U Bear',
+        deductionAccount: '台新 Richart',
+        usageType: 'online',
+        storageLocation: 'digital',
+        averageMonthlyExpense: 3500
+    },
+    {
+        id: 'mock-3',
+        name: '國泰 Cube',
+        deductionAccount: '國泰薪轉戶',
+        usageType: 'daily',
+        storageLocation: 'wallet',
+        averageMonthlyExpense: 12000
+    }
+]
 
-// 從 Metadata 解析選項列表
+// --- Computed ---
 const usageOptions = computed(() => {
-    return props.metadata.opt_credit_card_usage_type?.list || []
+    return props.metadata.opt_credit_card_usage_type?.list || [];
 })
 
-// Helper: 根據 code 找 meta (用於顯示標籤顏色與文字)
 const getUsageMeta = (code: string) => {
     return usageOptions.value.find(opt => opt.code === code)
 }
 
+const formatCurrency = (val: number) => {
+    return val.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 })
+}
+
+// --- Lifecycle ---
+onMounted(() => {
+    if (creditCards.value.length === 0) {
+        creditCards.value = JSON.parse(JSON.stringify(MOCK_CARDS));
+    }
+})
+
 // --- Actions ---
+
+/**
+ * 更新信用卡資訊
+ * 呼叫 PUT /api/v1/credit-cards
+ */
+async function handleUpdate(item: UserCreditCard) {
+    if (!item.id) return
+    try {
+        const res = await authFetch(`/api/v1/credit-cards/${item.id}`, {
+            method: 'PUT',
+            body: item
+        })
+        if (!res || !res.ok) console.error(`Update failed: ${res?.status}`)
+    } catch (e) {
+        console.error('Update error:', e)
+    }
+}
 
 async function addCard() {
     if (isAdding.value) return
     isAdding.value = true
     try {
-        const res = await authFetch('/api/v1/user/credit-cards', { method: 'POST' })
+        const res = await authFetch('/api/v1/credit-cards', { method: 'POST' })
         if (!res || !res.ok) throw new Error('Create failed')
 
-        const rawData = await res.json()
-        // 預設值處理
-        const newCard: UserCreditCard = {
-            ...rawData,
-            name: '',
-            creditLimit: 0,
-            usageType: '' // 預設為空，強迫用戶選擇
-        }
-
+        const newCard = await res.json()
         creditCards.value.push(newCard)
-        ElMessage.success('已新增信用卡')
+        ElMessage.success('已新增信用卡配置')
     } catch (e) {
         console.error(e)
         ElMessage.error('新增失敗')
@@ -175,31 +248,35 @@ async function addCard() {
     }
 }
 
-async function handleUpdate(item: UserCreditCard) {
-    if (!item.id) return
-    try {
-        const res = await authFetch(`/api/v1/user/credit-cards/${item.id}`, {
-            method: 'PUT',
-            body: item
-        })
-        if (!res || !res.ok) console.error(`Update failed`)
-    } catch (e) {
-        console.error(e)
-    }
-}
-
 async function removeCard(index: number, item: UserCreditCard) {
+    const confirm = window.confirm(`確定要刪除 ${item.name || '這張卡片'} 嗎？`)
+    if (!confirm) return
+
     try {
-        await authFetch(`/api/v1/user/credit-cards/${item.id}`, { method: 'DELETE' })
-        creditCards.value.splice(index, 1)
-        ElMessage.success('已移除信用卡')
+        const res = await authFetch(`/api/v1/credit-cards/${item.id}`, { method: 'DELETE' })
+        if (res && res.ok) {
+            creditCards.value.splice(index, 1)
+            ElMessage.success('已移除')
+        }
     } catch (e) {
         console.error(e)
-        ElMessage.error('刪除失敗')
+        ElMessage.error('移除失敗')
     }
 }
 </script>
 
 <style scoped>
-/* Zero CSS strategy */
+/* 讓 Radio Button 填滿寬度 */
+:deep(.el-radio-group) {
+    width: 100%;
+    display: flex;
+}
+
+:deep(.el-radio-group .el-radio-button) {
+    flex: 1;
+}
+
+:deep(.el-radio-group .el-radio-button__inner) {
+    width: 100%;
+}
 </style>

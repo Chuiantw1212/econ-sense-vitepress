@@ -103,6 +103,7 @@ head:
 <div v-if="isReady">
     <CreditCardManager 
         v-model="userForm.creditCards" 
+        :metadata="metadata"
     />
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
