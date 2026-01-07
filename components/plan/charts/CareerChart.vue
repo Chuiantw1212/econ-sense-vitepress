@@ -54,7 +54,7 @@ const renderChart = debounce(() => {
     const deductions = [
         { label: '健保', val: m.healthInsurance },
         { label: '勞保', val: m.laborInsurance },
-        { label: '勞退自提', val: m.pensionAmount },
+        { label: '勞退自提', val: m.pensionPersonalAmount },
         { label: '員工認股', val: m.stockDeduction },
         { label: '其他扣款', val: m.otherDeduction }
     ]

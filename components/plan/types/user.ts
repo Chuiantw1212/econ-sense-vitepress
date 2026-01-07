@@ -43,25 +43,25 @@ export interface UserCareer {
     /** * 個人自提率 (0 ~ 0.06) 
      * 例如: 0.06 代表 6%
      */
-    pensionRate: number;
+    pensionPersonalRate: number;
 
     /** * 個人自提金額 (Personal Contribution)
      * *這是從薪水扣除的，會影響 monthlyNetIncome*
-     * 計算方式: 投保薪資 * pensionRate
+     * 計算方式: 投保薪資 * pensionPersonalRate
      */
-    pensionAmount: number;
+    pensionPersonalAmount: number;
 
     /** * [新增] 雇主提繳金額 (Employer Contribution)
      * *這是雇主額外出的 (6%)，不影響 monthlyNetIncome，但屬於您的資產*
      * 計算方式: 投保薪資 * 0.06
      */
-    employerPensionAmount: number;
+    pensionEmployerAmount: number;
 
     /** * [新增] 每月勞退總提撥 (Total Monthly Contribution)
      * *這是給「退休卡片」計算未來現金流 (PMT) 用的*
-     * 計算公式: pensionAmount + employerPensionAmount
+     * 計算公式: pensionPersonalAmount + employerPensionAmount
      */
-    totalMonthlyPensionContribution: number;
+    pensionTotalAmount: number;
 
     // --- 其他 ---
 

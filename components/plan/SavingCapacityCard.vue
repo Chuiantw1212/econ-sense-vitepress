@@ -91,7 +91,7 @@ const grossSalary = computed(() => (Number(props.career.baseSalary) || 0) + (Num
 const totalDeductions = computed(() => {
     const c = props.career
     return (Number(c.laborInsurance) || 0) + (Number(c.healthInsurance) || 0) +
-        (Number(c.pensionAmount) || 0) + (Number(c.stockDeduction) || 0) + (Number(c.otherDeduction) || 0)
+        (Number(c.pensionPersonalAmount) || 0) + (Number(c.stockDeduction) || 0) + (Number(c.otherDeduction) || 0)
 })
 const takeHomePay = computed(() => grossSalary.value - totalDeductions.value)
 const totalExpenses = computed(() => props.creditCards.reduce((sum, card) => sum + (Number(card.averageMonthlyExpense) || 0), 0))

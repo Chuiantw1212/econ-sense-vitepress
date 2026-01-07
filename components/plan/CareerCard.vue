@@ -41,34 +41,16 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="勞退自提率(%)">
-                        <el-input-number v-model="career.pensionRate" :min="0" :max="6" style="width: 100%"
+                        <el-input-number v-model="career.pensionPersonalRate" :min="0" :max="6" style="width: 100%"
                             @change="handleCalcAndSave" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="- 勞退自提">
-                        <el-text>{{ formatNumber(career.pensionAmount) }}</el-text>
+                        <el-text>{{ formatNumber(career.pensionPersonalAmount) }}</el-text>
                     </el-form-item>
                 </el-col>
             </el-row>
-
-            <!-- 節省版面空間 -->
-            <!-- <el-row>
-                <el-col :span="12">
-                    <el-form-item label="雇主強制提繳 (6%)">
-                        <el-text type="info">
-                            {{ formatNumber(career.employerPensionAmount) }}
-                        </el-text>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="每月累積資產">
-                        <el-tag type="success" size="small" effect="plain">
-                            + {{ formatNumber(career.totalMonthlyPensionContribution) }} (入專戶)
-                        </el-tag>
-                    </el-form-item>
-                </el-col>
-            </el-row> -->
 
             <el-row>
                 <el-col :span="12"></el-col>
@@ -176,11 +158,13 @@ const career = defineModel<UserCareer>({
         laborInsurance: 0,
         healthInsurance: 0,
         otherDeduction: 0,
-        pensionRate: 0,
-        pensionAmount: 0,
-        // 新增欄位預設值
-        employerPensionAmount: 0,
-        totalMonthlyPensionContribution: 0,
+
+        // --- Pension Group ---
+        pensionPersonalRate: 0,
+        pensionPersonalAmount: 0,
+        pensionEmployerAmount: 0,
+        pensionTotalAmount: 0,
+        // ---------------------
 
         stockDeduction: 0,
         stockCompanyMatch: 0,
@@ -192,7 +176,6 @@ const career = defineModel<UserCareer>({
 const { authFetch } = useApi()
 
 // 初始化 Composables
-// 注意：這裡的變數名稱會根據您 useLaborPension 的 return 物件而定
 const pension = useLaborPension(0, 0)
 const labor = useLaborInsurance(0)
 const health = useHealthInsurance(0, 0)
@@ -203,7 +186,7 @@ function updateMonthlyNetIncome() {
     const m = career.value
     const income = (m.baseSalary || 0) + (m.otherAllowance || 0) + 3000
     const deductions =
-        (m.pensionAmount || 0) +
+        (m.pensionPersonalAmount || 0) + // [修正] 變數名稱
         (m.stockDeduction || 0) +
         (m.laborInsurance || 0) +
         (m.healthInsurance || 0) +
@@ -234,27 +217,26 @@ function handleSaveOnly() {
 }
 
 /**
- * 計算所有保險與退休金 (含勞退公提)
+ * 計算所有保險與退休金
  */
 function handleCalcAndSave() {
-    // 1. 計算全薪 (基礎工資)
+    // 1. 計算全薪
     const basis = (career.value.baseSalary || 0) + (career.value.otherAllowance || 0) + 3000
 
-    // 2. 更新 Composable 的輸入 (響應式變數)
+    // 2. 更新 Composable
     pension.actualWage.value = basis
-    pension.selfRate.value = career.value.pensionRate || 0
+    pension.selfRate.value = career.value.pensionPersonalRate || 0 // [修正]
     labor.actualWage.value = basis
     health.actualWage.value = basis
     health.dependents.value = career.value.dependents || 0
 
-    // 3. 回寫 Composable 的計算結果 (輸出)
-    // [重點修正] 直接使用 useLaborPension 算好的 selfAmount 與 employerAmount
-    career.value.pensionAmount = pension.selfAmount.value
-    career.value.employerPensionAmount = pension.employerAmount.value
+    // 3. 回寫計算結果
+    career.value.pensionPersonalAmount = pension.selfAmount.value     // [修正] 自提
+    career.value.pensionEmployerAmount = pension.employerAmount.value // [修正] 公提
 
-    // 計算總提撥 (自提 + 公提)
-    career.value.totalMonthlyPensionContribution =
-        pension.selfAmount.value + pension.employerAmount.value
+    // 計算總提撥
+    career.value.pensionTotalAmount =
+        pension.selfAmount.value + pension.employerAmount.value       // [修正] 總額
 
     // 更新勞健保
     career.value.laborInsurance = labor.personalPremium.value

@@ -24,8 +24,8 @@ export const getInitialUserForm = (): UserFormState => ({
         otherDeduction: 0,
 
         // 更新：Rate 和 Amount 都存入資料庫
-        pensionRate: 0,
-        pensionAmount: 0,
+        pensionPersonalRate: 0,
+        pensionPersonalAmount: 0,
 
         // 員工認股 (保留前一版功能)
         stockDeduction: 0,
