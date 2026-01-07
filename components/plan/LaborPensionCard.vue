@@ -32,7 +32,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="請領時預估餘命">
-                        <el-input-number v-model="model.laborPension.remainingLifeAtRetirement" :disabled="true"
+                        <el-input-number v-model="model.laborPension.remainingLifeAtRetirement" disabled
                             style="width: 100%">
                             <template #suffix>年</template>
                         </el-input-number>
@@ -74,9 +74,12 @@
             <el-row :gutter="20"
                 style="background-color: #f5f7fa; padding: 15px 0; border-radius: 4px; margin: 0; border: 1px solid #e4e7ed;">
                 <el-col :span="12">
-                    <el-form-item label="目前已累積工作年資" style="margin-bottom: 0;">
-                        <el-input-number v-model="model.laborPension.currentWorkSeniority" :min="0" :max="60"
-                            style="width: 100%" />
+                    <el-form-item label="目前已累積工作年資 (總月數)" style="margin-bottom: 0;">
+                        <el-input-number v-model="model.laborPension.currentWorkSeniority" :min="0" :max="720"
+                            placeholder="例如: 97" style="width: 100%" />
+                        <div class="sub-label">
+                            換算約 <b>{{ (model.laborPension.currentWorkSeniority / 12).toFixed(1) }}</b> 年
+                        </div>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12" style="display: flex; align-items: center;">
@@ -84,7 +87,7 @@
                         <div style="margin-bottom: 4px;">目前專戶現值 (PV): <b>{{ formatMoney(totalLaborPensionPV) }}</b>
                         </div>
                         <div>
-                            預計總年資: {{ calculatedTaxSeniority }} 年
+                            預計總年資: {{ calculatedTaxSeniority.toFixed(1) }} 年
                         </div>
                     </div>
                 </el-col>
@@ -155,7 +158,7 @@ const defaultLaborPension: UserLaborPension = {
     employerEarnings: 0,
     personalContribution: 0,
     personalEarnings: 0,
-    currentWorkSeniority: 0
+    currentWorkSeniority: 0 // 這裡現在存的是「月數」
 };
 
 watch(
@@ -174,14 +177,12 @@ watch(
 
 const currentYear = new Date().getFullYear();
 
-// [修正] 從 birthDate ("1990-12-12") 解析出年份
 const userBirthYear = computed(() => {
     const dateStr = model.value.profile?.birthDate;
-    if (!dateStr) return 1990; // 若無資料，給一個預設 fallback
+    if (!dateStr) return 1990;
     return new Date(dateStr).getFullYear();
 });
 
-// [修正] 改用 userBirthYear 計算年齡
 const currentAge = computed(() => {
     return currentYear - userBirthYear.value;
 });
@@ -194,9 +195,15 @@ const futureWorkYears = computed(() => {
     return years > 0 ? years : 0;
 });
 
+// [修正] 計算總年資 (用於稅務計算)
+// 公式：(目前累積月數 / 12) + 未來工作年數
 const calculatedTaxSeniority = computed(() => {
     if (!model.value.laborPension) return 0;
-    return (model.value.laborPension.currentWorkSeniority || 0) + futureWorkYears.value;
+
+    // 將輸入的月數轉為年
+    const currentYears = (model.value.laborPension.currentWorkSeniority || 0) / 12;
+
+    return currentYears + futureWorkYears.value;
 });
 
 // ========================================================
@@ -284,13 +291,9 @@ async function fetchRemainingLifespan() {
     const lp = model.value.laborPension;
     const profile = model.value.profile;
 
-    // [修正] 檢查 birthDate
     if (!lp || !profile || !profile.birthDate || !profile.gender) return;
 
     const retireAge = lp.expectedRetirementAge;
-
-    // [修正] 使用 userBirthYear 計算
-    // 注意：在 script setup 中直接讀取 computed 需使用 .value
     const birthYear = userBirthYear.value;
     const targetYear = birthYear + retireAge;
 
@@ -301,9 +304,10 @@ async function fetchRemainingLifespan() {
         );
 
         if (response && response.ok) {
-            const expectedLifespan = (await response.json()) as number;
-            if (expectedLifespan) {
-                model.value.laborPension.remainingLifeAtRetirement = expectedLifespan
+            const data = (await response.json()) as LifeExpectancyRes;
+
+            if (data && data.expectedLifespan) {
+                model.value.laborPension.remainingLifeAtRetirement = data.expectedLifespan
             }
         }
     } catch (error) {
@@ -317,7 +321,7 @@ watch(
     () => [
         model.value.laborPension?.expectedRetirementAge,
         model.value.profile?.gender,
-        model.value.profile?.birthDate // [修正] 監聽 birthDate
+        model.value.profile?.birthDate
     ],
     () => { debouncedFetchLifespan(); },
     { immediate: true }
@@ -358,7 +362,6 @@ watch(
 </script>
 
 <style scoped>
-/* 樣式保持不變 */
 .sub-label {
     font-size: 12px;
     color: #909399;
