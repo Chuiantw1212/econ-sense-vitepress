@@ -51,7 +51,7 @@ export interface UserCareer {
     dependents: number;
 
     // 每月實領
-    monthlyNetIncome:number;
+    monthlyNetIncome: number;
 }
 
 /**
@@ -250,6 +250,51 @@ export interface UserCreditCard {
 
     /** 更新時間 (ISO String) */
     updatedAt?: string | Date;
+}
+
+/**
+ * 退休規劃資料模型
+ * 對應資料庫 table: user_retirement
+ */
+export interface UserRetirement {
+    // --- 1. 退休參數設定 (Retirement Parameters) ---
+
+    /** * 預計退休年齡 
+     * (e.g., 65)
+     */
+    expected_retirement_age: number;
+
+    /** * 退休時預估餘命 (年)
+     * (系統參考值，或由 API 取得)
+     */
+    remaining_life_at_retirement: number;
+
+    /** * 預估退休金投資報酬率 (%)
+     * (用於計算複利終值 FV)
+     */
+    retirement_roi: number;
+
+    // --- 2. 勞工退休金專戶累計 (Labor Pension Fund - PV) ---
+    // 對應勞保局查詢欄位
+
+    /** 雇主提繳累計金額 */
+    employer_contribution: number;
+
+    /** 雇主提繳收益累計 */
+    employer_earnings: number;
+
+    /** 個人提繳累計金額 */
+    personal_contribution: number;
+
+    /** 個人提繳收益累計 */
+    personal_earnings: number;
+
+    // --- 3. 年資資料 (Seniority) ---
+
+    /** * 目前已累積工作年資 (年)
+     * (使用者查詢後填入，系統會自動加上未來年資以計算稅務免稅額)
+     */
+    current_work_seniority: number;
 }
 
 

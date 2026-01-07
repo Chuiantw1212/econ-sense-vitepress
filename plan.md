@@ -130,6 +130,22 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
+### 新制勞退
+
+<div v-if="isReady">
+    <RetirementCard 
+        v-model="userForm" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+<!-- ### Utility
+
+<div v-if="isReady">
+    <UtilityCard/>
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div> -->
+
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 
@@ -144,6 +160,8 @@ import AssetOverViewCard from '@/components/plan/AssetOverViewCard.vue'
 import CreditCardManager from '@/components/plan/CreditCardManager.vue'
 import SavingCapacityCard from '@/components/plan/SavingCapacityCard.vue'
 import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
+import UtilityCard from '@/components/plan/UtilityCard.vue'
+import RetirementCard from '@/components/plan/RetirementCard.vue'
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
 import { useMetadata } from '@/components/plan/composables/useMetadata'
