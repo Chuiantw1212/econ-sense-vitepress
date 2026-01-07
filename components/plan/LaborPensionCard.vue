@@ -6,7 +6,7 @@
                     <el-text size="large" tag="b">勞退終值預估與稅務規劃</el-text>
                 </el-col>
                 <el-col :span="8" style="text-align: right">
-                    <el-tag type="info" effect="plain">複利滾存預測</el-tag>
+                    <el-tag type="info" effect="plain">複利滾存 + 持續提撥</el-tag>
                 </el-col>
             </el-row>
         </template>
@@ -32,7 +32,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="請領時預估餘命">
-                        <el-input-number v-model="model.laborPension.remainingLifeAtRetirement" disabled
+                        <el-input-number v-model="model.laborPension.remainingLifeAtRetirement" disabled :precision="0"
                             style="width: 100%">
                             <template #suffix>年</template>
                         </el-input-number>
@@ -40,8 +40,9 @@
                 </el-col>
             </el-row>
 
-            <el-divider content-position="left">2. 勞工退休金專戶累計 (現值 PV)</el-divider>
+            <el-divider content-position="left">2. 勞退資產累積來源</el-divider>
 
+            <div class="section-title">A. 現有專戶累計 (截至目前)</div>
             <el-row :gutter="20">
                 <el-col :span="12">
                     <el-form-item label="雇主提繳累計金額">
@@ -71,36 +72,52 @@
                 </el-col>
             </el-row>
 
+            <div class="section-title" style="margin-top: 10px;">B. 未來持續提撥 (依據職業設定)</div>
             <el-row :gutter="20"
                 style="background-color: #f5f7fa; padding: 15px 0; border-radius: 4px; margin: 0; border: 1px solid #e4e7ed;">
+
                 <el-col :span="12">
-                    <el-form-item label="目前已累積工作年資 (總月數)" style="margin-bottom: 0;">
-                        <el-input-number v-model="model.laborPension.currentWorkSeniority" :min="0" :max="720"
-                            placeholder="例如: 97" style="width: 100%" />
+                    <el-form-item label="每月持續存入 (PMT)" style="margin-bottom: 0;">
+                        <el-input-number :model-value="monthlyContributionPMT" disabled
+                            :formatter="(value: number) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                            style="width: 100%" />
                         <div class="sub-label">
-                            換算約 <b>{{ (model.laborPension.currentWorkSeniority / 12).toFixed(1) }}</b> 年
+                            來自 [職業與收入] 設定 (雇主+自提)
                         </div>
                     </el-form-item>
                 </el-col>
+
                 <el-col :span="12" style="display: flex; align-items: center;">
-                    <div style="font-size: 0.9rem; color: #606266;">
-                        <div style="margin-bottom: 4px;">目前專戶現值 (PV): <b>{{ formatMoney(totalLaborPensionPV) }}</b>
+                    <div style="font-size: 0.9rem; color: #606266; width: 100%;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <span>現有資產 (PV):</span>
+                            <b>{{ formatMoney(totalLaborPensionPV) }}</b>
                         </div>
-                        <div>
-                            預計總年資: {{ calculatedTaxSeniority.toFixed(1) }} 年
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>預計累積年資:</span>
+                            <span>{{ calculatedTaxSeniority.toFixed(1) }} 年</span>
                         </div>
                     </div>
                 </el-col>
             </el-row>
+
 
             <el-divider content-position="left">3. 退休領取總額與稅務預估 (終值 FV)</el-divider>
 
             <div class="result-panel">
                 <div class="result-row main">
                     <span class="label">預估領取總額 (FV)</span>
-                    <span class="value main-value">{{ formatMoney(projectedLumpSumFV) }}</span>
+                    <span class="value main-value">{{ formatMoney(finalProjectedFV) }}</span>
                 </div>
+
+                <div class="composition-row">
+                    <span class="comp-item">舊資產滾存: {{ formatMoney(fvFromPV) }}</span>
+                    <span class="comp-plus">+</span>
+                    <span class="comp-item">新提撥累積: {{ formatMoney(fvFromPMT) }}</span>
+                </div>
+
                 <div class="separator"></div>
+
                 <div class="tax-details">
                     <div class="detail-row">
                         <span>免稅額度 ({{ (19.8 * calculatedTaxSeniority).toFixed(1) }}萬內)</span>
@@ -116,19 +133,21 @@
                         <span>計入 {{ formatMoney(taxResult.tier3Taxable) }}</span>
                     </div>
                 </div>
+
                 <div class="separator dashed"></div>
+
                 <div class="result-row">
                     <span class="label">預估應繳稅額 (Tax)</span>
                     <span class="value tax-value">{{ formatMoney(finalTaxableIncome) }}</span>
                 </div>
                 <div class="result-row net-row">
                     <span class="label">稅後實拿金額 (Net)</span>
-                    <span class="value net-value">{{ formatMoney(projectedLumpSumFV - finalTaxableIncome) }}</span>
+                    <span class="value net-value">{{ formatMoney(finalProjectedFV - finalTaxableIncome) }}</span>
                 </div>
             </div>
 
             <div style="margin-top: 15px; font-size: 12px; color: #909399;">
-                * 試算假設現有資金以固定報酬率複利滾存至退休，未包含未來每個月持續提撥的新增金額 (保守估計)。
+                * 試算假設：1. 現有資金以固定報酬率複利滾存。 2. 未來工作期間，每月持續提撥固定金額 (未考量加薪)，並採月複利計算。
             </div>
 
         </el-form>
@@ -139,6 +158,8 @@
 
 <script setup lang="ts">
 import { computed, watch } from 'vue';
+// 1. [新增] 引入 lodash-es 的 debounce
+import { debounce } from 'lodash-es';
 import type { UserFormState, UserLaborPension } from './types/user';
 import type { LifeExpectancyRes } from './types/util';
 import { useApi } from '@/components/plan/composables/useApi';
@@ -147,7 +168,7 @@ const { authFetch } = useApi();
 const model = defineModel<UserFormState>({ required: true });
 
 // ========================================================
-// 1. 初始化與預設值邏輯
+// 1. 初始化與預設值
 // ========================================================
 
 const defaultLaborPension: UserLaborPension = {
@@ -158,7 +179,7 @@ const defaultLaborPension: UserLaborPension = {
     employerEarnings: 0,
     personalContribution: 0,
     personalEarnings: 0,
-    currentWorkSeniority: 0 // 這裡現在存的是「月數」
+    currentWorkSeniority: 0
 };
 
 watch(
@@ -195,21 +216,18 @@ const futureWorkYears = computed(() => {
     return years > 0 ? years : 0;
 });
 
-// [修正] 計算總年資 (用於稅務計算)
-// 公式：(目前累積月數 / 12) + 未來工作年數
 const calculatedTaxSeniority = computed(() => {
     if (!model.value.laborPension) return 0;
-
-    // 將輸入的月數轉為年
+    // 輸入是月數，轉成年
     const currentYears = (model.value.laborPension.currentWorkSeniority || 0) / 12;
-
     return currentYears + futureWorkYears.value;
 });
 
 // ========================================================
-// 3. 資金運算 (PV -> FV)
+// 3. 資金運算 (PV + PMT -> FV)
 // ========================================================
 
+// A. 現有資產 (PV)
 const totalLaborPensionPV = computed(() => {
     const lp = model.value.laborPension;
     if (!lp) return 0;
@@ -219,25 +237,52 @@ const totalLaborPensionPV = computed(() => {
         (lp.personalEarnings || 0);
 });
 
-const projectedLumpSumFV = computed(() => {
-    const pv = totalLaborPensionPV.value;
-    const lp = model.value.laborPension;
-    if (!lp) return 0;
+// B. 每月提撥 (PMT) - 來自 CareerCard
+const monthlyContributionPMT = computed(() => {
+    return model.value.career?.pensionTotalAmount || 0;
+});
 
-    const r = (lp.retirementRoi || 0) / 100;
+// C.1 計算舊資產終值 (FV from PV)
+const fvFromPV = computed(() => {
+    const pv = totalLaborPensionPV.value;
+    const r = (model.value.laborPension?.retirementRoi || 0) / 100;
     const n = futureWorkYears.value;
 
     if (n <= 0) return pv;
     return Math.round(pv * Math.pow(1 + r, n));
 });
 
+// C.2 計算新提撥終值 (FV from PMT)
+const fvFromPMT = computed(() => {
+    const pmt = monthlyContributionPMT.value;
+    const nYears = futureWorkYears.value;
+    const annualRate = (model.value.laborPension?.retirementRoi || 0) / 100;
+
+    if (nYears <= 0 || pmt <= 0) return 0;
+
+    if (annualRate === 0) {
+        return Math.round(pmt * nYears * 12);
+    }
+
+    const monthlyRate = annualRate / 12;
+    const totalMonths = nYears * 12;
+
+    const fv = pmt * (Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate;
+    return Math.round(fv);
+});
+
+// D. 總終值 (Total FV)
+const finalProjectedFV = computed(() => {
+    return fvFromPV.value + fvFromPMT.value;
+});
+
 // ========================================================
-// 4. 稅務試算 (114年度標準)
+// 4. 稅務試算
 // ========================================================
 
 const taxResult = computed(() => {
     const N = calculatedTaxSeniority.value || 1;
-    const totalFV = projectedLumpSumFV.value;
+    const totalFV = finalProjectedFV.value;
 
     const THRESHOLD_1 = 198000;
     const THRESHOLD_2 = 398000;
@@ -272,19 +317,10 @@ function formatMoney(val: number) {
     return Math.round(val).toLocaleString() + ' 元';
 }
 
-function debounce<T extends (...args: any[]) => any>(fn: T, delay: number) {
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
-    return function (...args: Parameters<T>) {
-        if (timeoutId) clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            fn(...args);
-            timeoutId = null;
-        }, delay);
-    };
-}
+// [移除] 手寫的 function debounce(...) { ... }
 
 // ========================================================
-// 6. [API] 獲取預期壽命 (GET)
+// 6. API 與事件
 // ========================================================
 
 async function fetchRemainingLifespan() {
@@ -305,9 +341,9 @@ async function fetchRemainingLifespan() {
 
         if (response && response.ok) {
             const data = (await response.json()) as LifeExpectancyRes;
-
             if (data && data.expectedLifespan) {
-                model.value.laborPension.remainingLifeAtRetirement = data.expectedLifespan
+                const remaining = Math.max(0, data.expectedLifespan - retireAge);
+                model.value.laborPension.remainingLifeAtRetirement = Math.round(remaining);
             }
         }
     } catch (error) {
@@ -315,6 +351,7 @@ async function fetchRemainingLifespan() {
     }
 }
 
+// 使用 lodash 的 debounce (用法相同)
 const debouncedFetchLifespan = debounce(fetchRemainingLifespan, 500);
 
 watch(
@@ -327,10 +364,6 @@ watch(
     { immediate: true }
 );
 
-// ========================================================
-// 7. [API] 自動儲存 (PUT - 手動處理 JSON)
-// ========================================================
-
 async function performSave() {
     const item = model.value.laborPension;
     if (!item) return;
@@ -338,9 +371,7 @@ async function performSave() {
     try {
         await authFetch(`/api/v1/user/labor-pension`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(item)
         });
     } catch (error) {
@@ -348,20 +379,27 @@ async function performSave() {
     }
 }
 
+// 使用 lodash 的 debounce
 const debouncedSave = debounce(performSave, 800);
 
 watch(
     () => model.value.laborPension,
-    (newVal) => {
-        if (newVal) {
-            debouncedSave();
-        }
-    },
+    (newVal) => { if (newVal) debouncedSave(); },
     { deep: true }
 );
 </script>
 
 <style scoped>
+/* 樣式保持原樣 */
+.section-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #303133;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    border-left: 3px solid #409EFF;
+}
+
 .sub-label {
     font-size: 12px;
     color: #909399;
@@ -385,7 +423,23 @@ watch(
 }
 
 .result-row.main {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
+}
+
+.composition-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 12px;
+    color: #909399;
+    margin-bottom: 10px;
+    gap: 8px;
+}
+
+.comp-item {
+    background-color: #f2f6fc;
+    padding: 2px 6px;
+    border-radius: 4px;
 }
 
 .result-row.net-row {
