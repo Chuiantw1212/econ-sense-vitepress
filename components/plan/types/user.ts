@@ -38,18 +38,41 @@ export interface UserCareer {
     healthInsurance: number;
     otherDeduction: number;
 
-    // 更新：Rate 和 Amount 都存入資料庫
+    // --- 勞退相關 (Labor Pension) ---
+
+    /** * 個人自提率 (0 ~ 0.06) 
+     * 例如: 0.06 代表 6%
+     */
     pensionRate: number;
+
+    /** * 個人自提金額 (Personal Contribution)
+     * *這是從薪水扣除的，會影響 monthlyNetIncome*
+     * 計算方式: 投保薪資 * pensionRate
+     */
     pensionAmount: number;
 
-    // 員工認股 (保留前一版功能)
+    /** * [新增] 雇主提繳金額 (Employer Contribution)
+     * *這是雇主額外出的 (6%)，不影響 monthlyNetIncome，但屬於您的資產*
+     * 計算方式: 投保薪資 * 0.06
+     */
+    employerPensionAmount: number;
+
+    /** * [新增] 每月勞退總提撥 (Total Monthly Contribution)
+     * *這是給「退休卡片」計算未來現金流 (PMT) 用的*
+     * 計算公式: pensionAmount + employerPensionAmount
+     */
+    totalMonthlyPensionContribution: number;
+
+    // --- 其他 ---
+
+    // 員工認股
     stockDeduction: number;
     stockCompanyMatch: number;
 
-    // 新增：眷屬人數
+    // 眷屬人數 (影響所得稅扣除額)
     dependents: number;
 
-    // 每月實領
+    // 每月實領 (Net Income)
     monthlyNetIncome: number;
 }
 
