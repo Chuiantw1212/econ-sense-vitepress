@@ -52,6 +52,24 @@
                 </el-col>
             </el-row>
 
+            <!-- 節省版面空間 -->
+            <!-- <el-row>
+                <el-col :span="12">
+                    <el-form-item label="雇主強制提繳 (6%)">
+                        <el-text type="info">
+                            {{ formatNumber(career.employerPensionAmount) }}
+                        </el-text>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="每月累積資產">
+                        <el-tag type="success" size="small" effect="plain">
+                            + {{ formatNumber(career.totalMonthlyPensionContribution) }} (入專戶)
+                        </el-tag>
+                    </el-form-item>
+                </el-col>
+            </el-row> -->
+
             <el-row>
                 <el-col :span="12"></el-col>
                 <el-col :span="12">
@@ -149,7 +167,7 @@ import { useLaborPension } from '@/components/plan/composables/useLaborPension'
 import { useLaborInsurance } from '@/components/plan/composables/useLaborInsurance'
 import { useHealthInsurance } from '@/components/plan/composables/useHealthInsurance'
 
-// --- 1. Define Model (包含 monthlyNetIncome) ---
+// --- 1. Define Model ---
 const career = defineModel<UserCareer>({
     required: true,
     default: () => ({
@@ -160,6 +178,10 @@ const career = defineModel<UserCareer>({
         otherDeduction: 0,
         pensionRate: 0,
         pensionAmount: 0,
+        // 新增欄位預設值
+        employerPensionAmount: 0,
+        totalMonthlyPensionContribution: 0,
+
         stockDeduction: 0,
         stockCompanyMatch: 0,
         dependents: 0,
@@ -169,17 +191,14 @@ const career = defineModel<UserCareer>({
 
 const { authFetch } = useApi()
 
-// 初始化 Composables (用於勞健保計算邏輯)
+// 初始化 Composables
+// 注意：這裡的變數名稱會根據您 useLaborPension 的 return 物件而定
 const pension = useLaborPension(0, 0)
 const labor = useLaborInsurance(0)
 const health = useHealthInsurance(0, 0)
 
-// --- 2. 核心計算邏輯：實領金額 (每月淨收入) ---
+// --- 2. 核心計算邏輯 ---
 
-/**
- * 計算並將結果寫入 career.monthlyNetIncome
- * 公式：(本薪 + 其他津貼 + 伙食) - (勞退自提 + 認股 + 勞保 + 健保 + 其他扣款)
- */
 function updateMonthlyNetIncome() {
     const m = career.value
     const income = (m.baseSalary || 0) + (m.otherAllowance || 0) + 3000
@@ -195,9 +214,6 @@ function updateMonthlyNetIncome() {
 
 // --- 3. 存檔與事件處理 ---
 
-/**
- * 執行存檔
- */
 const performSave = debounce(async () => {
     try {
         const res = await authFetch('/api/v1/user/career', {
@@ -212,34 +228,39 @@ const performSave = debounce(async () => {
     }
 }, 500)
 
-/**
- * 情境 A: 欄位變動僅影響淨利 (不涉及勞健保級距)
- */
 function handleSaveOnly() {
     updateMonthlyNetIncome()
     performSave()
 }
 
 /**
- * 情境 B: 變動涉及勞健保計算級距與最終淨利
+ * 計算所有保險與退休金 (含勞退公提)
  */
 function handleCalcAndSave() {
-    // 1. 計算勞健保基礎
+    // 1. 計算全薪 (基礎工資)
     const basis = (career.value.baseSalary || 0) + (career.value.otherAllowance || 0) + 3000
 
-    // 2. 更新 Composable 輸入值
+    // 2. 更新 Composable 的輸入 (響應式變數)
     pension.actualWage.value = basis
     pension.selfRate.value = career.value.pensionRate || 0
     labor.actualWage.value = basis
     health.actualWage.value = basis
     health.dependents.value = career.value.dependents || 0
 
-    // 3. 回寫計算結果到 Model
+    // 3. 回寫 Composable 的計算結果 (輸出)
+    // [重點修正] 直接使用 useLaborPension 算好的 selfAmount 與 employerAmount
     career.value.pensionAmount = pension.selfAmount.value
+    career.value.employerPensionAmount = pension.employerAmount.value
+
+    // 計算總提撥 (自提 + 公提)
+    career.value.totalMonthlyPensionContribution =
+        pension.selfAmount.value + pension.employerAmount.value
+
+    // 更新勞健保
     career.value.laborInsurance = labor.personalPremium.value
     career.value.healthInsurance = health.personalPremium.value
 
-    // 4. 更新最終實領金額並存檔
+    // 4. 更新實領並存檔
     updateMonthlyNetIncome()
     performSave()
 }

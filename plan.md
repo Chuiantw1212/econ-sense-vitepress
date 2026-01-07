@@ -92,7 +92,7 @@ head:
 ### 職業收入
 
 <div v-if="isReady">
-    <Career 
+    <CareerCard 
         v-model="userForm.career" 
     />
 </div>
@@ -151,7 +151,7 @@ import { onMounted, onUnmounted, ref, computed } from 'vue'
 
 // --- Components ---
 import Profile from '@/components/plan/profile.vue'
-import Career from '@/components/plan/career.vue'
+import CareerCard from '@/components/plan/CareerCard.vue'
 import Portfolio from '@/components/plan/portfolio.vue'
 import RealEstate from '@/components/plan/realEstate.vue'
 import CostEfficiencyMatrix from '@/components/plan/charts/CostEfficiencyMatrix.vue'
