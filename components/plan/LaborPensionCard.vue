@@ -144,7 +144,7 @@ const { authFetch } = useApi();
 const model = defineModel<UserFormState>({ required: true });
 
 // ========================================================
-// 1. 初始化與預設值邏輯 (改為 camelCase)
+// 1. 初始化與預設值邏輯
 // ========================================================
 
 const defaultLaborPension: UserLaborPension = {
@@ -174,23 +174,28 @@ watch(
 
 const currentYear = new Date().getFullYear();
 
+// [修正] 從 birthDate ("1990-12-12") 解析出年份
+const userBirthYear = computed(() => {
+    const dateStr = model.value.profile?.birthDate;
+    if (!dateStr) return 1990; // 若無資料，給一個預設 fallback
+    return new Date(dateStr).getFullYear();
+});
+
+// [修正] 改用 userBirthYear 計算年齡
 const currentAge = computed(() => {
-    if (!model.value.profile?.birthYear) return 30;
-    return currentYear - Number(model.value.profile.birthYear);
+    return currentYear - userBirthYear.value;
 });
 
 const minClaimingAge = computed(() => Math.max(60, currentAge.value));
 
 const futureWorkYears = computed(() => {
     if (!model.value.laborPension) return 0;
-    // 使用 expectedRetirementAge
     const years = model.value.laborPension.expectedRetirementAge - currentAge.value;
     return years > 0 ? years : 0;
 });
 
 const calculatedTaxSeniority = computed(() => {
     if (!model.value.laborPension) return 0;
-    // 使用 currentWorkSeniority
     return (model.value.laborPension.currentWorkSeniority || 0) + futureWorkYears.value;
 });
 
@@ -201,7 +206,6 @@ const calculatedTaxSeniority = computed(() => {
 const totalLaborPensionPV = computed(() => {
     const lp = model.value.laborPension;
     if (!lp) return 0;
-    // 使用 camelCase 屬性
     return (lp.employerContribution || 0) +
         (lp.employerEarnings || 0) +
         (lp.personalContribution || 0) +
@@ -213,7 +217,6 @@ const projectedLumpSumFV = computed(() => {
     const lp = model.value.laborPension;
     if (!lp) return 0;
 
-    // 使用 retirementRoi
     const r = (lp.retirementRoi || 0) / 100;
     const n = futureWorkYears.value;
 
@@ -281,11 +284,14 @@ async function fetchRemainingLifespan() {
     const lp = model.value.laborPension;
     const profile = model.value.profile;
 
-    if (!lp || !profile || !profile.birthYear || !profile.gender) return;
+    // [修正] 檢查 birthDate
+    if (!lp || !profile || !profile.birthDate || !profile.gender) return;
 
-    // 使用 expectedRetirementAge
     const retireAge = lp.expectedRetirementAge;
-    const birthYear = Number(profile.birthYear);
+
+    // [修正] 使用 userBirthYear 計算
+    // 注意：在 script setup 中直接讀取 computed 需使用 .value
+    const birthYear = userBirthYear.value;
     const targetYear = birthYear + retireAge;
 
     try {
@@ -299,7 +305,6 @@ async function fetchRemainingLifespan() {
 
             if (data && data.expectedLifespan) {
                 const remaining = Math.max(0, data.expectedLifespan - retireAge);
-                // 使用 remainingLifeAtRetirement
                 model.value.laborPension.remainingLifeAtRetirement = Math.round(remaining);
             }
         }
@@ -312,10 +317,9 @@ const debouncedFetchLifespan = debounce(fetchRemainingLifespan, 500);
 
 watch(
     () => [
-        // 使用 expectedRetirementAge
         model.value.laborPension?.expectedRetirementAge,
         model.value.profile?.gender,
-        model.value.profile?.birthYear
+        model.value.profile?.birthDate // [修正] 監聽 birthDate
     ],
     () => { debouncedFetchLifespan(); },
     { immediate: true }
