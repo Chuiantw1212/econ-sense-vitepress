@@ -32,7 +32,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="請領時預估餘命">
-                        <el-input-number v-model="model.laborPension.remainingLifeAtRetirement" disabled :precision="0"
+                        <el-input-number v-model="model.laborPension.remainingLifeAtRetirement" :disabled="true"
                             style="width: 100%">
                             <template #suffix>年</template>
                         </el-input-number>
@@ -301,11 +301,9 @@ async function fetchRemainingLifespan() {
         );
 
         if (response && response.ok) {
-            const data = (await response.json()) as LifeExpectancyRes;
-
-            if (data && data.expectedLifespan) {
-                const remaining = Math.max(0, data.expectedLifespan - retireAge);
-                model.value.laborPension.remainingLifeAtRetirement = Math.round(remaining);
+            const expectedLifespan = (await response.json()) as number;
+            if (expectedLifespan) {
+                model.value.laborPension.remainingLifeAtRetirement = expectedLifespan
             }
         }
     } catch (error) {

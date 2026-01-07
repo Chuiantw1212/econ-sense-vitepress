@@ -25,10 +25,7 @@ const LABOR_INSURANCE_BRACKETS = [
 export function useLaborInsurance(initialWage: number = 0) {
     // 輸入：實際薪資
     const actualWage = ref(initialWage);
-    console.log({
-        initialWage
-    })
-
+    
     // 內部計算：取得投保薪資 (Insured Wage)
     const insuredWage = computed(() => {
         const wage = Number(actualWage.value);
