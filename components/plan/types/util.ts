@@ -6,3 +6,14 @@ export interface PaginatedResponse<T> {
     pageSize: number;
     totalPages: number;
 }
+
+/**
+ * 預期壽命查詢 API 回傳格式
+ * 對應後端: com.en_chu.calculator_api_spring.model.LifeExpectancyRes
+ */
+export interface LifeExpectancyRes {
+    year: number;
+    gender: string;
+    age: number;
+    expectedLifespan: number; // 修正為正確的後端欄位F
+}

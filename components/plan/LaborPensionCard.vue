@@ -17,7 +17,7 @@
             <el-row :gutter="20">
                 <el-col :span="12">
                     <el-form-item label="預計請領年齡 (依法需滿 60 歲)">
-                        <el-input-number v-model="model.laborPension.expected_retirement_age" :min="minClaimingAge"
+                        <el-input-number v-model="model.laborPension.expectedRetirementAge" :min="minClaimingAge"
                             :max="80" style="width: 100%" />
                         <div class="sub-label">
                             目前 {{ currentAge }} 歲，距請領 {{ futureWorkYears }} 年
@@ -26,14 +26,14 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="預估投資報酬率 (%)">
-                        <el-input-number v-model="model.laborPension.retirement_roi" :precision="2" :step="0.5" :min="0"
+                        <el-input-number v-model="model.laborPension.retirementRoi" :precision="2" :step="0.5" :min="0"
                             :max="15" style="width: 100%" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="請領時預估餘命">
-                        <el-input-number v-model="model.laborPension.remaining_life_at_retirement" disabled
-                            :precision="0" style="width: 100%">
+                        <el-input-number v-model="model.laborPension.remainingLifeAtRetirement" disabled :precision="0"
+                            style="width: 100%">
                             <template #suffix>年</template>
                         </el-input-number>
                     </el-form-item>
@@ -45,13 +45,13 @@
             <el-row :gutter="20">
                 <el-col :span="12">
                     <el-form-item label="雇主提繳累計金額">
-                        <el-input-number v-model="model.laborPension.employer_contribution" :min="0" :step="10000"
+                        <el-input-number v-model="model.laborPension.employerContribution" :min="0" :step="10000"
                             style="width: 100%" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="雇主提繳收益累計">
-                        <el-input-number v-model="model.laborPension.employer_earnings" :min="0" :step="5000"
+                        <el-input-number v-model="model.laborPension.employerEarnings" :min="0" :step="5000"
                             style="width: 100%" />
                     </el-form-item>
                 </el-col>
@@ -59,13 +59,13 @@
             <el-row :gutter="20">
                 <el-col :span="12">
                     <el-form-item label="個人提繳累計金額">
-                        <el-input-number v-model="model.laborPension.personal_contribution" :min="0" :step="10000"
+                        <el-input-number v-model="model.laborPension.personalContribution" :min="0" :step="10000"
                             style="width: 100%" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="個人提繳收益累計">
-                        <el-input-number v-model="model.laborPension.personal_earnings" :min="0" :step="5000"
+                        <el-input-number v-model="model.laborPension.personalEarnings" :min="0" :step="5000"
                             style="width: 100%" />
                     </el-form-item>
                 </el-col>
@@ -75,7 +75,7 @@
                 style="background-color: #f5f7fa; padding: 15px 0; border-radius: 4px; margin: 0; border: 1px solid #e4e7ed;">
                 <el-col :span="12">
                     <el-form-item label="目前已累積工作年資" style="margin-bottom: 0;">
-                        <el-input-number v-model="model.laborPension.current_work_seniority" :min="0" :max="60"
+                        <el-input-number v-model="model.laborPension.currentWorkSeniority" :min="0" :max="60"
                             style="width: 100%" />
                     </el-form-item>
                 </el-col>
@@ -137,64 +137,75 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue';
 import type { UserFormState, UserLaborPension } from './types/user';
+import type { LifeExpectancyRes } from './types/util';
+import { useApi } from '@/components/plan/composables/useApi';
 
+const { authFetch } = useApi();
 const model = defineModel<UserFormState>({ required: true });
 
-// 預設值 (注意：這裡預設年齡設為 65，符合 > 60 的規則)
-const DEFAULT_LABOR_PENSION: UserLaborPension = {
-    expected_retirement_age: 65,
-    remaining_life_at_retirement: 20,
-    retirement_roi: 3.0,
-    employer_contribution: 0,
-    employer_earnings: 0,
-    personal_contribution: 0,
-    personal_earnings: 0,
-    current_work_seniority: 0
+// ========================================================
+// 1. 初始化與預設值邏輯 (改為 camelCase)
+// ========================================================
+
+const defaultLaborPension: UserLaborPension = {
+    expectedRetirementAge: 65,
+    remainingLifeAtRetirement: 20,
+    retirementRoi: 3.0,
+    employerContribution: 0,
+    employerEarnings: 0,
+    personalContribution: 0,
+    personalEarnings: 0,
+    currentWorkSeniority: 0
 };
 
-// 初始化檢查
 watch(
     () => model.value,
     (newVal) => {
         if (newVal && !newVal.laborPension) {
-            newVal.laborPension = { ...DEFAULT_LABOR_PENSION };
+            newVal.laborPension = { ...defaultLaborPension };
         }
     },
     { immediate: true, deep: true }
 );
 
-// --- 時間運算 ---
+// ========================================================
+// 2. 時間與年資計算
+// ========================================================
+
 const currentYear = new Date().getFullYear();
+
 const currentAge = computed(() => {
     if (!model.value.profile?.birthYear) return 30;
     return currentYear - Number(model.value.profile.birthYear);
 });
 
-// 新增：最小請領年齡計算 (法規 60歲 vs 當前年齡)
-const minClaimingAge = computed(() => {
-    // 依法規至少 60，但若用戶已經 65，則不能選比現在小的年齡
-    return Math.max(60, currentAge.value);
-});
+const minClaimingAge = computed(() => Math.max(60, currentAge.value));
 
-// 計算距請領年數
 const futureWorkYears = computed(() => {
     if (!model.value.laborPension) return 0;
-    const years = model.value.laborPension.expected_retirement_age - currentAge.value;
+    // 使用 expectedRetirementAge
+    const years = model.value.laborPension.expectedRetirementAge - currentAge.value;
     return years > 0 ? years : 0;
 });
 
 const calculatedTaxSeniority = computed(() => {
     if (!model.value.laborPension) return 0;
-    return (model.value.laborPension.current_work_seniority || 0) + futureWorkYears.value;
+    // 使用 currentWorkSeniority
+    return (model.value.laborPension.currentWorkSeniority || 0) + futureWorkYears.value;
 });
+
+// ========================================================
+// 3. 資金運算 (PV -> FV)
+// ========================================================
 
 const totalLaborPensionPV = computed(() => {
     const lp = model.value.laborPension;
     if (!lp) return 0;
-    return (lp.employer_contribution || 0) +
-        (lp.employer_earnings || 0) +
-        (lp.personal_contribution || 0) +
-        (lp.personal_earnings || 0);
+    // 使用 camelCase 屬性
+    return (lp.employerContribution || 0) +
+        (lp.employerEarnings || 0) +
+        (lp.personalContribution || 0) +
+        (lp.personalEarnings || 0);
 });
 
 const projectedLumpSumFV = computed(() => {
@@ -202,11 +213,17 @@ const projectedLumpSumFV = computed(() => {
     const lp = model.value.laborPension;
     if (!lp) return 0;
 
-    const r = (lp.retirement_roi || 0) / 100;
+    // 使用 retirementRoi
+    const r = (lp.retirementRoi || 0) / 100;
     const n = futureWorkYears.value;
+
     if (n <= 0) return pv;
     return Math.round(pv * Math.pow(1 + r, n));
 });
+
+// ========================================================
+// 4. 稅務試算 (114年度標準)
+// ========================================================
 
 const taxResult = computed(() => {
     const N = calculatedTaxSeniority.value || 1;
@@ -230,46 +247,116 @@ const taxResult = computed(() => {
 
     const tier3Taxable = remaining;
 
-    return {
-        tier1Exempt,
-        tier2Taxable,
-        tier3Taxable
-    };
+    return { tier1Exempt, tier2Taxable, tier3Taxable };
 });
 
 const finalTaxableIncome = computed(() => {
     return taxResult.value.tier2Taxable + taxResult.value.tier3Taxable;
 });
 
-const fetchRemainingLifespan = async () => {
-    if (!model.value.laborPension || !model.value.profile) return;
+// ========================================================
+// 5. 工具函式
+// ========================================================
 
-    const gender = model.value.profile.gender;
-    const retireAge = model.value.laborPension.expected_retirement_age;
+function formatMoney(val: number) {
+    return Math.round(val).toLocaleString() + ' 元';
+}
 
-    let baseLife = 85;
-    if (gender === 'FEMALE') baseLife = 89;
+function debounce<T extends (...args: any[]) => any>(fn: T, delay: number) {
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    return function (...args: Parameters<T>) {
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            fn(...args);
+            timeoutId = null;
+        }, delay);
+    };
+}
 
-    const lifespan = Math.max(0, baseLife - retireAge);
-    model.value.laborPension.remaining_life_at_retirement = lifespan;
-};
+// ========================================================
+// 6. [API] 獲取預期壽命 (GET)
+// ========================================================
+
+async function fetchRemainingLifespan() {
+    const lp = model.value.laborPension;
+    const profile = model.value.profile;
+
+    if (!lp || !profile || !profile.birthYear || !profile.gender) return;
+
+    // 使用 expectedRetirementAge
+    const retireAge = lp.expectedRetirementAge;
+    const birthYear = Number(profile.birthYear);
+    const targetYear = birthYear + retireAge;
+
+    try {
+        const response = await authFetch(
+            `/api/tools/life-expectancy?year=${targetYear}&gender=${profile.gender}&age=${retireAge}`,
+            { method: 'GET' }
+        );
+
+        if (response && response.ok) {
+            const data = (await response.json()) as LifeExpectancyRes;
+
+            if (data && data.expectedLifespan) {
+                const remaining = Math.max(0, data.expectedLifespan - retireAge);
+                // 使用 remainingLifeAtRetirement
+                model.value.laborPension.remainingLifeAtRetirement = Math.round(remaining);
+            }
+        }
+    } catch (error) {
+        console.error('獲取預期壽命失敗', error);
+    }
+}
+
+const debouncedFetchLifespan = debounce(fetchRemainingLifespan, 500);
 
 watch(
     () => [
-        model.value.laborPension?.expected_retirement_age,
+        // 使用 expectedRetirementAge
+        model.value.laborPension?.expectedRetirementAge,
         model.value.profile?.gender,
         model.value.profile?.birthYear
     ],
-    () => { fetchRemainingLifespan(); },
+    () => { debouncedFetchLifespan(); },
     { immediate: true }
 );
 
-const formatMoney = (val: number) => {
-    return Math.round(val).toLocaleString() + ' 元';
-};
+// ========================================================
+// 7. [API] 自動儲存 (PUT - 手動處理 JSON)
+// ========================================================
+
+async function performSave() {
+    const item = model.value.laborPension;
+    if (!item) return;
+
+    try {
+        await authFetch(`/api/v1/user/labor-pension`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(item)
+        });
+    } catch (error) {
+        console.error('[AutoSave] Failed:', error);
+    }
+}
+
+const debouncedSave = debounce(performSave, 800);
+
+watch(
+    () => model.value.laborPension,
+    (newVal) => {
+        if (newVal) {
+            debouncedSave();
+        }
+    },
+    { deep: true }
+);
 </script>
 
 <style scoped>
+/* 樣式保持不變 */
 .sub-label {
     font-size: 12px;
     color: #909399;
