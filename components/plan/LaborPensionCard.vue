@@ -1,0 +1,357 @@
+<template>
+    <el-card shadow="never">
+        <template #header>
+            <el-row justify="space-between" align="middle">
+                <el-col :span="16">
+                    <el-text size="large" tag="b">勞退終值預估與稅務規劃</el-text>
+                </el-col>
+                <el-col :span="8" style="text-align: right">
+                    <el-tag type="info" effect="plain">複利滾存預測</el-tag>
+                </el-col>
+            </el-row>
+        </template>
+
+        <el-form v-if="model.laborPension" :model="model" label-width="auto" label-position="top">
+
+            <el-divider content-position="left">1. 退休參數設定</el-divider>
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form-item label="預計請領年齡 (依法需滿 60 歲)">
+                        <el-input-number v-model="model.laborPension.expected_retirement_age" :min="minClaimingAge"
+                            :max="80" style="width: 100%" />
+                        <div class="sub-label">
+                            目前 {{ currentAge }} 歲，距請領 {{ futureWorkYears }} 年
+                        </div>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="預估投資報酬率 (%)">
+                        <el-input-number v-model="model.laborPension.retirement_roi" :precision="2" :step="0.5" :min="0"
+                            :max="15" style="width: 100%" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="請領時預估餘命">
+                        <el-input-number v-model="model.laborPension.remaining_life_at_retirement" disabled
+                            :precision="0" style="width: 100%">
+                            <template #suffix>年</template>
+                        </el-input-number>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-divider content-position="left">2. 勞工退休金專戶累計 (現值 PV)</el-divider>
+
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form-item label="雇主提繳累計金額">
+                        <el-input-number v-model="model.laborPension.employer_contribution" :min="0" :step="10000"
+                            style="width: 100%" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="雇主提繳收益累計">
+                        <el-input-number v-model="model.laborPension.employer_earnings" :min="0" :step="5000"
+                            style="width: 100%" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form-item label="個人提繳累計金額">
+                        <el-input-number v-model="model.laborPension.personal_contribution" :min="0" :step="10000"
+                            style="width: 100%" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="個人提繳收益累計">
+                        <el-input-number v-model="model.laborPension.personal_earnings" :min="0" :step="5000"
+                            style="width: 100%" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-row :gutter="20"
+                style="background-color: #f5f7fa; padding: 15px 0; border-radius: 4px; margin: 0; border: 1px solid #e4e7ed;">
+                <el-col :span="12">
+                    <el-form-item label="目前已累積工作年資" style="margin-bottom: 0;">
+                        <el-input-number v-model="model.laborPension.current_work_seniority" :min="0" :max="60"
+                            style="width: 100%" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12" style="display: flex; align-items: center;">
+                    <div style="font-size: 0.9rem; color: #606266;">
+                        <div style="margin-bottom: 4px;">目前專戶現值 (PV): <b>{{ formatMoney(totalLaborPensionPV) }}</b>
+                        </div>
+                        <div>
+                            預計總年資: {{ calculatedTaxSeniority }} 年
+                        </div>
+                    </div>
+                </el-col>
+            </el-row>
+
+            <el-divider content-position="left">3. 退休領取總額與稅務預估 (終值 FV)</el-divider>
+
+            <div class="result-panel">
+                <div class="result-row main">
+                    <span class="label">預估領取總額 (FV)</span>
+                    <span class="value main-value">{{ formatMoney(projectedLumpSumFV) }}</span>
+                </div>
+                <div class="separator"></div>
+                <div class="tax-details">
+                    <div class="detail-row">
+                        <span>免稅額度 ({{ (19.8 * calculatedTaxSeniority).toFixed(1) }}萬內)</span>
+                        <span class="deduction">- {{ formatMoney(taxResult.tier1Exempt) }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>半數課稅 ({{ (19.8 * calculatedTaxSeniority).toFixed(1) }}~{{ (39.8 *
+                            calculatedTaxSeniority).toFixed(1) }}萬)</span>
+                        <span>計入 {{ formatMoney(taxResult.tier2Taxable) }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>全數課稅 (超過 {{ (39.8 * calculatedTaxSeniority).toFixed(1) }}萬)</span>
+                        <span>計入 {{ formatMoney(taxResult.tier3Taxable) }}</span>
+                    </div>
+                </div>
+                <div class="separator dashed"></div>
+                <div class="result-row">
+                    <span class="label">預估應繳稅額 (Tax)</span>
+                    <span class="value tax-value">{{ formatMoney(finalTaxableIncome) }}</span>
+                </div>
+                <div class="result-row net-row">
+                    <span class="label">稅後實拿金額 (Net)</span>
+                    <span class="value net-value">{{ formatMoney(projectedLumpSumFV - finalTaxableIncome) }}</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 15px; font-size: 12px; color: #909399;">
+                * 試算假設現有資金以固定報酬率複利滾存至退休，未包含未來每個月持續提撥的新增金額 (保守估計)。
+            </div>
+
+        </el-form>
+
+        <el-skeleton v-else :rows="5" animated />
+    </el-card>
+</template>
+
+<script setup lang="ts">
+import { computed, watch } from 'vue';
+import type { UserFormState, UserLaborPension } from './types/user';
+
+const model = defineModel<UserFormState>({ required: true });
+
+// 預設值 (注意：這裡預設年齡設為 65，符合 > 60 的規則)
+const DEFAULT_LABOR_PENSION: UserLaborPension = {
+    expected_retirement_age: 65,
+    remaining_life_at_retirement: 20,
+    retirement_roi: 3.0,
+    employer_contribution: 0,
+    employer_earnings: 0,
+    personal_contribution: 0,
+    personal_earnings: 0,
+    current_work_seniority: 0
+};
+
+// 初始化檢查
+watch(
+    () => model.value,
+    (newVal) => {
+        if (newVal && !newVal.laborPension) {
+            newVal.laborPension = { ...DEFAULT_LABOR_PENSION };
+        }
+    },
+    { immediate: true, deep: true }
+);
+
+// --- 時間運算 ---
+const currentYear = new Date().getFullYear();
+const currentAge = computed(() => {
+    if (!model.value.profile?.birthYear) return 30;
+    return currentYear - Number(model.value.profile.birthYear);
+});
+
+// 新增：最小請領年齡計算 (法規 60歲 vs 當前年齡)
+const minClaimingAge = computed(() => {
+    // 依法規至少 60，但若用戶已經 65，則不能選比現在小的年齡
+    return Math.max(60, currentAge.value);
+});
+
+// 計算距請領年數
+const futureWorkYears = computed(() => {
+    if (!model.value.laborPension) return 0;
+    const years = model.value.laborPension.expected_retirement_age - currentAge.value;
+    return years > 0 ? years : 0;
+});
+
+const calculatedTaxSeniority = computed(() => {
+    if (!model.value.laborPension) return 0;
+    return (model.value.laborPension.current_work_seniority || 0) + futureWorkYears.value;
+});
+
+const totalLaborPensionPV = computed(() => {
+    const lp = model.value.laborPension;
+    if (!lp) return 0;
+    return (lp.employer_contribution || 0) +
+        (lp.employer_earnings || 0) +
+        (lp.personal_contribution || 0) +
+        (lp.personal_earnings || 0);
+});
+
+const projectedLumpSumFV = computed(() => {
+    const pv = totalLaborPensionPV.value;
+    const lp = model.value.laborPension;
+    if (!lp) return 0;
+
+    const r = (lp.retirement_roi || 0) / 100;
+    const n = futureWorkYears.value;
+    if (n <= 0) return pv;
+    return Math.round(pv * Math.pow(1 + r, n));
+});
+
+const taxResult = computed(() => {
+    const N = calculatedTaxSeniority.value || 1;
+    const totalFV = projectedLumpSumFV.value;
+
+    const THRESHOLD_1 = 198000;
+    const THRESHOLD_2 = 398000;
+
+    const T1_Limit = THRESHOLD_1 * N;
+    const T2_Limit = THRESHOLD_2 * N;
+
+    let remaining = totalFV;
+
+    const tier1Exempt = Math.min(remaining, T1_Limit);
+    remaining = Math.max(0, remaining - T1_Limit);
+
+    const tier2BandWidth = T2_Limit - T1_Limit;
+    const tier2Amount = Math.min(remaining, tier2BandWidth);
+    const tier2Taxable = tier2Amount * 0.5;
+    remaining = Math.max(0, remaining - tier2BandWidth);
+
+    const tier3Taxable = remaining;
+
+    return {
+        tier1Exempt,
+        tier2Taxable,
+        tier3Taxable
+    };
+});
+
+const finalTaxableIncome = computed(() => {
+    return taxResult.value.tier2Taxable + taxResult.value.tier3Taxable;
+});
+
+const fetchRemainingLifespan = async () => {
+    if (!model.value.laborPension || !model.value.profile) return;
+
+    const gender = model.value.profile.gender;
+    const retireAge = model.value.laborPension.expected_retirement_age;
+
+    let baseLife = 85;
+    if (gender === 'FEMALE') baseLife = 89;
+
+    const lifespan = Math.max(0, baseLife - retireAge);
+    model.value.laborPension.remaining_life_at_retirement = lifespan;
+};
+
+watch(
+    () => [
+        model.value.laborPension?.expected_retirement_age,
+        model.value.profile?.gender,
+        model.value.profile?.birthYear
+    ],
+    () => { fetchRemainingLifespan(); },
+    { immediate: true }
+);
+
+const formatMoney = (val: number) => {
+    return Math.round(val).toLocaleString() + ' 元';
+};
+</script>
+
+<style scoped>
+.sub-label {
+    font-size: 12px;
+    color: #909399;
+    line-height: 1.2;
+    margin-top: 4px;
+}
+
+.result-panel {
+    background-color: #ffffff;
+    border: 1px solid #e4e7ed;
+    border-radius: 8px;
+    padding: 20px;
+    color: #303133;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.result-row.main {
+    margin-bottom: 15px;
+}
+
+.result-row.net-row {
+    margin-top: 15px;
+    background-color: #f0f9eb;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 0;
+}
+
+.label {
+    font-size: 14px;
+    color: #606266;
+}
+
+.value {
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.main-value {
+    font-size: 1.4em;
+    color: #303133;
+}
+
+.tax-value {
+    color: #606266;
+}
+
+.net-value {
+    font-size: 1.3em;
+    color: #409EFF;
+}
+
+.separator {
+    height: 1px;
+    background-color: #ebeef5;
+    margin: 10px 0;
+}
+
+.separator.dashed {
+    background-color: transparent;
+    border-bottom: 1px dashed #dcdfe6;
+}
+
+.tax-details {
+    font-size: 13px;
+    color: #909399;
+    padding-left: 5px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.deduction {
+    color: #67c23a;
+}
+</style>

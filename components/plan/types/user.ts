@@ -256,7 +256,7 @@ export interface UserCreditCard {
  * 退休規劃資料模型
  * 對應資料庫 table: user_retirement
  */
-export interface UserRetirement {
+export interface UserLaborPension {
     // --- 1. 退休參數設定 (Retirement Parameters) ---
 
     /** * 預計退休年齡 
@@ -306,4 +306,5 @@ export interface UserFormState {
     realEstates: UserRealEstate[],
     businesses: PaginatedResponse<UserBusiness[]>,
     creditCards: UserCreditCard[],
+    laborPension: UserLaborPension
 }

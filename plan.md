@@ -133,7 +133,7 @@ head:
 ### 新制勞退
 
 <div v-if="isReady">
-    <RetirementCard 
+    <LaborPensionCard 
         v-model="userForm" 
     />
 </div>
@@ -161,7 +161,7 @@ import CreditCardManager from '@/components/plan/CreditCardManager.vue'
 import SavingCapacityCard from '@/components/plan/SavingCapacityCard.vue'
 import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
 import UtilityCard from '@/components/plan/UtilityCard.vue'
-import RetirementCard from '@/components/plan/RetirementCard.vue'
+import LaborPensionCard from '@/components/plan/LaborPensionCard.vue'
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
 import { useMetadata } from '@/components/plan/composables/useMetadata'
