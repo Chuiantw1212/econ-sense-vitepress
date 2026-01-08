@@ -121,15 +121,6 @@ head:
 
 ## 目標導航
 
-### 緊急預備金
-
-<div v-if="isReady">
-    <EntropyShieldCard 
-        v-model="userForm" 
-    />
-</div>
-<div v-else style="height: 100px;" v-loading="true"></div>
-
 ### 新制勞退
 
 <div v-if="isReady">
