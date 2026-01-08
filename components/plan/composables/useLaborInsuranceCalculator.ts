@@ -1,85 +1,58 @@
 export interface LaborInsuranceResult {
-    statutoryAge: number;   // 法定請領年齡
-    diffYears: number;      // 實際請領 vs 法定 (差幾年)
-    bonusPercentage: number; // 增減給比例 (例如 -0.2 或 +0.08)
-    amountA: number;        // 第一式 (保底型)
-    amountB: number;        // 第二式 (年資型)
-    bestAmount: number;     // 擇優結果
-    msg: string;            // 狀態說明 (如：提早 3 年請領，減給 12%)
+    statutoryAge: number;
+    diffYears: number;
+    bonusPercentage: number;
+    amountA: number;
+    amountB: number;
+    bestAmount: number;
+    msg: string;
 }
 
 export function useLaborInsuranceCalculator() {
 
-    /**
-     * 計算法定請領年齡
-     * 規則：
-     * 46年次以前(含): 60歲
-     * 47: 61, 48: 62, 49: 63, 50: 64
-     * 51年次以後(含): 65歲
-     */
+    // ... (getStatutoryAge 維持不變) ...
     function getStatutoryAge(birthYear: number): number {
-        // 轉換為民國年次 (西元 - 1911)
         const rocYear = birthYear - 1911;
-
         if (rocYear <= 46) return 60;
         if (rocYear === 47) return 61;
         if (rocYear === 48) return 62;
         if (rocYear === 49) return 63;
         if (rocYear === 50) return 64;
-        return 65; // 51年次以後
+        return 65;
     }
 
-    /**
-     * 計算勞保老年年金 (擇優)
-     * @param avgSalary 最高60個月平均投保薪資
-     * @param seniorityMonths 投保年資 (月)
-     * @param claimAge 預計請領年齡
-     * @param statutoryAge 法定請領年齡
-     */
+    // ... (calculateAnnuity 維持不變) ...
     function calculateAnnuity(
         avgSalary: number,
         seniorityMonths: number,
         claimAge: number,
         statutoryAge: number
     ): LaborInsuranceResult {
-
-        // 1. 計算年資 (年)
         const years = seniorityMonths / 12;
-
-        // 2. 計算提前或延後年數 (Diff)
-        // 負數為提前，正數為延後
         let diff = claimAge - statutoryAge;
 
-        // 限制：最多提前 5 年，延後加給最多也只算 5 年
-        // (雖然可以延後更久領，但多出來的年份不加 %，這裡僅計算「有效」的 diff 用於倍率)
+        // 有效增減給年限 (-5 ~ +5)
         let effectiveDiff = diff;
-        if (effectiveDiff < -5) effectiveDiff = -5; // 理論上 UI 會擋
+        if (effectiveDiff < -5) effectiveDiff = -5;
         if (effectiveDiff > 5) effectiveDiff = 5;
 
-        // 3. 計算增減給比例 (每一年 4%)
         const percentageRate = 0.04;
-        const bonusPercentage = effectiveDiff * percentageRate; // e.g., -0.2 or +0.2
+        const bonusPercentage = effectiveDiff * percentageRate;
 
-        // 4. 基礎公式計算 (尚未乘上增減給)
-        // 第一式：(平均月投保薪資 × 年資 × 0.775%) + 3,000元
-        // 第二式：平均月投保薪資 × 年資 × 1.55%
         const rawA = (avgSalary * years * 0.00775) + 3000;
         const rawB = avgSalary * years * 0.0155;
 
-        // 5. 乘上增減給係數 (1 + bonus)
-        // 例如提前5年: * 0.8，延後5年: * 1.2
         const factor = 1 + bonusPercentage;
         const finalA = Math.round(rawA * factor);
         const finalB = Math.round(rawB * factor);
 
-        // 6. 產生訊息
-        let msg = '標準請領 (不增不減)';
+        // 產生純文字狀態描述
+        let msg = '標準請領';
         if (diff < 0) {
-            msg = `提早 ${Math.abs(diff)} 年請領 (減給 ${Math.abs(bonusPercentage * 100)}%)`;
+            msg = `提早 ${Math.abs(diff)} 年 (減給 ${Math.abs(bonusPercentage * 100)}%)`;
         } else if (diff > 0) {
-            // 若實際延後超過5年，顯示文字仍需正確反映，但計算已封頂
-            const displayBonus = Math.min(diff, 5) * 4;
-            msg = `展延 ${diff} 年請領 (加給 ${displayBonus}%)`;
+            const displayBonus = Math.min(diff, 5) * 4; // 顯示用的趴數上限為 20%
+            msg = `展延 ${diff} 年 (加給 ${displayBonus}%)`;
         }
 
         return {
@@ -93,8 +66,47 @@ export function useLaborInsuranceCalculator() {
         };
     }
 
+    /**
+     * [新增] 計算終身領取現值 (PV)
+     * 將未來每一期領到的年金，以 3% 折現率折算回「現在 (Current Age)」的價值
+     * @param monthlyAmount 每月年金 (PMT)
+     * @param currentAge 現在年齡
+     * @param claimAge 開始請領年齡
+     * @param lifeExpectancy 預期壽命 (幾歲過世)
+     * @param discountRate 折現率 (預設 3%)
+     */
+    function calculateLifetimePV(
+        monthlyAmount: number,
+        currentAge: number,
+        claimAge: number,
+        lifeExpectancy: number,
+        discountRate: number = 0.03
+    ): number {
+        if (monthlyAmount <= 0 || lifeExpectancy <= claimAge) return 0;
+
+        const annualAmount = monthlyAmount * 12;
+        let totalPV = 0;
+
+        // 總共領幾年
+        const durationYears = Math.floor(lifeExpectancy - claimAge);
+
+        // 距離開始領還有幾年 (延遲期)
+        // 如果已經超過請領年齡，則視為 0 (立即開始)
+        const delayYears = Math.max(0, claimAge - currentAge);
+
+        for (let i = 1; i <= durationYears; i++) {
+            // 第 i 年領到的錢，距離現在是 (delayYears + i) 年後
+            const time = delayYears + i;
+            const pv = annualAmount / Math.pow(1 + discountRate, time);
+            totalPV += pv;
+        }
+
+        return Math.round(totalPV);
+    }
+
     return {
         getStatutoryAge,
-        calculateAnnuity
+        calculateAnnuity,
+        calculateLifetimePV // Export 新函式
     };
 }

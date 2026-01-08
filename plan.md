@@ -130,6 +130,15 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
+### 勞保
+
+<div v-if="isReady">
+    <LaborInsuranceCard 
+        v-model="userForm" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
 <!-- ### Utility
 
 <div v-if="isReady">
@@ -153,6 +162,8 @@ import SavingCapacityCard from '@/components/plan/SavingCapacityCard.vue'
 import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
 import UtilityCard from '@/components/plan/UtilityCard.vue'
 import LaborPensionCard from '@/components/plan/LaborPensionCard.vue'
+import LaborInsuranceCard from '@/components/plan/LaborInsuranceCard.vue'
+
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
 import { useMetadata } from '@/components/plan/composables/useMetadata'

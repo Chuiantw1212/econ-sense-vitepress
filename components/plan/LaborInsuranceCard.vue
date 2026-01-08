@@ -1,25 +1,25 @@
 <template>
     <el-card shadow="never">
-        <template #header>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span><b>勞保老年年金試算</b></span>
-                <el-tag type="primary" effect="plain">公共年金第一層</el-tag>
-            </div>
-        </template>
 
         <el-form v-if="model.laborInsurance" :model="model" label-width="auto" label-position="top">
 
             <el-divider>投保參數設定</el-divider>
+
             <el-row :gutter="20">
+
                 <el-col :span="12" :xs="24">
                     <el-form-item label="出生年次 (法定起支年齡)">
                         <el-input :value="birthYearDisplay" disabled style="width: 100%">
                             <template #suffix>
-                                <span style="color: var(--el-text-color-secondary)">
-                                    法定: {{ statutoryAge }} 歲
-                                </span>
+                                <span style="color: var(--el-text-color-secondary)">法定: {{ statutoryAge }} 歲</span>
                             </template>
                         </el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="最高 60 個月平均投保薪資">
+                        <el-input-number v-model="model.laborInsurance.averageMonthlySalary" :min="0" :max="45800"
+                            :step="1000" style="width: 100%" @change="handleSalaryCheck" />
                     </el-form-item>
                 </el-col>
 
@@ -27,70 +27,81 @@
                     <el-form-item label="預計開始請領年齡">
                         <el-input-number v-model="model.laborInsurance.expectedClaimAge" :min="minValidClaimAge"
                             :max="80" style="width: 100%" />
-                        <div style="font-size: 12px; color: #909399; margin-top: 4px;">
-                            最早可於 {{ minValidClaimAge }} 歲請領 (減給 20%)
-                        </div>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="請領時預估餘命 (參考值)">
+                        <el-input-number :model-value="remainingYearsDisplay" disabled style="width: 100%">
+                            <template #suffix>
+                                <div style="display: flex; align-items: center; gap: 4px;">
+                                    <el-icon v-if="isLoadingLifespan" class="is-loading">
+                                        <Loading />
+                                    </el-icon>
+                                    <span>年</span>
+                                </div>
+                            </template>
+                        </el-input-number>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="最高 60 個月平均投保薪資">
-                        <el-input-number v-model="model.laborInsurance.averageMonthlySalary" :min="0" :max="45800"
-                            :step="1000" style="width: 100%" @change="handleSalaryCheck" />
-                        <div style="font-size: 12px; color: #909399; margin-top: 4px;">
-                            目前上限 45,800 元 (取生涯最高 5 年平均)
-                        </div>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="12" :xs="24">
-                    <el-form-item
-                        :label="`保險年資 (${model.laborInsurance.insuranceSeniority}月 ≈ ${(model.laborInsurance.insuranceSeniority / 12).toFixed(1)}年)`">
+                    <el-form-item label="目前已累積保險年資">
                         <el-input-number v-model="model.laborInsurance.insuranceSeniority" :min="0" :max="720"
-                            placeholder="輸入總月數" style="width: 100%">
+                            placeholder="輸入已累積月數" style="width: 100%">
                             <template #suffix>月</template>
                         </el-input-number>
                     </el-form-item>
                 </el-col>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="退休時總預估年資 (自動加計)">
+                        <el-input :value="(totalProjectedSeniority / 12).toFixed(1)" disabled style="width: 100%">
+                            <template #suffix>年</template>
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+
             </el-row>
 
-            <el-divider>每月年金試算結果</el-divider>
+            <el-divider>試算結果 (PV分析)</el-divider>
 
-            <div style="background-color: var(--el-fill-color-light); padding: 20px; border-radius: 8px;">
-                <el-row :gutter="20">
+            <el-row :gutter="20">
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="預估每月領取金額 (擇優)">
+                        <el-input :value="formatMoney(result.bestAmount)" disabled style="width: 100%">
+                            <template #suffix>元</template>
+                        </el-input>
+                    </el-form-item>
+                </el-col>
 
-                    <el-col :span="12" :xs="24" style="margin-bottom: 10px;">
-                        <el-statistic title="預估每月領取金額" :value="result.bestAmount" precision="0"
-                            value-style="color: var(--el-color-primary); font-weight: bold; font-size: 1.5rem;" />
-                        <div style="margin-top: 8px;">
-                            <el-tag :type="result.diffYears < 0 ? 'warning' : 'success'" size="small" effect="dark">
-                                {{ result.msg }}
-                            </el-tag>
-                        </div>
-                    </el-col>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="終身總現值 (折現3%)">
+                        <el-input :value="formatMoney(stableLifetimePV)" disabled style="width: 100%">
+                            <template #suffix>
+                                <div style="display: flex; align-items: center; gap: 4px;">
+                                    <el-icon v-if="isLoadingLifespan" class="is-loading">
+                                        <Loading />
+                                    </el-icon>
+                                    <span>元</span>
+                                </div>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                </el-col>
 
-                    <el-col :span="12" :xs="24">
-                        <div style="font-size: 13px; color: #606266; line-height: 1.8;">
-                            <div style="margin-bottom: 4px; font-weight: bold;">計算公式擇優：</div>
-                            <div style="display: flex; justify-content: space-between;">
-                                <span>A式 (保底型):</span>
-                                <span>{{ formatMoney(result.amountA) }}</span>
-                            </div>
-                            <div style="font-size: 12px; color: #909399; margin-bottom: 6px;">
-                                (均薪 × 年資 × 0.775%) + 3,000
-                            </div>
-
-                            <div style="display: flex; justify-content: space-between;">
-                                <span>B式 (年資型):</span>
-                                <span>{{ formatMoney(result.amountB) }}</span>
-                            </div>
-                            <div style="font-size: 12px; color: #909399;">
-                                均薪 × 年資 × 1.55%
-                            </div>
-                        </div>
-                    </el-col>
-                </el-row>
-            </div>
+                <el-col :span="24">
+                    <el-form-item label="狀態判定">
+                        <el-input :value="result.msg" disabled style="width: 100%">
+                            <template #prefix>
+                                <span
+                                    :style="{ color: result.diffYears < 0 ? 'var(--el-color-warning)' : (result.diffYears > 0 ? 'var(--el-color-success)' : 'var(--el-text-color-regular)') }"
+                                    style="font-weight: bold; margin-right: 5px;">
+                                    ●
+                                </span>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
 
         </el-form>
         <el-skeleton v-else :rows="5" animated />
@@ -98,27 +109,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, watch, ref, watchEffect } from 'vue';
 import { debounce } from 'lodash-es';
-import type { UserFormState } from './types/user';
+import { Loading } from '@element-plus/icons-vue';
+import type { UserFormState, UserLaborInsurance } from './types/user';
 import { useApi } from '@/components/plan/composables/useApi';
 import { useLaborInsuranceCalculator } from '@/components/plan/composables/useLaborInsuranceCalculator';
 
 const { authFetch } = useApi();
-const { getStatutoryAge, calculateAnnuity } = useLaborInsuranceCalculator();
+const { getStatutoryAge, calculateAnnuity, calculateLifetimePV } = useLaborInsuranceCalculator();
 const model = defineModel<UserFormState>({ required: true });
 
-// --- 1. 預設值與初始化 ---
+// --- 1. 預設值 ---
 const defaultLaborInsurance: UserLaborInsurance = {
     expectedClaimAge: 65,
     averageMonthlySalary: 45800,
-    insuranceSeniority: 0 // 月數
+    insuranceSeniority: 0
 };
 
 watch(
     () => model.value,
     (newVal) => {
-        // 若 laborInsurance 物件不存在則初始化
         if (newVal && !newVal.laborInsurance) {
             newVal.laborInsurance = { ...defaultLaborInsurance };
         }
@@ -126,94 +137,145 @@ watch(
     { immediate: true, deep: true }
 );
 
-// --- 2. 基礎資料計算 ---
-
-// 取得出生年 (西元)
+// --- 2. 基礎計算 ---
+const currentYear = new Date().getFullYear();
 const birthYear = computed(() => {
     const dateStr = model.value.profile?.birthDate;
-    if (!dateStr) return 1990; // Fallback
+    if (!dateStr) return 1990;
     return new Date(dateStr).getFullYear();
 });
+const currentAge = computed(() => currentYear - birthYear.value);
+const birthYearDisplay = computed(() => `民國 ${birthYear.value - 1911} 年次`);
+const statutoryAge = computed(() => getStatutoryAge(birthYear.value));
+const minValidClaimAge = computed(() => statutoryAge.value - 5);
 
-// 顯示用的民國年次字串
-const birthYearDisplay = computed(() => {
-    const roc = birthYear.value - 1911;
-    return `民國 ${roc} 年次`;
+// --- 3. 年資計算 ---
+const futureYears = computed(() => {
+    const li = model.value.laborInsurance;
+    if (!li) return 0;
+    return Math.max(0, li.expectedClaimAge - currentAge.value);
 });
 
-// 計算法定請領年齡
-const statutoryAge = computed(() => {
-    return getStatutoryAge(birthYear.value);
+const totalProjectedSeniority = computed(() => {
+    const li = model.value.laborInsurance;
+    if (!li) return 0;
+    return (li.insuranceSeniority || 0) + (futureYears.value * 12);
 });
 
-// 最小可請領年齡 (法定 - 5)
-const minValidClaimAge = computed(() => {
-    return statutoryAge.value - 5;
+// --- 4. 餘命 API 與 同步控制 ---
+const lifeExpectancyAtClaim = ref<number>(0);
+const remainingYearsDisplay = ref<number>(0);
+const isLoadingLifespan = ref(false);
+const lastSyncedClaimAge = ref<number | null>(null);
+
+async function fetchLifespan() {
+    const li = model.value.laborInsurance;
+    const profile = model.value.profile;
+    if (!li || !profile || !profile.gender) return;
+
+    isLoadingLifespan.value = true;
+    const requestAge = li.expectedClaimAge;
+    const targetYear = birthYear.value + requestAge;
+
+    try {
+        const response = await authFetch(
+            `/api/tools/life-expectancy?year=${targetYear}&gender=${profile.gender}&age=${requestAge}`,
+            { method: 'GET' }
+        );
+        if (response && response.ok) {
+            const data = await response.json();
+            const remaining = Number(data.expectedLifespan || 0);
+
+            remainingYearsDisplay.value = Math.round(remaining * 10) / 10;
+            lifeExpectancyAtClaim.value = Math.round(requestAge + remaining);
+            lastSyncedClaimAge.value = requestAge;
+        }
+    } catch (error) {
+        console.error('Fetch lifespan failed', error);
+        if (remainingYearsDisplay.value === 0) {
+            remainingYearsDisplay.value = 19;
+            lifeExpectancyAtClaim.value = requestAge + 19;
+            lastSyncedClaimAge.value = requestAge;
+        }
+    } finally {
+        isLoadingLifespan.value = false;
+    }
+}
+
+const debouncedFetchLifespan = debounce(fetchLifespan, 500);
+
+watch(
+    () => [
+        model.value.laborInsurance?.expectedClaimAge,
+        model.value.profile?.gender,
+        birthYear.value
+    ],
+    () => { debouncedFetchLifespan(); },
+    { immediate: true }
+);
+
+// --- 5. 試算結果 ---
+const result = computed(() => {
+    const li = model.value.laborInsurance;
+    if (!li) return { bestAmount: 0, amountA: 0, amountB: 0, diffYears: 0, bonusPercentage: 0, msg: '', statutoryAge: 65 };
+
+    return calculateAnnuity(
+        li.averageMonthlySalary || 0,
+        totalProjectedSeniority.value,
+        li.expectedClaimAge,
+        statutoryAge.value
+    );
 });
 
-// --- 3. 輸入驗證與連動 ---
+// 穩定的 PV 顯示值
+const stableLifetimePV = ref(0);
 
-// 當出生日期改變時，若目前設定的請領年齡 < 新的最小年齡，自動校正
+watchEffect(() => {
+    const li = model.value.laborInsurance;
+    if (!li) return;
+
+    const currentInputAge = li.expectedClaimAge;
+    if (currentInputAge !== lastSyncedClaimAge.value) return;
+
+    if (result.value.bestAmount > 0 && lifeExpectancyAtClaim.value > 0) {
+        stableLifetimePV.value = calculateLifetimePV(
+            result.value.bestAmount,
+            currentAge.value,
+            li.expectedClaimAge,
+            lifeExpectancyAtClaim.value,
+            0.03
+        );
+    } else {
+        stableLifetimePV.value = 0;
+    }
+});
+
+// --- 6. 輔助與存檔 ---
 watch(minValidClaimAge, (newMin) => {
     if (model.value.laborInsurance && model.value.laborInsurance.expectedClaimAge < newMin) {
         model.value.laborInsurance.expectedClaimAge = newMin;
     }
 });
 
-// 強制修正投保薪資上限 (雖然 InputNumber 有 max，但這是雙重保險)
 function handleSalaryCheck(val: number | undefined) {
-    if (val && val > 45800) {
-        if (model.value.laborInsurance) {
-            model.value.laborInsurance.averageMonthlySalary = 45800;
-        }
-    }
+    if (val && val > 45800) model.value.laborInsurance!.averageMonthlySalary = 45800;
 }
 
-// --- 4. 試算結果 (Computed) ---
-
-const result = computed(() => {
-    const li = model.value.laborInsurance;
-    if (!li) {
-        return {
-            bestAmount: 0, amountA: 0, amountB: 0,
-            diffYears: 0, bonusPercentage: 0, msg: '', statutoryAge: 65
-        };
-    }
-
-    return calculateAnnuity(
-        li.averageMonthlySalary || 0,
-        li.insuranceSeniority || 0,
-        li.expectedClaimAge,
-        statutoryAge.value
-    );
-});
-
-// --- 5. 存檔邏輯 ---
+function formatMoney(val: number) {
+    return Math.round(val).toLocaleString();
+}
 
 async function performSave() {
     const item = model.value.laborInsurance;
     if (!item) return;
     try {
-        // 假設 API endpoint 為 /api/v1/user/labor-insurance
         await authFetch(`/api/v1/user/labor-insurance`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(item)
         });
-    } catch (error) {
-        console.error('[LaborInsurance] Save failed:', error);
-    }
+    } catch (e) { console.error(e); }
 }
-
 const debouncedSave = debounce(performSave, 800);
-
-watch(
-    () => model.value.laborInsurance,
-    (newVal) => { if (newVal) debouncedSave(); },
-    { deep: true }
-);
-
-function formatMoney(val: number) {
-    return Math.round(val).toLocaleString();
-}
+watch(() => model.value.laborInsurance, (newVal) => { if (newVal) debouncedSave(); }, { deep: true });
 </script>
