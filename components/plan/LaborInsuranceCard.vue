@@ -1,6 +1,5 @@
 <template>
     <el-card shadow="never">
-
         <el-form v-if="model.laborInsurance" :model="model" label-width="auto" label-position="top">
 
             <el-divider>投保參數設定</el-divider>
@@ -29,9 +28,11 @@
                             :max="80" style="width: 100%" />
                     </el-form-item>
                 </el-col>
+
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="請領時預估餘命 (參考值)">
-                        <el-input-number :model-value="remainingYearsDisplay" disabled style="width: 100%">
+                    <el-form-item label="請領時預估餘命 (可手動調整)">
+                        <el-input-number v-model="model.laborInsurance.predictedLifespan" :min="0" :max="100"
+                            :step="0.1" :precision="1" style="width: 100%">
                             <template #suffix>
                                 <div style="display: flex; align-items: center; gap: 4px;">
                                     <el-icon v-if="isLoadingLifespan" class="is-loading">
@@ -43,7 +44,6 @@
                         </el-input-number>
                     </el-form-item>
                 </el-col>
-
                 <el-col :span="12" :xs="24">
                     <el-form-item label="目前已累積保險年資">
                         <el-input-number v-model="model.laborInsurance.insuranceSeniority" :min="0" :max="720"
@@ -121,10 +121,12 @@ const { getStatutoryAge, calculateAnnuity, calculateLifetimePV } = useLaborInsur
 const model = defineModel<UserFormState>({ required: true });
 
 // --- 1. 預設值 ---
+// 新增 predictedLifespan 欄位預設值
 const defaultLaborInsurance: UserLaborInsurance = {
     expectedClaimAge: 65,
     averageMonthlySalary: 45800,
-    insuranceSeniority: 0
+    insuranceSeniority: 0,
+    predictedLifespan: 0 // 初始化為 0
 };
 
 watch(
@@ -163,10 +165,7 @@ const totalProjectedSeniority = computed(() => {
 });
 
 // --- 4. 餘命 API 與 同步控制 ---
-const lifeExpectancyAtClaim = ref<number>(0);
-const remainingYearsDisplay = ref<number>(0);
 const isLoadingLifespan = ref(false);
-const lastSyncedClaimAge = ref<number | null>(null);
 
 async function fetchLifespan() {
     const li = model.value.laborInsurance;
@@ -186,16 +185,14 @@ async function fetchLifespan() {
             const data = await response.json();
             const remaining = Number(data.expectedLifespan || 0);
 
-            remainingYearsDisplay.value = Math.round(remaining * 10) / 10;
-            lifeExpectancyAtClaim.value = Math.round(requestAge + remaining);
-            lastSyncedClaimAge.value = requestAge;
+            // 核心修改：直接寫入 model，讓使用者可以看到並修改
+            li.predictedLifespan = Math.round(remaining * 10) / 10;
         }
     } catch (error) {
         console.error('Fetch lifespan failed', error);
-        if (remainingYearsDisplay.value === 0) {
-            remainingYearsDisplay.value = 19;
-            lifeExpectancyAtClaim.value = requestAge + 19;
-            lastSyncedClaimAge.value = requestAge;
+        // 若 API 失敗且原本無值，給予預設值
+        if (!li.predictedLifespan) {
+            li.predictedLifespan = 19;
         }
     } finally {
         isLoadingLifespan.value = false;
@@ -204,13 +201,32 @@ async function fetchLifespan() {
 
 const debouncedFetchLifespan = debounce(fetchLifespan, 500);
 
+// 監聽關鍵參數變更以更新餘命
 watch(
     () => [
         model.value.laborInsurance?.expectedClaimAge,
         model.value.profile?.gender,
         birthYear.value
     ],
-    () => { debouncedFetchLifespan(); },
+    (newValues, oldValues) => {
+        // newValues 是一個陣列: [newAge, newGender, newBirthYear]
+        // oldValues 在第一次執行時會是 undefined
+
+        const currentLifespan = model.value.laborInsurance?.predictedLifespan || 0;
+
+        // 判定是否為初始化：檢查 oldValues 是否為 undefined
+        const isInit = oldValues === undefined;
+
+        // 邏輯控制：
+        // 1. 如果是初始化載入 (isInit) 且資料庫已有值 (predictedLifespan > 0)
+        //    則不觸發 API 覆蓋，保留使用者上次存檔的數值。
+        if (isInit && currentLifespan > 0) {
+            return;
+        }
+
+        // 2. 其他情況 (使用者手動更改參數，或初始化時沒有值)，觸發 API
+        debouncedFetchLifespan();
+    },
     { immediate: true }
 );
 
@@ -227,22 +243,22 @@ const result = computed(() => {
     );
 });
 
-// 穩定的 PV 顯示值
+// PV 計算：依賴 model 中的 predictedLifespan
 const stableLifetimePV = ref(0);
 
 watchEffect(() => {
     const li = model.value.laborInsurance;
     if (!li) return;
 
-    const currentInputAge = li.expectedClaimAge;
-    if (currentInputAge !== lastSyncedClaimAge.value) return;
+    // 取得當前使用的餘命 (手動或自動)
+    const lifespan = li.predictedLifespan || 0;
 
-    if (result.value.bestAmount > 0 && lifeExpectancyAtClaim.value > 0) {
+    if (result.value.bestAmount > 0 && lifespan > 0) {
         stableLifetimePV.value = calculateLifetimePV(
             result.value.bestAmount,
             currentAge.value,
             li.expectedClaimAge,
-            lifeExpectancyAtClaim.value,
+            li.expectedClaimAge + lifespan, // 預期壽命 = 請領年齡 + 餘命
             0.03
         );
     } else {
@@ -277,5 +293,6 @@ async function performSave() {
     } catch (e) { console.error(e); }
 }
 const debouncedSave = debounce(performSave, 800);
+// 深度監聽整個 laborInsurance 物件，包含新加入的 predictedLifespan
 watch(() => model.value.laborInsurance, (newVal) => { if (newVal) debouncedSave(); }, { deep: true });
 </script>

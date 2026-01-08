@@ -292,6 +292,8 @@ export interface UserLaborInsurance {
      * 單位: 總月數 (Months)
      */
     insuranceSeniority: number;
+
+    predictedLifespan: number;
 }
 
 /**
