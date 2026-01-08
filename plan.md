@@ -121,7 +121,9 @@ head:
 
 ## 目標導航
 
-### 新制勞退
+### 退休
+
+#### 新制勞退
 
 <div v-if="isReady">
     <LaborPensionCard 
@@ -130,10 +132,19 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
-### 勞保
+#### 勞保
 
 <div v-if="isReady">
     <LaborInsuranceCard 
+        v-model="userForm" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+#### 退休品質
+
+<div v-if="isReady">
+    <RetirementExpenseCard 
         v-model="userForm" 
     />
 </div>
@@ -163,6 +174,7 @@ import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
 import UtilityCard from '@/components/plan/UtilityCard.vue'
 import LaborPensionCard from '@/components/plan/LaborPensionCard.vue'
 import LaborInsuranceCard from '@/components/plan/LaborInsuranceCard.vue'
+import RetirementExpenseCard from '@/components/plan/RetirementExpenseCard.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
