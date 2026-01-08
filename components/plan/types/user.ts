@@ -275,6 +275,26 @@ export interface UserCreditCard {
 }
 
 /**
+ * 勞保老年年金相關資料 (Labor Insurance)
+ */
+export interface UserLaborInsurance {
+    /** * 預計開始請領年齡 (Expected Claim Age)
+     * 邏輯: 需大於等於 (法定請領年齡 - 5)
+     */
+    expectedClaimAge: number;
+
+    /** * 最高 60 個月之平均投保薪資 (Average Monthly Insurance Salary)
+     * 限制: 目前上限 45,800
+     */
+    averageMonthlySalary: number;
+
+    /** * 保險年資 (Insurance Seniority)
+     * 單位: 總月數 (Months)
+     */
+    insuranceSeniority: number;
+}
+
+/**
  * 退休規劃資料模型
  * 對應資料庫 table: user_retirement
  */
@@ -298,5 +318,6 @@ export interface UserFormState {
     realEstates: UserRealEstate[],
     businesses: PaginatedResponse<UserBusiness[]>,
     creditCards: UserCreditCard[],
-    laborPension: UserLaborPension
+    laborPension: UserLaborPension,
+    laborInsurance: UserLaborInsurance;
 }
