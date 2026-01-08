@@ -293,7 +293,7 @@ export interface UserLaborInsurance {
      */
     insuranceSeniority: number;
 
-    predictedLifespan: number;
+    predictedRemainingLife: number;
 }
 
 /**
