@@ -318,6 +318,10 @@ export interface UserLaborInsurance {
     insuranceSeniority: number;
 
     predictedRemainingLife: number;
+    /** * [新增] 預估每月領取金額 (Annuity)
+     * 用於：退休缺口分析卡片 (作為 Asset 2 的現金流基準)
+     */
+    predictedMonthlyAnnuity?: number;
 }
 
 export interface UserRetirementQuality {

@@ -71,6 +71,9 @@
                         <el-input :value="formatMoney(result.bestAmount)" disabled style="width: 100%">
                             <template #suffix>元</template>
                         </el-input>
+                        <div style="font-size: 12px; color: var(--el-text-color-secondary); margin-top: 5px;">
+                            * 此金額已儲存，將用於退休缺口分析
+                        </div>
                     </el-form-item>
                 </el-col>
 
@@ -122,12 +125,12 @@ const { getStatutoryAge, calculateAnnuity, calculateLifetimePV } = useLaborInsur
 const model = defineModel<UserFormState>({ required: true });
 
 // --- 1. 預設值 ---
-// 修改：預設值欄位名稱更新
 const defaultLaborInsurance: UserLaborInsurance = {
     expectedClaimAge: 65,
     averageMonthlySalary: 45800,
     insuranceSeniority: 0,
-    predictedRemainingLife: 0
+    predictedRemainingLife: 0,
+    predictedMonthlyAnnuity: 0 // 新增預設值
 };
 
 watch(
@@ -165,7 +168,7 @@ const totalProjectedSeniority = computed(() => {
     return (li.insuranceSeniority || 0) + (futureYears.value * 12);
 });
 
-// --- 4. 餘命 API 與 同步控制 ---
+// --- 4. 餘命 API ---
 const isLoadingLifespan = ref(false);
 
 async function fetchLifespan() {
@@ -184,16 +187,11 @@ async function fetchLifespan() {
         if (response && response.ok) {
             const data = await response.json();
             const remaining = Number(data.expectedLifespan || 0);
-
-            // 修改：寫入 predictedRemainingLife
             li.predictedRemainingLife = Math.round(remaining * 10) / 10;
         }
     } catch (error) {
         console.error('Fetch lifespan failed', error);
-        // 修改：讀取 predictedRemainingLife 判斷
-        if (!li.predictedRemainingLife) {
-            li.predictedRemainingLife = 19;
-        }
+        if (!li.predictedRemainingLife) li.predictedRemainingLife = 19;
     } finally {
         isLoadingLifespan.value = false;
     }
@@ -201,7 +199,6 @@ async function fetchLifespan() {
 
 const debouncedFetchLifespan = debounce(fetchLifespan, 500);
 
-// 監聽關鍵參數變更
 watch(
     () => [
         model.value.laborInsurance?.expectedClaimAge,
@@ -209,14 +206,10 @@ watch(
         birthYear.value
     ],
     (newValues, oldValues) => {
-        // 修改：讀取 predictedRemainingLife
         const currentLifespan = model.value.laborInsurance?.predictedRemainingLife || 0;
-
         const isInit = oldValues === undefined;
 
-        if (isInit && currentLifespan > 0) {
-            return;
-        }
+        if (isInit && currentLifespan > 0) return;
 
         isLoadingLifespan.value = true;
         debouncedFetchLifespan();
@@ -237,19 +230,27 @@ const result = computed(() => {
     );
 });
 
-// PV 計算
-const stableLifetimePV = ref(0);
+// --- 6. [新增] 同步計算結果回 Model ---
+// 這裡將算出來的 bestAmount 寫回 model，讓 RetirementGapCard 可以直接用
+watch(
+    () => result.value.bestAmount,
+    (newVal) => {
+        if (model.value.laborInsurance && newVal !== undefined) {
+            model.value.laborInsurance.predictedMonthlyAnnuity = newVal;
+        }
+    },
+    { immediate: true }
+);
 
+// --- PV 計算 ---
+const stableLifetimePV = ref(0);
 watchEffect(() => {
     const li = model.value.laborInsurance;
     if (!li) return;
-
     if (isLoadingLifespan.value) {
         stableLifetimePV.value = 0;
         return;
     }
-
-    // 修改：讀取 predictedRemainingLife
     const lifespan = li.predictedRemainingLife || 0;
 
     if (result.value.bestAmount > 0 && lifespan > 0) {
@@ -265,7 +266,7 @@ watchEffect(() => {
     }
 });
 
-// --- 6. 輔助與存檔 ---
+// --- 7. 存檔與 Helper ---
 watch(minValidClaimAge, (newMin) => {
     if (model.value.laborInsurance && model.value.laborInsurance.expectedClaimAge < newMin) {
         model.value.laborInsurance.expectedClaimAge = newMin;
@@ -292,5 +293,6 @@ async function performSave() {
     } catch (e) { console.error(e); }
 }
 const debouncedSave = debounce(performSave, 800);
+// 當 predictedMonthlyAnnuity 變更時，這裡也會偵測到並觸發存檔
 watch(() => model.value.laborInsurance, (newVal) => { if (newVal) debouncedSave(); }, { deep: true });
 </script>

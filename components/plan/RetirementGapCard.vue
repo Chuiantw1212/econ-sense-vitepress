@@ -21,17 +21,23 @@
                     <div class="label">勞退一次金 (稅後淨額)</div>
                     <div class="value">{{ formatMoney(predictedNetLumpSum) }}</div>
                     <div class="sub">
-                        於 {{ retirementAge }} 歲入帳，之後年化報酬 {{ roi.toFixed(2) }}%
+                        於 {{ retirementAge }} 歲可領，
+                        <span v-if="retirementAge < startSimulationAge">
+                            滾存至 {{ startSimulationAge }} 歲啟用
+                        </span>
+                        <span v-else>
+                            模擬起點注入
+                        </span>
                     </div>
                 </div>
 
                 <el-divider style="margin: 15px 0" />
 
                 <div class="stat-block">
-                    <div class="label">勞保年金 (首年預估)</div>
-                    <div class="value">{{ monthlyAnnuity }} / 月</div>
+                    <div class="label">勞保年金 (每月領取)</div>
+                    <div class="value">{{ formatMoney(predictedMonthlyAnnuity) }} / 月</div>
                     <div class="sub">
-                        於 {{ laborInsuranceParams.claimAge }} 歲起領，隨通膨調整
+                        於 {{ laborInsuranceParams.claimAge }} 歲起領，具抗通膨機制
                     </div>
                 </div>
 
@@ -41,6 +47,9 @@
                     <div class="label">資產耗盡年齡</div>
                     <div class="value" :style="{ color: isDanger ? '#F56C6C' : '#67C23A' }">
                         {{ depletionAgeText }}
+                    </div>
+                    <div class="sub" style="margin-top: 5px;">
+                        * 模擬從 {{ startSimulationAge }} 歲 (最晚退休日) 開始扣款
                     </div>
                 </div>
             </el-col>
@@ -54,10 +63,11 @@
 
         <div style="margin-top: 20px;">
             <el-alert v-if="isDanger" title="資金缺口警示" type="error"
-                :description="`從 ${startSimulationAge} 歲開始退休生活，您的資產預計在 ${depletionAge} 歲耗盡。`" show-icon
+                :description="`從 ${startSimulationAge} 歲完全退休後，您的資產預計在 ${depletionAge} 歲耗盡。`" show-icon
                 :closable="false" />
-            <el-alert v-else title="規劃穩健" type="success" :description="`恭喜！您的退休準備金足以支應至 ${lifeExpectancy} 歲以後。`"
-                show-icon :closable="false" />
+            <el-alert v-else title="規劃穩健" type="success"
+                :description="`恭喜！從 ${startSimulationAge} 歲完全退休後，您的資產足以支應至 ${lifeExpectancy} 歲以後。`" show-icon
+                :closable="false" />
         </div>
 
     </el-card>
@@ -68,13 +78,10 @@ import { computed, ref, onMounted, watch, nextTick, shallowRef } from 'vue';
 import { Warning, CircleCheck } from '@element-plus/icons-vue';
 import Chart from 'chart.js/auto';
 import type { UserFormState } from './types/user';
-
 import { useRetirementGapCalculator } from '@/components/plan/composables/useRetirementGapCalculator';
-import { useLaborInsuranceCalculator } from '@/components/plan/composables/useLaborInsuranceCalculator';
 
 const model = defineModel<UserFormState>({ required: true });
 const { runSimulation } = useRetirementGapCalculator();
-const { getStatutoryAge, calculateAnnuity } = useLaborInsuranceCalculator();
 
 // --- 基礎參數 ---
 const currentYear = new Date().getFullYear();
@@ -85,21 +92,19 @@ const birthYear = computed(() => {
 });
 const currentAge = computed(() => currentYear - birthYear.value);
 
-// --- 1. 勞退參數 (Asset 1) ---
+// --- 1. 勞退參數 ---
 const roi = computed(() => model.value.laborPension?.retirementRoi ?? 3.0);
 const retirementAge = computed(() => model.value.laborPension?.expectedRetirementAge || 65);
-
-// 關鍵：直接取用 model 中的稅後淨額 (若無則 fallback 到 0)
 const predictedNetLumpSum = computed(() => model.value.laborPension?.predictedNetLumpSum || 0);
 
-// --- 2. 勞保參數 (Asset 2) ---
+// --- 2. 勞保參數 ---
+const predictedMonthlyAnnuity = computed(() => model.value.laborInsurance?.predictedMonthlyAnnuity || 0);
 const laborInsuranceParams = computed(() => ({
-    avgSalary: model.value.laborInsurance?.averageMonthlySalary || 0,
-    seniorityMonths: model.value.laborInsurance?.insuranceSeniority || 0,
-    claimAge: model.value.laborInsurance?.expectedClaimAge || 65
+    claimAge: model.value.laborInsurance?.expectedClaimAge || 65,
+    predictedMonthlyAnnuity: predictedMonthlyAnnuity.value
 }));
 
-// --- 3. 支出參數 (Liability) ---
+// --- 3. 支出參數 ---
 const expenseParams = computed(() => ({
     currentAge: currentAge.value,
     retirementAge: retirementAge.value,
@@ -121,24 +126,13 @@ function getBaseExpense() {
     return total > 0 ? total : 30000;
 }
 
-// --- 計算：勞保年金預覽 ---
-const laborInsuranceResult = computed(() => {
-    return calculateAnnuity(
-        laborInsuranceParams.value.avgSalary,
-        laborInsuranceParams.value.seniorityMonths,
-        laborInsuranceParams.value.claimAge,
-        getStatutoryAge(birthYear.value)
-    );
-});
-const monthlyAnnuity = computed(() => formatMoney(laborInsuranceResult.value.bestAmount));
-
 // --- 核心：執行模擬 ---
 const simulationData = computed(() => {
     return runSimulation({
         birthYear: birthYear.value,
         laborPension: {
             retirementAge: retirementAge.value,
-            predictedNetLumpSum: predictedNetLumpSum.value, // 傳入稅後淨額
+            predictedNetLumpSum: predictedNetLumpSum.value,
             roi: roi.value
         },
         laborInsurance: laborInsuranceParams.value,
@@ -146,9 +140,9 @@ const simulationData = computed(() => {
     });
 });
 
-// 模擬起點 (顯示用)
+// 計算模擬起點 (UI顯示用)
 const startSimulationAge = computed(() =>
-    Math.min(retirementAge.value, laborInsuranceParams.value.claimAge)
+    Math.max(retirementAge.value, laborInsuranceParams.value.claimAge)
 );
 
 // --- 結果指標 ---
@@ -219,10 +213,15 @@ const initChart = () => {
                         footer: (items) => {
                             const idx = items[0].dataIndex;
                             const d = displayData[idx];
-                            // 顯示當年大事件 (如: 領到勞退)
-                            let note = '';
-                            if (d.inflowLumpSum > 0) note = `★ 勞退入帳: +${formatMoney(d.inflowLumpSum)}\n`;
-                            return `${note}年收入: ${formatMoney(d.inflowAnnuity)}\n年支出: -${formatMoney(d.outflowExpense)}`;
+                            // 顯示當年流入細節
+                            let notes = [];
+                            if (d.inflowLumpSum > 0) notes.push(`勞退入帳: +${formatMoney(d.inflowLumpSum)}`);
+
+                            return [
+                                ...notes,
+                                `年收入(勞保): +${formatMoney(d.inflowAnnuity)}`,
+                                `年支出(總額): -${formatMoney(d.outflowExpense)}`
+                            ].join('\n');
                         }
                     }
                 },
