@@ -324,7 +324,7 @@ export interface UserLaborInsurance {
     predictedMonthlyAnnuity?: number;
 }
 
-export interface UserRetirementQuality {
+export interface UserRetirementExpense {
     // 通用
     medicalCode?: string; // 原 medicalKey
     medicalExpense: number;
@@ -351,5 +351,5 @@ export interface UserFormState {
     creditCards: UserCreditCard[],
     laborPension: UserLaborPension,
     laborInsurance: UserLaborInsurance;
-    retirementQuality: UserRetirementQuality
+    retirementExpense: UserRetirementExpense
 }

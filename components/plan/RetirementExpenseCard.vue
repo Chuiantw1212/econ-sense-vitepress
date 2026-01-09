@@ -141,17 +141,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { UserFormState, UserRetirementQuality } from './types/user';
+import { computed, watch } from 'vue';
+import { debounce } from 'lodash-es';
+import type { UserFormState, UserRetirementExpense } from './types/user';
 import RetirementExpenseChart from './charts/RetirementExpenseChart.vue';
 import { useRetirementExpenseCalculator } from '@/components/plan/composables/useRetirementExpenseCalculator';
+import { useApi } from '@/components/plan/composables/useApi';
+
+const { authFetch } = useApi();
+const { generateExpenseStream, getSingleYearTotalFV, INFLATION_RATES } = useRetirementExpenseCalculator();
+
 // --- Props 定義 ---
 interface OptionItem {
     code: string;
     label: string;
-    value?: number; // Lifestyle 係數
-    amount?: number; // 金額
-    livingExpenseAdjustment?: number; // 機構調整係數
+    value?: number;
+    amount?: number;
+    livingExpenseAdjustment?: number;
 }
 
 const props = defineProps<{
@@ -164,17 +170,14 @@ const props = defineProps<{
 
 const model = defineModel<UserFormState>({ required: true });
 
-// --- Composable 引入 (含通膨率常數) ---
-const { generateExpenseStream, getSingleYearTotalFV, INFLATION_RATES } = useRetirementExpenseCalculator();
-
-// --- Metadata Options (安全獲取) ---
+// --- Metadata Options ---
 const medicalOptions = computed(() => props.metadata?.opt_medical_expenses?.list || []);
 const lifestyleOptions = computed(() => props.metadata?.opt_lifestyle_curve?.list || []);
 const careCostOptions = computed(() => props.metadata?.opt_care_costs?.list || []);
 
+// --- 關鍵修改：改用 retirementExpense ---
 const localData = computed({
     get: () => {
-        // 預設值策略：75歲失能、活躍期1.2倍、一般日照
         const defaults = {
             medicalCode: 'basic',
             medicalExpense: 2000,
@@ -185,10 +188,12 @@ const localData = computed({
             disabilityExpense: 45000,
             livingExpenseAdjustment: 1.0
         };
-        return { ...defaults, ...model.value.retirementQuality };
+        // 讀取 retirementExpense
+        return { ...defaults, ...model.value.retirementExpense };
     },
-    set: (val: UserRetirementQuality) => {
-        model.value.retirementQuality = val;
+    set: (val: UserRetirementExpense) => {
+        // 寫入 retirementExpense
+        model.value.retirementExpense = val;
     }
 });
 
@@ -207,7 +212,6 @@ const baseMonthlyExpense = computed(() => {
     if (Array.isArray(cards)) {
         total = cards.reduce((sum, card) => sum + (Number(card.averageMonthlyExpense) || 0), 0);
     }
-    // 防呆：若無資料預設 30000 避免圖表空白
     return total > 0 ? total : 30000;
 });
 
@@ -217,7 +221,7 @@ const lifeExpectancy = computed(() => {
     return Math.floor(retirementAge.value + remaining);
 });
 
-// --- 計算核心參數打包 (Reactive) ---
+// --- 計算核心參數 ---
 const calcParams = computed(() => ({
     currentAge: currentAge.value,
     retirementAge: retirementAge.value,
@@ -230,12 +234,12 @@ const calcParams = computed(() => ({
     livingExpenseAdjustment: localData.value.livingExpenseAdjustment
 }));
 
-// --- 圖表數據生成 (傳給子組件) ---
+// --- 圖表數據 ---
 const chartDataSeries = computed(() => {
     return generateExpenseStream(calcParams.value);
 });
 
-// --- UI 顯示用 (Future Value) ---
+// --- UI 顯示用 ---
 const activePhaseFirstYearFV = computed(() => {
     return getSingleYearTotalFV(calcParams.value, retirementAge.value);
 });
@@ -244,8 +248,7 @@ const passivePhaseFirstYearFV = computed(() => {
     return getSingleYearTotalFV(calcParams.value, localData.value.disabilityAge);
 });
 
-// --- 選單事件處理 ---
-
+// --- 選單事件 ---
 function handleMedicalChange(code: string) {
     const opt = medicalOptions.value.find(o => o.code === code);
     if (opt) {
@@ -277,17 +280,47 @@ function handleCareModeChange(code: string) {
     }
 }
 
-// --- 輔助函式 ---
 function formatMoney(val: number) {
     return Math.round(val).toLocaleString();
 }
+
+// --- 自動存檔邏輯 (Auto Save) ---
+
+async function performSave() {
+    // 讀取 retirementExpense
+    const data = model.value.retirementExpense;
+    if (!data) return;
+
+    try {
+        await authFetch('/api/v1/user/retirement-expense', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+    } catch (error) {
+        console.error('[AutoSave] Retirement Expense failed:', error);
+    }
+}
+
+const debouncedSave = debounce(performSave, 800);
+
+// 監聽 model.retirementExpense 的變化
+watch(
+    () => model.value.retirementExpense,
+    (newVal) => {
+        if (newVal) {
+            debouncedSave();
+        }
+    },
+    { deep: true }
+);
+
 </script>
 
 <style scoped>
 .inflation-note {
     font-size: 12px;
     color: var(--el-color-warning);
-    /* 使用警示色強調通膨 */
     margin-top: 4px;
 }
 
