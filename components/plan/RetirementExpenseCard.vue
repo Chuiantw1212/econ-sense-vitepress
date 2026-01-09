@@ -77,8 +77,10 @@
                         <el-input :value="formatMoney(activePhaseFirstYearFV)" disabled style="width: 100%">
                             <template #suffix>元 (未來值)</template>
                         </el-input>
-                        <div class="helper-text">
-                            * 這是您 {{ retirementAge }} 歲那一年的預估開銷
+                        <div class="helper-text success-text">
+                            <el-icon>
+                                <Check />
+                            </el-icon> 此金額已自動儲存，供缺口分析使用
                         </div>
                     </el-form-item>
                 </el-col>
@@ -125,8 +127,10 @@
                         <el-input :value="formatMoney(passivePhaseFirstYearFV)" disabled style="width: 100%">
                             <template #suffix>元 (未來值)</template>
                         </el-input>
-                        <div class="helper-text">
-                            * 這是您 {{ localData.disabilityAge }} 歲那一年的預估開銷
+                        <div class="helper-text success-text">
+                            <el-icon>
+                                <Check />
+                            </el-icon> 此金額已自動儲存，供缺口分析使用
                         </div>
                     </el-form-item>
                 </el-col>
@@ -143,6 +147,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue';
 import { debounce } from 'lodash-es';
+import { Check } from '@element-plus/icons-vue'; // 引入 icon
 import type { UserFormState, UserRetirementExpense } from './types/user';
 import RetirementExpenseChart from './charts/RetirementExpenseChart.vue';
 import { useRetirementExpenseCalculator } from '@/components/plan/composables/useRetirementExpenseCalculator';
@@ -175,10 +180,10 @@ const medicalOptions = computed(() => props.metadata?.opt_medical_expenses?.list
 const lifestyleOptions = computed(() => props.metadata?.opt_lifestyle_curve?.list || []);
 const careCostOptions = computed(() => props.metadata?.opt_care_costs?.list || []);
 
-// --- 關鍵修改：改用 retirementExpense ---
 const localData = computed({
     get: () => {
-        const defaults = {
+        // 介面定義需包含後端新增的 snapshot 欄位
+        const defaults: UserRetirementExpense = {
             medicalCode: 'basic',
             medicalExpense: 2000,
             lifestyleCode: 'active',
@@ -186,13 +191,15 @@ const localData = computed({
             disabilityAge: 75,
             careModeCode: 'day_care',
             disabilityExpense: 45000,
-            livingExpenseAdjustment: 1.0
+            livingExpenseAdjustment: 1.0,
+            // Output Snapshot 預設值
+            phase1MonthlyExpense: 0,
+            phase2MonthlyExpense: 0,
+            phase2StartAge: 75
         };
-        // 讀取 retirementExpense
         return { ...defaults, ...model.value.retirementExpense };
     },
     set: (val: UserRetirementExpense) => {
-        // 寫入 retirementExpense
         model.value.retirementExpense = val;
     }
 });
@@ -239,7 +246,7 @@ const chartDataSeries = computed(() => {
     return generateExpenseStream(calcParams.value);
 });
 
-// --- UI 顯示用 ---
+// --- FV 計算 (Snapshot Sources) ---
 const activePhaseFirstYearFV = computed(() => {
     return getSingleYearTotalFV(calcParams.value, retirementAge.value);
 });
@@ -247,6 +254,21 @@ const activePhaseFirstYearFV = computed(() => {
 const passivePhaseFirstYearFV = computed(() => {
     return getSingleYearTotalFV(calcParams.value, localData.value.disabilityAge);
 });
+
+// --- ✅ [新增] 快照同步邏輯 ---
+// 當計算出的 FV 變動時，寫回 Model 的 Snapshot 欄位
+watch(
+    [activePhaseFirstYearFV, passivePhaseFirstYearFV, () => localData.value.disabilityAge],
+    ([newPhase1, newPhase2, newStartAge]) => {
+        if (!model.value.retirementExpense) return;
+
+        // 直接寫入 model
+        model.value.retirementExpense.phase1MonthlyExpense = newPhase1;
+        model.value.retirementExpense.phase2MonthlyExpense = newPhase2;
+        model.value.retirementExpense.phase2StartAge = newStartAge;
+    },
+    { immediate: true }
+);
 
 // --- 選單事件 ---
 function handleMedicalChange(code: string) {
@@ -287,7 +309,6 @@ function formatMoney(val: number) {
 // --- 自動存檔邏輯 (Auto Save) ---
 
 async function performSave() {
-    // 讀取 retirementExpense
     const data = model.value.retirementExpense;
     if (!data) return;
 
@@ -305,6 +326,7 @@ async function performSave() {
 const debouncedSave = debounce(performSave, 800);
 
 // 監聽 model.retirementExpense 的變化
+// 注意：上方的快照同步 watch 修改了 model，這裡會自動偵測到並觸發存檔
 watch(
     () => model.value.retirementExpense,
     (newVal) => {
@@ -328,5 +350,12 @@ watch(
     font-size: 12px;
     color: var(--el-text-color-secondary);
     margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.success-text {
+    color: var(--el-color-success);
 }
 </style>
