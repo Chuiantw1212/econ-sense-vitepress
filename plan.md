@@ -153,6 +153,15 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
+#### 退休資金走勢圖
+
+<div v-if="isReady">
+    <RetirementGapCard 
+        v-model="userForm" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
 <!-- ### Utility
 
 <div v-if="isReady">
@@ -178,6 +187,7 @@ import UtilityCard from '@/components/plan/UtilityCard.vue'
 import LaborPensionCard from '@/components/plan/LaborPensionCard.vue'
 import LaborInsuranceCard from '@/components/plan/LaborInsuranceCard.vue'
 import RetirementExpenseCard from '@/components/plan/RetirementExpenseCard.vue'
+import RetirementGapCard from '@/components/plan/RetirementGapCard.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'

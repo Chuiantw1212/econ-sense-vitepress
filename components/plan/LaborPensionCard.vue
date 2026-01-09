@@ -60,9 +60,12 @@
                 </el-col>
                 <el-col :span="12" :xs="24">
                     <el-form-item label="未來每月持續投入 (PMT)">
-                        <el-input-number :model-value="monthlyContributionPMT" disabled
-                            :formatter="(val: number) => `$ ${val}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
-                            style="width: 100%" />
+                        <el-input :model-value="formatMoney(monthlyContributionPMT)" disabled style="width: 100%">
+                            <template #prefix>$</template>
+                        </el-input>
+                        <!-- <div style="font-size: 12px; color: var(--el-text-color-secondary); margin-top: 5px;">
+                            * 此金額來自「職業試算卡片」的薪資提撥設定
+                        </div> -->
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -84,15 +87,21 @@
             <el-divider>試算結果 (FV)</el-divider>
             <el-row :gutter="20">
                 <el-col :span="12" :xs="24">
-                    <el-statistic title="預估應繳稅額" :value="taxResult.final.taxAmount" :precision="0"
-                        :value-style="{ color: taxResult.final.taxAmount > 0 ? 'var(--el-color-danger)' : 'var(--el-text-color-regular)' }" />
+                    <el-statistic title="預估應繳稅額 (退職所得)" :value="taxResult.final.taxAmount" :precision="0"
+                        :value-style="{ color: taxResult.final.taxAmount > 0 ? 'var(--el-color-danger)' : 'var(--el-text-color-regular)' }">
+                        <template #suffix>元</template>
+                    </el-statistic>
                 </el-col>
 
                 <el-col :span="12" :xs="24">
                     <el-statistic title="稅後實拿淨額" :value="taxResult.final.netReceive" :precision="0"
-                        value-style="color: var(--el-color-primary); font-weight: bold;" />
+                        value-style="color: var(--el-color-primary); font-weight: bold;">
+                        <template #suffix>元</template>
+                    </el-statistic>
+                    <!-- <div style="font-size: 12px; color: var(--el-text-color-secondary); margin-top: 5px;">
+                        * 此金額將作為退休缺口分析的資產基準
+                    </div> -->
                 </el-col>
-
             </el-row>
 
         </el-form>
@@ -105,12 +114,9 @@
 import { computed, watch } from 'vue';
 import { debounce } from 'lodash-es';
 import type { UserFormState, UserLaborPension } from './types/user';
-import type { LifeExpectancyRes } from './types/util';
 import { useApi } from '@/components/plan/composables/useApi';
 import { useFinancialCalculator } from '@/components/plan/composables/useFinancialCalculator';
 import { useRetirementTaxCalculator } from '@/components/plan/composables/useRetirementTaxCalculator';
-
-// 引入您建立的 Chart 元件 (請確認路徑正確)
 import PensionComparisonChart from './charts/PensionComparisonChart.vue';
 
 const { authFetch } = useApi();
@@ -118,7 +124,7 @@ const { calcRetirementFVSeries } = useFinancialCalculator();
 const { getTaxableIncomeBuckets, calculateFinalTaxAndNet } = useRetirementTaxCalculator();
 const model = defineModel<UserFormState>({ required: true });
 
-// --- 1. 預設值與初始化 ---
+// --- 1. 初始化邏輯 ---
 const defaultLaborPension: UserLaborPension = {
     expectedRetirementAge: 65,
     remainingLifeAtRetirement: 20,
@@ -127,7 +133,9 @@ const defaultLaborPension: UserLaborPension = {
     employerEarnings: 0,
     personalContribution: 0,
     personalEarnings: 0,
-    currentWorkSeniority: 0
+    currentWorkSeniority: 0,
+    predictedLumpSum: 0,     // 新增
+    predictedNetLumpSum: 0   // 新增
 };
 
 watch(
@@ -140,15 +148,13 @@ watch(
     { immediate: true, deep: true }
 );
 
-// --- 2. 時間與年資計算 ---
+// --- 2. 基礎參數計算 ---
 const currentYear = new Date().getFullYear();
-
 const userBirthYear = computed(() => {
     const dateStr = model.value.profile?.birthDate;
     if (!dateStr) return 1990;
     return new Date(dateStr).getFullYear();
 });
-
 const currentAge = computed(() => currentYear - userBirthYear.value);
 const minClaimingAge = computed(() => Math.max(60, currentAge.value));
 
@@ -158,44 +164,28 @@ const futureWorkYears = computed(() => {
     return years > 0 ? years : 0;
 });
 
-// 總累積年資 (稅務用) = 目前已累積(月/12) + 未來工作年數
 const calculatedTaxSeniority = computed(() => {
     if (!model.value.laborPension) return 0;
     return (model.value.laborPension.currentWorkSeniority || 0) / 12 + futureWorkYears.value;
 });
 
-// --- 3. 資金運算 (PV & PMT) ---
-
-// A. 現有資產 (PV) - 總額
+// --- 3. 資金參數 ---
 const totalLaborPensionPV = computed(() => {
     const lp = model.value.laborPension;
     if (!lp) return 0;
-    return (lp.employerContribution || 0) +
-        (lp.employerEarnings || 0) +
-        (lp.personalContribution || 0) +
-        (lp.personalEarnings || 0);
+    return (lp.employerContribution || 0) + (lp.employerEarnings || 0) + (lp.personalContribution || 0) + (lp.personalEarnings || 0);
 });
 
-// B. 現有資產 (PV) - 僅雇主
 const employerOnlyPV = computed(() => {
     const lp = model.value.laborPension;
     if (!lp) return 0;
     return (lp.employerContribution || 0) + (lp.employerEarnings || 0);
 });
 
-// C. 未來投入 (PMT) - 總額 (來自 CareerCard 計算)
-const monthlyContributionPMT = computed(() => {
-    return model.value.career?.pensionTotalAmount || 0;
-});
+const monthlyContributionPMT = computed(() => model.value.career?.pensionTotalAmount || 0);
+const employerOnlyPMT = computed(() => model.value.career?.pensionEmployerAmount || 0);
 
-// D. 未來投入 (PMT) - 僅雇主
-const employerOnlyPMT = computed(() => {
-    return model.value.career?.pensionEmployerAmount || 0;
-});
-
-// --- 4. 圖表資料準備 (Series Calculation) ---
-
-// 序列 A: 總資產 (雇主+自提)
+// --- 4. 複利序列計算 ---
 const totalSeries = computed(() => {
     return calcRetirementFVSeries(
         model.value.laborPension?.retirementRoi || 0,
@@ -205,7 +195,6 @@ const totalSeries = computed(() => {
     );
 });
 
-// 序列 B: 僅雇主
 const employerSeries = computed(() => {
     return calcRetirementFVSeries(
         model.value.laborPension?.retirementRoi || 0,
@@ -215,50 +204,51 @@ const employerSeries = computed(() => {
     );
 });
 
-// Chart Props: Labels
-const chartLabels = computed(() => {
-    const startAge = currentAge.value;
-    // totalSeries 的長度代表 0 ~ N 年
-    return totalSeries.value.map((_, i) => `${startAge + i}歲`);
-});
-
-// Chart Props: Data
+// Chart Data
+const chartLabels = computed(() => totalSeries.value.map((_, i) => `${currentAge.value + i}歲`));
 const chartTotalData = computed(() => totalSeries.value);
 const chartEmployerData = computed(() => employerSeries.value);
 
-// --- 5. 最終數值 (Final Values) ---
-
-// 預估總終值
+// --- 5. 終值結果 ---
 const finalProjectedFV = computed(() => {
     const data = totalSeries.value;
     return data.length > 0 ? data[data.length - 1] : totalLaborPensionPV.value;
 });
 
-// 預估僅雇主終值 (用於計算差異)
 const finalEmployerFV = computed(() => {
     const data = employerSeries.value;
     return data.length > 0 ? data[data.length - 1] : employerOnlyPV.value;
 });
 
-// --- 6. 稅務試算 (含通膨校正) ---
+// --- 6. 稅務計算 ---
 const taxResult = computed(() => {
     const totalFV = finalProjectedFV.value;
     const yearsService = calculatedTaxSeniority.value;
-
-    // 計算距離退休還有幾年，用於通膨調整免稅額
     const yearsIntoFuture = Math.max(0, futureWorkYears.value);
 
-    // 1. 取得退職所得級距
+    // 計算級距與稅額
     const buckets = getTaxableIncomeBuckets(totalFV, yearsService, yearsIntoFuture);
-
-    // 2. 計算最終稅額與淨額
     const final = calculateFinalTaxAndNet(buckets.totalTaxableIncome, totalFV, yearsIntoFuture);
 
     return { buckets, final };
 });
 
-// --- 7. 輔助函式與 API ---
+// --- 7. [新增] 同步計算結果回 Model ---
+// 這是讓下一張卡片能拿到資料的關鍵
+watch(
+    taxResult,
+    (newVal) => {
+        if (model.value.laborPension && newVal.final) {
+            // 寫入稅前總額
+            model.value.laborPension.predictedLumpSum = finalProjectedFV.value;
+            // 寫入稅後淨額 (Critical Data)
+            model.value.laborPension.predictedNetLumpSum = newVal.final.netReceive;
+        }
+    },
+    { immediate: true }
+);
 
+// --- 8. 存檔與 Helper ---
 function formatMoney(val: number | undefined) {
     if (val === undefined) return '0';
     return Math.round(val).toLocaleString();
@@ -280,6 +270,7 @@ async function performSave() {
 
 const debouncedSave = debounce(performSave, 800);
 
+// 當 model 內的數值變動 (包含我們剛寫入的 predictedNetLumpSum)，觸發存檔
 watch(
     () => model.value.laborPension,
     (newVal) => { if (newVal) debouncedSave(); },

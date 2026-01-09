@@ -275,6 +275,30 @@ export interface UserCreditCard {
 }
 
 /**
+ * 退休規劃資料模型
+ * 對應資料庫 table: user_retirement
+ */
+export interface UserLaborPension {
+    expectedRetirementAge: number;
+    remainingLifeAtRetirement: number;
+    retirementRoi: number;
+    employerContribution: number;
+    employerEarnings: number;
+    personalContribution: number;
+    personalEarnings: number;
+    currentWorkSeniority: number;
+    /** * [新增] 預估退休時累積總額 (稅前 FV)
+     * 用於：紀錄帳面總資產
+     */
+    predictedLumpSum?: number;
+
+    /** * [新增] 預估稅後實領淨額 (Net FV)
+     * 用於：缺口分析卡片 (作為 Asset 1 的起始金額)
+     */
+    predictedNetLumpSum?: number;
+}
+
+/**
  * 勞保老年年金相關資料 (Labor Insurance)
  */
 export interface UserLaborInsurance {
@@ -294,21 +318,6 @@ export interface UserLaborInsurance {
     insuranceSeniority: number;
 
     predictedRemainingLife: number;
-}
-
-/**
- * 退休規劃資料模型
- * 對應資料庫 table: user_retirement
- */
-export interface UserLaborPension {
-    expectedRetirementAge: number;      // 原 expected_retirement_age
-    remainingLifeAtRetirement: number;  // 原 remaining_life_at_retirement
-    retirementRoi: number;              // 原 retirement_roi
-    employerContribution: number;       // 原 employer_contribution
-    employerEarnings: number;           // 原 employer_earnings
-    personalContribution: number;       // 原 personal_contribution
-    personalEarnings: number;           // 原 personal_earnings
-    currentWorkSeniority: number;       // 原 current_work_seniority
 }
 
 export interface UserRetirementQuality {
