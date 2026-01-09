@@ -325,34 +325,33 @@ export interface UserLaborInsurance {
 }
 
 export interface UserRetirementExpense {
-  // ===================================
-  // [輸入 Input] : 用戶設定值
-  // ===================================
-  
-  // 醫療 (Medical)
-  medicalCode?: string;
-  medicalBaseAmount: number; // 改名 BaseAmount 避免與計算結果混淆
+    // ===================================
+    // [輸入 Input] : 用戶設定值
+    // ===================================
 
-  // 生活 (Lifestyle)
-  lifestyleCode?: string;
-  dreamCoefficient: number;
+    // 醫療 (Medical)
+    medicalCode?: string;
+    medicalExpense: number; // ✅ 改回 Expense (對應後端 DB)
 
-  // 照護 (Care)
-  disabilityAge: number;        // 這是唯一的「分界年齡」
-  careModeCode?: string;
-  careBaseAmount: number;       // 改名 BaseAmount
-  livingExpenseAdjustment: number;
+    // 生活 (Lifestyle)
+    lifestyleCode?: string;
+    dreamCoefficient: number;
 
-  // ===================================
-  // [輸出 Output] : 系統計算快照 (Snapshot)
-  // ===================================
-  // 這些欄位唯讀，由前端算出後回寫，供 Gap 分析使用
-  
-  /** 預估階段一月支出 (未來值 FV) */
-  projectedMonthlyExpensePhase1?: number; 
+    // 照護 (Care)
+    disabilityAge: number;
+    careModeCode?: string;
+    disabilityExpense: number; // ✅ 改回 Expense (對應後端 DB)
+    livingExpenseAdjustment: number;
 
-  /** 預估階段二月支出 (未來值 FV) */
-  projectedMonthlyExpensePhase2?: number;
+    // ===================================
+    // [輸出 Output] : 系統計算快照 (Snapshot)
+    // ===================================
+
+    /** 預估階段一月支出 (未來值 FV) */
+    projectedMonthlyExpensePhase1?: number;
+
+    /** 預估階段二月支出 (未來值 FV) */
+    projectedMonthlyExpensePhase2?: number;
 }
 
 // 總表單狀態介面 (Global Form State)
