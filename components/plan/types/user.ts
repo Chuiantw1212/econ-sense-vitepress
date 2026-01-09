@@ -311,6 +311,22 @@ export interface UserLaborPension {
     currentWorkSeniority: number;       // 原 current_work_seniority
 }
 
+export interface UserRetirementQuality {
+    // 通用
+    medicalCode?: string; // 原 medicalKey
+    medicalExpense: number;
+
+    // 階段一
+    lifestyleCode?: string; // 原 lifestyleKey
+    dreamCoefficient: number;
+
+    // 階段二
+    disabilityAge: number;
+    careModeCode?: string; // 原 careModeKey
+    disabilityExpense: number;
+    livingExpenseAdjustment: number;
+}
+
 
 // 總表單狀態介面 (Global Form State)
 export interface UserFormState {
@@ -322,4 +338,5 @@ export interface UserFormState {
     creditCards: UserCreditCard[],
     laborPension: UserLaborPension,
     laborInsurance: UserLaborInsurance;
+    retirementQuality: UserRetirementQuality
 }

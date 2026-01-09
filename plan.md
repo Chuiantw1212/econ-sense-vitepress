@@ -37,6 +37,8 @@ head:
     </el-alert>
 </div>
 
+## 資本資料
+
 <div v-loading="isLoading" element-loading-text="同步雲端資料與設定中..." style="min-height: 200px;">
     <Profile 
         v-if="isReady"

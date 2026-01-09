@@ -1,54 +1,102 @@
 <template>
     <el-card shadow="never">
-        <el-form :model="localData" label-position="top">
+        <el-form :model="localData" label-position="top" label-width="auto">
 
-            <el-divider>退休品質參數設定</el-divider>
+            <el-divider>通用基礎設定 (金額皆為現值 PV)</el-divider>
 
             <el-row :gutter="20">
-
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="真實月開銷基數 (信用卡帳單加總)">
-                        <el-input :value="formatMoney(baseMonthlyExpense)" disabled>
-                            <template #suffix>元/月</template>
+                    <el-form-item label="真實月開銷基數 (信用卡加總)">
+                        <el-input :value="formatMoney(baseMonthlyExpense)" disabled style="width: 100%">
+                            <template #suffix>元 (現值)</template>
                         </el-input>
-                        <div style="font-size: 12px; color: var(--el-text-color-secondary); margin-top: 4px;">
-                            * 此金額由您輸入的各張信用卡平均月消費自動加總
-                        </div>
                     </el-form-item>
                 </el-col>
-
                 <el-col :span="12" :xs="24">
                     <el-form-item label="預計退休/請領年齡">
-                        <el-input :value="retirementAge" disabled>
+                        <el-input :value="retirementAge" disabled style="width: 100%">
                             <template #suffix>歲</template>
                         </el-input>
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="預估額外醫療支出 (月)">
-                        <el-input-number v-model="localData.medicalExpense" :min="0" :step="1000" style="width: 100%">
-                            <template #suffix>元</template>
-                        </el-input-number>
+                    <el-form-item label="全期額外醫療預算 (等級)">
+                        <el-select v-model="localData.medicalCode" placeholder="請選擇" style="width: 100%"
+                            @change="handleMedicalChange">
+                            <el-option v-for="opt in medicalOptions" :key="opt.code" :label="opt.label"
+                                :value="opt.code">
+                                <span style="float: left">{{ opt.label }}</span>
+                                <span v-if="opt.amount"
+                                    style="float: right; color: var(--el-text-color-secondary); font-size: 12px;">
+                                    {{ formatMoney(opt.amount) }}
+                                </span>
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
-
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="預估失能/長照啟動年齡">
+                    <el-form-item label="全期額外醫療預算 (金額)">
+                        <el-input-number v-model="localData.medicalExpense" :min="0" :step="1000" style="width: 100%" />
+                        <div class="inflation-note">
+                            * 此項目將以 {{ (MEDICAL_INFLATION_RATE * 100).toFixed(1) }}% 年增率估算
+                        </div>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-divider>階段一：活躍圓夢期 (退休~失能)</el-divider>
+
+            <el-row :gutter="20">
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="退休生活風格配置">
+                        <el-select v-model="localData.lifestyleCode" placeholder="請選擇" style="width: 100%"
+                            @change="handleLifestyleChange">
+                            <el-option v-for="opt in lifestyleOptions" :key="opt.code" :label="opt.label"
+                                :value="opt.code">
+                                <span style="float: left">{{ opt.label }}</span>
+                                <span v-if="opt.value"
+                                    style="float: right; color: var(--el-text-color-secondary); font-size: 12px;">
+                                    x{{ Math.round(opt.value * 100) }}%
+                                </span>
+                            </el-option>
+                        </el-select>
+                        <div class="inflation-note">
+                            * 生活與旅遊費將以 {{ (GENERAL_INFLATION_RATE * 100).toFixed(1) }}% 通膨率複利成長
+                        </div>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="階段一「首年」預估月支 (FV)">
+                        <el-input :value="formatMoney(activePhaseFirstYearFV)" disabled style="width: 100%">
+                            <template #suffix>元 (未來值)</template>
+                        </el-input>
+                        <div class="inflation-note">
+                            * 這是您 {{ retirementAge }} 歲那一年的預估開銷
+                        </div>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-divider>階段二：失能照護期 (失能~終老)</el-divider>
+
+            <el-row :gutter="20">
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="失能啟動年齡 (分界點)">
                         <el-input-number v-model="localData.disabilityAge" :min="retirementAge + 1" :max="100"
                             style="width: 100%" />
                     </el-form-item>
                 </el-col>
-
                 <el-col :span="12" :xs="24">
                     <el-form-item label="長照照顧模式配置">
-                        <el-select v-model="localData.careMode" placeholder="請選擇照顧模式" style="width: 100%"
+                        <el-select v-model="localData.careModeCode" placeholder="請選擇" style="width: 100%"
                             @change="handleCareModeChange">
-                            <el-option v-for="opt in careCostOptions" :key="opt.key" :label="opt.label"
-                                :value="opt.key">
+                            <el-option v-for="opt in careCostOptions" :key="opt.code" :label="opt.label"
+                                :value="opt.code">
                                 <span style="float: left">{{ opt.label }}</span>
-                                <span style="float: right; color: var(--el-text-color-secondary); font-size: 13px;">
-                                    {{ formatMoney(opt.amount) }}元
+                                <span v-if="opt.amount"
+                                    style="float: right; color: var(--el-text-color-secondary); font-size: 12px;">
+                                    {{ formatMoney(opt.amount) }}
                                 </span>
                             </el-option>
                         </el-select>
@@ -56,130 +104,105 @@
                 </el-col>
 
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="預估失能照護費用 (月)">
+                    <el-form-item label="預估照護費用 (現值)">
                         <el-input-number v-model="localData.disabilityExpense" :min="0" :step="1000"
-                            style="width: 100%">
-                            <template #suffix>元</template>
-                        </el-input-number>
-                        <div v-if="currentCareModeNote"
-                            style="font-size: 12px; color: var(--el-text-color-secondary); line-height: 1.4; margin-top: 4px;">
-                            <el-icon style="vertical-align: middle">
-                                <InfoFilled />
-                            </el-icon>
-                            {{ currentCareModeNote }}
+                            style="width: 100%" />
+                        <div class="inflation-note">
+                            * 照護費將以 {{ (MEDICAL_INFLATION_RATE * 100).toFixed(1) }}% 較高通膨率成長
                         </div>
                     </el-form-item>
                 </el-col>
-
-            </el-row>
-
-            <el-alert title="階段性支出說明" type="info" :closable="false" show-icon style="margin-bottom: 20px;">
-                <div>1. 活躍期 ({{ retirementAge }}~{{ localData.disabilityAge }}歲): 額外提撥 20% 圓夢預算。</div>
-                <div v-if="localData.livingExpenseAdjustment < 1">
-                    2. 失能期 ({{ localData.disabilityAge }}歲~): 選擇機構照護，基本生活費調整為 {{
-                        Math.round(localData.livingExpenseAdjustment * 100)
-                    }}% (因機構已含食宿)。
-                </div>
-                <div v-else>
-                    2. 失能期 ({{ localData.disabilityAge }}歲~): 圓夢預算取消，轉為照護支出。
-                </div>
-            </el-alert>
-
-            <el-divider>退休全期開支變化預測</el-divider>
-
-            <div style="position: relative; height: 400px; width: 100%;">
-                <canvas ref="chartCanvas"></canvas>
-            </div>
-
-            <el-row :gutter="20" style="margin-top: 20px;">
-                <el-col :span="12">
-                    <el-statistic title="活躍期預估月開銷 (含圓夢加給)" :value="activePhaseMonthlyTotal">
-                        <template #suffix>元</template>
-                    </el-statistic>
-                </el-col>
-                <el-col :span="12">
-                    <el-statistic title="失能期預估月開銷 (含照護費)" :value="passivePhaseMonthlyTotal"
-                        value-style="color: var(--el-color-danger)">
-                        <template #suffix>元</template>
-                    </el-statistic>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="階段二「首年」預估月支 (FV)">
+                        <el-input :value="formatMoney(passivePhaseFirstYearFV)" disabled style="width: 100%">
+                            <template #suffix>元 (未來值)</template>
+                        </el-input>
+                        <div class="inflation-note">
+                            * 這是您 {{ localData.disabilityAge }} 歲那一年的預估開銷
+                        </div>
+                    </el-form-item>
                 </el-col>
             </el-row>
+
+            <el-divider>全期支出結構預測 (含通膨複利)</el-divider>
+
+            <RetirementExpenseChart :current-age="currentAge" :retirement-age="retirementAge"
+                :life-expectancy="lifeExpectancy" :base-monthly-expense="baseMonthlyExpense"
+                :medical-expense="localData.medicalExpense" :dream-coefficient="localData.dreamCoefficient"
+                :disability-age="localData.disabilityAge" :disability-expense="localData.disabilityExpense"
+                :living-expense-adjustment="localData.livingExpenseAdjustment" />
 
         </el-form>
     </el-card>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted, nextTick, shallowRef } from 'vue';
-import { debounce } from 'lodash-es';
-import { InfoFilled } from '@element-plus/icons-vue';
-import Chart from 'chart.js/auto';
+import { computed } from 'vue';
+import RetirementExpenseChart from './charts/RetirementExpenseChart.vue';
 import type { UserFormState } from './types/user';
+import type { UserRetirementQuality } from './types/user';
+// --- 常數設定 (僅用於顯示文字，實際計算在子組件內也有一份或共用) ---
+const GENERAL_INFLATION_RATE = 0.03;
+const MEDICAL_INFLATION_RATE = 0.04;
 
-// --- 1. Props 定義 ---
-interface CareOptionItem {
-    key: string;
+// --- Props & Types ---
+interface OptionItem {
+    code: string;
     label: string;
-    amount: number;
-    livingExpenseAdjustment: number;
-    note: string;
-    sort?: number;
+    value?: number;
+    amount?: number;
+    livingExpenseAdjustment?: number;
 }
 
 const props = defineProps<{
     metadata: {
-        opt_care_costs?: {
-            list: CareOptionItem[]
-        }
+        opt_medical_expenses?: { list: OptionItem[] },
+        opt_lifestyle_curve?: { list: OptionItem[] },
+        opt_care_costs?: { list: OptionItem[] }
     }
 }>();
 
 const model = defineModel<UserFormState>({ required: true });
 
-// --- 2. 資料來源 ---
-const careCostOptions = computed(() => {
-    return props.metadata?.opt_care_costs?.list || [];
-});
-
-const FIXED_DREAM_COEFFICIENT = 1.2;
-
-interface QualitySettings {
-    medicalExpense: number;
-    disabilityAge: number;
-    disabilityExpense: number;
-    careMode?: string;
-    livingExpenseAdjustment?: number;
-}
+// --- Options from Metadata ---
+const medicalOptions = computed(() => props.metadata?.opt_medical_expenses?.list || []);
+const lifestyleOptions = computed(() => props.metadata?.opt_lifestyle_curve?.list || []);
+const careCostOptions = computed(() => props.metadata?.opt_care_costs?.list || []);
 
 const localData = computed({
     get: () => {
         const defaults = {
-            medicalExpense: 3000,
-            disabilityAge: 80,
+            medicalCode: 'basic',
+            medicalExpense: 2000,
+            lifestyleCode: 'active',
+            dreamCoefficient: 1.2,
+            disabilityAge: 75,
+            careModeCode: 'day_care',
             disabilityExpense: 45000,
-            careMode: 'day_care',
             livingExpenseAdjustment: 1.0
         };
         return { ...defaults, ...model.value.retirementQuality };
     },
-    set: (val: QualitySettings) => {
+    set: (val: UserRetirementQuality) => {
         model.value.retirementQuality = val;
     }
 });
 
-// --- 修改核心：計算真實月開銷基數 ---
+// --- Time & Base Calculations ---
+const currentYear = new Date().getFullYear();
+const birthYear = computed(() => {
+    const dateStr = model.value.profile?.birthDate;
+    if (!dateStr) return currentYear - 30;
+    return new Date(dateStr).getFullYear();
+});
+const currentAge = computed(() => currentYear - birthYear.value);
+
 const baseMonthlyExpense = computed(() => {
     const cards = model.value.creditCards;
     let total = 0;
-
-    // 如果 creditCards 存在且為陣列，進行加總
     if (Array.isArray(cards)) {
-        total = cards.reduce((sum, card) => {
-            return sum + (Number(card.averageMonthlyExpense) || 0);
-        }, 0);
+        total = cards.reduce((sum, card) => sum + (Number(card.averageMonthlyExpense) || 0), 0);
     }
-
-    // 若加總結果大於 0，回傳加總值；否則回傳預設值 30000 (避免圖表全空)
     return total > 0 ? total : 30000;
 });
 
@@ -189,161 +212,74 @@ const lifeExpectancy = computed(() => {
     return Math.floor(retirementAge.value + remaining);
 });
 
-// 顯示當前模式的備註
-const currentCareModeNote = computed(() => {
-    const mode = localData.value.careMode;
-    const opt = careCostOptions.value.find(o => o.key === mode);
-    return opt ? opt.note : '';
+// --- FV Helper for Display ---
+function calculateFV(pv: number, rate: number, years: number) {
+    if (years <= 0) return pv;
+    return pv * Math.pow(1 + rate, years);
+}
+
+// --- Phase Totals (Future Value) Display ---
+const activePhaseFirstYearFV = computed(() => {
+    const yearsToRetire = Math.max(0, retirementAge.value - currentAge.value);
+
+    const basePV = baseMonthlyExpense.value * localData.value.dreamCoefficient;
+    const baseFV = calculateFV(basePV, GENERAL_INFLATION_RATE, yearsToRetire);
+
+    const medFV = calculateFV(localData.value.medicalExpense, MEDICAL_INFLATION_RATE, yearsToRetire);
+
+    return Math.round(baseFV + medFV);
 });
 
-// --- 3. 邏輯處理 ---
+const passivePhaseFirstYearFV = computed(() => {
+    const yearsToDisability = Math.max(0, localData.value.disabilityAge - currentAge.value);
 
-function handleCareModeChange(key: string) {
-    const opt = careCostOptions.value.find(o => o.key === key);
+    const basePV = baseMonthlyExpense.value * localData.value.livingExpenseAdjustment;
+    const baseFV = calculateFV(basePV, GENERAL_INFLATION_RATE, yearsToDisability);
+
+    const medFV = calculateFV(localData.value.medicalExpense, MEDICAL_INFLATION_RATE, yearsToDisability);
+
+    const careFV = calculateFV(localData.value.disabilityExpense, MEDICAL_INFLATION_RATE, yearsToDisability);
+
+    return Math.round(baseFV + medFV + careFV);
+});
+
+// --- Select Handlers ---
+function handleMedicalChange(code: string) {
+    const opt = medicalOptions.value.find(o => o.code === code);
     if (opt) {
         const newData = { ...localData.value };
-        newData.disabilityExpense = opt.amount;
-        newData.livingExpenseAdjustment = opt.livingExpenseAdjustment;
+        newData.medicalCode = code;
+        newData.medicalExpense = opt.amount ?? 0;
+        localData.value = newData;
+    }
+}
+function handleLifestyleChange(code: string) {
+    const opt = lifestyleOptions.value.find(o => o.code === code);
+    if (opt) {
+        const newData = { ...localData.value };
+        newData.lifestyleCode = code;
+        newData.dreamCoefficient = opt.value ?? 1.0;
+        localData.value = newData;
+    }
+}
+function handleCareModeChange(code: string) {
+    const opt = careCostOptions.value.find(o => o.code === code);
+    if (opt) {
+        const newData = { ...localData.value };
+        newData.careModeCode = code;
+        newData.disabilityExpense = opt.amount ?? 0;
+        newData.livingExpenseAdjustment = opt.livingExpenseAdjustment ?? 1.0;
         localData.value = newData;
     }
 }
 
-// --- 4. 統計計算 ---
-const activePhaseMonthlyTotal = computed(() => {
-    return Math.round(
-        (baseMonthlyExpense.value * FIXED_DREAM_COEFFICIENT) +
-        localData.value.medicalExpense
-    );
-});
-
-const passivePhaseMonthlyTotal = computed(() => {
-    const adj = localData.value.livingExpenseAdjustment ?? 1.0;
-
-    return Math.round(
-        (baseMonthlyExpense.value * adj) +
-        localData.value.disabilityExpense +
-        localData.value.medicalExpense
-    );
-});
-
-// --- 5. Chart.js 圖表邏輯 ---
-const chartCanvas = ref<HTMLCanvasElement | null>(null);
-const chartInstance = shallowRef<Chart | null>(null);
-
-const generateChartData = () => {
-    const startAge = retirementAge.value;
-    const endAge = lifeExpectancy.value;
-    const disAge = localData.value.disabilityAge;
-    const adj = localData.value.livingExpenseAdjustment ?? 1.0;
-
-    const labels: string[] = [];
-    const dataBase: number[] = [];
-    const dataDream: number[] = [];
-    const dataMedical: number[] = [];
-    const dataCare: number[] = [];
-
-    for (let age = startAge; age <= endAge; age++) {
-        labels.push(`${age}歲`);
-
-        dataMedical.push(localData.value.medicalExpense);
-
-        if (age < disAge) {
-            // [活躍期]
-            dataBase.push(baseMonthlyExpense.value);
-            const dreamAmount = Math.round(baseMonthlyExpense.value * (FIXED_DREAM_COEFFICIENT - 1));
-            dataDream.push(dreamAmount);
-            dataCare.push(0);
-        } else {
-            // [失能期]
-            dataBase.push(Math.round(baseMonthlyExpense.value * adj));
-            dataDream.push(0);
-            dataCare.push(localData.value.disabilityExpense);
-        }
-    }
-
-    return { labels, dataBase, dataDream, dataMedical, dataCare };
-};
-
-const initChart = () => {
-    if (!chartCanvas.value) return;
-    const ctx = chartCanvas.value.getContext('2d');
-    if (!ctx) return;
-
-    const { labels, dataBase, dataDream, dataMedical, dataCare } = generateChartData();
-
-    chartInstance.value = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                { label: '基本生活', data: dataBase, backgroundColor: '#91cc75', stack: 'Stack 0' },
-                { label: '醫療支出', data: dataMedical, backgroundColor: '#73c0de', stack: 'Stack 0' },
-                { label: '圓夢品質', data: dataDream, backgroundColor: '#fac858', stack: 'Stack 0' },
-                { label: '失能照護', data: dataCare, backgroundColor: '#ee6666', stack: 'Stack 0' }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
-            scales: {
-                x: { stacked: true, grid: { display: false } },
-                y: {
-                    stacked: true,
-                    beginAtZero: true,
-                    ticks: { callback: (val) => (Number(val) / 10000) + '萬' },
-                    title: { display: true, text: '月支出 (元)' }
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: (ctx) => {
-                            let label = ctx.dataset.label || '';
-                            if (label) label += ': ';
-                            if (ctx.parsed.y !== null) label += formatMoney(ctx.parsed.y);
-                            return label;
-                        },
-                        footer: (items) => {
-                            let sum = 0;
-                            items.forEach((item) => sum += item.parsed.y);
-                            return '總月開銷: ' + formatMoney(sum);
-                        }
-                    }
-                },
-                legend: { position: 'bottom' }
-            }
-        }
-    });
-};
-
-const updateChart = () => {
-    if (!chartInstance.value) { initChart(); return; }
-    const { labels, dataBase, dataDream, dataMedical, dataCare } = generateChartData();
-    chartInstance.value.data.labels = labels;
-    chartInstance.value.data.datasets[0].data = dataBase;
-    chartInstance.value.data.datasets[1].data = dataMedical;
-    chartInstance.value.data.datasets[2].data = dataDream;
-    chartInstance.value.data.datasets[3].data = dataCare;
-    chartInstance.value.update();
-};
-
-const debouncedUpdate = debounce(updateChart, 300);
-
-watch(
-    [
-        () => localData.value,
-        baseMonthlyExpense,
-        retirementAge,
-        lifeExpectancy,
-        careCostOptions
-    ],
-    () => { debouncedUpdate(); },
-    { deep: true }
-);
-
-onMounted(() => { nextTick(() => { initChart(); }); });
-onUnmounted(() => { if (chartInstance.value) { chartInstance.value.destroy(); chartInstance.value = null; } });
-
 function formatMoney(val: number) { return Math.round(val).toLocaleString(); }
 </script>
+
+<style scoped>
+.inflation-note {
+    font-size: 12px;
+    color: var(--el-text-color-secondary);
+    margin-top: 4px;
+}
+</style>
