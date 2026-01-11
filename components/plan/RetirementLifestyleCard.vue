@@ -1,323 +1,197 @@
 <template>
-    <el-card shadow="never" class="lifestyle-card">
-        <el-form :model="localData" label-position="top" label-width="auto">
-
-            <div class="simple-header">
-                <div class="header-title">
-                    <el-icon class="header-icon-simple">
-                        <Sunrise />
-                    </el-icon>
-                    <span>Step 1: 退休生活風格 (65~75歲)</span>
-                </div>
-                <div class="subtitle">
-                    依據《五級距模型》與《居住報告》校正您的真實生存成本。
-                </div>
+    <el-card shadow="never">
+        <template #header>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-size: 18px; font-weight: bold;">Step 1: 退休生活風格</span>
+                <el-tag type="info">基於消費十等分位模型</el-tag>
             </div>
+        </template>
 
-            <el-divider content-position="left">1. 生存基底校正 (五級距模型)</el-divider>
+        <el-form label-position="top">
 
-            <el-row :gutter="20">
-                <el-col :span="24">
-                    <transition name="el-fade-in">
-                        <el-alert v-if="autoQuintileMessage" type="success" :closable="false" show-icon
-                            style="margin-bottom: 20px;">
-                            <template #title>
-                                {{ autoQuintileMessage }}
-                            </template>
-                        </el-alert>
-                    </transition>
+            <el-divider content-position="left">1. 財務階層與生存基底</el-divider>
+
+            <el-alert v-if="currentTier" :title="`財務定位：${currentTier.label}`" :type="tierAlertLevel" show-icon
+                :closable="false" style="margin-bottom: 20px;">
+                <div>
+                    {{ currentTier.desc }} (需求替代率: {{ formatRate(currentTier.rates?.demand) }} | 公共年金供給: {{
+                        formatRate(currentTier.rates?.supply) }})
+                </div>
+            </el-alert>
+
+            <el-row :gutter="24">
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="財務身份 (依收入自動判斷)">
+                        <el-select v-model="localData.tierCode" placeholder="請選擇" style="width: 100%" filterable
+                            @change="handleTierChange">
+                            <el-option v-for="tier in consumptionTiers" :key="tier.code"
+                                :label="`${tier.code} ${tier.label} (替代率 ${(tier.rates?.demand * 100).toFixed(0)}%)`"
+                                :value="tier.code" />
+                        </el-select>
+                    </el-form-item>
                 </el-col>
 
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="A. 原始月開銷基數 (信用卡平均)">
+                    <el-form-item label="目前真實月開銷 (信用卡平均)">
                         <el-input :value="formatMoney(baseMonthlyExpense)" disabled>
                             <template #suffix>元/月</template>
                         </el-input>
                     </el-form-item>
                 </el-col>
 
+                <el-col :span="24">
+                    <el-form-item label="替代後生存月開銷 (基礎盤)">
+                        <el-input :value="formatMoney(adjustedBaseExpense)" disabled size="large">
+                            <template #prepend>計算結果</template>
+                            <template #suffix>元/月</template>
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-divider content-position="left">2. 居住與家庭結構</el-divider>
+
+            <el-row :gutter="24">
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="B. 財務身份 (生存留存率)">
-                        <el-select v-model="localData.baseRetentionRate" placeholder="請選擇" style="width: 100%">
-                            <el-option label="Q5: 高薪/高儲蓄族 (60%)" :value="60" />
-                            <el-option label="Q4: 富裕階層 (70%)" :value="70" />
-                            <el-option label="Q3: 中產階級 (80%)" :value="80" />
-                            <el-option label="Q2: 小康邊緣 (90%)" :value="90" />
-                            <el-option label="Q1: 基本生活族 (100%)" :value="100" />
-                        </el-select>
-                        <div class="helper-text-small" :class="quintileColorClass">
-                            * {{ currentQuintileHint }}
-                        </div>
+                    <el-form-item label="家庭結構">
+                        <el-radio-group v-model="localData.householdType">
+                            <el-radio label="single">單身</el-radio>
+                            <el-radio label="couple">雙人</el-radio>
+                        </el-radio-group>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="24">
-                    <el-alert type="info" :closable="false" show-icon style="margin-bottom: 18px;">
-                        <template #title>
-                            校正後生存底線 (Pure Base)： <b style="font-size: 1.1em;">{{ formatMoney(adjustedBaseExpense) }}</b>
-                            元/月
-                        </template>
-                    </el-alert>
-                </el-col>
-
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="居住狀態 (Housing Status)">
-                        <el-select v-model="localData.housingStatus" placeholder="請選擇" style="width: 100%">
+                    <el-form-item label="居住狀態">
+                        <el-select v-model="localData.housingMode" placeholder="請選擇" style="width: 100%">
                             <el-option v-for="opt in housingOptions" :key="opt.code" :label="opt.label"
                                 :value="opt.code" />
                         </el-select>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" :xs="24">
-                    <el-form-item :label="housingCostLabel">
-                        <el-input-number v-model="localData.housingMonthly" :min="0" :step="1000" style="width: 100%"
-                            :placeholder="currentHousingBenchmark?.toString()" />
-                        <div class="helper-text-small">
-                            {{ housingCostHint }}
-                        </div>
+                <el-col :span="24">
+                    <el-form-item label="每月居住現金流 (持有成本/租金)">
+                        <el-input-number v-model="localData.housingCost" :min="0" :step="1000" style="width: 100%"
+                            controls-position="right" />
                     </el-form-item>
                 </el-col>
             </el-row>
 
-            <el-divider content-position="left">2. 圓夢與享樂 (外加於生存底線之上)</el-divider>
+            <el-divider content-position="left">3. 活躍生活與圓夢</el-divider>
 
-            <el-row :gutter="20">
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="年度旅遊願景">
-                        <el-select v-model="localData.travelStyle" placeholder="請選擇" style="width: 100%">
-                            <el-option label="國內輕旅行 (約 3萬/年)" value="domestic" />
-                            <el-option label="亞洲短程 (約 10萬/年)" value="asia" />
-                            <el-option label="歐美長程 (約 30萬/年)" value="global" />
-                            <el-option label="環遊世界 (約 100萬/年)" value="luxury" />
-                            <el-option label="無特別規劃" value="none" />
+            <el-row :gutter="24">
+                <el-col :span="24">
+                    <el-form-item label="期望生活風格">
+                        <el-select v-model="localData.lifestyleCode" placeholder="請選擇" style="width: 100%">
+                            <el-option v-for="opt in lifestyleOptions" :key="opt.code"
+                                :label="`${opt.label} (年預算 ${formatMoney(opt.amount_yearly)})`" :value="opt.code" />
                         </el-select>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="興趣與社交 (高爾夫/攝影/聚餐)">
-                        <el-input-number v-model="localData.hobbyMonthly" :min="0" :step="1000" style="width: 100%" />
-                        <template #suffix>元/月</template>
+                        <el-alert v-if="lifestyleGap > 0"
+                            :title="`階層躍升：每年需額外準備 ${formatMoney(lifestyleGap)} 元 (月攤提 ${formatMoney(lifestyleGapMonthly)})`"
+                            type="warning" :closable="false" show-icon style="margin-top: 10px;" />
                     </el-form-item>
                 </el-col>
             </el-row>
 
-            <el-divider content-position="left">3. 預防醫學投資</el-divider>
+            <div style="margin-top: 30px; background-color: #f5f7fa; padding: 24px; border-radius: 8px;">
+                <div style="margin-bottom: 16px; font-size: 14px; color: #606266; font-weight: 500;">
+                    活躍期 <b>年度</b> 總需求結構：
+                </div>
 
-            <el-row :gutter="20">
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="健康促進預算 (健身/營養品)">
-                        <el-input-number v-model="localData.healthInvestment" :min="0" :step="1000"
-                            style="width: 100%" />
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="居家環境改造 (一次性)">
-                        <el-input-number v-model="localData.homeRenovation" :min="0" :step="10000"
-                            style="width: 100%" />
-                        <div class="helper-text-small">* 報告建議：浴室防滑與動線優化</div>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+                <el-row align="middle">
+                    <el-col :span="18" :xs="24">
+                        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
 
-            <el-card shadow="never" class="summary-card">
-                <el-row justify="space-between" align="middle">
-                    <el-col :span="24" :sm="10">
-                        <el-statistic title="活躍期每月總支出 (現值)" :value="totalMonthlyPv" precision="0">
-                            <template #suffix>元</template>
+                            <div style="font-size: 24px; color: #909399; margin-right: 4px;">(</div>
+
+                            <div style="text-align: center;">
+                                <div style="font-size: 12px; color: #909399;">生存月費</div>
+                                <div style="font-size: 15px; font-weight: bold; color: #303133;">{{
+                                    formatMoney(adjustedBaseExpense) }}</div>
+                            </div>
+
+                            <el-icon v-if="singlePenaltyAmount > 0" style="margin: 0 4px;">
+                                <Plus />
+                            </el-icon>
+
+                            <div v-if="singlePenaltyAmount > 0" style="text-align: center;">
+                                <div style="font-size: 12px; color: #F56C6C;">單身加成</div>
+                                <div style="font-size: 15px; font-weight: bold; color: #F56C6C;">{{
+                                    formatMoney(singlePenaltyAmount) }}</div>
+                            </div>
+
+                            <el-icon style="margin: 0 4px;">
+                                <Plus />
+                            </el-icon>
+
+                            <div style="text-align: center;">
+                                <div style="font-size: 12px; color: #E6A23C;">居住月費</div>
+                                <div style="font-size: 15px; font-weight: bold; color: #303133;">{{
+                                    formatMoney(localData.housingCost) }}</div>
+                            </div>
+
+                            <el-icon style="margin: 0 4px;">
+                                <Plus />
+                            </el-icon>
+
+                            <div style="text-align: center;">
+                                <div style="font-size: 12px; color: #67C23A;">圓夢月攤</div>
+                                <div style="font-size: 15px; font-weight: bold; color: #303133;">{{
+                                    formatMoney(lifestyleGapMonthly) }}</div>
+                            </div>
+
+                            <div style="font-size: 24px; color: #909399; margin-left: 4px;">)</div>
+
+                            <div style="display: flex; align-items: center; margin-left: 8px;">
+                                <span style="font-size: 16px; color: #606266; font-weight: bold;">× 12</span>
+                                <span style="font-size: 12px; color: #909399; margin-left: 4px;">(月)</span>
+                            </div>
+
+                            <div style="margin-left: 12px; font-size: 20px; color: #909399;">=</div>
+                        </div>
+                    </el-col>
+
+                    <el-col :span="6" :xs="24" style="text-align: right;">
+                        <el-statistic :value="totalYearlyDemand"
+                            value-style="font-size: 28px; font-weight: bold; color: #409EFF;">
+                            <template #title>
+                                <span style="font-size: 15px; font-weight: 600;">活躍期年度總支出</span>
+                            </template>
                         </el-statistic>
                     </el-col>
-
-                    <el-col :span="24" :sm="14" class="breakdown-col">
-                        <div class="breakdown-label">費用結構：</div>
-                        <el-space wrap :size="5" spacer="+">
-                            <el-tag effect="plain" type="info">
-                                生存 {{ formatMoney(adjustedBaseExpense + localData.housingMonthly) }}
-                            </el-tag>
-                            <el-tag effect="plain" type="warning">
-                                圓夢 {{ formatMoney(monthlyTravelCost + localData.hobbyMonthly) }}
-                            </el-tag>
-                            <el-tag effect="plain" type="success">
-                                健康 {{ formatMoney(localData.healthInvestment) }}
-                            </el-tag>
-                        </el-space>
-                    </el-col>
                 </el-row>
-            </el-card>
+            </div>
 
         </el-form>
     </el-card>
 </template>
 
 <script setup lang="ts">
-import { computed, watch, ref } from 'vue';
+import { computed, watch } from 'vue';
 import { debounce } from 'lodash-es';
-import { Sunrise } from '@element-plus/icons-vue';
-import type { UserFormState } from './types/user';
+import { Plus } from '@element-plus/icons-vue';
 import { useApi } from '@/components/plan/composables/useApi';
+import type { UserFormState } from './types/user';
+import { RetirementLifestyle } from './types/user';
 
 const { authFetch } = useApi();
 const model = defineModel<UserFormState>({ required: true });
 
-// [新增] 接收 metadata prop
 const props = defineProps<{
+    meta?: any;
     metadata?: any;
 }>();
 
-// --- Interface ---
-interface RetirementLifestyle {
-    baseRetentionRate: number;
-    housingStatus: string; // Dynamic from metadata (e.g., 'OWN_HOME', 'RENTAL')
-    housingMonthly: number;
-    generalInflation: number;
-    travelStyle: string;
-    hobbyMonthly: number;
-    healthInvestment: number;
-    homeRenovation: number;
-}
+// --- 資料源 ---
+const metaSource = computed(() => props.meta || props.metadata || {});
+const consumptionTiers = computed(() => metaSource.value.opt_consumption_replacement_model?.tiers || []);
+const housingOptions = computed(() => metaSource.value.opt_housing_mode?.list || []);
+const lifestyleOptions = computed(() => metaSource.value.opt_active_lifestyle?.list || []);
 
-// --- Logic: Housing Options from Metadata ---
-const housingOptions = computed(() => {
-    return props.metadata?.opt_housing_mode?.list || [];
-});
+// --- 收入與開銷 ---
+const monthlyNetIncome = computed(() => Number(model.value.career?.monthlyNetIncome) || 0);
 
-// 建立 Code -> Option 的快速查找表
-const housingMap = computed(() => {
-    const map: Record<string, any> = {};
-    housingOptions.value.forEach((opt: any) => {
-        map[opt.code] = opt;
-    });
-    return map;
-});
-
-// 當前選中模式的 Benchmark 金額 (預設使用 defaultMonthlyExpense)
-const currentHousingBenchmark = computed(() => {
-    const opt = housingMap.value[localData.value.housingStatus];
-    return opt ? opt.defaultMonthlyExpense : 0;
-});
-
-// 動態標籤：依據不同模式顯示不同欄位名稱
-const housingCostLabel = computed(() => {
-    const code = localData.value.housingStatus;
-    if (code === 'OWN_HOME') return '房屋修繕稅費 (月攤提)';
-    if (code === 'RENTAL') return '每月房租 (租金)';
-    return '機構月費 (含設施服務)';
-});
-
-// 動態提示：顯示 Metadata 中的 description
-const housingCostHint = computed(() => {
-    const opt = housingMap.value[localData.value.housingStatus];
-    if (!opt) return '';
-    // 如果有雙人價格差異，也可以顯示 (目前先顯示主要描述)
-    // opt.coupleMonthlyExpense 可視需求加入提示
-    return `* ${opt.description} (參考行情: ${formatMoney(opt.defaultMonthlyExpense)}/月)`;
-});
-
-// --- Logic: Auto-Detect Quintile ---
-const autoQuintileMessage = ref('');
-
-watch(
-    () => model.value.career?.monthlyNetIncome,
-    (monthlyNetIncome) => {
-        if (!monthlyNetIncome || monthlyNetIncome <= 0) return;
-        const estimatedAnnual = monthlyNetIncome * 12;
-        let rate = 80;
-        let label = '';
-
-        if (estimatedAnnual > 1750000) {
-            rate = 60;
-            label = 'Q5 高薪族';
-        } else if (estimatedAnnual > 1100000) {
-            rate = 70;
-            label = 'Q4 富裕族';
-        } else if (estimatedAnnual > 800000) {
-            rate = 80;
-            label = 'Q3 中產族';
-        } else if (estimatedAnnual > 500000) {
-            rate = 90;
-            label = 'Q2 小康族';
-        } else {
-            rate = 100;
-            label = 'Q1 基本族';
-        }
-
-        if (localData.value.baseRetentionRate !== rate) {
-            localData.value.baseRetentionRate = rate;
-            const incomeStr = Math.round(monthlyNetIncome).toLocaleString();
-            autoQuintileMessage.value = `🪄 偵測到月薪 $${incomeStr}，系統依五級距模型自動帶入「${label}」。`;
-            setTimeout(() => { autoQuintileMessage.value = ''; }, 5000);
-        }
-    },
-    { immediate: true }
-);
-
-// --- Dynamic Hint ---
-const currentQuintileHint = computed(() => {
-    const rate = localData.value.baseRetentionRate;
-    switch (rate) {
-        case 60: return '報告 Q5：高所得組 (前20%)。高額儲蓄與累進稅負移除，替代率需求最低。';
-        case 70: return '報告 Q4：富裕階層 (前40%)。儲蓄率約 20%，生活品質優渥。';
-        case 80: return '報告 Q3：中產階級 (中位數)。標準模型，扣除工作相關開銷。';
-        case 90: return '報告 Q2：小康邊緣 (後40%)。儲蓄率微薄，開銷多為必要支出。';
-        case 100: return '報告 Q1：基本生活 (後20%)。剛性需求極高，建議 100% 完全保留。';
-        default: return '自訂比例';
-    }
-});
-
-const quintileColorClass = computed(() => {
-    const rate = localData.value.baseRetentionRate;
-    if (rate <= 60) return 'text-success';
-    if (rate >= 100) return 'text-warning';
-    return 'text-info';
-});
-
-// --- Data Proxy ---
-const localData = computed({
-    get: () => {
-        const defaults: RetirementLifestyle = {
-            baseRetentionRate: 80,
-            housingStatus: 'OWN_HOME', // Update default to match metadata code
-            housingMonthly: 22000, // Match benchmark of OWN_HOME
-            generalInflation: 3.0,
-            travelStyle: 'asia',
-            hobbyMonthly: 5000,
-            healthInvestment: 3000,
-            homeRenovation: 150000
-        };
-        if (!model.value.retirementLifestyle) {
-            model.value.retirementLifestyle = defaults;
-        }
-        return { ...defaults, ...model.value.retirementLifestyle };
-    },
-    set: (val: RetirementLifestyle) => {
-        model.value.retirementLifestyle = val;
-    }
-});
-
-// --- Smart Defaults for Housing (Autofill on Change) ---
-watch(
-    () => localData.value.housingStatus,
-    (newStatus, oldStatus) => {
-        if (!oldStatus) return;
-
-        const currentAmount = localData.value.housingMonthly;
-        // 取得舊選項的預設值，用來判斷用戶是否手動修改過
-        const oldBenchmark = housingMap.value[oldStatus]?.defaultMonthlyExpense;
-
-        // 如果目前金額等於舊預設值 (代表用戶沒改過)，或金額為 0，則自動更新為新預設值
-        if (currentAmount === oldBenchmark || currentAmount === 0) {
-            const newBenchmark = housingMap.value[newStatus]?.defaultMonthlyExpense;
-            if (newBenchmark) {
-                const newData = { ...localData.value };
-                newData.housingMonthly = newBenchmark;
-                localData.value = newData;
-            }
-        }
-    }
-);
-
-// --- Computations ---
 const baseMonthlyExpense = computed(() => {
     const cards = model.value.creditCards;
     let total = 0;
@@ -327,114 +201,202 @@ const baseMonthlyExpense = computed(() => {
     return total > 0 ? total : 30000;
 });
 
-const adjustedBaseExpense = computed(() => {
-    return Math.round(baseMonthlyExpense.value * (localData.value.baseRetentionRate / 100));
-});
-
-const travelCosts: Record<string, number> = {
-    none: 0, domestic: 2500, asia: 8300, global: 25000, luxury: 83000
-};
-const monthlyTravelCost = computed(() => travelCosts[localData.value.travelStyle] || 0);
-
-const totalMonthlyPv = computed(() => {
-    return adjustedBaseExpense.value
-        + localData.value.housingMonthly
-        + monthlyTravelCost.value
-        + localData.value.hobbyMonthly
-        + localData.value.healthInvestment;
-});
-
-function formatMoney(val: number) { return Math.round(val).toLocaleString(); }
-
-// --- Auto Save ---
-async function performSave() {
-    const data = model.value.retirementLifestyle;
-    if (data) {
-        try {
-            await authFetch('/api/v1/user/retirement-lifestyle', {
-                method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
-            });
-        } catch (e) { console.error(e); }
+// --- 本地資料 ---
+const localData = computed({
+    get: () => {
+        const defaults: RetirementLifestyle = {
+            tierCode: '',
+            baseRetentionRate: 0.85,
+            householdType: 'single',
+            housingMode: 'OWN_HOME_LOAN_FREE',
+            housingCost: 0,
+            lifestyleCode: 'L2',
+            hobbyMonthly: 0,
+            healthInvestment: 0,
+            homeRenovation: 0
+        };
+        return { ...defaults, ...model.value.retirementLifestyle } as RetirementLifestyle;
+    },
+    set: (val: RetirementLifestyle) => {
+        model.value.retirementLifestyle = val;
     }
+});
+
+// --- 邏輯 1: 自動判斷階層 ---
+const currentTier = computed(() => {
+    if (localData.value.tierCode) {
+        return consumptionTiers.value.find((t: any) => t.code === localData.value.tierCode);
+    }
+
+    if (!consumptionTiers.value.length) return null;
+    const income = monthlyNetIncome.value;
+
+    return consumptionTiers.value.find((t: any) => {
+        const min = t.rangeMin || t.income_range?.min || 0;
+        const max = t.rangeMax || t.income_range?.max;
+        if (!max) return income >= min;
+        return income >= min && income <= max;
+    }) || consumptionTiers.value[0];
+});
+
+watch(() => monthlyNetIncome.value, () => {
+    if (!localData.value.tierCode && currentTier.value) {
+        updateTierData(currentTier.value);
+    }
+}, { immediate: true });
+
+function handleTierChange(code: string) {
+    const tier = consumptionTiers.value.find((t: any) => t.code === code);
+    if (tier) updateTierData(tier);
 }
-const debouncedSave = debounce(performSave, 800);
+
+function updateTierData(tier: any) {
+    const newData = { ...localData.value };
+    newData.tierCode = tier.code;
+
+    // 依據 rates.demand 更新
+    if (tier.rates?.demand) {
+        newData.baseRetentionRate = tier.rates.demand;
+    } else if (tier.replacementRate) {
+        newData.baseRetentionRate = tier.replacementRate;
+    }
+
+    localData.value = newData;
+}
+
+// --- 邏輯 2: 居住成本連動 ---
+const housingMap = computed(() => {
+    const map: Record<string, any> = {};
+    housingOptions.value.forEach((opt: any) => map[opt.code] = opt);
+    return map;
+});
+
+watch(
+    [() => localData.value.housingMode, () => localData.value.householdType],
+    ([newMode, newType], [oldMode, oldType]) => {
+        if (!newMode) return;
+        const opt = housingMap.value[newMode];
+        if (!opt) return;
+
+        const base = opt.amount_monthly || 0;
+        const add = (newType === 'couple') ? (opt.amount_couple_add || 0) : 0;
+        const suggestedCost = base + add;
+
+        const currentCost = localData.value.housingCost;
+        let shouldUpdate = false;
+
+        if (currentCost === 0) shouldUpdate = true;
+        else if (newMode !== oldMode) shouldUpdate = true;
+        else if (newType !== oldType) shouldUpdate = true;
+
+        if (shouldUpdate) {
+            const newData = { ...localData.value };
+            newData.housingCost = suggestedCost;
+            localData.value = newData;
+        }
+    },
+    { immediate: true }
+);
+
+// --- 邏輯 3: 生活風格落差 ---
+const lifestyleMap = computed(() => {
+    const map: Record<string, any> = {};
+    lifestyleOptions.value.forEach((opt: any) => map[opt.code] = opt);
+    return map;
+});
+
+const selectedLifestyle = computed(() => lifestyleMap.value[localData.value.lifestyleCode]);
+
+const impliedLifestyleBudget = computed(() => {
+    if (!currentTier.value || !lifestyleOptions.value.length) return 0;
+    const implied = lifestyleOptions.value.find((l: any) =>
+        l.implied_tiers && l.implied_tiers.includes(currentTier.value.code)
+    );
+    return implied ? (implied.amount_yearly || 0) : 0;
+});
+
+const lifestyleGap = computed(() => {
+    const target = selectedLifestyle.value?.amount_yearly || 0;
+    const base = impliedLifestyleBudget.value;
+    return Math.max(0, target - base);
+});
+
+const lifestyleGapMonthly = computed(() => Math.round(lifestyleGap.value / 12));
+
+// --- 邏輯 4: 計算總需求 ---
+const adjustedBaseExpense = computed(() => {
+    // 優先使用 Metadata 中的 rates.demand
+    // 其次使用 localData (若有手動覆蓋邏輯)
+    let rate = 1.0;
+
+    if (currentTier.value?.rates?.demand) {
+        rate = currentTier.value.rates.demand;
+    } else if (localData.value.baseRetentionRate) {
+        // 兼容舊資料或手動值: 若 > 2 (如 85) 則除 100, 否則視為小數 (0.85)
+        rate = localData.value.baseRetentionRate > 2
+            ? localData.value.baseRetentionRate / 100
+            : localData.value.baseRetentionRate;
+    }
+
+    return Math.round(baseMonthlyExpense.value * rate);
+});
+
+const singlePenaltyAmount = computed(() => {
+    if (localData.value.householdType !== 'single') return 0;
+    if (!currentTier.value) return 0;
+
+    const level = parseInt(currentTier.value.code.replace('D', ''));
+    if (!isNaN(level) && level <= 5) {
+        return Math.round(adjustedBaseExpense.value * 0.15);
+    }
+    return 0;
+});
+
+const totalMonthlyDemand = computed(() => {
+    return adjustedBaseExpense.value
+        + singlePenaltyAmount.value
+        + (localData.value.housingCost || 0)
+        + lifestyleGapMonthly.value;
+});
+
+// 新增: 年度總需求
+const totalYearlyDemand = computed(() => {
+    return totalMonthlyDemand.value * 12;
+});
+
+// --- UI 輔助 ---
+const tierAlertLevel = computed(() => {
+    if (!currentTier.value) return 'info';
+    const code = currentTier.value.code;
+    const level = parseInt(code.replace('D', ''));
+    if (level <= 2) return 'error';
+    if (level >= 8) return 'warning';
+    return 'success';
+});
+
+function formatMoney(val: number | undefined) {
+    if (val === undefined || val === null) return '0';
+    return Math.round(val).toLocaleString();
+}
+
+function formatRate(val: number | undefined) {
+    if (val === undefined) return '0%';
+    if (val <= 1.5) return (val * 100).toFixed(0) + '%';
+    return val + '%';
+}
+
+// --- 自動儲存 ---
+const debouncedSave = debounce(async () => {
+    try {
+        await authFetch('/api/v1/user/retirement-lifestyle', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(model.value.retirementLifestyle)
+        });
+    } catch (e) {
+        console.error(e);
+    }
+}, 800);
+
 watch(() => model.value.retirementLifestyle, (n) => { if (n) debouncedSave(); }, { deep: true });
 </script>
-
-<style scoped>
-.lifestyle-card {
-    border: 1px solid var(--el-border-color-lighter);
-}
-
-.simple-header {
-    margin-bottom: 20px;
-}
-
-.header-title {
-    margin: 0 0 8px 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--el-text-color-primary);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.header-icon-simple {
-    color: var(--el-color-primary);
-    font-size: 20px;
-}
-
-.subtitle {
-    margin: 0;
-    font-size: 13px;
-    color: var(--el-text-color-secondary);
-    line-height: 1.5;
-}
-
-.helper-text-small {
-    font-size: 12px;
-    margin-top: 4px;
-    line-height: 1.4;
-    color: var(--el-text-color-secondary);
-}
-
-.text-success {
-    color: var(--el-color-success);
-}
-
-.text-warning {
-    color: var(--el-color-warning);
-}
-
-.text-info {
-    color: var(--el-color-primary);
-}
-
-.summary-card {
-    margin-top: 30px;
-    background-color: var(--el-color-primary-light-9);
-    border: none;
-}
-
-.breakdown-col {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-}
-
-.breakdown-label {
-    font-size: 12px;
-    color: var(--el-text-color-secondary);
-    margin-bottom: 5px;
-}
-
-@media (max-width: 768px) {
-    .breakdown-col {
-        margin-top: 15px;
-        align-items: flex-start;
-    }
-}
-</style>

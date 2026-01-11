@@ -324,6 +324,52 @@ export interface UserLaborInsurance {
     predictedMonthlyAnnuity?: number;
 }
 
+/**
+ * 退休生活風格設定 (第一張卡片核心資料)
+ */
+export interface RetirementLifestyle {
+    // --- 核心定位 ---
+    /**
+     * 財務階層代碼 (例如 "D1", "D5", "D10")
+     * 系統自動偵測後寫入，但用戶可手動覆蓋
+     */
+    tierCode: string;
+
+    /**
+     * 基礎生存替代率 (PR-ERR Demand Rate)
+     * 例如 0.85 代表退休後開銷為退休前的 85%
+     * 值域: 0.0 ~ 1.5
+     */
+    baseRetentionRate: number;
+
+    // --- 居住與家庭 ---
+    /**
+     * 家庭結構
+     * single: 單身 (需加成 15% 基礎開銷)
+     * couple: 雙人 (規模經濟)
+     */
+    householdType: 'single' | 'couple';
+
+    /**
+     * 居住模式代碼
+     * 對應 opt_housing_mode.json (例如 "OWN_HOME_LOAN_FREE", "RENTAL_APARTMENT")
+     */
+    housingMode: string;
+
+    /**
+     * 每月實際居住現金流
+     * 用戶可修改，預設由 housingMode + householdType 自動帶入
+     */
+    housingCost: number;
+
+    // --- 活躍生活 ---
+    /**
+     * 期望生活風格代碼
+     * 對應 opt_active_lifestyle.json (例如 "L2", "L3")
+     */
+    lifestyleCode: string;
+}
+
 // 總表單狀態介面 (Global Form State)
 export interface UserFormState {
     profile: PersonalProfile;
@@ -334,4 +380,5 @@ export interface UserFormState {
     creditCards: UserCreditCard[],
     laborPension: UserLaborPension,
     laborInsurance: UserLaborInsurance;
+    retirementLifestyle: RetirementLifestyle
 }
