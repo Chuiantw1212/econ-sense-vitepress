@@ -14,8 +14,9 @@
             <el-alert v-if="currentTier" :title="`財務定位：${currentTier.label}`" :type="tierAlertLevel" show-icon
                 :closable="false" style="margin-bottom: 20px;">
                 <div>
-                    {{ currentTier.desc }} (需求替代率: {{ formatRate(currentTier.rates?.demand) }} | 公共年金供給: {{
-                        formatRate(currentTier.rates?.supply) }})
+                    {{ currentTier.description }}
+                    (需求替代率: {{ formatRate(currentTier.replacementRate) }} |
+                    公共年金供給: {{ formatRate(currentTier.supplyRate) }})
                 </div>
             </el-alert>
 
@@ -25,7 +26,7 @@
                         <el-select v-model="localData.tierCode" placeholder="請選擇" style="width: 100%" filterable
                             @change="handleTierChange">
                             <el-option v-for="tier in consumptionTiers" :key="tier.code"
-                                :label="`${tier.code} ${tier.label} (替代率 ${(tier.rates?.demand * 100).toFixed(0)}%)`"
+                                :label="`${tier.code} ${tier.label} (替代率 ${(tier.replacementRate * 100).toFixed(0)}%)`"
                                 :value="tier.code" />
                         </el-select>
                     </el-form-item>
@@ -185,7 +186,7 @@ const props = defineProps<{
 
 // --- 資料源 ---
 const metaSource = computed(() => props.meta || props.metadata || {});
-const consumptionTiers = computed(() => metaSource.value.opt_consumption_replacement_model?.tiers || []);
+const consumptionTiers = computed(() => metaSource.value.opt_consumption_replacement_model?.list || []);
 const housingOptions = computed(() => metaSource.value.opt_housing_mode?.list || []);
 const lifestyleOptions = computed(() => metaSource.value.opt_active_lifestyle?.list || []);
 
@@ -254,10 +255,8 @@ function updateTierData(tier: any) {
     const newData = { ...localData.value };
     newData.tierCode = tier.code;
 
-    // 依據 rates.demand 更新
-    if (tier.rates?.demand) {
-        newData.baseRetentionRate = tier.rates.demand;
-    } else if (tier.replacementRate) {
+    // [修正] 使用 replacementRate 更新
+    if (tier.replacementRate) {
         newData.baseRetentionRate = tier.replacementRate;
     }
 
@@ -325,14 +324,12 @@ const lifestyleGapMonthly = computed(() => Math.round(lifestyleGap.value / 12));
 
 // --- 邏輯 4: 計算總需求 ---
 const adjustedBaseExpense = computed(() => {
-    // 優先使用 Metadata 中的 rates.demand
-    // 其次使用 localData (若有手動覆蓋邏輯)
     let rate = 1.0;
 
-    if (currentTier.value?.rates?.demand) {
-        rate = currentTier.value.rates.demand;
+    // [修正] 使用 replacementRate
+    if (currentTier.value?.replacementRate) {
+        rate = currentTier.value.replacementRate;
     } else if (localData.value.baseRetentionRate) {
-        // 兼容舊資料或手動值: 若 > 2 (如 85) 則除 100, 否則視為小數 (0.85)
         rate = localData.value.baseRetentionRate > 2
             ? localData.value.baseRetentionRate / 100
             : localData.value.baseRetentionRate;
