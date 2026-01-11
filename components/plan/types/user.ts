@@ -324,36 +324,6 @@ export interface UserLaborInsurance {
     predictedMonthlyAnnuity?: number;
 }
 
-export interface UserRetirementExpense {
-    // ===================================
-    // [輸入 Input] : 用戶設定值
-    // ===================================
-
-    // 醫療 (Medical)
-    medicalCode?: string;
-    medicalExpense: number; // ✅ 改回 Expense (對應後端 DB)
-
-    // 生活 (Lifestyle)
-    lifestyleCode?: string;
-    dreamCoefficient: number;
-
-    // 照護 (Care)
-    disabilityAge: number;
-    careModeCode?: string;
-    disabilityExpense: number; // ✅ 改回 Expense (對應後端 DB)
-    livingExpenseAdjustment: number;
-
-    // ===================================
-    // [輸出 Output] : 系統計算快照 (Snapshot)
-    // ===================================
-
-    /** 預估階段一月支出 (未來值 FV) */
-    projectedMonthlyExpensePhase1?: number;
-
-    /** 預估階段二月支出 (未來值 FV) */
-    projectedMonthlyExpensePhase2?: number;
-}
-
 // 總表單狀態介面 (Global Form State)
 export interface UserFormState {
     profile: PersonalProfile;
@@ -364,5 +334,4 @@ export interface UserFormState {
     creditCards: UserCreditCard[],
     laborPension: UserLaborPension,
     laborInsurance: UserLaborInsurance;
-    retirementExpense: UserRetirementExpense
 }

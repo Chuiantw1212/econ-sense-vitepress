@@ -146,18 +146,9 @@ head:
 #### 退休品質
 
 <div v-if="isReady">
-    <RetirementExpenseCard 
+    <RetirementLifestyleCard 
         v-model="userForm" 
         :metadata="metadata"
-    />
-</div>
-<div v-else style="height: 100px;" v-loading="true"></div>
-
-#### 退休資金走勢圖
-
-<div v-if="isReady">
-    <RetirementGapCard 
-        v-model="userForm" 
     />
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
@@ -186,8 +177,7 @@ import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
 import UtilityCard from '@/components/plan/UtilityCard.vue'
 import LaborPensionCard from '@/components/plan/LaborPensionCard.vue'
 import LaborInsuranceCard from '@/components/plan/LaborInsuranceCard.vue'
-import RetirementExpenseCard from '@/components/plan/RetirementExpenseCard.vue'
-import RetirementGapCard from '@/components/plan/RetirementGapCard.vue'
+import RetirementLifestyleCard from '@/components/plan/RetirementLifestyleCard.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
