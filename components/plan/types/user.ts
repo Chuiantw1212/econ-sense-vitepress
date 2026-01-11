@@ -216,7 +216,7 @@ export interface UserBusiness {
      * 系統依然需要這個欄位來計算 ROI 和現金流，
      * 但當 mode='total' 時，這會變成由前端自動計算的唯讀欄位。
      */
-    monthlyIncome: number;
+    monthlyNetIncome: number;
 
     monthlyCost: number;
     loanAmount: number;

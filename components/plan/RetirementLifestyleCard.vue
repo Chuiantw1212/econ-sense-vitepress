@@ -1,9 +1,33 @@
 <template>
     <el-card shadow="never" class="lifestyle-card">
         <el-form :model="localData" label-position="top" label-width="auto">
-            <el-divider content-position="left">1. 生存基底校正</el-divider>
+
+            <div class="simple-header">
+                <div class="header-title">
+                    <el-icon class="header-icon-simple">
+                        <Sunrise />
+                    </el-icon>
+                    <span>Step 1: 退休生活風格 (65~75歲)</span>
+                </div>
+                <div class="subtitle">
+                    依據《五級距模型》與《居住報告》校正您的真實生存成本。
+                </div>
+            </div>
+
+            <el-divider content-position="left">1. 生存基底校正 (五級距模型)</el-divider>
 
             <el-row :gutter="20">
+                <el-col :span="24">
+                    <transition name="el-fade-in">
+                        <el-alert v-if="autoQuintileMessage" type="success" :closable="false" show-icon
+                            style="margin-bottom: 20px;">
+                            <template #title>
+                                {{ autoQuintileMessage }}
+                            </template>
+                        </el-alert>
+                    </transition>
+                </el-col>
+
                 <el-col :span="12" :xs="24">
                     <el-form-item label="A. 原始月開銷基數 (信用卡平均)">
                         <el-input :value="formatMoney(baseMonthlyExpense)" disabled>
@@ -13,10 +37,17 @@
                 </el-col>
 
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="B. 生存基底留存率 (Retention Rate)">
-                        <el-input :value="localData.baseRetentionRate" disabled style="width: 100%">
-                            <template #suffix>%</template>
-                        </el-input>
+                    <el-form-item label="B. 財務身份 (生存留存率)">
+                        <el-select v-model="localData.baseRetentionRate" placeholder="請選擇" style="width: 100%">
+                            <el-option label="Q5: 高薪/高儲蓄族 (60%)" :value="60" />
+                            <el-option label="Q4: 富裕階層 (70%)" :value="70" />
+                            <el-option label="Q3: 中產階級 (80%)" :value="80" />
+                            <el-option label="Q2: 小康邊緣 (90%)" :value="90" />
+                            <el-option label="Q1: 基本生活族 (100%)" :value="100" />
+                        </el-select>
+                        <div class="helper-text-small" :class="quintileColorClass">
+                            * {{ currentQuintileHint }}
+                        </div>
                     </el-form-item>
                 </el-col>
 
@@ -32,9 +63,8 @@
                 <el-col :span="12" :xs="24">
                     <el-form-item label="居住狀態 (Housing Status)">
                         <el-select v-model="localData.housingStatus" placeholder="請選擇" style="width: 100%">
-                            <el-option label="自有住宅 (需負擔修繕稅費)" value="owned" />
-                            <el-option label="租屋 (需承擔租金通膨)" value="rented" />
-                            <el-option label="養生村/老人公寓 (月費制)" value="senior_housing" />
+                            <el-option v-for="opt in housingOptions" :key="opt.code" :label="opt.label"
+                                :value="opt.code" />
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -42,7 +72,10 @@
                 <el-col :span="12" :xs="24">
                     <el-form-item :label="housingCostLabel">
                         <el-input-number v-model="localData.housingMonthly" :min="0" :step="1000" style="width: 100%"
-                            :placeholder="housingBenchmarks[localData.housingStatus]?.amount.toString()" />
+                            :placeholder="currentHousingBenchmark?.toString()" />
+                        <div class="helper-text-small">
+                            {{ housingCostHint }}
+                        </div>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -83,6 +116,7 @@
                     <el-form-item label="居家環境改造 (一次性)">
                         <el-input-number v-model="localData.homeRenovation" :min="0" :step="10000"
                             style="width: 100%" />
+                        <div class="helper-text-small">* 報告建議：浴室防滑與動線優化</div>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -117,7 +151,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, watch, ref } from 'vue';
 import { debounce } from 'lodash-es';
 import { Sunrise } from '@element-plus/icons-vue';
 import type { UserFormState } from './types/user';
@@ -126,32 +160,125 @@ import { useApi } from '@/components/plan/composables/useApi';
 const { authFetch } = useApi();
 const model = defineModel<UserFormState>({ required: true });
 
-// --- Interface Definition ---
+// [新增] 接收 metadata prop
+const props = defineProps<{
+    metadata?: any;
+}>();
+
+// --- Interface ---
 interface RetirementLifestyle {
     baseRetentionRate: number;
-    housingStatus: 'owned' | 'rented' | 'senior_housing';
+    housingStatus: string; // Dynamic from metadata (e.g., 'OWN_HOME', 'RENTAL')
     housingMonthly: number;
     generalInflation: number;
-    travelStyle: 'none' | 'domestic' | 'asia' | 'global' | 'luxury';
+    travelStyle: string;
     hobbyMonthly: number;
     healthInvestment: number;
     homeRenovation: number;
 }
 
-// --- Market Benchmarks ---
-const housingBenchmarks = {
-    owned: { amount: 5000 },
-    rented: { amount: 20000 },
-    senior_housing: { amount: 35000 }
-};
+// --- Logic: Housing Options from Metadata ---
+const housingOptions = computed(() => {
+    return props.metadata?.opt_housing_mode?.list || [];
+});
+
+// 建立 Code -> Option 的快速查找表
+const housingMap = computed(() => {
+    const map: Record<string, any> = {};
+    housingOptions.value.forEach((opt: any) => {
+        map[opt.code] = opt;
+    });
+    return map;
+});
+
+// 當前選中模式的 Benchmark 金額 (預設使用 defaultMonthlyExpense)
+const currentHousingBenchmark = computed(() => {
+    const opt = housingMap.value[localData.value.housingStatus];
+    return opt ? opt.defaultMonthlyExpense : 0;
+});
+
+// 動態標籤：依據不同模式顯示不同欄位名稱
+const housingCostLabel = computed(() => {
+    const code = localData.value.housingStatus;
+    if (code === 'OWN_HOME') return '房屋修繕稅費 (月攤提)';
+    if (code === 'RENTAL') return '每月房租 (租金)';
+    return '機構月費 (含設施服務)';
+});
+
+// 動態提示：顯示 Metadata 中的 description
+const housingCostHint = computed(() => {
+    const opt = housingMap.value[localData.value.housingStatus];
+    if (!opt) return '';
+    // 如果有雙人價格差異，也可以顯示 (目前先顯示主要描述)
+    // opt.coupleMonthlyExpense 可視需求加入提示
+    return `* ${opt.description} (參考行情: ${formatMoney(opt.defaultMonthlyExpense)}/月)`;
+});
+
+// --- Logic: Auto-Detect Quintile ---
+const autoQuintileMessage = ref('');
+
+watch(
+    () => model.value.career?.monthlyNetIncome,
+    (monthlyNetIncome) => {
+        if (!monthlyNetIncome || monthlyNetIncome <= 0) return;
+        const estimatedAnnual = monthlyNetIncome * 12;
+        let rate = 80;
+        let label = '';
+
+        if (estimatedAnnual > 1750000) {
+            rate = 60;
+            label = 'Q5 高薪族';
+        } else if (estimatedAnnual > 1100000) {
+            rate = 70;
+            label = 'Q4 富裕族';
+        } else if (estimatedAnnual > 800000) {
+            rate = 80;
+            label = 'Q3 中產族';
+        } else if (estimatedAnnual > 500000) {
+            rate = 90;
+            label = 'Q2 小康族';
+        } else {
+            rate = 100;
+            label = 'Q1 基本族';
+        }
+
+        if (localData.value.baseRetentionRate !== rate) {
+            localData.value.baseRetentionRate = rate;
+            const incomeStr = Math.round(monthlyNetIncome).toLocaleString();
+            autoQuintileMessage.value = `🪄 偵測到月薪 $${incomeStr}，系統依五級距模型自動帶入「${label}」。`;
+            setTimeout(() => { autoQuintileMessage.value = ''; }, 5000);
+        }
+    },
+    { immediate: true }
+);
+
+// --- Dynamic Hint ---
+const currentQuintileHint = computed(() => {
+    const rate = localData.value.baseRetentionRate;
+    switch (rate) {
+        case 60: return '報告 Q5：高所得組 (前20%)。高額儲蓄與累進稅負移除，替代率需求最低。';
+        case 70: return '報告 Q4：富裕階層 (前40%)。儲蓄率約 20%，生活品質優渥。';
+        case 80: return '報告 Q3：中產階級 (中位數)。標準模型，扣除工作相關開銷。';
+        case 90: return '報告 Q2：小康邊緣 (後40%)。儲蓄率微薄，開銷多為必要支出。';
+        case 100: return '報告 Q1：基本生活 (後20%)。剛性需求極高，建議 100% 完全保留。';
+        default: return '自訂比例';
+    }
+});
+
+const quintileColorClass = computed(() => {
+    const rate = localData.value.baseRetentionRate;
+    if (rate <= 60) return 'text-success';
+    if (rate >= 100) return 'text-warning';
+    return 'text-info';
+});
 
 // --- Data Proxy ---
 const localData = computed({
     get: () => {
         const defaults: RetirementLifestyle = {
             baseRetentionRate: 80,
-            housingStatus: 'owned',
-            housingMonthly: 5000,
+            housingStatus: 'OWN_HOME', // Update default to match metadata code
+            housingMonthly: 22000, // Match benchmark of OWN_HOME
             generalInflation: 3.0,
             travelStyle: 'asia',
             hobbyMonthly: 5000,
@@ -168,25 +295,29 @@ const localData = computed({
     }
 });
 
-// --- Smart Defaults Logic ---
+// --- Smart Defaults for Housing (Autofill on Change) ---
 watch(
     () => localData.value.housingStatus,
     (newStatus, oldStatus) => {
         if (!oldStatus) return;
+
         const currentAmount = localData.value.housingMonthly;
-        const oldBenchmark = housingBenchmarks[oldStatus]?.amount;
+        // 取得舊選項的預設值，用來判斷用戶是否手動修改過
+        const oldBenchmark = housingMap.value[oldStatus]?.defaultMonthlyExpense;
+
+        // 如果目前金額等於舊預設值 (代表用戶沒改過)，或金額為 0，則自動更新為新預設值
         if (currentAmount === oldBenchmark || currentAmount === 0) {
-            const newBenchmark = housingBenchmarks[newStatus];
+            const newBenchmark = housingMap.value[newStatus]?.defaultMonthlyExpense;
             if (newBenchmark) {
                 const newData = { ...localData.value };
-                newData.housingMonthly = newBenchmark.amount;
+                newData.housingMonthly = newBenchmark;
                 localData.value = newData;
             }
         }
     }
 );
 
-// --- Computed Helpers ---
+// --- Computations ---
 const baseMonthlyExpense = computed(() => {
     const cards = model.value.creditCards;
     let total = 0;
@@ -198,11 +329,6 @@ const baseMonthlyExpense = computed(() => {
 
 const adjustedBaseExpense = computed(() => {
     return Math.round(baseMonthlyExpense.value * (localData.value.baseRetentionRate / 100));
-});
-
-const housingCostLabel = computed(() => {
-    const map = { owned: '房屋修繕稅費 (月攤提)', rented: '每月房租 (租金)', senior_housing: '養生村月費' };
-    return map[localData.value.housingStatus] || '居住成本';
 });
 
 const travelCosts: Record<string, number> = {
@@ -240,12 +366,11 @@ watch(() => model.value.retirementLifestyle, (n) => { if (n) debouncedSave(); },
     border: 1px solid var(--el-border-color-lighter);
 }
 
-/* Simplified Header Styles */
 .simple-header {
     margin-bottom: 20px;
 }
 
-.simple-header h3 {
+.header-title {
     margin: 0 0 8px 0;
     font-size: 18px;
     font-weight: 600;
@@ -267,7 +392,25 @@ watch(() => model.value.retirementLifestyle, (n) => { if (n) debouncedSave(); },
     line-height: 1.5;
 }
 
-/* Summary Section */
+.helper-text-small {
+    font-size: 12px;
+    margin-top: 4px;
+    line-height: 1.4;
+    color: var(--el-text-color-secondary);
+}
+
+.text-success {
+    color: var(--el-color-success);
+}
+
+.text-warning {
+    color: var(--el-color-warning);
+}
+
+.text-info {
+    color: var(--el-color-primary);
+}
+
 .summary-card {
     margin-top: 30px;
     background-color: var(--el-color-primary-light-9);
