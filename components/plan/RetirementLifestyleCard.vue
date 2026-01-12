@@ -14,8 +14,8 @@
             <el-alert v-if="currentTier" :title="`財務定位：${currentTier.label}`" :type="tierAlertLevel" show-icon
                 :closable="false" style="margin-bottom: 20px;">
                 <div>
-                    {{ currentTier.description }}
-                    (需求替代率: {{ formatRate(currentTier.replacementRate) }} |
+                    {{ currentTier.description }} 
+                    (需求替代率: {{ formatRate(currentTier.replacementRate) }} | 
                     公共年金供給: {{ formatRate(currentTier.supplyRate) }})
                 </div>
             </el-alert>
@@ -212,9 +212,6 @@ const localData = computed({
             housingMode: 'OWN_HOME_LOAN_FREE',
             housingCost: 0,
             lifestyleCode: 'L2',
-            hobbyMonthly: 0,
-            healthInvestment: 0,
-            homeRenovation: 0
         };
         return { ...defaults, ...model.value.retirementLifestyle } as RetirementLifestyle;
     },
