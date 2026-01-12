@@ -110,6 +110,16 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
+### 收支總覽
+
+<div v-if="isReady">
+    <IncomeDecileCard 
+        v-model="userForm" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
 
 ## 目標導航
 
@@ -155,12 +165,16 @@ import { onMounted, onUnmounted, ref, computed } from 'vue'
 
 // --- Components ---
 import Profile from '@/components/plan/profile.vue'
+
 import CareerCard from '@/components/plan/CareerCard.vue'
+import IncomeDecileCard from '@/components/plan/IncomeDecileCard.vue'
+
 import Portfolio from '@/components/plan/portfolio.vue'
 import RealEstate from '@/components/plan/realEstate.vue'
 import CostEfficiencyMatrix from '@/components/plan/charts/CostEfficiencyMatrix.vue'
 import Business from '@/components/plan/businessTable.vue'
 import AssetOverViewCard from '@/components/plan/AssetOverViewCard.vue'
+
 import CreditCardManager from '@/components/plan/CreditCardManager.vue'
 import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
 import UtilityCard from '@/components/plan/UtilityCard.vue'
