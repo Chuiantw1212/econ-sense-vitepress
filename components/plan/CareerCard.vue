@@ -1,6 +1,9 @@
 <template>
     <el-card shadow="never">
         <el-form label-width="auto" :model="career">
+
+            <el-divider content-position="left">1. 每月常態性薪資</el-divider>
+
             <el-row>
                 <el-col :span="12" :xs="24">
                     <el-form-item label="本薪" required>
@@ -130,10 +133,33 @@
                 </el-col>
             </el-row>
 
-            <el-divider content-position="center">薪資結構視覺化</el-divider>
+            <!-- <el-divider content-position="center">薪資結構視覺化</el-divider> -->
 
             <CareerChart :data="career" />
 
+            <el-divider content-position="left">2. 年度獎金與總薪資</el-divider>
+
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="年終/非經常性">
+                        <el-input-number v-model="career.annualBonus" :min="0" :step="5000" style="width: 100%"
+                            @change="handleSaveOnly" />
+                        <!-- <div style="font-size: 12px; color: #909399; line-height: 1.2;">
+                            包含年終獎金、績效獎金、分紅等非每月固定發放之現金。
+                        </div> -->
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="全年總薪資">
+                        <el-text>
+                            {{ formatNumber(career.annualTotalIncome) }}
+                        </el-text>
+                        <!-- <div style="font-size: 12px; color: #909399; line-height: 1.2;">
+                            (月全薪 × 12 + 獎金)。此數據將用於決定您的退休剛性支出係數 (D1~D10)。
+                        </div> -->
+                    </el-form-item>
+                </el-col>
+            </el-row>
         </el-form>
     </el-card>
 </template>
@@ -170,6 +196,10 @@ const career = defineModel<UserCareer>({
         stockCompanyMatch: 0,
         dependents: 0,
         monthlyNetIncome: 0,
+
+        // [新增]
+        annualBonus: 0,
+        annualTotalIncome: 0
     })
 })
 
@@ -182,17 +212,30 @@ const health = useHealthInsurance(0, 0)
 
 // --- 2. 核心計算邏輯 ---
 
-function updateMonthlyNetIncome() {
+/**
+ * 更新 月實領 & 年總薪資
+ */
+function updateTotals() {
     const m = career.value
-    const income = (m.baseSalary || 0) + (m.otherAllowance || 0) + 3000
+
+    // 1. 每月全薪 (Monthly Gross)
+    const monthlyGross = (m.baseSalary || 0) + (m.otherAllowance || 0) + 3000 // 含伙食
+
+    // 2. 每月扣項 (Monthly Deductions)
     const deductions =
-        (m.pensionPersonalAmount || 0) + // [修正] 變數名稱
+        (m.pensionPersonalAmount || 0) +
         (m.stockDeduction || 0) +
         (m.laborInsurance || 0) +
         (m.healthInsurance || 0) +
         (m.otherDeduction || 0)
 
-    career.value.monthlyNetIncome = income - deductions
+    // 3. 更新每月實領 (Net)
+    career.value.monthlyNetIncome = monthlyGross - deductions
+
+    // 4. [新增] 更新全年總薪資 (Annual Gross)
+    // 邏輯：月全薪 * 12 + 年終獎金
+    // 這是剛性支出模型 (D1-D10) 判斷階層的依據
+    career.value.annualTotalIncome = (monthlyGross * 12) + (m.annualBonus || 0)
 }
 
 // --- 3. 存檔與事件處理 ---
@@ -212,7 +255,7 @@ const performSave = debounce(async () => {
 }, 500)
 
 function handleSaveOnly() {
-    updateMonthlyNetIncome()
+    updateTotals()
     performSave()
 }
 
@@ -225,25 +268,25 @@ function handleCalcAndSave() {
 
     // 2. 更新 Composable
     pension.actualWage.value = basis
-    pension.selfRate.value = career.value.pensionPersonalRate || 0 // [修正]
+    pension.selfRate.value = career.value.pensionPersonalRate || 0
     labor.actualWage.value = basis
     health.actualWage.value = basis
     health.dependents.value = career.value.dependents || 0
 
     // 3. 回寫計算結果
-    career.value.pensionPersonalAmount = pension.selfAmount.value     // [修正] 自提
-    career.value.pensionEmployerAmount = pension.employerAmount.value // [修正] 公提
+    career.value.pensionPersonalAmount = pension.selfAmount.value
+    career.value.pensionEmployerAmount = pension.employerAmount.value
 
     // 計算總提撥
     career.value.pensionTotalAmount =
-        pension.selfAmount.value + pension.employerAmount.value       // [修正] 總額
+        pension.selfAmount.value + pension.employerAmount.value
 
     // 更新勞健保
     career.value.laborInsurance = labor.personalPremium.value
     career.value.healthInsurance = health.personalPremium.value
 
-    // 4. 更新實領並存檔
-    updateMonthlyNetIncome()
+    // 4. 更新總額並存檔
+    updateTotals()
     performSave()
 }
 

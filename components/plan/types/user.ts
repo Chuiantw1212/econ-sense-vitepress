@@ -74,6 +74,9 @@ export interface UserCareer {
 
     // 每月實領 (Net Income)
     monthlyNetIncome: number;
+
+    annualBonus: number;       // 年終與非經常性獎金
+    annualTotalIncome: number; // 全年總薪資 (用於階層判斷)
 }
 
 /**
