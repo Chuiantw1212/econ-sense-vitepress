@@ -110,16 +110,6 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
-### 儲蓄率
-
-<div v-if="isReady">
-    <SavingCapacityCard 
-        :career="userForm.career" 
-        :creditCards="userForm.creditCards" 
-        :metadata="metadata"
-    />
-</div>
-<div v-else style="height: 100px;" v-loading="true"></div>
 
 ## 目標導航
 
@@ -172,7 +162,6 @@ import CostEfficiencyMatrix from '@/components/plan/charts/CostEfficiencyMatrix.
 import Business from '@/components/plan/businessTable.vue'
 import AssetOverViewCard from '@/components/plan/AssetOverViewCard.vue'
 import CreditCardManager from '@/components/plan/CreditCardManager.vue'
-import SavingCapacityCard from '@/components/plan/SavingCapacityCard.vue'
 import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
 import UtilityCard from '@/components/plan/UtilityCard.vue'
 import LaborPensionCard from '@/components/plan/LaborPensionCard.vue'
