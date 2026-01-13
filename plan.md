@@ -113,7 +113,7 @@ head:
 ### 收支總覽
 
 <div v-if="isReady">
-    <IncomeDecileCard 
+    <TaxPlanningCard 
         v-model="userForm" 
         :metadata="metadata"
     />
@@ -167,7 +167,7 @@ import { onMounted, onUnmounted, ref, computed } from 'vue'
 import Profile from '@/components/plan/profile.vue'
 
 import CareerCard from '@/components/plan/CareerCard.vue'
-import IncomeDecileCard from '@/components/plan/IncomeDecileCard.vue'
+import TaxPlanningCard from '@/components/plan/TaxPlanningCard.vue'
 
 import Portfolio from '@/components/plan/portfolio.vue'
 import RealEstate from '@/components/plan/realEstate.vue'
