@@ -278,6 +278,24 @@ export interface UserCreditCard {
 }
 
 /**
+ * 稅務規劃專用設定 (Tax Planning Configuration)
+ * 獨立於 Career，用於管理各類所得、扣除額與稅務策略
+ */
+export interface UserTax {
+    id?: string;
+
+    /** * 預估其他所得 (Other Income)
+     * 包含：股利、利息、租金、兼職等需併入綜所稅的金額
+     */
+    estimatedOtherIncome: number;
+
+    // 未來可擴充：
+    // overseasIncome: number; // 海外所得
+    // itemizedDeductions: number; // 列舉扣除額總額
+    // separateTaxableIncome: number; // 分離課稅所得
+}
+
+/**
  * 退休規劃資料模型
  * 對應資料庫 table: user_retirement
  */
@@ -381,6 +399,7 @@ export interface UserFormState {
     realEstates: UserRealEstate[],
     businesses: PaginatedResponse<UserBusiness[]>,
     creditCards: UserCreditCard[],
+    tax: UserTax,
     laborPension: UserLaborPension,
     laborInsurance: UserLaborInsurance;
     retirementLifestyle: RetirementLifestyle
