@@ -132,9 +132,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-
-            <!-- <el-divider content-position="center">薪資結構視覺化</el-divider> -->
-
+            
             <CareerChart :data="career" />
 
             <el-divider content-position="left">2. 年度獎金與總薪資</el-divider>
@@ -144,9 +142,6 @@
                     <el-form-item label="年終/非經常性">
                         <el-input-number v-model="career.annualBonus" :min="0" :step="5000" style="width: 100%"
                             @change="handleSaveOnly" />
-                        <!-- <div style="font-size: 12px; color: #909399; line-height: 1.2;">
-                            包含年終獎金、績效獎金、分紅等非每月固定發放之現金。
-                        </div> -->
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -154,9 +149,6 @@
                         <el-text>
                             {{ formatNumber(career.annualTotalIncome) }}
                         </el-text>
-                        <!-- <div style="font-size: 12px; color: #909399; line-height: 1.2;">
-                            (月全薪 × 12 + 獎金)。此數據將用於決定您的退休剛性支出係數 (D1~D10)。
-                        </div> -->
                     </el-form-item>
                 </el-col>
             </el-row>
