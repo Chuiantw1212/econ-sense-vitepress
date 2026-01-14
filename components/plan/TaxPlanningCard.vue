@@ -54,11 +54,6 @@
                     <el-form-item label="適用邊際稅率">
                         <el-input :value="currentBracket ? `${(currentBracket.taxRate * 100).toFixed(0)}%` : '-'"
                             disabled>
-                            <template #suffix>
-                                <el-tag v-if="currentBracket" type="primary" effect="dark">
-                                    {{ currentBracket.strategyName }}
-                                </el-tag>
-                            </template>
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -103,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import { debounce } from 'lodash-es';
 import { InfoFilled } from '@element-plus/icons-vue';
 import { useApi } from '@/components/plan/composables/useApi';

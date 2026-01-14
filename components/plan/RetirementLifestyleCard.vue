@@ -2,218 +2,121 @@
     <el-card shadow="never">
         <template #header>
             <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-size: 18px; font-weight: bold;">Step 1: 退休生活風格</span>
-                <el-tag type="danger" effect="plain">剛性支出模型 (2026)</el-tag>
+                <span style="font-size: 16px; font-weight: 600; color: #303133;">
+                    Step 2: 活躍期支出 (Go-Go Years)
+                </span>
+                <el-tag type="info" size="small" effect="plain">三支柱模型</el-tag>
             </div>
         </template>
 
         <el-form label-position="top">
 
-            <el-divider content-position="left">1. 財務階層與剛性生存底線</el-divider>
+            <div style="margin-bottom: 12px; font-weight: 600; font-size: 14px; color: #606266;">
+                1. 居住模式 (Housing)
+            </div>
 
-            <el-alert v-if="currentTier" :title="`財務定位：${currentTier.label}`" :type="tierAlertLevel" show-icon
-                :closable="false" style="margin-bottom: 20px;">
-                <div>
-                    {{ currentTier.description }}
-                </div>
-                <div style="margin-top: 8px; display: flex; gap: 8px;">
-                    <el-tag size="small" type="danger" effect="dark">剛性保留係數: {{ (currentTier.rigidFactor *
-                        100).toFixed(0)
-                        }}%</el-tag>
-                    <el-tag size="small" type="info" effect="plain">年薪區間: {{ formatMoney(currentTier.rangeMin) }} - {{
-                        currentTier.rangeMax ? formatMoney(currentTier.rangeMax) : '∞' }}</el-tag>
-                </div>
-            </el-alert>
-
-            <el-row :gutter="24">
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="財務身份 (依年薪自動判斷)">
-                        <el-select v-model="localData.tierCode" placeholder="請選擇" style="width: 100%" filterable
-                            @change="handleTierChange">
-                            <el-option v-for="tier in rigidTiers" :key="tier.code" :label="`${tier.code} ${tier.label}`"
-                                :value="tier.code" />
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="目前真實月開銷 (信用卡平均)">
-                        <el-input :value="formatMoney(baseMonthlyExpense)" disabled>
-                            <template #suffix>元/月</template>
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="24" v-if="currentTier">
-                    <div
-                        style="margin-bottom: 15px; padding: 10px; background-color: #fcfcfc; border-radius: 4px; border: 1px dashed #dcdfe6;">
-                        <div
-                            style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; color: #606266;">
-                            <span>
-                                <el-icon>
-                                    <Lock />
-                                </el-icon> 剛性生存底線: <b>{{ formatMoney(adjustedBaseExpense) }}</b>
-                            </span>
-                            <span>
-                                <el-icon>
-                                    <Sunny />
-                                </el-icon> 彈性生活空間: <b>{{ formatMoney(flexibleExpense) }}</b>
-                            </span>
-                        </div>
-                        <el-progress :percentage="currentTier.rigidFactor * 100" :stroke-width="18" text-inside striped
-                            :status="tierAlertLevel === 'error' ? 'exception' : (tierAlertLevel === 'warning' ? 'warning' : 'success')">
-                            <span>{{ (currentTier.rigidFactor * 100).toFixed(0) }}% 剛性保留 (生存必需)</span>
-                        </el-progress>
-                        <div style="font-size: 12px; color: #909399; margin-top: 4px; text-align: right;">
-                            * 剛性係數越高，代表退休後可削減的開支越少 (抗通膨能力弱)
-                        </div>
-                    </div>
-                </el-col>
-
+            <el-row :gutter="12">
                 <el-col :span="24">
-                    <el-form-item>
-                        <template #label>
-                            <span>退休剛性生存月費 (Base)</span>
-                            <el-tooltip content="計算公式：目前月開銷 × 剛性保留係數。此金額為維持基本生存的最低門檻，不含額外娛樂。" placement="top">
-                                <el-icon style="margin-left: 4px; color: #909399; cursor: pointer;">
-                                    <InfoFilled />
-                                </el-icon>
-                            </el-tooltip>
-                        </template>
-                        <el-input :value="formatMoney(adjustedBaseExpense)" disabled size="large">
-                            <template #prepend>計算結果</template>
-                            <template #suffix>元/月</template>
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-            <el-divider content-position="left">2. 居住與家庭結構</el-divider>
-
-            <el-row :gutter="24">
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="家庭結構">
-                        <el-radio-group v-model="localData.householdType">
-                            <el-radio label="single">單身</el-radio>
-                            <el-radio label="couple">雙人</el-radio>
+                    <el-form-item label="型態選擇" style="margin-bottom: 12px;">
+                        <el-radio-group v-model="retirement.householdType" @change="onHouseholdChange">
+                            <el-radio label="single">獨居 (Solo)</el-radio>
+                            <el-radio label="couple">共居 (Co-living)</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="居住狀態">
-                        <el-select v-model="localData.housingMode" placeholder="請選擇" style="width: 100%">
-                            <el-option v-for="opt in housingOptions" :key="opt.code" :label="opt.label"
+                <el-col :span="14" :xs="24">
+                    <el-form-item label="具體方案" style="margin-bottom: 12px;">
+                        <el-select v-model="retirement.housingMode" placeholder="請選擇" style="width: 100%"
+                            @change="onHousingModeSelect" filterable>
+                            <el-option v-for="opt in currentHousingOptions" :key="opt.code" :label="opt.label"
                                 :value="opt.code" />
                         </el-select>
-                    </el-form-item>
-                </el-col>
-
-                <el-col :span="24">
-                    <el-form-item label="每月居住現金流 (持有成本/租金)">
-                        <el-input-number v-model="localData.housingCost" :min="0" :step="1000" style="width: 100%"
-                            controls-position="right" />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-            <el-divider content-position="left">3. 活躍生活與圓夢</el-divider>
-
-            <el-row :gutter="24">
-                <el-col :span="24">
-                    <el-form-item label="期望生活風格 (疊加於生存底線之上)">
-                        <el-select v-model="localData.lifestyleCode" placeholder="請選擇" style="width: 100%">
-                            <el-option v-for="opt in lifestyleOptions" :key="opt.code"
-                                :label="`${opt.label} (年預算 ${formatMoney(opt.amount_yearly)})`" :value="opt.code" />
-                        </el-select>
-                        <el-alert v-if="lifestyleGap > 0"
-                            :title="`階層躍升：每年需額外準備 ${formatMoney(lifestyleGap)} 元 (月攤提 ${formatMoney(lifestyleGapMonthly)})`"
-                            type="warning" :closable="false" show-icon style="margin-top: 10px;" />
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-            <div style="margin-top: 30px; background-color: #f5f7fa; padding: 24px; border-radius: 8px;">
-                <div style="margin-bottom: 16px; font-size: 14px; color: #606266; font-weight: 500;">
-                    活躍期 <b>年度</b> 總需求結構：
-                </div>
-
-                <el-row align="middle">
-                    <el-col :span="18" :xs="24">
-                        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
-
-                            <div style="font-size: 24px; color: #909399; margin-right: 4px;">(</div>
-
-                            <div style="text-align: center;">
-                                <div style="font-size: 12px; color: #909399;">剛性生存</div>
-                                <div style="font-size: 15px; font-weight: bold; color: #303133;">{{
-                                    formatMoney(adjustedBaseExpense) }}</div>
-                            </div>
-
-                            <el-icon style="margin: 0 4px;">
-                                <Plus />
-                            </el-icon>
-
-                            <div style="text-align: center;">
-                                <el-tooltip content="活躍期健康維護常數：預防醫學、牙齒與營養補充" placement="top">
-                                    <div>
-                                        <div style="font-size: 12px; color: #409EFF;">健康維護</div>
-                                        <div style="font-size: 15px; font-weight: bold; color: #409EFF;">{{
-                                            formatMoney(activeHealthCost) }}</div>
-                                    </div>
-                                </el-tooltip>
-                            </div>
-
-                            <el-icon v-if="singlePenaltyAmount > 0" style="margin: 0 4px;">
-                                <Plus />
-                            </el-icon>
-
-                            <div v-if="singlePenaltyAmount > 0" style="text-align: center;">
-                                <div style="font-size: 12px; color: #F56C6C;">單身加成</div>
-                                <div style="font-size: 15px; font-weight: bold; color: #F56C6C;">{{
-                                    formatMoney(singlePenaltyAmount) }}</div>
-                            </div>
-
-                            <el-icon style="margin: 0 4px;">
-                                <Plus />
-                            </el-icon>
-
-                            <div style="text-align: center;">
-                                <div style="font-size: 12px; color: #E6A23C;">居住月費</div>
-                                <div style="font-size: 15px; font-weight: bold; color: #303133;">{{
-                                    formatMoney(localData.housingCost) }}</div>
-                            </div>
-
-                            <el-icon style="margin: 0 4px;">
-                                <Plus />
-                            </el-icon>
-
-                            <div style="text-align: center;">
-                                <div style="font-size: 12px; color: #67C23A;">圓夢月攤</div>
-                                <div style="font-size: 15px; font-weight: bold; color: #303133;">{{
-                                    formatMoney(lifestyleGapMonthly) }}</div>
-                            </div>
-
-                            <div style="font-size: 24px; color: #909399; margin-left: 4px;">)</div>
-
-                            <div style="display: flex; align-items: center; margin-left: 8px;">
-                                <span style="font-size: 16px; color: #606266; font-weight: bold;">× 12</span>
-                                <span style="font-size: 12px; color: #909399; margin-left: 4px;">(月)</span>
-                            </div>
-
-                            <div style="margin-left: 12px; font-size: 20px; color: #909399;">=</div>
+                        <div v-if="selectedHousingOpt"
+                            style="font-size: 12px; color: #909399; margin-top: 4px; line-height: 1.4;">
+                            {{ selectedHousingOpt.description }}
                         </div>
-                    </el-col>
+                    </el-form-item>
+                </el-col>
 
-                    <el-col :span="6" :xs="24" style="text-align: right;">
-                        <el-statistic :value="totalYearlyDemand"
-                            value-style="font-size: 28px; font-weight: bold; color: #409EFF;">
-                            <template #title>
-                                <span style="font-size: 15px; font-weight: 600;">活躍期年度總支出</span>
-                            </template>
-                        </el-statistic>
-                    </el-col>
-                </el-row>
+                <el-col :span="10" :xs="24">
+                    <el-form-item label="月成本 (NT$)" style="margin-bottom: 12px;">
+                        <el-input-number v-model="retirement.housingCost" :min="0" :step="1000"
+                            controls-position="right" style="width: 100%" @change="triggerSave" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <div style="margin: 24px 0 12px; font-weight: 600; font-size: 14px; color: #606266;">
+                2. 日常健康 (Health Maintenance)
+            </div>
+
+            <el-row :gutter="12">
+                <el-col :span="14" :xs="24">
+                    <el-form-item label="維護等級" style="margin-bottom: 12px;">
+                        <el-select v-model="retirement.healthTierCode" placeholder="請選擇" style="width: 100%"
+                            @change="onHealthTierSelect">
+                            <el-option v-for="item in healthOptions" :key="item.code" :label="item.label"
+                                :value="item.code" />
+                        </el-select>
+                        <div style="font-size: 12px; color: #909399; margin-top: 4px;">
+                            * 已自動計入 4% 醫療通膨係數
+                        </div>
+                    </el-form-item>
+                </el-col>
+
+                <el-col :span="10" :xs="24">
+                    <el-form-item label="月成本 (NT$)" style="margin-bottom: 12px;">
+                        <el-input-number v-model="retirement.healthCost" :min="0" :step="500" controls-position="right"
+                            style="width: 100%" @change="triggerSave" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <div style="margin: 24px 0 12px; font-weight: 600; font-size: 14px; color: #606266;">
+                3. 活躍生活 (Active Living)
+            </div>
+
+            <el-row :gutter="12">
+                <el-col :span="24">
+                    <el-form-item label="參考指標：目前信用卡月均消費" style="margin-bottom: 12px;">
+                        <el-input :value="formatMoney(currentCreditCardAvg)" disabled style="width: 100%">
+                            <template #prepend>現況</template>
+                            <template #append>元/月</template>
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+
+                <el-col :span="14" :xs="24">
+                    <el-form-item label="預計生活水準 (L-Tier)" style="margin-bottom: 12px;">
+                        <el-select v-model="retirement.activeLivingCode" placeholder="請選擇" style="width: 100%"
+                            @change="onActiveLivingSelect">
+                            <el-option v-for="opt in activeLivingOptions" :key="opt.code"
+                                :label="`${opt.code} ${opt.label}`" :value="opt.code" />
+                        </el-select>
+                        <div v-if="selectedActiveOpt"
+                            style="font-size: 12px; color: #909399; margin-top: 4px; line-height: 1.4;">
+                            {{ selectedActiveOpt.description }}
+                        </div>
+                    </el-form-item>
+                </el-col>
+
+                <el-col :span="10" :xs="24">
+                    <el-form-item label="月預算 (NT$)" style="margin-bottom: 12px;">
+                        <el-input-number v-model="retirement.activeLivingCost" :min="0" :step="1000"
+                            controls-position="right" style="width: 100%" @change="triggerSave" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <div
+                style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #ebeef5; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14px; color: #606266; font-weight: 500;">
+                    每月總現金流需求 (Total Burn)
+                </span>
+                <span style="font-size: 20px; font-weight: 700; color: #F56C6C; font-family: monospace;">
+                    NT$ {{ formatMoney(totalMonthlyExpense) }}
+                </span>
             </div>
 
         </el-form>
@@ -221,241 +124,182 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, watch, onMounted } from 'vue';
 import { debounce } from 'lodash-es';
-import { Plus, InfoFilled, Lock, Sunny } from '@element-plus/icons-vue';
 import { useApi } from '@/components/plan/composables/useApi';
-import type { UserFormState } from './types/user';
-import { RetirementLifestyle } from './types/user';
+import type { UserFormState, UserRetirement } from './types/user';
 
-const { authFetch } = useApi();
-const model = defineModel<UserFormState>({ required: true });
-
+// --- 1. 定義與設定 (Definitions) ---
 const props = defineProps<{
-    meta?: any;
-    metadata?: any;
+    metadata: Record<string, any>; // 預期包含 opt_* 系列選單
 }>();
 
-// --- 資料源 ---
-const metaSource = computed(() => props.meta || props.metadata || {});
+const userForm = defineModel<UserFormState>({ required: true });
+const { authFetch } = useApi();
 
-// [更新] 使用 opt_rigid_factor_model
-const rigidTiers = computed(() => metaSource.value.opt_rigid_factor_model?.list || []);
-const housingOptions = computed(() => metaSource.value.opt_housing_mode?.list || []);
-const lifestyleOptions = computed(() => metaSource.value.opt_active_lifestyle?.list || []);
-
-// --- 收入與開銷 ---
-const monthlyNetIncome = computed(() => Number(model.value.career?.monthlyNetIncome) || 0);
-
-// [新增] 年薪計算 (用於新模型的級距判斷)
-const annualNetIncome = computed(() => monthlyNetIncome.value * 12);
-
-const baseMonthlyExpense = computed(() => {
-    const cards = model.value.creditCards;
-    let total = 0;
-    if (Array.isArray(cards)) {
-        total = cards.reduce((sum, card) => sum + (Number(card.averageMonthlyExpense) || 0), 0);
+// --- 2. 資料初始化 (Initialization) ---
+const ensureDefaults = () => {
+    if (!userForm.value.retirement) {
+        userForm.value.retirement = {} as UserRetirement;
     }
-    return total > 0 ? total : 30000;
-});
+    const target = userForm.value.retirement;
 
-// --- 本地資料 ---
-const localData = computed({
-    get: () => {
-        const defaults: RetirementLifestyle = {
-            tierCode: '',
-            baseRetentionRate: 0.85, // 仍保留此欄位作為相容，但計算時會優先用 rigidFactor
-            householdType: 'single',
-            housingMode: 'OWN_HOME_LOAN_FREE',
-            housingCost: 0,
-            lifestyleCode: 'L2',
-        };
-        return { ...defaults, ...model.value.retirementLifestyle } as RetirementLifestyle;
-    },
-    set: (val: RetirementLifestyle) => {
-        model.value.retirementLifestyle = val;
-    }
-});
+    // 定義預設值 (Default State)
+    const defaults: Partial<UserRetirement> = {
+        householdType: 'single',
+        housingMode: '',
+        housingCost: 0,
+        healthTierCode: '',
+        healthCost: 0,
+        activeLivingCode: '',
+        activeLivingCost: 0
+    };
 
-// --- 邏輯 1: 自動判斷階層 (基於年薪 range) ---
-const currentTier = computed(() => {
-    // 優先使用已選的 code
-    if (localData.value.tierCode) {
-        return rigidTiers.value.find((t: any) => t.code === localData.value.tierCode);
-    }
-
-    if (!rigidTiers.value.length) return null;
-    const income = annualNetIncome.value;
-
-    // [更新] 判斷邏輯：年薪落點
-    return rigidTiers.value.find((t: any) => {
-        const min = t.rangeMin || 0;
-        const max = t.rangeMax;
-        if (!max) return income >= min;
-        return income >= min && income <= max;
-    }) || rigidTiers.value[0];
-});
-
-// 自動帶入 tier
-watch(() => annualNetIncome.value, () => {
-    if (!localData.value.tierCode && currentTier.value) {
-        updateTierData(currentTier.value);
-    }
-}, { immediate: true });
-
-function handleTierChange(code: string) {
-    const tier = rigidTiers.value.find((t: any) => t.code === code);
-    if (tier) updateTierData(tier);
-}
-
-function updateTierData(tier: any) {
-    const newData = { ...localData.value };
-    newData.tierCode = tier.code;
-
-    // 如果需要將 rigidFactor 存入 baseRetentionRate (做為紀錄)
-    if (tier.rigidFactor) {
-        newData.baseRetentionRate = tier.rigidFactor;
-    }
-    localData.value = newData;
-}
-
-// --- 邏輯 2: 居住成本連動 ---
-const housingMap = computed(() => {
-    const map: Record<string, any> = {};
-    housingOptions.value.forEach((opt: any) => map[opt.code] = opt);
-    return map;
-});
-
-watch(
-    [() => localData.value.housingMode, () => localData.value.householdType],
-    ([newMode, newType], [oldMode, oldType]) => {
-        if (!newMode) return;
-        const opt = housingMap.value[newMode];
-        if (!opt) return;
-
-        const base = opt.amount_monthly || 0;
-        const add = (newType === 'couple') ? (opt.amount_couple_add || 0) : 0;
-        const suggestedCost = base + add;
-
-        const currentCost = localData.value.housingCost;
-        let shouldUpdate = false;
-
-        if (currentCost === 0) shouldUpdate = true;
-        else if (newMode !== oldMode) shouldUpdate = true;
-        else if (newType !== oldType) shouldUpdate = true;
-
-        if (shouldUpdate) {
-            const newData = { ...localData.value };
-            newData.housingCost = suggestedCost;
-            localData.value = newData;
+    // 僅在值為 undefined 時補上預設值，避免覆蓋既有資料
+    Object.keys(defaults).forEach((key) => {
+        const k = key as keyof UserRetirement;
+        if (target[k] === undefined) {
+            (target[k] as any) = defaults[k];
         }
-    },
-    { immediate: true }
+    });
+};
+
+// 立即執行初始化
+ensureDefaults();
+
+// 簡寫參照，方便後續存取
+const retirement = computed(() => userForm.value.retirement);
+
+// --- 3. 核心邏輯：三大支柱 (Three Pillars Logic) ---
+
+// === Pillar 1: 居住 (Housing) ===
+const soloList = computed(() => props.metadata?.opt_housing_solo?.list || []);
+const colivingList = computed(() => props.metadata?.opt_housing_coliving?.list || []);
+
+const currentHousingOptions = computed(() => {
+    return retirement.value.householdType === 'single' ? soloList.value : colivingList.value;
+});
+
+const selectedHousingOpt = computed(() => {
+    return currentHousingOptions.value.find((opt: any) => opt.code === retirement.value.housingMode);
+});
+
+// 切換獨居/共居 -> 重置方案
+const onHouseholdChange = () => {
+    retirement.value.housingMode = '';
+    retirement.value.housingCost = 0;
+    triggerSave();
+};
+
+// 選擇方案 -> 自動帶入成本
+const onHousingModeSelect = (code: string) => {
+    const opt = currentHousingOptions.value.find((o: any) => o.code === code);
+    if (opt) {
+        retirement.value.housingCost = safeNumber(opt.monthlyCost);
+        triggerSave();
+    }
+};
+
+// === Pillar 2: 醫療 (Health) ===
+const healthOptions = computed(() => props.metadata?.opt_health_tier?.list || []);
+
+// 修正：欄位名稱對應 JSON 的 code 與 monthlyBudget
+const onHealthTierSelect = (code: string) => {
+    // 1. 改用 o.code 比對
+    const opt = healthOptions.value.find((o: any) => o.code === code);
+
+    if (opt) {
+        // 2. 改讀取 o.monthlyBudget
+        const base = safeNumber(opt.monthlyBudget);
+
+        // 維持 1.04 倍通膨邏輯
+        retirement.value.healthCost = Math.round(base * 1.04);
+        triggerSave();
+    }
+};
+// === Pillar 3: 活躍生活 (Active Living) ===
+const activeLivingOptions = computed(() => props.metadata?.opt_active_living?.list || []);
+
+// 信用卡平均 (參考錨點)
+const currentCreditCardAvg = computed(() => {
+    const cards = userForm.value.creditCards || [];
+    return cards.reduce((sum, card) => sum + safeNumber(card.averageMonthlyExpense), 0);
+});
+
+const selectedActiveOpt = computed(() => {
+    return activeLivingOptions.value.find((opt: any) => opt.code === retirement.value.activeLivingCode);
+});
+
+// 選擇生活水準 -> 自動帶入預算
+const onActiveLivingSelect = (code: string) => {
+    const opt = activeLivingOptions.value.find((o: any) => o.code === code);
+    if (opt) {
+        retirement.value.activeLivingCost = safeNumber(opt.monthlyCost);
+        triggerSave();
+    }
+};
+
+// --- 4. 計算與工具 (Calculations & Utils) ---
+
+// 總月支出
+const totalMonthlyExpense = computed(() => {
+    return safeNumber(retirement.value.housingCost) +
+        safeNumber(retirement.value.healthCost) +
+        safeNumber(retirement.value.activeLivingCost);
+});
+
+// 安全數值轉換 (避免 NaN)
+function safeNumber(val: any): number {
+    const num = Number(val);
+    return isNaN(num) ? 0 : num;
+}
+
+// 金額格式化 (Template 使用)
+function formatMoney(val: number | undefined) {
+    return new Intl.NumberFormat('zh-TW').format(safeNumber(val));
+}
+
+// --- 5. 持久化 (Persistence) ---
+
+// 構建 Payload (只提取本卡片相關欄位，Partial Update)
+const getPayload = () => {
+    const {
+        householdType, housingMode, housingCost,
+        healthTierCode, healthCost,
+        activeLivingCode, activeLivingCost
+    } = retirement.value;
+
+    return {
+        householdType,
+        housingMode,
+        housingCost,
+        healthTierCode,
+        healthCost,
+        activeLivingCode,
+        activeLivingCost
+    };
+};
+
+const saveToServer = async () => {
+    try {
+        await authFetch('/api/v1/user/retirement', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(getPayload())
+        });
+    } catch (error) {
+        console.error('Failed to save retirement lifestyle:', error);
+    }
+};
+
+const triggerSave = debounce(saveToServer, 800);
+
+// 監聽資料變更自動存檔 (Deep Watch)
+// 為了效能，也可以只監聽上述提取的特定欄位，但 Deep Watch 實作最單純
+watch(
+    () => userForm.value.retirement,
+    () => triggerSave(),
+    { deep: true }
 );
 
-// --- 邏輯 3: 生活風格落差 ---
-const lifestyleMap = computed(() => {
-    const map: Record<string, any> = {};
-    lifestyleOptions.value.forEach((opt: any) => map[opt.code] = opt);
-    return map;
-});
-
-const selectedLifestyle = computed(() => lifestyleMap.value[localData.value.lifestyleCode]);
-
-// [注意] 這裡暫時維持 L-tier 與 D-tier 的隱含對應，若 rigid model 沒有 implied_tiers 欄位可能需要調整
-// 假設 lifestyle options 裡的 implied_tiers 仍對應 "D1"..."D10" code
-const impliedLifestyleBudget = computed(() => {
-    if (!currentTier.value || !lifestyleOptions.value.length) return 0;
-    const implied = lifestyleOptions.value.find((l: any) =>
-        l.implied_tiers && l.implied_tiers.includes(currentTier.value.code)
-    );
-    return implied ? (implied.amount_yearly || 0) : 0;
-});
-
-const lifestyleGap = computed(() => {
-    const target = selectedLifestyle.value?.amount_yearly || 0;
-    const base = impliedLifestyleBudget.value;
-    return Math.max(0, target - base);
-});
-
-const lifestyleGapMonthly = computed(() => Math.round(lifestyleGap.value / 12));
-
-// --- 邏輯 4: 計算總需求 (基於剛性係數) ---
-
-// 剛性與彈性拆解 (視覺化用)
-const flexibleExpense = computed(() => {
-    return Math.max(0, baseMonthlyExpense.value - adjustedBaseExpense.value);
-});
-
-// 活躍期健康維護常數 ($6700) - 保留此常數
-const activeHealthCost = computed(() => 6700);
-
-// [核心修正] 替代後生存月開銷 (Base) = 目前開銷 * 剛性係數
-const adjustedBaseExpense = computed(() => {
-    let factor = 0.7; // 預設
-
-    if (currentTier.value?.rigidFactor) {
-        factor = currentTier.value.rigidFactor;
-    } else if (localData.value.baseRetentionRate) {
-        // 兼容處理
-        factor = localData.value.baseRetentionRate > 2
-            ? localData.value.baseRetentionRate / 100
-            : localData.value.baseRetentionRate;
-    }
-
-    return Math.round(baseMonthlyExpense.value * factor);
-});
-
-const singlePenaltyAmount = computed(() => {
-    if (localData.value.householdType !== 'single') return 0;
-    if (!currentTier.value) return 0;
-
-    const level = parseInt(currentTier.value.code.replace('D', ''));
-    if (!isNaN(level) && level <= 5) {
-        return Math.round(adjustedBaseExpense.value * 0.15);
-    }
-    return 0;
-});
-
-const totalMonthlyDemand = computed(() => {
-    return adjustedBaseExpense.value
-        + activeHealthCost.value
-        + singlePenaltyAmount.value
-        + (localData.value.housingCost || 0)
-        + lifestyleGapMonthly.value;
-});
-
-const totalYearlyDemand = computed(() => {
-    return totalMonthlyDemand.value * 12;
-});
-
-// --- UI 輔助 ---
-const tierAlertLevel = computed(() => {
-    if (!currentTier.value) return 'info';
-    const code = currentTier.value.code;
-    const level = parseInt(code.replace('D', ''));
-    if (level <= 2) return 'error'; // D1-D2 赤字生存
-    if (level >= 8) return 'success'; // D8-D10 資產積累
-    return 'warning'; // 中產陷阱
-});
-
-function formatMoney(val: number | undefined) {
-    if (val === undefined || val === null) return '0';
-    return Math.round(val).toLocaleString();
-}
-
-// --- 自動儲存 ---
-const debouncedSave = debounce(async () => {
-    try {
-        await authFetch('/api/v1/user/retirement-lifestyle', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(model.value.retirementLifestyle)
-        });
-    } catch (e) {
-        console.error(e);
-    }
-}, 800);
-
-watch(() => model.value.retirementLifestyle, (n) => { if (n) debouncedSave(); }, { deep: true });
 </script>

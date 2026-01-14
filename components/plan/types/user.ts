@@ -346,49 +346,61 @@ export interface UserLaborInsurance {
 }
 
 /**
- * 退休生活風格設定 (第一張卡片核心資料)
+ * 退休生活風格設定 (Retirement Lifestyle)
+ * 對應卡片：LivingExpensesCard (Step 2: 每月支出結構)
+ * 核心邏輯：居住 (Housing) + 醫療 (Health) + 活躍生活 (Active Living)
  */
-export interface RetirementLifestyle {
-    // --- 核心定位 ---
-    /**
-     * 財務階層代碼 (例如 "D1", "D5", "D10")
-     * 系統自動偵測後寫入，但用戶可手動覆蓋
-     */
-    tierCode: string;
+export interface UserRetirement {
+    // --- 1. 居住 (Housing) ---
 
     /**
-     * 基礎生存替代率 (PR-ERR Demand Rate)
-     * 例如 0.85 代表退休後開銷為退休前的 85%
-     * 值域: 0.0 ~ 1.5
-     */
-    baseRetentionRate: number;
-
-    // --- 居住與家庭 ---
-    /**
-     * 家庭結構
-     * single: 單身 (需加成 15% 基礎開銷)
-     * couple: 雙人 (規模經濟)
+     * 居住型態
+     * - 'single': 獨居 (對應 opt_housing_solo)
+     * - 'couple': 共居 (對應 opt_housing_coliving)
      */
     householdType: 'single' | 'couple';
 
     /**
-     * 居住模式代碼
-     * 對應 opt_housing_mode.json (例如 "OWN_HOME_LOAN_FREE", "RENTAL_APARTMENT")
+     * 居住方案代碼
+     * e.g., 'SOLO_RENT_SUITE', 'COLIVING_INST_DBL'
      */
     housingMode: string;
 
     /**
-     * 每月實際居住現金流
-     * 用戶可修改，預設由 housingMode + householdType 自動帶入
+     * 居住月成本 (Housing Cost)
+     * 來源：由 housingMode 查表 (JSON) 後自動寫入
      */
     housingCost: number;
 
-    // --- 活躍生活 ---
+
+    // --- 2. 醫療 (Health) ---
+
     /**
-     * 期望生活風格代碼
-     * 對應 opt_active_lifestyle.json (例如 "L2", "L3")
+     * 醫療保障等級代碼
+     * 對應 opt_health_tier.json
+     * e.g., 'basic', 'standard', 'premium'
+     * (註：金額通常由前端即時計算 4% 通膨，不強制存入 DB，若需紀錄可加開 healthCost)
      */
-    lifestyleCode: string;
+    healthTierCode: string;
+
+    healthCost: number;
+
+
+    // --- 3. 活躍生活 (Active Living) ---
+
+    /**
+     * [新增] 活躍生活水準代碼
+     * 對應 opt_active_living.json
+     * e.g., 'Q1' (生存防禦), 'Q3' (寬裕活躍)
+     */
+    activeLivingCode: string;
+
+    /**
+     * [新增] 活躍生活月預算 (Active Living Cost)
+     * 來源：由 activeLivingCode 查表 (JSON) 後自動寫入
+     * *此欄位已包含：伙食、交通、娛樂、旅遊、雜支等所有生活開銷*
+     */
+    activeLivingCost: number;
 }
 
 // 總表單狀態介面 (Global Form State)
@@ -402,5 +414,5 @@ export interface UserFormState {
     tax: UserTax,
     laborPension: UserLaborPension,
     laborInsurance: UserLaborInsurance;
-    retirementLifestyle: RetirementLifestyle
+    retirement: UserRetirement
 }

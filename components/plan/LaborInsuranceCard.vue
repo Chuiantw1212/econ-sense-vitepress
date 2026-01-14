@@ -71,9 +71,6 @@
                         <el-input :value="formatMoney(result.bestAmount)" disabled style="width: 100%">
                             <template #suffix>元</template>
                         </el-input>
-                        <div style="font-size: 12px; color: var(--el-text-color-secondary); margin-top: 5px;">
-                            * 此金額已儲存，將用於退休缺口分析
-                        </div>
                     </el-form-item>
                 </el-col>
 
