@@ -186,8 +186,8 @@ function formatMoney(val: any) {
 }
 
 // === Block 1: Housing (居住設定) ===
-const soloList = computed(() => props.metadata?.opt_housing_solo?.list || []);
-const colivingList = computed(() => props.metadata?.opt_housing_coliving?.list || []);
+const soloList = computed(() => props.metadata?.opt_retirement_gogo_housing_solo?.list || []);
+const colivingList = computed(() => props.metadata?.opt_retirement_gogo_housing_coliving?.list || []);
 
 // 根據家庭型態 (single/couple) 切換對應的選單
 const currentHousingOptions = computed(() => {
