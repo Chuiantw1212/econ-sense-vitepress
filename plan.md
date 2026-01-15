@@ -153,10 +153,20 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
-#### 防禦期
+#### 慢活期
 
 <div v-if="isReady">
     <RetirementSlowGoCard 
+        v-model="userForm" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+#### 長照期
+
+<div v-if="isReady">
+    <RetirementNoGoCard 
         v-model="userForm" 
         :metadata="metadata"
     />
@@ -190,8 +200,11 @@ import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
 import UtilityCard from '@/components/plan/UtilityCard.vue'
 import LaborPensionCard from '@/components/plan/LaborPensionCard.vue'
 import LaborInsuranceCard from '@/components/plan/LaborInsuranceCard.vue'
+
+// 退休三階段
 import RetirementGoGoCard from '@/components/plan/RetirementGoGoCard.vue'
 import RetirementSlowGoCard from '@/components/plan/RetirementSlowGoCard.vue'
+import RetirementNoGoCard from '@/components/plan/RetirementNoGoCard.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'

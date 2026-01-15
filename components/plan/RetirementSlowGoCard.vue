@@ -137,7 +137,7 @@ const retirement = computed(() => userForm.value.retirement);
 // (A) Timeline
 const durationText = computed(() => {
     const start = safeNumber(retirement.value.slowGoStartAge);
-    const ltcStart = safeNumber(retirement.value.ltcStartAge);
+    const ltcStart = safeNumber(retirement.value.nogoStartAge);
     const end = ltcStart > 0 ? ltcStart : 80;
 
     if (end <= start) return '設定異常';
