@@ -219,7 +219,7 @@ export interface UserBusiness {
      * 系統依然需要這個欄位來計算 ROI 和現金流，
      * 但當 mode='total' 時，這會變成由前端自動計算的唯讀欄位。
      */
-    monthlyNetIncome: number;
+    monthlyIncome: number;
 
     monthlyCost: number;
     loanAmount: number;
@@ -368,7 +368,7 @@ export interface UserRetirement {
     // ==========================================
     // Phase 2: 慢活期 (Slow-Go Years)
     // ==========================================
-    
+
     /** [時間軸] Slow-Go 啟動年齡 (Default: 75) */
     slowGoStartAge: number;
 
