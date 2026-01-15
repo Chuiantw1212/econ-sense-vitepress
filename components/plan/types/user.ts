@@ -401,6 +401,42 @@ export interface UserRetirement {
      * *此欄位已包含：伙食、交通、娛樂、旅遊、雜支等所有生活開銷*
      */
     activeLivingCost: number;
+
+    /** * [時間軸] Slow-Go 開始年齡 (即 Go-Go 結束年齡) 
+     * Default: 75
+     */
+    slowGoStartAge: number; 
+
+    /** 防禦策略代碼 (D1-D10) */
+    defenseTierCode: string;
+
+    /** * 醫療月預算 (保費 + 自費醫療儲備)
+     * *注意：此階段醫療通膨通常較高 (J-Curve)*
+     */
+    monthlyMedicalCost: number;
+
+    /** * 重大傷病一次性準備金 (Critical Illness Reserve)
+     * 用於：癌症標靶、達文西手術等大額支出
+     */
+    criticalIllnessReserve: number;
+
+    // ==========================================
+    // Phase 3: 長照期 (No-Go Years)
+    // ==========================================
+    
+    /** * [時間軸] 長照啟動年齡 (No-Go Start) 
+     * 上限值：應小於 UserLaborInsurance.predictedRemainingLife
+     */
+    ltcStartAge: number;
+
+    /** 照顧模式代碼 */
+    ltcCareMode: string;
+
+    /** 每月人力/機構費 (Main Cost) */
+    ltcMonthlyCost: number;
+
+    /** 每月耗材雜支 (Supplies Cost) - 尿布/營養品 */
+    ltcMonthlySupplies: number;
 }
 
 // 總表單狀態介面 (Global Form State)

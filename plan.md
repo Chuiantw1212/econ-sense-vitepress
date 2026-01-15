@@ -146,7 +146,17 @@ head:
 #### 活躍期
 
 <div v-if="isReady">
-    <RetirementLifestyleCard 
+    <RetirementGoGoCard 
+        v-model="userForm" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+#### 防禦期
+
+<div v-if="isReady">
+    <RetirementSlowGoCard 
         v-model="userForm" 
         :metadata="metadata"
     />
@@ -180,7 +190,8 @@ import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
 import UtilityCard from '@/components/plan/UtilityCard.vue'
 import LaborPensionCard from '@/components/plan/LaborPensionCard.vue'
 import LaborInsuranceCard from '@/components/plan/LaborInsuranceCard.vue'
-import RetirementLifestyleCard from '@/components/plan/RetirementLifestyleCard.vue'
+import RetirementGoGoCard from '@/components/plan/RetirementGoGoCard.vue'
+import RetirementSlowGoCard from '@/components/plan/RetirementSlowGoCard.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
