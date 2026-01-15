@@ -1,17 +1,18 @@
 <template>
     <el-card shadow="never">
+
         <el-form label-position="top">
 
             <el-row :gutter="20">
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="啟動年齡 (Slow-Go Start)">
+                    <el-form-item label="啟動年齡 (Slow-Go Start)" style="margin-bottom: 12px;">
                         <el-input-number v-model="retirement.slowGoStartAge" :min="55" :max="90"
                             controls-position="right" style="width: 100%" @change="triggerSave" />
                     </el-form-item>
                 </el-col>
 
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="預估期間">
+                    <el-form-item label="預估期間" style="margin-bottom: 12px;">
                         <el-input :value="durationText" disabled style="width: 100%">
                             <template #prefix><el-icon>
                                     <Calendar />
@@ -21,9 +22,9 @@
                 </el-col>
             </el-row>
 
-            <el-row :gutter="20">
+            <el-row :gutter="20" style="margin-top: 8px;">
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="醫療防禦等級">
+                    <el-form-item label="醫療品質分級 (Medical Quality)" style="margin-bottom: 12px;">
                         <el-select v-model="retirement.defenseTierCode" placeholder="請選擇" style="width: 100%"
                             @change="onTierSelect">
                             <el-option v-for="item in tierOptions" :key="item.code" :label="item.label"
@@ -33,36 +34,37 @@
                 </el-col>
 
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="月預算 (保費+自費)">
+                    <el-form-item label="月預算 (保費+自費)" style="margin-bottom: 12px;">
                         <el-input-number v-model="retirement.monthlyMedicalCost" :min="0" :step="1000"
                             controls-position="right" style="width: 100%" @change="triggerSave" />
                     </el-form-item>
                 </el-col>
             </el-row>
 
-            <el-alert v-if="selectedTierOpt" :title="selectedTierOpt.description" type="info" :closable="false"
-                show-icon style="margin-bottom: 20px;" />
+            <div v-if="selectedTierOpt" class="description-row">
+                <el-icon>
+                    <InfoFilled />
+                </el-icon>
+                <span>{{ selectedTierOpt.description }}</span>
+            </div>
 
-            <el-row :gutter="20">
+            <el-row :gutter="20" style="margin-top: 8px;">
                 <el-col :span="24">
-                    <el-form-item label="重大傷病準備金 (PV)">
+                    <el-form-item label="重大傷病準備金 (PV)" style="margin-bottom: 12px;">
                         <el-input-number v-model="retirement.criticalIllnessReserve" :min="0" :step="100000"
                             :max="10000000" controls-position="right" style="width: 100%" @change="triggerSave" />
-                        <div style="text-align: right; margin-top: 4px;">
-                            <el-text v-if="retirement.criticalIllnessReserve < 500000" type="danger" size="small">
-                                建議至少準備 50萬
-                            </el-text>
+                        <div v-if="retirement.criticalIllnessReserve < 500000"
+                            style="font-size: 12px; color: #F56C6C; margin-top: 4px; text-align: right;">
+                            建議至少準備 50萬
                         </div>
                     </el-form-item>
                 </el-col>
             </el-row>
 
-            <el-divider style="margin: 24px 0 16px 0;" />
-
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <el-text type="info" size="default">每月現金流需求</el-text>
-
-                <el-statistic :value="retirement.monthlyMedicalCost">
+            <div
+                style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ebeef5; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14px; color: #606266;">每月現金流需求</span>
+                <el-statistic :value="retirement.monthlyMedicalCost" :precision="0">
                     <template #prefix>NT$</template>
                 </el-statistic>
             </div>
@@ -74,7 +76,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue';
 import { debounce } from 'lodash-es';
-import { Calendar } from '@element-plus/icons-vue';
+import { Calendar, InfoFilled } from '@element-plus/icons-vue';
 import { useApi } from '@/components/plan/composables/useApi';
 import type { UserFormState, UserRetirement } from './types/user';
 
@@ -125,7 +127,8 @@ const durationText = computed(() => {
     return `${start} ~ ${end} 歲 (約 ${yearDiff} 年)${isProjected ? '*' : ''}`;
 });
 
-const tierOptions = computed(() => props.metadata?.opt_medical_defense?.list || []);
+// [修正] 改讀取 opt_medical_slowgo
+const tierOptions = computed(() => props.metadata?.opt_retirement_slowgo_medical?.list || []);
 
 const selectedTierOpt = computed(() => {
     return tierOptions.value.find((opt: any) => opt.code === retirement.value.defenseTierCode);
@@ -143,6 +146,10 @@ const onTierSelect = (code: string) => {
 function safeNumber(val: any): number {
     const num = Number(val);
     return isNaN(num) ? 0 : num;
+}
+
+function formatMoney(val: number | undefined) {
+    return new Intl.NumberFormat('zh-TW').format(safeNumber(val));
 }
 
 const getPayload = () => {
@@ -165,3 +172,23 @@ const triggerSave = debounce(async () => {
 
 watch(() => userForm.value.retirement, () => triggerSave(), { deep: true });
 </script>
+
+<style scoped>
+.description-row {
+    margin-bottom: 20px;
+    padding: 10px 12px;
+    background-color: #f5f7fa;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #606266;
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+}
+
+.description-row .el-icon {
+    margin-right: 6px;
+    margin-top: 3px;
+    color: #909399;
+}
+</style>

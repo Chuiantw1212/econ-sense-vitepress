@@ -218,7 +218,7 @@ const onHousingModeSelect = (code: string) => {
 };
 
 // === Block 2: Health (健康維護) ===
-const opt_medical_gogo = computed(() => props.metadata?.opt_medical_gogo?.list || []);
+const opt_medical_gogo = computed(() => props.metadata?.opt_retirement_gogo_medical?.list || []);
 
 const selectedHealthOpt = computed(() => {
     return opt_medical_gogo.value.find((opt: any) => opt.code === retirement.value.healthTierCode);
@@ -235,7 +235,7 @@ const onHealthTierSelect = (code: string) => {
 };
 
 // === Block 3: Active Living (活躍生活) ===
-const activeLivingOptions = computed(() => props.metadata?.opt_active_living?.list || []);
+const activeLivingOptions = computed(() => props.metadata?.opt_retirement_gogo_living?.list || []);
 
 // 計算目前信用卡平均消費總和 (作為參考指標)
 const currentCreditCardAvg = computed(() => {
@@ -328,10 +328,7 @@ watch(() => userForm.value.retirement, () => triggerSave(), { deep: true });
 .block-desc {
     margin-top: 12px;
     font-size: 13px;
-    color: var(--el-text-color-secondary);
-    /* 次要文字顏色 (灰色) */
     line-height: 1.6;
-    /* 增加行距，讓純文字閱讀更舒服 */
 }
 
 /* 3. 元件寬度處理 */
