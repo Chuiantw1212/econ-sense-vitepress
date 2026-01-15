@@ -346,99 +346,62 @@ export interface UserLaborInsurance {
 }
 
 /**
- * 退休生活風格設定 (Retirement Lifestyle)
- * 對應卡片：LivingExpensesCard (Step 2: 每月支出結構)
- * 核心邏輯：居住 (Housing) + 醫療 (Health) + 活躍生活 (Active Living)
+ * 退休規劃全週期資料 (Retirement Lifecycle Entity)
+ * 涵蓋：Go-Go (活躍期) -> Slow-Go (慢活期) -> No-Go (長照期)
  */
 export interface UserRetirement {
-    // --- 1. 居住 (Housing) ---
+    id?: string;
+    userId?: string;
+    updatedAt?: string;
 
-    /**
-     * 居住型態
-     * - 'single': 獨居 (對應 opt_housing_solo)
-     * - 'couple': 共居 (對應 opt_housing_coliving)
-     */
+    // ==========================================
+    // Phase 1: 活躍期 (Go-Go Years)
+    // ==========================================
     householdType: 'single' | 'couple';
-
-    /**
-     * 居住方案代碼
-     * e.g., 'SOLO_RENT_SUITE', 'COLIVING_INST_DBL'
-     */
-    housingMode: string;
-
-    /**
-     * 居住月成本 (Housing Cost)
-     * 來源：由 housingMode 查表 (JSON) 後自動寫入
-     */
+    housingMode: string;       // e.g. 'SOLO_RENT_SUITE'
     housingCost: number;
-
-
-    // --- 2. 醫療 (Health) ---
-
-    /**
-     * 醫療保障等級代碼
-     * 對應 opt_health_tier.json
-     * e.g., 'basic', 'standard', 'premium'
-     * (註：金額通常由前端即時計算 4% 通膨，不強制存入 DB，若需紀錄可加開 healthCost)
-     */
-    healthTierCode: string;
-
+    healthTierCode: string;    // e.g. 'basic'
     healthCost: number;
-
-
-    // --- 3. 活躍生活 (Active Living) ---
-
-    /**
-     * [新增] 活躍生活水準代碼
-     * 對應 opt_active_living.json
-     * e.g., 'Q1' (生存防禦), 'Q3' (寬裕活躍)
-     */
-    activeLivingCode: string;
-
-    /**
-     * [新增] 活躍生活月預算 (Active Living Cost)
-     * 來源：由 activeLivingCode 查表 (JSON) 後自動寫入
-     * *此欄位已包含：伙食、交通、娛樂、旅遊、雜支等所有生活開銷*
-     */
+    activeLivingCode: string;  // e.g. 'Q3'
     activeLivingCost: number;
 
-    /** * [時間軸] Slow-Go 開始年齡 (即 Go-Go 結束年齡) 
-     * Default: 75
-     */
+    // ==========================================
+    // Phase 2: 慢活期 (Slow-Go Years)
+    // ==========================================
+    
+    /** [時間軸] Slow-Go 啟動年齡 (Default: 75) */
     slowGoStartAge: number;
 
-    /** 防禦策略代碼 (D1-D10) */
-    defenseTierCode: string;
-
-    /** * 醫療月預算 (保費 + 自費醫療儲備)
-     * *注意：此階段醫療通膨通常較高 (J-Curve)*
-     */
-    monthlyMedicalCost: number;
-
-    criticalIllnessCode: string;
-
-    /** * 重大傷病一次性準備金 (Critical Illness Reserve)
-     * 用於：癌症標靶、達文西手術等大額支出
-     */
-    criticalIllnessReserve: number;
+    defenseTierCode: string;        // e.g. 'D_QUALITY'
+    monthlyMedicalCost: number;     // 定期醫療預算
+    criticalIllnessCode: string;    // e.g. 'R_STANDARD'
+    criticalIllnessReserve: number; // 重大傷病準備金 (PV)
 
     // ==========================================
     // Phase 3: 長照期 (No-Go Years)
     // ==========================================
 
-    /** * [時間軸] 長照啟動年齡 (No-Go Start) 
-     * 上限值：應小於 UserLaborInsurance.predictedRemainingLife
+    /** * [時間軸] No-Go 啟動年齡 
+     * *改名為 nogoStartAge 以與 slowGoStartAge 對稱*
+     * (Default: 80)
      */
-    ltcStartAge: number;
+    nogoStartAge: number;
 
-    /** 照顧模式代碼 */
+    /** * 長照模式代碼 (LTC Domain)
+     * 對應 opt_retirement_nogo_ltc_mode 
+     */
     ltcCareMode: string;
 
-    /** 每月人力/機構費 (Main Cost) */
+    /** 每月主照護成本 (Base Cost) - 人力/機構費 */
     ltcMonthlyCost: number;
 
-    /** 每月耗材雜支 (Supplies Cost) - 尿布/營養品 */
+    /** 每月隱形雜支 (Hidden Supplies) - 耗材/食宿差額 */
     ltcMonthlySupplies: number;
+
+    /** * 每月政府補助扣減額 (Subsidy Deduction)
+     * *計算淨現金流時使用：(Cost + Supplies) - Subsidy*
+     */
+    ltcSubsidy: number;
 }
 
 // 總表單狀態介面 (Global Form State)
