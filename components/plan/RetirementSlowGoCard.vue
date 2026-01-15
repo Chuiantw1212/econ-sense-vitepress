@@ -22,12 +22,13 @@
                 </el-col>
             </el-row>
 
+
             <el-row :gutter="20" style="margin-top: 8px;">
                 <el-col :span="12" :xs="24">
-                    <el-form-item label="醫療品質分級 (Medical Quality)" style="margin-bottom: 12px;">
-                        <el-select v-model="retirement.defenseTierCode" placeholder="請選擇" style="width: 100%"
-                            @change="onTierSelect">
-                            <el-option v-for="item in tierOptions" :key="item.code" :label="item.label"
+                    <el-form-item label="醫療品質分級" style="margin-bottom: 12px;">
+                        <el-select v-model="retirement.defenseTierCode" placeholder="請選擇品質等級" style="width: 100%"
+                            @change="onMedicalTierSelect">
+                            <el-option v-for="item in medicalOptions" :key="item.code" :label="item.label"
                                 :value="item.code" />
                         </el-select>
                     </el-form-item>
@@ -41,35 +42,52 @@
                 </el-col>
             </el-row>
 
-            <div v-if="selectedTierOpt" class="description-row">
+            <div v-if="selectedMedicalOpt" class="description-row">
                 <el-icon>
                     <InfoFilled />
                 </el-icon>
-                <span>{{ selectedTierOpt.description }}</span>
+                <span>{{ selectedMedicalOpt.description }}</span>
             </div>
 
+
             <el-row :gutter="20" style="margin-top: 8px;">
-                <el-col :span="24">
-                    <el-form-item label="重大傷病準備金 (PV)" style="margin-bottom: 12px;">
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="重大傷病策略" style="margin-bottom: 12px;">
+                        <el-select v-model="retirement.criticalIllnessCode" placeholder="請選擇儲備水位" style="width: 100%"
+                            @change="onCriticalTierSelect">
+                            <el-option v-for="item in criticalOptions" :key="item.code" :label="item.label"
+                                :value="item.code" />
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="準備金額 (PV)" style="margin-bottom: 12px;">
                         <el-input-number v-model="retirement.criticalIllnessReserve" :min="0" :step="100000"
                             :max="10000000" controls-position="right" style="width: 100%" @change="triggerSave" />
-                        <div v-if="retirement.criticalIllnessReserve < 500000"
-                            style="font-size: 12px; color: #F56C6C; margin-top: 4px; text-align: right;">
-                            建議至少準備 50萬
-                        </div>
                     </el-form-item>
                 </el-col>
             </el-row>
 
-            <div
-                style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ebeef5; display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 14px; color: #606266;">每月現金流需求</span>
-                <el-statistic :value="retirement.monthlyMedicalCost" :precision="0">
-                    <template #prefix>NT$</template>
-                </el-statistic>
+            <div v-if="selectedCriticalOpt" class="description-row">
+                <el-icon>
+                    <InfoFilled />
+                </el-icon>
+                <span>{{ selectedCriticalOpt.description }}</span>
             </div>
 
         </el-form>
+
+        <template #footer>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14px; color: #606266;">每月現金流需求</span>
+
+                <el-statistic :value="retirement.monthlyMedicalCost">
+                    <template #prefix>NT$</template>
+                </el-statistic>
+            </div>
+        </template>
+
     </el-card>
 </template>
 
@@ -80,6 +98,7 @@ import { Calendar, InfoFilled } from '@element-plus/icons-vue';
 import { useApi } from '@/components/plan/composables/useApi';
 import type { UserFormState, UserRetirement } from './types/user';
 
+// --- 1. 定義 ---
 const props = defineProps<{
     metadata: Record<string, any>;
 }>();
@@ -87,7 +106,7 @@ const props = defineProps<{
 const userForm = defineModel<UserFormState>({ required: true });
 const { authFetch } = useApi();
 
-// --- 初始化 ---
+// --- 2. 初始化 ---
 const ensureDefaults = () => {
     if (!userForm.value.retirement) {
         userForm.value.retirement = {} as UserRetirement;
@@ -98,7 +117,8 @@ const ensureDefaults = () => {
         slowGoStartAge: 75,
         defenseTierCode: '',
         monthlyMedicalCost: 0,
-        criticalIllnessReserve: 500000,
+        criticalIllnessCode: '',
+        criticalIllnessReserve: 200000,
     };
 
     Object.keys(defaults).forEach((key) => {
@@ -112,8 +132,9 @@ ensureDefaults();
 
 const retirement = computed(() => userForm.value.retirement);
 
-// --- 邏輯 ---
+// --- 3. 邏輯區 ---
 
+// (A) Timeline
 const durationText = computed(() => {
     const start = safeNumber(retirement.value.slowGoStartAge);
     const ltcStart = safeNumber(retirement.value.ltcStartAge);
@@ -123,21 +144,35 @@ const durationText = computed(() => {
 
     const isProjected = ltcStart === 0;
     const yearDiff = end - start;
-
     return `${start} ~ ${end} 歲 (約 ${yearDiff} 年)${isProjected ? '*' : ''}`;
 });
 
-// [修正] 改讀取 opt_medical_slowgo
-const tierOptions = computed(() => props.metadata?.opt_retirement_slowgo_medical?.list || []);
+// (B) Medical Quality (opt_retirement_slowgo_medical)
+const medicalOptions = computed(() => props.metadata?.opt_retirement_slowgo_medical?.list || []);
 
-const selectedTierOpt = computed(() => {
-    return tierOptions.value.find((opt: any) => opt.code === retirement.value.defenseTierCode);
+const selectedMedicalOpt = computed(() => {
+    return medicalOptions.value.find((opt: any) => opt.code === retirement.value.defenseTierCode);
 });
 
-const onTierSelect = (code: string) => {
-    const opt = tierOptions.value.find((o: any) => o.code === code);
+const onMedicalTierSelect = (code: string) => {
+    const opt = medicalOptions.value.find((o: any) => o.code === code);
     if (opt) {
         retirement.value.monthlyMedicalCost = safeNumber(opt.monthlyBudget);
+        triggerSave();
+    }
+};
+
+// (C) Critical Reserve (opt_slowgo_critical)
+const criticalOptions = computed(() => props.metadata?.opt_slowgo_critical?.list || []);
+
+const selectedCriticalOpt = computed(() => {
+    return criticalOptions.value.find((opt: any) => opt.code === retirement.value.criticalIllnessCode);
+});
+
+const onCriticalTierSelect = (code: string) => {
+    const opt = criticalOptions.value.find((o: any) => o.code === code);
+    if (opt) {
+        retirement.value.criticalIllnessReserve = safeNumber(opt.amount);
         triggerSave();
     }
 };
@@ -154,10 +189,16 @@ function formatMoney(val: number | undefined) {
 
 const getPayload = () => {
     const {
-        slowGoStartAge, defenseTierCode,
-        monthlyMedicalCost, criticalIllnessReserve
+        slowGoStartAge,
+        defenseTierCode, monthlyMedicalCost,
+        criticalIllnessCode, criticalIllnessReserve
     } = retirement.value;
-    return { slowGoStartAge, defenseTierCode, monthlyMedicalCost, criticalIllnessReserve };
+
+    return {
+        slowGoStartAge,
+        defenseTierCode, monthlyMedicalCost,
+        criticalIllnessCode, criticalIllnessReserve
+    };
 };
 
 const triggerSave = debounce(async () => {

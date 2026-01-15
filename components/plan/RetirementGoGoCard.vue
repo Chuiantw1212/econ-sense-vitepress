@@ -112,19 +112,17 @@
                 </div>
             </div>
 
-            <el-divider class="footer-divider" />
+        </el-form>
 
-            <div class="footer-summary">
-                <div class="summary-label">
-                    <el-text type="info" size="default">每月總現金流需求</el-text>
-                </div>
+        <template #footer>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14px; color: #606266;">每月現金流需求</span>
 
                 <el-statistic :value="totalMonthlyExpense" :precision="0">
                     <template #prefix>NT$</template>
                 </el-statistic>
             </div>
-
-        </el-form>
+        </template>
     </el-card>
 </template>
 <script setup lang="ts">

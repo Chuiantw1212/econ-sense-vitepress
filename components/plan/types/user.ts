@@ -405,7 +405,7 @@ export interface UserRetirement {
     /** * [時間軸] Slow-Go 開始年齡 (即 Go-Go 結束年齡) 
      * Default: 75
      */
-    slowGoStartAge: number; 
+    slowGoStartAge: number;
 
     /** 防禦策略代碼 (D1-D10) */
     defenseTierCode: string;
@@ -415,6 +415,8 @@ export interface UserRetirement {
      */
     monthlyMedicalCost: number;
 
+    criticalIllnessCode: string;
+
     /** * 重大傷病一次性準備金 (Critical Illness Reserve)
      * 用於：癌症標靶、達文西手術等大額支出
      */
@@ -423,7 +425,7 @@ export interface UserRetirement {
     // ==========================================
     // Phase 3: 長照期 (No-Go Years)
     // ==========================================
-    
+
     /** * [時間軸] 長照啟動年齡 (No-Go Start) 
      * 上限值：應小於 UserLaborInsurance.predictedRemainingLife
      */
