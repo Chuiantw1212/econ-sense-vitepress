@@ -143,7 +143,7 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
-#### 退休品質
+#### 活躍期
 
 <div v-if="isReady">
     <RetirementLifestyleCard 
