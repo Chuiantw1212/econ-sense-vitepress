@@ -20,14 +20,11 @@
                 <div class="stat-item">
                     <div class="label">{{ summary.isSurplus ? '最終剩餘' : '耗盡年齡' }}</div>
                     <div class="value" :class="summary.isSurplus ? 'success' : 'danger'">
-                        {{ summary.isSurplus ? `NT$ ${formatBigMoney(summary.finalAsset)}` : `${summary.depletionAge} 歲`
-                        }}
+                        {{ summary.isSurplus ? `NT$ ${formatBigMoney(summary.finalAsset)}` : `${summary.depletionAge} 歲` }}
                     </div>
                     <div class="sub-label">
                         <span v-if="!summary.isSurplus">
-                            <el-icon>
-                                <Warning />
-                            </el-icon> 之後面臨資金缺口
+                            <el-icon><Warning /></el-icon> 之後面臨資金缺口
                         </span>
                         <span v-else>足以安享晚年 (ROI: {{ currentRoi }}%)</span>
                     </div>
@@ -43,9 +40,7 @@
         </div>
 
         <div class="chart-hint" v-if="chartData">
-            <el-icon>
-                <InfoFilled />
-            </el-icon>
+            <el-icon><InfoFilled /></el-icon>
             <span style="margin-left: 4px; font-size: 12px; color: #909399;">
                 模擬從「勞退請領/退休年齡」開始。若早於「勞保年金」請領歲數，前幾年將無年金收入，資產消耗較快。
             </span>
@@ -60,11 +55,6 @@ import { Warning, InfoFilled } from '@element-plus/icons-vue';
 import type { UserFormState } from './types/user';
 import { useRetirementCalculator, type TimelineContext } from './composables/useRetirementCalculator';
 import RetirementAssetChart, { type ChartPayload } from './charts/RetirementAssetChart.vue';
-
-// [更新] 移除 roi prop，因為改由 userForm 內部讀取
-const props = defineProps<{
-    inflationRate?: number;
-}>();
 
 const userForm = defineModel<UserFormState>({ required: true });
 
@@ -95,11 +85,10 @@ const context = computed<TimelineContext>(() => {
         currentAge,
         startSimulationAge: Math.max(startSimulationAge, currentAge),
         endSimulationAge: Math.max(endSimulationAge, startSimulationAge + 1),
-        inflationRate: (props.inflationRate ?? 3) / 100 // 預設 3%
     };
 });
 
-// [新增] 從 UserForm 讀取退休後投資報酬率 (ROI)
+// 從 UserForm 讀取退休後投資報酬率 (ROI)
 const currentRoi = computed(() => userForm.value?.laborPension?.retirementRoi ?? 3);
 
 // --- 2. 透過 Composable 產生原始數據 ---
@@ -122,11 +111,11 @@ const rawStreams = computed(() => {
 const stockSeries = computed(() => {
     if (!rawStreams.value) return [];
     const s = rawStreams.value;
-
-    // [更新] 使用 currentRoi 進行計算
+    
+    // 使用 currentRoi 進行計算
     return calculateAssetStockSeries(
         initialAssets.value,
-        currentRoi.value / 100,
+        currentRoi.value / 100, 
         [s.inflow],
         [s.outHousingLiving, s.outMedical, s.outLtc]
     );
