@@ -1,3 +1,4 @@
+// composables/useRetirementCalculator.ts
 import type { UserFormState } from '../types/user'; // 請確認此路徑正確
 
 /**
@@ -229,7 +230,7 @@ export function useRetirementCalculator() {
         let currentPool = initialAssets; // 資產水庫
 
         for (let i = 0; i < length; i++) {
-            // 取得當下年齡
+            // 取得當下年齡 (假設所有 stream 的 age 都對齊)
             const age = (inflowStreams[0] || outflowStreams[0])[i].age;
 
             // A. 彙總當年度所有收入
@@ -247,7 +248,7 @@ export function useRetirementCalculator() {
             // C. 計算資產變化
             // 公式：End = (Start * (1 + ROI)) + (In - Out)
 
-            // 只有當資產 > 0 時才計算投資獲利
+            // 只有當資產 > 0 時才計算投資獲利 (避免負債還生利息)
             const interest = currentPool > 0 ? currentPool * roi : 0;
 
             const netFlow = yearIn - yearOut;

@@ -29,7 +29,7 @@
                                 <Warning />
                             </el-icon> 之後面臨資金缺口
                         </span>
-                        <span v-else>足以安享晚年</span>
+                        <span v-else>足以安享晚年 (ROI: {{ currentRoi }}%)</span>
                     </div>
                 </div>
             </el-col>
@@ -61,9 +61,9 @@ import type { UserFormState } from './types/user';
 import { useRetirementCalculator, type TimelineContext } from './composables/useRetirementCalculator';
 import RetirementAssetChart, { type ChartPayload } from './charts/RetirementAssetChart.vue';
 
+// [更新] 移除 roi prop，因為改由 userForm 內部讀取
 const props = defineProps<{
     inflationRate?: number;
-    roi?: number;
 }>();
 
 const userForm = defineModel<UserFormState>({ required: true });
@@ -85,9 +85,7 @@ const context = computed<TimelineContext>(() => {
 
     const currentAge = profile?.currentAge ?? 40;
 
-    // [關鍵修改] 
     // 起點設為「勞退預計退休年齡」(通常 60)。
-    // 這樣如果這裡設 60，但勞保設 65，圖表就會出現 5 年的「收入空窗期」。
     const startSimulationAge = pension?.expectedRetirementAge ?? 60;
 
     // 終點依然看勞保餘命
@@ -101,6 +99,9 @@ const context = computed<TimelineContext>(() => {
     };
 });
 
+// [新增] 從 UserForm 讀取退休後投資報酬率 (ROI)
+const currentRoi = computed(() => userForm.value?.laborPension?.retirementRoi ?? 3);
+
 // --- 2. 透過 Composable 產生原始數據 ---
 const initialAssets = computed(() => userForm.value ? getLaborPensionLumpSum(userForm.value) : 0);
 
@@ -110,7 +111,6 @@ const rawStreams = computed(() => {
     const ctx = context.value;
 
     return {
-        // 這裡會自動處理：若 ctx.start (60) < labor.claimAge (65)，前 5 年金額為 0
         inflow: calcLaborInsuranceStream(form, ctx),
         outHousingLiving: calcGoGoExpenseStream(form, ctx),
         outMedical: calcSlowGoExpenseStream(form, ctx),
@@ -122,9 +122,11 @@ const rawStreams = computed(() => {
 const stockSeries = computed(() => {
     if (!rawStreams.value) return [];
     const s = rawStreams.value;
+
+    // [更新] 使用 currentRoi 進行計算
     return calculateAssetStockSeries(
         initialAssets.value,
-        (props.roi ?? 3) / 100,
+        currentRoi.value / 100,
         [s.inflow],
         [s.outHousingLiving, s.outMedical, s.outLtc]
     );
