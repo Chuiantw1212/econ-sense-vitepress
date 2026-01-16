@@ -173,6 +173,16 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
+#### 退休金流
+
+<div v-if="isReady">
+    <RetirementGapCard 
+        v-model="userForm" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
 <!-- ### Utility
 
 <div v-if="isReady">
@@ -205,6 +215,7 @@ import LaborInsuranceCard from '@/components/plan/LaborInsuranceCard.vue'
 import RetirementGoGoCard from '@/components/plan/RetirementGoGoCard.vue'
 import RetirementSlowGoCard from '@/components/plan/RetirementSlowGoCard.vue'
 import RetirementNoGoCard from '@/components/plan/RetirementNoGoCard.vue'
+import RetirementGapCard from '@/components/plan/RetirementGapCard.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'

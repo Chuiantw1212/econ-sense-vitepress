@@ -288,11 +288,6 @@ export interface UserTax {
      * 包含：股利、利息、租金、兼職等需併入綜所稅的金額
      */
     estimatedOtherIncome: number;
-
-    // 未來可擴充：
-    // overseasIncome: number; // 海外所得
-    // itemizedDeductions: number; // 列舉扣除額總額
-    // separateTaxableIncome: number; // 分離課稅所得
 }
 
 /**
