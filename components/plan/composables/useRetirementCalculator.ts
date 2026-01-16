@@ -55,37 +55,51 @@ export function useRetirementCalculator() {
 
     /**
      * 1. 計算 [勞保年金] 金流陣列 (Inflow)
-     * 對應 UserLaborInsurance.predictedMonthlyAnnuity
+     * [修正] 加入通膨成長因子，假設年金能跟上 CPI (如 3%)
      */
     function calcLaborInsuranceStream(
         form: UserFormState,
         ctx: TimelineContext
     ): CashFlowPoint[] {
         const labor = form.laborInsurance;
-        // 月領金額 * 12
-        const annualAnnuity = (labor?.predictedMonthlyAnnuity ?? 0) * 12;
+        // 這是「現值 (PV)」的月領金額
+        const annualAnnuityPV = (labor?.predictedMonthlyAnnuity ?? 0) * 12;
         const claimAge = labor?.expectedClaimAge ?? 65;
 
         const stream: CashFlowPoint[] = [];
 
         for (let age = ctx.startSimulationAge; age <= ctx.endSimulationAge; age++) {
+            // 計算通膨係數 (從現在 Current Age 到 該歲數 Age)
+            const yearIndex = age - ctx.currentAge;
+            const inflator = Math.pow(1 + ctx.inflationRate, yearIndex);
+
             // 邏輯：只有達到請領年齡後才有收入
-            const amount = (age >= claimAge) ? annualAnnuity : 0;
+            // 金額 = 現值 * 通膨係數
+            let amount = 0;
+            if (age >= claimAge) {
+                amount = annualAnnuityPV * inflator;
+            }
+
             stream.push({ age, amount: Math.round(amount) });
         }
         return stream;
     }
 
     /**
-     * 2. 計算 [Go-Go 活躍期] 支出陣列 (Outflow)
-     * 包含：housingCost + healthCost + activeLivingCost
-     */
+      * 2. 計算 [Go-Go 活躍期] 支出陣列 (Outflow)
+      * [修正] 支出應從「勞保年金請領年齡 (完全退休)」才開始計算
+      * 在此之前視為「半退休/還在工作」，由薪水覆蓋生活費，不消耗退休金
+      */
     function calcGoGoExpenseStream(
         form: UserFormState,
         ctx: TimelineContext
     ): CashFlowPoint[] {
+        const labor = form.laborInsurance;
         const r = form.retirement || {};
+
         const slowGoStart = r.slowGoStartAge ?? 75;
+        // [新增] 真實退休點 = 勞保請領年齡
+        const realRetireAge = labor?.expectedClaimAge ?? 65;
 
         // 基礎月費
         const baseMonthly = (r.housingCost ?? 0) +
@@ -99,9 +113,12 @@ export function useRetirementCalculator() {
             const yearIndex = age - ctx.currentAge;
             const inflator = Math.pow(1 + ctx.inflationRate, yearIndex);
 
-            // 邏輯：只在 < Slow-Go 啟動前發生
             let amount = 0;
-            if (age < slowGoStart) {
+
+            // 邏輯：
+            // 1. 年齡 < SlowGo (還在 GoGo 期)
+            // 2. 年齡 >= RealRetireAge (已經真正退休，開始吃老本)
+            if (age < slowGoStart && age >= realRetireAge) {
                 amount = baseAnnual * inflator;
             }
 

@@ -1,20 +1,10 @@
 <template>
     <el-card shadow="hover" class="gap-card">
-        <template #header>
-            <div class="card-header">
-                <div class="header-title">
-                    <span>Step 5: 退休資產全景模擬</span>
-                    <el-tag :type="summary.isSurplus ? 'success' : 'danger'" effect="dark" size="small">
-                        {{ summary.isSurplus ? '資產充裕' : '資產將耗盡' }}
-                    </el-tag>
-                </div>
-            </div>
-        </template>
 
         <el-row :gutter="20" class="dashboard-row">
             <el-col :span="8" :xs="24">
                 <div class="stat-item">
-                    <div class="label">起始總資產 (Initial Assets)</div>
+                    <div class="label">起始總資產 (Initial Stock)</div>
                     <div class="value success">NT$ {{ formatBigMoney(initialAssets) }}</div>
                     <div class="sub-label">勞退一次金 + 累積儲蓄</div>
                 </div>
@@ -23,7 +13,7 @@
                 <div class="stat-item">
                     <div class="label">年金總收入 (Total Income)</div>
                     <div class="value primary">NT$ {{ formatBigMoney(totalInflowSum) }}</div>
-                    <div class="sub-label">勞保年金終身領取</div>
+                    <div class="sub-label">勞保年金 (抗通膨成長)</div>
                 </div>
             </el-col>
             <el-col :span="8" :xs="24">
@@ -52,19 +42,25 @@
             <el-empty v-else description="資料載入中..." />
         </div>
 
+        <div class="chart-hint" v-if="chartData">
+            <el-icon>
+                <InfoFilled />
+            </el-icon>
+            <span style="margin-left: 4px; font-size: 12px; color: #909399;">
+                模擬從「勞退請領/退休年齡」開始。若早於「勞保年金」請領歲數，前幾年將無年金收入，資產消耗較快。
+            </span>
+        </div>
+
     </el-card>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Warning } from '@element-plus/icons-vue';
+import { Warning, InfoFilled } from '@element-plus/icons-vue';
 import type { UserFormState } from './types/user';
-// 引入 Composable
 import { useRetirementCalculator, type TimelineContext } from './composables/useRetirementCalculator';
-// 引入 View 元件
 import RetirementAssetChart, { type ChartPayload } from './charts/RetirementAssetChart.vue';
 
-// --- Props & Model ---
 const props = defineProps<{
     inflationRate?: number;
     roi?: number;
@@ -72,7 +68,6 @@ const props = defineProps<{
 
 const userForm = defineModel<UserFormState>({ required: true });
 
-// --- Composable 初始化 ---
 const {
     getLaborPensionLumpSum,
     calcLaborInsuranceStream,
@@ -89,14 +84,20 @@ const context = computed<TimelineContext>(() => {
     const pension = userForm.value?.laborPension;
 
     const currentAge = profile?.currentAge ?? 40;
-    const startSimulationAge = pension?.expectedRetirementAge ?? 65;
+
+    // [關鍵修改] 
+    // 起點設為「勞退預計退休年齡」(通常 60)。
+    // 這樣如果這裡設 60，但勞保設 65，圖表就會出現 5 年的「收入空窗期」。
+    const startSimulationAge = pension?.expectedRetirementAge ?? 60;
+
+    // 終點依然看勞保餘命
     const endSimulationAge = (labor?.expectedClaimAge ?? 65) + (labor?.predictedRemainingLife ?? 20);
 
     return {
         currentAge,
         startSimulationAge: Math.max(startSimulationAge, currentAge),
         endSimulationAge: Math.max(endSimulationAge, startSimulationAge + 1),
-        inflationRate: (props.inflationRate ?? 2) / 100
+        inflationRate: (props.inflationRate ?? 3) / 100 // 預設 3%
     };
 });
 
@@ -109,10 +110,11 @@ const rawStreams = computed(() => {
     const ctx = context.value;
 
     return {
+        // 這裡會自動處理：若 ctx.start (60) < labor.claimAge (65)，前 5 年金額為 0
         inflow: calcLaborInsuranceStream(form, ctx),
-        outHousingLiving: calcGoGoExpenseStream(form, ctx), // 這裡包含 Go-Go 的所有生活費
-        outMedical: calcSlowGoExpenseStream(form, ctx),     // 這裡包含 Slow-Go 的醫療
-        outLtc: calcNoGoExpenseStream(form, ctx)            // 這裡包含 No-Go 的長照
+        outHousingLiving: calcGoGoExpenseStream(form, ctx),
+        outMedical: calcSlowGoExpenseStream(form, ctx),
+        outLtc: calcNoGoExpenseStream(form, ctx)
     };
 });
 
@@ -124,28 +126,22 @@ const stockSeries = computed(() => {
         initialAssets.value,
         (props.roi ?? 3) / 100,
         [s.inflow],
-        [s.outHousingLiving, s.outMedical, s.outLtc] // 將所有支出流合併計算
+        [s.outHousingLiving, s.outMedical, s.outLtc]
     );
 });
 
-// --- 3. 轉換為 Chart 元件需要的數據格式 (View Model Transformation) ---
+// --- 3. 轉換為 Chart 元件需要的數據格式 ---
 const chartData = computed<ChartPayload | null>(() => {
     if (!rawStreams.value || stockSeries.value.length === 0) return null;
 
     const s = rawStreams.value;
     const stocks = stockSeries.value;
 
-    // 提取每個 Series 的 amount 陣列
     return {
         labels: stocks.map(d => d.age.toString()),
-        assets: stocks.map(d => Math.max(0, d.endBalance)), // 只顯示正資產
+        assets: stocks.map(d => Math.max(0, d.endBalance)),
         incomes: s.inflow.map(d => d.amount),
         expenses: {
-            // 這裡對應 Chart 元件的 Stack 層級
-            // Living (GoGo + 跨階段的 Housing 其實在 Composable 已經拆分，這裡直接對應)
-            // 為了讓圖表在各階段都有東西顯示，我們需要理解 Composable 回傳的是該年度的「總數」
-
-            // 注意：因為 Composable 是分階段回傳 0 或數值，所以直接 mapping 即可
             living: s.outHousingLiving.map(d => d.amount),
             medical: s.outMedical.map(d => d.amount),
             ltc: s.outLtc.map(d => d.amount)
@@ -153,7 +149,7 @@ const chartData = computed<ChartPayload | null>(() => {
     };
 });
 
-// --- 4. 統計摘要 (Summary) ---
+// --- 4. 統計摘要 ---
 const totalInflowSum = computed(() => stockSeries.value.reduce((sum, d) => sum + d.totalInflow, 0));
 
 const summary = computed(() => {
@@ -170,7 +166,6 @@ const summary = computed(() => {
     };
 });
 
-// Formatter
 const formatBigMoney = (val: number) => {
     const num = Math.round(val);
     if (Math.abs(num) > 100000000) return `${(num / 100000000).toFixed(2)} 億`;
@@ -180,7 +175,6 @@ const formatBigMoney = (val: number) => {
 </script>
 
 <style scoped>
-/* 樣式保持一致 */
 .card-header {
     display: flex;
     justify-content: space-between;
@@ -236,5 +230,12 @@ const formatBigMoney = (val: number) => {
 
 .chart-wrapper {
     margin-top: 20px;
+}
+
+.chart-hint {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 </style>
