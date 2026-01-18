@@ -24,7 +24,7 @@ outline: [2,3]
 
 <ClientOnly>
   <div 
-    v-if="visualData.length >= 10" 
+    v-if="visualData.length >= 10 && dimensionResult" 
     :key="topArchetypes.primary + '-core'" 
     class="analysis-container "
     ref="part1Ref"
@@ -37,7 +37,7 @@ outline: [2,3]
         :selectedKeywords="visualData" 
     />
     <KeyDimensionsCard 
-        :userVector="dimensionScores" 
+        :result="dimensionResult" 
     />   
     <InternalFrictionCard 
         :primaryRole="topArchetypes.primary"
@@ -110,14 +110,14 @@ outline: [2,3]
 
 | 角色符號與名稱 | 核心代碼 (Code) | 內在驅動力             | 完整策略連結                                                        |
 | :------------- | :-------------- | :--------------------- | :------------------------------------------------------------------ |
-| **🏹 獵人**     | IRH             | **個體 - 現證 - 熱動** | <a href="./entropy/hunter.html" target="_blank">查看進階策略</a>    |
-| **🧭 先驅**     | IVH             | **個體 - 內觀 - 熱動** | <a href="./entropy/pioneer.html" target="_blank">查看進階策略</a>   |
-| **🍇 採集者**   | ORH             | **他人 - 現證 - 熱動** | <a href="./entropy/gatherer.html" target="_blank">查看進階策略</a>  |
-| **🦋 薩滿**     | OVH             | **他人 - 內觀 - 熱動** | <a href="./entropy/shaman.html" target="_blank">查看進階策略</a>    |
-| **🛠 工匠**     | IRC             | **個體 - 現證 - 冷控** | <a href="./entropy/toolmaker.html" target="_blank">查看進階策略</a> |
-| **🛡️ 哨兵**     | IVC             | **個體 - 內觀 - 冷控** | <a href="./entropy/sentry.html" target="_blank">查看進階策略</a>    |
-| **🫂 助人者**   | ORC             | **他人 - 現證 - 冷控** | <a href="./entropy/helper.html" target="_blank">查看進階策略</a>    |
-| **🌳 長老**     | OVC             | **他人 - 內觀 - 冷控** | <a href="./entropy/elder.html" target="_blank">查看進階策略</a>     |
+| **🏹 獵人** | IRH             | **個體 - 現證 - 熱動** | <a href="./entropy/hunter.html" target="_blank">查看進階策略</a>    |
+| **🧭 先驅** | IVH             | **個體 - 內觀 - 熱動** | <a href="./entropy/pioneer.html" target="_blank">查看進階策略</a>   |
+| **🍇 採集者** | ORH             | **他人 - 現證 - 熱動** | <a href="./entropy/gatherer.html" target="_blank">查看進階策略</a>  |
+| **🦋 薩滿** | OVH             | **他人 - 內觀 - 熱動** | <a href="./entropy/shaman.html" target="_blank">查看進階策略</a>    |
+| **🛠 工匠** | IRC             | **個體 - 現證 - 冷控** | <a href="./entropy/toolmaker.html" target="_blank">查看進階策略</a> |
+| **🛡️ 哨兵** | IVC             | **個體 - 內觀 - 冷控** | <a href="./entropy/sentry.html" target="_blank">查看進階策略</a>    |
+| **🫂 助人者** | ORC             | **他人 - 現證 - 冷控** | <a href="./entropy/helper.html" target="_blank">查看進階策略</a>    |
+| **🌳 長老** | OVC             | **他人 - 內觀 - 冷控** | <a href="./entropy/elder.html" target="_blank">查看進階策略</a>     |
 
 
 <script setup lang="ts">
@@ -143,6 +143,9 @@ import AntiScamCard from './components/entropy/antiScamCard/antiScamCard.vue'
 import FinalIdentityCard from './components/entropy/finalIdentityCard.vue'
 import FounderDualCard from './components/entropy/founderDual/founderDualCard.vue'
 
+// --- 新增：引入維度資料定義檔 (請確認檔案路徑是否正確) ---
+import { data as dimensionConfigData } from './components/entropy/keyDimensionsCard/keyDimensionCard.data.js'
+
 // --- 資料狀態管理 ---
 interface IKeyword {
     "id": number,  
@@ -154,10 +157,62 @@ interface IKeyword {
 
 const visualData = ref<IKeyword[]>([]) 
 const dimensionScores = ref<any>(null)
+// 新增：儲存計算後的維度說明書資料
+const dimensionResult = ref<any>(null)
+
 const topArchetypes = ref<{ primary: string; secondary: string | undefined }>({
     primary: '',
     secondary: undefined
 });
+
+// --- 新增：維度運算邏輯 (從子元件提取出來) ---
+function calculateDimensionManual(vector: { x: number, y: number, z: number }) {
+    if (!vector) return null;
+    const { x, y, z } = vector;
+
+    // 計算總能量 (分母)
+    const totalScore = Math.abs(x) + Math.abs(y) + Math.abs(z);
+    
+    // 如果總分為 0，回傳 null
+    if (totalScore === 0) return null;
+
+    const denominator = totalScore;
+    const fixedOrderKeys = ['x', 'y', 'z'] as const;
+    const dims: any[] = [];
+
+    fixedOrderKeys.forEach(axis => {
+        const value = vector[axis];
+        
+        // 如果偏向是 0，直接跳過
+        if (value === 0) return;
+
+        const abs = Math.abs(value);
+        // @ts-ignore
+        const config = dimensionConfigData[axis];
+
+        // 判斷正負向
+        const side = value > 0 ? config.pos : config.neg;
+
+        // 計算佔比
+        const percent = Math.round((abs / denominator) * 100);
+
+        dims.push({
+            axis: axis,
+            metaphor: config.metaphor,
+            value: value,
+            percentage: percent,
+            label: side.label,
+            shortLabel: side.label.split(' ')[0],
+            color: side.color,
+            icon: side.icon,
+            manual: side.manual
+        });
+    });
+
+    if (dims.length === 0) return null;
+
+    return { dims };
+}
 
 // --- 雙重截圖邏輯 ---
 // 定義兩個 Ref 對應兩個區塊
@@ -220,6 +275,13 @@ function handleAnalysisUpdate(result: any) {
     visualData.value = result.keywords;
     dimensionScores.value = result.dimension;
     topArchetypes.value = result.archetypes;
+
+    // 新增：當收到結果時，立即計算維度說明書
+    if (result.dimension) {
+        dimensionResult.value = calculateDimensionManual(result.dimension);
+    } else {
+        dimensionResult.value = null;
+    }
 }
 </script>
 
