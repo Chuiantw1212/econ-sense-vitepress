@@ -33,8 +33,8 @@
                 <div v-for="item in sortedComposition" :key="item.key" class="comp-item">
                     <div class="comp-info">
                         <span class="comp-label">
-                            <span class="dot" :style="{ background: item.color }"></span>
-                            {{ item.name }}
+                            <span class="role-icon">{{ item.icon }}</span>
+                            <span>{{ item.name }}</span>
                         </span>
                         <span class="comp-value">{{ item.percentage }}%</span>
                     </div>
@@ -63,7 +63,7 @@
 import { computed } from 'vue';
 import { InfoFilled, MagicStick } from '@element-plus/icons-vue';
 
-// --- 1. 定義介面與 Props (配合您的資料結構) ---
+// --- 1. 定義介面與 Props ---
 interface IVector {
     x: number;
     y: number;
@@ -79,19 +79,21 @@ interface IKeyword {
 }
 
 const props = defineProps<{
-    selectedKeywords: IKeyword[]
+    selectedKeywords: IKeyword[];
+    // 接收父層計算出的真正第一名 (權重共振結果)
+    primaryRole?: string;
 }>();
 
-// --- 2. 配置設定 ---
-const ARCHETYPE_CONFIG: Record<string, { name: string, color: string }> = {
-    'Hunter': { name: '獵人', color: '#FF4500' },
-    'Pioneer': { name: '先驅', color: '#FF8C00' },
-    'Toolmaker': { name: '工匠', color: '#1E90FF' },
-    'Sentry': { name: '哨兵', color: '#00008B' },
-    'Gatherer': { name: '採集者', color: '#32CD32' },
-    'Shaman': { name: '薩滿', color: '#9370DB' },
-    'Helper': { name: '助人者', color: '#20B2AA' },
-    'Elder': { name: '長老', color: '#2E8B57' }
+// --- 2. 配置設定 (加入 Icon) ---
+const ARCHETYPE_CONFIG: Record<string, { name: string, color: string, icon: string }> = {
+    'Hunter': { name: '獵人', color: '#FF4500', icon: '🏹' }, // IRH
+    'Pioneer': { name: '先驅', color: '#FF8C00', icon: '🧭' }, // IVH
+    'Toolmaker': { name: '工匠', color: '#1E90FF', icon: '🛠' }, // IRC
+    'Sentry': { name: '哨兵', color: '#00008B', icon: '🛡️' }, // IVC
+    'Gatherer': { name: '採集者', color: '#32CD32', icon: '🍇' }, // ORH
+    'Shaman': { name: '薩滿', color: '#9370DB', icon: '🦋' }, // OVH
+    'Helper': { name: '助人者', color: '#20B2AA', icon: '🫂' }, // ORC
+    'Elder': { name: '長老', color: '#2E8B57', icon: '🌳' }  // OVC
 };
 
 // --- 3. 計算邏輯 ---
@@ -119,10 +121,18 @@ const composition = computed(() => {
             key,
             name: ARCHETYPE_CONFIG[key].name,
             color: ARCHETYPE_CONFIG[key].color,
+            icon: ARCHETYPE_CONFIG[key].icon, // 加入 Icon
             percentage: Math.round((count / total) * 100),
             count
         }))
-        .sort((a, b) => b.percentage - a.percentage); // 降序
+        .sort((a, b) => {
+            // 霸王條款：如果 a 是父層指定的 Primary Role，絕對置頂
+            if (props.primaryRole && a.key === props.primaryRole) return -1;
+            if (props.primaryRole && b.key === props.primaryRole) return 1;
+
+            // 否則依照百分比(數量)降序
+            return b.percentage - a.percentage;
+        });
 });
 
 const sortedComposition = computed(() => composition.value);
@@ -132,10 +142,14 @@ const hasData = computed(() => sortedComposition.value.length > 0);
 const dominantRole = computed(() => sortedComposition.value[0]);
 const dominantRoleName = computed(() => dominantRole.value?.name || '未知');
 const dominantColor = computed(() => dominantRole.value?.color || '#333');
-const maxCount = computed(() => dominantRole.value?.count || 1); // 第一名的票數
 
-// [新增] 計算相對寬度的 Helper
-// 第一名永遠是 100%，其他則是 count / maxCount
+// 計算最大票數 (為了長條圖比例)
+const maxCount = computed(() => {
+    if (sortedComposition.value.length === 0) return 1;
+    return Math.max(...sortedComposition.value.map(item => item.count));
+});
+
+// 計算相對寬度的 Helper
 const getRelativeWidth = (count: number) => {
     if (maxCount.value === 0) return 0;
     return (count / maxCount.value) * 100;
@@ -143,11 +157,14 @@ const getRelativeWidth = (count: number) => {
 
 // --- 4. 巴納姆文案 ---
 const mixType = computed(() => {
-    const top1 = sortedComposition.value[0]?.percentage || 0;
-    const count = sortedComposition.value.length;
+    const list = sortedComposition.value;
+    if (list.length === 0) return '';
 
-    if (top1 >= 50) return '極致純粹體';
-    if (count >= 5 && top1 < 25) return '高熵混沌體';
+    const top1 = list[0];
+    const activeRolesCount = list.filter(i => i.count > 0).length;
+
+    if (top1.percentage >= 50) return '極致純粹體';
+    if (activeRolesCount >= 5 && top1.percentage < 25) return '高熵混沌體';
     return '複合共生體';
 });
 
@@ -157,16 +174,17 @@ const barnumText = computed(() => {
 
     const top1 = list[0];
     const top2 = list[1];
+    const activeRolesCount = list.filter(i => i.count > 0).length;
 
     if (top1.percentage >= 50) {
         return `你的靈魂中流淌著純粹的${top1.name}血液。這種極致的專注力是你的天賦，但也可能讓你對其他觀點產生盲點。你不是不能理解別人，而是你選擇了極致的道路。`;
     }
 
-    if (top2 && (top1.percentage - top2.percentage < 15)) {
+    if (top2 && (Math.abs(top1.percentage - top2.percentage) < 20)) {
         return `你的內在住著兩個截然不同的靈魂：${top1.name}的渴望與${top2.name}的特質在你體內持續對話。這種內在張力讓你時常感到矛盾，但這正是你創造力的來源——你能在不同觀點間自由切換。`;
     }
 
-    if (list.length >= 5) {
+    if (activeRolesCount >= 5) {
         return `你是一個極其複雜的多面體。你拒絕被單一標籤定義，在不同場合下，你會靈活調用${top1.name}、${top2?.name}甚至更多面向來適應環境。你的適應力極強，但也容易感到迷失。`;
     }
 
@@ -259,15 +277,21 @@ const barnumText = computed(() => {
 .comp-label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    /* 調整間距 */
 }
 
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
+/* 新增：Icon 樣式 */
+.role-icon {
+    font-size: 1.1rem;
+    line-height: 1;
     display: inline-block;
+    width: 20px;
+    /* 固定寬度確保對齊 */
+    text-align: center;
 }
+
+/* 移除原本的 .dot 樣式，因為用 Icon 取代了 */
 
 .comp-bar-bg {
     width: 100%;
@@ -280,7 +304,6 @@ const barnumText = computed(() => {
 .comp-bar-fill {
     height: 100%;
     border-radius: 6px;
-    /* 增加 transition 讓長條圖變化更滑順 */
     transition: width 1s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 

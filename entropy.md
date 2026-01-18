@@ -29,16 +29,17 @@ outline: [2,3]
     class="analysis-container "
     ref="part1Ref"
   >
+    <KeyDimensionsCard 
+        :result="dimensionResult" 
+    />
     <HybridSoulCard 
         :primaryRole="topArchetypes.primary"
         :secondary-role="topArchetypes.secondary" 
     />
     <ArchetypeCompositionCard 
         :selectedKeywords="visualData" 
+        :primary-role="topArchetypes.primary"
     />
-    <KeyDimensionsCard 
-        :result="dimensionResult" 
-    />   
     <InternalFrictionCard 
         :primaryRole="topArchetypes.primary"
         :secondary-role="topArchetypes.secondary"
@@ -143,7 +144,7 @@ import AntiScamCard from './components/entropy/antiScamCard/antiScamCard.vue'
 import FinalIdentityCard from './components/entropy/finalIdentityCard.vue'
 import FounderDualCard from './components/entropy/founderDual/founderDualCard.vue'
 
-// --- 新增：引入維度資料定義檔 (請確認檔案路徑是否正確) ---
+// --- 引入維度資料定義檔 ---
 import { data as dimensionConfigData } from './components/entropy/keyDimensionsCard/keyDimensionCard.data.js'
 
 // --- 資料狀態管理 ---
@@ -155,9 +156,19 @@ interface IKeyword {
     "vector": { x: number, y: number, z: number }
 }
 
+interface Vector3 { x: number; y: number; z: number; }
+
+interface KeywordItem { id: number; keyword_zh: string; archetype: string; vector: Vector3; }
+
+export interface AnalysisResult {
+    keywords: KeywordItem[];
+    dimension: Vector3 | null;
+    archetypes: { primary: string; secondary: string | undefined; };
+}
+
 const visualData = ref<IKeyword[]>([]) 
 const dimensionScores = ref<any>(null)
-// 新增：儲存計算後的維度說明書資料
+// 儲存計算後的維度說明書資料
 const dimensionResult = ref<any>(null)
 
 const topArchetypes = ref<{ primary: string; secondary: string | undefined }>({
@@ -165,7 +176,72 @@ const topArchetypes = ref<{ primary: string; secondary: string | undefined }>({
     secondary: undefined
 });
 
-// --- 新增：維度運算邏輯 (從子元件提取出來) ---
+// --- 新增：角色向量定義 (用於加權排序) ---
+// 1 = 正向 (I, R, H), -1 = 負向 (O, V, C)
+const ARCHETYPE_DEFINITIONS: Record<string, { x: number, y: number, z: number }> = {
+    'Hunter':    { x: 1,  y: 1,  z: 1 },  // IRH
+    'Pioneer':   { x: 1,  y: -1, z: 1 },  // IVH
+    'Gatherer':  { x: -1, y: 1,  z: 1 },  // ORH
+    'Shaman':    { x: -1, y: -1, z: 1 },  // OVH
+    'Toolmaker': { x: 1,  y: 1,  z: -1 }, // IRC
+    'Sentry':    { x: 1,  y: -1, z: -1 }, // IVC
+    'Helper':    { x: -1, y: 1,  z: -1 }, // ORC
+    'Elder':     { x: -1, y: -1, z: -1 }  // OVC
+};
+
+// --- 新增：重新計算角色排名的邏輯 (權重共振) ---
+function recalculateArchetypes(keywords: any[], vector: { x: number, y: number, z: number }) {
+    if (!vector) return { primary: '', secondary: undefined };
+
+    // 1. 統計每個角色的關鍵字數量
+    const counts: Record<string, number> = {};
+    keywords.forEach(k => {
+        if (k.archetype) {
+            counts[k.archetype] = (counts[k.archetype] || 0) + 1;
+        }
+    });
+
+    // 2. 進行排序 
+    // 公式：總分 = (關鍵字數 * 1000) + 共振分數
+    // 這樣可以確保關鍵字數是第一優先級，而共振分數處理同票數(或極接近)的排序
+    const sortedRoles = Object.keys(counts).sort((roleA, roleB) => {
+        const scoreA = (counts[roleA] * 1000) + getResonanceScore(roleA, vector);
+        const scoreB = (counts[roleB] * 1000) + getResonanceScore(roleB, vector);
+        return scoreB - scoreA; // 降序排列
+    });
+
+    return {
+        primary: sortedRoles[0] || '',
+        secondary: sortedRoles[1] // 可能為 undefined
+    };
+}
+
+// 輔助函式：計算單一角色與使用者向量的共振程度
+function getResonanceScore(role: string, userVector: { x: number, y: number, z: number }): number {
+    const def = ARCHETYPE_DEFINITIONS[role];
+    if (!def) return 0;
+
+    let score = 0;
+
+    // X 軸共振 (同向才加分)
+    if ((def.x > 0 && userVector.x > 0) || (def.x < 0 && userVector.x < 0)) {
+        score += Math.abs(userVector.x);
+    }
+    
+    // Y 軸共振
+    if ((def.y > 0 && userVector.y > 0) || (def.y < 0 && userVector.y < 0)) {
+        score += Math.abs(userVector.y);
+    }
+
+    // Z 軸共振
+    if ((def.z > 0 && userVector.z > 0) || (def.z < 0 && userVector.z < 0)) {
+        score += Math.abs(userVector.z);
+    }
+
+    return score;
+}
+
+// --- 維度運算邏輯 ---
 function calculateDimensionManual(vector: { x: number, y: number, z: number }) {
     if (!vector) return null;
     const { x, y, z } = vector;
@@ -215,7 +291,6 @@ function calculateDimensionManual(vector: { x: number, y: number, z: number }) {
 }
 
 // --- 雙重截圖邏輯 ---
-// 定義兩個 Ref 對應兩個區塊
 const part1Ref = ref<HTMLElement | null>(null);
 const part2Ref = ref<HTMLElement | null>(null);
 const isGeneratingImage = ref(false);
@@ -232,22 +307,17 @@ async function handleDualScreenshot() {
         const html2canvas = (await import('html2canvas')).default;
         await nextTick();
 
-        // 共用的截圖設定
         const options = {
             scale: 2,
             useCORS: true,
             backgroundColor: '#ffffff',
             logging: false,
-            // 強制寬度，確保手機截圖排版一致
             windowWidth: document.body.scrollWidth >= 1200 ? document.body.scrollWidth : 1200, 
         };
 
-        // --- 截取第一張 (核心本質) ---
         const canvas1 = await html2canvas(part1Ref.value, options);
         downloadImage(canvas1, `熵腦報告_${topArchetypes.value.primary}_核心本質.png`);
 
-        // --- 截取第二張 (財富戰略) ---
-        // 稍微延遲一下，確保瀏覽器可以處理兩個下載請求 (有時候太快會被擋)
         await new Promise(r => setTimeout(r, 300));
 
         const canvas2 = await html2canvas(part2Ref.value, options);
@@ -261,7 +331,6 @@ async function handleDualScreenshot() {
     }
 }
 
-// 輔助函式：觸發下載
 function downloadImage(canvas: HTMLCanvasElement, filename: string) {
     const image = canvas.toDataURL("image/png");
     const link = document.createElement('a');
@@ -270,17 +339,20 @@ function downloadImage(canvas: HTMLCanvasElement, filename: string) {
     link.click();
 }
 
-// --- 處理更新 ---
-function handleAnalysisUpdate(result: any) {
+// --- 處理更新 (更新核心邏輯) ---
+function handleAnalysisUpdate(result: AnalysisResult) {
     visualData.value = result.keywords;
     dimensionScores.value = result.dimension;
-    topArchetypes.value = result.archetypes;
 
-    // 新增：當收到結果時，立即計算維度說明書
+    // 1. 維度運算
     if (result.dimension) {
         dimensionResult.value = calculateDimensionManual(result.dimension);
+        
+        // 2. 使用新的「權重共振」邏輯重新計算角色排名
+        topArchetypes.value = recalculateArchetypes(result.keywords, result.dimension);
     } else {
         dimensionResult.value = null;
+        topArchetypes.value = result.archetypes;
     }
 }
 </script>
