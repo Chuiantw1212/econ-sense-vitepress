@@ -24,21 +24,22 @@ outline: [2,3]
 
 <ClientOnly>
   <div 
-    v-if="visualData.length >= 10" 
+    v-if="visualData.length >= 10 && dimensionResult" 
     :key="topArchetypes.primary + '-core'" 
     class="analysis-container "
     ref="part1Ref"
   >
+    <KeyDimensionsCard 
+        :result="dimensionResult" 
+    />
     <HybridSoulCard 
         :primaryRole="topArchetypes.primary"
         :secondary-role="topArchetypes.secondary" 
     />
     <ArchetypeCompositionCard 
         :selectedKeywords="visualData" 
+        :primary-role="topArchetypes.primary"
     />
-    <KeyDimensionsCard 
-        :userVector="dimensionScores" 
-    />   
     <InternalFrictionCard 
         :primaryRole="topArchetypes.primary"
         :secondary-role="topArchetypes.secondary"
@@ -110,14 +111,14 @@ outline: [2,3]
 
 | 角色符號與名稱 | 核心代碼 (Code) | 內在驅動力             | 完整策略連結                                                        |
 | :------------- | :-------------- | :--------------------- | :------------------------------------------------------------------ |
-| **🏹 獵人**     | IRH             | **個體 - 現證 - 熱動** | <a href="./entropy/hunter.html" target="_blank">查看進階策略</a>    |
-| **🧭 先驅**     | IVH             | **個體 - 內觀 - 熱動** | <a href="./entropy/pioneer.html" target="_blank">查看進階策略</a>   |
-| **🍇 採集者**   | ORH             | **他人 - 現證 - 熱動** | <a href="./entropy/gatherer.html" target="_blank">查看進階策略</a>  |
-| **🦋 薩滿**     | OVH             | **他人 - 內觀 - 熱動** | <a href="./entropy/shaman.html" target="_blank">查看進階策略</a>    |
-| **🛠 工匠**     | IRC             | **個體 - 現證 - 冷控** | <a href="./entropy/toolmaker.html" target="_blank">查看進階策略</a> |
-| **🛡️ 哨兵**     | IVC             | **個體 - 內觀 - 冷控** | <a href="./entropy/sentry.html" target="_blank">查看進階策略</a>    |
-| **🫂 助人者**   | ORC             | **他人 - 現證 - 冷控** | <a href="./entropy/helper.html" target="_blank">查看進階策略</a>    |
-| **🌳 長老**     | OVC             | **他人 - 內觀 - 冷控** | <a href="./entropy/elder.html" target="_blank">查看進階策略</a>     |
+| **🏹 獵人** | IRH             | **個體 - 現證 - 熱動** | <a href="./entropy/hunter.html" target="_blank">查看進階策略</a>    |
+| **🧭 先驅** | IVH             | **個體 - 內觀 - 熱動** | <a href="./entropy/pioneer.html" target="_blank">查看進階策略</a>   |
+| **🍇 採集者** | ORH             | **他人 - 現證 - 熱動** | <a href="./entropy/gatherer.html" target="_blank">查看進階策略</a>  |
+| **🦋 薩滿** | OVH             | **他人 - 內觀 - 熱動** | <a href="./entropy/shaman.html" target="_blank">查看進階策略</a>    |
+| **🛠 工匠** | IRC             | **個體 - 現證 - 冷控** | <a href="./entropy/toolmaker.html" target="_blank">查看進階策略</a> |
+| **🛡️ 哨兵** | IVC             | **個體 - 內觀 - 冷控** | <a href="./entropy/sentry.html" target="_blank">查看進階策略</a>    |
+| **🫂 助人者** | ORC             | **他人 - 現證 - 冷控** | <a href="./entropy/helper.html" target="_blank">查看進階策略</a>    |
+| **🌳 長老** | OVC             | **他人 - 內觀 - 冷控** | <a href="./entropy/elder.html" target="_blank">查看進階策略</a>     |
 
 
 <script setup lang="ts">
@@ -143,6 +144,9 @@ import AntiScamCard from './components/entropy/antiScamCard/antiScamCard.vue'
 import FinalIdentityCard from './components/entropy/finalIdentityCard.vue'
 import FounderDualCard from './components/entropy/founderDual/founderDualCard.vue'
 
+// --- 引入維度資料定義檔 ---
+import { data as dimensionConfigData } from './components/entropy/keyDimensionsCard/keyDimensionCard.data.js'
+
 // --- 資料狀態管理 ---
 interface IKeyword {
     "id": number,  
@@ -152,15 +156,141 @@ interface IKeyword {
     "vector": { x: number, y: number, z: number }
 }
 
+interface Vector3 { x: number; y: number; z: number; }
+
+interface KeywordItem { id: number; keyword_zh: string; archetype: string; vector: Vector3; }
+
+export interface AnalysisResult {
+    keywords: KeywordItem[];
+    dimension: Vector3 | null;
+    archetypes: { primary: string; secondary: string | undefined; };
+}
+
 const visualData = ref<IKeyword[]>([]) 
 const dimensionScores = ref<any>(null)
+// 儲存計算後的維度說明書資料
+const dimensionResult = ref<any>(null)
+
 const topArchetypes = ref<{ primary: string; secondary: string | undefined }>({
     primary: '',
     secondary: undefined
 });
 
+// --- 新增：角色向量定義 (用於加權排序) ---
+// 1 = 正向 (I, R, H), -1 = 負向 (O, V, C)
+const ARCHETYPE_DEFINITIONS: Record<string, { x: number, y: number, z: number }> = {
+    'Hunter':    { x: 1,  y: 1,  z: 1 },  // IRH
+    'Pioneer':   { x: 1,  y: -1, z: 1 },  // IVH
+    'Gatherer':  { x: -1, y: 1,  z: 1 },  // ORH
+    'Shaman':    { x: -1, y: -1, z: 1 },  // OVH
+    'Toolmaker': { x: 1,  y: 1,  z: -1 }, // IRC
+    'Sentry':    { x: 1,  y: -1, z: -1 }, // IVC
+    'Helper':    { x: -1, y: 1,  z: -1 }, // ORC
+    'Elder':     { x: -1, y: -1, z: -1 }  // OVC
+};
+
+// --- 新增：重新計算角色排名的邏輯 (權重共振) ---
+function recalculateArchetypes(keywords: any[], vector: { x: number, y: number, z: number }) {
+    if (!vector) return { primary: '', secondary: undefined };
+
+    // 1. 統計每個角色的關鍵字數量
+    const counts: Record<string, number> = {};
+    keywords.forEach(k => {
+        if (k.archetype) {
+            counts[k.archetype] = (counts[k.archetype] || 0) + 1;
+        }
+    });
+
+    // 2. 進行排序 
+    // 公式：總分 = (關鍵字數 * 1000) + 共振分數
+    // 這樣可以確保關鍵字數是第一優先級，而共振分數處理同票數(或極接近)的排序
+    const sortedRoles = Object.keys(counts).sort((roleA, roleB) => {
+        const scoreA = (counts[roleA] * 1000) + getResonanceScore(roleA, vector);
+        const scoreB = (counts[roleB] * 1000) + getResonanceScore(roleB, vector);
+        return scoreB - scoreA; // 降序排列
+    });
+
+    return {
+        primary: sortedRoles[0] || '',
+        secondary: sortedRoles[1] // 可能為 undefined
+    };
+}
+
+// 輔助函式：計算單一角色與使用者向量的共振程度
+function getResonanceScore(role: string, userVector: { x: number, y: number, z: number }): number {
+    const def = ARCHETYPE_DEFINITIONS[role];
+    if (!def) return 0;
+
+    let score = 0;
+
+    // X 軸共振 (同向才加分)
+    if ((def.x > 0 && userVector.x > 0) || (def.x < 0 && userVector.x < 0)) {
+        score += Math.abs(userVector.x);
+    }
+    
+    // Y 軸共振
+    if ((def.y > 0 && userVector.y > 0) || (def.y < 0 && userVector.y < 0)) {
+        score += Math.abs(userVector.y);
+    }
+
+    // Z 軸共振
+    if ((def.z > 0 && userVector.z > 0) || (def.z < 0 && userVector.z < 0)) {
+        score += Math.abs(userVector.z);
+    }
+
+    return score;
+}
+
+// --- 維度運算邏輯 ---
+function calculateDimensionManual(vector: { x: number, y: number, z: number }) {
+    if (!vector) return null;
+    const { x, y, z } = vector;
+
+    // 計算總能量 (分母)
+    const totalScore = Math.abs(x) + Math.abs(y) + Math.abs(z);
+    
+    // 如果總分為 0，回傳 null
+    if (totalScore === 0) return null;
+
+    const denominator = totalScore;
+    const fixedOrderKeys = ['x', 'y', 'z'] as const;
+    const dims: any[] = [];
+
+    fixedOrderKeys.forEach(axis => {
+        const value = vector[axis];
+        
+        // 如果偏向是 0，直接跳過
+        if (value === 0) return;
+
+        const abs = Math.abs(value);
+        // @ts-ignore
+        const config = dimensionConfigData[axis];
+
+        // 判斷正負向
+        const side = value > 0 ? config.pos : config.neg;
+
+        // 計算佔比
+        const percent = Math.round((abs / denominator) * 100);
+
+        dims.push({
+            axis: axis,
+            metaphor: config.metaphor,
+            value: value,
+            percentage: percent,
+            label: side.label,
+            shortLabel: side.label.split(' ')[0],
+            color: side.color,
+            icon: side.icon,
+            manual: side.manual
+        });
+    });
+
+    if (dims.length === 0) return null;
+
+    return { dims };
+}
+
 // --- 雙重截圖邏輯 ---
-// 定義兩個 Ref 對應兩個區塊
 const part1Ref = ref<HTMLElement | null>(null);
 const part2Ref = ref<HTMLElement | null>(null);
 const isGeneratingImage = ref(false);
@@ -177,22 +307,17 @@ async function handleDualScreenshot() {
         const html2canvas = (await import('html2canvas')).default;
         await nextTick();
 
-        // 共用的截圖設定
         const options = {
             scale: 2,
             useCORS: true,
             backgroundColor: '#ffffff',
             logging: false,
-            // 強制寬度，確保手機截圖排版一致
             windowWidth: document.body.scrollWidth >= 1200 ? document.body.scrollWidth : 1200, 
         };
 
-        // --- 截取第一張 (核心本質) ---
         const canvas1 = await html2canvas(part1Ref.value, options);
         downloadImage(canvas1, `熵腦報告_${topArchetypes.value.primary}_核心本質.png`);
 
-        // --- 截取第二張 (財富戰略) ---
-        // 稍微延遲一下，確保瀏覽器可以處理兩個下載請求 (有時候太快會被擋)
         await new Promise(r => setTimeout(r, 300));
 
         const canvas2 = await html2canvas(part2Ref.value, options);
@@ -206,7 +331,6 @@ async function handleDualScreenshot() {
     }
 }
 
-// 輔助函式：觸發下載
 function downloadImage(canvas: HTMLCanvasElement, filename: string) {
     const image = canvas.toDataURL("image/png");
     const link = document.createElement('a');
@@ -215,11 +339,21 @@ function downloadImage(canvas: HTMLCanvasElement, filename: string) {
     link.click();
 }
 
-// --- 處理更新 ---
-function handleAnalysisUpdate(result: any) {
+// --- 處理更新 (更新核心邏輯) ---
+function handleAnalysisUpdate(result: AnalysisResult) {
     visualData.value = result.keywords;
     dimensionScores.value = result.dimension;
-    topArchetypes.value = result.archetypes;
+
+    // 1. 維度運算
+    if (result.dimension) {
+        dimensionResult.value = calculateDimensionManual(result.dimension);
+        
+        // 2. 使用新的「權重共振」邏輯重新計算角色排名
+        topArchetypes.value = recalculateArchetypes(result.keywords, result.dimension);
+    } else {
+        dimensionResult.value = null;
+        topArchetypes.value = result.archetypes;
+    }
 }
 </script>
 

@@ -96,91 +96,30 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { Check, Close, Reading } from '@element-plus/icons-vue';
-import { data } from './keyDimensionCard.data.js';
 
 // 定義 Props
-const props = defineProps<{
-    userVector: { x: number; y: number; z: number } | null
+// 改為接收計算好的 result 物件
+defineProps<{
+    result: {
+        dims: Array<{
+            axis: string;
+            metaphor: string;
+            value: number;
+            percentage: number;
+            label: string;
+            shortLabel: string;
+            color: string;
+            icon: string;
+            manual: {
+                summary: string;
+                tags: string[];
+                dos: string[];
+                donts: string[];
+            }
+        }>
+    } | null
 }>();
-
-// 資料型別定義
-interface DimensionManual {
-    summary: string;
-    tags: string[];
-    dos: string[];
-    donts: string[];
-}
-
-interface DimensionSide {
-    label: string;
-    color: string;
-    icon: string;
-    manual: DimensionManual;
-}
-
-interface DimensionConfig {
-    metaphor: string;
-    pos: DimensionSide;
-    neg: DimensionSide;
-}
-
-// 核心運算邏輯
-const result = computed(() => {
-    if (!props.userVector) return null;
-    const { x, y, z } = props.userVector;
-
-    // 計算總能量 (分母)
-    const totalScore = Math.abs(x) + Math.abs(y) + Math.abs(z);
-    
-    // 如果總分為 0 (極端情況)，直接回傳 null 不顯示卡片
-    if (totalScore === 0) return null;
-
-    const denominator = totalScore;
-
-    // 強制固定順序：X(I/O) -> Y(R/V) -> Z(H/C)
-    const fixedOrderKeys = ['x', 'y', 'z'] as const;
-
-    // 用於收集過濾後的維度
-    const dims: any[] = [];
-
-    fixedOrderKeys.forEach(axis => {
-        const value = props.userVector![axis];
-        
-        // --- 關鍵修正：如果偏向是 0，直接跳過，不加入顯示列表 ---
-        if (value === 0) return;
-
-        const abs = Math.abs(value);
-
-        // @ts-ignore: 確保 data 結構包含 x, y, z keys
-        const config = data[axis] as DimensionConfig;
-
-        // 判斷正負向 (因為已經過濾掉 0，這裡大於 0 就是正向，小於 0 就是負向)
-        const side = value > 0 ? config.pos : config.neg;
-
-        // 計算佔比
-        const percent = Math.round((abs / denominator) * 100);
-
-        dims.push({
-            axis: axis,
-            metaphor: config.metaphor,
-            value: value,
-            percentage: percent,
-            label: side.label,
-            // 僅取第一個字母或單詞
-            shortLabel: side.label.split(' ')[0],
-            color: side.color,
-            icon: side.icon,
-            manual: side.manual
-        });
-    });
-
-    // 如果所有軸都是 0 (雖已被 totalScore 擋掉，但做個保險)，回傳 null
-    if (dims.length === 0) return null;
-
-    return { dims };
-});
 </script>
 
 <style scoped>
