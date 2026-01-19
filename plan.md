@@ -79,7 +79,7 @@ head:
 </div>
 <div v-else style="height: 100px;" v-loading="true"></div>
 
-### 資產總覽
+<!-- ### 資產總覽
 
 <div v-if="isReady">
     <AssetOverViewCard 
@@ -87,7 +87,7 @@ head:
         :metadata="metadata"
     />
 </div>
-<div v-else style="height: 100px;" v-loading="true"></div>
+<div v-else style="height: 100px;" v-loading="true"></div> -->
 
 ## 生活營運
 
