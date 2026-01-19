@@ -230,7 +230,6 @@ function handleBirthdayChange(val: string | null) {
     if (!val) {
         // 清除資料
         profile.value.birthDate = ''
-        profile.value.birthYear = ''
         profile.value.currentAge = 0
     } else {
         // 解析並計算
@@ -241,7 +240,6 @@ function handleBirthdayChange(val: string | null) {
 
         // 更新 Model
         profile.value.birthDate = val
-        profile.value.birthYear = birthYear
         profile.value.currentAge = newAge
     }
 
