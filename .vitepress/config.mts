@@ -111,6 +111,7 @@ export default defineConfig({
           { text: '受害者心態', link: '/growth/victim' },
           { text: '認知、苦難與現世報', link: '/growth/karma' },
           { text: '第三視角', link: '/growth/nonbinary' },
+          { text: '愛而不得(上)', link: '/growth/loveless-1' },
           // { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
           // { text: '我是學渣，也是黑馬', link: '/growth/education' },
           // { text: '打造知識飛輪', link: '/growth/flywheel' },
