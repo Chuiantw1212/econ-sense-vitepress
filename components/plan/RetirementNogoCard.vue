@@ -28,7 +28,7 @@
                     <InfoFilled />
                 </el-icon>
                 <span>
-                    預計照護期間：<b>{{ careDuration }} 年</b>
+                    預計照護期間：<b>{{ Number(careDuration).toFixed(1) }} 年</b>
                     <span class="sub-text">(台北市平均不健康生存年數約 8.5 年)</span>
                 </span>
             </div>
