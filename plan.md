@@ -191,6 +191,15 @@ head:
 
 開發中
 
+## 匯出
+
+<div v-if="isReady">
+    <ExportToolsCard 
+        v-model="userForm"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 
@@ -217,6 +226,8 @@ import RetirementGoGoCard from '@/components/plan/RetirementGoGoCard.vue'
 import RetirementSlowGoCard from '@/components/plan/RetirementSlowGoCard.vue'
 import RetirementNoGoCard from '@/components/plan/RetirementNoGoCard.vue'
 import RetirementGapCard from '@/components/plan/RetirementGapCard.vue'
+
+import ExportToolsCard from '@/components/plan/ExportToolsCard.vue'
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
@@ -264,5 +275,45 @@ onUnmounted(() => {
 .error-state {
     padding: 20px;
     text-align: center;
+}
+
+/* 確保普通視圖下，表格過寬時可以捲動，不被截斷 */
+:deep(.el-card__body) {
+  overflow-x: auto;
+}
+:deep(canvas) {
+  max-width: 100%;
+}
+</style>
+
+<style>
+/* 全域列印樣式 (Global Print Styles) */
+@media print {
+  /* 1. 隱藏不必要的介面元素 */
+  .VPNav, .VPSidebar, .VPLocalNav, header, nav, footer, .el-button, .no-print {
+    display: none !important;
+  }
+
+  /* 2. 重置容器寬度，利用完整紙張空間 */
+  body, #app, .vp-doc, .container, .content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* 5. 強制單欄排版 (A4寬度有限，並排容易擠壞) */
+  .el-col {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+  }
+
+  /* 6. 強制背景色與圖表顏色列印 */
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
 }
 </style>
