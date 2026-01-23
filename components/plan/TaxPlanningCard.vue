@@ -1,7 +1,7 @@
 <template>
     <el-card shadow="never">
         <el-form label-position="top">
-            <el-divider content-position="left">1. 年度所得結構</el-divider>
+            <el-divider content-position="left">年度所得結構</el-divider>
 
             <el-row :gutter="20">
                 <el-col :span="12" :xs="24">
@@ -47,7 +47,7 @@
                 </el-col>
             </el-row>
 
-            <el-divider content-position="left">2. 稅務試算結果</el-divider>
+            <el-divider content-position="left">稅務試算結果</el-divider>
 
             <el-row :gutter="20">
                 <el-col :span="12" :xs="24">
@@ -69,7 +69,7 @@
                 </el-col>
             </el-row>
 
-            <el-divider content-position="left">3. 稅務優化與投資策略</el-divider>
+            <el-divider content-position="left">稅務優化與投資策略</el-divider>
 
             <div v-if="currentBracket" style="margin-top: 20px;">
 
