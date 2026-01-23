@@ -1,85 +1,72 @@
 <template>
     <el-card shadow="never">
-        <el-form label-position="top">
 
-            <el-row :gutter="24">
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="預估淨資產 (Net Worth)">
-                        <el-text size="large" tag="b" style="font-size: 28px;">{{ formatCurrency(netWorth) }}</el-text>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="目前所處財富階層 (PR)">
-                        <el-text v-if="currentTier" type="info"> {{ currentTier.label }}</el-text>
-                        <el-text v-else type="info">資料不足以評估</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row :gutter="24">
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="我的資產活化率 (ROA)">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <el-text :type="roaStatus.color" tag="b" size="large" style="font-size: 24px;">
-                                {{ roa.toFixed(2) }} %
-                            </el-text>
-                            <el-tag :type="roaStatus.color" effect="plain" size="small">
-                                {{ roaStatus.label }}
-                            </el-tag>
-                        </div>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="同級目標基準 (Benchmark)">
-                        <div v-if="currentTier">
-                            <el-text tag="b" size="large">
-                                {{ currentTier.performanceRoaMin }}% ~ {{ currentTier.performanceRoaMax || '∞' }}%
-                            </el-text>
-                        </div>
-                        <el-text v-else type="info">-</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+        <el-row :gutter="20" align="middle">
+            <el-col :span="12" :xs="24">
+                <el-statistic title="預估淨資產 (Net Worth)" :value="netWorth" :precision="0">
+                    <template #prefix>NT$</template>
+                </el-statistic>
+            </el-col>
 
-            <el-row :gutter="24">
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="我的自有資金回報 (ROE)">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <el-text :type="roeStatus.color" tag="b" size="large" style="font-size: 24px;">
-                                {{ roe.toFixed(2) }} %
-                            </el-text>
-                            <el-tag :type="roeStatus.color" effect="plain" size="small">
-                                {{ roeStatus.label }}
-                            </el-tag>
-                        </div>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="同級目標基準 (Benchmark)">
-                        <div v-if="currentTier">
-                            <el-text tag="b" size="large">
-                                {{ currentTier.performanceRoeMin }}% ~ {{ currentTier.performanceRoeMax || '∞' }}%
-                            </el-text>
+            <el-col :span="12" :xs="24">
+                <div style="font-size: 12px; color: #909399; margin-bottom: 8px;">台北財富十分位 (Taipei Decile)</div>
+                <div v-if="currentTier" style="display: flex; align-items: center; gap: 8px;">
+                    <el-tag effect="dark" size="large" :type="getTierType(currentTier.code)">
+                        {{ currentTier.label }}
+                    </el-tag>
+                </div>
+                <div v-else style="font-size: 14px; color: #303133;">資料不足以評估</div>
+            </el-col>
+        </el-row>
 
-                        </div>
-                        <el-text v-else type="info">-</el-text>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+        <el-divider />
 
-            <el-row :gutter="24">
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="月被動淨效益 (含設算)">
-                        <el-text type="success" tag="b">{{ formatCurrency(monthlyPassiveIncome) }}</el-text>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12" :xs="24">
-                    <el-form-item label="槓桿倍數 (Leverage)">
-                        <el-text type="info">{{ leverage }} x</el-text>
-                        <span style="font-size: 12px; color: #909399; margin-left: 8px;">(負債比 {{ debtRatio }}%)</span>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-        </el-form>
+        <el-row :gutter="40">
+            <el-col :span="12" :xs="24">
+                <div
+                    style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; color: #606266;">
+                    <span>負債比率 (Debt Ratio)</span>
+                    <span style="font-weight: bold;">{{ debtRatio }}%</span>
+                </div>
+                <el-progress :percentage="Math.min(debtRatio, 100)" :status="debtStatus" :stroke-width="12"
+                    :show-text="false" />
+                <div v-if="currentTier"
+                    style="margin-top: 6px; display: flex; justify-content: space-between; font-size: 12px; color: #909399;">
+                    <span>同級平均: {{ currentTier.debtRatio }}%</span>
+                    <span :class="debtRatio > currentTier.debtRatio ? 'text-danger' : 'text-success'">
+                        {{ debtRatio > currentTier.debtRatio ? '高於平均' : '優於平均' }}
+                    </span>
+                </div>
+            </el-col>
+
+            <el-col :span="12" :xs="24">
+                <div
+                    style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; color: #606266;">
+                    <span>房產配置 (Real Estate %)</span>
+                    <span style="font-weight: bold;">{{ reAllocation }}%</span>
+                </div>
+                <el-progress :percentage="Math.min(reAllocation, 100)" :color="reColors" :stroke-width="12"
+                    :show-text="false" />
+                <div v-if="currentTier"
+                    style="margin-top: 6px; display: flex; justify-content: space-between; font-size: 12px; color: #909399;">
+                    <span>目前配置</span>
+                    <span>同級模型: {{ currentTier.allocation.realEstate }}%</span>
+                </div>
+            </el-col>
+        </el-row>
+
+        <el-divider />
+
+        <div v-if="currentTier">
+            <div style="font-size: 14px; font-weight: bold; color: #303133; margin-bottom: 8px;">
+                階層洞察 (Insight)
+            </div>
+            <div
+                style="background-color: #f5f7fa; padding: 16px; border-radius: 4px; color: #606266; line-height: 1.6; font-size: 14px;">
+                {{ currentTier.description }}
+            </div>
+        </div>
+
     </el-card>
 </template>
 
@@ -87,195 +74,135 @@
 import { computed } from 'vue'
 import type { UserFormState } from '@/components/plan/types/user'
 
-// --- Types ---
-interface WealthPrLevelItem {
-    code: number;
+// --- Interfaces ---
+interface Allocation {
+    realEstate: number;
+    cash: number;
+    securities: number;
+    insurance: number;
+}
+
+interface DecileItem {
+    code: string;
     label: string;
-    rangeMin: number;
-    rangeMax: number | null;
-    desc: string;
-    performanceRoaMin: number;
-    performanceRoaMax: number | null;
-    performanceRoeMin: number;
-    performanceRoeMax: number | null;
-    performanceNote: string;
+    netWorthRangeMin: number;
+    netWorthRangeMax: number | null;
+    debtRatio: number;
+    allocation: Allocation;
+    description: string;
 }
 
 interface Metadata {
-    opt_individual_wealth_pr_level?: {
-        list: WealthPrLevelItem[];
+    opt_taipei_wealth_decile?: {
+        // strategic_concept 已移除
+        list: DecileItem[];
     };
     [key: string]: any;
 }
 
-// --- Props & Model ---
-const props = defineProps<{
-    metadata: Metadata
-}>()
-
+const props = defineProps<{ metadata: Metadata }>()
 const formState = defineModel<UserFormState>({ required: true })
 
-// --- Helpers ---
-const getList = (source: any) => {
-    if (!source) return []
-    if (Array.isArray(source)) return source
-    if (Array.isArray(source.list)) return source.list
-    return []
-}
+// --- 基礎計算工具 ---
+const getList = (source: any) => (source && Array.isArray(source) ? source : [])
 
-const formatCurrency = (val?: number) => {
-    const num = Number(val) || 0
-    return num.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 })
-}
-
-// --- Core Calculations ---
-
-// 1. 小計
+// 資產分類小計
 const subtotals = computed(() => {
     const data = formState.value
     if (!data) return { portfolio: 0, realEstate: 0, business: 0 }
 
-    const portfolio = getList(data.portfolios).reduce((sum: number, item: any) =>
-        sum + ((Number(item.marketValue) || 0) * (Number(item.exchangeRate) || 1)), 0)
-
-    const realEstate = getList(data.realEstates).reduce((sum: number, item: any) =>
-        sum + (Number(item.totalPrice) || 0), 0)
-
-    const business = getList(data.businesses).reduce((sum: number, item: any) =>
-        sum + (Number(item.acquisitionCost) || 0), 0)
-
-    return {
-        portfolio: Math.round(portfolio),
-        realEstate: Math.round(realEstate),
-        business: Math.round(business)
-    }
+    const p = getList(data.portfolios).reduce((s: number, i: any) => s + ((Number(i.marketValue) || 0) * (Number(i.exchangeRate) || 1)), 0)
+    const r = getList(data.realEstates).reduce((s: number, i: any) => s + (Number(i.totalPrice) || 0), 0)
+    const b = getList(data.businesses).reduce((s: number, i: any) => s + (Number(i.acquisitionCost) || 0), 0)
+    return { portfolio: p, realEstate: r, business: b }
 })
 
-// 2. 總資產 & 總負債 & 淨資產
-const totalAssets = computed(() =>
-    subtotals.value.portfolio + subtotals.value.realEstate + subtotals.value.business
-)
+const totalAssets = computed(() => subtotals.value.portfolio + subtotals.value.realEstate + subtotals.value.business)
 
 const totalLiabilities = computed(() => {
     const data = formState.value
     if (!data) return 0
-    const reLoan = getList(data.realEstates).reduce((sum: number, item: any) => sum + (Number(item.loanAmount) || 0), 0)
-    const bizLoan = getList(data.businesses).reduce((sum: number, item: any) => sum + (Number(item.loanAmount) || 0), 0)
-    return Math.round(reLoan + bizLoan)
+    const rl = getList(data.realEstates).reduce((s: number, i: any) => s + (Number(i.loanAmount) || 0), 0)
+    const bl = getList(data.businesses).reduce((s: number, i: any) => s + (Number(i.loanAmount) || 0), 0)
+    return rl + bl
 })
 
 const netWorth = computed(() => totalAssets.value - totalLiabilities.value)
 
-// 3. 月被動淨效益 (投資現金流 + 自用設算淨益)
-const monthlyPassiveIncome = computed(() => {
-    const data = formState.value
-    if (!data) return 0
-
-    const pFlow = getList(data.portfolios).reduce((sum: number, item: any) =>
-        sum + ((Number(item.realizedPnl) || 0) / 12), 0)
-
-    const rFlow = getList(data.realEstates).reduce((sum: number, item: any) => {
-        const loan = Number(item.loanAmount) || 0
-        const rate = Number(item.interestRate) || 0
-        const interest = (loan * (rate / 100)) / 12
-
-        const assessed = Number(item.assessedValue) || 0
-        const taxRate = Number(item.holdingTaxRate) || 0
-        const estimatedTax = assessed * (taxRate / 100)
-        const actualTax = Number(item.actualHoldingCost) || 0
-        const finalAnnualTax = actualTax > 0 ? actualTax : estimatedTax
-        const monthlyTax = finalAnnualTax / 12
-        const monthlyCost = interest + monthlyTax
-
-        const revenue = Number(item.monthlyRent) || 0
-
-        // 無論出租或自用，都計算淨效益 (自用為設算收入)
-        if (item.usageType === 'rent') return sum + (revenue - monthlyCost)
-        if (item.usageType === 'self') return sum + (revenue - monthlyCost)
-        return sum - monthlyCost // 閒置
-    }, 0)
-
-    const bFlow = getList(data.businesses).reduce((sum: number, item: any) => {
-        const income = Number(item.monthlyIncome) || 0
-        const cost = Number(item.monthlyCost) || 0
-        const interest = (Number(item.loanAmount) * (Number(item.loanInterestRate) / 100)) / 12
-        return sum + (income - cost - interest)
-    }, 0)
-
-    return Math.round(pFlow + rFlow + bFlow)
-})
-
-// --- Ratios & PR Logic ---
-
-const roa = computed(() => {
-    if (totalAssets.value <= 0) return 0
-    return ((monthlyPassiveIncome.value * 12) / totalAssets.value) * 100
-})
-
-const roe = computed(() => {
-    if (netWorth.value <= 0) return 0
-    return ((monthlyPassiveIncome.value * 12) / netWorth.value) * 100
-})
-
-const leverage = computed(() => {
-    if (netWorth.value <= 0) return 0
-    return (totalAssets.value / netWorth.value).toFixed(1)
-})
-
 const debtRatio = computed(() => {
     if (totalAssets.value <= 0) return 0
-    return Math.round((totalLiabilities.value / totalAssets.value) * 100)
+    return Math.round((totalLiabilities.value / totalAssets.value) * 1000) / 10
 })
 
-// 1. 找出當前 PR 階層
-const currentTier = computed<WealthPrLevelItem | undefined>(() => {
-    const list = props.metadata?.opt_individual_wealth_pr_level?.list;
-    if (!list || list.length === 0) return undefined;
+const reAllocation = computed(() => {
+    if (totalAssets.value <= 0) return 0
+    return Math.round((subtotals.value.realEstate / totalAssets.value) * 1000) / 10
+})
 
+// --- 戰略模型邏輯 ---
+const modelData = computed(() => props.metadata?.opt_taipei_wealth_decile)
+
+// 動態落點判定 (Range Matching)
+const currentTier = computed(() => {
+    const list = modelData.value?.list;
+    if (!list || list.length === 0) return undefined;
     const nw = netWorth.value;
+
     return list.find(item => {
-        const minMatch = nw >= item.rangeMin;
-        const maxMatch = item.rangeMax === null ? true : nw < item.rangeMax;
-        return minMatch && maxMatch;
+        const minCheck = nw >= item.netWorthRangeMin;
+        const maxCheck = item.netWorthRangeMax === null ? true : nw < item.netWorthRangeMax;
+        return minCheck && maxCheck;
     });
 })
 
-// 2. ROA 動態評級 (vs Benchmark)
-const roaStatus = computed(() => {
-    const val = roa.value;
-    const tier = currentTier.value;
+// 下一階層
+const nextTier = computed(() => {
+    const list = modelData.value?.list;
+    const current = currentTier.value;
+    if (!list || !current) return undefined;
 
-    if (!tier) return { color: 'info', label: '無基準' };
-
-    // 低於最小值 -> 不及格
-    if (val < tier.performanceRoaMin) {
-        return { color: 'danger', label: '低於同級水準' };
+    const idx = list.findIndex(i => i.code === current.code);
+    if (idx >= 0 && idx < list.length - 1) {
+        return list[idx + 1];
     }
-    // 高於最大值 -> 優異
-    if (tier.performanceRoaMax !== null && val > tier.performanceRoaMax) {
-        return { color: 'success', label: '優於同級水準' };
-    }
-    // 介於中間 -> 合格
-    return { color: 'primary', label: '符合同級水準' };
+    return undefined;
 })
 
-// 3. ROE 動態評級 (vs Benchmark)
-const roeStatus = computed(() => {
-    const val = roe.value;
-    const tier = currentTier.value;
+// --- UI 輔助 ---
+const getTierType = (code: string) => {
+    const num = parseInt(code.replace('D', ''));
+    if (num <= 3) return 'danger';
+    if (num <= 5) return 'warning';
+    if (num <= 7) return 'primary';
+    return 'success';
+}
 
-    if (!tier) return { color: 'info', label: '無基準' };
-
-    if (val < tier.performanceRoeMin) {
-        return { color: 'warning', label: '成長力不足' };
-    }
-    if (tier.performanceRoeMax !== null && val > tier.performanceRoeMax) {
-        return { color: 'success', label: '高成長表現' };
-    }
-    return { color: 'primary', label: '穩健區間' };
+const debtStatus = computed(() => {
+    const d = debtRatio.value;
+    if (d < 30) return 'success';
+    if (d < 60) return 'warning';
+    return 'exception';
 })
+
+const reColors = [
+    { color: '#67C23A', percentage: 40 },
+    { color: '#E6A23C', percentage: 70 },
+    { color: '#F56C6C', percentage: 100 }
+]
+
+const formatSimpleMoney = (val: number) => {
+    if (val >= 100000000) return (val / 100000000).toFixed(1) + '億';
+    if (val >= 10000) return (val / 10000).toFixed(0) + '萬';
+    return val.toLocaleString();
+}
 </script>
 
 <style scoped>
-/* Zero CSS */
+.text-danger {
+    color: #F56C6C;
+}
+
+.text-success {
+    color: #67C23A;
+}
 </style>
