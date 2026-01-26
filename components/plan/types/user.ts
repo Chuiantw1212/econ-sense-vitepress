@@ -1,7 +1,8 @@
 import { PaginatedResponse } from "./util";
+
 // 模擬 Firebase User 的核心欄位
 export interface FirebaseUser {
-    id: string,
+    id: string; // [修改] 統一為 string，方便與資料庫 UUID 對接
     uid: string;
     displayName: string;
     email: string;
@@ -11,500 +12,417 @@ export interface FirebaseUser {
 
 /* =================================================================
    定義資料介面 (Interfaces)
-   優化重點：採用金融專業術語 (Financial Standard Naming)
+   優化重點：
+   1. ID 統一為字串 (string)，解決型別不一致問題。
+   2. 採用金融專業術語 (Financial Standard Naming)。
 ================================================================= */
 
 /**
  * 個人基本資料 (Personal Profile)
  */
 export interface PersonalProfile {
-    id: string;
-    birthDate: string;          // 出生日期 (原 dateOfBirth)
-    gender: 'MALE' | 'FEMALE'; // 性別
-    currentAge: number;         // 當前年齡 (原 age)
-    lifeExpectancy: number;     // 預期壽命
-    marriageYear: string;       // 結婚年份 (原 yearOfMarriage)
-    careerInsuranceType: string; // 職業保險類別 (例如：勞保、公保)
-    biography: string;          // 個人簡介/故事 (原 story)
+    /** 資料庫唯一識別碼 */
+    id?: string;
+
+    /** 出生日期 (格式: YYYY-MM-DD) */
+    birthDate: string;
+
+    /** 生理性別 (影響預期壽命與保費計算) */
+    gender: 'MALE' | 'FEMALE';
+
+    /** 當前試算年齡 */
+    currentAge: number;
+
+    /** 預期壽命 (依據國發會推估或自訂) */
+    lifeExpectancy: number;
+
+    /** 結婚年份 (建議存字串，如 '2020') */
+    marriageYear: string;
+
+    /** 職業保險類別 (例如：勞保 LABOR、公保 PUBLIC) */
+    careerInsuranceType: string;
+
+    /** 個人簡介/故事 */
+    biography?: string;
 }
 
 /**
  * 職業與收入資料 (Career & Income)
  */
 export interface UserCareer {
+    id?: string;
+
+    /** 本薪 (Base Salary) */
     baseSalary: number;
+
+    /** 其他津貼 (Allowance) */
     otherAllowance: number;
+
+    /** 勞保費個人負擔 */
     laborInsurance: number;
+
+    /** 健保費個人負擔 */
     healthInsurance: number;
+
+    /** 其他扣項 (福利金等) */
     otherDeduction: number;
 
     // --- 勞退相關 (Labor Pension) ---
 
-    /** * 個人自提率 (0 ~ 0.06) 
-     * 例如: 0.06 代表 6%
-     */
+    /** 個人自提率 (0 ~ 0.06) */
     pensionPersonalRate: number;
 
-    /** * 個人自提金額 (Personal Contribution)
-     * *這是從薪水扣除的，會影響 monthlyNetIncome*
-     * 計算方式: 投保薪資 * pensionPersonalRate
-     */
+    /** 個人自提金額 (從薪資扣除) */
     pensionPersonalAmount: number;
 
-    /** * [新增] 雇主提繳金額 (Employer Contribution)
-     * *這是雇主額外出的 (6%)，不影響 monthlyNetIncome，但屬於您的資產*
-     * 計算方式: 投保薪資 * 0.06
-     */
+    /** 雇主提繳金額 (額外資產，不影響實領薪資) */
     pensionEmployerAmount: number;
 
-    /** * [新增] 每月勞退總提撥 (Total Monthly Contribution)
-     * *這是給「退休卡片」計算未來現金流 (PMT) 用的*
-     * 計算公式: pensionPersonalAmount + employerPensionAmount
-     */
+    /** 每月勞退總提撥 (個人+雇主)，用於計算未來現金流 */
     pensionTotalAmount: number;
 
     // --- 其他 ---
 
-    // 員工認股
+    /** 員工認股扣款 */
     stockDeduction: number;
+
+    /** 公司相對提撥 (Matching) */
     stockCompanyMatch: number;
 
-    // 眷屬人數 (影響所得稅扣除額)
+    /** 扶養親屬人數 (影響稅務) */
     dependents: number;
 
-    // 每月實領 (Net Income)
+    /** 每月實領淨額 (Net Income) */
     monthlyNetIncome: number;
 
-    annualBonus: number;       // 年終與非經常性獎金
-    annualTotalIncome: number; // 全年總薪資 (用於階層判斷)
+    /** 年終與非經常性獎金 */
+    annualBonus: number;
+
+    /** 全年總收入 (用於稅務階層判斷) */
+    annualTotalIncome: number;
 }
 
 /**
- * 
+ * 金融資產 (Portfolios)
+ * 包含股票、ETF、基金、外幣等
  */
 export interface UserPortfolio {
-    /** 唯一識別碼 */
-    id: string | number;
+    id?: string;
 
-    /** * 投資市場代碼 
-     * e.g., 'US' (美股), 'TW' (台股), 'JP' (日股)
-     */
+    /** 投資市場代碼 (e.g., 'US', 'TW', 'JP') */
     countryCode: string;
 
-    /** * 交易幣別 
-     * e.g., 'USD', 'TWD', 'JPY'
-     */
+    /** 交易幣別 (e.g., 'USD', 'TWD') */
     currency: string;
 
-    /** * 匯率 (Exchange Rate)
-     * 用於計算當下 TWD 市值
-     */
+    /** 匯率 (Exchange Rate)，用於計算 TWD 市值 */
     exchangeRate: number;
 
-    /** * 庫存市值 (原幣) 
-     * Market Value in Original Currency
-     */
+    /** 庫存市值 (原幣) */
     marketValue: number;
 
-    /** * 年度已實現損益 (原幣)
-     * Realized P&L (Capital Gains + Dividends)
-     */
+    /** 年度已實現損益 (原幣) */
     realizedPnl: number;
+
+    /** (選填) 標的代碼 */
+    targetSymbol?: string;
+
+    /** (選填) 資產配置權重 */
+    equityWeight?: number;
+
+    /** (選填) 年化報酬率 */
+    annualizedReturn?: number;
 }
 
 /**
- * 使用者不動產資產配置模型
- * 對應資料庫欄位: real_estate_assets_data (JSONB)
+ * 不動產資產 (Real Estate)
  */
 export interface UserRealEstate {
-    /**
-     * 唯一識別碼
-     * 前端暫用 Date.now() 生成，後端建議改用 UUID
-     */
-    id: number;
+    id?: string;
 
-    /**
-     * 物件名稱
-     * 例：板橋自用宅、信義區投資套房
-     */
+    /** 物件名稱 (e.g. 板橋自用宅) */
     name: string;
 
-    /**
-     * 屋齡 (年)
-     */
+    /** 屋齡 */
     age: number;
 
-    /**
-     * 權狀坪數
-     * 用於計算總價 (size * pricePerPing)
-     */
+    /** 權狀坪數 */
     size: number;
 
-    /**
-     * 單價 (萬/坪)
-     */
+    /** 單價 (萬/坪) */
     pricePerPing: number;
 
-    /**
-     * 總價 (市價) - 自動計算
-     * 公式：Math.round(pricePerPing * size * 10000)
-     * 用於計算資產負債表之總資產
-     */
+    /** 總價 (市價) = 單價 * 坪數 */
     totalPrice: number;
 
-    /**
-     * 公告/評定現值 (稅基)
-     * 用於計算持有稅、預估遺產稅與贈與稅
-     */
+    /** 公告/評定現值 (稅基) */
     assessedValue: number;
 
-    /**
-     * 預估持有稅率 (%)
-     * 包含房屋稅與地價稅之預估合計費率
-     */
+    /** 預估持有稅率 (%) */
     holdingTaxRate: number;
 
-    /**
-     * [新增] 實際支付房屋稅 (年) - 用於核對與精準計算
-     */
+    /** 實際支付持有稅 (年) */
     actualHoldingCost: number;
 
-    /**
-     * 銀行貸款餘額
-     * 用於計算淨值與每月利息支出
-     */
+    /** 銀行貸款餘額 */
     loanAmount: number;
 
-    /**
-     * 年利率 (%)
-     * 用於計算每月利息成本
-     */
+    /** 貸款年利率 (%) */
     interestRate: number;
 
-    /**
-     * 用途狀態
-     * self: 自用住宅
-     * rent: 出租投資 (開啟租金輸入與 ROI 計算)
-     * vacant: 閒置資產
-     */
+    /** 用途: 自用(self) / 出租(rent) / 閒置(vacant) */
     usageType: 'self' | 'rent' | 'vacant';
 
-    /**
-     * 月租金收入
-     * 僅當 usageType === 'rent' 時列入現金流計算
-     */
+    /** 月租金收入 (僅當 rent 時有效) */
     monthlyRent: number;
 }
 
+/**
+ * 商業/副業 (Business / Side Hustle)
+ * 例如：太陽能板投資、加盟店、網拍
+ */
 export interface UserBusiness {
-    id?: number;
+    id?: string;
+
+    /** 專案名稱 */
     name: string;
+
+    /** 稅務類別: 6%推計(deemed_6) / 核實申報(verified) / 免稅(exempt) */
     taxCategory: 'deemed_6' | 'verified' | 'exempt';
+
+    /** 取得成本 (本金) */
     acquisitionCost: number;
+
+    /** 開始日期 */
     startDate: string;
+
+    /** 專案年限 */
     projectYears: number;
 
-    /** * 收入輸入模式 
-     * - 'monthly': 直接輸入月均
-     * - 'total': 輸入累計總額 (由系統自動回推月均)
-     */
+    /** 收入模式: 每月固定(monthly) / 累計總額反推(total) */
     incomeMode: 'monthly' | 'total';
 
-    /** * 歷史累計總營收 (真實資料)
-     * 當 mode 為 'total' 時，此欄位必填
-     */
+    /** 歷史累計總營收 (當 mode='total' 時必填) */
     totalAccumulatedIncome?: number;
 
-    /** * 預估月平均收入 (計算結果)
-     * 系統依然需要這個欄位來計算 ROI 和現金流，
-     * 但當 mode='total' 時，這會變成由前端自動計算的唯讀欄位。
-     */
+    /** 預估月平均收入 */
     monthlyIncome: number;
 
+    /** 每月營運成本 */
     monthlyCost: number;
+
+    /** 貸款金額 */
     loanAmount: number;
+
+    /** 貸款利率 */
     loanInterestRate: number;
 
-    // 新增這兩個欄位 (建議存字串以包含特殊狀態)
-    roi?: string;
-    irr?: string;
+    /** 投報率 ROI (顯示用字串或數值) */
+    roi?: string | number;
 
+    /** 內部報酬率 IRR */
+    irr?: string | number;
+
+    /** 群組 ID (若有) */
     groupId?: number;
 }
 
+/**
+ * 信用卡 (Credit Card)
+ * 用於支出管理與現金流追蹤
+ */
 export interface UserCreditCard {
-    /** * 唯一識別碼 (來自 UserBaseEntity) 
-   */
     id?: string;
 
-    /** * Firebase 用戶唯一識別碼 
-     */
+    /** Firebase UID */
     firebaseUid?: string;
 
-    /**
-     * 卡片名稱 (e.g. 玉山 U Bear)
-     */
+    /** 卡片名稱 (e.g. 玉山 U Bear) */
     name: string;
 
-    /**
-     * 扣款帳戶 (e.g. 台新 Richart)
-     * 用於追蹤現金流出處
-     */
+    /** 扣款帳戶 (e.g. 台新 Richart) */
     deductionAccount: string;
 
-    /**
-     * 用途分類代碼 (e.g. online, daily, travel)
-     * 建議值參考 metadata 中的 opt_credit_card_usage_type
-     */
+    /** 用途分類 (e.g. online, daily) */
     usageType: string;
 
-    /**
-     * 卡片存放位置 (e.g. wallet, digital, drawer)
-     * wallet: 錢包(實體), digital: 數位(僅綁定), drawer: 抽屜(少用)
-     */
+    /** 存放位置: 錢包(wallet) / 數位(digital) / 抽屜(drawer) */
     storageLocation: 'wallet' | 'digital' | 'drawer' | string;
 
-    /**
-     * 平均月開支 (預估每月刷卡金額)
-     * 在 TypeScript 中對應 BigDecimal 為 number
-     */
+    /** 平均月刷卡金額 */
     averageMonthlyExpense: number;
 
-    /** 建立時間 (ISO String) */
     createdAt?: string | Date;
-
-    /** 更新時間 (ISO String) */
     updatedAt?: string | Date;
 }
 
 /**
- * 稅務規劃專用設定 (Tax Planning Configuration)
- * 獨立於 Career，用於管理各類所得、扣除額與稅務策略
+ * 稅務規劃專用設定 (Tax)
  */
 export interface UserTax {
     id?: string;
 
-    /** * 預估其他所得 (Other Income)
-     * 包含：股利、利息、租金、兼職等需併入綜所稅的金額
-     */
+    /** 預估其他所得 (股利、利息、租金等需併入綜所稅項目) */
     estimatedOtherIncome: number;
 }
 
 /**
- * 退休規劃資料模型
- * 對應資料庫 table: user_retirement
+ * 勞退 (Labor Pension)
+ * 新制退休金個人專戶
  */
 export interface UserLaborPension {
+    id?: string;
+
+    /** 預計退休年齡 */
     expectedRetirementAge: number;
+
+    /** 退休後預期餘命 */
     remainingLifeAtRetirement: number;
+
+    /** 退休金投資報酬率預估 */
     retirementRoi: number;
+
+    /** 雇主提繳累積額 */
     employerContribution: number;
+
+    /** 雇主提繳收益 */
     employerEarnings: number;
+
+    /** 個人提繳累積額 */
     personalContribution: number;
+
+    /** 個人提繳收益 */
     personalEarnings: number;
+
+    /** 目前年資 (月) */
     currentWorkSeniority: number;
-    /** * [新增] 預估退休時累積總額 (稅前 FV)
-     * 用於：紀錄帳面總資產
-     */
+
+    /** 預估退休時累積總額 (稅前 FV) */
     predictedLumpSum?: number;
 
-    /** * [新增] 預估稅後實領淨額 (Net FV)
-     * 用於：缺口分析卡片 (作為 Asset 1 的起始金額)
-     */
+    /** 預估稅後實領淨額 (Net FV) */
     predictedNetLumpSum?: number;
 }
 
 /**
- * 勞保老年年金相關資料 (Labor Insurance)
+ * 勞保 (Labor Insurance)
+ * 老年年金給付
  */
 export interface UserLaborInsurance {
-    /** * 預計開始請領年齡 (Expected Claim Age)
-     * 邏輯: 需大於等於 (法定請領年齡 - 5)
-     */
+    id?: string;
+
+    /** 預計請領年齡 */
     expectedClaimAge: number;
 
-    /** * 最高 60 個月之平均投保薪資 (Average Monthly Insurance Salary)
-     * 限制: 目前上限 45,800
-     */
+    /** 最高 60 個月平均投保薪資 */
     averageMonthlySalary: number;
 
-    /** * 保險年資 (Insurance Seniority)
-     * 單位: 總月數 (Months)
-     */
+    /** 保險年資 (月) */
     insuranceSeniority: number;
 
+    /** 預估領取年限 */
     predictedRemainingLife: number;
-    /** * [新增] 預估每月領取金額 (Annuity)
-     * 用於：退休缺口分析卡片 (作為 Asset 2 的現金流基準)
-     */
+
+    /** 預估每月領取金額 (Annuity) */
     predictedMonthlyAnnuity?: number;
 }
 
 /**
- * 退休規劃全週期資料 (Retirement Lifecycle Entity)
- * 對應資料庫 Table: user_retirement
- * 核心邏輯：涵蓋退休後三個階段的現金流與資產負債設定
- * 1. Go-Go (活躍期): 高娛樂、高活動
- * 2. Slow-Go (慢活期): 醫療支出增加、活動減少
- * 3. No-Go (長照期): 高額照護支出、生活無法自理
+ * 退休規劃全週期 (Retirement Lifecycle)
+ * 涵蓋 Go-Go, Slow-Go, No-Go 三階段
  */
 export interface UserRetirement {
-    /** 資料庫唯一識別碼 (Primary Key) */
     id?: string;
-
-    /** 關聯的用戶 ID (Foreign Key) */
     userId?: string;
-
-    /** 最後更新時間 (ISO 8601 String) */
     updatedAt?: string;
 
-    // ==========================================
-    // Phase 1: 活躍期 (Go-Go Years)
-    // 特徵：剛退休身體健康，開銷集中在娛樂與維持生活品質
-    // ==========================================
-
-    /**
-     * 家庭型態 (Household Structure)
-     * 影響居住與生活費用的計算基準
-     * - 'single': 獨居 (Solo)
-     * - 'couple': 伴侶共居 (Co-living, 費用可能分攤)
-     */
+    // --- Phase 1: 活躍期 (Go-Go) ---
+    /** 家庭型態: 獨居(single) / 伴侶(couple) */
     householdType: 'single' | 'couple';
 
-    /**
-     * 居住方案代碼 (Housing Strategy Code)
-     * 對應設定檔: opt_housing_mode.json
-     * e.g., 'SOLO_RENT_SUITE' (租套房), 'OWN_house' (自有宅)
-     */
+    /** 居住模式代碼 */
     housingMode: string;
 
-    /**
-     * 居住月預算 (Monthly Housing Cost)
-     * 來源：由 housingMode 查表後寫入，或用戶自訂
-     * 包含：租金、管理費、房屋稅攤提等居住剛性支出
-     */
+    /** 居住月預算 */
     housingCost: number;
 
-    /**
-     * 基礎健康維持等級代碼 (Basic Health Tier)
-     * 對應設定檔: opt_health_tier.json
-     * e.g., 'basic' (健保為主), 'premium' (含高階健檢/保健品)
-     */
+    /** 健康等級代碼 */
     healthTierCode: string;
 
-    /**
-     * 基礎健康月預算 (Monthly Health Cost)
-     * 用於：活躍期的日常保健、健身、營養品支出
-     * *注意：此階段尚未包含慢性病或重大醫療支出*
-     */
+    /** 健康月預算 (日常保健) */
     healthCost: number;
 
-    /**
-     * 活躍生活水準代碼 (Active Living Tier)
-     * 對應設定檔: opt_active_living.json
-     * e.g., 'Q3' (寬裕/國外旅遊), 'Q1' (基本/國內休閒)
-     */
+    /** 活躍生活水準代碼 */
     activeLivingCode: string;
 
-    /**
-     * 活躍生活月預算 (Monthly Active Living Cost)
-     * 包含：伙食、交通、娛樂、旅遊、社交等所有變動開銷
-     * *這是退休初期最高的支出項目*
-     */
+    /** 活躍生活月預算 (娛樂、旅遊) */
     activeLivingCost: number;
 
-    // ==========================================
-    // Phase 2: 慢活期 (Slow-Go Years)
-    // 特徵：身體機能退化，醫療頻率增加，娛樂支出轉為醫療防禦
-    // ==========================================
-
-    /**
-     * [時間軸] Slow-Go 啟動年齡
-     * 定義：活躍期的結束點，慢活期的開始點
-     * 預設值: 75 歲 (可由用戶調整)
-     */
+    // --- Phase 2: 慢活期 (Slow-Go) ---
+    /** Slow-Go 啟動年齡 (預設 75) */
     slowGoStartAge: number;
 
-    /**
-     * 醫療防禦策略代碼 (Medical Defense Tier)
-     * 對應設定檔: opt_retirement_slowgo_medical.json
-     * e.g., 'D_QUALITY' (高品質自費醫療), 'D_BASIC' (健保為主)
-     */
+    /** 醫療防禦策略代碼 */
     defenseTierCode: string;
 
-    /**
-     * 定期醫療月預算 (Monthly Medical Cost)
-     * 包含：慢性病掛號費、長期處方藥自費額、定期回診交通費
-     * *此階段醫療通膨率通常高於一般通膨*
-     */
+    /** 定期醫療月預算 (慢性病) */
     monthlyMedicalCost: number;
 
-    /**
-     * 重大傷病策略代碼 (Critical Illness Strategy)
-     * 對應設定檔: opt_slowgo_critical.json
-     * e.g., 'R_STANDARD' (標準癌症備用金)
-     */
+    /** 重大傷病策略代碼 */
     criticalIllnessCode: string;
 
-    /**
-     * 重大傷病一次性準備金 (Critical Illness Reserve - Lump Sum)
-     * 性質：風險自留額 (Risk Retention)
-     * 用途：癌症標靶、達文西手術、心臟支架等高額自費材
-     * *這是一筆 PV (現值) 存量，而非月支出*
-     */
+    /** 重大傷病一次性準備金 (風險自留額) */
     criticalIllnessReserve: number;
 
-    // ==========================================
-    // Phase 3: 長照期 (No-Go Years)
-    // 特徵：失能/失智，需要全天候人力或機構照護，資金消耗最快
-    // ==========================================
-
-    /**
-     * [時間軸] No-Go 啟動年齡
-     * 定義：慢活期的結束點，長照期的開始點
-     * 上限值：應小於或等於預期壽命 (Life Expectancy)
-     * 預設值: 80 歲
-     */
+    // --- Phase 3: 長照期 (No-Go) ---
+    /** No-Go 啟動年齡 (預設 80) */
     nogoStartAge: number;
 
-    /**
-     * 長照模式代碼 (LTC Care Strategy)
-     * 對應設定檔: opt_retirement_nogo_ltc_mode.json
-     * e.g., 'LTC_HOME_HYBRID' (外看+日照), 'LTC_INSTITUTION' (機構)
-     */
+    /** 長照模式代碼 (e.g. 居家、機構) */
     ltcCareMode: string;
 
-    /**
-     * 每月主照護成本 (LTC Base Monthly Cost)
-     * 包含：外籍/本籍看護薪資、機構月費 (房費+照護費)
-     */
+    /** 每月主照護成本 */
     ltcMonthlyCost: number;
 
-    /**
-     * 每月隱形雜支 (LTC Hidden Supplies Cost)
-     * 包含：尿布、營養品、管路費、特殊醫材、食宿水電差額
-     * *極易被低估的項目，建議值 $12,000 ~ $18,000*
-     */
+    /** 每月隱形雜支 (尿布、營養品) */
     ltcMonthlySupplies: number;
 
-    /**
-     * 每月政府補助扣減額 (LTC Subsidy Deduction)
-     * 包含：長照2.0居家服務補助、住宿式機構補助
-     * 計算公式：(ltcMonthlyCost + ltcMonthlySupplies) - ltcSubsidy = 淨現金流出
-     */
+    /** 政府補助扣減額 */
     ltcSubsidy: number;
 }
 
-// 總表單狀態介面 (Global Form State)
+/**
+ * 總表單狀態介面 (Global Form State)
+ * 前端使用的主要資料結構
+ */
 export interface UserFormState {
+    /** 財務規劃書 ID */
+    id?: string;
+
     profile: PersonalProfile;
     career: UserCareer;
-    portfolios: UserPortfolio[],
-    realEstates: UserRealEstate[],
+
+    /** 金融資產列表 */
+    portfolios: UserPortfolio[];
+
+    /** 不動產列表 */
+    realEstates: UserRealEstate[];
+
+    /** 商業/副業列表 (簡化為陣列結構) */
     businesses: PaginatedResponse<UserBusiness[]>,
-    creditCards: UserCreditCard[],
-    tax: UserTax,
-    laborPension: UserLaborPension,
+
+    /** 信用卡列表 */
+    creditCards: UserCreditCard[];
+
+    tax: UserTax;
+    laborPension: UserLaborPension;
     laborInsurance: UserLaborInsurance;
-    retirement: UserRetirement
+    retirement: UserRetirement;
+
+    // // --- 預留擴充欄位 ---
+    // spouse?: any;
+    // parenting?: any;
+    // mortgage?: any;
+    // estateMarketInfo?: any;
+    // estateSpecs?: any;
 }
