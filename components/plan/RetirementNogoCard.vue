@@ -87,15 +87,15 @@
             <div style="display: flex; justify-content: space-between; align-items: center;">
 
                 <el-space :size="4" alignment="center" style="color: #606266; font-size: 14px;">
-                    <span>{{ formatMoney(retirement.ltcMonthlyCost) }}</span>
+                    <span style="font-size: 14px; color: #606266;">每月現金流需求</span>
+                    <!-- <span>{{ formatMoney(retirement.ltcMonthlyCost) }}</span>
                     <span>+</span>
                     <span>{{ formatMoney(retirement.ltcMonthlySupplies) }}</span>
                     <span>-</span>
-                    <span style="color: #67C23A;">{{ formatMoney(retirement.ltcSubsidy) }}</span>
+                    <span>{{ formatMoney(retirement.ltcSubsidy) }}</span> -->
                 </el-space>
 
-                <el-statistic :value="netMonthlyBurn"
-                    :value-style="{ fontSize: '20px', fontWeight: 'bold', color: '#F56C6C' }">
+                <el-statistic :value="netMonthlyBurn">
                     <template #prefix>NT$</template>
                 </el-statistic>
             </div>
