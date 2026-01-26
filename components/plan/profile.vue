@@ -4,10 +4,14 @@
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-weight: bold; font-size: 16px;">基本資料與參數 (Profile)</span>
 
-                <el-space>
-                    <el-upload v-model:file-list="fileList" :limit="1" :show-file-list="false" accept=".json"
-                        :auto-upload="false" @change="handleFileChange">
-                        <el-button type="info" plain link size="small">匯入設定</el-button>
+                <el-space alignment="center">
+
+                    <el-upload ref="uploadRef" v-model:file-list="fileList" :limit="1" :show-file-list="false"
+                        accept=".json" :auto-upload="false" :on-change="handleFileChange" :on-exceed="handleExceed"
+                        style="display: flex;">
+                        <el-button type="info" plain link size="small" icon="Upload">
+                            匯入設定
+                        </el-button>
                     </el-upload>
 
                     <el-divider direction="vertical" />
@@ -141,25 +145,31 @@
 
 <script setup lang="ts">
 import { ref, nextTick, computed, onMounted, onBeforeUnmount } from 'vue'
-import { InfoFilled, TrendCharts, User } from '@element-plus/icons-vue'
-import type { UploadFile } from 'element-plus'
+import { InfoFilled, TrendCharts, User, Upload } from '@element-plus/icons-vue'
+import { type UploadFile, type UploadUserFile, ElMessage, genFileId } from 'element-plus'
+import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 import { useApi } from '@/components/plan/composables/useApi'
-// Firebase Import (Compat Mode)
+
+// [核心整合] 引入 Composable
+import { useUserPlan } from '@/components/plan/composables/useUserPlan'
+
 import firebase from 'firebase/compat/app'
 import "firebase/compat/auth"
 
-// Types
 import type { PersonalProfile, FirebaseUser } from './types/user'
 import type { MetadataMap } from './types/metadata'
 
-// Emits
-const emits = defineEmits(['signOut', 'upload'])
+// Emits (移除了 upload，因為改由內部直接處理)
+const emits = defineEmits(['signOut'])
 const { authFetch } = useApi()
 
-// --- 核心改變：使用 defineModel 取代 Props & Emit ---
+// [核心整合] 取出 importPlanData 方法
+const { importPlanData } = useUserPlan()
+
+// Define Model
 const profile = defineModel<PersonalProfile>({ required: true })
 
-// Props Definition (User & Metadata)
+// Props
 const props = withDefaults(defineProps<{
     user: FirebaseUser
     metadata?: MetadataMap
@@ -173,15 +183,16 @@ const props = withDefaults(defineProps<{
 // State
 const loginDialogVisible = ref(false)
 const isMobile = ref(false)
-const fileList = ref([])
+const fileList = ref<UploadUserFile[]>([])
+const uploadRef = ref<UploadInstance>()
 
-// --- Computed Logic ---
+// Computed
 const avatarText = computed(() => {
     const name = props.user.displayName
     return name ? name.charAt(0).toUpperCase() : 'U'
 })
 
-// --- Hooks ---
+// Hooks
 onMounted(async () => {
     try {
         // @ts-ignore
@@ -202,12 +213,48 @@ onBeforeUnmount(() => {
     window.removeEventListener('resize', checkIsMobile)
 })
 
-// --- Methods ---
+// Methods
 
-/**
- * 處理資料更新：發送 PUT 請求
- * 綁定在 @change 事件上
- */
+// Handle file exceed
+const handleExceed: UploadProps['onExceed'] = (files) => {
+    uploadRef.value!.clearFiles()
+    const file = files[0] as UploadRawFile
+    file.uid = genFileId()
+    uploadRef.value!.handleStart(file)
+}
+
+// [核心整合] 修改後的 handleFileChange
+function handleFileChange(uploadFile: UploadFile) {
+    if (!uploadFile.raw) return
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+        try {
+            const result = e.target?.result as string
+            const parsedData = JSON.parse(result)
+
+            // 直接呼叫 Composable 的匯入邏輯 (包含了驗證、狀態更新、UI 提示)
+            // 這樣父層 index.vue 就不需要寫任何代碼來處理匯入
+            importPlanData(parsedData)
+
+            // 成功後清空檔案列表
+            fileList.value = []
+        } catch (err) {
+            console.error('Import Error', err)
+            // 這裡的錯誤大多是 JSON.parse 失敗，邏輯錯誤會由 importPlanData 內的 catch 處理
+            ElMessage.error('檔案格式錯誤或無法解析')
+            fileList.value = []
+        }
+    }
+
+    reader.onerror = () => {
+        ElMessage.error('讀取檔案失敗')
+        fileList.value = []
+    }
+
+    reader.readAsText(uploadFile.raw)
+}
+
 async function handleUpdate() {
     try {
         const res = await authFetch(`/api/v1/user/profile`, {
@@ -220,53 +267,28 @@ async function handleUpdate() {
     }
 }
 
-// 1. 禁止選擇未來日期
 const disableFutureDates = (time: Date) => {
     return time.getTime() > Date.now()
 }
 
-// 2. 處理生日變更邏輯 (計算年齡並觸發存檔)
 function handleBirthdayChange(val: string | null) {
     if (!val) {
-        // 清除資料
         profile.value.birthDate = ''
         profile.value.currentAge = 0
     } else {
-        // 解析並計算
         const birthDateObj = new Date(val)
         const birthYear = birthDateObj.getFullYear()
         const currentYear = new Date().getFullYear()
         const newAge = currentYear - birthYear
 
-        // 更新 Model
         profile.value.birthDate = val
         profile.value.currentAge = newAge
     }
-
-    // 計算完畢後，觸發存檔
     handleUpdate()
 }
 
 function checkIsMobile() {
     isMobile.value = window.innerWidth < 768
-}
-
-// 檔案上傳處理
-function handleFileChange(uploadFile: UploadFile) {
-    if (!uploadFile.raw) return
-
-    const reader = new FileReader()
-    reader.onload = (e) => {
-        try {
-            const result = e.target?.result as string
-            const parsedData = JSON.parse(result)
-            emits('upload', parsedData)
-            fileList.value = []
-        } catch (err) {
-            console.error('JSON Parse Error', err)
-        }
-    }
-    reader.readAsText(uploadFile.raw)
 }
 
 function openSignInDialog() {
