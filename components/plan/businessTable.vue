@@ -59,7 +59,6 @@
 
             <template v-else>
                 <el-empty description="暫無商業或副業資產">
-                    <el-button type="primary" :icon="Plus" @click="handleCreate">立即新增</el-button>
                 </el-empty>
             </template>
         </el-card>

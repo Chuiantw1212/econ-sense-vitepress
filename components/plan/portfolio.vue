@@ -1,13 +1,12 @@
 <template>
-    <el-space direction="vertical" fill size="large" style="width: 100%" v-loading="isSubmitting">
+    <el-space direction="vertical" fill size="large" style="width: 100%">
 
-        <RoiRadarChart v-if="markets.length !== 0" :portfolios="markets" />
 
-        <el-empty v-if="markets.length === 0" description="尚未配置任何市場">
+        <el-empty v-if="!markets || markets.length === 0" description="尚未配置任何市場">
             <el-button type="primary" :icon="Plus" @click="addMarket">新增市場資產</el-button>
         </el-empty>
 
-        <el-card v-for="(item, index) in markets" :key="item.id" shadow="never">
+        <el-card v-for="(item, index) in markets" :key="item.id || `temp-${index}`" shadow="never">
             <el-form label-width="auto">
 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
@@ -16,6 +15,10 @@
                             <TrendCharts />
                         </el-icon>
                         資產配置 {{ index + 1 }}
+
+                        <el-tag v-if="!item.id" size="small" type="warning" effect="plain" round>
+                            {{ isGuest ? '離線試算' : '未同步' }}
+                        </el-tag>
                     </span>
 
                     <el-button type="danger" plain circle :icon="Delete" @click="removeMarket(index, item)"></el-button>
@@ -61,7 +64,7 @@
                         <el-form-item label="市值折合台幣">
                             <el-tag type="info" disable-transitions style="width: 100%; justify-content: start;"
                                 :disabled="true">
-                                ≈ {{ Math.round(item.marketValue * item.exchangeRate).toLocaleString() }}
+                                ≈ {{ Math.round((item.marketValue || 0) * (item.exchangeRate || 0)).toLocaleString() }}
                             </el-tag>
                         </el-form-item>
                     </el-col>
@@ -82,60 +85,73 @@
             </el-form>
         </el-card>
 
-        <el-button v-if="markets.length > 0" type="primary" plain :icon="Plus"
+        <el-button v-if="markets && markets.length > 0" type="primary" plain :icon="Plus"
             style="width: 100%; margin-top: 8px; border-style: dashed;" @click="addMarket">
             新增市場資產
         </el-button>
+
+        <RoiRadarChart v-if="markets && markets.length > 0" :portfolios="markets" />
 
     </el-space>
 </template>
 
 <script setup lang="ts">
-import RoiRadarChart from './charts/RoiRadarChart.vue' // 假設路徑
-import { ref, computed, watch } from 'vue'
+import RoiRadarChart from './charts/RoiRadarChart.vue'
+import { computed } from 'vue'
 import { Plus, Delete, TrendCharts } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-// 引用更新後的 Type
-import { UserPortfolio } from './types/user'
-import { MetadataMap } from './types/metadata'
+import type { UserPortfolio } from './types/user'
+import type { MetadataMap } from './types/metadata'
 import { useApi } from '@/components/plan/composables/useApi'
+import { useUserPlan } from '@/components/plan/composables/useUserPlan'
 
 const { authFetch } = useApi()
+const { loggedInUser } = useUserPlan()
 
-// 1. Props 定義更新：加入 portfolios
-// 修改 defineProps 部分
-const props = withDefaults(defineProps<{
-    metadata: MetadataMap,
-    modelValue?: UserPortfolio[] // 加個 ? 變成可選，雖然有了預設值其實沒差，但語意較佳
-}>(), {
-    // 設定預設值為空陣列
-    modelValue: () => []
-})
-// --- 狀態管理 ---
+const props = defineProps<{
+    metadata: MetadataMap
+}>()
 
-// 2. 初始化 markets
-// 使用 props.modelValue 初始化，並建立一個本地副本以免直接修改 props
-const markets = ref<UserPortfolio[]>([...(props.modelValue || [])])
-
-// [重要] 監聽 props 變更
-// 若父層資料是 API 非同步取得，這個 watch 確保資料載入後 markets 會同步更新
-watch(() => props.modelValue, (newVal) => {
-    markets.value = [...(newVal || [])]
-}, { deep: true })
-
-const isSubmitting = ref(false)
+// [核心] 雙向綁定 (使用 defineModel)
+// 確保預設值為空陣列，避免父層傳入 undefined 時報錯
+const markets = defineModel<UserPortfolio[]>({ required: true, default: [] })
 
 const marketOptions = computed(() => {
     return props.metadata?.opt_market?.list || []
 })
 
-// --- 業務邏輯 (Function Declaration Style) ---
+// 判斷是否為訪客 (未登入)
+const isGuest = computed(() => !loggedInUser.value.uid)
+
+// --- 業務邏輯 (樂觀更新 + 離線支援) ---
 
 /**
- * 新增市場 (POST)
+ * 新增市場
  */
 async function addMarket() {
-    isSubmitting.value = true
+    // 1. [防呆] 確保本地陣列已初始化
+    // 這裡使用 currentMarkets 暫存，避免直接操作可能的 undefined
+    const currentMarkets = markets.value || []
+
+    const newItem: UserPortfolio = {
+        id: "", // 初始無 ID
+        countryCode: '',
+        currency: '',
+        exchangeRate: 1,
+        marketValue: 0,
+        realizedPnl: 0
+    }
+
+    // 2. [強制渲染] 使用「展開運算符 (...)」重新賦值
+    // 這能解決 defineModel 在某些情況下 .push() 無法觸發畫面更新的問題
+    markets.value = [...currentMarkets, newItem]
+
+    // 3. [訪客攔截] 如果是訪客，到此為止，不發 API
+    if (isGuest.value) {
+        return
+    }
+
+    // 4. [背景同步] 會員則嘗試建立後端資料
     try {
         const response = await authFetch('/api/v1/user/portfolios', {
             method: 'POST',
@@ -143,102 +159,74 @@ async function addMarket() {
 
         if (response && response.ok) {
             const data = await response.json()
-            // 3. 型別斷言更新為 UserPortfolio
-            markets.value.push(data as UserPortfolio)
-            ElMessage.success('新增成功')
+
+            // 找到剛剛新增的那一筆 (最後一筆)，更新其 ID
+            // 注意：要重新讀取 markets.value，因為指標可能變了
+            const lastIndex = markets.value.length - 1
+            if (lastIndex >= 0) {
+                // 使用 Object.assign 原地更新屬性，Vue 會偵測到屬性變更
+                Object.assign(markets.value[lastIndex], data)
+            }
         }
     } catch (error) {
-        console.error('API Error:', error)
-        ElMessage.error('新增失敗')
-    } finally {
-        isSubmitting.value = false
+        console.warn('新增資產連線失敗，僅保留本地資料', error)
+        // 失敗了也不報錯，讓用戶繼續當離線版用
     }
 }
 
 /**
- * 移除市場 (DELETE)
+ * 移除市場
  */
 async function removeMarket(index: number, item: UserPortfolio) {
-    // 若沒有 ID (極少見，除非是純前端暫存)，直接移除
-    if (!item.id) {
-        markets.value.splice(index, 1)
+    // 1. [UI 優先] 立即更新畫面 (同樣使用重新賦值確保響應性)
+    const newList = [...markets.value]
+    newList.splice(index, 1)
+    markets.value = newList
+
+    // 2. [訪客/離線攔截]
+    if (isGuest.value || !item.id) {
         return
     }
 
-    isSubmitting.value = true
+    // 3. [背景同步]
     try {
-        const response = await authFetch(`/api/v1/user/portfolios/${item.id}`, {
+        authFetch(`/api/v1/user/portfolios/${item.id}`, {
             method: 'DELETE'
-        })
+        }).catch(e => console.warn('背景刪除失敗', e))
 
-        if (response && response.ok) {
-            markets.value.splice(index, 1)
-            ElMessage.success('已移除資產')
-        }
+        ElMessage.success('已移除資產')
     } catch (error) {
-        console.error('API Error:', error)
-        ElMessage.error('刪除失敗')
-    } finally {
-        isSubmitting.value = false
+        console.warn('API Error:', error)
     }
 }
 
 /**
- * 切換市場並更新 (PUT)
- * 當下拉選單改變時，更新前端狀態並同步回傳 Server
+ * 更新市場 (欄位變更時觸發)
  */
 async function handleMarketChange(item: UserPortfolio) {
+    // 1. 連動匯率邏輯
     const selectedOption = marketOptions.value.find(opt => opt.code === item.countryCode)
-
     if (selectedOption) {
-        // 1. 前端先更新，讓 UI 即時反應
         item.currency = selectedOption.currency
+        // 只有匯率為 1 (預設值) 或切換幣別時才重置，保留用戶微調空間
+        // 這裡採取強制連動策略，視需求可調整
         item.exchangeRate = selectedOption.defaultRate
+    }
 
-        // 2. 如果這是一筆已存在的資料 (有 ID)，則發送 PUT 請求同步後端
-        if (item.id) {
-            try {
-                // 注意：PUT 通常需要 body 告訴後端更新後的內容
-                await authFetch(`/api/v1/user/portfolios/${item.id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(item)
-                })
+    // 2. [訪客/離線攔截]
+    if (isGuest.value || !item.id) {
+        return
+    }
 
-                // 靜默更新成功，不跳提示干擾體驗
-            } catch (error) {
-                console.error('Update failed:', error)
-                ElMessage.error('更新市場資訊失敗')
-            }
-        }
+    // 3. [背景同步]
+    try {
+        await authFetch(`/api/v1/user/portfolios/${item.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(item)
+        })
+    } catch (error) {
+        console.warn('更新同步失敗', error)
     }
 }
-
-// 總計摘要
-const summary = computed(() => {
-    // 1. 總庫存市值 (TWD) = 原幣市值 * 匯率
-    const totalValue = markets.value.reduce((sum, item) => {
-        const val = item.marketValue || 0
-        const rate = item.exchangeRate || 1 // 防呆
-        return sum + (val * rate)
-    }, 0)
-
-    // 2. 總損益 (TWD) = 直接加總 (因為用戶輸入的就是台幣)
-    const totalPnl = markets.value.reduce((sum, item) => {
-        const pnl = item.realizedPnl || 0
-        return sum + pnl
-    }, 0)
-
-    // 3. 計算本金 = 總市值 - 總損益 (依照您定義的公式)
-    // 邏輯：市值 110萬 (含獲利), 獲利 10萬 => 本金 = 100萬
-    const principal = totalValue - totalPnl
-
-    // 4. 年報酬率 = 損益 / 本金
-    // 防呆：如果本金為 0 (例如剛新增還沒填市值)，報酬率設為 0
-    const totalRoi = principal !== 0 ? totalPnl / principal : 0
-
-    return { totalValue, totalPnl, totalRoi }
-})
 </script>
