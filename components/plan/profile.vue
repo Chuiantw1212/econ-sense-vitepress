@@ -19,7 +19,8 @@
                     <el-button v-if="!user.uid" type="primary" size="small" round @click="openSignInDialog">
                         會員登入
                     </el-button>
-                    <el-button v-else type="danger" size="small" plain round @click="emits('signOut')">
+
+                    <el-button v-else type="danger" size="small" plain round @click="logout">
                         登出
                     </el-button>
                 </el-space>
@@ -159,12 +160,11 @@ import "firebase/compat/auth"
 import type { PersonalProfile, FirebaseUser } from './types/user'
 import type { MetadataMap } from './types/metadata'
 
-// Emits (移除了 upload，因為改由內部直接處理)
-const emits = defineEmits(['signOut'])
+// [修改] 移除了 defineEmits，因為現在都走 useUserPlan 內部處理
 const { authFetch } = useApi()
 
-// [核心整合] 取出 importPlanData 方法
-const { importPlanData } = useUserPlan()
+// [核心整合] 取出 importPlanData 和 logout 方法
+const { importPlanData, logout } = useUserPlan()
 
 // Define Model
 const profile = defineModel<PersonalProfile>({ required: true })
@@ -233,15 +233,13 @@ function handleFileChange(uploadFile: UploadFile) {
             const result = e.target?.result as string
             const parsedData = JSON.parse(result)
 
-            // 直接呼叫 Composable 的匯入邏輯 (包含了驗證、狀態更新、UI 提示)
-            // 這樣父層 index.vue 就不需要寫任何代碼來處理匯入
+            // 直接呼叫 Composable 的匯入邏輯
             importPlanData(parsedData)
 
             // 成功後清空檔案列表
             fileList.value = []
         } catch (err) {
             console.error('Import Error', err)
-            // 這裡的錯誤大多是 JSON.parse 失敗，邏輯錯誤會由 importPlanData 內的 catch 處理
             ElMessage.error('檔案格式錯誤或無法解析')
             fileList.value = []
         }

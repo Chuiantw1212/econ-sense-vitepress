@@ -409,7 +409,7 @@ export interface UserFormState {
     realEstates: UserRealEstate[];
 
     /** 商業/副業列表 (簡化為陣列結構) */
-    businesses: PaginatedResponse<UserBusiness[]>,
+    businesses: PaginatedResponse<UserBusiness>,
 
     /** 信用卡列表 */
     creditCards: UserCreditCard[];

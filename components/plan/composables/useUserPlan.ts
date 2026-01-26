@@ -31,16 +31,26 @@ export function useUserPlan() {
                 await fetchPlanData()
             } else {
                 // [登出狀態]
-                loggedInUser.value = {
-                    id: "", uid: "", displayName: "訪客", email: "", photoUrl: "", isAnonymous: true
+                if (loggedInUser.value.uid) {
+                    resetToGuest()
                 }
-
-                // 清除資料庫 ID
-                clearDatabaseIds(userForm.value)
-
-                isDataReady.value = true
+                if (!isDataReady.value) {
+                    isDataReady.value = true
+                }
             }
         })
+    }
+
+    /**
+     * 重置為訪客狀態 (登出用)
+     * 這裡使用 getInitialUserForm 徹底清空「資料」，回歸初始值
+     */
+    function resetToGuest() {
+        loggedInUser.value = {
+            id: "", uid: "", displayName: "訪客", email: "", photoUrl: "", isAnonymous: true
+        }
+        // 登出時：徹底清空所有欄位資料
+        userForm.value = getInitialUserForm()
     }
 
     async function logout() {
@@ -50,25 +60,20 @@ export function useUserPlan() {
             await signOut(auth)
 
             resetToGuest()
-            ElMessage.success('已切換為離線模式，資料已保留')
+            ElMessage.success('已安全登出')
         } catch (e: any) {
             console.error('Logout failed', e)
             ElMessage.error('登出失敗')
         } finally {
-            setTimeout(() => { isDataReady.value = true }, 500)
+            setTimeout(() => {
+                isDataReady.value = true
+            }, 500)
         }
-    }
-
-    function resetToGuest() {
-        loggedInUser.value = {
-            id: "", uid: "", displayName: "訪客", email: "", photoUrl: "", isAnonymous: true
-        }
-        clearDatabaseIds(userForm.value)
     }
 
     /**
-     * [修正] 清除資料庫 ID
-     * 將 ID 設為空字串，商業部分直接重置為空物件
+     * [修正邏輯] 清除資料庫 ID (匯入用)
+     * 目的：保留「資料內容」，只移除「ID」以便視為新資料
      */
     function clearDatabaseIds(form: UserFormState) {
         // 單一物件
@@ -84,13 +89,10 @@ export function useUserPlan() {
         form.realEstates?.forEach(i => i.id = "")
         form.creditCards?.forEach(i => i.id = "")
 
-        // [修正] 商業 (Businesses) - 直接重置為空狀態
-        form.businesses = {
-            list: [],
-            total: 0,
-            currentPage: 1,
-            pageSize: 100,
-            totalPages: 1
+        // [修正] 商業 (Businesses)
+        // 這裡不能清空 list，而是要保留 list 內容，只把裡面的 id 拿掉
+        if (form.businesses && Array.isArray(form.businesses.list)) {
+            form.businesses.list.forEach(i => i.id = "")
         }
     }
 
@@ -134,7 +136,6 @@ export function useUserPlan() {
                 }
                 if (businessesRes) {
                     const data = await businessesRes.json()
-                    // 確保回傳的是物件結構且包含 list
                     if (data && Array.isArray(data.list)) {
                         userForm.value.businesses = data
                     }
@@ -167,7 +168,7 @@ export function useUserPlan() {
                 ...data
             }
 
-            // 訪客模式下清除 ID (注意：這會連帶把匯入的商業資料清空)
+            // 訪客模式下清除 ID (避免 ID 衝突)
             if (!loggedInUser.value.uid) {
                 clearDatabaseIds(userForm.value)
             }
@@ -177,11 +178,22 @@ export function useUserPlan() {
             if (!Array.isArray(userForm.value.realEstates)) userForm.value.realEstates = []
             if (!Array.isArray(userForm.value.creditCards)) userForm.value.creditCards = []
 
-            // 商業部分防呆：確保結構正確
+            // 商業結構防呆
             if (!userForm.value.businesses || !Array.isArray(userForm.value.businesses.list)) {
-                // 如果匯入的資料不完整或結構錯誤，給予預設空值
-                userForm.value.businesses = {
-                    list: [], total: 0, currentPage: 1, pageSize: 100, totalPages: 1
+                // 如果匯入的是舊版陣列，嘗試轉型
+                if (Array.isArray(userForm.value.businesses)) {
+                    userForm.value.businesses = {
+                        list: userForm.value.businesses,
+                        total: (userForm.value.businesses as any[]).length,
+                        currentPage: 1,
+                        pageSize: 100,
+                        totalPages: 1
+                    }
+                } else {
+                    // 若無資料，給空物件
+                    userForm.value.businesses = {
+                        list: [], total: 0, currentPage: 1, pageSize: 100, totalPages: 1
+                    }
                 }
             }
 

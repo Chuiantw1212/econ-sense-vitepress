@@ -70,7 +70,7 @@ head:
 ### 商業或副業
 
 <div v-if="isReady">
-    <CostEfficiencyMatrix v-model="userForm.businesses.list" :metadata="metadata"></CostEfficiencyMatrix>
+    <CostEfficiencyMatrix v-if="userForm.businesses" v-model="userForm.businesses.list" :metadata="metadata"></CostEfficiencyMatrix>
     <br/>
     <Business 
         v-model="userForm.businesses" 
