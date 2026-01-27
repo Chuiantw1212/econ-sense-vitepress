@@ -1,13 +1,13 @@
 <template>
     <el-space direction="vertical" fill size="large" style="width: 100%">
 
-        <el-empty v-if="realEstates.length === 0" description="尚未配置不動產資產">
-            <el-button type="primary" :icon="Plus" :loading="isAdding" @click="addProperty">
+        <el-empty v-if="!realEstates || realEstates.length === 0" description="尚未配置不動產資產">
+            <el-button type="primary" :icon="Plus" @click="addProperty">
                 新增不動產
             </el-button>
         </el-empty>
 
-        <el-card v-for="(item, index) in realEstates" :key="item.id" shadow="never">
+        <el-card v-for="(item, index) in realEstates" :key="item.id || `re-${index}`" shadow="never">
             <el-form label-width="auto">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <span style="font-weight: bold; font-size: 16px; display: flex; align-items: center; gap: 8px;">
@@ -15,10 +15,15 @@
                             <House />
                         </el-icon>
                         不動產 {{ index + 1 }}
+
                         <el-tag size="small"
                             :type="item.usageType === 'rent' ? 'warning' : (item.usageType === 'self' ? 'primary' : 'info')"
                             effect="plain">
                             {{ item.usageType === 'rent' ? '收租中' : (item.usageType === 'self' ? '自用' : '閒置') }}
+                        </el-tag>
+
+                        <el-tag v-if="!item.id" size="small" type="warning" effect="plain" round>
+                            {{ isGuest ? '離線試算' : '未同步' }}
                         </el-tag>
                     </span>
                     <el-button type="danger" plain circle :icon="Delete" @click="removeProperty(index, item)" />
@@ -195,7 +200,7 @@
             </el-form>
         </el-card>
 
-        <el-button v-if="realEstates.length > 0" type="primary" plain :icon="Plus" :loading="isAdding"
+        <el-button v-if="realEstates && realEstates.length > 0" type="primary" plain :icon="Plus"
             style="width: 100%; margin-top: 8px; border-style: dashed;" @click="addProperty">
             新增不動產配置
         </el-button>
@@ -204,13 +209,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { Delete, Plus, House, InfoFilled } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import type { UserRealEstate } from './types/user'
 import { useApi } from '@/components/plan/composables/useApi'
+// [引入] UserPlan 以判斷身分
+import { useUserPlan } from '@/components/plan/composables/useUserPlan'
 
-// --- 核心改變：使用 defineModel ---
+// --- 雙向綁定 ---
 const realEstates = defineModel<UserRealEstate[]>({
     required: true,
     default: []
@@ -218,11 +225,14 @@ const realEstates = defineModel<UserRealEstate[]>({
 
 // --- API & State ---
 const { authFetch } = useApi()
-const isAdding = ref(false)
+const { loggedInUser } = useUserPlan()
 
-// --- Actions ---
+// 判斷是否為訪客
+const isGuest = computed(() => !loggedInUser.value.uid)
 
+// --- Lifecycle ---
 onMounted(() => {
+    // 簡單的資料初始化，確保有預設值
     if (realEstates.value) {
         realEstates.value.forEach(item => {
             if (item.actualHoldingCost === undefined) {
@@ -232,51 +242,94 @@ onMounted(() => {
     }
 })
 
-async function handleUpdate(item: UserRealEstate) {
-    if (!item.id) return
-    try {
-        const res = await authFetch(`/api/v1/user/real-estates/${item.id}`, {
-            method: 'PUT',
-            body: item
-        })
-        if (!res || !res.ok) console.error(`Update failed: ${res?.status}`)
-    } catch (e) {
-        console.error('Update error:', e)
-    }
-}
+// --- Actions (樂觀更新模式) ---
 
+/**
+ * 新增不動產
+ */
 async function addProperty() {
-    if (isAdding.value) return
-    isAdding.value = true
+    const currentList = realEstates.value || []
+
+    const newProperty: UserRealEstate = {
+        id: "", // 離線 ID
+        name: '新物件',
+        age: 0,
+        size: 0,
+        pricePerPing: 0,
+        totalPrice: 0,
+        assessedValue: 0,
+        holdingTaxRate: 1.2,
+        actualHoldingCost: 0,
+        loanAmount: 0,
+        interestRate: 2.06,
+        usageType: 'self',
+        monthlyRent: 0
+    }
+
+    // 1. [UI 優先] 強制響應更新
+    realEstates.value = [...currentList, newProperty]
+
+    // 2. [訪客攔截]
+    if (isGuest.value) {
+        return
+    }
+
+    // 3. [背景同步]
     try {
         const res = await authFetch('/api/v1/user/real-estates', { method: 'POST' })
-        if (!res || !res.ok) throw new Error('Create failed')
-
-        const rawData = await res.json()
-
-        const newProperty: UserRealEstate = {
-            ...rawData,
-            actualHoldingCost: rawData.actualHoldingCost ?? 0
+        if (res && res.ok) {
+            const rawData = await res.json()
+            // 回填 ID
+            const lastIndex = realEstates.value.length - 1
+            if (lastIndex >= 0) {
+                Object.assign(realEstates.value[lastIndex], rawData)
+            }
         }
-
-        realEstates.value.push(newProperty)
-        ElMessage.success('已新增不動產項目')
     } catch (e) {
-        console.error(e)
-        ElMessage.error('新增失敗')
-    } finally {
-        isAdding.value = false
+        console.warn('新增不動產連線失敗，保留為本地資料', e)
     }
 }
 
+/**
+ * 移除不動產
+ */
 async function removeProperty(index: number, item: UserRealEstate) {
+    // 1. [UI 優先] 立即移除
+    const newList = [...realEstates.value]
+    newList.splice(index, 1)
+    realEstates.value = newList
+
+    // 2. [訪客/離線攔截]
+    if (isGuest.value || !item.id) {
+        return
+    }
+
+    // 3. [背景同步]
     try {
-        await authFetch(`/api/v1/user/real-estates/${item.id}`, { method: 'DELETE' })
-        realEstates.value.splice(index, 1)
+        authFetch(`/api/v1/user/real-estates/${item.id}`, { method: 'DELETE' })
+            .catch(e => console.warn('背景刪除失敗', e))
         ElMessage.success('已移除項目')
     } catch (e) {
-        console.error(e)
-        ElMessage.error('刪除失敗')
+        console.warn(e)
+    }
+}
+
+/**
+ * 更新 (欄位變更時觸發)
+ */
+async function handleUpdate(item: UserRealEstate) {
+    // 1. [訪客/離線攔截]
+    if (isGuest.value || !item.id) return
+
+    // 2. [背景同步]
+    try {
+        await authFetch(`/api/v1/user/real-estates/${item.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(item)
+        })
+    } catch (e) {
+        console.warn('Update failed', e)
     }
 }
 
@@ -286,10 +339,11 @@ function calcTotalPrice(item: UserRealEstate) {
     } else {
         item.totalPrice = 0
     }
+    // 計算完觸發更新
     handleUpdate(item)
 }
 
-// --- Helpers & Computations ---
+// --- Helpers & Computations (保持不變) ---
 function formatCurrency(val: number | undefined): string {
     if (val === undefined || isNaN(val)) return '-'
     return `$ ${Math.round(val).toLocaleString()}`
@@ -318,9 +372,7 @@ function getDownPayment(item: UserRealEstate): number {
     return Math.max(0, item.totalPrice - item.loanAmount)
 }
 
-// 淨現金流計算：僅收租狀態才計算租金收入
 function getNetCashFlow(item: UserRealEstate): number {
-    // 若為自用 (self)，雖有填寫設算租金，但不計入實際現金流
     if (item.usageType !== 'rent') return -getMonthlyCost(item)
     return item.monthlyRent - getMonthlyCost(item)
 }

@@ -223,7 +223,7 @@ async function handleMarketChange(item: UserPortfolio) {
         await authFetch(`/api/v1/user/portfolios/${item.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(item)
+            body: item
         })
     } catch (error) {
         console.warn('更新同步失敗', error)
