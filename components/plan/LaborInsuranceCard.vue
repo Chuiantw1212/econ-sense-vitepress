@@ -115,11 +115,15 @@ import { debounce } from 'lodash-es';
 import { Loading } from '@element-plus/icons-vue';
 import type { UserFormState, UserLaborInsurance } from './types/user';
 import { useApi } from '@/components/plan/composables/useApi';
+import { useUserPlan } from '@/components/plan/composables/useUserPlan';
 import { useLaborInsuranceCalculator } from '@/components/plan/composables/useLaborInsuranceCalculator';
 
 const { authFetch } = useApi();
+const { loggedInUser } = useUserPlan();
 const { getStatutoryAge, calculateAnnuity, calculateLifetimePV } = useLaborInsuranceCalculator();
 const model = defineModel<UserFormState>({ required: true });
+const { VITE_BASE_URL } = import.meta.env
+const isGuest = computed(() => !loggedInUser.value.uid);
 
 // --- 1. 預設值 ---
 const defaultLaborInsurance: UserLaborInsurance = {
@@ -127,7 +131,7 @@ const defaultLaborInsurance: UserLaborInsurance = {
     averageMonthlySalary: 45800,
     insuranceSeniority: 0,
     predictedRemainingLife: 0,
-    predictedMonthlyAnnuity: 0 // 新增預設值
+    predictedMonthlyAnnuity: 0
 };
 
 watch(
@@ -176,19 +180,27 @@ async function fetchLifespan() {
     const requestAge = li.expectedClaimAge;
     const targetYear = birthYear.value + requestAge;
 
+    isLoadingLifespan.value = true;
     try {
-        const response = await authFetch(
-            `/api/tools/life-expectancy?year=${targetYear}&gender=${profile.gender}&age=${requestAge}`,
+        // [修正] 改用原生 fetch，避免 authFetch 的 Token 攔截
+        const response = await fetch(
+            `${VITE_BASE_URL}/api/tools/life-expectancy?year=${targetYear}&gender=${profile.gender}&age=${requestAge}`,
             { method: 'GET' }
         );
-        if (response && response.ok) {
+
+        if (response.ok) {
             const data = await response.json();
             const remaining = Number(data.expectedLifespan || 0);
             li.predictedRemainingLife = Math.round(remaining * 10) / 10;
+        } else {
+            throw new Error(`API Error: ${response.status}`);
         }
     } catch (error) {
-        console.error('Fetch lifespan failed', error);
-        if (!li.predictedRemainingLife) li.predictedRemainingLife = 19;
+        // API 失敗 (網路問題或後端錯誤)，給予安全預設值
+        console.warn('Fetch lifespan failed', error);
+        if (!li.predictedRemainingLife || li.predictedRemainingLife === 0) {
+            li.predictedRemainingLife = 20;
+        }
     } finally {
         isLoadingLifespan.value = false;
     }
@@ -227,8 +239,7 @@ const result = computed(() => {
     );
 });
 
-// --- 6. [新增] 同步計算結果回 Model ---
-// 這裡將算出來的 bestAmount 寫回 model，讓 RetirementGapCard 可以直接用
+// --- 6. 同步計算結果回 Model ---
 watch(
     () => result.value.bestAmount,
     (newVal) => {
@@ -279,6 +290,9 @@ function formatMoney(val: number) {
 }
 
 async function performSave() {
+    // [訪客攔截] 禁止存檔
+    if (isGuest.value) return;
+
     const item = model.value.laborInsurance;
     if (!item) return;
     try {
@@ -290,6 +304,6 @@ async function performSave() {
     } catch (e) { console.error(e); }
 }
 const debouncedSave = debounce(performSave, 800);
-// 當 predictedMonthlyAnnuity 變更時，這裡也會偵測到並觸發存檔
+
 watch(() => model.value.laborInsurance, (newVal) => { if (newVal) debouncedSave(); }, { deep: true });
 </script>

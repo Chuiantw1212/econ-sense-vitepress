@@ -132,7 +132,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            
+
             <CareerChart :data="career" />
 
             <el-divider content-position="left">2. 年度獎金與總薪資</el-divider>
@@ -149,6 +149,10 @@
                         <el-text>
                             {{ formatNumber(career.annualTotalIncome) }}
                         </el-text>
+                        <el-tag v-if="isGuest" size="small" type="warning" effect="plain" round
+                            style="margin-left: 8px;">
+                            離線試算
+                        </el-tag>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -158,8 +162,10 @@
 
 <script lang="ts" setup>
 import { debounce } from 'lodash-es'
+import { computed } from 'vue'
 import type { UserCareer } from './types/user'
 import { useApi } from '@/components/plan/composables/useApi'
+import { useUserPlan } from '@/components/plan/composables/useUserPlan'
 import CareerChart from './charts/CareerChart.vue'
 
 // Composables
@@ -176,26 +182,24 @@ const career = defineModel<UserCareer>({
         laborInsurance: 0,
         healthInsurance: 0,
         otherDeduction: 0,
-
-        // --- Pension Group ---
         pensionPersonalRate: 0,
         pensionPersonalAmount: 0,
         pensionEmployerAmount: 0,
         pensionTotalAmount: 0,
-        // ---------------------
-
         stockDeduction: 0,
         stockCompanyMatch: 0,
         dependents: 0,
         monthlyNetIncome: 0,
-
-        // [新增]
         annualBonus: 0,
         annualTotalIncome: 0
     })
 })
 
 const { authFetch } = useApi()
+const { loggedInUser } = useUserPlan()
+
+// 判斷是否為訪客
+const isGuest = computed(() => !loggedInUser.value.uid)
 
 // 初始化 Composables
 const pension = useLaborPension(0, 0)
@@ -224,18 +228,20 @@ function updateTotals() {
     // 3. 更新每月實領 (Net)
     career.value.monthlyNetIncome = monthlyGross - deductions
 
-    // 4. [新增] 更新全年總薪資 (Annual Gross)
-    // 邏輯：月全薪 * 12 + 年終獎金
-    // 這是剛性支出模型 (D1-D10) 判斷階層的依據
+    // 4. 更新全年總薪資 (Annual Gross)
     career.value.annualTotalIncome = (monthlyGross * 12) + (m.annualBonus || 0)
 }
 
 // --- 3. 存檔與事件處理 ---
 
 const performSave = debounce(async () => {
+    // [訪客攔截] 純前端模式不發 API
+    if (isGuest.value) return
+
     try {
         const res = await authFetch('/api/v1/user/career', {
             method: 'PUT',
+            // [修正] 移除 JSON.stringify，直接傳遞物件讓 authFetch 處理
             body: career.value
         })
         if (!res || !res.ok) {
