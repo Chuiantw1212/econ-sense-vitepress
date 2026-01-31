@@ -113,6 +113,7 @@ export default defineConfig({
           { text: '第三視角', link: '/growth/nonbinary' },
           { text: '當因果被倒置', link: '/growth/causality' },
           { text: '廉價優越', link: '/growth/cheapness' },
+          { text: '認知主權喪失', link: '/growth/sovereignty' },
           // { text: 'MBTI內在世界建構法', link: '/growth/mbti' },
           // { text: '我是學渣，也是黑馬', link: '/growth/education' },
           // { text: '打造知識飛輪', link: '/growth/flywheel' },
