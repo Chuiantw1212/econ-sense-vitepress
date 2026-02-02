@@ -42,6 +42,14 @@ export function useUserPlan() {
     }
 
     /**
+     * 重置表單資料 (Reset Form Data)
+     * 用於訪客重置或登出時清空
+     */
+    function resetUserForm() {
+        userForm.value = getInitialUserForm()
+    }
+
+    /**
      * 重置為訪客狀態 (登出用)
      * 這裡使用 getInitialUserForm 徹底清空「資料」，回歸初始值
      */
@@ -50,7 +58,7 @@ export function useUserPlan() {
             id: "", uid: "", displayName: "訪客", email: "", photoUrl: "", isAnonymous: true
         }
         // 登出時：徹底清空所有欄位資料
-        userForm.value = getInitialUserForm()
+        resetUserForm()
     }
 
     async function logout() {
@@ -214,6 +222,7 @@ export function useUserPlan() {
         initAuthListener,
         fetchPlanData,
         importPlanData,
-        logout
+        logout,
+        resetUserForm
     }
 }

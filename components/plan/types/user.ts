@@ -418,11 +418,4 @@ export interface UserFormState {
     laborPension: UserLaborPension;
     laborInsurance: UserLaborInsurance;
     retirement: UserRetirement;
-
-    // // --- 預留擴充欄位 ---
-    // spouse?: any;
-    // parenting?: any;
-    // mortgage?: any;
-    // estateMarketInfo?: any;
-    // estateSpecs?: any;
 }
