@@ -128,7 +128,7 @@ const isGuest = computed(() => !loggedInUser.value.uid);
 // --- 1. 預設值 ---
 const defaultLaborInsurance: UserLaborInsurance = {
     expectedClaimAge: 65,
-    averageMonthlySalary: 45800,
+    averageMonthlySalary: 0,
     insuranceSeniority: 0,
     predictedRemainingLife: 0,
     predictedMonthlyAnnuity: 0
