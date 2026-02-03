@@ -184,7 +184,7 @@ async function fetchLifespan() {
     try {
         // [修正] 改用原生 fetch，避免 authFetch 的 Token 攔截
         const response = await fetch(
-            `${VITE_BASE_URL}/api/tools/life-expectancy?year=${targetYear}&gender=${profile.gender}&age=${requestAge}`,
+            `${VITE_BASE_URL}/api/v1/metadata/life-expectancy?year=${targetYear}&gender=${profile.gender}&age=${requestAge}`,
             { method: 'GET' }
         );
 

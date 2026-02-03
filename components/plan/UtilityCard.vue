@@ -33,6 +33,14 @@
                 </el-col>
             </el-row>
 
+            <el-row style="margin-top: 12px;">
+                <el-col :span="24">
+                    <el-button type="danger" plain style="width: 100%" :disabled="!isProcessed" @click="uploadToBackend">
+                        更新至資料庫 (Update DB)
+                    </el-button>
+                </el-col>
+            </el-row>
+
             <el-divider content-position="left">轉換結果預覽 (Clean Numbers)</el-divider>
             <el-table :data="processedData.slice(0, 10)" stripe border size="small" style="width: 100%">
                 <el-table-column prop="gender" label="Gender" width="100" />
@@ -57,6 +65,7 @@
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { Download, Upload, Cpu } from '@element-plus/icons-vue';
+import { useApi } from '@/components/plan/composables/useApi';
 
 // 定義資料模型，僅包含核心英文鍵值
 const processedData = defineModel({
@@ -66,6 +75,7 @@ const processedData = defineModel({
 
 const rawData = ref([]);
 const isProcessed = ref(false);
+const { authFetch } = useApi();
 
 /**
  * 處理檔案上傳讀取
@@ -136,5 +146,24 @@ const downloadJson = () => {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+};
+
+/**
+ * 上傳至後端 API
+ */
+const uploadToBackend = async () => {
+    if (!isProcessed.value) return;
+
+    try {
+        await authFetch('/api/v1/metadata/life-expectancy', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(processedData.value)
+        });
+        ElMessage.success('資料庫更新成功');
+    } catch (e) {
+        console.error(e);
+        ElMessage.error('更新失敗');
+    }
 };
 </script>

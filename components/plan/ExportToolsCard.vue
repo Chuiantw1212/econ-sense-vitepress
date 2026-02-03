@@ -121,7 +121,7 @@ const handleDeleteAccount = async () => {
 
         // --- 會員模式：完整刪除流程 ---
         // A. 刪除後端資料庫資料
-        const res = await authFetch('/api/v1/user/account', {
+        const res = await authFetch('/api/v1/user', {
             method: 'DELETE'
         });
 
@@ -137,11 +137,9 @@ const handleDeleteAccount = async () => {
             try {
                 await deleteUser(currentUser);
             } catch (firebaseError: any) {
-                if (firebaseError.code === 'auth/requires-recent-login') {
-                    ElMessage.error('為了安全起見，請重新登入後再執行刪除操作。');
-                    return;
-                }
-                throw firebaseError;
+                // 若後端已刪除用戶，前端呼叫 deleteUser 可能失敗 (例如 404 或 token 失效)
+                // 這裡捕獲錯誤並記錄，但不阻擋後續的 UI 重置流程
+                console.warn('Client-side deleteUser failed (backend likely handled it):', firebaseError);
             }
         }
 
