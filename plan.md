@@ -191,7 +191,7 @@ head:
 
 開發中
 
-## 匯出
+## 帳號管理
 
 <div v-if="isReady">
     <ExportToolsCard 

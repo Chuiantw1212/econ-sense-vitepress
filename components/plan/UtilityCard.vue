@@ -1,3 +1,58 @@
+<template>
+    <el-card shadow="never">
+        <template #header>
+            <el-row justify="space-between" align="middle">
+                <el-col :span="12">
+                    <el-text size="large" tag="b">精確年齡處理器 (Replace & Parse)</el-text>
+                </el-col>
+            </el-row>
+        </template>
+
+        <el-form label-position="top">
+            <el-form-item label="1. 上傳包含中文年齡之生命表 (JSON)">
+                <el-upload action="#" :auto-upload="false" :on-change="handleFileChange" :show-file-list="true"
+                    limit="1" accept=".json" style="width: 100%">
+                    <template #trigger>
+                        <el-button :icon="Upload" type="primary" plain style="width: 100%">選擇檔案</el-button>
+                    </template>
+                </el-upload>
+            </el-form-item>
+
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-button :icon="Cpu" type="warning" style="width: 100%" :disabled="rawData.length === 0"
+                        @click="transformData">
+                        移除「歲」並轉換數值
+                    </el-button>
+                </el-col>
+                <el-col :span="12">
+                    <el-button :icon="Download" type="success" style="width: 100%" :disabled="!isProcessed"
+                        @click="downloadJson">
+                        匯出處理結果
+                    </el-button>
+                </el-col>
+            </el-row>
+
+            <el-divider content-position="left">轉換結果預覽 (Clean Numbers)</el-divider>
+            <el-table :data="processedData.slice(0, 10)" stripe border size="small" style="width: 100%">
+                <el-table-column prop="gender" label="Gender" width="100" />
+                <el-table-column prop="age" label="Age (Number)" width="120">
+                    <template #default="scope">
+                        <el-tag size="small" effect="dark" type="info">{{ scope.row.age }}</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="expected_lifespan" label="Exp. Lifespan" />
+                <el-table-column prop="year" label="Year" />
+            </el-table>
+        </el-form>
+
+        <template #footer>
+            <el-alert v-if="isProcessed" title="處理完畢。年齡欄位已完成「歲」字串移除並轉型為數字，符合理財規劃書試算引擎的嚴格型別定義。" type="success" show-icon
+                :closable="false" />
+        </template>
+    </el-card>
+</template>
+
 <script setup>
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus';
@@ -83,58 +138,3 @@ const downloadJson = () => {
     URL.revokeObjectURL(url);
 };
 </script>
-
-<template>
-    <el-card shadow="never">
-        <template #header>
-            <el-row justify="space-between" align="middle">
-                <el-col :span="12">
-                    <el-text size="large" tag="b">精確年齡處理器 (Replace & Parse)</el-text>
-                </el-col>
-            </el-row>
-        </template>
-
-        <el-form label-position="top">
-            <el-form-item label="1. 上傳包含中文年齡之生命表 (JSON)">
-                <el-upload action="#" :auto-upload="false" :on-change="handleFileChange" :show-file-list="true"
-                    limit="1" accept=".json" style="width: 100%">
-                    <template #trigger>
-                        <el-button :icon="Upload" type="primary" plain style="width: 100%">選擇檔案</el-button>
-                    </template>
-                </el-upload>
-            </el-form-item>
-
-            <el-row :gutter="20">
-                <el-col :span="12">
-                    <el-button :icon="Cpu" type="warning" style="width: 100%" :disabled="rawData.length === 0"
-                        @click="transformData">
-                        移除「歲」並轉換數值
-                    </el-button>
-                </el-col>
-                <el-col :span="12">
-                    <el-button :icon="Download" type="success" style="width: 100%" :disabled="!isProcessed"
-                        @click="downloadJson">
-                        匯出處理結果
-                    </el-button>
-                </el-col>
-            </el-row>
-
-            <el-divider content-position="left">轉換結果預覽 (Clean Numbers)</el-divider>
-            <el-table :data="processedData.slice(0, 10)" stripe border size="small" style="width: 100%">
-                <el-table-column prop="gender" label="Gender" width="100" />
-                <el-table-column prop="age" label="Age (Number)" width="120">
-                    <template #default="scope">
-                        <el-tag size="small" effect="dark" type="info">{{ scope.row.age }}</el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="expected_lifespan" label="Exp. Lifespan" />
-                <el-table-column prop="year" label="Year" />
-            </el-table>
-        </el-form>
-
-        <template #footer>
-            <el-alert v-if="isProcessed" title="處理完畢。年齡欄位已完成「歲」字串移除並轉型為數字，符合理財規劃書試算引擎的嚴格型別定義。" type="success" show-icon
-                :closable="false" />
-        </template>
-    </el-card>
-</template>
