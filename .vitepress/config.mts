@@ -252,6 +252,28 @@ export default defineConfig({
         '@': path.resolve(__dirname, '../'),
       }
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: (id) => {
+            if (id.includes('node_modules')) {
+              if (id.includes('plotly.js-dist-min')) {
+                return 'plotly';
+              }
+              if (id.includes('element-plus')) {
+                return 'element-plus';
+              }
+              if (id.includes('chart.js')) {
+                return 'chartjs';
+              }
+              if (id.includes('firebase')) {
+                return 'firebase';
+              }
+            }
+          }
+        }
+      }
+    },
     css: {
       preprocessorOptions: {
         scss: {
