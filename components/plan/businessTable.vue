@@ -148,7 +148,7 @@ const isEdit = ref(false)
 const submitting = ref(false)
 const formComponentRef = ref<InstanceType<typeof BusinessDialogForm>>()
 
-const currentBusiness = reactive<UserBusiness>(createDefaultBusiness())
+const currentBusiness = ref<UserBusiness>(createDefaultBusiness())
 
 function createDefaultBusiness(): UserBusiness {
     return {
@@ -252,7 +252,7 @@ function handleCreate() {
 
     isEdit.value = false
     editingIndex.value = -1
-    Object.assign(currentBusiness, createDefaultBusiness())
+    currentBusiness.value = createDefaultBusiness()
     dialogVisible.value = true
     nextTick(() => formComponentRef.value?.clearValidate())
 }
@@ -260,7 +260,7 @@ function handleCreate() {
 function handleEdit(row: UserBusiness, index: number) {
     isEdit.value = true
     editingIndex.value = index // 紀錄 index 供離線編輯使用
-    Object.assign(currentBusiness, JSON.parse(JSON.stringify(row)))
+    currentBusiness.value = JSON.parse(JSON.stringify(row))
     dialogVisible.value = true
     nextTick(() => formComponentRef.value?.clearValidate())
 }
@@ -312,7 +312,7 @@ async function handleSubmit() {
     if (!isValid) return
 
     submitting.value = true
-    const payload = JSON.parse(JSON.stringify(currentBusiness)) as UserBusiness
+    const payload = JSON.parse(JSON.stringify(currentBusiness.value)) as UserBusiness
 
     try {
         // ==========================================
