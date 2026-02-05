@@ -1,4 +1,6 @@
 import { defineConfig } from 'vitepress'
+import path from 'path'
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   /** 
@@ -40,14 +42,15 @@ export default defineConfig({
     ],
     sidebar: [
       {
-        text: '線上/實體講座',
+        text: '📅 講座月曆',
         link: '/calendar',
       },
+      { text: '🧠 熵腦人格測驗', link: '/entropy' },
+      { text: '📈 開源理財規劃書', link: '/plan' },
       {
         text: '熵腦人格測驗',
         collapsed: false,
         items: [
-          { text: '👉 點此進行測驗 👈', link: '/entropy/index' },
           { text: '🏹 獵人Hunter IRH', link: '/entropy/hunter' },
           { text: '🧭 先驅 Pioneer IVH', link: '/entropy/pioneer' },
           { text: '🍇 採集者 Gatherer ORH', link: '/entropy/gatherer' },
@@ -61,7 +64,6 @@ export default defineConfig({
           { text: '研究與基礎', link: '/entropy/foundation' },
           { text: '性格與病理', link: '/entropy/illness' },
         ]
-        // link: 'core7'
       },
       {
         text: '理財機房',
@@ -199,20 +201,15 @@ export default defineConfig({
       provider: 'local',
       options: {
         translations: {
-          /* --- 1. 搜尋按鈕翻譯 (ButtonTranslations) --- */
           button: {
             buttonText: '搜尋',
             buttonAriaLabel: '搜尋文件'
           },
-
-          /* --- 2. 搜尋視窗翻譯 (ModalTranslations) --- */
           modal: {
             displayDetails: '顯示詳細列表',
             resetButtonTitle: '清除查詢條件',
             backButtonTitle: '返回',
             noResultsText: '無法找到相關結果：',
-
-            /* --- 3. 搜尋視窗頁尾導航翻譯 (FooterTranslations) --- */
             footer: {
               selectText: '選擇',
               selectKeyAriaLabel: '按 Enter 鍵選擇',
@@ -248,9 +245,23 @@ export default defineConfig({
   },
   vite: {
     ssr: {
-      noExternal: ['plotly.js-dist-min']
-      // 或者嘗試加入 external: ['plotly.js-dist-min'] 視情況而定，
-      // 但解決 'self is not defined' 最根本的方法是不要讓 Node.js 執行到 import plotly 的那一行。
+      noExternal: ['plotly.js-dist-min', 'element-plus']
+    },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, '../'),
+      }
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // 1. 指定使用現代編譯器 API (需要 sass 1.79+ 與 vite 5.4+)
+          api: 'modern-compiler',
+
+          // 2. 如果您的依賴項中仍有舊語法，可以暫時屏蔽特定警告
+          silenceDeprecations: ['legacy-js-api'],
+        }
+      }
     }
   },
   /** Experimental */

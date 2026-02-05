@@ -12,15 +12,15 @@ hero:
     src: /logo/black_transparent_3d.webp
     alt: 已知用火
   actions:
-    - theme: brand 
+    - theme: alt 
       text: 講座排程
       link: /calendar
-    - theme: brand 
+    - theme: alt 
       text: 熵腦人格測驗
       link: /entropy
     - theme: alt
-      text: 關於EN Chu
-      link: /about 
+      text: 理財規劃書
+      link: /plan
 
     # - theme: alt
     #   text: Line社群
