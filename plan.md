@@ -1,53 +1,319 @@
 ---
 description: 台灣唯一開源的線上財務規劃表，工程師可學Vue+Node.js+GCP，民眾建立財務觀念，並提供回饋意見。
-outline: deep
+outline: [2,3]
 head:
   - - meta
     - name: og:image
       property: og:image
       content: /finance/plan/calculator.png
 ---
-<!-- https://vitepress.dev/reference/frontmatter-config#head -->
 
-# 開源財務規劃表：快速建立財務觀念，資料安全又透明
+# 開源財務規劃書
 
 1. 金融惠普：民眾可以快速建立生涯財務觀念。<el-button class="d-none d-md-inline-block" @click="isOpenPreview=true">示意圖</el-button>
 2. 開源驗證：任何人都可以檢視程式碼是否有安全漏洞。 (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-hyper-express" target="_blank">後端開源</a>)。
 3. 資料安全：提供了表單離線匯出功能，不需註冊也可以保留試算結果。
 
-<el-dialog :modelValue="isOpenPreview" title="示意圖" center destroy-on-close lock-scroll
-    @close="isOpenPreview = false">
-    <div class="preview__div">
-      <img class="div__image" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/plan/%E7%A4%BA%E6%84%8F%E5%9C%96.webp" alt="示意圖"></img>
+<el-dialog 
+    v-model="isOpenPreview" 
+    title="示意圖" 
+    center 
+    destroy-on-close 
+    lock-scroll
+  >
+  <div class="preview__div">
+    <img class="div__image" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/finance/plan/%E7%A4%BA%E6%84%8F%E5%9C%96.webp" alt="示意圖" />
+  </div>
+  <template #footer>
+    <div class="dialog-footer">
+      <el-button @click="isOpenPreview = false">關閉</el-button>
     </div>
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button @click="isOpenPreview = false">關閉</el-button>
-      </div>
-    </template>
+  </template>
 </el-dialog>
 
-<Calculator></Calculator>
+<div v-if="error" class="error-state">
+    <el-alert :title="error" type="error" show-icon :closable="false">
+        <el-button size="small" @click="initData" style="margin-top: 10px;">重試</el-button>
+    </el-alert>
+</div>
 
-## 專家諮詢
+## 資本資料
 
-<a href="https://www.azsinopro.com.tw/reservation/" target="_blank">Azimut Sinopro 安睿宏觀</a>是國際高端理財顧問領導品牌，提供個人及家庭全生涯理財規劃，與中高資產家族辦公室服務，團隊擁有如<a href="https://www.fpat.org.tw/Certification/List" target="_blank">CFP®、AFP等國際證照</a>，專注於為客戶達成理想生活品質。以超過27年的顧問經歷，服務超過5,000組台灣家庭，運用專業的理財觀點、客觀的投資建議，提供量身訂製財務解決方案，內容包含投資規劃、稅務規劃、風險管理、信用管理及現金流管理等專業規劃與諮詢服務。
+<div v-loading="isLoading" element-loading-text="同步雲端資料與設定中..." style="min-height: 200px;">
+    <Profile 
+        v-if="isReady"
+        v-model="userForm.profile" 
+        :user="loggedInUser" 
+        :metadata="metadata" 
+    />
+</div>
 
-<a href="https://www.azsinopro.com.tw/reservation/" target="_blank">
-  <img src="/finance/plan/Group175.png" alt=banner>
-</a>
+## 資產引擎
 
-<script setup>
-import { ref } from 'vue'
-import Calculator from './components/calculator/index.vue'
+### 金融
+
+<div v-if="isReady">
+    <Portfolio  v-model="userForm.portfolios"  :metadata="metadata" />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+### 不動產
+
+<div v-if="isReady">
+    <RealEstate 
+        v-model="userForm.realEstates" 
+        :metadata="metadata" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+### 商業或副業
+
+<div v-if="isReady">
+    <CostEfficiencyMatrix v-if="userForm.businesses" v-model="userForm.businesses.list" :metadata="metadata"></CostEfficiencyMatrix>
+    <br/>
+    <Business 
+        v-model="userForm.businesses" 
+        :metadata="metadata" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+### 資產總覽
+
+<div v-if="isReady">
+    <AssetOverViewCard 
+        v-model="userForm" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+## 生活營運
+
+### 職業收入
+
+<div v-if="isReady">
+    <CareerCard 
+        v-model="userForm.career" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+### 信用卡管理
+
+<div v-if="isReady">
+    <CreditCardManager 
+        v-model="userForm.creditCards" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+### 稅務總覽
+
+<div v-if="isReady">
+    <TaxPlanningCard 
+        v-model="userForm" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+
+## 目標導航
+
+### 退休
+
+#### 新制勞退
+
+<div v-if="isReady">
+    <LaborPensionCard 
+        v-model="userForm" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+#### 勞保
+
+<div v-if="isReady">
+    <LaborInsuranceCard 
+        v-model="userForm" 
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+#### 活躍期
+
+<div v-if="isReady">
+    <RetirementGoGoCard 
+        v-model="userForm" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+#### 慢活期
+
+<div v-if="isReady">
+    <RetirementSlowGoCard 
+        v-model="userForm" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+#### 長照期
+
+<div v-if="isReady">
+    <RetirementNoGoCard 
+        v-model="userForm" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+#### 金流總覽
+
+<div v-if="isReady">
+    <RetirementGapCard 
+        v-model="userForm" 
+        :metadata="metadata"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+### 買房
+
+開發中
+
+### 育兒
+
+開發中
+
+## 帳號管理
+
+<div v-if="isReady">
+    <ExportToolsCard 
+        v-model="userForm"
+    />
+</div>
+<div v-else style="height: 100px;" v-loading="true"></div>
+
+<script setup lang="ts">
+import { onMounted, onUnmounted, ref, computed } from 'vue'
+
+// --- Components ---
+import Profile from '@/components/plan/profile.vue'
+
+import CareerCard from '@/components/plan/CareerCard.vue'
+import TaxPlanningCard from '@/components/plan/TaxPlanningCard.vue'
+
+import Portfolio from '@/components/plan/portfolio.vue'
+import RealEstate from '@/components/plan/realEstate.vue'
+import CostEfficiencyMatrix from '@/components/plan/charts/CostEfficiencyMatrix.vue'
+import Business from '@/components/plan/businessTable.vue'
+import AssetOverViewCard from '@/components/plan/AssetOverViewCard.vue'
+
+import CreditCardManager from '@/components/plan/CreditCardManager.vue'
+import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
+import UtilityCard from '@/components/plan/UtilityCard.vue'
+import LaborPensionCard from '@/components/plan/LaborPensionCard.vue'
+import LaborInsuranceCard from '@/components/plan/LaborInsuranceCard.vue'
+
+// 退休三階段
+import RetirementGoGoCard from '@/components/plan/RetirementGoGoCard.vue'
+import RetirementSlowGoCard from '@/components/plan/RetirementSlowGoCard.vue'
+import RetirementNoGoCard from '@/components/plan/RetirementNoGoCard.vue'
+import RetirementGapCard from '@/components/plan/RetirementGapCard.vue'
+
+import ExportToolsCard from '@/components/plan/ExportToolsCard.vue'
+
+// --- Composables ---
+import { useUserPlan } from '@/components/plan/composables/useUserPlan'
+import { useMetadata } from '@/components/plan/composables/useMetadata'
+
+// --- State & Refs ---
 const isOpenPreview = ref(false)
+let authUnsubscribe: (() => void) | null = null
+
+// useUserPlan 負責取得初始資料 (fetch GET) 並放入 userForm
+const { userForm, loggedInUser, isDataReady, initAuthListener } = useUserPlan()
+const { metadata, isMetadataReady, fetchMetadata, error } = useMetadata()
+
+// --- Computed ---
+const isReady = computed(() => isDataReady.value && isMetadataReady.value)
+const isLoading = computed(() => !isReady.value)
+
+// --- 初始化與生命週期 ---
+const initData = async () => {
+    fetchMetadata()
+    authUnsubscribe = initAuthListener()
+}
+
+onMounted(() => {
+    initData()
+})
+
+onUnmounted(() => {
+    // 清理監聽器
+    if (authUnsubscribe) authUnsubscribe()
+})
 </script>
+
 <style lang="scss" scoped>
 .preview__div {
   height: 420px;
   overflow-y: auto;
   .div__image {
     margin: auto;
+    display: block; 
+    max-width: 100%; 
+  }
+}
+
+.error-state {
+    padding: 20px;
+    text-align: center;
+}
+
+/* 確保普通視圖下，表格過寬時可以捲動，不被截斷 */
+:deep(.el-card__body) {
+  overflow-x: auto;
+}
+:deep(canvas) {
+  max-width: 100%;
+}
+</style>
+
+<style>
+/* 全域列印樣式 (Global Print Styles) */
+@media print {
+  /* 1. 隱藏不必要的介面元素 */
+  .VPNav, .VPSidebar, .VPLocalNav, header, nav, footer, .el-button, .no-print {
+    display: none !important;
+  }
+
+  /* 2. 重置容器寬度，利用完整紙張空間 */
+  body, #app, .vp-doc, .container, .content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* 5. 強制單欄排版 (A4寬度有限，並排容易擠壞) */
+  .el-col {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+  }
+
+  /* 6. 強制背景色與圖表顏色列印 */
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }
 </style>
