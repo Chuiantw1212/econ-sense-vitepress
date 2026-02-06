@@ -202,33 +202,27 @@ head:
 <div v-else style="height: 100px;" v-loading="true"></div>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, computed } from 'vue'
+import { onMounted, onUnmounted, ref, computed, defineAsyncComponent } from 'vue'
 
 // --- Components ---
-import Profile from '@/components/plan/profile.vue'
-
-import CareerCard from '@/components/plan/CareerCard.vue'
-import TaxPlanningCard from '@/components/plan/TaxPlanningCard.vue'
-
-import Portfolio from '@/components/plan/portfolio.vue'
-import RealEstate from '@/components/plan/realEstate.vue'
-import CostEfficiencyMatrix from '@/components/plan/charts/CostEfficiencyMatrix.vue'
-import Business from '@/components/plan/businessTable.vue'
-import AssetOverViewCard from '@/components/plan/AssetOverViewCard.vue'
-
-import CreditCardManager from '@/components/plan/CreditCardManager.vue'
-import EntropyShieldCard from '@/components/plan/EntropyShieldCard.vue'
-import UtilityCard from '@/components/plan/UtilityCard.vue'
-import LaborPensionCard from '@/components/plan/LaborPensionCard.vue'
-import LaborInsuranceCard from '@/components/plan/LaborInsuranceCard.vue'
-
-// 退休三階段
-import RetirementGoGoCard from '@/components/plan/RetirementGoGoCard.vue'
-import RetirementSlowGoCard from '@/components/plan/RetirementSlowGoCard.vue'
-import RetirementNoGoCard from '@/components/plan/RetirementNoGoCard.vue'
-import RetirementGapCard from '@/components/plan/RetirementGapCard.vue'
-
-import ExportToolsCard from '@/components/plan/ExportToolsCard.vue'
+const Profile = defineAsyncComponent(() => import('@/components/plan/profile.vue'))
+const CareerCard = defineAsyncComponent(() => import('@/components/plan/CareerCard.vue'))
+const TaxPlanningCard = defineAsyncComponent(() => import('@/components/plan/TaxPlanningCard.vue'))
+const Portfolio = defineAsyncComponent(() => import('@/components/plan/portfolio.vue'))
+const RealEstate = defineAsyncComponent(() => import('@/components/plan/realEstate.vue'))
+const CostEfficiencyMatrix = defineAsyncComponent(() => import('@/components/plan/charts/CostEfficiencyMatrix.vue'))
+const Business = defineAsyncComponent(() => import('@/components/plan/businessTable.vue'))
+const AssetOverViewCard = defineAsyncComponent(() => import('@/components/plan/AssetOverViewCard.vue'))
+const CreditCardManager = defineAsyncComponent(() => import('@/components/plan/CreditCardManager.vue'))
+const EntropyShieldCard = defineAsyncComponent(() => import('@/components/plan/EntropyShieldCard.vue'))
+const UtilityCard = defineAsyncComponent(() => import('@/components/plan/UtilityCard.vue'))
+const LaborPensionCard = defineAsyncComponent(() => import('@/components/plan/LaborPensionCard.vue'))
+const LaborInsuranceCard = defineAsyncComponent(() => import('@/components/plan/LaborInsuranceCard.vue'))
+const RetirementGoGoCard = defineAsyncComponent(() => import('@/components/plan/RetirementGoGoCard.vue'))
+const RetirementSlowGoCard = defineAsyncComponent(() => import('@/components/plan/RetirementSlowGoCard.vue'))
+const RetirementNoGoCard = defineAsyncComponent(() => import('@/components/plan/RetirementNoGoCard.vue'))
+const RetirementGapCard = defineAsyncComponent(() => import('@/components/plan/RetirementGapCard.vue'))
+const ExportToolsCard = defineAsyncComponent(() => import('@/components/plan/ExportToolsCard.vue'))
 
 // --- Composables ---
 import { useUserPlan } from '@/components/plan/composables/useUserPlan'
