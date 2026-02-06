@@ -14,8 +14,6 @@ import {
   Briefcase,
   ChatLineSquare,
   ArrowRight,
-  Male,
-  Female
 } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
