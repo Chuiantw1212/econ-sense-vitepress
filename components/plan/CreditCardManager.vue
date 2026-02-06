@@ -208,7 +208,7 @@ async function addCard() {
     if (isGuest.value) return
 
     try {
-        const res = await authFetch('/api/v1/user/credit-cards', { method: 'POST' })
+        const res = await authFetch('/api/v1/user/credit-cards', { method: 'POST', body: newCard })
         if (res && res.ok) {
             const serverData = await res.json()
             const lastIndex = creditCards.value.length - 1
@@ -250,8 +250,7 @@ async function handleUpdate(item: UserCreditCard) {
     try {
         await authFetch(`/api/v1/user/credit-cards/${item.id}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(item)
+            body: item
         })
     } catch (e) {
         console.warn('更新同步失敗', e)

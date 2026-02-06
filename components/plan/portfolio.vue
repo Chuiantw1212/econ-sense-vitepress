@@ -155,6 +155,7 @@ async function addMarket() {
     try {
         const response = await authFetch('/api/v1/user/portfolios', {
             method: 'POST',
+            body: newItem,
         })
 
         if (response && response.ok) {
@@ -222,7 +223,6 @@ async function handleMarketChange(item: UserPortfolio) {
     try {
         await authFetch(`/api/v1/user/portfolios/${item.id}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
             body: item
         })
     } catch (error) {

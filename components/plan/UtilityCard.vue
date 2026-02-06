@@ -157,8 +157,7 @@ const uploadToBackend = async () => {
     try {
         await authFetch('/api/v1/metadata/life-expectancy', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(processedData.value)
+            body: processedData.value
         });
         ElMessage.success('資料庫更新成功');
     } catch (e) {

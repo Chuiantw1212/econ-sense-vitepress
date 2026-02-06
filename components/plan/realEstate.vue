@@ -276,7 +276,7 @@ async function addProperty() {
 
     // 3. [背景同步]
     try {
-        const res = await authFetch('/api/v1/user/real-estates', { method: 'POST' })
+        const res = await authFetch('/api/v1/user/real-estates', { method: 'POST', body: newProperty })
         if (res && res.ok) {
             const rawData = await res.json()
             // 回填 ID
@@ -325,8 +325,7 @@ async function handleUpdate(item: UserRealEstate) {
     try {
         await authFetch(`/api/v1/user/real-estates/${item.id}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(item)
+            body: item
         })
     } catch (e) {
         console.warn('Update failed', e)
