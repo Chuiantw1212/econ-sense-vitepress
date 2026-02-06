@@ -1,5 +1,6 @@
 ---
 titleTemplate: 文明飛上太空，大腦已知用火
+description: 海德堡隱士居是一座認知實驗基地，專注於性格測驗、財務思維與個人成長策略。點燃心火，用本能接上世界。
 
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
