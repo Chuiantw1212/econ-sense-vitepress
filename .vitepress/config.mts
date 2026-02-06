@@ -11,7 +11,44 @@ export default defineConfig({
   description: "海德堡隱士居是一座認知實驗基地，專注於性格測驗、財務思維與個人成長策略，帶你深度讀懂自己，用最高CP值接軌世界。",
   head: [
     ['link', { rel: 'icon', href: 'favicon.ico' }],
-    // https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/?utm_source=lighthouse&utm_medium=devtools
+    // SEO & Social Sharing
+    ['meta', { name: 'description', content: '海德堡隱士居是一座認知實驗基地，專注於性格測驗、財務思維與個人成長策略，帶你深度讀懂自己，用最高CP值接軌世界。' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:locale', content: 'zh_TW' }],
+    ['meta', { property: 'og:site_name', content: '海德堡隱士居' }],
+    ['meta', { property: 'og:title', content: '海德堡隱士居 | 認知實驗基地' }],
+    ['meta', { property: 'og:description', content: '專注於性格測驗、財務思維與個人成長策略，帶你深度讀懂自己，用最高CP值接軌世界。' }],
+    ['meta', { property: 'og:url', content: 'https://en-chu.com' }],
+    ['meta', { property: 'og:image', content: 'https://en-chu.com/logo/white_black_320.webp' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: '海德堡隱士居 | 認知實驗基地' }],
+    ['meta', { name: 'twitter:description', content: '專注於性格測驗、財務思維與個人成長策略，帶你深度讀懂自己，用最高CP值接軌世界。' }],
+    ['meta', { name: 'twitter:image', content: 'https://en-chu.com/logo/white_black_320.webp' }],
+
+    // Default Structured Data
+    ['script', { type: 'application/ld+json' },
+      `{
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "海德堡隱士居",
+        "url": "https://en-chu.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://en-chu.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "海德堡隱士居",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://en-chu.com/logo/logo.png"
+          }
+        }
+      }`
+    ],
+
+    // Preconnect to Google Fonts
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     // Google Analytics

@@ -1,5 +1,6 @@
 ---
 outline: [2,3]
+title: 先驅 Pioneer (IVH)：賭注未來的夢想家
 description: 熵腦人格 Scout【尋路人T+H+M】解析：掌握像 Elon Musk 的第一性原理思維，成為趨勢投資家，預見下一個十年的財富流向。
 ---
 

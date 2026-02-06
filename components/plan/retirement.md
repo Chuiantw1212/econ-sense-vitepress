@@ -1,3 +1,7 @@
+---
+title: 退休全週期規劃模組 (Retirement Lifecycle Module)
+description: 本模組採用「生命週期三階段模型」，將退休後的生活精準劃分為活躍期、防禦期與長照期。透過階段性拆解，解決傳統「一筆退休金算到底」導致的通膨誤判與醫療風險低估問題。
+---
 # 🚀 退休全週期規劃模組 (Retirement Lifecycle Module)
 
 本模組採用 **「生命週期三階段模型 (The Three-Stage Model)」**，將退休後的生活精準劃分為 **活躍期 (Go-Go)**、**防禦期 (Slow-Go)** 與 **長照期 (No-Go)**。

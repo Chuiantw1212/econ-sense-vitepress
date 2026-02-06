@@ -1,6 +1,7 @@
 ---
 description: 台灣唯一開源的線上財務規劃表，工程師可學Vue+Node.js+GCP，民眾建立財務觀念，並提供回饋意見。
 outline: [2,3]
+title: 開源財務規劃書
 head:
   - - meta
     - name: og:image
