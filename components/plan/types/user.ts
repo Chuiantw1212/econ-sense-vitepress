@@ -37,7 +37,7 @@ export interface PersonalProfile {
     lifeExpectancy: number;
 
     /** 結婚年份 (建議存字串，如 '2020') */
-    marriageYear: string;
+    marriageYear: number;
 
     /** 職業保險類別 (例如：勞保 LABOR、公保 PUBLIC) */
     careerInsuranceType: string;
