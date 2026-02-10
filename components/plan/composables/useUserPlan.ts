@@ -116,15 +116,30 @@ export function useUserPlan() {
             if (userRes) {
                 const baseUserData = await userRes.json()
 
-                if (baseUserData.id) {
-                    userForm.value = {
-                        ...userForm.value,
-                        ...baseUserData,
-                        portfolios: userForm.value.portfolios,
-                        realEstates: userForm.value.realEstates,
-                        businesses: userForm.value.businesses
+                // [修正] 即使 baseUserData.id 為 null (例如全新使用者)，
+                // 仍然需要處理其內部可能存在的資料 (如 tax 物件)。
+                // 因此，我們只檢查 baseUserData 是否存在。
+                if (baseUserData) {
+                    // [修正] 採用更安全的合併策略，避免 API 回傳的 null 覆蓋掉前端的初始物件。
+                    // 如此可以保留 getInitialUserForm() 產生的 profile: {} 等初始結構，
+                    // 防止在渲染時出現 'Cannot read properties of null' 的錯誤。
+                    for (const key in baseUserData) {
+                        if (Object.prototype.hasOwnProperty.call(baseUserData, key)) {
+                            // 排除由其他 API 呼叫處理的陣列/分頁類型資料
+                            if (['portfolios', 'realEstates', 'businesses', 'creditCards'].includes(key)) {
+                                continue;
+                            }
+                            const apiValue = baseUserData[key];
+                            // 只有在 API 回傳值不是 null 時才覆蓋
+                            if (apiValue !== null && userForm.value.hasOwnProperty(key)) {
+                                (userForm.value as any)[key] = apiValue;
+                            }
+                        }
                     }
-                    loggedInUser.value.id = String(baseUserData.id)
+                    // 只有在 id 確實存在時才更新
+                    if (baseUserData.id) {
+                        loggedInUser.value.id = String(baseUserData.id)
+                    }
                 }
 
                 const [portfolioRes, realEstateRes, businessesRes, creditCardsRes] = await Promise.all([
