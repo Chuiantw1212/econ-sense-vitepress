@@ -164,8 +164,14 @@ export function useUserPlan() {
                     }
                 }
                 if (creditCardsRes) {
-                    const data = await creditCardsRes.json()
-                    if (Array.isArray(data)) userForm.value.creditCards = data
+                    const data = await creditCardsRes.json();
+                    // [修正] 增加對物件結構 { list: [] } 的兼容性
+                    // 後端 API 可能回傳純陣列或帶有 list 屬性的物件
+                    if (Array.isArray(data)) {
+                        userForm.value.creditCards = data;
+                    } else if (data && Array.isArray(data.list)) {
+                        userForm.value.creditCards = data.list;
+                    }
                 }
             }
 
