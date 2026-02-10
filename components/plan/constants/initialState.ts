@@ -9,7 +9,7 @@ export const getInitialUserForm = (): UserFormState => ({
         gender: 'MALE', // 預設男性，可配合 UI 選單
         currentAge: 0,
         lifeExpectancy: 85, // 國人平均壽命參考值 (保守估計)
-        marriageYear: '',
+        marriageYear: 0,
         careerInsuranceType: '勞工保險', // 最常見類型
         biography: ''
     },
