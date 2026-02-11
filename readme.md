@@ -9,27 +9,34 @@
 3. **熵腦模型 (Entropy Brain Model)**: 這是本站的核心理論框架，結合神經科學與心理學，構建出一套系統化的[人格與認知分析模型](https://www.en-chu.com/entropy.html)。透過熱力學熵的概念解釋大腦運作過程，提供深度的自我探索與行為分析。
 4. **Google Drive 文件嵌入**: 將 Google Drive 文件（如 Google 文件、Google 簡報、Google 試算表）透過 iframe 嵌入頁面，用於展示課堂使用的簡報和教材。
 
-## 使用的技術模組
+## AI 輔助開發 (AI-Assisted Development)
 
-### TypeScript
+本專案，特別是「開源財務計算機」與「熵腦模型」的開發過程，大量採用了 AI 輔助編程工具。從程式碼的生成、重構到單元測試的撰寫，AI 在許多環節都扮演了重要角色，顯著提升了開發效率。然而，在關鍵的除錯、業務邏輯驗證與 UI/UX 體驗調校等環節，則更依賴開發者的手動介入與判斷，以確保最終產出的品質。
 
-專案採用 [TypeScript](https://www.typescriptlang.org/) 開發，透過強型別和編譯階段的檢查機制，確保程式碼的穩定性與可維護性。
+透過與 AI 的協作，開發者得以將更多精力專注於業務邏輯的梳理與使用者體驗的優化，而非耗費在重複的樣板程式碼上。這也證明了在現代軟體工程中，人機協作是實現快速迭代與創新的有效途徑。
 
-### Chart.js
+## 主要技術棧 (Main Tech Stack)
 
-[Chart.js](https://www.chartjs.org/) 用於視覺化財務數據，以及繪製 RIASEC 測驗與熵腦模型分析的雷達圖與圖表。
+本專案採用現代化的前端技術棧，旨在提供高效能、可維護且豐富互動的體驗。以下是 `package.json` 中的核心套件：
 
-### Element Plus
+*   **框架 (Framework)**
+    *   **VitePress**: 基於 Vite 與 Vue 3 的靜態網站生成器，提供極速的開發體驗與優異的打包效能。
+    *   **Vue.js**: 專案的核心框架，使用 Vue 3 的 Composition API 來組織元件邏輯，提高程式碼的可讀性與複用性。
 
-採用 [Element Plus](https://element-plus.org/) UI 元件庫，實現美觀且響應式的使用者介面。
+*   **狀態管理 (State Management)**
+    *   **Pinia**: Vue 官方推薦的狀態管理庫，用於管理複雜的跨元件狀態，例如在「財務規劃書」中的使用者表單資料。
 
-### Fuse.js
+*   **UI 與樣式 (UI & Styling)**
+    *   **Element Plus**: 一套完整的 Vue 3 UI 元件庫，加速開發美觀且具備響應式設計的介面。
+    *   **Sass**: CSS 預處理器，透過變數、巢狀規則等功能，讓樣式表的撰寫與維護更加結構化。
 
-使用 [Fuse.js](https://www.fusejs.io/) 輕量模糊搜尋工具，提升測驗與資料檢索的體驗。
+*   **功能性套件 (Utility Packages)**
+    *   **Chart.js**: 用於繪製各類圖表，將「熵腦人格測驗」的雷達圖與財務分析數據進行視覺化呈現。
+    *   **Fuse.js**: 一個輕量級的模糊搜尋引擎，在測驗的關鍵字選擇功能中提供流暢的搜尋體驗。
+    *   **html2canvas**: 將指定的 DOM 元素繪製成 Canvas，實現將測驗結果或圖表匯出為圖片的功能，方便使用者分享與保存。
 
-### html2canvas
-
-[html2canvas](https://html2canvas.hertzen.com/) 用於將網頁內容轉換為圖片，方便使用者儲存測驗結果或理論模型圖表。
+*   **開發工具 (Development)**
+    *   **TypeScript**: 專案主要開發語言，為 JavaScript 提供強型別支援，在編譯階段捕捉潛在錯誤，提升程式碼的穩定性與健壯性。
 
 ## 部署
 
@@ -78,6 +85,6 @@ pnpm run dev --host 127.0.0.1
 
 ---
 
-## 後端功能
+## 後端專案
 
-如果想了解後端的功能與技術模組，請造訪[海德堡隱士居部落格AP專案。](https://github.com/Chuiantw1212/econ-sense-ap-hyper-express)
+如果想了解後端的功能與技術細節，請參閱 [calculator-api-spring](https://github.com/Chuiantw1212/calculator-api-spring) 專案。

@@ -24,51 +24,19 @@ head:
     title: '全端工程師',
     desc:'2024 玉山銀行委外<br/>2020-2023 凱基人壽委外<br/>2017-2020 前端工程師',
   },
-//   {
-//     avatar: `https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/yungshiu.webp`,
-//     title: '永旭保險經紀人',
-//     desc:'2024~ 業務專員',
-//   },
 ]" />
 
 ## 主要專案
 
-<!-- ### Job Pair 工作配
-
-求職找工作可以很簡單！[Job Pair媒合型人力銀行](https://job-pair.com)，勾選你理想的企業文化、工作環境、組織階段、管理模式、人際風格和工作模式，即刻為你配對最合適的職缺，開啟專屬於你的職場旅程。
-
-<img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/jobPair.webp" alt=job-pair> -->
-
 ### 開源財務規劃表
 
 1. 金融惠普：民眾可以[快速建立生涯財務觀念](https://en-chu.com/plan.html)。
-2. 開源驗證：任何人都可以檢視程式碼是否有安全漏洞。 (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-hyper-express" target="_blank">後端開源</a>)。
+2. 開源驗證：任何人都可以檢視程式碼是否有安全漏洞。 (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/calculator-api-spring" target="_blank">後端開源</a>)。
 3. 資料安全：提供了表單離線匯出功能，不需註冊也可以保留試算結果。
 
 <img class="aobut__image--100" src="/finance/plan/calculator.png" alt="finance-planner">
 
-### 其他線上財務計算機
-
-<table>
-    <tr>
-        <th>
-            合作單位
-        </th>
-        <th>
-            計算機網址
-        </th>
-         <th>
-            開源網址
-        </th>
-    </tr>
-    <tr>
-        <td><a href="https://enochfp.com/" target="_blank">以諾理財規劃顧問</a></td>
-        <td><a href="https://enoch-259ad.web.app/calculator" target="_blank">速算多目標理財規劃</a></td>
-        <td><a href="https://github.com/Chuiantw1212/enoch-client" target="_blank">前端開源</a></td>
-    </tr>
-</table>
-
-## JS全端技術棧
+## 全端技術棧 (JS&Java)
 
 ### 前端
 
@@ -76,7 +44,7 @@ head:
 
 ### 後端
 
-<SkillIcon :modelValue="'nodejs,ts,elysia,express,mongodb,postgres,postman'"></SkillIcon>
+<SkillIcon :modelValue="'nodejs,ts,express,mongodb,java,spring,maven,postgres,postman'"></SkillIcon>
 
 ### 雲服務
 
