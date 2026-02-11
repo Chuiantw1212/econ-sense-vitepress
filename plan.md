@@ -15,6 +15,8 @@ head:
 2. 開源驗證：任何人都可以檢視程式碼是否有安全漏洞。 (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/econ-sense-ap-hyper-express" target="_blank">後端開源</a>)。
 3. 資料安全：提供了表單離線匯出功能，不需註冊也可以保留試算結果。
 
+Server熱機需要10~15秒鐘。
+
 <el-dialog 
     v-model="isOpenPreview" 
     title="示意圖" 
