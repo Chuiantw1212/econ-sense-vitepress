@@ -40,7 +40,7 @@
 
 ## 部署
 
-此專案已部署在 [Firebase](https://firebase.google.com/) 上，利用 Firebase 的 [Hosting](https://firebase.google.com/docs/hosting) 功能，確保網站能快速、安全地提供靜態內容。
+本專案的前端靜態檔案是透過 **[Firebase Hosting](https://firebase.google.com/docs/hosting)** 進行部署。Firebase Hosting 提供全球性的 CDN 加速、免費的 SSL 憑證以及可靠的託管服務，確保使用者無論身在何處都能快速且安全地存取網站。
 
 ---
 

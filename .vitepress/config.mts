@@ -127,6 +127,7 @@ export default defineConfig({
           { text: '人類學性別', link: '/human/gender' },
           { text: '人類學工作', link: '/human/work' },
           { text: '人類學飲食', link: '/human/diet' },
+          { text: '人類學獵巫', link: '/human/witch-hunt' },
           // { text: '人生關卡的演化解答', link: '/human/evolution' },
           // { text: '後備預官的民防心得', link: '/human/war' },
           { text: '人類烏托邦(上)', link: '/human/utopia-1' },
