@@ -128,13 +128,18 @@ head:
 
 ### 單車環島
 
-2020, 2022, 2023, 2024, 2025
+台灣：2020, 2022, 2023, 2024, 2025
 
 <div style="display:flex;flex-wrap:wrap;">
     <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cycling1.webp" alt=環島>
     <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cycling2.webp" alt=環島>
 </div>
 
+日本：琵琶湖
+
+<div style="display:flex;flex-wrap:wrap;">
+    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/biwako.webp" alt=琵琶湖>
+</div>
 
 ### 泳渡
 
