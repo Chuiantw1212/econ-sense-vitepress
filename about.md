@@ -34,7 +34,7 @@ head:
 2. 開源驗證：任何人都可以檢視程式碼是否有安全漏洞。 (<a href="https://github.com/Chuiantw1212/econ-sense-vitepress" target="_blank">前端開源</a> + <a href="https://github.com/Chuiantw1212/calculator-api-spring" target="_blank">後端開源</a>)。
 3. 資料安全：提供了表單離線匯出功能，不需註冊也可以保留試算結果。
 
-<img class="aobut__image--100" src="/finance/plan/calculator.png" alt="finance-planner">
+<img class="about__image--100" src="/finance/plan/calculator.png" alt="finance-planner">
 
 ## 全端技術棧 (JS&Java)
 
@@ -71,78 +71,83 @@ head:
 ### AFP理財規劃顧問
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/afp.webp" alt=AFP理財規劃顧問>
+    <img class="about__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/afp.webp" alt=AFP理財規劃顧問>
 </div>
 
 ### PMP國際專案管理師
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/pmp.webp" alt=PMP國際專案管理師>
+    <img class="about__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/pmp.webp" alt=PMP國際專案管理師>
 </div>
 
 ### 其他金融證明書
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/planner.webp" alt=理財規劃人員>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/finTech.webp" alt=金融科技力>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/morale.webp" alt=金融市場常識與職業道德>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/trust.webp" alt=信託業務專業>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/fundLaw.webp" alt=投信投顧相關法規(含自律規範)>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/insurance.webp" alt=人身保險業務員>
-     <!-- <img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/%E4%BF%9D%E6%A5%AD%E7%99%BB%E9%8C%84.webp" alt=保險業務員登錄證> -->
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/planner.webp" alt=理財規劃人員>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/finTech.webp" alt=金融科技力>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/morale.webp" alt=金融市場常識與職業道德>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/trust.webp" alt=信託業務專業>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/fundLaw.webp" alt=投信投顧相關法規(含自律規範)>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/insurance.webp" alt=人身保險業務員>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/derivatives.webp" alt=人身保險業務員>
 </div>
 
 ## 教育背景
 
 ### Master in Informatics
 
-<img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/northeastern.webp" alt=Northeastern>
+<img class="about__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/northeastern.webp" alt=Northeastern>
 
 ### 義務役預備軍官
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/military1.webp" alt=義務役預備軍官正面>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/military2.webp" alt=義務役預備軍官反面>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/military1.webp" alt=義務役預備軍官正面>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/military2.webp" alt=義務役預備軍官反面>
 </div>
 
 ### 中興大學資訊科學學士
 
-<img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/nchu.webp" alt=nchu>
+<img class="about__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/nchu.webp" alt=nchu>
 
 ## 興趣認證
 
 ### 心理學
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/nlp2.webp" alt=NLP高階執行師>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/nlp1.webp" alt=NLP專業執行師>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/nlp2.webp" alt=NLP高階執行師>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/nlp1.webp" alt=NLP專業執行師>
 </div>
 
 ### 桌遊
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/swan2.webp" alt=新天鵝堡進階桌遊師>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/swan1.webp" alt=新天鵝堡初階桌遊師>
-    <!-- <img class="aobut__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cafe.webp" alt=精實創業咖啡館認證講師> -->
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/swan2.webp" alt=新天鵝堡進階桌遊師>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/swan1.webp" alt=新天鵝堡初階桌遊師>
+    <!-- <img class="about__image--100" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cafe.webp" alt=精實創業咖啡館認證講師> -->
 </div>
 
 ### 單車環島
 
-2020, 2022, 2023, 2024, 2025
+台灣：2020, 2022, 2023, 2024, 2025
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cycling1.webp" alt=環島>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cycling2.webp" alt=環島>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cycling1.webp" alt=環島>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/cycling2.webp" alt=環島>
 </div>
 
+日本：琵琶湖
+
+<div style="display:flex;flex-wrap:wrap;">
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/biwako.webp" alt=琵琶湖>
+</div>
 
 ### 泳渡
 
 2023, 2024, 2025
 
 <div style="display:flex;flex-wrap:wrap;">
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/swimming.webp" alt=泳渡>
-    <img class="aobut__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/keelung.webp" alt=泳渡>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/swimming.webp" alt=泳渡>
+    <img class="about__image--50" src="https://storage.googleapis.com/enchu-8085a.firebasestorage.app/about/keelung.webp" alt=泳渡>
 </div>
 
 <script setup>
@@ -192,11 +197,11 @@ onBeforeUnmount(()=>{
 </script>
 
 <style lang="scss" scoped>
-.aobut__image--100 {
+.about__image--100 {
     width:100%;
     border: 1px solid #e2e2e3;
 }
-.aobut__image--50 {
+.about__image--50 {
     width:50%;
     border: 1px solid #e2e2e3;
 }
